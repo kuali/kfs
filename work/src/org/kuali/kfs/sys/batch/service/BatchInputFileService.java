@@ -30,7 +30,6 @@ import org.kuali.kfs.exceptions.XMLParseException;
  * Interface defining methods to manage batch input files.
  */
 public interface BatchInputFileService {
-
     /**
      * Unmarshalls the file contents to an Object using the digestor and digestor rules file specified in the batch input type.
      * 
@@ -70,7 +69,7 @@ public interface BatchInputFileService {
      * 
      * @param user - user who is requesting the download
      * @param inputType - instance of a BatchInputFileType
-     * @param downloadFileName - full name of the file to retrieve
+     * @param downloadFileNameWithNoPath - name of the file to retrieve, with no path information
      * @return File - File representation of the batch input, or null if errors occured. Check GlobalVariables.errorMap for error
      *         messages.
      * @throws AuthorizationException - if user does not have permission to view batch files of this type FileNotFoundException - if
@@ -80,16 +79,25 @@ public interface BatchInputFileService {
 
     /**
      * Deletes a batch input file contained on the server if the user has permissions for the files batch input type. Also deletes the associated .done
-     * file if one exists.
+     * file if one exists.  If deletion fails, this method will place the reason for failure in the GlobalVariables error map.
      * 
      * @param user - user who is requesting the delete
      * @param inputType - instance of a BatchInputFileType
-     * @param deleteFileName - full name of the file to remove
+     * @param deleteFileNameWithNoPath - name of the file to remove, with no path information
+     * @return whether the file (and its done file) was deleted
      * @throws AuthorizationException - if user does not have permission to delete batch files of this type FileNotFoundException -
      *         if given file does not exist on the file system
      */
-    public void delete(UniversalUser user, BatchInputFileType inputType, String deleteFileName) throws AuthorizationException, FileNotFoundException;
-
+    public boolean delete(UniversalUser user, BatchInputFileType inputType, String deleteFileNameWithNoPath) throws AuthorizationException, FileNotFoundException;
+    
+    /**
+     * Returns whether a the given file has been processed by the associated batch job
+     * @param inputType
+     * @param fileNameWithNoPath
+     * @return
+     */
+    public boolean hasBeenProcessed(BatchInputFileType inputType, String fileNameWithNoPath);
+    
     /**
      * Checks if the batch input type is active (can be used for upload).
      * 

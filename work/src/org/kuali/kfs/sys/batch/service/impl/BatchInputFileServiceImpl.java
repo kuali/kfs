@@ -42,6 +42,9 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.exception.InitException;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSConstants.ParameterGroups;
 import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.batch.BatchInputFileType;
@@ -214,9 +217,8 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
      * Creates a '.done' file with the name of the batch file.
      */
     private void createDoneFile(File batchFile) {
-        String doneFileName = StringUtils.substringBeforeLast(batchFile.getName(), ".") + ".done";
-        String donePath = StringUtils.substringBeforeLast(batchFile.getPath(), File.separator);
-        File doneFile = new File(donePath + "/" + doneFileName);
+        File doneFile = generateDoneFileObject(batchFile);
+        String doneFileName = doneFile.getName();
 
         if (!doneFile.exists()) {
             boolean doneFileCreated = false;
@@ -239,8 +241,8 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
      * @see org.kuali.kfs.service.BatchInputFileService#delete(org.kuali.core.bo.user.UniversalUser,
      *      org.kuali.kfs.batch.BatchInputFileType, java.lang.String)
      */
-    public void delete(UniversalUser user, BatchInputFileType batchInputFileType, String deleteFileName) throws AuthorizationException, FileNotFoundException {
-        if (user == null || batchInputFileType == null || StringUtils.isBlank(deleteFileName)) {
+    public boolean delete(UniversalUser user, BatchInputFileType batchInputFileType, String deleteFileNameWithNoPath) throws AuthorizationException, FileNotFoundException {
+        if (user == null || batchInputFileType == null || StringUtils.isBlank(deleteFileNameWithNoPath)) {
             LOG.error("an invalid(null) argument was given");
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
@@ -251,29 +253,71 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
             throw new AuthorizationException(user.getPersonUserIdentifier(), "delete", batchInputFileType.getFileTypeIdentifer());
         }
 
-        File fileToDelete = retrieveFileToDownloadOrDelete(batchInputFileType, user, deleteFileName);
+        File fileToDelete = retrieveFileToDownloadOrDelete(batchInputFileType, user, deleteFileNameWithNoPath);
         if (fileToDelete != null) {
-            fileToDelete.delete();
-
-            // check for associated .done file and remove as well
-            String doneFileName = StringUtils.substringBeforeLast(fileToDelete.getPath(), ".") + ".done";
-            File doneFile = new File(doneFileName);
-            if (doneFile.exists()) {
-                doneFile.delete();
+            if (canDelete(user, batchInputFileType, fileToDelete)) {
+                fileToDelete.delete();
+    
+                // check for associated .done file and remove as well
+                File doneFile = generateDoneFileObject(fileToDelete);
+                if (doneFile.exists()) {
+                    doneFile.delete();
+                }
+                return true;
+            }
+            else {
+                return false;
             }
         }
         else {
-            LOG.error("unable to delete file " + deleteFileName + " because it doesn not exist.");
-            throw new FileNotFoundException("Unable to delete file " + deleteFileName + ". File does not exist on server.");
+            LOG.error("unable to delete file " + deleteFileNameWithNoPath + " because it doesn not exist.");
+            throw new FileNotFoundException("Unable to delete file " + deleteFileNameWithNoPath + ". File does not exist on server.");
         }
     }
 
+    
+    /**
+     * This method indicates whether a file can be deleted.  It will also place an error in the GlobalVariables error map
+     * to indicate to the UI the reason that the file could not be deleted.
+     * 
+     * @param user
+     * @param inputType
+     * @param deleteFileNameWithNoPath
+     * @return
+     * @throws AuthorizationException
+     * @throws FileNotFoundException
+     */
+    protected boolean canDelete(UniversalUser user, BatchInputFileType inputType, File fileToDelete) {
+        if (!inputType.checkAuthorization(user, fileToDelete)) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_DELETE_FAILED_NOT_AUTHORIZED);
+            return false;
+        }
+        if (hasBeenProcessed(inputType, fileToDelete.getName())) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_DELETE_FAILED_FILE_ALREADY_PROCESSED);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean hasBeenProcessed(BatchInputFileType inputType, String fileName) {
+        List<String> fileNamesWithDoneFile = listInputFileNamesWithDoneFile(inputType);
+        // except during the short time during which the data file is written to disk,
+        // the absence of a done file means that the file has been processed
+        for (String fileNameWithDoneFile : fileNamesWithDoneFile) {
+            File fileWithDone = new File(fileNameWithDoneFile);
+            if (fileWithDone.getName().equals(fileName)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
     /**
      * @see org.kuali.kfs.service.BatchInputFileService#download(org.kuali.core.bo.user.UniversalUser,
      *      org.kuali.kfs.batch.BatchInputFileType, java.lang.String)
      */
-    public File download(UniversalUser user, BatchInputFileType batchInputFileType, String downloadFileName) throws AuthorizationException, FileNotFoundException {
-        if (user == null || batchInputFileType == null || StringUtils.isBlank(downloadFileName)) {
+    public File download(UniversalUser user, BatchInputFileType batchInputFileType, String downloadFileNameWithNoPath) throws AuthorizationException, FileNotFoundException {
+        if (user == null || batchInputFileType == null || StringUtils.isBlank(downloadFileNameWithNoPath)) {
             LOG.error("an invalid(null) argument was given");
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
@@ -284,10 +328,10 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
             throw new AuthorizationException(user.getPersonUserIdentifier(), "download", batchInputFileType.getFileTypeIdentifer());
         }
 
-        File fileToDownload = retrieveFileToDownloadOrDelete(batchInputFileType, user, downloadFileName);
+        File fileToDownload = retrieveFileToDownloadOrDelete(batchInputFileType, user, downloadFileNameWithNoPath);
         if (fileToDownload == null) {
-            LOG.error("unable to download file " + downloadFileName + " because it doesn not exist.");
-            throw new FileNotFoundException("Unable to download file " + downloadFileName + ". File does not exist on server.");
+            LOG.error("unable to download file " + downloadFileNameWithNoPath + " because it doesn not exist.");
+            throw new FileNotFoundException("Unable to download file " + downloadFileNameWithNoPath + ". File does not exist on server.");
         }
 
         return fileToDownload;
@@ -299,19 +343,38 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
      * 
      * @param batchInputFileType
      * @param user
-     * @param fileName
+     * @param fileName the file name, WITHOUT any path components
      * @return
      */
     protected File retrieveFileToDownloadOrDelete(BatchInputFileType batchInputFileType, UniversalUser user, String fileName) {
         List<File> userFileList = listBatchTypeFilesForUserAsFiles(batchInputFileType, user);
+        
+        // make sure that we have the right file extension
+        if (!fileName.toLowerCase().endsWith(batchInputFileType.getFileExtension().toLowerCase())) {
+            throw new IllegalArgumentException("Filename " + fileName + " does not end with the proper extension: (" + batchInputFileType.getFileExtension() + ")");
+        }
+        
+        // the file must exist, and the file's name must match completely with the filesystem file
         File theFile = null;
         for (File userFile : userFileList) {
             if (userFile.exists() && userFile.getName().equals(fileName)) {
-                // TODO: add extension check?
                 theFile = userFile;
             }
         }
         return theFile;
+    }
+    
+    /**
+     * This method is responsible for creating a File object that represents the done file.  The real file represented on disk may not
+     * exist
+     * 
+     * @param batchInputFile
+     * @return a File object representing the done file.  The real file may not exist on disk, but the return value can be used to create that file.
+     */
+    protected File generateDoneFileObject(File batchInputFile) {
+        String doneFileName = StringUtils.substringBeforeLast(batchInputFile.getPath(), ".") + ".done";
+        File doneFile = new File(doneFileName);
+        return doneFile;
     }
     
     /**

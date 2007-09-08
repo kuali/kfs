@@ -699,6 +699,8 @@ public class KFSKeyConstants {
     public static final String MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL = "message.batchUpload.saveSuccessful";
     public static final String MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL_WITH_FILE_INFO = "message.batchUpload.saveSuccessful.with.file.info";
     public static final String MESSAGE_BATCH_UPLOAD_DELETE_SUCCESSFUL = "message.batchUpload.deleteSuccessful";
+    public static final String ERROR_BATCH_UPLOAD_DELETE_FAILED_FILE_ALREADY_PROCESSED = "error.batchUpload.deleteFailed.fileAlreadyProcessed";
+    public static final String ERROR_BATCH_UPLOAD_DELETE_FAILED_NOT_AUTHORIZED = "error.batchUpload.deleteFailed.fileNotAuthorized";
     public static final String ERROR_BATCH_UPLOAD_PARSING_XML = "error.batchUpload.xmlParse";
     public static final String ERROR_BATCH_UPLOAD_SAVE = "error.batchUpload.save";
     public static final String ERROR_BATCH_UPLOAD_DELETE = "error.batchUpload.delete";

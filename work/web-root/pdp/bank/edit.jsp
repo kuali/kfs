@@ -47,7 +47,7 @@
       <logic:empty name="PdpBankForm" property="id"><div align="center">New Bank</div></logic:empty>
       <logic:notEmpty name="PdpBankForm" property="id">
         <logic:equal name="PdpBankForm" property="id" value="0"><div align="center">New Bank</div></logic:equal>
-        <logic:notEqual name="PdpBankForm" property="id" value="0"><div align="center">Bank ID: <c:out value="${BankForm.id}"/></div></logic:notEqual>
+        <logic:notEqual name="PdpBankForm" property="id" value="0"><div align="center">Bank ID: <c:out value="${PdpBankForm.id}"/></div></logic:notEqual>
       </logic:notEmpty>
       </strong>
     </th>
@@ -78,10 +78,7 @@
   <tr>
     <th align="right" valign="top" nowrap="true"><font color="red">*</font>Active?:</th>
     <td align="left" class="datacell">
-      <html:select size="1" property="active" value="Y" tabindex="5">
-        <html:option value="N">No</html:option>
-        <html:option value="Y">Yes</html:option>
-      </html:select>&nbsp;
+      <html:checkbox property="active" value="y" tabindex="5"/>&nbsp;
     </td>
   </tr>
   <tr>

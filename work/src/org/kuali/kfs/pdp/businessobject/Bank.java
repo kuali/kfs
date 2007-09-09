@@ -42,6 +42,7 @@ public class Bank implements UserRequired,Serializable,PersistenceBrokerAware {
    */
   public Bank() {
     super();
+    active = Boolean.FALSE;
   }
 
   public void updateUser(UniversalUserService userService) throws UserNotFoundException {
@@ -82,7 +83,11 @@ public class Bank implements UserRequired,Serializable,PersistenceBrokerAware {
    * @param active The active to set.
    */
   public void setActive(Boolean active) {
-    this.active = active;
+      if ( active == null ) {
+          this.active = Boolean.FALSE;
+      } else {
+          this.active = active;
+      }
   }
   /**
    * @hibernate.property column="BNK_DESC" length="25" not-null="true"

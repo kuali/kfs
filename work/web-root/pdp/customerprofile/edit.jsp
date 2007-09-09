@@ -53,7 +53,7 @@
           <logic:empty name="PdpCustomerProfileForm" property="id"><div align="center">New Customer Profile</div></logic:empty>
           <logic:notEmpty name="PdpCustomerProfileForm" property="id">
             <logic:equal name="PdpCustomerProfileForm" property="id" value="0"><div align="center">New Customer Profile</div></logic:equal>
-            <logic:notEqual name="PdpCustomerProfileForm" property="id" value="0"><div align="center">Customer Profile ID: <c:out value="${CustomerProfileForm.id}"/></div></logic:notEqual>
+            <logic:notEqual name="PdpCustomerProfileForm" property="id" value="0"><div align="center">Customer Profile ID: <c:out value="${PdpCustomerProfileForm.id}"/></div></logic:notEqual>
           </logic:notEmpty>
           </strong>
         </th>

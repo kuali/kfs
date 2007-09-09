@@ -49,7 +49,7 @@
         	<div align="center">New Disbursement Range</div>
         </logic:equal>
         <logic:notEqual name="PdpDisbursementNumberMaintenanceForm" property="id" value="0">
-        	<div align="center">Disbursement Range ID: <c:out value="${DisbursementNumberMaintenanceForm.id}"/></div>
+        	<div align="center">Disbursement Range ID: <c:out value="${PdpDisbursementNumberMaintenanceForm.id}"/></div>
         </logic:notEqual>
       </logic:notEmpty>
       </strong>

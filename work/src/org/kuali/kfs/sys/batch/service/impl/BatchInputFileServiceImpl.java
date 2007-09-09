@@ -342,15 +342,17 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     }
 
     /**
-     * This method will attempt to find the File object representing the file to delete.  USE extreme caution when
+     * This method will attempt to find the File object representing the file to download or delete.  USE EXTREME CAUTION when
      * overridding this method, as a badly implemented method may cause a security vulnerability.
      * 
      * @param batchInputFileType
      * @param user
      * @param fileName the file name, WITHOUT any path components
-     * @return
+     * @return the File object, if a file exists in the directory specified by the batchInputFileType.  null if no file can be found
+     * in the directory specified by batchInputFileType.
      */
     protected File retrieveFileToDownloadOrDelete(BatchInputFileType batchInputFileType, UniversalUser user, String fileName) {
+        // retrieve a list of files from the appropriate directory for the batch input file type for the user
         List<File> userFileList = listBatchTypeFilesForUserAsFiles(batchInputFileType, user);
         
         // make sure that we have the right file extension
@@ -363,6 +365,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         for (File userFile : userFileList) {
             if (userFile.exists() && userFile.getName().equals(fileName)) {
                 theFile = userFile;
+                break;
             }
         }
         return theFile;

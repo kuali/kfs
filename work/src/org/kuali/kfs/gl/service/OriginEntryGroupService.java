@@ -32,6 +32,18 @@ public interface OriginEntryGroupService {
     public void dontProcessGroup(Integer groupId);
 
     /**
+     * Marks all backup groups (source code BACK) in the database so that they will not be scrubbed when the
+     * nightly scrubber step runs again.
+     */
+    public void markScrubbableBackupGroupsAsUnscrubbable();
+
+    /**
+     * Marks all postable scrubber valid groups (source code SCV) in the database so that they will not be posted
+     * when the main posted runs 
+     */
+    public void markPostableScrubberValidGroupsAsUnpostable();
+    
+    /**
      * Get the newest scrubber error group
      * 
      * @return
@@ -84,11 +96,17 @@ public interface OriginEntryGroupService {
     /**
      * Get all the unscrubbed backup groups
      * 
-     * @param backupDate
+     * @param backupDate only groups w/ dates on or before this date will be returned
      * @return
      */
     public Collection getBackupGroups(Date backupDate);
 
+    /**
+     * Gets a collection of all scrubbable backup groups (i.e. scrub, valid, process indicators all true)
+     * @return
+     */
+    public Collection<OriginEntryGroup> getAllScrubbableBackupGroups();
+    
     /**
      * Get all the unscrubbed backup groups for Labor
      * 

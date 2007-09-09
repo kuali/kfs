@@ -65,6 +65,8 @@
 				<value>manualPurgeJob</value>
 				<value>clearOldOriginEntriesJob</value>
 				<value>purgeCorrectionProcessFilesJob</value>
+				<value>markScrubbableBackupGroupsAsUnscrubbableJob</value>
+				<value>markPostableScrubberValidGroupsAsUnpostableJob</value>
 			</list>
 		</property>
 	</bean>
@@ -1417,6 +1419,34 @@
 		<property name="steps">
 			<list>
 				<ref bean="purgeCorrectionProcessFilesStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="markScrubbableBackupGroupsAsUnscrubbableStep" class="org.kuali.module.gl.batch.MarkScrubbableBackupGroupsAsUnscrubbableStep" parent="step">
+		<property name="originEntryGroupService">
+			<ref bean="originEntryGroupService" />
+		</property>
+	</bean>
+
+	<bean id="markScrubbableBackupGroupsAsUnscrubbableJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="markScrubbableBackupGroupsAsUnscrubbableStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="markPostableScrubberValidGroupsAsUnpostableStep" class="org.kuali.module.gl.batch.MarkPostableScrubberValidGroupsAsUnpostableStep" parent="step">
+		<property name="originEntryGroupService">
+			<ref bean="originEntryGroupService" />
+		</property>
+	</bean>
+
+	<bean id="markPostableScrubberValidGroupsAsUnpostableJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="markPostableScrubberValidGroupsAsUnpostableStep" />
 			</list>
 		</property>
 	</bean>

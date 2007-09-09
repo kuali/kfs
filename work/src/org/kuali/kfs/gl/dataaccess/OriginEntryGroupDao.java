@@ -69,6 +69,12 @@ public interface OriginEntryGroupDao {
     public Collection getBackupGroups(Date groupDate);
 
     /**
+     * Gets a collection of all backup groups that are scrubbable (i.e. valid, process, scrub indicators all set to true)
+     * @return
+     */
+    public Collection<OriginEntryGroup> getAllScrubbableBackupGroups();
+    
+    /**
      * Get all the Labor backup groups to scrub 
      * 
      * @param groupDate

@@ -65,6 +65,28 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         }
     }
 
+    
+    /**
+     * @see org.kuali.module.gl.service.OriginEntryGroupService#markBackupGroupsUnscrubbable()
+     */
+    public void markScrubbableBackupGroupsAsUnscrubbable() {
+        for (OriginEntryGroup scrubbableBackupGroup : getAllScrubbableBackupGroups()) {
+            scrubbableBackupGroup.setProcess(Boolean.FALSE);
+            save(scrubbableBackupGroup);
+        }
+    }
+
+    /**
+     * @see org.kuali.module.gl.service.OriginEntryGroupService#markPostableScrubberValidGroupsAsUnpostable()
+     */
+    public void markPostableScrubberValidGroupsAsUnpostable() {
+        Collection<OriginEntryGroup> postableGroups = getGroupsToPost();
+        for (OriginEntryGroup postableGroup : postableGroups) {
+            postableGroup.setProcess(Boolean.FALSE);
+            save(postableGroup);
+        }
+    }
+
     /**
      * 
      * @see org.kuali.module.gl.service.OriginEntryGroupService#getNewestScrubberErrorGroup()
@@ -109,6 +131,12 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         return originEntryGroupDao.getBackupGroups(backupDate);
     }
 
+    /**
+     * @see org.kuali.module.gl.service.OriginEntryGroupService#getAllScrubbableBackupGroups()
+     */
+    public Collection<OriginEntryGroup> getAllScrubbableBackupGroups() {
+        return originEntryGroupDao.getAllScrubbableBackupGroups();
+    }
     
     /**
      * 

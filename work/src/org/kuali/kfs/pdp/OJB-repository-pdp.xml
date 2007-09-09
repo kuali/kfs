@@ -204,7 +204,6 @@
      <field-descriptor name="fsOriginCd" column="FS_ORIGIN_CD" jdbc-type="VARCHAR"/>
      <field-descriptor name="fdocNbr" column="FDOC_NBR" jdbc-type="VARCHAR"/>
      <field-descriptor name="sequenceNbr" column="TRN_ENTR_SEQ_NBR" jdbc-type="INTEGER"/>
-     <field-descriptor name="unifaceVersion" column="U_VERSION" jdbc-type="VARCHAR"/>
      <field-descriptor name="finCoaCd" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
      <field-descriptor name="accountNbr" column="ACCOUNT_NBR" jdbc-type="VARCHAR"/>
      <field-descriptor name="subAccountNbr" column="SUB_ACCOUNT_NBR" jdbc-type="VARCHAR"/>

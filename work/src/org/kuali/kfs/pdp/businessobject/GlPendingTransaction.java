@@ -6,11 +6,14 @@ package org.kuali.module.pdp.bo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.gl.bo.OriginEntry;
 
 /**
  * @author jsissom
@@ -21,7 +24,6 @@ public class GlPendingTransaction implements Serializable {
   private String fsOriginCd;            // FS_ORIGIN_CD  VARCHAR2  2
   private String fdocNbr;               // FDOC_NBR  VARCHAR2  9
   private Integer sequenceNbr;          // TRN_ENTR_SEQ_NBR  NUMBER  5   0
-  private String unifaceVersion;        // U_VERSION   VARCHAR2  1
   private String finCoaCd;              // FIN_COA_CD  VARCHAR2  2
   private String accountNbr;            // ACCOUNT_NBR   VARCHAR2  7
   private String subAccountNbr;         // SUB_ACCOUNT_NBR   VARCHAR2  5
@@ -51,6 +53,38 @@ public class GlPendingTransaction implements Serializable {
 
   public GlPendingTransaction() {
     super();
+  }
+
+  public OriginEntry getOriginEntry() {
+      OriginEntry oe = new OriginEntry();
+
+      oe.setFinancialSystemOriginationCode(fsOriginCd);
+      oe.setDocumentNumber(fdocNbr);
+      oe.setTransactionLedgerEntrySequenceNumber(sequenceNbr);
+      oe.setChartOfAccountsCode(finCoaCd);
+      oe.setAccountNumber(accountNbr);
+      oe.setSubAccountNumber(subAccountNbr);
+      oe.setFinancialObjectCode(finObjectCd);
+      oe.setFinancialSubObjectCode(finSubObjCd);
+      oe.setFinancialBalanceTypeCode(finBalanceTypCd);
+      oe.setFinancialObjectTypeCode(finObjTypCd);
+      oe.setUniversityFiscalYear(univFiscalYr);
+      oe.setUniversityFiscalPeriodCode(univFiscalPrdCd);
+      oe.setTransactionLedgerEntryDescription(description);
+      oe.setTransactionLedgerEntryAmount(new KualiDecimal(amount));
+      oe.setTransactionDebitCreditCode(debitCrdtCd);
+      oe.setTransactionDate(new Date(transactionDt.getTime()));
+      oe.setFinancialDocumentTypeCode(fdocTypCd);
+      oe.setOrganizationDocumentNumber(orgDocNbr);
+      oe.setProjectCode(projectCd);
+      oe.setOrganizationReferenceId(orgReferenceId);
+      oe.setReferenceFinancialDocumentTypeCode(fdocRefTypCd);
+      oe.setReferenceFinancialSystemOriginationCode(fsRefOriginCd);
+      oe.setReferenceFinancialDocumentNumber(fdocRefNbr);
+      oe.setFinancialDocumentReversalDate(new Date(fdocReversalDt.getTime()));
+      oe.setTransactionEncumbranceUpdateCode(trnEncumUpdtCd);
+
+      return oe;
   }
 
   public String getAccountNbr() {
@@ -220,12 +254,6 @@ public class GlPendingTransaction implements Serializable {
   }
   public void setTrnEntrOfstCd(String trnEntrOfstCd) {
     this.trnEntrOfstCd = trnEntrOfstCd;
-  }
-  public String getUnifaceVersion() {
-    return unifaceVersion;
-  }
-  public void setUnifaceVersion(String unifaceVersion) {
-    this.unifaceVersion = unifaceVersion;
   }
   public String getUnivFiscalPrdCd() {
     return univFiscalPrdCd;

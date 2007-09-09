@@ -58,7 +58,7 @@ public class GlPendingTransactionServiceImpl implements GlPendingTransactionServ
     super();
   }
 
-  /**
+  /*
    * GlPendingTransaction Fields not used:
    * 
    * sequenceNbr          // TRN_ENTR_SEQ_NBR   NUMBER    5
@@ -72,6 +72,25 @@ public class GlPendingTransactionServiceImpl implements GlPendingTransactionServ
    * processInd           // TRN_EXTRT_IND      VARCHAR2  1
    * 
    */
+
+
+  /**
+   * @see org.kuali.module.pdp.service.GlPendingTransactionService#save(org.kuali.module.pdp.bo.GlPendingTransaction)
+   */
+  public void save(GlPendingTransaction tran) {
+      LOG.debug("save() started");
+
+      glPendingTransactionDao.save(tran);
+  }
+
+  /**
+   * @see org.kuali.module.pdp.service.GlPendingTransactionService#getUnextractedTransactions()
+   */
+  public Iterator getUnextractedTransactions() {
+      LOG.debug("getUnextractedTransactions() started");
+
+      return glPendingTransactionDao.getUnextractedTransactions();
+  }
 
   public void createProcessPaymentTransaction(PaymentDetail pd, Boolean relieveLiabilities) {
     

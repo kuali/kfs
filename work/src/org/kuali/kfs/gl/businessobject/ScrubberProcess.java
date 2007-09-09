@@ -357,10 +357,13 @@ public class ScrubberProcess {
             // defer report generation for later
         }
         else {
+            long start2 = System.currentTimeMillis();
             // Run bad balance type report and removed transaction report
             reportService.generateScrubberBadBalanceTypeListingReport(runDate, groupsToScrub);
-
+            LOG.fatal("Bad Bal report " + (System.currentTimeMillis() - start2));
+            start2 = System.currentTimeMillis();
             reportService.generateScrubberRemovedTransactions(runDate, errorGroup);
+            LOG.fatal("Removed trans report " + (System.currentTimeMillis() - start2));
         }
         LOG.fatal("After report2 " + (System.currentTimeMillis() - startAfterGroups));
     }

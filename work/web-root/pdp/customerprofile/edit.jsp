@@ -121,7 +121,7 @@
       </tr>
       <tr>
         <th align=right valign="top" nowrap="true">
-          Campus Process Location:
+          * Campus Process Location:
          </th>
         <td align=left class="datacell">
           <html:text property="defaultPhysicalCampusProcessingCode" tabindex="4" maxlength="2"  />
@@ -135,7 +135,7 @@
       </tr>
       <tr>
         <th align=right valign="top" nowrap="true">
-          Description:
+          * Description:
          </th>
         <td align=left class="datacell">
           <html:text property="customerDescription" tabindex="5" maxlength="50"  />
@@ -149,13 +149,13 @@
       </tr>
       <tr>
         <th align=right valign="top" nowrap="true">
-          Primary Contact Name:
+          * Primary Contact Name:
          </th>
         <td align=left class="datacell">
           <html:text property="contactFullName" tabindex="6" maxlength="50" size="50" />
         </td>
         <th align=right valign="top" nowrap="true">
-          Address Line 1:
+          * Address Line 1:
          </th>
         <td align=left class="datacell">
           <html:text property="address1" tabindex="28" maxlength="55"  />
@@ -163,7 +163,7 @@
       </tr>
       <tr>
         <th align=right valign="top" nowrap="true">
-          Customer Process E-Mail Address:  
+          * Customer Process E-Mail Address:  
          </th>
         <td align=left class="datacell" >
           <html:text property="processingEmailAddr" tabindex="7" maxlength="200" size="50" />
@@ -177,7 +177,7 @@
       </tr>
       <tr>
         <th align=right valign="top" nowrap="true">
-          Payment Threshold Amount:
+          * Payment Threshold Amount:
          </th>
         <td align=left class="datacell" >
           <html:text property="paymentThresholdAmount" tabindex="8" maxlength="14"  />
@@ -205,13 +205,13 @@
       </tr>
       <tr>
         <th align=right valign="top" nowrap="true">
-          File Threshold Amount:  
+          * File Threshold Amount:  
          </th>
         <td align=left class="datacell" >
           <html:text property="fileThresholdAmount" tabindex="10" maxlength="14"  />
         </td>
         <th align=right valign="top" nowrap="true">
-          City:  
+          * City:  
          </th>
         <td align=left class="datacell" >
           <html:text property="city" tabindex="32" maxlength="30"  />
@@ -225,7 +225,7 @@
           <html:text property="fileThresholdEmailAddress" tabindex="11" maxlength="200" size="50" />
         </td>
         <th align=right valign="top" nowrap="true">
-          State:  
+          * State:  
          </th>
         <td align=left class="datacell" >
           <html:text property="state" tabindex="33" maxlength="30"  />

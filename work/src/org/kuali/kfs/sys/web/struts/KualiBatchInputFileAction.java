@@ -254,6 +254,9 @@ public class KualiBatchInputFileAction extends KualiAction {
             if (batchInputFileService.hasBeenProcessed(batchInputFileType, fileName)) {
                 label = label + " (processed)";
             }
+            else {
+                label = label + " (ready to process)";
+            }
             userFiles.add(new KeyLabelPair(key, label));
         }
 

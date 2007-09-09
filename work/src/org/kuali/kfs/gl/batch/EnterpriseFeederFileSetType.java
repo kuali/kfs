@@ -44,7 +44,7 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EnterpriseFeederFileSetType.class);
     
     private static final String FILE_NAME_PREFIX = "entpBatchFile";
-    private static final String FILE_NAME_PART_DELIMITER = "-";
+    private static final String FILE_NAME_PART_DELIMITER = "_";
     
     /**
      * @see org.kuali.kfs.batch.BatchInputFileSetType#getDirectoryPath(java.lang.String)
@@ -108,7 +108,11 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
         String userIdentifier = user.getPersonUserIdentifier();
         userIdentifier = StringUtils.remove(userIdentifier, " ");
         
-        String[] fileNameParts = StringUtils.split(batchFile.getName(), "_");
+        if (!batchFile.getName().startsWith(FILE_NAME_PREFIX)) {
+            return false;
+        }
+
+        String[] fileNameParts = StringUtils.split(batchFile.getName(), FILE_NAME_PART_DELIMITER);
         if (fileNameParts.length > 2) {
             if (fileNameParts[1].equalsIgnoreCase(userIdentifier.toLowerCase())) {
                 isAuthorized = true;

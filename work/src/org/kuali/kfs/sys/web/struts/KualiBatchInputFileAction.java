@@ -116,6 +116,11 @@ public class KualiBatchInputFileAction extends KualiAction {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_SAVE, new String[] {});
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
+        
+        if (!batchInputFileService.isFileUserIdentifierProperlyFormatted(batchUpload.getFileUserIdentifer())) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_USER_IDENTIFIER_BAD_FORMAT, new String[] {});
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
 
         InputStream fileContents = ((KualiBatchInputFileForm) form).getUploadFile().getInputStream();
         byte[] fileByteContent = IOUtils.toByteArray(fileContents);

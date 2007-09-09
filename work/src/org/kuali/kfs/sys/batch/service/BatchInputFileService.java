@@ -55,13 +55,13 @@ public interface BatchInputFileService {
      * 
      * @param user - user who is requesting the save
      * @param inputType - instance of a BatchInputFileType
-     * @param fileUserIdentifer - file identifier specified by user
+     * @param fileUserIdentifier - file identifier specified by user
      * @param fileContents - contents of the uploaded file
      * @param parsedObject - object parsed from the input file
      * @return String - name of file that was saved, or null if errors were enountered
      * @throws FileStorageException - if errors were encountered while attempting to write the file
      */
-    public String save(UniversalUser user, BatchInputFileType inputType, String fileUserIdentifer, InputStream fileContents, Object parsedObject) throws AuthorizationException, FileStorageException;
+    public String save(UniversalUser user, BatchInputFileType inputType, String fileUserIdentifier, InputStream fileContents, Object parsedObject) throws AuthorizationException, FileStorageException;
 
     /**
      * Returns the contents of a batch input file contained on the server if the user has permissions for the files batch input
@@ -131,4 +131,12 @@ public interface BatchInputFileService {
      * @return List<String> - List of filenames
      */
     public List<String> listInputFileNamesWithDoneFile(BatchInputFileType batchInputFileType);
+    
+    /**
+     * Returns whether a file user identifier is properly formatted.
+     * 
+     * @param fileUserIdentifier
+     * @return
+     */
+    public boolean isFileUserIdentifierProperlyFormatted(String fileUserIdentifier);
 }

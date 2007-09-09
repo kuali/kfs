@@ -172,12 +172,16 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
      * @see org.kuali.kfs.service.BatchInputFileService#save(org.kuali.core.bo.user.UniversalUser,
      *      org.kuali.kfs.batch.BatchInputFileType, java.lang.String, java.io.InputStream)
      */
-    public String save(UniversalUser user, BatchInputFileType batchInputFileType, String fileUserIdentifer, InputStream fileContents, Object parsedObject) throws AuthorizationException, FileStorageException {
+    public String save(UniversalUser user, BatchInputFileType batchInputFileType, String fileUserIdentifier, InputStream fileContents, Object parsedObject) throws AuthorizationException, FileStorageException {
         if (user == null || batchInputFileType == null || fileContents == null) {
             LOG.error("an invalid(null) argument was given");
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
 
+        if (!isFileUserIdentifierProperlyFormatted(fileUserIdentifier)) {
+            LOG.error("The following file user identifer was not properly formatted: " + fileUserIdentifier);
+            throw new IllegalArgumentException("The following file user identifer was not properly formatted: " + fileUserIdentifier);
+        }
         // check user is authorized to upload a file for the batch type
         if (!isUserAuthorizedForBatchType(batchInputFileType, user)) {
             LOG.error("User " + user.getPersonUserIdentifier() + " is not authorized to upload a file of batch type " + batchInputFileType.getFileTypeIdentifer());
@@ -185,7 +189,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         }
 
         // defer to batch input type to add any security or other needed information to the file name
-        String saveFileName = batchInputFileType.getDirectoryPath() + "/" + batchInputFileType.getFileName(user, parsedObject, fileUserIdentifer);
+        String saveFileName = batchInputFileType.getDirectoryPath() + "/" + batchInputFileType.getFileName(user, parsedObject, fileUserIdentifier);
         saveFileName += "." + batchInputFileType.getFileExtension();
 
         // consruct the file object and check for existence
@@ -536,5 +540,20 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         Digester digester = DigesterLoader.createDigester(rulesUrl);
 
         return digester.getRules();
+    }
+
+    /**
+     * For this implementation, a file user identifier must consist of letters and digits
+     * 
+     * @see org.kuali.kfs.service.BatchInputFileService#isFileUserIdentifierProperlyFormatted(java.lang.String)
+     */
+    public boolean isFileUserIdentifierProperlyFormatted(String fileUserIdentifier) {
+        for (int i = 0; i < fileUserIdentifier.length(); i++) {
+            char c = fileUserIdentifier.charAt(i);
+            if (!(Character.isLetterOrDigit(c))) {
+                return false;
+            }
+        }
+        return true;
     }
 }

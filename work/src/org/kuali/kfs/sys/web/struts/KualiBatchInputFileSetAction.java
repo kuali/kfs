@@ -120,6 +120,10 @@ public class KualiBatchInputFileSetAction extends KualiAction {
         }
         
         BatchInputFileSetService batchInputFileSetService = SpringContext.getBean(BatchInputFileSetService.class);
+        if (!batchInputFileSetService.isFileUserIdentifierProperlyFormatted(batchUpload.getFileUserIdentifer())) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_SET_IDENTIFIER_BAD_FORMAT);
+            requiredValuesForFilesMissing = true;           
+        }
         
         Map<String, FormFile> uploadedFiles = ((KualiBatchInputFileSetForm) form).getUploadedFiles();
         Map<String, InputStream> typeToStreamMap = new HashMap<String, InputStream>();
@@ -135,10 +139,11 @@ public class KualiBatchInputFileSetAction extends KualiAction {
                 typeToStreamMap.put(fileType, uploadedFile.getInputStream());
             }
         }
+        
         if (requiredValuesForFilesMissing) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-
+        
         try {
             Map<String, String> typeToSavedFileNames = batchInputFileSetService.save(GlobalVariables.getUserSession().getUniversalUser(),
                     batchType, batchUpload.getFileUserIdentifer(), typeToStreamMap, ((KualiBatchInputFileSetForm) form).isSupressDoneFileCreation());
@@ -167,11 +172,19 @@ public class KualiBatchInputFileSetAction extends KualiAction {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
+        BatchInputFileSetService batchInputFileSetService = SpringContext.getBean(BatchInputFileSetService.class);
+        if (!batchInputFileSetService.isFileUserIdentifierProperlyFormatted(batchUpload.getExistingFileName())) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_SET_IDENTIFIER_BAD_FORMAT);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);           
+        }
+        
         BatchInputFileSetType batchType = retrieveBatchInputFileSetTypeImpl(batchUpload.getBatchInputTypeName());
         try {
-            SpringContext.getBean(BatchInputFileSetService.class).delete(GlobalVariables.getUserSession().getUniversalUser(), batchType, batchUpload.getFileUserIdentifer());
+            boolean deleteSuccessful = batchInputFileSetService.delete(GlobalVariables.getUserSession().getUniversalUser(), batchType, batchUpload.getExistingFileName());
 
-            GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_DELETE_SUCCESSFUL);
+            if (deleteSuccessful) {
+                GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_DELETE_SUCCESSFUL);
+            }
         }
         catch (FileNotFoundException e1) {
             LOG.error("errors deleting file " + e1.getMessage(), e1);
@@ -198,12 +211,18 @@ public class KualiBatchInputFileSetAction extends KualiAction {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_TYPE_SELECTED_DOWNLOAD, new String[] {});
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
+
+        BatchInputFileSetService batchInputFileSetService = SpringContext.getBean(BatchInputFileSetService.class);
+        if (!batchInputFileSetService.isFileUserIdentifierProperlyFormatted(batchUpload.getExistingFileName())) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_SET_IDENTIFIER_BAD_FORMAT);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);           
+        }
         
         BatchInputFileSetType batchType = retrieveBatchInputFileSetTypeImpl(batchUpload.getBatchInputTypeName());
         File batchInputFile = null;
         try {
-            batchInputFile = SpringContext.getBean(BatchInputFileSetService.class).download(GlobalVariables.getUserSession().getUniversalUser(),
-                    batchType, kualiBatchInputFileSetForm.getDownloadFileType(), batchUpload.getFileUserIdentifer());
+            batchInputFile = batchInputFileSetService.download(GlobalVariables.getUserSession().getUniversalUser(),
+                    batchType, kualiBatchInputFileSetForm.getDownloadFileType(), batchUpload.getExistingFileName());
         }
         catch (FileNotFoundException e1) {
             LOG.error("errors downloading file " + e1.getMessage(), e1);
@@ -250,11 +269,16 @@ public class KualiBatchInputFileSetAction extends KualiAction {
         }
         form.setBatchInputFileSetType(batchInputFileSetType);
         
-        Set<String> fileUserIdentifiers = SpringContext.getBean(BatchInputFileSetService.class).listBatchTypeFileUserIdentifiersForUser(batchInputFileSetType, user);
-
+        BatchInputFileSetService batchInputFileSetService = SpringContext.getBean(BatchInputFileSetService.class);
+        Set<String> fileUserIdentifiers = batchInputFileSetService.listBatchTypeFileUserIdentifiersForUser(batchInputFileSetType, user);
+        
         userFiles.add(new KeyLabelPair("", "Select a File Set Identifier"));
         for (String fileUserIdentifier : fileUserIdentifiers) {
-            userFiles.add(new KeyLabelPair(fileUserIdentifier, fileUserIdentifier));
+            String label = fileUserIdentifier;
+            if (batchInputFileSetService.hasBeenProcessed(user, batchInputFileSetType, fileUserIdentifier)) {
+                label = label + " (processed)";
+            }
+            userFiles.add(new KeyLabelPair(fileUserIdentifier, label));
         }
         form.setFileUserIdentifiers(userFiles);
 

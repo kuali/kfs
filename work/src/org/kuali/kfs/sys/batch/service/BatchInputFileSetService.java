@@ -66,13 +66,16 @@ public interface BatchInputFileSetService {
      * Deletes a batch input file contained on the server if the user has permissions for the files batch input type. Also deletes the associated .done
      * file if one exists.
      * 
+     * If the file set may not be deleted, then the GlobalVariable's error map will be populated with the reason why.
+     * 
      * @param user - user who is requesting the delete
      * @param inputType - instance of a BatchInputFileSetType
      * @param fileUserIdentifier file identifier specified by user
+     * @return whether the file was successfully downloaded
      * @throws AuthorizationException - if user does not have permission to delete batch files of this type FileNotFoundException -
      *         if given file does not exist on the file system
      */
-    public void delete(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException;
+    public boolean delete(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException;
 
     /**
      * Checks if the batch input type is active (can be used for upload).
@@ -98,4 +101,21 @@ public interface BatchInputFileSetService {
      * @return List<String> - List of filenames
      */
     public Set<String> listBatchTypeFileUserIdentifiersForUser(BatchInputFileSetType batchInputFileSetType, UniversalUser user) throws AuthorizationException;
+    
+    /**
+     * Returns whether a file set identifier is properly formatted.
+     * 
+     * @param fileUserIdentifier
+     * @return
+     */
+    public boolean isFileUserIdentifierProperlyFormatted(String fileUserIdentifier);
+    
+    /**
+     * Returns whether a file set for a given user has already been processed
+     * @param user
+     * @param inputType
+     * @param fileUserIdentifier
+     * @return
+     */
+    public boolean hasBeenProcessed(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifier);
 }

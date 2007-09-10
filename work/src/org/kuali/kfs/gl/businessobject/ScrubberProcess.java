@@ -387,6 +387,7 @@ public class ScrubberProcess {
         OriginEntryStatistics eOes = originEntryService.getStatistics(errorGroup.getId());
         demergerReport.setErrorTransactionsRead(eOes.getRowCount());
 
+        long start = System.currentTimeMillis();
         // Read all the documents from the error group and move all non-generated
         // transactions for these documents from the valid group into the error group
         Collection<OriginEntry> errorDocuments = originEntryService.getDocumentsByGroup(errorGroup);
@@ -433,7 +434,9 @@ public class ScrubberProcess {
                 }
             }
         }
-
+        LOG.fatal("Dem1 " + (System.currentTimeMillis() - start));
+        
+        start = System.currentTimeMillis();
         // Read all the transactions in the error group and delete the generated ones
         Iterator<OriginEntry> ie = originEntryService.getEntriesByGroup(errorGroup);
         while (ie.hasNext()) {
@@ -466,7 +469,9 @@ public class ScrubberProcess {
                 originEntryService.delete(transaction);
             }
         }
+        LOG.fatal("Dem2 " + (System.currentTimeMillis() - start));
 
+        start = System.currentTimeMillis();
         // Read all the transactions in the valid group and update the cost share transactions
         Iterator<OriginEntry> it = originEntryService.getEntriesByGroup(validGroup);
         while (it.hasNext()) {
@@ -492,12 +497,22 @@ public class ScrubberProcess {
             }
         }
 
+        LOG.fatal("Dem3 " + (System.currentTimeMillis() - start));
+        
+        start = System.currentTimeMillis();
+        
         eOes = originEntryService.getStatistics(errorGroup.getId());
         demergerReport.setErrorTransactionWritten(eOes.getRowCount());
 
+        LOG.fatal("Dem4 " + (System.currentTimeMillis() - start));
+        
+        start = System.currentTimeMillis();
+        
         if (!collectorMode) {
             reportService.generateScrubberDemergerStatisticsReports(runDate, demergerReport);
         }
+        LOG.fatal("Dem5 " + (System.currentTimeMillis() - start));
+        
     }
 
     /**

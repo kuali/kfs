@@ -844,4 +844,12 @@
 			<bean parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.ExpenseTransferAccountingLineDaoOjb" />
 		</property>
 	</bean>
+	
+    <bean id="positionObjectBenefitLookupableHelperService" class="org.kuali.module.labor.web.lookupable.PositionObjectBenefitLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
+
+	<bean id="positionObjectBenefitLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="positionObjectBenefitLookupableHelperService" />
+		</property>
+	</bean>
 </beans>

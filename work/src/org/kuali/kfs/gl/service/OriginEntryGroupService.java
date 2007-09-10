@@ -94,14 +94,6 @@ public interface OriginEntryGroupService {
     public Collection getIcrGroupsToPost();
 
     /**
-     * Get all the unscrubbed backup groups
-     * 
-     * @param backupDate only groups w/ dates on or before this date will be returned
-     * @return
-     */
-    public Collection getBackupGroups(Date backupDate);
-
-    /**
      * Gets a collection of all scrubbable backup groups (i.e. scrub, valid, process indicators all true)
      * @return
      */

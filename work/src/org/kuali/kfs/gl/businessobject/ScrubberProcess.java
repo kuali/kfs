@@ -296,7 +296,7 @@ public class ScrubberProcess {
             groupsToScrub.add(group);
         }
         else {
-            groupsToScrub = originEntryGroupService.getBackupGroups(runDate);
+            groupsToScrub = originEntryGroupService.getAllScrubbableBackupGroups();
         }
         LOG.debug("scrubEntries() number of groups to scrub: " + groupsToScrub.size());
 

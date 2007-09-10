@@ -120,16 +120,6 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         
         return originEntryGroupDao.getGroupsFromSourceForDate(sourceCode, date);
     }
-    
-    /**
-     * 
-     * @see org.kuali.module.gl.service.OriginEntryGroupService#getBackupGroups(java.sql.Date)
-     */
-    public Collection getBackupGroups(Date backupDate) {
-        LOG.debug("getBackupGroups() started");
-
-        return originEntryGroupDao.getBackupGroups(backupDate);
-    }
 
     /**
      * @see org.kuali.module.gl.service.OriginEntryGroupService#getAllScrubbableBackupGroups()

@@ -61,14 +61,6 @@ public interface OriginEntryGroupDao {
     public Collection getPosterGroups(String groupSourceCode);
 
     /**
-     * Get all the backup groups to scrub
-     * 
-     * @param groupDate
-     * @return
-     */
-    public Collection getBackupGroups(Date groupDate);
-
-    /**
      * Gets a collection of all backup groups that are scrubbable (i.e. valid, process, scrub indicators all set to true)
      * @return
      */

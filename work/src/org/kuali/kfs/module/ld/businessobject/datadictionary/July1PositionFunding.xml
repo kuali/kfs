@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.labor.bo.July1PositionFunding">
 
-
         <inquiry>
             <title>July 1 Position Funding Inquiry</title>
              
@@ -76,6 +75,7 @@
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialSubObjectCode" />                                
                 <field attributeName="personName" />
+				<field attributeName="emplid" />                
 				<field attributeName="positionNumber" />                
                 <field attributeName="july1BudgetAmount" />
                 <field attributeName="july1BudgetFteQuantity" />

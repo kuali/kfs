@@ -103,8 +103,8 @@
 					
 				<td class="datacell-nowrap"><kul:htmlControlAttribute
 					attributeEntry="${balanceInquiryAttributes.subAccountNumber}"
-					property="subAccountNumber" readOnly="${readOnly}" /> 
-					<c:if test="${!readOnly}">
+					property="subAccountNumber" readOnly="${disabled}" /> 
+					<c:if test="${!disabled}">
 						<kul:lookup	boClassName="org.kuali.module.chart.bo.SubAccount"
 						lookupParameters="accountNumber:accountNumber,subAccountNumber:subAccountNumber,chartOfAccountsCode:chartOfAccountsCode"
 						fieldLabel="${balanceInquiryAttributes.subAccountNumber.label}" />

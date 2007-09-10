@@ -71,9 +71,13 @@ public class GlPendingTransaction implements Serializable {
       oe.setUniversityFiscalYear(univFiscalYr);
       oe.setUniversityFiscalPeriodCode(univFiscalPrdCd);
       oe.setTransactionLedgerEntryDescription(description);
-      oe.setTransactionLedgerEntryAmount(new KualiDecimal(amount));
+      if ( amount != null ) {
+          oe.setTransactionLedgerEntryAmount(new KualiDecimal(amount));
+      }
       oe.setTransactionDebitCreditCode(debitCrdtCd);
-      oe.setTransactionDate(new Date(transactionDt.getTime()));
+      if ( transactionDt != null ) {
+          oe.setTransactionDate(new Date(transactionDt.getTime()));
+      }
       oe.setFinancialDocumentTypeCode(fdocTypCd);
       oe.setOrganizationDocumentNumber(orgDocNbr);
       oe.setProjectCode(projectCd);
@@ -81,7 +85,9 @@ public class GlPendingTransaction implements Serializable {
       oe.setReferenceFinancialDocumentTypeCode(fdocRefTypCd);
       oe.setReferenceFinancialSystemOriginationCode(fsRefOriginCd);
       oe.setReferenceFinancialDocumentNumber(fdocRefNbr);
-      oe.setFinancialDocumentReversalDate(new Date(fdocReversalDt.getTime()));
+      if ( fdocReversalDt != null ) {
+          oe.setFinancialDocumentReversalDate(new Date(fdocReversalDt.getTime()));
+      }
       oe.setTransactionEncumbranceUpdateCode(trnEncumUpdtCd);
 
       return oe;

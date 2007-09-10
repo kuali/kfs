@@ -468,6 +468,7 @@ public class KFSPropertyConstants {
     public static final String DV_WIRE_ADMINISTRATOR_USER = "DVWireAdministratorUser";
     public static final String DV_WIRE_TRANSFER = "dvWireTransfer";
     public static final String EDIT = "edit";
+    public static final String EFFECTIVE_DATE = "effectiveDate";
     public static final String ELECTRONIC_RESEARCH_ADMINISTRATION_GRANT_NUMBER = "electronicResearchAdministrationGrantNumber";
     public static final String EMAIL_ADDRESS = "emailAddress";
     public static final String EMPL_ID = "emplId";

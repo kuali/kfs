@@ -276,6 +276,36 @@ public class LaborObject extends PersistableBusinessObjectBase implements Inacti
     public void setPositionObjectGroup(PositionObjectGroup positionObjectGroup) {
         this.positionObjectGroup = positionObjectGroup;
     }
+    
+    /**
+     * @see org.kuali.core.bo.Inactivateable#isActive()
+     */
+    public boolean isActive() {
+        return this.active;
+    }
+
+    /**
+     * @see org.kuali.core.bo.Inactivateable#setActive(boolean)
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
+    /**
+     * Gets the option attribute. 
+     * @return Returns the option.
+     */
+    public Options getOption() {
+        return option;
+    }
+
+    /**
+     * Sets the option attribute value.
+     * @param option The option to set.
+     */
+    public void setOption(Options option) {
+        this.option = option;
+    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -289,12 +319,5 @@ public class LaborObject extends PersistableBusinessObjectBase implements Inacti
         m.put("financialObjectCode", this.financialObjectCode);
         return m;
     }    
-    
-    public boolean isActive() {
-        return this.active;
-    }
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 }

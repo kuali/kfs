@@ -368,7 +368,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     public Iterator findPendingLedgerEntriesForBalance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForBalance started");
 
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new GeneralLedgerPendingEntry());
+        Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance());
 
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);
@@ -383,7 +383,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     public Iterator findPendingLedgerEntriesForCashBalance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForCashBalance started");
 
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new GeneralLedgerPendingEntry());
+        Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance());
         criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, "AC");
         criteria.addEqualToField(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, CHART_FINANCIAL_CASH_OBJECT_CODE);
 
@@ -400,7 +400,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     public Iterator findPendingLedgerEntriesForEncumbrance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForEncumbrance started");
 
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new GeneralLedgerPendingEntry());
+        Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance());
         criteria.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, Arrays.asList(KFSConstants.ENCUMBRANCE_BALANCE_TYPE));
 
         List encumbranceUpdateCodeList = new ArrayList();
@@ -422,7 +422,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     public Iterator findPendingLedgerEntriesForAccountBalance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForAccountBalance started");
 
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new GeneralLedgerPendingEntry());
+        Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance());
 
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);
@@ -438,7 +438,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     public Iterator findPendingLedgerEntrySummaryForAccountBalance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntrySummaryForAccountBalance started");
 
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new GeneralLedgerPendingEntry());
+        Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance());
 
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);
@@ -610,16 +610,8 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
     public Collection findPendingEntries(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingEntries(Map, boolean) started");
-
-        Object entryObject = null;
-        try{
-            entryObject = getEntryClass().newInstance();
-        }
-        catch(Exception e){
-            LOG.debug("Wrong object type" + e);
-        }
         
-        Criteria criteria = buildCriteriaFromMap(fieldValues, entryObject);
+        Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance());
 
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);
@@ -640,5 +632,16 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      */
     public Class getEntryClass() {
         return GeneralLedgerPendingEntry.class;
+    }
+    
+    private Object getEntryClassInstance(){
+        Object entryObject = null;
+        try{
+            entryObject = getEntryClass().newInstance();
+        }
+        catch(Exception e){
+            LOG.debug("Wrong object type" + e);
+        }
+        return entryObject;
     }
 }

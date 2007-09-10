@@ -35,6 +35,14 @@
 
             <instructions>Employee Funding Look up</instructions>
 
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="chartOfAccountsCode" />
+                    <sortAttribute attributeName="accountNumber" />
+                    <sortAttribute attributeName="financialObjectCode" />
+                </sortAttributes>
+            </defaultSort>
+            
             <lookupFields>
 			    <lookupField attributeName="universityFiscalYear" required="true">
                     <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
@@ -54,6 +62,7 @@
                 <field attributeName="subAccountNumber" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialSubObjectCode" />
+                <field attributeName="financialObjectTypeCode" />
 				<field attributeName="positionNumber" />
 				<field attributeName="csfDeleteCode" />				
 				<field attributeName="csfFundingStatusCode" />
@@ -120,9 +129,6 @@
 	        <attributeReference name="csfTimePercent" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfTimePercent"/>
 	        <attributeReference name="csfFundingStatusCode" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfFundingStatusCode"/>
 	        
-	        <!-- 
-	        	<attributeReference name="dummyBusinessObject.consolidationOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="consolidationOption"/>
-	        -->
             <attributeReference name="dummyBusinessObject.pendingEntryOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="pendingEntryOption" />
 		</attributes>
 		

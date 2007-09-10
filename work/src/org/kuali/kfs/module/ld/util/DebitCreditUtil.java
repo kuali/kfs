@@ -99,7 +99,10 @@ public class DebitCreditUtil {
     public static KualiDecimal getNumericAmount(KualiDecimal amount, String currentDebitCreditCode) {
         KualiDecimal actualAmount = amount;
 
-        if (KFSConstants.GL_CREDIT_CODE.equals(currentDebitCreditCode)) {
+        if(amount == null){
+            actualAmount = KualiDecimal.ZERO;
+        }
+        else if (KFSConstants.GL_CREDIT_CODE.equals(currentDebitCreditCode)) {
             actualAmount = actualAmount.multiply(new KualiDecimal(-1));
         }
         return actualAmount;

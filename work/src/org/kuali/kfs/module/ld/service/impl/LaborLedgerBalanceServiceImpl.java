@@ -28,7 +28,6 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.LaborConstants;
@@ -39,6 +38,7 @@ import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.dao.LaborLedgerBalanceDao;
 import org.kuali.module.labor.service.LaborCalculatedSalaryFoundationTrackerService;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
+import org.kuali.module.labor.util.DebitCreditUtil;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,6 +81,21 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
         }
         return recordCount;
     }
+    
+    /**
+     * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findLedgerBalance(java.util.Collection,
+     *      org.kuali.module.labor.bo.LaborTransaction)
+     */
+    public LedgerBalance findLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, LaborTransaction transaction, List<String> keyList) {
+        for (LedgerBalance ledgerBalance : ledgerBalanceCollection) {
+            System.out.println("======= ledgerBalance: " + ledgerBalance.getFinancialObjectTypeCode());
+            boolean found = ObjectUtil.compareObject(ledgerBalance, transaction, keyList);
+            if (found) {
+                return ledgerBalance;
+            }
+        }
+        return null;
+    }
 
     /**
      * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findLedgerBalance(java.util.Collection,
@@ -103,7 +118,7 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
     public void updateLedgerBalance(LedgerBalance ledgerBalance, LaborTransaction transaction) {
         String debitCreditCode = transaction.getTransactionDebitCreditCode();
         KualiDecimal amount = transaction.getTransactionLedgerEntryAmount();
-        amount = debitCreditCode.equals(KFSConstants.GL_CREDIT_CODE) ? amount.negated() : amount;
+        amount = DebitCreditUtil.getNumericAmount(amount, debitCreditCode);
 
         ledgerBalance.addAmount(transaction.getUniversityFiscalPeriodCode(), amount);
     }
@@ -118,6 +133,8 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
         if (ledgerBalance == null) {
             LedgerBalance newLedgerBalance = new LedgerBalance();
             ObjectUtil.buildObject(newLedgerBalance, transaction);
+            updateLedgerBalance(newLedgerBalance, transaction);
+            
             ledgerBalanceCollection.add(newLedgerBalance);
             return true;
         }

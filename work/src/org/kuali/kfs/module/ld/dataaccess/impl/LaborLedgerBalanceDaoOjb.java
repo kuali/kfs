@@ -334,6 +334,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         groupByList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
         groupByList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         groupByList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        groupByList.add(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
         groupByList.add(KFSPropertyConstants.POSITION_NUMBER);
         groupByList.add(KFSPropertyConstants.EMPLID);
         return groupByList;

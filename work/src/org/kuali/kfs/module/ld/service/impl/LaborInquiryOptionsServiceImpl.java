@@ -61,6 +61,17 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
         }
         return null;
     }
+    
+    /**
+     * @see org.kuali.module.labor.service.LaborInquiryOptionsService#getSelectedPendingEntryOption(java.util.Map)
+     */
+    public String getSelectedPendingEntryOption(Map fieldValues) {
+        // truncate the non-property filed
+        String pendingEntryOption = (String) fieldValues.get(Constant.PENDING_ENTRY_OPTION);
+        fieldValues.remove(Constant.PENDING_ENTRY_OPTION);
+
+        return pendingEntryOption;
+    }
 
     /**
      * @see org.kuali.module.labor.service.LaborInquiryOptionsService#getConsolidationOption(java.util.Map)
@@ -117,17 +128,6 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
         else if (Constant.APPROVED_PENDING_ENTRY.equals(pendingEntryOption)) {
             updateEntryCollection(entryCollection, fieldValues, true, isConsolidated);
         }
-    }
-
-    /**
-     * @see org.kuali.module.labor.service.LaborInquiryOptionsService#getSelectedPendingEntryOption(java.util.Map)
-     */
-    public String getSelectedPendingEntryOption(Map fieldValues) {
-        // truncate the non-property filed
-        String pendingEntryOption = (String) fieldValues.get(Constant.PENDING_ENTRY_OPTION);
-        fieldValues.remove(Constant.PENDING_ENTRY_OPTION);
-
-        return pendingEntryOption;
     }
 
     /**

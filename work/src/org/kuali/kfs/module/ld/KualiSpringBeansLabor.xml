@@ -235,9 +235,6 @@
 		<property name="businessObjectMetaDataService">
 			<ref bean="businessObjectMetaDataService" />
 		</property>
-		<!--property name="dictionaryValidationService">
-			<ref bean="dictionaryValidationService" />
-			</property-->
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
@@ -764,6 +761,9 @@
 		</property>	
 		<property name="laborInquiryOptionsService">
 			<ref bean="laborInquiryOptionsService" />
+		</property>	
+		<property name="laborLedgerPendingEntryService">
+			<ref bean="laborLedgerPendingEntryService" />
 		</property>		
 	</bean>
 

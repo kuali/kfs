@@ -36,7 +36,7 @@ public class PositionDataDetailsInquirableImpl extends AbstractLaborInquirableIm
     protected List buildUserDefinedAttributeKeyList() {
         List keys = new ArrayList();
         keys.add(KFSPropertyConstants.POSITION_NUMBER);
-
+        keys.add(KFSPropertyConstants.EFFECTIVE_DATE);
         return keys;
     }
 

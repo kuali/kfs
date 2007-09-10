@@ -20,13 +20,11 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.labor.bo.PositionFunding">
 
-
         <inquiry>
             <title>Calculated Salary Foundation Tracker Inquiry By position Number</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountNumber" />
-                <field attributeName="additionalSequence" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="csfAmount" />
                 <field attributeName="csfCreateTimestamp" />
@@ -38,7 +36,6 @@
                 <field attributeName="effectiveDate" />
                 <field attributeName="effectiveSequence" />
                 <field attributeName="emplid" />
-                <field attributeName="employeeRecord" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialSubObjectCode" />
                 <field attributeName="positionNumber" />
@@ -88,219 +85,29 @@
 			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />
 			<attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode" />
 
-            <attribute name="additionalSequence" forceUppercase="true">
-                <label>Additional Sequence</label>
-                <shortLabel>Sequence</shortLabel>
+	        <attributeReference name="csfCreateTimestamp" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfCreateTimestamp"/>
+	        <attributeReference name="csfAmount" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfAmount"/>	
+	        <attributeReference name="csfDeleteCode" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfDeleteCode"/>	
+	        <attributeReference name="csfTimePercent" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfTimePercent"/>
+	        <attributeReference name="csfFundingStatusCode" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfFundingStatusCode"/>	        
+	        <attributeReference name="csfFullTimeEmploymentQuantity" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfFullTimeEmploymentQuantity"/>
 
-                <maxLength>2</maxLength>
-                <validationPattern><numeric /></validationPattern>
+	        <attributeReference name="effectiveSequence" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="effectiveSequence"/>
+	        <attributeReference name="earnCode" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="earnCode"/>	        
+	        <attributeReference name="effectiveDate" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="effectiveDate"/>	        
+	        
+            <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
+            <attributeReference name="personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" />
+            <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber"/>
 
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>additionalSequence</summary>
-                <description>additionalSequence description...</description>
-			</attribute>
-
-            <attribute name="csfAmount" forceUppercase="true">
-                <label>CSF Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>csfAmount</summary>
-                <description>csfAmount description...</description>
-			</attribute>
-
-            <attribute name="csfCreateTimestamp" forceUppercase="true">
-                <label>Csf Create Timestamp</label>
-                <shortLabel>Timestamp</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>csfCreateTimestamp</summary>
-                <description>csfCreateTimestamp description...</description>
-			</attribute>
-
-            <attribute name="csfDeleteCode" forceUppercase="true">
-                <label>Delete Code</label>
-                <shortLabel>Dlt</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>csfDeleteCode</summary>
-                <description>csfDeleteCode description...</description>
-			</attribute>
-
-            <attribute name="csfFullTimeEmploymentQuantity" forceUppercase="true">
-                <label>FTE</label>
-                <shortLabel>Quantity</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>csfFullTimeEmploymentQuantity</summary>
-                <description>csfFullTimeEmploymentQuantity description...</description>
-			</attribute>
-
-            <attribute name="csfFundingStatusCode" forceUppercase="true">
-                <label>Status Code</label>
-                <shortLabel>St</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>csfFundingStatusCode</summary>
-                <description>csfFundingStatusCode description...</description>
-			</attribute>
-
-            <attribute name="csfTimePercent" forceUppercase="true">
-                <label>FTE</label>
-                <shortLabel>Percent</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>csfTimePercent</summary>
-                <description>csfTimePercent description...</description>
-			</attribute>
-
-            <attribute name="earnCode" forceUppercase="true">
-                <label>Earn Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>earnCode</summary>
-                <description>earnCode description...</description>
-			</attribute>
-
-            <attribute name="effectiveDate" forceUppercase="true">
-                <label>Effective Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>effectiveDate</summary>
-                <description>effectiveDate description...</description>
-			</attribute>
-
-            <attribute name="effectiveSequence" forceUppercase="true">
-                <label>Effective Sequence</label>
-                <shortLabel>Sequence</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>effectiveSequence</summary>
-                <description>effectiveSequence description...</description>
-			</attribute>
-
-            <attribute name="emplid" forceUppercase="true">
-                <label>Emplid</label>
-                <shortLabel>Emplid</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>emplid</summary>
-                <description>emplid description...</description>
-			</attribute>
-
-            <attribute name="employeeRecord" forceUppercase="true">
-                <label>Employee Record</label>
-                <shortLabel>Record</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>employeeRecord</summary>
-                <description>employeeRecord description...</description>
-			</attribute>
-
-            <attribute name="positionNumber" forceUppercase="true">
-                <label>Position Number</label>
-                <shortLabel>Position</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>positionNumber</summary>
-                <description>positionNumber description...</description>
-			</attribute>
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-			<attribute name="personName" forceUppercase="true">
-				<label>Person Name</label>
-				<shortLabel>Person</shortLabel>
-
-				<maxLength>80</maxLength>
-
-				<control>
-					<hidden/>
-					<!-- enable if you want to be able to set the display name separate from the individual name fields
-					<text size="40" />
-					-->
-				</control>
-
-				<summary>Display Name</summary>
-				<description>Name</description>
-
-			</attribute>
-
         </attributes>
+              		
+		<relationships>
+            <relationship objectAttributeName="ledgerPerson" >
+                <primitiveAttribute sourceName="ledgerPerson.personUniversalIdentifier" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="emplid" targetName="personPayrollIdentifier" identifier="true" />
+	        </relationship>
+        </relationships>
     </businessObject>
 </dictionaryEntry>

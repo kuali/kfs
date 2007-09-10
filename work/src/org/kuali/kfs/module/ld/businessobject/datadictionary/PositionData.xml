@@ -67,6 +67,7 @@
                 <field attributeName="departmentId"/>             
                 <field attributeName="positionSalaryPlanDefault"/>
                 <field attributeName="positionGradeDefault"/>
+                <field attributeName="positionFullTimeEquivalency" />
                 
                 <field attributeName="jobCode"/>
                 <field attributeName="positionStatus"/>
@@ -74,7 +75,6 @@
                 
                 <!-- 
                 <field attributeName="positionEffectiveStatus" />
-                <field attributeName="positionFullTimeEquivalency" />
                 <field attributeName="positionRegularTemporary" />
 
                 <field attributeName="shortDescription" />
@@ -193,7 +193,7 @@
 			</attribute>
 
             <attribute name="positionFullTimeEquivalency" forceUppercase="true">
-                <label>Position Full Time Equivalency</label>
+                <label>Full Time Equivalency</label>
                 <shortLabel>Equivalency</shortLabel>
 
                 <maxLength>3</maxLength>

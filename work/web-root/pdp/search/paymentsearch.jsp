@@ -31,8 +31,8 @@
 </head>
 <body>
   <html:form action="/pdp/paymentsearch">
-    <c:if test="${not empty PaymentDetailSearchFormSession}">
-      <bean:define id="PaymentDetailSearchForm" name="PaymentDetailSearchFormSession" />
+    <c:if test="${not empty PdpPaymentDetailSearchFormSession}">
+      <bean:define id="PdpPaymentDetailSearchForm" name="PdpPaymentDetailSearchFormSession" />
     </c:if>
     <h1><strong>Search for a Payment</strong></h1><br>
     <jsp:include page="${request.contextPath}/pdp/TestEnvironmentWarning.jsp" flush="true"/>
@@ -74,21 +74,21 @@
               <tr>
                 <th align=right nowrap >Payee Name:</th>
                 <td align=left class="datacell">
-                  <html:text name="PaymentDetailSearchForm" property="payeeName" tabindex="2" maxlength="40" />
+                  <html:text name="PdpPaymentDetailSearchForm" property="payeeName" tabindex="2" maxlength="40" />
                 </td>
                 <th align=right nowrap >Chart:</th>
                 <td align=left class="datacell">
-                  <html:text name="PaymentDetailSearchForm" property="chartCode" tabindex="10" maxlength="2" />
+                  <html:text name="PdpPaymentDetailSearchForm" property="chartCode" tabindex="10" maxlength="2" />
                 </td>
                 <th align=right nowrap >Source Document Number:</th>
                 <td align=left class="datacell">
-                  <html:text name="PaymentDetailSearchForm" property="custPaymentDocNbr" tabindex="18" maxlength="9" />
+                  <html:text name="PdpPaymentDetailSearchForm" property="custPaymentDocNbr" tabindex="18" maxlength="9" />
                 </td>
               </tr>
               <tr>
                 <th align=right nowrap >Payee ID Type:</th>
                 <td align=left class="datacell">
-                  <html:select size="1" name="PaymentDetailSearchForm" property="payeeIdTypeCd" tabindex="3">
+                  <html:select size="1" name="PdpPaymentDetailSearchForm" property="payeeIdTypeCd" tabindex="3">
                     <html:option value="">&nbsp;</html:option>
                     <html:option value="E">Employee ID</html:option>
                     <html:option value="F">FEIN</html:option>
@@ -100,38 +100,38 @@
                 </td>
                 <th align=right nowrap >Organization:</th>
                 <td align=left class="datacell">
-                  <html:text name="PaymentDetailSearchForm" property="orgCode" tabindex="11" maxlength="4" />
+                  <html:text name="PdpPaymentDetailSearchForm" property="orgCode" tabindex="11" maxlength="4" />
                 </td>
                 <th align=right nowrap >Purchase Order Number:</th>
                 <td align=left class="datacell">
-                  <html:text name="PaymentDetailSearchForm" property="purchaseOrderNbr" tabindex="19" maxlength="9" />
+                  <html:text name="PdpPaymentDetailSearchForm" property="purchaseOrderNbr" tabindex="19" maxlength="9" />
                 </td>
               </tr>
               <tr>
                 <th align=right nowrap >Payee ID:</th>
                 <td align=left class="datacell">
-                  <html:text name="PaymentDetailSearchForm" property="payeeId" tabindex="4" maxlength="25" />
+                  <html:text name="PdpPaymentDetailSearchForm" property="payeeId" tabindex="4" maxlength="25" />
                 </td>
                 <th align=right nowrap >Sub-Unit:</th>
                 <td align=left class="datacell">
-                  <html:text name="PaymentDetailSearchForm" property="subUnitCode" tabindex="12" maxlength="4" />
+                  <html:text name="PdpPaymentDetailSearchForm" property="subUnitCode" tabindex="12" maxlength="4" />
                 </td>
                 <th align=right nowrap >Invoice Number:</th>
                 <td align=left class="datacell">
-                  <html:text name="PaymentDetailSearchForm" property="invoiceNbr" tabindex="20" maxlength="25" />
+                  <html:text name="PdpPaymentDetailSearchForm" property="invoiceNbr" tabindex="20" maxlength="25" />
                 </td>
               </tr>
               <tr>
                 <th align=right nowrap >Disbursement Type:</th>
                 <td align=left class="datacell"> 
-                  <html:select size="1" name="PaymentDetailSearchForm" property="disbursementTypeCode" tabindex="5">
+                  <html:select size="1" name="PdpPaymentDetailSearchForm" property="disbursementTypeCode" tabindex="5">
                     <html:option value="">&nbsp;</html:option>
-                    <html:options collection="DisbursementTypeList" name="PaymentDetailSearchForm" property="code" labelProperty="description" />
+                    <html:options collection="DisbursementTypeList" name="PdpPaymentDetailSearchForm" property="code" labelProperty="description" />
                   </html:select>
                 </td>
                 <th align=right nowrap >Immediate:</th>
                 <td align=left class="datacell">
-                  <html:select size="1" name="PaymentDetailSearchForm" property="processImmediate" tabindex="13">
+                  <html:select size="1" name="PdpPaymentDetailSearchForm" property="processImmediate" tabindex="13">
                     <html:option value="">&nbsp;</html:option>
                     <html:option value="N">No</html:option>
                     <html:option value="Y">Yes</html:option>
@@ -139,18 +139,18 @@
                 </td>
                 <th align=right nowrap >Requisition Number:</th>
                 <td align=left class="datacell">
-                  <html:text name="PaymentDetailSearchForm" property="requisitionNbr" tabindex="21" maxlength="8" />
+                  <html:text name="PdpPaymentDetailSearchForm" property="requisitionNbr" tabindex="21" maxlength="8" />
                 </td>
               </tr>
               <tr>
                 <th align=right nowrap >Disbursement Number:</th>
                 <td align=left class="datacell">
-                  <html:text name="PaymentDetailSearchForm" property="disbursementNbr" tabindex="6" maxlength="9" />
-                  <html:hidden name="PaymentDetailSearchForm" property="oldDisbursementNbr"/>
+                  <html:text name="PdpPaymentDetailSearchForm" property="disbursementNbr" tabindex="6" maxlength="9" />
+                  <html:hidden name="PdpPaymentDetailSearchForm" property="oldDisbursementNbr"/>
                 </td>
                 <th align=right nowrap >Special Handling:</th>
                 <td align=left class="datacell">
-                  <html:select size="1" name="PaymentDetailSearchForm" property="pymtSpecialHandling" tabindex="14">
+                  <html:select size="1" name="PdpPaymentDetailSearchForm" property="pymtSpecialHandling" tabindex="14">
                     <html:option value="">&nbsp;</html:option>
                     <html:option value="N">No</html:option>
                     <html:option value="Y">Yes</html:option>
@@ -158,19 +158,19 @@
                 </td>
                 <th align=right nowrap >Customer Number for IU:</th>
                 <td align=left class="datacell">
-                  <html:text name="PaymentDetailSearchForm" property="iuIdForCustomer" tabindex="22" maxlength="30" />
+                  <html:text name="PdpPaymentDetailSearchForm" property="iuIdForCustomer" tabindex="22" maxlength="30" />
                 </td>
               </tr>
               <tr>
                 <th rowspan="2" align=right nowrap >Disbursement Date Range:<br><font size="1"> Ex. 11/26/2004  </font></th>
                 <td rowspan="2" align=left class="datacell">
-                  <html:text name="PaymentDetailSearchForm" property="beginDisbursementDate" tabindex="7" maxlength="10" />
+                  <html:text name="PdpPaymentDetailSearchForm" property="beginDisbursementDate" tabindex="7" maxlength="10" />
                   <br>to<br>
-                  <html:text name="PaymentDetailSearchForm" property="endDisbursementDate" tabindex="8" maxlength="10" />
+                  <html:text name="PdpPaymentDetailSearchForm" property="endDisbursementDate" tabindex="8" maxlength="10" />
                 </td>
                 <th align=right nowrap >Attachment:</th>
                 <td align=left class="datacell">
-                  <html:select size="1" name="PaymentDetailSearchForm" property="pymtAttachment" tabindex="13">
+                  <html:select size="1" name="PdpPaymentDetailSearchForm" property="pymtAttachment" tabindex="13">
                     <html:option value="">&nbsp;</html:option>
                     <html:option value="N">No</html:option>
                     <html:option value="Y">Yes</html:option>
@@ -178,31 +178,31 @@
                 </td>
                 <th align=right nowrap >Process ID:</th>
                 <td align=left class="datacell">
-                  <html:text name="PaymentDetailSearchForm" property="processId" tabindex="23" maxlength="8" />
+                  <html:text name="PdpPaymentDetailSearchForm" property="processId" tabindex="23" maxlength="8" />
                 </td>
               </tr>
               <tr>
                 <th rowspan="2" align=right nowrap >Pay Date Range:<br><font size="1"> Ex. 01/06/2004  </font></th>
                 <td rowspan="2" align=left class="datacell">
-                  <html:text name="PaymentDetailSearchForm" property="beginPaymentDate" tabindex="15" maxlength="10" />
+                  <html:text name="PdpPaymentDetailSearchForm" property="beginPaymentDate" tabindex="15" maxlength="10" />
                   <br>to<br>
-                  <html:text name="PaymentDetailSearchForm" property="endPaymentDate" tabindex="16" maxlength="10" />
+                  <html:text name="PdpPaymentDetailSearchForm" property="endPaymentDate" tabindex="16" maxlength="10" />
                 </td>
                 <th align=right nowrap >Payment Detail ID:</th>
                 <td align=left class="datacell">
-                  <html:text name="PaymentDetailSearchForm" property="paymentId" tabindex="24" maxlength="8" />
+                  <html:text name="PdpPaymentDetailSearchForm" property="paymentId" tabindex="24" maxlength="8" />
                 </td>
               </tr>
               <tr>
                 <th align=right nowrap >Net Payment Amount:</th>
                 <td align=left class="datacell">
-                  <html:text name="PaymentDetailSearchForm" property="netPaymentAmount" tabindex="9" maxlength="14" />
+                  <html:text name="PdpPaymentDetailSearchForm" property="netPaymentAmount" tabindex="9" maxlength="14" />
                 </td>
                 <th align=right nowrap >Payment Status:</th>
                 <td align=left class="datacell">
-                  <html:select size="1" name="PaymentDetailSearchForm" property="paymentStatusCode" tabindex="17">
+                  <html:select size="1" name="PdpPaymentDetailSearchForm" property="paymentStatusCode" tabindex="17">
                     <html:option value="">&nbsp;</html:option>
-                    <html:options collection="PaymentStatusList" name="PaymentDetailSearchForm" property="code" labelProperty="description" />
+                    <html:options collection="PaymentStatusList" name="PdpPaymentDetailSearchForm" property="code" labelProperty="description" />
                   </html:select>
                 </td>
               </tr>
@@ -237,7 +237,7 @@
             </display-el:column>
             <display-el:column sortable="true" sortProperty="custPaymentDocNbr" title="Source Document Number" headerClass="thfont" class="datacell">
               <font size="0px">
-                <c:if test="${(PaymentDetailSearchForm.oldDisbursementNbr != item.paymentGroup.disbursementNbr) && (not empty PaymentDetailSearchForm.oldDisbursementNbr)}">
+                <c:if test="${(PdpPaymentDetailSearchForm.oldDisbursementNbr != item.paymentGroup.disbursementNbr) && (not empty PdpPaymentDetailSearchForm.oldDisbursementNbr)}">
                   <img src="<%= request.getContextPath() + "/pdp/images/bullet-red.gif" %>" alt=">>">
                 </c:if>
                 <a href="<%= request.getContextPath().toString() %>/pdp/paymentdetail.do?DetailId=<c:out value="${item.id}"/>"><c:out value="${item.custPaymentDocNbr}" /></a>
@@ -342,7 +342,7 @@
         <td width="20">&nbsp;</td>
       </tr>
     </table>
-    <c:if test="${not empty PaymentDetailSearchForm.oldDisbursementNbr}">
+    <c:if test="${not empty PdpPaymentDetailSearchForm.oldDisbursementNbr}">
       &nbsp;&nbsp;&nbsp;&nbsp;<img src="<%= request.getContextPath() + "/pdp/images/bullet-red.gif" %>" alt=">>"> Signifies a Cancelled and Re-issued Payment.  See the Payment History Tab for the matching Disbursement Number.
     </c:if>
   </logic:notEmpty>  

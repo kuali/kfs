@@ -99,7 +99,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
     public void copyLaborGenerealLedgerEntries() {
         Date runDate = dateTimeService.getCurrentSqlDate();
         String reportDirectory = ReportRegistry.getReportsDirectory();
-        OriginEntryGroup group = originEntryGroupService.createGroup(runDate, OriginEntrySource.LABOR_FEED_TO_GL, true, true, true);
+        OriginEntryGroup group = originEntryGroupService.createGroup(runDate, OriginEntrySource.LABOR_LEDGER_GENERAL_LEDGER, true, true, true);
 
         // copy the labor general ledger entry to origin entry table
         Collection<LaborGeneralLedgerEntry> generalLedgerEntries = businessObjectService.findAll(LaborGeneralLedgerEntry.class);

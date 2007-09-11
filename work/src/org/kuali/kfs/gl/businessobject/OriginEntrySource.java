@@ -59,7 +59,7 @@ public class OriginEntrySource extends KualiCodeBase {
     public static final String LABOR_YEAR_END_BALANCE_FORWARD = "LBF";
     
     public static final String LABOR_PAYROLL_ACCRUAL = "ACCR";
-    public static final String LABOR_FEED_TO_GL = "LGLV";
+    public static final String LABOR_LEDGER_GENERAL_LEDGER = "LLGL";
 
     // Code base has all the fields we need
 }

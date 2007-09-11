@@ -204,7 +204,7 @@
 			</attribute>
 
             <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
+                <label>Chart Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -234,7 +234,7 @@
 			</attribute>
 
             <attribute name="emplid" forceUppercase="true">
-                <label>Emplid</label>
+                <label>Empl ID</label>
                 <shortLabel>Emplid</shortLabel>
 
                 <maxLength>11</maxLength>
@@ -264,7 +264,7 @@
 			</attribute>
 
             <attribute name="financialBalanceTypeCode" forceUppercase="true">
-                <label>Financial Balance Type Code</label>
+                <label>Balance Type Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -294,7 +294,7 @@
 			</attribute>
 
             <attribute name="financialDocumentReversalDate" forceUppercase="true">
-                <label>Financial Document Reversal Date</label>
+                <label>Reversal Date</label>
                 <shortLabel>Date</shortLabel>
 
                 <maxLength>7</maxLength>
@@ -309,7 +309,7 @@
 			</attribute>
 
             <attribute name="financialDocumentTypeCode" forceUppercase="true">
-                <label>Financial Document Type Code</label>
+                <label>Document Type Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -324,7 +324,7 @@
 			</attribute>
 
             <attribute name="financialObjectCode" forceUppercase="true">
-                <label>Financial Object Code</label>
+                <label>Object Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -339,7 +339,7 @@
 			</attribute>
 
             <attribute name="financialObjectTypeCode" forceUppercase="true">
-                <label>Financial Object Type Code</label>
+                <label>Object Type Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -354,7 +354,7 @@
 			</attribute>
 
             <attribute name="financialSubObjectCode" forceUppercase="true">
-                <label>Financial Sub Object Code</label>
+                <label>Sub-Object Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>3</maxLength>
@@ -395,7 +395,7 @@
 			</attribute>
 
             <attribute name="hrmsCompany" forceUppercase="true">
-                <label>Hrms Company</label>
+                <label>Company</label>
                 <shortLabel>Company</shortLabel>
 
                 <maxLength>3</maxLength>
@@ -410,7 +410,7 @@
 			</attribute>
 
             <attribute name="laborLedgerOriginalAccountNumber" forceUppercase="true">
-                <label>Labor Ledger Original Account Number</label>
+                <label>Original Account Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>7</maxLength>
@@ -425,7 +425,7 @@
 			</attribute>
 
             <attribute name="laborLedgerOriginalChartOfAccountsCode" forceUppercase="true">
-                <label>Labor Ledger Original Chart Of Accounts Code</label>
+                <label>Original Chart Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -440,7 +440,7 @@
 			</attribute>
 
             <attribute name="laborLedgerOriginalFinancialObjectCode" forceUppercase="true">
-                <label>Labor Ledger Original Financial Object Code</label>
+                <label>Original Object Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -455,7 +455,7 @@
 			</attribute>
 
             <attribute name="laborLedgerOriginalFinancialSubObjectCode" forceUppercase="true">
-                <label>Labor Ledger Original Financial Sub Object Code</label>
+                <label>Original Sub-Object Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>3</maxLength>
@@ -470,7 +470,7 @@
 			</attribute>
 
             <attribute name="laborLedgerOriginalSubAccountNumber" forceUppercase="true">
-                <label>Labor Ledger Original Sub Account Number</label>
+                <label>Original Sub-Account Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>5</maxLength>
@@ -500,7 +500,7 @@
 			</attribute>
 
             <attribute name="organizationReferenceId" forceUppercase="true">
-                <label>Organization Reference Id</label>
+                <label>Organization Reference ID</label>
                 <shortLabel>Id</shortLabel>
 
                 <maxLength>8</maxLength>
@@ -545,7 +545,7 @@
 			</attribute>
 
             <attribute name="payrollEndDateFiscalPeriodCode" forceUppercase="true">
-                <label>Payroll End Date Fiscal Period Code</label>
+                <label>Payroll End Date Fiscal Period</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -605,7 +605,7 @@
 			</attribute>
 
             <attribute name="referenceFinancialDocumentNumber" forceUppercase="true">
-                <label>Reference Financial Document Number</label>
+                <label>Reference Document Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>14</maxLength>
@@ -620,7 +620,7 @@
 			</attribute>
 
             <attribute name="referenceFinancialDocumentTypeCode" forceUppercase="true">
-                <label>Reference Financial Document Type Code</label>
+                <label>Reference Document Type Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -635,7 +635,7 @@
 			</attribute>
 
             <attribute name="referenceFinancialSystemOriginationCode" forceUppercase="true">
-                <label>Reference Financial System Origination Code</label>
+                <label>Reference Origin Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -665,7 +665,7 @@
 			</attribute>
 
             <attribute name="salaryAdministrationPlan" forceUppercase="true">
-                <label>Salary Administration Plan</label>
+                <label>Salary Admin Plan</label>
                 <shortLabel>Plan</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -680,7 +680,7 @@
 			</attribute>
 
             <attribute name="setid" forceUppercase="true">
-                <label>Setid</label>
+                <label>Set ID</label>
                 <shortLabel>Setid</shortLabel>
 
                 <maxLength>5</maxLength>
@@ -695,7 +695,7 @@
 			</attribute>
 
             <attribute name="subAccountNumber" forceUppercase="true">
-                <label>Sub Account Number</label>
+                <label>Sub-Account Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>5</maxLength>
@@ -740,7 +740,7 @@
 			</attribute>
 
             <attribute name="transactionDebitCreditCode" forceUppercase="true">
-                <label>Transaction Debit Credit Code</label>
+                <label>Debit Credit Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -755,7 +755,7 @@
 			</attribute>
 
             <attribute name="transactionEncumbranceUpdateCode" forceUppercase="true">
-                <label>Transaction Encumbrance Update Code</label>
+                <label>Encumbrance Update Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -845,7 +845,7 @@
 			</attribute>
 
             <attribute name="universityFiscalPeriodCode" forceUppercase="true">
-                <label>University Fiscal Period Code</label>
+                <label>Fiscal Period</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -860,7 +860,7 @@
 			</attribute>
 
             <attribute name="universityFiscalYear" forceUppercase="true">
-                <label>University Fiscal Year</label>
+                <label>Fiscal Year</label>
                 <shortLabel>Year</shortLabel>
 
                 <maxLength>4</maxLength>

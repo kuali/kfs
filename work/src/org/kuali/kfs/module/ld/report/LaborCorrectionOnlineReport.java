@@ -55,7 +55,7 @@ public class LaborCorrectionOnlineReport {
         PDFPageHelper pageHelper = new PDFPageHelper();
         pageHelper.setRunDate(runDate);
         pageHelper.setHeaderFont(headerFont);
-        pageHelper.setTitle("General Ledger Correction Process Report " + cDocument.getDocumentNumber());
+        pageHelper.setTitle("Labor Ledger Correction Process Report " + cDocument.getDocumentNumber());
 
         try {
             String filename = reportsDirectory + "/llcp_" + cDocument.getDocumentNumber() + "_";

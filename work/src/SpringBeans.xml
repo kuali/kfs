@@ -53,6 +53,9 @@
 				<bean class="edu.iu.uis.eden.messaging.config.KSBConfigurer">
 					<property name="serviceServletUrl" value="${workflow.url}/remote" />
                     <property name="exceptionMessagingScheduler" ref="scheduler"/>
+                    <property name="authorizationService">
+                      <bean class="org.kuali.kfs.authorization.KSBAuthorizationService"/>
+                    </property>
 				</bean>
 				<bean class="org.kuali.workflow.config.KEWConfigurer">
 					<property name="clientProtocol" value="local" />
@@ -146,7 +149,7 @@
 	</bean>
 
 	<bean id="kualiDBPlatformDao" factory-bean="dbPlatformDaoFactory" factory-method="getPlatformDao" />
-	
+
 	<bean id="platformAwareDao" abstract="true" class="org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb">
 		<property name="jcdAlias" value="knsDataSource" />
 		<property name="dbPlatform" ref="kualiDBPlatformDao" />

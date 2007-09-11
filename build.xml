@@ -265,16 +265,16 @@
 			      build for your machine (you do not need to worry about the rice development section)
 			    - override other property values in ${user.home}/${ant.project.name}-build.properties as needed
 			    - save your changes
-			
+
 			2. run the echo-properties target and review the results
 
 			3. follow the instructions associated with the dist-local target and run that target
-						
+
 			4. right click on the root project directory and select "Refresh"
-			
+
 			5. click the "Run/Stop/Restart MyEclipse Application Servers" button in the "Java (default)" perspective in
 			eclipse to start tomcat
-			
+
 			6. launch a browser and access http://localhost:8080/kuali-dev
 
 	you can override the default log4j settings for your local deployments by copying
@@ -335,12 +335,12 @@
 		</copy>
 		<get src="https://onestart.iu.edu/dav/MY/maven-mirror/maven2/${workflow.name}/${workflow.name}/${workflow.version}/${workflow.name}-${workflow.version}.jar" dest="${basedir}/${lib.directory}/${rice.name}-${workflow.name}-${workflow.version}.jar" />
 	</target>
-	
+
 	<target name="update-rice-web" depends="init-property-files">
 		<delete>
 			<fileset dir="${build.project.directory}" includes="${rice.name}*${rice.output.web.suffix}" />
 		</delete>
-		<zip destfile="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" basedir="${rice.sampleapp.directory}" includes="${rice.application}/**/**,${tags.directory}/${rice.application}/**/*.tag,${workflow.application}/**/**" excludes="**/CVS" />
+		<zip destfile="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" basedir="${rice.sampleapp.directory}" includes="${rice.application}/**/**,${tags.directory}/${rice.application}/**/*.tag,${workflow.application}/**/**,${ksb.application}/**/**" excludes="**/CVS" />
 	</target>
 
 	<target name="update-rice-extended" depends="init-property-files,update-rice-kuali-dependencies,update-rice-ddl,update-rice-licenses" />
@@ -393,7 +393,7 @@
 	<target name="update-rice-licenses" depends="init-property-files">
 		<zip destfile="${build.project.directory}/${rice.name}-${rice.version}-licenses.zip" basedir="${rice.project.directory}/${licenses.directory}" excludes="**/CVS" />
 	</target>
-	
+
 	<macrodef name="maven">
 		<attribute name="goals" />
 		<attribute name="options" default="--offline" />

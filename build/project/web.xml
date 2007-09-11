@@ -215,6 +215,10 @@
 			<param-name>config/en</param-name>
 			<param-value>${rice.workflow.struts.config.files}</param-value>
 		</init-param>
+        <init-param>
+            <param-name>config/ksb</param-name>
+            <param-value>${rice.ksb.struts.config.files}</param-value>
+        </init-param>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet>

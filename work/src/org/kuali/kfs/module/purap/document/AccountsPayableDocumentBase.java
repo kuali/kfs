@@ -452,6 +452,6 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
     
     public boolean isExtracted() {
-        return (this.getExtractedDate()==null)?false:true;
+        return (ObjectUtils.isNotNull(getExtractedDate()));
     }
 }

@@ -15,25 +15,24 @@
  */
 package org.kuali.module.purap;
 
-import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.collections.EnumerationUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.enums.EnumUtils;
 import org.kuali.RiceConstants;
+import org.kuali.RicePropertyConstants;
 import org.kuali.core.JstlConstants;
-import org.kuali.core.document.DocumentBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.workflow.KualiWorkflowUtils;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.module.purap.bo.PurchaseOrderAccount;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.bo.PurchaseOrderStatusHistory;
+import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 
 /**
  * Holds constants for PURAP.
@@ -611,6 +610,17 @@ public class PurapConstants extends JstlConstants {
      * fields that shouldn't be copied on PREQ item
      */
     public final static HashMap<String,Class> PREQ_ITEM_UNCOPYABLE_FIELDS = uncopyablePREQItemFields();
+    
+    private static Map<String,Class> uncopyableFieldsForPurchaseOrder() {
+        Map<String,Class> returnMap = new HashMap<String, Class>();
+        returnMap.put(RicePropertyConstants.DOCUMENT_NUMBER, null);
+        returnMap.put(PurapPropertyConstants.ITEM_IDENTIFIER, PurchaseOrderItem.class);
+        returnMap.put(PurapPropertyConstants.ACCOUNT_IDENTIFIER, PurchaseOrderAccount.class);
+        returnMap.put(PurapPropertyConstants.STATUS_HISTORY_IDENTIFIER, PurchaseOrderStatusHistory.class);
+        returnMap.put(PurapPropertyConstants.PURCHASE_ORDER_VENDOR_QUOTE_IDENTIFIER, PurchaseOrderVendorQuote.class);
+        return returnMap;
+    }
+    public final static Map<String,Class> UNCOPYABLE_FIELDS_FOR_PO = uncopyableFieldsForPurchaseOrder();
     
     public final static String PURAP_ORIGIN_CODE = "EP";
 

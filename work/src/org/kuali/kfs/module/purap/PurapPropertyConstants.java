@@ -36,9 +36,13 @@ public class PurapPropertyConstants {
     public static final String ITEM_DESCRIPTION = "itemDescription";
     
     // accounting line
+    public static final String ACCOUNT_IDENTIFIER = "accountIdentifier";
     public static final String ACCOUNT_LINE_PERCENT = "accountLinePercent";
     
     public static final String DATA_OBJ_MAINT_CD_ACTIVE_IND = "dataObjectMaintenanceCodeActiveIndicator";
+    
+    // status history
+    public static final String STATUS_HISTORY_IDENTIFIER = "statusHistoryIdentifier";
     
     // PURCHASING AND ACCOUNTS PAYABLE DOCUMENT BASE
     public static final String PURAP_DOC_ID = "purapDocumentIdentifier";
@@ -82,6 +86,8 @@ public class PurapPropertyConstants {
     public static final String VENDOR_QUOTES = "purchaseOrderVendorQuotes";
     // Quote Language
     public static final String PURCHASE_ORDER_QUOTE_LANGUAGE_ID = "purchaseOrderQuoteLanguageIdentifier";
+    // vendor quote
+    public static final String PURCHASE_ORDER_VENDOR_QUOTE_IDENTIFIER = "purchaseOrderVendorQuoteIdentifier";
     // Stipulations
     public static final String VENDOR_STIPULATION_DESCRIPTION = "vendorStipulationDescription";
     

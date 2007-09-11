@@ -36,6 +36,7 @@
 						<field attributeName="itemCatalogNumber" />
 						<field attributeName="itemDescription" />
 						<field attributeName="itemLineNumber" />
+						<field attributeName="itemQuantity" />
 						<field attributeName="itemTypeCode" />
 						<field attributeName="itemUnitOfMeasureCode" />
 						<field attributeName="itemUnitPrice" />
@@ -69,6 +70,7 @@
 				<lookupField attributeName="itemCatalogNumber" required="false" />
 				<lookupField attributeName="itemDescription" required="false" />
 				<lookupField attributeName="itemLineNumber" required="false" />
+				<lookupField attributeName="itemQuantity" required="false" />
 				<lookupField attributeName="itemTypeCode" required="false" />
 				<lookupField attributeName="itemUnitOfMeasureCode" required="false" />
 				<lookupField attributeName="itemUnitPrice" required="false" />
@@ -88,6 +90,7 @@
 				<field attributeName="itemCatalogNumber" />
 				<field attributeName="itemDescription" />
 				<field attributeName="itemLineNumber" />
+				<field attributeName="itemQuantity" />
 				<field attributeName="itemTypeCode" />
 				<field attributeName="itemUnitOfMeasureCode" />
 				<field attributeName="itemUnitPrice" />
@@ -136,8 +139,8 @@
 			</attributeReference>
 
 			<attributeReference name="itemOutstandingInvoiceAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
-				<label>Item Outstanding Invoice Amount</label>
-				<shortLabel>Outstanding Invoice Amount</shortLabel>
+				<label>Item Outstanding Invoiced Amount</label>
+				<shortLabel>Outstanding Invoiced Amount</shortLabel>
 				<summary>itemOutstandingInvoiceAmount</summary>
 				<description>itemOutstandingInvoiceAmount description...</description>
 			</attributeReference>

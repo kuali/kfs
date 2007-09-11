@@ -310,11 +310,16 @@ public class PurapServiceImpl implements PurapService {
         }
         // below code preferable to run in post processing
         else if (purapDocument instanceof PaymentRequestDocument) {
+            PaymentRequestDocument paymentRequest = (PaymentRequestDocument)purapDocument;
             // change PREQ accounts from percents to dollars
             // TODO Chris - put code here for document to change percents into dollars and any related functions
             // do GL entries for PREQ creation
-            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePreq((PaymentRequestDocument)purapDocument);
-            // route potential 'Close PO Document' if checkbox was checked
+            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePreq(paymentRequest);
+            if (paymentRequest.isClosePurchaseOrderIndicator()) {
+                // TODO (KULPURAP-1576: dlemus/delyea) route the reopen purchase order here
+                // get the po id and get the current po
+                // check the current po: if status is not closed and there is no pending action... route close po as system user
+            }
         }
         // below code preferable to run in post processing
         else if (purapDocument instanceof CreditMemoDocument) {
@@ -322,7 +327,8 @@ public class PurapServiceImpl implements PurapService {
             // TODO Chris - put code here for document to change percents into dollars and any related functions
             // do GL entries for CM creation
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateCreditMemo((CreditMemoDocument)purapDocument);
-            // route potential 'Re-Open PO Document' if PO criteria meets requirements from EPIC business rules
+            // get the po id and get the current PO
+            // route 'Re-Open PO Document' if PO criteria meets requirements from EPIC business rules
         }
         else {
             throw new RuntimeException("Attempted to perform full entry logic for unhandled document type '" + purapDocument.getClass().getName() + "'");

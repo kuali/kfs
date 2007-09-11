@@ -86,8 +86,11 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
                 // if user to check is null and node name is not blank... take all actions at given node
                 // super user approve individual action requests as personUserIdToImpersonate
             }
-            else if ( (ObjectUtils.isNotNull(userToCheck)) && (StringUtils.isBlank(nodeName)) ) {
-                // if user to check is not null and node name is blank... take all actions as given user
+            else if ( (ObjectUtils.isNotNull(userToCheck)) && (StringUtils.isNotBlank(nodeName)) ) {
+                // get the actions requests and check for any that match the user and node name and take the actions that will satisfy those requests
+                /* if user to check is not null and node name is not blank... take all actions as given user at given node
+                 * NOTE: This could potentially satisfy actions at other nodes
+                 */
                 DocumentService docService = SpringContext.getBean(DocumentService.class);
                 if (document.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
                     docService.approveDocument(document, null, new ArrayList());
@@ -99,10 +102,8 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
                     docService.clearDocumentFyi(document, new ArrayList());
                 }
             }
-            else if ( (ObjectUtils.isNotNull(userToCheck)) && (StringUtils.isNotBlank(nodeName)) ) {
-                /* if user to check is not null and node name is not blank... take all actions as given user at given node
-                 * NOTE: This could potentially satisfy actions at other nodes
-                 */
+            else if ( (ObjectUtils.isNotNull(userToCheck)) && (StringUtils.isBlank(nodeName)) ) {
+                // if user to check is not null and node name is blank... take all actions as given user
                 DocumentService docService = SpringContext.getBean(DocumentService.class);
                 if (document.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
                     docService.approveDocument(document, null, new ArrayList());

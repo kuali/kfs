@@ -134,7 +134,7 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
         if ((StringUtils.equals(statusCode,PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT)) ||
             (StringUtils.equals(statusCode,PurchaseOrderStatuses.WAITING_FOR_VENDOR))){
             flags.setCanRoute(false);
-        }       
+        }
         else if (PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(statusCode)) {
             if (SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(po.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getUniversalUser())) {
                 /* code below for overriding workflow buttons has to do with hiding the workflow buttons but still allowing the 

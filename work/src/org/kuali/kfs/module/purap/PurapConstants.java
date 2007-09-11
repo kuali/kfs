@@ -235,11 +235,10 @@ public class PurapConstants extends JstlConstants {
             statusByTrans.put(PurapConstants.POTransmissionMethods.ELECTRONIC, PENDING_CXML);
             statusByTrans.put(PurapConstants.POTransmissionMethods.FAX, PENDING_FAX);
             return Collections.unmodifiableMap(statusByTrans);
-        }
+    }
         public static Map<String,String> STATUSES_BY_TRANSMISSION_TYPE = getStatusesByTransmissionType();
 
     }
-
 
     public static class ItemTypeCodes {
         // ITEM TYPES
@@ -311,7 +310,7 @@ public class PurapConstants extends JstlConstants {
         public static String CONFIRM_CANCEL_QUESTION = "POCancelQuote";
         public static String CONFIRM_CANCEL_RETURN = "cancelQuote";
 
-        public static String SINGLE_CONFIRMATION_QUESTION = "singleConfirmationQuestion";
+        public static String SINGLE_CONFIRMATION_QUESTION = "singleConfirmationQuestion";       
         
         public static String MANUAL_STATUS_CHANGE_QUESTION = "manualStatusChangeQuestion";
         public static String OPEN_STATUS = "Open";
@@ -326,6 +325,7 @@ public class PurapConstants extends JstlConstants {
     public static final String PAYMENT_REQUEST_DOCUMENT_DOC_TYPE = "PaymentRequestDocument";
     
     public static int PREQ_PAY_DATE_CALCULATION_DAYS = 28;
+    public static int PREQ_PAY_DATE_DAYS_BEFORE_WARNING = 60;
 
     // Weird PaymentTermsType is due on either the 10th or 25th with no discount
     public static String PMT_TERMS_TYP_NO_DISCOUNT_CD = "00N2T";
@@ -377,8 +377,8 @@ public class PurapConstants extends JstlConstants {
             STATUS_ORDER(String statusCode,boolean fullEntry) {
                 this.statusCode = statusCode;
                 this.fullEntryAllowed = fullEntry;
-            }
-            
+        }
+
             public static STATUS_ORDER getByStatusCode(String statusCode)
             {
                 for (STATUS_ORDER status : STATUS_ORDER.values()) {
@@ -511,7 +511,7 @@ public class PurapConstants extends JstlConstants {
             AWAITING_FISCAL_REVIEW (PurapConstants.CreditMemoStatuses.AWAITING_FISCAL_REVIEW,false),
             COMPLETE (PurapConstants.CreditMemoStatuses.COMPLETE,false),
             ;
-            
+        
             private String statusCode = new String();
             private boolean fullEntryAllowed = false;
             
@@ -632,7 +632,7 @@ public class PurapConstants extends JstlConstants {
         public final static String PO_CLOSE_DOCUMENT = "POC";
         public final static String PO_REOPEN_DOCUMENT = "POR";
         public final static String PO_VOID_DOCUMENT = "POV";
-    }
+    }    
     
     public static Integer PRORATION_SCALE = new Integer(6);
     
@@ -653,8 +653,8 @@ public class PurapConstants extends JstlConstants {
         map.put(PAYMENT_REQUEST_DOCUMENT_DOC_TYPE, "Kuali.PURAP.PaymentRequestDocument");
         map.put(CREDIT_MEMO_DOCUMENT_DOC_TYPE, "Kuali.PURAP.CreditMemoDocument");
         return map;
-    }
-    public final static HashMap<String,String> ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP =
+}	    
+	public final static HashMap<String,String> ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP =
                         itemTypes();
 
 }

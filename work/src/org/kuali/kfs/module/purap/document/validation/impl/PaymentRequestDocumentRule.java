@@ -113,7 +113,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         isValid &= processValidation(paymentRequestDocument);
         return isValid; 
     }
-
+      
     public boolean processContinueAccountsPayableBusinessRules(AccountsPayableDocument apDocument) {
         boolean valid = true;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)apDocument;
@@ -136,10 +136,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             valid &= false;
         }
         // The Payment Request Pay Date must not be in the past.
-        if (isPayDateInThePast(paymentRequestDocument.getPaymentRequestPayDate())) {           
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, PurapKeyConstants.ERROR_INVALID_PAY_DATE);
-            valid &= false;
-        }
+        valid &= validatePayDateNotPast(paymentRequestDocument);
         GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
     }
@@ -248,12 +245,12 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         for (PurchaseOrderItem poi : (List<PurchaseOrderItem>)document.getItems()) {
             // Quantity-based items
             if (poi.getItemType().isItemTypeAboveTheLineIndicator() && poi.getItemType().isQuantityBasedGeneralLedgerIndicator()) {                  
-                KualiDecimal encumberedQuantity = poi.getItemOutstandingEncumberedQuantity() == null ? zero : poi.getItemOutstandingEncumberedQuantity();
-                if (encumberedQuantity.compareTo(zero) == 1) {
-                    zeroDollar = false;
-                    break;
-                }
+            KualiDecimal encumberedQuantity = poi.getItemOutstandingEncumberedQuantity() == null ? zero : poi.getItemOutstandingEncumberedQuantity();
+            if (encumberedQuantity.compareTo(zero) == 1) {
+                zeroDollar = false;
+                break;
             }
+        }
             // Service Items or Below-the-line Items
             else if (!poi.getItemType().isQuantityBasedGeneralLedgerIndicator() || !poi.getItemType().isItemTypeAboveTheLineIndicator()) {
                 KualiDecimal encumberedAmount = poi.getItemOutstandingEncumberedAmount() == null ? zero : poi.getItemOutstandingEncumberedAmount();
@@ -288,26 +285,51 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         boolean valid = true;
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
-        //pay date in the past validation
-        if (isPayDateInThePast(document.getPaymentRequestPayDate())) {
-            valid &= false;
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, PurapKeyConstants.ERROR_INVALID_PAY_DATE);
-        }
-        //pay date more than 60 days warning
-        if (isPayDateOver60Days(document)) {
-            GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PAYMENT_REQUEST_PAYDATE_OVER_60_DAYS);
-        }
+        // Pay date in the past validation.
+        valid &= validatePayDateNotPast(document);        
+        // Pay date more than 60 days warning.
+        validatePayDateNotOverThresholdDaysAway(document);
         GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
     }
     
-    private boolean isPayDateInThePast(Date paymentRequestPayDate) {
+    boolean validatePayDateNotPast(PaymentRequestDocument document) {
         boolean valid = true;
-        if (isDateInPast(paymentRequestPayDate)) {
+        if (SpringContext.getBean(PurapService.class).isDateInPast(document.getPaymentRequestPayDate())) {
+            valid &= false;
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, PurapKeyConstants.ERROR_INVALID_PAY_DATE);
+        }
+        return valid;
+    }
+    
+    /**
+     * This method side-effects a warning, and consequently should not be used in such
+     * a way as to cause validation to fail. Returns a boolean for ease of testing.  If the
+     * threshold days value is positive, the method will test future dates accurately.
+     * If the the threshold days value is negative, the method will test past dates.
+     * 
+     * @param document  The PaymentRequestDocument
+     * @return  True if the PREQ's pay date is not over the threshold number of days away. 
+     */
+    boolean validatePayDateNotOverThresholdDaysAway(PaymentRequestDocument document) {
+        boolean valid = true;
+        int thresholdDays = PurapConstants.PREQ_PAY_DATE_DAYS_BEFORE_WARNING;
+        if (SpringContext.getBean(PurapService.class).isDateMoreThanANumberOfDaysAway(
+                document.getPaymentRequestPayDate(),thresholdDays)) {
+            String msg = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(
+                    PurapKeyConstants.WARNING_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS);
+            String threshold = new Integer(thresholdDays).toString();
+            msg = StringUtils.replace(msg, "{0}", threshold);
+            if ( ObjectUtils.isNull(GlobalVariables.getMessageList())) {
+                GlobalVariables.setMessageList(new ArrayList());
+            }
+            GlobalVariables.getMessageList().add(msg);
             valid &= false;
         }
         return valid;
     }
+ 
+    
     /**
      * 
      * This method checks whether the total of the items' extended price, excluding the item types that can be
@@ -350,10 +372,10 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             PaymentRequestItem item = (PaymentRequestItem)purApItem;
             if (item.getItemQuantity()!= null) {
                 if(item.calculateExtendedPrice().compareTo(item.getExtendedPrice())!=0) {
-                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL, item.getItemIdentifierString());
-                }
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL, item.getItemIdentifierString());
             }
         }
+    }
     }
     
     /**
@@ -377,8 +399,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
 
     private boolean validateEachItem(PaymentRequestDocument paymentRequestDocument, PaymentRequestItem item) {
         boolean valid = true;
-            String identifierString = item.getItemIdentifierString();
-            valid &= validateItem(paymentRequestDocument, item, identifierString);
+        String identifierString = item.getItemIdentifierString();
+        valid &= validateItem(paymentRequestDocument, item, identifierString);
         return valid;
     }
     
@@ -386,9 +408,9 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         boolean valid = true;
         //only run item validations if before full entry
         if(!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument)) {
-            if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) { 
-                valid &= validateItemTypeItems(item, identifierString); 
-            } 
+        if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) { 
+            valid &= validateItemTypeItems(item, identifierString); 
+        } 
             valid &= validateItemWithoutAccounts(item, identifierString);
         }
         //always run account validations
@@ -412,6 +434,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             }
         }
         if (ObjectUtils.isNotNull(item.getExtendedPrice())&&item.getExtendedPrice().isPositive() && ObjectUtils.isNotNull(item.getPoOutstandingQuantity()) && item.getPoOutstandingQuantity().isPositive()) {
+
             // here we must require the user to enter some value for quantity if they want a credit amount associated
             if (ObjectUtils.isNull(item.getItemQuantity()) || item.getItemQuantity().isZero()) {
                 // here we have a user not entering a quantity with an extended amount but the PO has a quantity...require user to enter a quantity
@@ -572,6 +595,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return valid;
     }
     
+    /*
     private boolean isDateInPast(Date compareDate) {
         boolean valid = true;
         if (compareDate != null) {
@@ -590,7 +614,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             c2.set(Calendar.AM_PM, Calendar.PM);
             Timestamp testTime = new Timestamp(c2.getTime().getTime());
             if (timeNow.compareTo(testTime) > 0) {
-                valid = false;
+                valid &= false;
             }
         }
         return valid;
@@ -622,6 +646,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             return false;
         }
     }
+    */    
 
     @Override
     protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {

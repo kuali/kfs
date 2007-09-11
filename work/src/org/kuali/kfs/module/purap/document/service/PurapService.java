@@ -51,6 +51,24 @@ public interface PurapService {
     public PurApItem getBelowTheLineByType(PurchasingAccountsPayableDocument document, ItemType iT);
     
     /**
+     * A method to determine whether a given date is in the past.
+     * 
+     * @param compareDate   An SQL date (not a DateFormatter date, or a util Date)
+     * @return  True if the given date is before today.
+     */
+    public boolean isDateInPast(Date compareDate);
+    
+    /**
+     * A method to determine whether a given date is more than a given number of days
+     * away from the current date.
+     * 
+     * @param compareDate   An SQL date (not a DateFormatter date, or a util Date)
+     * @param daysAway      An int, positive for future days, negative for past days
+     * @return   True if the given date is more than the given number of days away in either direction.
+     */
+    public boolean isDateMoreThanANumberOfDaysAway(Date compareDate, int daysAway);
+    
+    /**
      * We are obliged not to simply use a dateDiff and compare the result to 365, because we have
      * to worry about leap years.
      * 

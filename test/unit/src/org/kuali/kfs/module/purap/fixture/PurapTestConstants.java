@@ -17,8 +17,12 @@ package org.kuali.module.purap.fixtures;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.purap.bo.PaymentRequestAccount;
+import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
@@ -58,7 +62,7 @@ public class PurapTestConstants {
         static PurchaseOrderItem PO_ITEM = new PurchaseOrderItem();
         static final String ITEM_DESC = "Test item description";
         static final String ITEM_UOM = "EACH";
-        static PurchaseOrderAccount PO_ACCOUNT = new PurchaseOrderAccount();
+        static PurchaseOrderAccount PO_ACCOUNT =  new PurchaseOrderAccount();
         static RequisitionAccount REQ_ACCOUNT = new RequisitionAccount();
         static final String CHART_CODE = "BL";
         static final String OBJECT_CODE = "5000";
@@ -74,4 +78,5 @@ public class PurapTestConstants {
         static final String INVOICE_NUMBER = "123456789";
         static final KualiDecimal AMOUNT = new KualiDecimal(32);
     }
+    
 }

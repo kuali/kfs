@@ -16,6 +16,7 @@
 package org.kuali.module.purap.service.impl;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -220,6 +221,33 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
+     * @see org.kuali.module.purap.service.PurapService#isDateInPast(java.sql.Date)
+     */
+    public boolean isDateInPast(Date compareDate) {
+        Date today = dateTimeService.getCurrentSqlDate();
+        int diffFromToday = dateTimeService.dateDiff(today, compareDate, false);
+        return (diffFromToday < 0);
+    }
+    
+    /**
+     * @see org.kuali.module.purap.service.PurapService#isDateMoreThanANumberOfDaysAway(java.sql.Date, int)
+     */
+    public boolean isDateMoreThanANumberOfDaysAway(Date compareDate, int daysAway) {
+        Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
+        Calendar daysAwayCalendar = dateTimeService.getCalendar(todayAtMidnight);
+        daysAwayCalendar.add(Calendar.DATE, daysAway);
+        Timestamp daysAwayTime = new Timestamp(daysAwayCalendar.getTime().getTime());
+        Calendar compareCalendar = dateTimeService.getCalendar(compareDate);
+        compareCalendar.set(Calendar.HOUR, 0);
+        compareCalendar.set(Calendar.MINUTE, 0);
+        compareCalendar.set(Calendar.SECOND, 0);
+        compareCalendar.set(Calendar.MILLISECOND, 0);
+        compareCalendar.set(Calendar.AM_PM, Calendar.AM);        
+        Timestamp compareTime = new Timestamp(compareCalendar.getTime().getTime());
+        return (compareTime.compareTo(daysAwayTime) > 0 );
+    }
+    
+    /**
      * @see org.kuali.module.purap.service.PurapService#isDateAYearAfterToday(java.sql.Date)
      */
     public boolean isDateAYearBeforeToday(Date compareDate) {
@@ -319,7 +347,7 @@ public class PurapServiceImpl implements PurapService {
                 // TODO (KULPURAP-1576: dlemus/delyea) route the reopen purchase order here
                 // get the po id and get the current po
                 // check the current po: if status is not closed and there is no pending action... route close po as system user
-            }
+        	}
         }
         // below code preferable to run in post processing
         else if (purapDocument instanceof CreditMemoDocument) {

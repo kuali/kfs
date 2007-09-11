@@ -238,13 +238,18 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         validateVendorNumber(fieldValues);
         validateVendorName(fieldValues);
         validateTaxNumber(fieldValues);
+        /* The following validations are removed, as of requested by Jira 1456. 
+         * Now users aren't required to choose vendor name or state when vendor type is selected;
+         * nor required to choose vendor name when active status is selected;
+         * nor required to choose vendor type when state is selected.
+         * The checking on the total number of search criteria is also removed, 
+         * as this condition is automatically satisfied with the vendor type defaults to 'PO'
+         * and vendor status defaults to 'active' on the lookup page.
         validateNumberOfSearchCriteria(fieldValues);
-        /* This validation is removed, as of requested by Jira 1456. 
-         * So now users aren't required to choose vendor name or state when vendor type is selected.
         validateTypeNameState(fieldValues);
-        */
         validateStatusName(fieldValues);
         validateStateType(fieldValues);
+        */
         
         if (!GlobalVariables.getErrorMap().isEmpty()) {
             throw new ValidationException("Error(s) in search criteria");

@@ -105,7 +105,7 @@ public class Reversal extends PersistableBusinessObjectBase implements Transacti
         setTransactionLedgerEntryDescription(t.getTransactionLedgerEntryDescription());
         setTransactionLedgerEntryAmount(t.getTransactionLedgerEntryAmount());
         setTransactionDebitCreditCode(t.getTransactionDebitCreditCode());
-        setTransactionDate(t.getFinancialDocumentReversalDate());
+        setTransactionDate(t.getTransactionDate());
         setOrganizationDocumentNumber(t.getOrganizationDocumentNumber());
         setProjectCode(t.getProjectCode());
         setOrganizationReferenceId(t.getOrganizationReferenceId());

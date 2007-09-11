@@ -72,11 +72,11 @@ public class LaborOriginEntryFieldFinder extends KeyValuesBase {
         activeLabels.add(new KeyLabelPair("salaryAdministrationPlan", "Salary Admin Plan"));
         activeLabels.add(new KeyLabelPair("grade", "Grade"));
         activeLabels.add(new KeyLabelPair("runIdentifier", "Run Id"));
-        activeLabels.add(new KeyLabelPair("laborLedgerOriginalChartOfAccountsCode", "LD Original Accounts Code"));
-        activeLabels.add(new KeyLabelPair("laborLedgerOriginalAccountNumber", "LD Original Account Number"));
-        activeLabels.add(new KeyLabelPair("laborLedgerOriginalSubAccountNumber", "LD Original Sub-Account Numbere"));
-        activeLabels.add(new KeyLabelPair("laborLedgerOriginalFinancialObjectCode", "LD Original Object Code"));
-        activeLabels.add(new KeyLabelPair("laborLedgerOriginalFinancialSubObjectCode", "LD Original Sub-Object Code"));
+        activeLabels.add(new KeyLabelPair("laborLedgerOriginalChartOfAccountsCode", "Original Accounts Code"));
+        activeLabels.add(new KeyLabelPair("laborLedgerOriginalAccountNumber", "Original Account Number"));
+        activeLabels.add(new KeyLabelPair("laborLedgerOriginalSubAccountNumber", "Original Sub-Account Numbere"));
+        activeLabels.add(new KeyLabelPair("laborLedgerOriginalFinancialObjectCode", "Original Object Code"));
+        activeLabels.add(new KeyLabelPair("laborLedgerOriginalFinancialSubObjectCode", "Original Sub-Object Code"));
         activeLabels.add(new KeyLabelPair("hrmsCompany", "Company"));
         activeLabels.add(new KeyLabelPair("setid", "SetId"));
         

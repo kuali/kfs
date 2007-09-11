@@ -799,31 +799,31 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
-                columnToAdd.setColumnTitle("LD Original Accounts Code");
+                columnToAdd.setColumnTitle("Original Accounts Code");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 columnToAdd.setPropertyName(KFSPropertyConstants.LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE);
                 cachedColumns.add(columnToAdd);
                 
                 columnToAdd = new Column();
-                columnToAdd.setColumnTitle("LD Original Account Number");
+                columnToAdd.setColumnTitle("Original Account Number");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 columnToAdd.setPropertyName(KFSPropertyConstants.LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER);
                 cachedColumns.add(columnToAdd);
                 
                 columnToAdd = new Column();
-                columnToAdd.setColumnTitle("LD Original Sub-Account Number");
+                columnToAdd.setColumnTitle("Original Sub-Account Number");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 columnToAdd.setPropertyName(KFSPropertyConstants.LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER);
                 cachedColumns.add(columnToAdd);
                 
                 columnToAdd = new Column();
-                columnToAdd.setColumnTitle("LD Original Object Code");
+                columnToAdd.setColumnTitle("Original Object Code");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 columnToAdd.setPropertyName(KFSPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE);
                 cachedColumns.add(columnToAdd);
                 
                 columnToAdd = new Column();
-                columnToAdd.setColumnTitle("LD Original Sub-Object Code");
+                columnToAdd.setColumnTitle("Original Sub-Object Code");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 columnToAdd.setPropertyName(KFSPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE);
                 cachedColumns.add(columnToAdd);

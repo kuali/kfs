@@ -35,7 +35,8 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
     private String organizationCode;
     private Long proposalNumber;
     private boolean awardPrimaryOrganizationIndicator;
-
+    private boolean active;
+    
     private Chart chartOfAccounts;
     private Org organization;
 

@@ -33,7 +33,8 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     private Long proposalNumber;
     private boolean awardPrimaryProjectDirectorIndicator;
     private String awardProjectDirectorProjectTitle;
-
+    private boolean active;
+    
     private ProjectDirector projectDirector;
 
     /**

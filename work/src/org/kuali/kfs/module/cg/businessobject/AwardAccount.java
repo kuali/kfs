@@ -35,7 +35,8 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     private String chartOfAccountsCode;
     private String accountNumber;
     private String personUniversalIdentifier;
-
+    private boolean active;
+    
     private Account account;
     private Chart chartOfAccounts;
     private ProjectDirector projectDirector;

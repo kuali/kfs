@@ -39,7 +39,8 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
     private String subcontractorContactLastName;
     private String subcontractorAuditHistoryText;
     private String awardSubcontractorDescription;
-
+    private boolean active;
+    
     private Subcontractor subcontractor;
 
     /**

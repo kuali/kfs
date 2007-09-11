@@ -222,7 +222,8 @@ public class BatchInputFileServiceTest extends KualiTestBase {
         createdTestFiles.add(expectedFile);
         assertTrue("uploaded " + batchInputFileType.getFileTypeIdentifer() + " file not found", expectedFile.exists());
 
-        batchInputFileService.delete(validWorkgroupUser, batchInputFileType, savedFileName);
+        String fileNameOnly = expectedFile.getName();
+        batchInputFileService.delete(validWorkgroupUser, batchInputFileType, fileNameOnly);
         assertFalse("file still exists", expectedFile.exists());
         
         String doneFileName = StringUtils.substringBeforeLast(expectedFile.getPath(), ".") + ".done";

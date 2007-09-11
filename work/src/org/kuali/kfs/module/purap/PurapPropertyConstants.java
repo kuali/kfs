@@ -72,6 +72,7 @@ public class PurapPropertyConstants {
 //   public static final String VENDOR_CONTRACT_ID = "document.vendorContractGeneratedIdentifier";
     public static final String VENDOR_CONTRACT_ID = "vendorContractGeneratedIdentifier";
     public static final String PURCHASE_ORDER = "purchaseOrder";
+    public static final String PURCHASE_ORDER_COST_SOURCE = "purchaseOrderCostSource";
     
     // AP DOCUMENT BASE
 //    public static final String PURCHASE_ORDER_IDENTIFIER = "document.purchaseOrderIdentifier";

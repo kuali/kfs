@@ -160,6 +160,11 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
         }
     }
 
+    /**
+     * update the amount of the given employee funding with the given pending entry 
+     * @param employeeFunding the given employee funding
+     * @param pendingEntry the given pending entry
+     */
     private void updateAmount(EmployeeFunding employeeFunding, LaborLedgerPendingEntry pendingEntry) {
         String balanceTypeCode = pendingEntry.getFinancialBalanceTypeCode();
         String debitCreditCode = pendingEntry.getTransactionDebitCreditCode();
@@ -171,9 +176,13 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
         else if (StringUtils.equals(balanceTypeCode, KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE)) {
             employeeFunding.setOutstandingEncumbrance(amount.add(employeeFunding.getOutstandingEncumbrance()));
         }
-        System.out.println("====" + amount);
     }
 
+    /**
+     * determine whether the given pending entry is qualified to be processed as an employee funding
+     * @param pendingEntry the given pending entry
+     * @return true if the given pending entry is qualified to be processed as an employee funding; otherwise, false
+     */
     private boolean isEmployeeFunding(LaborLedgerPendingEntry pendingEntry) {
         String balanceTypeCode = pendingEntry.getFinancialBalanceTypeCode();
 
@@ -190,7 +199,7 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
 
         return false;
     }
-    
+
     /**
      * construct the primary key list of the business object
      * 

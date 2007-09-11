@@ -88,7 +88,6 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
      */
     public LedgerBalance findLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, LaborTransaction transaction, List<String> keyList) {
         for (LedgerBalance ledgerBalance : ledgerBalanceCollection) {
-            System.out.println("======= ledgerBalance: " + ledgerBalance.getFinancialObjectTypeCode());
             boolean found = ObjectUtil.compareObject(ledgerBalance, transaction, keyList);
             if (found) {
                 return ledgerBalance;

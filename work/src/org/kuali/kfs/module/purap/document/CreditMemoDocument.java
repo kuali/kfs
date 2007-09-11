@@ -537,6 +537,13 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
+     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getPoDocumentTypeForAccountsPayableDocumentApprove()
+     */
+    public String getPoDocumentTypeForAccountsPayableDocumentCancel() {
+        return PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
+    }
+
+    /**
      * 
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getInitialAmount()
      */

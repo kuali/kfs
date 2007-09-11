@@ -129,14 +129,14 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-        //if routing and closereopen po indicator set, call closereopen po method
-        if((event instanceof RouteDocumentEvent) && this.isCloseReopenPoIndicator()){
-            processCloseReopenPo();
-            this.setCloseReopenPoIndicator(false);
-        }
-
+        
         //copied from super because we can't call super for AP docs
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
+
+        //if routing and close/reopen checkbox selected, call close/reopen po method
+        if((event instanceof RouteDocumentEvent) && this.isCloseReopenPoIndicator() ){
+            processCloseReopenPo( getPoDocumentTypeForAccountsPayableDocumentApprove() );
+        }
 
         //DO NOT CALL SUPER HERE!!  Cannot call super because it will mess up the GL entry creation process (hjs)
         //super.prepareForSave(event);
@@ -147,15 +147,20 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * overriden by sub class.
      */
     public abstract String getPoDocumentTypeForAccountsPayableDocumentApprove();
-    
+
+    /**
+     * Helper method to be called from custom prepare for save and to be
+     * overriden by sub class.
+     */
+    public abstract String getPoDocumentTypeForAccountsPayableDocumentCancel();
+
     /**
      * This method should be called from child class from overridden processCloseReopenPo(), it will pass the action it will take,
      * which is document specific.
      * 
      * @param docType
      */
-    public void processCloseReopenPo() {
-        String docType = getPoDocumentTypeForAccountsPayableDocumentApprove();
+    public void processCloseReopenPo(String docType) {
         String action = null;
         if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT.equals(docType)) {
             action = "closed";

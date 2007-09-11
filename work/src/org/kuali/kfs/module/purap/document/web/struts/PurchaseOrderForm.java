@@ -218,15 +218,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             printButton.setExtraButtonAltText("Print");
             this.getExtraButtons().add(printButton);
         }
-        // show the payment hold button
-        if ( PurapConstants.PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(purchaseOrder.getStatusCode()) &&
-                (isUserAuthorized ||  isDocumentTransmissionActionRequested) ) {
-            ExtraButton paymentHoldButton = new ExtraButton();
-            paymentHoldButton.setExtraButtonProperty("methodToCall.paymentHoldPo");
-            paymentHoldButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_paymenthold.gif");
-            paymentHoldButton.setExtraButtonAltText("Payment Hold");
-            this.getExtraButtons().add(paymentHoldButton);
-        }
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
             ExtraButton reopenButton = new ExtraButton();
             reopenButton.setExtraButtonProperty("methodToCall.reopenPo");

@@ -229,7 +229,6 @@
                         	<field attributeName="noteText"/>
                         	<field attributeName="notePostedTimestamp"/>
                         	<field attributeName="authorUniversal.personName"/>
-							<field attributeName="active" />
                         </inquiryCollection>
                     </inquiryFields>
                 </inquirySection>         

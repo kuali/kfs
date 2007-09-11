@@ -175,6 +175,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getEmployeeFunding(java.util.Map)
      */
+    @Deprecated
     public Iterator getEmployeeFunding(Map fieldValues) {
 
         ArrayList objectTypeCodes = new ArrayList();
@@ -227,7 +228,8 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
      * @param String the labor object code to be checked
      * @return
      */
-     public boolean isActiveLaborObjectCode(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+    @Deprecated
+    public boolean isActiveLaborObjectCode(AccountingDocument accountingDocument, AccountingLine accountingLine) {
          
          String chart = accountingLine.getChartOfAccountsCode();
          int fiscalYear = accountingLine.getPostingYear();

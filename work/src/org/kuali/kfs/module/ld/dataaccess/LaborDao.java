@@ -69,6 +69,7 @@ public interface LaborDao {
      * @param fieldValues
      * @return Iterator
      */
+    @Deprecated
     Iterator getEmployeeFunding(Map fieldValues);
     
     /**
@@ -86,6 +87,7 @@ public interface LaborDao {
       * @param String the labor object code to be checked
       * @return
       */
-      public boolean isActiveLaborObjectCode(AccountingDocument accountingDocument, AccountingLine accountingLine);
+    @Deprecated
+    public boolean isActiveLaborObjectCode(AccountingDocument accountingDocument, AccountingLine accountingLine);
     
 }

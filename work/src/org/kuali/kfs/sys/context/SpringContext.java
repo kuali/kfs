@@ -158,7 +158,7 @@ public class SpringContext {
         applicationContext.close();
     }
 
-    protected static String getStringConfigurationProperty(String propertyName) {
+    public static String getStringConfigurationProperty(String propertyName) {
         return ResourceBundle.getBundle(PropertyLoadingFactoryBean.CONFIGURATION_FILE_NAME).getString(propertyName);
     }
 

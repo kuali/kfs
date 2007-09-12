@@ -26,7 +26,7 @@ public class ConfigurableSequenceManager implements SequenceManager {
     }
 
     protected SequenceManager createSequenceManager(PersistenceBroker broker) {
-        String sequenceManagerClassName = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(SEQUENCE_MANAGER_CLASS_NAME_PROPERTY);
+        String sequenceManagerClassName = SpringContext.getStringConfigurationProperty(SEQUENCE_MANAGER_CLASS_NAME_PROPERTY);
         try {
             Object sequenceManagerObject = ConstructorUtils.invokeConstructor(Class.forName(sequenceManagerClassName), broker);
             if (!(sequenceManagerObject instanceof SequenceManager)) {

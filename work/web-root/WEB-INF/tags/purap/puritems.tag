@@ -410,7 +410,7 @@
 			</th>
 			<td valign=middle class="datacell"><!-- THIS BROKE --> <!-- div align="right"><b>$<kul:htmlControlAttribute attributeEntry="${DataDictionary.AttributeReferenceDummy.attributes.totalDollarAmount}" property="document.totalDollarAmount" readOnly="true"/></b></div>
                     html:hidden property="document.totalDollarAmount" / -->
-			    <div align="right"><b>$${KualiForm.document.totalDollarAmount}</b></div>
+			    <div align="right"><b>${KualiForm.document.totalDollarAmount}</b></div>
 			</td>
 			<td colspan=3 class="datacell">&nbsp;</td>
 		</tr>
@@ -428,7 +428,7 @@
             </th>
 			<td align=right valign=middle class="datacell">
 			    <c:if test="${displayRequisitionFields}">
-				    <div align="right">$
+				    <div align="right">
 				        <kul:htmlControlAttribute
 					        attributeEntry="${DataDictionary.RequisitionDocument.attributes.organizationAutomaticPurchaseOrderLimit}"
 					        property="document.organizationAutomaticPurchaseOrderLimit"

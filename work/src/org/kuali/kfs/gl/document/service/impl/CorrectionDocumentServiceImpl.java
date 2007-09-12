@@ -276,7 +276,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Reversal Date");
                 columnToAdd.setPropertyName(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE);
-                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                columnToAdd.setValueComparator(TemporalValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();

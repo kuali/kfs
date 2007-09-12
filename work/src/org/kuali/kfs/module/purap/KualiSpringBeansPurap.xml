@@ -367,4 +367,6 @@
 		</property>
 	</bean>
 	
+		<bean id="purApojbCollectionHelper" class="org.kuali.module.purap.util.PurApOjbCollectionHelper" />
+	
 </beans>

@@ -759,7 +759,8 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Empl Id");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
-                columnToAdd.setPropertyName(KFSPropertyConstants.EMPL_ID);
+                // abyrne commented out cause it doesn't compile
+                //columnToAdd.setPropertyName(KFSPropertyConstants.EMPL_ID);
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();

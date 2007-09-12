@@ -50,6 +50,7 @@ public class KFSPropertyConstants {
     public static final String ACCOUNT_LINE_ENCUMBRANCE_AMOUNT = "accountLineEncumbranceAmount";
     public static final String ACCOUNT_LINE_ENCUMBRANCE_BALANCE_AMOUNT = "accountLineEncumbranceBalanceAmount";
     public static final String ACCOUNT_LINE_ENCUMBRANCE_CLOSED_AMOUNT = "accountLineEncumbranceClosedAmount";
+    public static final String ACCOUNT_LINE_ENCUMBRANCE_OUTSTANDING_AMOUNT = "accountLineEncumbranceOutstandingAmount";
     public static final String ACCOUNT_LINE_ENCUMBRANCE_PURGE_CODE = "accountLineEncumbrancePurgeCode";
     public static final String ACCOUNT_MANAGER_SYSTEM_IDENTIFIER = "accountManagerSystemIdentifier";
     public static final String ACCOUNT_MANAGER_USER = "accountManagerUser";

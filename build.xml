@@ -22,7 +22,7 @@
 		<tstamp><format property="project.cvs.tag" pattern="MM/dd/yyyy hh:mm aa" /></tstamp>
 		<condition property="context.docbase" value=' docBase="${basedir}${file.separator}work${file.separator}web-root"'><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property name="context.docbase" value="" />
-		<condition property="datasource.url" value="${mysql.datasource.url}"><equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<condition property="datasource.url" value="${mysql.datasource.url}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="datasource.url" value="${oracle.datasource.url}" />
 		<condition property="use.p6spy.local">
 			<and>
@@ -31,16 +31,14 @@
 			</and>
 		</condition>
 		<condition property="driver.class" value="${p6spy.driver.class}"><equals arg1="${use.p6spy.local}" arg2="true"/></condition>
-		<condition property="driver.class" value="${mysql.driver.class}"><equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<condition property="driver.class" value="${mysql.driver.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="driver.class" value="${oracle.driver.class}" />
-		<condition property="p6spy.real.driver.class" value="${mysql.driver.class}"><equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<condition property="p6spy.real.driver.class" value="${mysql.driver.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="p6spy.real.driver.class" value="${oracle.driver.class}" />
-		<condition property="datasource.ojb.sequencemanager.class" value="${mysql.sequence.manager.class}"><equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
-		<property name="datasource.ojb.sequencemanager.class" value="${oracle.sequence.manager.class}" />
-	    <condition property="datasource.platform.class" value="${mysql.database.platform}"><equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
-		<property name="datasource.platform.class" value="${oracle.database.platform}" />
-	    <condition property="rice.workflow.datasource.platform.class" value="${mysql.workflow.database.platform}"><equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
-		<property name="rice.workflow.datasource.platform.class" value="${oracle.workflow.database.platform}" />
+		<condition property="datasource.ojb.sequence.manager" value="${mysql.ojb.sequence.manager}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<property name="datasource.ojb.sequence.manager" value="${oracle.ojb.sequence.manager}" />
+	    <condition property="rice.workflow.datasource.platform" value="${mysql.workflow.datasource.platform}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<property name="rice.workflow.datasource.platform" value="${oracle.workflow.datasource.platform}" />
 		<condition property="appenders" value="INFO, LogFile, StdOut"><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property name="appenders" value="INFO, LogFile" />
 		<condition property="startup.stats.mailing.list" value="${configuration.manager.mailing.list}"><equals arg1="${build.environment}" arg2="cnv" /></condition>
@@ -265,16 +263,16 @@
 			      build for your machine (you do not need to worry about the rice development section)
 			    - override other property values in ${user.home}/${ant.project.name}-build.properties as needed
 			    - save your changes
-
+			
 			2. run the echo-properties target and review the results
 
 			3. follow the instructions associated with the dist-local target and run that target
-
+						
 			4. right click on the root project directory and select "Refresh"
-
+			
 			5. click the "Run/Stop/Restart MyEclipse Application Servers" button in the "Java (default)" perspective in
 			eclipse to start tomcat
-
+			
 			6. launch a browser and access http://localhost:8080/kuali-dev
 
 	you can override the default log4j settings for your local deployments by copying
@@ -335,7 +333,7 @@
 		</copy>
 		<get src="https://onestart.iu.edu/dav/MY/maven-mirror/maven2/${workflow.name}/${workflow.name}/${workflow.version}/${workflow.name}-${workflow.version}.jar" dest="${basedir}/${lib.directory}/${rice.name}-${workflow.name}-${workflow.version}.jar" />
 	</target>
-
+	
 	<target name="update-rice-web" depends="init-property-files">
 		<delete>
 			<fileset dir="${build.project.directory}" includes="${rice.name}*${rice.output.web.suffix}" />
@@ -393,7 +391,7 @@
 	<target name="update-rice-licenses" depends="init-property-files">
 		<zip destfile="${build.project.directory}/${rice.name}-${rice.version}-licenses.zip" basedir="${rice.project.directory}/${licenses.directory}" excludes="**/CVS" />
 	</target>
-
+	
 	<macrodef name="maven">
 		<attribute name="goals" />
 		<attribute name="options" default="--offline" />

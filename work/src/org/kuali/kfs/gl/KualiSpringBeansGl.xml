@@ -942,7 +942,6 @@
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>
-		<property name="dbPlatform" ref="kualiDBPlatformDao" />
 	</bean>
 
 	<bean id="glAccountBalanceConsolidationDao" parent="glAccountBalanceDaoBase" class="org.kuali.module.gl.dao.jdbc.AccountBalanceConsolidationDaoJdbc">
@@ -1422,7 +1421,7 @@
 			</list>
 		</property>
 	</bean>
-
+	
 	<bean id="markScrubbableBackupGroupsAsUnscrubbableStep" class="org.kuali.module.gl.batch.MarkScrubbableBackupGroupsAsUnscrubbableStep" parent="step">
 		<property name="originEntryGroupService">
 			<ref bean="originEntryGroupService" />

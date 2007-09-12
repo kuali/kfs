@@ -134,35 +134,10 @@
 	<!-- end btch framework -->
 	
 	<!--  begin core batch jobs -->
-	<!-- database purging/creation/maintenance -->	
-	<bean id="databaseImportExportStep" abstract="true" parent="step">
-		<property name="databaseImportExportService">
-            <ref bean="databaseImportExportService" />
-        </property>
-    </bean>
-
-	<bean id="databaseUpdateStep" parent="databaseImportExportStep" class="org.kuali.kfs.batch.DatabaseUpdateStep">
-		<property name="updateFileList" value="${database.update.file.list}" />
-	</bean>
-
-	<bean id="dataExportStep" parent="databaseImportExportStep" class="org.kuali.kfs.batch.DataExportStep">
-		<property name="dataExportZipFile" value="${data.export.zip.file}" />
-	</bean>
-	
-	<bean id="postDataLoadEncryptionStep" parent="databaseImportExportStep" class="org.kuali.kfs.batch.PostDataLoadEncryptionStep">
+	<bean id="postDataLoadEncryptionStep" parent="step" class="org.kuali.kfs.batch.PostDataLoadEncryptionStep">
+		<property name="postDataLoadEncryptionService" ref="postDataLoadEncryptionService" />
 		<property name="attributesToEncryptProperties" value="${encrypt.attributes.properties.file}" />
 	</bean>
-
-	<bean id="generateDatabaseImportFileListStep" parent="databaseImportExportStep" class="org.kuali.kfs.batch.GenerateDatabaseImportFileListStep">
-		<property name="databaseFileDirectory" value="${database.file.directory}" />
-		<property name="dataExportZipFile" value="${data.export.zip.file}" />
-		<property name="updateFileList" value="${database.update.file.list}" />
-	</bean>
-
-	<bean id="databasePurgeStep" parent="databaseImportExportStep" class="org.kuali.kfs.batch.DatabasePurgeStep" />
-	
-	<bean id="purgeSequenceTablesStep" parent="databaseImportExportStep" class="org.kuali.kfs.batch.PurgeSequenceTablesStep" />
-	<!-- end database purging/creation/maintenance -->	
 
 	<bean id="purgeOldLookupResultsStep" class="org.kuali.kfs.batch.PurgeOldLookupResultsStep" parent="step">
 		<property name="lookupResultsService">

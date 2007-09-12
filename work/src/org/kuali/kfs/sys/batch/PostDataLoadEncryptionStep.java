@@ -24,11 +24,13 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.PostDataLoadEncryptionService;
 import org.kuali.kfs.context.SpringContext;
 import org.springframework.core.io.FileSystemResource;
 
-public class PostDataLoadEncryptionStep extends AbstractDatabaseImportExportStep {
+public class PostDataLoadEncryptionStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostDataLoadEncryptionStep.class);
+    private PostDataLoadEncryptionService postDataLoadEncryptionService;
     private String attributesToEncryptProperties;
 
     public boolean execute(String jobName) {
@@ -54,25 +56,29 @@ public class PostDataLoadEncryptionStep extends AbstractDatabaseImportExportStep
             catch (Exception e) {
                 throw new IllegalArgumentException(new StringBuffer("Unable to load attributeNames Set from comma-delimited list of attribute names specified as value for property with Class name ").append(businessObjectClassName).append(" key in attributesToEncryptProperties file ").append(attributesToEncryptProperties).toString(), e);
             }
-            databaseImportExportService.checkArguments(businessObjectClass, attributeNames);
-            databaseImportExportService.createBackupTable(businessObjectClass);
+            postDataLoadEncryptionService.checkArguments(businessObjectClass, attributeNames);
+            postDataLoadEncryptionService.createBackupTable(businessObjectClass);
             try {
-                databaseImportExportService.prepClassDescriptor(businessObjectClass, attributeNames);
+                postDataLoadEncryptionService.prepClassDescriptor(businessObjectClass, attributeNames);
                 Collection objectsToEncrypt = SpringContext.getBean(BusinessObjectService.class).findAll(businessObjectClass);
-                databaseImportExportService.truncateTable(businessObjectClass);
+                postDataLoadEncryptionService.truncateTable(businessObjectClass);
                 for (Object businessObject : objectsToEncrypt) {
-                    databaseImportExportService.encrypt((PersistableBusinessObject) businessObject, attributeNames);
+                    postDataLoadEncryptionService.encrypt((PersistableBusinessObject) businessObject, attributeNames);
                 }
-                databaseImportExportService.restoreClassDescriptor(businessObjectClass, attributeNames);
+                postDataLoadEncryptionService.restoreClassDescriptor(businessObjectClass, attributeNames);
                 LOG.info(new StringBuffer("Encrypted ").append(attributesToEncryptProperties.get(businessObjectClassName)).append(" attributes of Class ").append(businessObjectClassName));
             }
             catch (Exception e) {
-                databaseImportExportService.restoreTableFromBackup(businessObjectClass);
+                postDataLoadEncryptionService.restoreTableFromBackup(businessObjectClass);
                 LOG.error(new StringBuffer("Caught exception, while encrypting ").append(attributesToEncryptProperties.get(businessObjectClassName)).append(" attributes of Class ").append(businessObjectClassName).append(" and restored table from backup"), e);
             }
-            databaseImportExportService.dropBackupTable(businessObjectClass);
+            postDataLoadEncryptionService.dropBackupTable(businessObjectClass);
         }
         return true;
+    }
+
+    public void setPostDataLoadEncryptionService(PostDataLoadEncryptionService postDataLoadEncryptionService) {
+        this.postDataLoadEncryptionService = postDataLoadEncryptionService;
     }
 
     /**

@@ -63,7 +63,9 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     private Timestamp creditMemoPaidTimestamp;
     private String itemMiscellaneousCreditDescription;
     private Date purchaseOrderEndDate;
-
+    private boolean closePurchaseOrderIndicator;
+    private boolean reopenPurchaseOrderIndicator;
+    
     private PaymentRequestDocument paymentRequestDocument;
 
     /**
@@ -513,6 +515,38 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     public void setPurchaseOrderEndDate(Date purchaseOrderEndDate) {
         this.purchaseOrderEndDate = purchaseOrderEndDate;
     }
+
+    /**
+     * Gets the closePurchaseOrderIndicator attribute. 
+     * @return Returns the closePurchaseOrderIndicator.
+     */
+    public boolean isClosePurchaseOrderIndicator() {
+        return closePurchaseOrderIndicator;
+    }
+
+    /**
+     * Sets the closePurchaseOrderIndicator attribute value.
+     * @param closePurchaseOrderIndicator The closePurchaseOrderIndicator to set.
+     */
+    public void setClosePurchaseOrderIndicator(boolean closePurchaseOrderIndicator) {
+        this.closePurchaseOrderIndicator = closePurchaseOrderIndicator;
+    }
+
+    /**
+     * Gets the reopenPurchaseOrderIndicator attribute. 
+     * @return Returns the reopenPurchaseOrderIndicator.
+     */
+    public boolean isReopenPurchaseOrderIndicator() {
+        return reopenPurchaseOrderIndicator;
+    }
+
+    /**
+     * Sets the reopenPurchaseOrderIndicator attribute value.
+     * @param reopenPurchaseOrderIndicator The reopenPurchaseOrderIndicator to set.
+     */
+    public void setReopenPurchaseOrderIndicator(boolean reopenPurchaseOrderIndicator) {
+        this.reopenPurchaseOrderIndicator = reopenPurchaseOrderIndicator;
+    }    
     
     /**
      * USED FOR ROUTING ONLY

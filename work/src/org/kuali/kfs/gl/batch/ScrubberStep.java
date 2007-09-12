@@ -20,7 +20,6 @@ import java.util.Date;
 import org.apache.ojb.broker.metadata.JdbcConnectionDescriptor;
 import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.kfs.util.KfsOjbCache;
 import org.kuali.module.gl.service.ScrubberService;
 
 public class ScrubberStep extends AbstractStep {
@@ -28,11 +27,6 @@ public class ScrubberStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberStep.class);
     
     public boolean execute(String jobName) {
-        /*// use the LRU object cache
-        for (Object descriptorAsObject: MetadataManager.getInstance().connectionRepository().getAllDescriptor()) {
-            JdbcConnectionDescriptor connDesc = (JdbcConnectionDescriptor)descriptorAsObject;
-            connDesc.getObjectCacheDescriptor().setObjectCache(KfsOjbCache.class);
-        }*/
         scrubberService.scrubEntries();
         LOG.fatal("After scrub commit" + System.currentTimeMillis());
         return true;

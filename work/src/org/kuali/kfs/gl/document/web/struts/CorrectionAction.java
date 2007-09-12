@@ -33,7 +33,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanComparator;
-import org.apache.commons.collections.comparators.ComparableComparator;
 import org.apache.commons.collections.comparators.ReverseComparator;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -1640,7 +1639,17 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             if (valueComparator instanceof NumericValueComparator || valueComparator instanceof TemporalValueComparator) {
                 // hack alert: NumericValueComparator can only compare strings, so we use the KualiDecimal and Date's built in mechanism compare values using
                 // the comparable comparator
-                valueComparator = new ComparableComparator();
+                valueComparator = new Comparator() {
+                    public int compare(Object obj1, Object obj2) {
+                        if (obj1 == null) {
+                            return -1;
+                        }
+                        if (obj2 == null) {
+                            return 1;
+                        }
+                        return ((Comparable)obj1).compareTo(obj2);
+                    }
+                };
             }
             if (sortDescending) {
                 valueComparator = new ReverseComparator(valueComparator);

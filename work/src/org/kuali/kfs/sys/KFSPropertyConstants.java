@@ -471,7 +471,6 @@ public class KFSPropertyConstants {
     public static final String EFFECTIVE_DATE = "effectiveDate";
     public static final String ELECTRONIC_RESEARCH_ADMINISTRATION_GRANT_NUMBER = "electronicResearchAdministrationGrantNumber";
     public static final String EMAIL_ADDRESS = "emailAddress";
-    public static final String EMPL_ID = "emplId";
     public static final String EMPLID = "emplid";
     public static final String EMPLOYEE = "employee";
     public static final String EMPLOYEE_RECORD = "employeeRecord";

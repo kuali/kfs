@@ -15,9 +15,11 @@
  */
 package org.kuali.module.gl.bo;
 
-import junit.framework.TestCase;
+import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.test.ConfigureContext;
 
-public class OriginEntryTest extends TestCase {
+@ConfigureContext
+public class OriginEntryTest extends KualiTestBase {
 
     public OriginEntryTest() {
         super();

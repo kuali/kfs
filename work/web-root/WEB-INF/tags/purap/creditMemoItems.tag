@@ -226,7 +226,7 @@
 			sourceAccountingLinesOnly="true"
 			optionalFields="accountLinePercent"
 			extraHiddenFields=",accountIdentifier,itemIdentifier,amount"
-			accountPrefix="document.item[${ctr}]."
+			accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 			accountingLineAttributes="${accountingLineAttributes}" 
 			hideFields="amount" 
 			accountingAddLineIndex="${ctr}" 

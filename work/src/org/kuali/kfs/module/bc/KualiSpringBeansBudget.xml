@@ -126,8 +126,10 @@
             <ref bean="workflowDocumentService" />
         </property>
     </bean>
-
+    
     <bean id="calculatedSalaryFoundationTrackerOverrideService" class="org.kuali.module.budget.service.impl.CalculatedSalaryFoundationTrackerOverrideServiceImpl">
     </bean>
+    
+    <bean id="genesisBatchStep" class="org.kuali.module.budget.batch.GenesisBatchStep" parent="step"> </bean>
     	
 </beans>

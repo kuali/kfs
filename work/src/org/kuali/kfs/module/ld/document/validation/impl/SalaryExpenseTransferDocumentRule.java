@@ -22,7 +22,9 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.RiceConstants;
 import org.kuali.core.document.Document;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -53,6 +55,26 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
      */
     public SalaryExpenseTransferDocumentRule() {
         super();
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.labor.rules.LaborExpenseTransferDocumentRules#isValidAmountTransferredByObjectCode(org.kuali.kfs.document.AccountingDocument)
+     */    
+    @Override
+    protected boolean isValidAmountTransferredByObjectCode(AccountingDocument accountingDocument) {
+//      check if user is allowed to edit the object code.
+        String adminGroupName = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(LaborConstants.GROUP_SET_DOCUMENT, LaborConstants.SET_ADMIN_WORKGROUP);
+        boolean isAdmin = false;
+        try {
+            isAdmin = GlobalVariables.getUserSession().getUniversalUser().isMember(adminGroupName); }
+        catch (Exception e) {
+            throw new RuntimeException("Workgroup " + LaborConstants.GROUP_SET_DOCUMENT + " not found",e);
+        }
+        if (isAdmin){
+            return true;
+        }       
+        return super.isValidAmountTransferredByObjectCode(accountingDocument);
     }
 
     /**

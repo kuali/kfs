@@ -15,7 +15,6 @@
  */
 package org.kuali.module.labor.web.struts.form;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,12 +23,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KualiGroupService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.OptionsService;
-import org.kuali.module.chart.service.AccountingPeriodService;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LaborUser;
 import org.kuali.module.labor.bo.LedgerBalance;
@@ -160,12 +161,21 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         map.remove(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         map.remove(KFSPropertyConstants.ACCOUNT_NUMBER);
         map.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-        map.remove(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         map.remove(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
         map.remove(KFSPropertyConstants.PROJECT_CODE);
         map.remove(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID);
         map.remove(KFSPropertyConstants.AMOUNT);
-        
+//      check if user is allowed to edit the object code.
+        String adminGroupName = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(LaborConstants.GROUP_SET_DOCUMENT, LaborConstants.SET_ADMIN_WORKGROUP);
+        boolean isAdmin = false;
+        try {
+            isAdmin = GlobalVariables.getUserSession().getUniversalUser().isMember(adminGroupName); }
+        catch (Exception e) {
+            throw new RuntimeException("Workgroup " + LaborConstants.GROUP_SET_DOCUMENT + " not found",e);
+        }
+        if (isAdmin){
+            map.remove(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        }       
         return map;
     }
     

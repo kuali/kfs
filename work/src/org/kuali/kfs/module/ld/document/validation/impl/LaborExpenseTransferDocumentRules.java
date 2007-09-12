@@ -424,7 +424,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
      * @return true if target accouting lines have the same amounts as source accounting lines for each object code; otherwise,
      *         false
      */
-    private boolean isValidAmountTransferredByObjectCode(AccountingDocument accountingDocument) {
+    protected boolean isValidAmountTransferredByObjectCode(AccountingDocument accountingDocument) {
         LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
         Map<String, KualiDecimal> amountsFromSourceLine = summerizeByObjectCode(expenseTransferDocument.getSourceAccountingLines());
         Map<String, KualiDecimal> amountsFromTargetLine = summerizeByObjectCode(expenseTransferDocument.getTargetAccountingLines());

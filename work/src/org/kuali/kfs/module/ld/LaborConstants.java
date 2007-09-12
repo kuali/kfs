@@ -27,6 +27,8 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntry;
 
+import edu.iu.uis.eden.workgroup.web.WorkgroupForm.WorkgroupMember;
+
 /**
  * This class contains the constants used by Labor Distribution.
  */
@@ -99,6 +101,8 @@ public class LaborConstants {
 
     public static class SalaryExpenseTransfer {
         public static final String LABOR_LEDGER_SALARY_CODE = "S";
+        public static final String SET_ADMIN_WORKGROUP = "Workgroup.SET.Admin";
+        public static final String GROUP_SET_DOCUMENT = "Kuali.Labor.SalaryExpenseTransferDocument";
     }
 
     public static class BenefitExpenseTransfer {
@@ -215,6 +219,9 @@ public class LaborConstants {
     public static final String DASHES_DELETE_CODE = "-";
     public static final int LLCP_MAX_LENGTH = 294;    
     private static String SPACE_TRANSACTION_DATE = null;
+    public static final String SET_ADMIN_WORKGROUP = "Workgroup.SET.Admin";
+    public static final String GROUP_SET_DOCUMENT = "Kuali.Labor.SalaryExpenseTransferDocument";
+        
     public static String getSpaceTransactionDate() {
         if (SPACE_TRANSACTION_DATE == null) {
             SPACE_TRANSACTION_DATE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeSize(OriginEntry.class, KFSPropertyConstants.TRANSACTION_DATE), ' ');

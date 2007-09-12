@@ -66,6 +66,7 @@
               <html:hidden property="financialSubObjectCode" />
               <html:hidden property="emplid" />
               <html:hidden property="returnFormKey" />
+              <html:hidden property="budgetByAccountMode" />
             </kul:htmlAttributeHeaderCell>
             <bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="budgetConstructionIntendedIncumbent"

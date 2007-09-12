@@ -61,6 +61,7 @@
               <html:hidden property="financialSubObjectCode" />
               <html:hidden property="positionNumber" />
               <html:hidden property="returnFormKey" />
+              <html:hidden property="budgetByAccountMode" />
             </kul:htmlAttributeHeaderCell>
             <bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="budgetConstructionPosition"

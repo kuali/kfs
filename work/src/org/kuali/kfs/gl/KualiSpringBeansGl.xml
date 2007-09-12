@@ -601,6 +601,9 @@
 		<property name="scrubberProcessObjectCodeOverride">
 			<ref bean="glScrubberProcessObjectCodeOverride" />
 		</property>
+		<property name="runDateService">
+			<ref bean="glRunDateService" />
+		</property>
 	</bean>
 
 	<bean id="scrubberValidator" class="org.kuali.module.gl.service.impl.ScrubberValidatorImpl">
@@ -716,6 +719,9 @@
 		</property>
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="runDateService">
+			<ref bean="glRunDateService"/>
 		</property>
 	</bean>
 

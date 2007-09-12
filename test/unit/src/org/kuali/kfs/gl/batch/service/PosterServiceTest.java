@@ -44,6 +44,11 @@ public class PosterServiceTest extends OriginEntryTestBase {
         c.set(Calendar.DAY_OF_MONTH, 1);
         c.set(Calendar.MONTH, Calendar.JANUARY);
         c.set(Calendar.YEAR, 2004);
+        
+        // because of the cutoff time implementation, assume a specific time of day after the cutoff (10:00 am, see RunDateService for details)
+        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.MINUTE, 50);
+        c.set(Calendar.SECOND, 0);
         date = c.getTime();
 
         // Set the run date of the job
@@ -221,6 +226,8 @@ public class PosterServiceTest extends OriginEntryTestBase {
     public void testPostReversal() throws Exception {
         LOG.debug("testPostReversal() started");
 
+        // if this test fails, ensure that the cutoff time is set to 10am.
+        
         String[] inputTransactions = { 
                 "2007BA6044900-----5300---ACEX07CHKDPDREVTEST01     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                    2006-03-01    ", 
                 "2007BA6044900-----5300---ACEX07CHKDPDREVTEST01     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                    2006-03-01    ", 

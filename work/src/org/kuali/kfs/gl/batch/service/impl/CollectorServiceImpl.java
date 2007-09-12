@@ -60,7 +60,7 @@ public class CollectorServiceImpl implements CollectorService {
         
         Date executionDate = dateTimeService.getCurrentSqlDate();
         
-        Date runDate = runDateService.calculateRunDate(executionDate);
+        Date runDate = new Date(runDateService.calculateRunDate(executionDate).getTime());
         OriginEntryGroup group = originEntryGroupService.createGroup(runDate, OriginEntrySource.COLLECTOR, true, false, true);
         CollectorReportData collectorReportData = new CollectorReportData();
         List<CollectorScrubberStatus> collectorScrubberStatuses = new ArrayList<CollectorScrubberStatus>();

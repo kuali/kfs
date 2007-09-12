@@ -16,7 +16,7 @@
 package org.kuali.module.gl.service.impl;
 
 import java.util.Calendar;
-import java.sql.Date;
+import java.util.Date;
 import java.util.StringTokenizer;
 
 import org.kuali.core.bo.FinancialSystemParameter;

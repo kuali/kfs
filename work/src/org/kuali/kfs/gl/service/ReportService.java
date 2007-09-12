@@ -144,24 +144,26 @@ public interface ReportService {
     /**
      * Poster Statistics report
      * 
-     * @param runDate
+     * @param executionDate the actual time of poster execution
+     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back 
      * @param reportSummary
      * @param reportErrors
      * @param mode
      */
-    public void generatePosterStatisticsReport(Date runDate, Map<String, Integer> reportSummary, List<PostTransaction> transactionPosters, Map<Transaction, List<Message>> reportErrors, int mode);
+    public void generatePosterStatisticsReport(Date executionDate, Date runDate, Map<String, Integer> reportSummary, List<PostTransaction> transactionPosters, Map<Transaction, List<Message>> reportErrors, int mode);
 
     /**
      * Poster ICR Statistics report
      * 
-     * @param runDate
+     * @param executionDate the actual time of poster execution
+     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back 
      * @param reportErrors
      * @param reportExpendTranRetrieved
      * @param reportExpendTranDeleted
      * @param reportExpendTranKept
      * @param reportOriginEntryGenerated
      */
-    public void generatePosterIcrStatisticsReport(Date runDate, Map<Transaction, List<Message>> reportErrors, int reportExpendTranRetrieved, int reportExpendTranDeleted, int reportExpendTranKept, int reportOriginEntryGenerated);
+    public void generatePosterIcrStatisticsReport(Date executionDate, Date runDate, Map<Transaction, List<Message>> reportErrors, int reportExpendTranRetrieved, int reportExpendTranDeleted, int reportExpendTranKept, int reportOriginEntryGenerated);
 
     /**
      * ICR Encumbrance Statistics report
@@ -175,26 +177,32 @@ public interface ReportService {
     /**
      * Main Poster Input Transaction Report
      * 
-     * @param runDate
+     * @param executionDate the actual time of poster execution
+     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back 
+     * in time to redo a failed poster run)
      * @param groups
      */
-    public void generatePosterMainLedgerSummaryReport(Date runDate, Collection groups);
+    public void generatePosterMainLedgerSummaryReport(Date executionDate, Date runDate, Collection groups);
 
     /**
      * Icr Poster Input Transaction Report
      * 
-     * @param runDate
+     * @param executionDate the actual time of poster execution
+     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back 
+     * in time to redo a failed poster run)
      * @param groups
      */
-    public void generatePosterIcrLedgerSummaryReport(Date runDate, Collection groups);
+    public void generatePosterIcrLedgerSummaryReport(Date executionDate, Date runDate, Collection groups);
 
     /**
      * Reversal Poster Input Transaction Report
      * 
-     * @param runDate
+     * @param executionDate the actual time of poster execution
+     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back 
+     * in time to redo a failed poster run)
      * @param groups
      */
-    public void generatePosterReversalLedgerSummaryReport(Date runDate, Iterator groups);
+    public void generatePosterReversalLedgerSummaryReport(Date executionDate, Date runDate, Iterator groups);
 
     /**
      * Balance Forward Year-End job Report
@@ -235,19 +243,23 @@ public interface ReportService {
     /**
      * Poster Reversal Transactions Listing
      * 
-     * @param runDate Run date of the report
+     * @param executionDate the actual time of poster execution
+     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back 
+     * in time to redo a failed poster run)
      * @param group Group with valid transactions
      */
-    public void generatePosterReversalTransactionsListing(Date runDate, OriginEntryGroup group);
+    public void generatePosterReversalTransactionsListing(Date executionDate, Date runDate, OriginEntryGroup group);
 
     /**
      * Poster Error transaction listing
      * 
-     * @param runDate Run date of the report
+     * @param executionDate the actual time of poster execution
+     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back 
+     * in time to redo a failed poster run)
      * @param group Group with error transactions
      * @param posterMode Mode the poster is running
      */
-    public void generatePosterErrorTransactionListing(Date runDate, OriginEntryGroup group, int posterMode);
+    public void generatePosterErrorTransactionListing(Date executionDate, Date runDate, OriginEntryGroup group, int posterMode);
     
     /**
      * GLCP document info report

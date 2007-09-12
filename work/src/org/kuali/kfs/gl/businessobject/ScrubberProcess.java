@@ -58,6 +58,7 @@ import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ReportService;
+import org.kuali.module.gl.service.RunDateService;
 import org.kuali.module.gl.service.ScrubberProcessObjectCodeOverride;
 import org.kuali.module.gl.service.ScrubberValidator;
 import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
@@ -112,6 +113,7 @@ public class ScrubberProcess {
     private ReportService reportService;
     private ScrubberValidator scrubberValidator;
     private ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride;
+    private RunDateService runDateService;
 
     private Map<String, FinancialSystemParameter> parameters;
     private Map<String, KualiParameterRule> rules;
@@ -124,13 +126,6 @@ public class ScrubberProcess {
     private Calendar runCal;
     private UniversityDate universityRunDate;
     private String offsetString;
-
-    /* These fields are used to control whether the job was run before some set time,
-     * if so, the rundate of the job will be set to 11:59 PM of the previous day
-     */
-    private Integer cutoffHour;
-    private Integer cutoffMinute;
-    private Integer cutoffSecond;
     
     /* These are the output groups */
     private OriginEntryGroup validGroup;
@@ -164,7 +159,7 @@ public class ScrubberProcess {
     /**
      * These parameters are all the dependencies.
      */
-    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, DocumentTypeService documentTypeService, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ReportService reportService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride) {
+    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, DocumentTypeService documentTypeService, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ReportService reportService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
         this.documentTypeService = documentTypeService;
@@ -180,16 +175,12 @@ public class ScrubberProcess {
         this.scrubberValidator = scrubberValidator;
         this.unscrubbedToUnscrubbedEntries = new HashMap<OriginEntry, OriginEntry>();
         this.scrubberProcessObjectCodeOverride = scrubberProcessObjectCodeOverride;
+        this.runDateService = runDateService;
 
         parameters = kualiConfigurationService.getParametersByGroup(GLConstants.GL_SCRUBBER_GROUP);
         rules = kualiConfigurationService.getRulesByGroup(GLConstants.GL_SCRUBBER_GROUP);
         
-        cutoffHour = null;
-        cutoffMinute = null;
-        cutoffSecond = null;
-        
         collectorMode = false;
-        initCutoffTime();
     }
 
     /**
@@ -1775,55 +1766,9 @@ public class ScrubberProcess {
             message = m;
         }
     }
-    
-    protected void setCutoffTimeForPreviousDay(int hourOfDay, int minuteOfDay, int secondOfDay) {
-        this.cutoffHour = hourOfDay;
-        this.cutoffMinute = minuteOfDay;
-        this.cutoffSecond = secondOfDay;
         
-        LOG.info("Setting cutoff time to hour: " + hourOfDay + ", minute: " + minuteOfDay + ", second: " + secondOfDay);
-    }
-    
-    protected void setCutoffTime(String cutoffTime) {
-        if (!StringUtils.hasText(cutoffTime)) {
-            LOG.debug("Cutoff time is blank");
-            unsetCutoffTimeForPreviousDay();
-        }
-        else {
-            cutoffTime = cutoffTime.trim();
-            LOG.debug("Cutoff time value found: " + cutoffTime);
-            StringTokenizer st = new StringTokenizer(cutoffTime, ":", false);
-            
-            try {
-                String hourStr = st.nextToken();
-                String minuteStr = st.nextToken();
-                String secondStr = st.nextToken();
-                
-                int hourInt = Integer.parseInt(hourStr, 10);
-                int minuteInt = Integer.parseInt(minuteStr, 10);
-                int secondInt = Integer.parseInt(secondStr, 10);
-                
-                if (hourInt < 0 || hourInt > 23 || minuteInt < 0 || minuteInt > 59 || secondInt < 0 || secondInt > 59) {
-                    throw new IllegalArgumentException("Cutoff time must be in the format \"HH:mm:ss\", where HH, mm, ss are defined in the java.text.SimpleDateFormat class.  In particular, 0 <= hour <= 23, 0 <= minute <= 59, and 0 <= second <= 59");
-                }
-                setCutoffTimeForPreviousDay(hourInt, minuteInt, secondInt);
-            }
-            catch (Exception e) {
-                throw new IllegalArgumentException("Cutoff time should either be null, or in the format \"HH:mm:ss\", where HH, mm, ss are defined in the java.text.SimpleDateFormat class.");
-            }
-        }
-    }
-    
-    
-    public void unsetCutoffTimeForPreviousDay() {
-        this.cutoffHour = null;
-        this.cutoffMinute = null;
-        this.cutoffSecond = null;
-    }
-    
     /**
-     * This method modifies the run date if it is before the cutoff time specified by calling
-     * the setCutoffTimeForPreviousDay method.
+     * This method modifies the run date if it is before the cutoff time specified by the RunTimeService
      * 
      * See https://test.kuali.org/jira/browse/KULRNE-70
      * 
@@ -1832,58 +1777,7 @@ public class ScrubberProcess {
      * @param currentDate
      * @return
      */
-    public java.sql.Date calculateRunDate(java.util.Date currentDate) {
-        Calendar currentCal = Calendar.getInstance();
-        currentCal.setTime(currentDate);
-        
-        if (isCurrentDateBeforeCutoff(currentCal)) {
-            // time to set the date to the previous day's last minute/second
-            currentCal.add(Calendar.DAY_OF_MONTH, -1);
-            // per old COBOL code (see https://test.kuali.org/jira/browse/KULRNE-70),
-            // the time is set to 23:59:59 (assuming 0 ms)
-            currentCal.set(Calendar.HOUR_OF_DAY, 23);
-            currentCal.set(Calendar.MINUTE, 59);
-            currentCal.set(Calendar.SECOND, 59);
-            currentCal.set(Calendar.MILLISECOND, 0);
-            return new java.sql.Date(currentCal.getTimeInMillis());
-        }
-        return new java.sql.Date(currentDate.getTime());
-    }
-    
-    protected boolean isCurrentDateBeforeCutoff(Calendar currentCal) {
-        if (cutoffHour != null && cutoffMinute != null && cutoffSecond != null) {
-            // if cutoff date is not properly defined
-            // 24 hour clock (i.e. hour is 0 - 23)
-            
-            // clone the calendar so we get the same month, day, year
-            // then change the hour, minute, second fields
-            // then see if the cutoff is before or after
-            Calendar cutoffTime = (Calendar) currentCal.clone();
-            cutoffTime.setLenient(false);
-            cutoffTime.set(Calendar.HOUR_OF_DAY, cutoffHour);
-            cutoffTime.set(Calendar.MINUTE, cutoffMinute);
-            cutoffTime.set(Calendar.SECOND, cutoffSecond);
-            cutoffTime.set(Calendar.MILLISECOND, 0);
-            
-            return currentCal.before(cutoffTime);
-        }
-        // if cutoff date is not properly defined, then it is considered to be after the cutoff
-        return false;
-    }
-    
-    protected void initCutoffTime() {
-        FinancialSystemParameter cutoffParam = parameters.get(GLConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME);
-        String cutoffTime = null;
-        if (cutoffParam == null) {
-            LOG.debug("Cutoff time system parameter not found");
-            unsetCutoffTimeForPreviousDay();
-            return;
-        }
-        cutoffTime = cutoffParam.getFinancialSystemParameterText();
-        setCutoffTime(cutoffTime);
-    }
-    
-    protected void scrubInterDepartmentalBillings(CollectorBatch batch) {
-        
+    public Date calculateRunDate(java.util.Date currentDate) {
+        return new Date(runDateService.calculateRunDate(currentDate).getTime());
     }
 }

@@ -263,7 +263,7 @@ public class ReportServiceImpl implements ReportService {
      * @see org.kuali.module.gl.service.ReportService#generatePosterStatisticsReport(java.util.Date, java.util.Map, java.util.Map,
      *      int)
      */
-    public void generatePosterStatisticsReport(Date runDate, Map<String, Integer> reportSummary, List<PostTransaction> transactionPosters, Map<Transaction, List<Message>> reportErrors, int mode) {
+    public void generatePosterStatisticsReport(Date executionDate, Date runDate, Map<String, Integer> reportSummary, List<PostTransaction> transactionPosters, Map<Transaction, List<Message>> reportErrors, int mode) {
         LOG.debug("generatePosterStatisticsReport() started");
 
         // Convert our summary to a list of items for the report
@@ -306,7 +306,7 @@ public class ReportServiceImpl implements ReportService {
             filename = "poster_reversal";
         }
 
-        tr.generateReport(reportErrors, summary, runDate, title, filename, reportsDirectory);
+        tr.generateReport(reportErrors, summary, executionDate, title, filename, reportsDirectory);
     }
 
     /**
@@ -327,11 +327,9 @@ public class ReportServiceImpl implements ReportService {
     }
 
     /**
-     * 
-     * @see org.kuali.module.gl.service.ReportService#generatePosterIcrStatisticsReport(java.util.Date, java.util.Map, int, int,
-     *      int, int)
+     * @see org.kuali.module.gl.service.ReportService#generatePosterIcrStatisticsReport(java.util.Date, java.util.Date, java.util.Map, int, int, int, int)
      */
-    public void generatePosterIcrStatisticsReport(Date runDate, Map<Transaction, List<Message>> reportErrors, int reportExpendTranRetrieved, int reportExpendTranDeleted, int reportExpendTranKept, int reportOriginEntryGenerated) {
+    public void generatePosterIcrStatisticsReport(Date executionDate, Date runDate, Map<Transaction, List<Message>> reportErrors, int reportExpendTranRetrieved, int reportExpendTranDeleted, int reportExpendTranKept, int reportOriginEntryGenerated) {
         LOG.debug("generatePosterIcrStatisticsReport() started");
 
         List summary = new ArrayList();
@@ -342,7 +340,7 @@ public class ReportServiceImpl implements ReportService {
         summary.add(new Summary(3, "Number of GL_ORIGIN_ENTRY_T records generated:", reportOriginEntryGenerated));
 
         TransactionReport tr = new TransactionReport();
-        tr.generateReport(reportErrors, summary, runDate, "ICR Generation Report", "icr_generation", reportsDirectory);
+        tr.generateReport(reportErrors, summary, executionDate, "ICR Generation Report", "icr_generation", reportsDirectory);
     }
 
     /**
@@ -546,7 +544,10 @@ public class ReportServiceImpl implements ReportService {
         transactionReport.generateReport(null, reportSummary, runDate, title, "year_end_balance_forward", reportsDirectory);
     }
 
-    public void generatePosterMainLedgerSummaryReport(Date runDate, Collection groups) {
+    /**
+     * @see org.kuali.module.gl.service.ReportService#generatePosterMainLedgerSummaryReport(java.util.Date, java.util.Date, java.util.Collection)
+     */
+    public void generatePosterMainLedgerSummaryReport(Date executionDate, Date runDate, Collection groups) {
         LOG.debug("generatePosterMainLedgerSummaryReport() started");
 
         LedgerEntryHolder ledgerEntries = new LedgerEntryHolder();
@@ -555,10 +556,13 @@ public class ReportServiceImpl implements ReportService {
         }
 
         LedgerReport ledgerReport = new LedgerReport();
-        ledgerReport.generateReport(ledgerEntries, runDate, "Main Poster Input Transactions", "poster_main_ledger", reportsDirectory);
+        ledgerReport.generateReport(ledgerEntries, executionDate, "Main Poster Input Transactions", "poster_main_ledger", reportsDirectory);
     }
 
-    public void generatePosterIcrLedgerSummaryReport(Date runDate, Collection groups) {
+    /**
+     * @see org.kuali.module.gl.service.ReportService#generatePosterIcrLedgerSummaryReport(java.util.Date, java.util.Date, java.util.Collection)
+     */
+    public void generatePosterIcrLedgerSummaryReport(Date executionDate, Date runDate, Collection groups) {
         LOG.debug("generatePosterIcrLedgerSummaryReport() started");
 
         LedgerEntryHolder ledgerEntries = new LedgerEntryHolder();
@@ -567,17 +571,17 @@ public class ReportServiceImpl implements ReportService {
         }
 
         LedgerReport ledgerReport = new LedgerReport();
-        ledgerReport.generateReport(ledgerEntries, runDate, "Icr Poster Input Transactions", "poster_icr_ledger", reportsDirectory);
+        ledgerReport.generateReport(ledgerEntries, executionDate, "Icr Poster Input Transactions", "poster_icr_ledger", reportsDirectory);
     }
 
     /**
      * NOTE: the implementation of this method only determines whether an iterator has a next element (using hasNext()).  It does not iterate
      * through the array.
      * 
-     * @see org.kuali.module.gl.service.ReportService#generatePosterReversalLedgerSummaryReport(java.util.Date,
+     * @see org.kuali.module.gl.service.ReportService#generatePosterReversalLedgerSummaryReport(java.util.Date, java.util.Date,
      *      java.util.Iterator)
      */
-    public void generatePosterReversalLedgerSummaryReport(Date runDate, Iterator reversals) {
+    public void generatePosterReversalLedgerSummaryReport(Date executionDate, Date runDate, Iterator reversals) {
         LOG.debug("generatePosterReversalLedgerSummaryReport() started");
 
         LedgerEntryHolder ledgerEntries = new LedgerEntryHolder();
@@ -586,7 +590,7 @@ public class ReportServiceImpl implements ReportService {
         }
 
         LedgerReport ledgerReport = new LedgerReport();
-        ledgerReport.generateReport(ledgerEntries, runDate, "Reversal Poster Input Transactions", "poster_reversal_ledger", reportsDirectory);
+        ledgerReport.generateReport(ledgerEntries, executionDate, "Reversal Poster Input Transactions", "poster_reversal_ledger", reportsDirectory);
     }
 
     /**
@@ -717,34 +721,35 @@ public class ReportServiceImpl implements ReportService {
         }
     }
     
+
     /**
-     * @see org.kuali.module.gl.service.ReportService#generatePosterReversalTransactionsListing(java.util.Date, org.kuali.module.gl.bo.OriginEntryGroup)
+     * @see org.kuali.module.gl.service.ReportService#generatePosterReversalTransactionsListing(java.util.Date, java.util.Date, org.kuali.module.gl.bo.OriginEntryGroup)
      */
-    public void generatePosterReversalTransactionsListing(Date runDate, OriginEntryGroup originGroup) {
+    public void generatePosterReversalTransactionsListing(Date executionDate, Date runDate, OriginEntryGroup originGroup) {
         LOG.debug("generatePosterReversalTransactionsListing() started");
 
         Iterator ti = originEntryService.getEntriesByGroupAccountOrder(originGroup);
 
         TransactionListingReport report = new TransactionListingReport();
-        report.generateReport(ti, runDate, "Reversal Poster Transaction Listing", "poster_reversal_list", reportsDirectory);     
+        report.generateReport(ti, executionDate, "Reversal Poster Transaction Listing", "poster_reversal_list", reportsDirectory);     
     }
 
     /**
      * 
      * @see org.kuali.module.gl.service.ReportService#generatePosterErrorTransactionListing(java.util.Date, org.kuali.module.gl.bo.OriginEntryGroup, int)
      */
-    public void generatePosterErrorTransactionListing(Date runDate, OriginEntryGroup group, int posterMode) {
+    public void generatePosterErrorTransactionListing(Date executionDate, Date runDate, OriginEntryGroup group, int posterMode) {
         LOG.debug("generatePosterErrorTransactionListing() started");
 
         Iterator ti = originEntryService.getEntriesByGroupAccountOrder(group);
 
         TransactionListingReport report = new TransactionListingReport();
         if ( posterMode == PosterService.MODE_ENTRIES ) {
-            report.generateReport(ti, runDate, "Main Poster Error Transaction Listing", "poster_main_error_list", reportsDirectory);
+            report.generateReport(ti, executionDate, "Main Poster Error Transaction Listing", "poster_main_error_list", reportsDirectory);
         } else if ( posterMode == PosterService.MODE_ICR ) {
-            report.generateReport(ti, runDate, "ICR Poster Error Transaction Listing", "poster_icr_error_list", reportsDirectory);
+            report.generateReport(ti, executionDate, "ICR Poster Error Transaction Listing", "poster_icr_error_list", reportsDirectory);
         } else if ( posterMode == PosterService.MODE_REVERSAL ) {
-            report.generateReport(ti, runDate, "Reversal Poster Error Transaction Listing", "poster_reversal_error_list", reportsDirectory);            
+            report.generateReport(ti, executionDate, "Reversal Poster Error Transaction Listing", "poster_reversal_error_list", reportsDirectory);            
         }
     }
 

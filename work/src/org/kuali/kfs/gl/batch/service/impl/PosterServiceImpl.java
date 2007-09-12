@@ -59,6 +59,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.PosterService;
 import org.kuali.module.gl.service.ReportService;
+import org.kuali.module.gl.service.RunDateService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -82,6 +83,7 @@ public class PosterServiceImpl implements PosterService {
     private ReportService reportService;
     private KualiConfigurationService kualiConfigurationService;
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
+    private RunDateService runDateService;
 
     /**
      * Post scrubbed GL entries to GL tables.
@@ -118,7 +120,9 @@ public class PosterServiceImpl implements PosterService {
         OriginEntryGroup validGroup = null;
         OriginEntryGroup invalidGroup = null;
 
-        Date runDate = new Date(dateTimeService.getCurrentDate().getTime());
+        Date executionDate = new Date(dateTimeService.getCurrentDate().getTime());
+        Date runDate = new Date(runDateService.calculateRunDate(executionDate).getTime());
+        
         UniversityDate runUniversityDate = universityDateDao.getByPrimaryKey(runDate);
 
         Collection groups = null;
@@ -128,19 +132,19 @@ public class PosterServiceImpl implements PosterService {
                 validEntrySourceCode = OriginEntrySource.MAIN_POSTER_VALID;
                 invalidEntrySourceCode = OriginEntrySource.MAIN_POSTER_ERROR;
                 groups = originEntryGroupService.getGroupsToPost();
-                reportService.generatePosterMainLedgerSummaryReport(runDate, groups);
+                reportService.generatePosterMainLedgerSummaryReport(executionDate, runDate, groups);
                 break;
             case PosterService.MODE_REVERSAL:
                 validEntrySourceCode = OriginEntrySource.REVERSAL_POSTER_VALID;
                 invalidEntrySourceCode = OriginEntrySource.REVERSAL_POSTER_ERROR;
                 reversalTransactions = reversalDao.getByDate(runDate);
-                reportService.generatePosterReversalLedgerSummaryReport(runDate, reversalTransactions);
+                reportService.generatePosterReversalLedgerSummaryReport(executionDate, runDate, reversalTransactions);
                 break;
             case PosterService.MODE_ICR:
                 validEntrySourceCode = OriginEntrySource.ICR_POSTER_VALID;
                 invalidEntrySourceCode = OriginEntrySource.ICR_POSTER_ERROR;
                 groups = originEntryGroupService.getIcrGroupsToPost();
-                reportService.generatePosterIcrLedgerSummaryReport(runDate, groups);
+                reportService.generatePosterIcrLedgerSummaryReport(executionDate, runDate, groups);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid poster mode " + mode);
@@ -203,7 +207,7 @@ public class PosterServiceImpl implements PosterService {
                 }
     
                 // Report Reversal poster valid transactions
-                reportService.generatePosterReversalTransactionsListing(runDate, validGroup);
+                reportService.generatePosterReversalTransactionsListing(executionDate, runDate, validGroup);
             }
         } catch (RuntimeException e) {
             LOG.info("postEntries() failed posting Entry " + ecount);
@@ -213,8 +217,8 @@ public class PosterServiceImpl implements PosterService {
         LOG.info("postEntries() done, total count = " + ecount);
         
         // Generate the reports
-        reportService.generatePosterStatisticsReport(runDate, reportSummary, transactionPosters, reportError, mode);
-        reportService.generatePosterErrorTransactionListing(runDate, invalidGroup, mode);
+        reportService.generatePosterStatisticsReport(executionDate, runDate, reportSummary, transactionPosters, reportError, mode);
+        reportService.generatePosterErrorTransactionListing(executionDate, runDate, invalidGroup, mode);
     }
 
     private void postTransaction(Transaction tran, int mode, Map reportSummary, Map reportError, OriginEntryGroup invalidGroup, OriginEntryGroup validGroup, UniversityDate runUniversityDate) {
@@ -342,7 +346,8 @@ public class PosterServiceImpl implements PosterService {
     public void generateIcrTransactions() {
         LOG.debug("generateIcrTransactions() started");
 
-        Date runDate = new Date(dateTimeService.getCurrentDate().getTime());
+        Date executionDate = dateTimeService.getCurrentSqlDate();
+        Date runDate = new Date(runDateService.calculateRunDate(executionDate).getTime());
 
         OriginEntryGroup group = originEntryGroupService.createGroup(runDate, OriginEntrySource.ICR_TRANSACTIONS, true, true, false);
 
@@ -401,7 +406,7 @@ public class PosterServiceImpl implements PosterService {
             reportExpendTranDeleted++;
         }
 
-        reportService.generatePosterIcrStatisticsReport(runDate, reportErrors, reportExpendTranRetrieved, reportExpendTranDeleted, reportExpendTranKept, reportOriginEntryGenerated);
+        reportService.generatePosterIcrStatisticsReport(executionDate, runDate, reportErrors, reportExpendTranRetrieved, reportExpendTranDeleted, reportExpendTranKept, reportOriginEntryGenerated);
     }
 
     /**
@@ -659,5 +664,13 @@ public class PosterServiceImpl implements PosterService {
 
     public void setFlexibleOffsetAccountService(FlexibleOffsetAccountService flexibleOffsetAccountService) {
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
+    }
+
+    public RunDateService getRunDateService() {
+        return runDateService;
+    }
+
+    public void setRunDateService(RunDateService runDateService) {
+        this.runDateService = runDateService;
     }
 }

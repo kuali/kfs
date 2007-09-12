@@ -15,7 +15,7 @@
  */
 package org.kuali.module.gl.service;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Sometimes it is necessary to rerun a GL process on the following day if the previous
@@ -26,8 +26,8 @@ public interface RunDateService {
     /**
      * Returns the assumed runtime given the actual execution time.
      * 
-     * @param executionTime the actual date that this method is called
+     * @param executionDate the actual date that this method is called
      * @return the run date/time to assume when running the GL processes
      */
-    public Date calculateRunDate(Date executionTime);
+    public Date calculateRunDate(Date executionDate);
 }

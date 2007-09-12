@@ -63,7 +63,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         }
 
         // ensure the accounts in source accounting lines are same
-        if (!hasSameAccount(accountingDocument)) {
+        if (!hasSameAccount(accountingDocument, accountingLine)) {
             reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_SAME);
             return false;
         }
@@ -142,7 +142,39 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
                 return false;
             }
 
+            // account number was not retrieved correctly, so the two statements are used to populate the fields manually
+            account.setChartOfAccountsCode(sourceAccountingLine.getChartOfAccountsCode());
+            account.setAccountNumber(sourceAccountingLine.getAccountNumber());
+            
             cachedAccount = cachedAccount == null ? account : cachedAccount;
+            if (!account.equals(cachedAccount)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * determine whether the given accouting line has the same account as the source accounting lines
+     * 
+     * @param accountingDocument the given accouting document
+     * @param accountingLine the given accounting line
+     * @return true if the given accouting line has the same account as the source accounting lines; otherwise, false
+     */
+    private boolean hasSameAccount(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        LOG.debug("started hasSameAccount(AccountingDocument, AccountingLine)");
+
+        LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
+        List<ExpenseTransferSourceAccountingLine> sourceAccountingLines = expenseTransferDocument.getSourceAccountingLines();
+
+        Account cachedAccount = accountingLine.getAccount();
+        for (AccountingLine sourceAccountingLine : sourceAccountingLines) {
+            Account account = sourceAccountingLine.getAccount();
+            
+            // account number was not retrieved correctly, so the two statements are used to populate the fields manually
+            account.setChartOfAccountsCode(sourceAccountingLine.getChartOfAccountsCode());
+            account.setAccountNumber(sourceAccountingLine.getAccountNumber());
+            
             if (!account.equals(cachedAccount)) {
                 return false;
             }

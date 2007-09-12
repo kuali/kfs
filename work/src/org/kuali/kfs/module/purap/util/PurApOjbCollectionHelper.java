@@ -20,6 +20,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.ListUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.OjbCollectionAware;
@@ -29,7 +31,7 @@ import org.springframework.orm.ObjectRetrievalFailureException;
  * Helper object to deal with persisting collections.
  */
 public class PurApOjbCollectionHelper {
-
+    public final static int MAX_DEPTH = 2;
     /**
      * OJB RemovalAwareLists do not survive through the response/request lifecycle. This method is a work-around to forcibly remove
      * business objects that are found in Collections stored in the database but not in memory.
@@ -39,7 +41,17 @@ public class PurApOjbCollectionHelper {
      * @param template
      */
     public void processCollections(OjbCollectionAware template, PersistableBusinessObject orig, PersistableBusinessObject copy) {
-        if (copy == null) {
+        processCollectionsRecurse(template, orig, copy,MAX_DEPTH);
+    }
+
+    /**
+     * This method processes collections recursively up to the depth level specified
+     * @param template
+     * @param orig
+     * @param copy
+     */
+    private void processCollectionsRecurse(OjbCollectionAware template, PersistableBusinessObject orig, PersistableBusinessObject copy, int depth) {
+        if (copy == null || depth<1) {
             return;
         }
         
@@ -59,10 +71,11 @@ public class PurApOjbCollectionHelper {
                 }
 
                 for (int i = 0; i < size; i++) {
-                    Collection origSource = (Collection) originalCollections.get(i);
-                    Collection copySource = (Collection) copyCollections.get(i);
-                    List list = findUnwantedElements(copySource, origSource);
+                    Collection<PersistableBusinessObject> origSource = (Collection<PersistableBusinessObject>) originalCollections.get(i);
+                    Collection<PersistableBusinessObject> copySource = (Collection<PersistableBusinessObject>) copyCollections.get(i);
+                    List list = findUnwantedElements(copySource, origSource, template, depth-1);
                     cleanse(template, origSource, list);
+                    
                 }
             }
             catch (ObjectRetrievalFailureException orfe) {
@@ -103,8 +116,9 @@ public class PurApOjbCollectionHelper {
                 for (int i = 0; i < size; i++) {
                     Collection origSource = (Collection) originalCollections.get(i);
                     Collection copySource = (Collection) copyCollections.get(i);
-                    List list = findUnwantedElements(copySource, origSource);
+                    List list = findUnwantedElements(copySource, origSource, null, 0);
                     cleanse(template, origSource, list);
+                    
                 }
             }
             catch (ObjectRetrievalFailureException orfe) {
@@ -139,14 +153,17 @@ public class PurApOjbCollectionHelper {
      * @param controlList
      * @return true iff one or more items were removed
      */
-    private List findUnwantedElements(Collection fromList, Collection controlList) {
+    private List findUnwantedElements(Collection fromList, Collection controlList, OjbCollectionAware template, int depth) {
         List toRemove = new ArrayList();
 
         Iterator iter = fromList.iterator();
         while (iter.hasNext()) {
             PersistableBusinessObject line = (PersistableBusinessObject) iter.next();
-            if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(controlList, line)) {
+            PersistableBusinessObject copyLine = (PersistableBusinessObject) ObjectUtils.retrieveObjectWithIdentitcalKey(controlList,line);
+            if (ObjectUtils.isNull(copyLine)) {
                 toRemove.add(line);
+            } else { //since we're not deleting try to recurse on this collection
+                processCollectionsRecurse(template, line, copyLine, depth);
             }
         }
         return toRemove;

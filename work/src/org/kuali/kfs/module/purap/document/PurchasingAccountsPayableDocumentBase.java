@@ -18,47 +18,37 @@ package org.kuali.module.purap.document;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.util.collections.ManageableArrayList;
 import org.kuali.core.bo.Note;
+import org.kuali.core.dao.ojb.DocumentDaoOjb;
 import org.kuali.core.document.AmountTotaling;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.service.NoteService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
-import org.kuali.kfs.rule.event.AccountingLineEvent;
-import org.kuali.kfs.rule.event.AddAccountingLineEvent;
-import org.kuali.kfs.rule.event.DeleteAccountingLineEvent;
-import org.kuali.kfs.rule.event.ReviewAccountingLineEvent;
-import org.kuali.kfs.rule.event.UpdateAccountingLineEvent;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestView;
-import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.RequisitionView;
 import org.kuali.module.purap.bo.Status;
-import org.kuali.module.purap.bo.StatusHistory;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapService;
+import org.kuali.module.purap.util.PurApOjbCollectionHelper;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
 
@@ -129,6 +119,13 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
+        //These next 3 lines are temporary changes so that we can use PurApOjbCollectionHelper for release 2.
+        //But these 3 lines will not be necessary anymore if the changes in PurApOjbCollectionHelper is
+        //merge into Rice. KULPURAP-1370 is the related jira.
+//        DocumentDaoOjb docDao = SpringContext.getBean(DocumentDaoOjb.class);
+//        PurchasingAccountsPayableDocumentBase retrievedDocument = (PurchasingAccountsPayableDocumentBase)docDao.findByDocumentHeaderId(this.getClass(), this.getDocumentNumber());
+//        SpringContext.getBean(PurApOjbCollectionHelper.class).processCollections(docDao, this, retrievedDocument);
+//        
         super.prepareForSave(event);
     }
 

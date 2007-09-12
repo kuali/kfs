@@ -21,6 +21,7 @@ import static org.kuali.core.util.KualiDecimal.ZERO;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -179,7 +180,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 
             //TODO check setting of outstanding amount in the accounts
             List accounts = (List)item.getSourceAccountingLines();
-//          Collections.sort(accounts);
+            Collections.sort(accounts);
 
             KualiDecimal accountTotalAmount = new KualiDecimal(0);
             PurchaseOrderAccount lastAccount = null;

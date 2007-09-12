@@ -24,7 +24,9 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 
 public interface PurapGeneralLedgerService {
-    
+
+    public final static boolean CREATE_PAYMENT_REQUEST = false;
+    public final static boolean CANCEL_PAYMENT_REQUEST = !CREATE_PAYMENT_REQUEST;
     public final static boolean CREATE_CREDIT_MEMO = false;
     public final static boolean CANCEL_CREDIT_MEMO = !CREATE_CREDIT_MEMO;
 
@@ -32,16 +34,18 @@ public interface PurapGeneralLedgerService {
             GeneralLedgerPendingEntry explicitEntry, Integer referenceDocumentNumber, String debitCreditCode,
             String docType, boolean isEncumbrance);
 
-    public void generateEntriesCreatePreq(PaymentRequestDocument preq);
+    public void generateEntriesCreatePaymentRequest(PaymentRequestDocument preq);
 
-    public void generateEntriesModifyPreq(PaymentRequestDocument preq);
+    public void generateEntriesCancelPaymentRequest(PaymentRequestDocument preq);
+
+    public void generateEntriesModifyPaymentRequest(PaymentRequestDocument preq);
 
     public void generateEntriesCreateCreditMemo(CreditMemoDocument cm);
-    
+
     public void generateEntriesCancelCreditMemo(CreditMemoDocument cm);
 
-    public void generateEntriesModifyCm(CreditMemoDocument cm);
+    public void generateEntriesModifyCreditMemo(CreditMemoDocument cm);
 
-    public void generateEntriesApproveAmendPo(PurchaseOrderDocument po);
+    public void generateEntriesApproveAmendPurchaseOrder(PurchaseOrderDocument po);
 
 }

@@ -24,7 +24,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.SourceAccountingLine;
 
-public abstract class PurApAccountingLineBase extends SourceAccountingLine implements PurApAccountingLine {
+public abstract class PurApAccountingLineBase extends SourceAccountingLine implements PurApAccountingLine, Comparable {
 
     protected Integer accountIdentifier;
     private Integer itemIdentifier;
@@ -127,6 +127,19 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
         m.put("orgRefId", getOrganizationReferenceId());
 
         return m;
+    }
+
+    public int compareTo(Object arg0) {
+        if (arg0 instanceof PurApAccountingLine) {
+            PurApAccountingLine account = (PurApAccountingLine) arg0;
+            return this.getString().compareTo(account.getString());
+        }
+        return -1;
+    }
+
+    public String getString() {
+        return getChartOfAccountsCode() + "~" + getAccountNumber() + "~" + getSubAccountNumber() + "~" + 
+            getFinancialObjectCode() + "~" + getFinancialSubObjectCode() + "~" + getProjectCode() + "~" + getOrganizationReferenceId();
     }
 
     public KualiDecimal getAlternateAmountForGLEntryCreation() {

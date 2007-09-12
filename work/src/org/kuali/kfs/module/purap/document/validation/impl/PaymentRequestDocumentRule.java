@@ -328,8 +328,6 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         }
         return valid;
     }
- 
-    
     /**
      * 
      * This method checks whether the total of the items' extended price, excluding the item types that can be
@@ -399,8 +397,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
 
     private boolean validateEachItem(PaymentRequestDocument paymentRequestDocument, PaymentRequestItem item) {
         boolean valid = true;
-        String identifierString = item.getItemIdentifierString();
-        valid &= validateItem(paymentRequestDocument, item, identifierString);
+            String identifierString = item.getItemIdentifierString();
+            valid &= validateItem(paymentRequestDocument, item, identifierString);
         return valid;
     }
     
@@ -408,9 +406,9 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         boolean valid = true;
         //only run item validations if before full entry
         if(!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument)) {
-        if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) { 
-            valid &= validateItemTypeItems(item, identifierString); 
-        } 
+            if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) { 
+                valid &= validateItemTypeItems(item, identifierString); 
+            } 
             valid &= validateItemWithoutAccounts(item, identifierString);
         }
         //always run account validations
@@ -654,15 +652,10 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
 
         PaymentRequestDocument preq = (PaymentRequestDocument)accountingDocument;
         
-        if (preq.isGenerateEncumbranceEntries()) {
-            SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(preq, 
-                    accountingLine, explicitEntry, preq.getPurchaseOrderIdentifier(), GL_CREDIT_CODE, PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT, true);
-        }
-        else {
-            SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(preq, 
-                    accountingLine, explicitEntry, preq.getPurchaseOrderIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT, false);
-        }
-        
+        SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(preq, 
+                accountingLine, explicitEntry, preq.getPurchaseOrderIdentifier(), preq.getDebitCreditCodeForGLEntries(), 
+                PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT, preq.isGenerateEncumbranceEntries());
+
         //PREQs do not wait for document final approval to post GL entries to the real table; here we are forcing them to be APPROVED
         explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
 

@@ -47,12 +47,14 @@ import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.Node
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PaymentRequestStatusHistory;
+import org.kuali.module.purap.bo.PaymentRequestSummaryAccount;
 import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
 import org.kuali.module.purap.service.PaymentRequestService;
+import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
@@ -98,6 +100,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private String purchaseOrderNotes;
     private boolean closePurchaseOrderIndicator;
     private boolean reopenPurchaseOrderIndicator;  
+
+    private List<PaymentRequestSummaryAccount> summaryAccountingLines;  //used for GL entry creation; is persisted to DB (hjs)
     
     // NOT PERSISTED IN DB
     private String recurringPaymentTypeCode;
@@ -121,6 +125,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         super();
     }
 
+
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#isBoNotesSupport()
      */
@@ -128,6 +133,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public boolean isBoNotesSupport() {
         return true;
     }
+
 
     /**
      * Gets the requisitionIdentifier attribute. 
@@ -144,7 +150,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void setRequisitionIdentifier(Integer requisitionIdentifier) {
         this.requisitionIdentifier = requisitionIdentifier;
     }
-    
+
     /**
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#populateDocumentForRouting()
      */
@@ -753,14 +759,15 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 //            if(poi.isItemActiveIndicator()) {
                 this.getItems().add(new PaymentRequestItem(poi,this));                
 //            }
-        }
+            }
         //add missing below the line
         SpringContext.getBean(PurapService.class).addBelowLineItems(this);
         this.setAccountsPayablePurchasingDocumentLinkIdentifier(po.getAccountsPayablePurchasingDocumentLinkIdentifier());
 
         this.refreshNonUpdateableReferences();
     }
-
+    
+   
     /**
      * TODO (KULPURAP-1575) this should be cleaned up.. it is also a replica of the method above except it performs account replacement
      * This method populates a preq from po
@@ -1267,6 +1274,16 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
     }
 
+
+    public List<PaymentRequestSummaryAccount> getSummaryAccountingLines() {
+        return summaryAccountingLines;
+    }
+
+
+    public void setSummaryAccountingLines(List<PaymentRequestSummaryAccount> summaryAccountingLines) {
+        this.summaryAccountingLines = summaryAccountingLines;
+    }
+
     /**
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getPoDocumentTypeForAccountsPayableDocumentApprove()
      */
@@ -1281,7 +1298,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public KualiDecimal getInitialAmount(){
         return this.getVendorInvoiceAmount();
     }
-    
+
+
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         
@@ -1292,5 +1310,5 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         
         super.prepareForSave(event);
     }
-    
+
 }

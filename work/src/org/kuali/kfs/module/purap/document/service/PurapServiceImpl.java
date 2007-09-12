@@ -342,12 +342,12 @@ public class PurapServiceImpl implements PurapService {
             // change PREQ accounts from percents to dollars
             // TODO Chris - put code here for document to change percents into dollars and any related functions
             // do GL entries for PREQ creation
-            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePreq(paymentRequest);
+            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePaymentRequest((PaymentRequestDocument)purapDocument);
             if (paymentRequest.isClosePurchaseOrderIndicator()) {
                 // TODO (KULPURAP-1576: dlemus/delyea) route the reopen purchase order here
                 // get the po id and get the current po
                 // check the current po: if status is not closed and there is no pending action... route close po as system user
-        	}
+        }
         }
         // below code preferable to run in post processing
         else if (purapDocument instanceof CreditMemoDocument) {

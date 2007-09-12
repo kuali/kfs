@@ -50,4 +50,5 @@ public interface PurApAccountingLine extends AccountingLine {
 
     public void setAlternateAmountForGLEntryCreation(KualiDecimal alternateAmountForGLEntryCreation);
     
+    public String getString();
 }

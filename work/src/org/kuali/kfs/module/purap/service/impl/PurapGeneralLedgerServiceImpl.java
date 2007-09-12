@@ -52,11 +52,13 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
+import org.kuali.module.gl.util.Summary;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.PaymentRequestItem;
-import org.kuali.module.purap.bo.PurapGeneralLedgerPendingEntry;
+import org.kuali.module.purap.bo.PaymentRequestSummaryAccount;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.document.CreditMemoDocument;
@@ -82,19 +84,16 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     private PurapAccountingService purapAccountingService;
     private UniversityDateService universityDateService;
 
-    public void saveGLEntriesAndPurapGLEntries(List<GeneralLedgerPendingEntry> glEntries) {
+    private void saveGLEntries(List<GeneralLedgerPendingEntry> glEntries) {
         businessObjectService.save(glEntries);
-
-//        savePurapGLEntries(glEntries);
     }
     
-    public void savePurapGLEntries(List<GeneralLedgerPendingEntry> glEntries) {
-        List purapGLEntries = new ArrayList();
-        for (GeneralLedgerPendingEntry entry : glEntries) {
-            purapGLEntries.add(new PurapGeneralLedgerPendingEntry(entry));
+    private void savePaymentRequestSummaryAccounts(List<SourceAccountingLine> sourceLines, Integer purapDocumentIdentifier) {
+        List<PaymentRequestSummaryAccount> summaryAccounts = new ArrayList();
+        for (SourceAccountingLine account : sourceLines) {
+            summaryAccounts.add(new PaymentRequestSummaryAccount(account, purapDocumentIdentifier));
         }
-
-        businessObjectService.save(purapGLEntries);
+        businessObjectService.save(summaryAccounts);
     }
     
     public void customizeGeneralLedgerPendingEntry(PurchasingAccountsPayableDocument purapDocument, AccountingLine accountingLine, 
@@ -258,21 +257,28 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
     }// end purapCustomizeGeneralLedgerPendingEntry()
 
-    public void generateEntriesCreatePreq(PaymentRequestDocument preq) {
+    public void generateEntriesCreatePaymentRequest(PaymentRequestDocument preq) {
+        generateEntriesPaymentRequest(preq, CREATE_PAYMENT_REQUEST);
+    }
+        
+    /**
+     * This should re-encumber amounts that the PREQ disencumbered as well as reverse the expense and liability entries
+     * More specifically, it should re-encumber amounts not to exceed amounts on the PO minus the total of other 
+     * non-cancelled PREQs, which could possibly be different than the amounts disencumbered due to other things which 
+     * may have happened in the meantime.
+     * 
+     * @param preq PREQ to cancel
+     */
+    public void generateEntriesCancelPaymentRequest(PaymentRequestDocument preq) {
+        generateEntriesPaymentRequest(preq, CANCEL_PAYMENT_REQUEST);
+    }
+
+    private void generateEntriesPaymentRequest(PaymentRequestDocument preq, boolean isCancel) {
 
         //FIXME move this code
         if (preq.getPurapDocumentIdentifier() != null) {
             
-        //FIXME need to code PaymentChange
-//        PaymentChange paymentChange = new PaymentChange();
-//        paymentChange.setPaymentRequest(preq);
-//        paymentChange.setCreditMemo(null);
-//        paymentChange.setLastUpdateTimestamp(now);
-//        paymentChange.setLastUpdateUserId(preq.getLastUpdateUserId());
-//set PC in doc to be used in GL creation
-        
-            /*
-             * Can't let generalLedgerPendingEntryService just create all the entries because we need the sequenceHelper to carry over
+            /* Can't let generalLedgerPendingEntryService just create all the entries because we need the sequenceHelper to carry over
              * from the encumbrances to the actuals and also because we need to tell the PaymentRequestDocumentRule customize entry
              * method how to customize differently based on if creating an encumbrance or actual.
              */
@@ -281,11 +287,21 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             
             boolean success = true;
             GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
-            
+
             //relieve encumbrances on PO
             List encumbrances = relieveEncumbrance(preq);
             if (encumbrances != null) {
                 preq.setGenerateEncumbranceEntries(true);
+
+                if (!isCancel) {
+                    //on cancel, use CREDIT code
+                    preq.setDebitCreditCodeForGLEntries(GL_CREDIT_CODE);
+                }
+                else {
+                    //on create, use DEBIT code
+                    preq.setDebitCreditCodeForGLEntries(GL_DEBIT_CODE);
+                }
+                
                 for (Iterator iter = encumbrances.iterator(); iter.hasNext();) {
                     AccountingLine accountingLine = (AccountingLine) iter.next();
                     GenerateGeneralLedgerPendingEntriesEvent glEvent = new GenerateGeneralLedgerPendingEntriesEvent(preq, accountingLine, sequenceHelper);
@@ -293,43 +309,38 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                     sequenceHelper.increment(); // increment for the next line
                 }
             }
-            
+
             //now book the actuals from the PREQ
             List accountingLines = purapAccountingService.generateSummaryWithNoZeroTotals(preq.getItems());
             if (accountingLines != null) {
                 preq.setGenerateEncumbranceEntries(false);
+
+                if (!isCancel) {
+                    //on create, use DEBIT code
+                    preq.setDebitCreditCodeForGLEntries(GL_DEBIT_CODE);
+                }
+                else {
+                    //on cancel, use CREDIT code
+                    preq.setDebitCreditCodeForGLEntries(GL_CREDIT_CODE);
+                }
+
                 for (Iterator iter = accountingLines.iterator(); iter.hasNext();) {
                     AccountingLine accountingLine = (AccountingLine) iter.next();
                     GenerateGeneralLedgerPendingEntriesEvent glEvent = new GenerateGeneralLedgerPendingEntriesEvent(preq, accountingLine, sequenceHelper);
                     success &= kualiRuleService.applyRules(glEvent);
                     sequenceHelper.increment(); // increment for the next line
-
-//FIXME finish coding
-//                    // Create Payment Change Account
-//                    for (Iterator items = acct.getItems().iterator(); items.hasNext();) {
-//                        DisplayItem item = (DisplayItem) items.next();
-//                        if (item.getAmount().compareTo(zero) != 0) {
-//                            PaymentChangeAccount pca = new PaymentChangeAccount();
-//                            pca.setPaymentChange(paymentChange);
-//                            pca.setGlPendingTransaction(tran);
-//                            pca.setItemLineNumber(item.getItemLineNumber());
-//                            pca.setLastUpdateTimestamp(now);
-//                            pca.setLastUpdateUserId(preq.getLastUpdateUserId());
-//                            pca.setAmount(item.getAmount());
-//                            paymentChange.addAccount(pca);
-//                        }
-//                    }
                 }
+
+                //Manually save summary accounts
+                savePaymentRequestSummaryAccounts(accountingLines, preq.getPurapDocumentIdentifier());
             }
 
             if (!success) {
                 //TODO blowup
             }
 
-            saveGLEntriesAndPurapGLEntries(preq.getGeneralLedgerPendingEntries());
-            
-            //TODO save PaymentChange now that it has its accounts
-
+            //Manually save GL entries for Payment Request and encumbrances
+            saveGLEntries(preq.getGeneralLedgerPendingEntries());
         }
     }
 
@@ -342,12 +353,12 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * 
      * @param preq Preq check for G/L entries
      */
-    public void generateEntriesModifyPreq(PaymentRequestDocument preq) {
+    public void generateEntriesModifyPaymentRequest(PaymentRequestDocument preq) {
         LOG.debug("generateEntriesModifyPreq(preq) started");
         // oldPreq represents the same PREQ as preq, but the old values (prior to the modifications)
         // preq represents the new values for this PREQ
         PaymentRequestDocument oldPreq = paymentRequestService.getPaymentRequestById(preq.getPurapDocumentIdentifier());
-        this.generateEntriesModifyPreq(preq, oldPreq, false);
+        generateEntriesModifyPaymentRequest(preq, oldPreq, false);
     }
 
     /**
@@ -359,7 +370,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * 
      * @param preq Preq check for G/L entries
      */
-    public void generateEntriesTaxApprovePreq(PaymentRequestDocument preq) {
+    public void generateEntriesTaxApprovePaymentRequest(PaymentRequestDocument preq) {
         LOG.debug("generateEntriesTaxApprovePreq() started");
         // oldPreq represents the same PREQ as preq, but the old values (prior to the modifications)
         // preq represents the new values for this PREQ
@@ -368,7 +379,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         throw new IllegalArgumentException("This method is not implemented");
     }
 
-    private void generateEntriesModifyPreq(PaymentRequestDocument newPREQ, PaymentRequestDocument oldPREQ, boolean oldPreqExcludeTaxItems) {
+    private void generateEntriesModifyPaymentRequest(PaymentRequestDocument newPREQ, PaymentRequestDocument oldPREQ, boolean oldPreqExcludeTaxItems) {
         LOG.debug("generateEntriesModifyPreq() started");
 
 //TODO PHASE 2B - ADD TAX EDITING
@@ -381,14 +392,15 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         }
 
         Map actualsNegative = new HashMap();
-        List<SourceAccountingLine> oldAccountingLines = purapAccountingService.generateSummaryWithNoZeroTotals(oldPREQ.getItems());
+//        List<SourceAccountingLine> oldAccountingLines = purapAccountingService.generateSummaryWithNoZeroTotals(oldPREQ.getItems());
+        List<PaymentRequestSummaryAccount> oldAccountingLines = oldPREQ.getSummaryAccountingLines();
 
 //      TODO PHASE 2B - ADD TAX EDITING
 //        if (oldPreqExcludeTaxItems) {
 //            oldAccountingLines = oldPREQ.getDisplayAccounts(taxItems, PaymentRequest.LIST_ITEMS_EXCLUDED);
 //        }
-        for (SourceAccountingLine newAccount : newAccountingLines) {
-            actualsNegative.put(newAccount, newAccount.getAmount());
+        for (PaymentRequestSummaryAccount oldAccount : oldAccountingLines) {
+            actualsNegative.put(oldAccount.generateSourceAccountingLine(), oldAccount.getAmount());
         }
 
         // Add the positive entries and subtract the negative entries
@@ -413,13 +425,6 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             glEntries.put(key, amt);
         }
 
-//        Timestamp now = new Timestamp((new Date()).getTime());
-//        PaymentChange paymentChange = new PaymentChange();
-//        paymentChange.setPaymentRequest(newPREQ);
-//        paymentChange.setCreditMemo(null);
-//        paymentChange.setLastUpdateTimestamp(now);
-//        paymentChange.setLastUpdateUserId(newPREQ.getLastUpdateUserId());
-
         List<SourceAccountingLine> accounts = new ArrayList();
         for (Iterator iter = glEntries.keySet().iterator(); iter.hasNext();) {
             SourceAccountingLine account = (SourceAccountingLine) iter.next();
@@ -427,71 +432,16 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             if (amount.doubleValue() != 0) {
                 account.setAmount(amount);
                 accounts.add(account);
-
-//TODO code payment change; should this go here?                
-//                // Create Payment Change Account
-//
-//                // Get each item
-//                LOG.debug("generateEntriesModifyPreq() Calculate amount for cams table");
-//                //FIXME was using getDisplayItems...is this ok?
-//                for (Iterator iterator = newPREQ.getItems().iterator(); iterator.hasNext();) {
-//                    PaymentRequestItem item = (PaymentRequestItem) iterator.next();
-//                    KualiDecimal amount = ZERO;
-//
-//                    // Positive amount
-//                    //FIXME was using getDisplayAccounts...is this ok?
-//                    for (Iterator ai = item.getSourceAccountingLines().iterator(); ai.hasNext();) {
-//                        SourceAccountingLine account = (SourceAccountingLine) ai.next();
-//                        //FIXME i don't think this equals won't work for this
-//                        if (acctString.equals(account)) {
-//                            amount = amount.add(account.getAmount());
-//                        }
-//                    }
-//
-//                    // Negative amount
-//                    //FIXME was using getDisplayItems...is this ok?
-//                    List oldPreqItems = oldPREQ.getItems();
-////                  TODO PHASE 2B - ADD TAX EDITING
-////                    if (oldPreqExcludeTaxItems) {
-////                        oldPreqDisplayItems = oldPREQ.getDisplayItems(taxItems, PaymentRequest.LIST_ITEMS_EXCLUDED);
-////                    }
-//                    for (Iterator ni = oldPreqItems.iterator(); ni.hasNext();) {
-//                        PaymentRequestItem nitem = (PaymentRequestItem) ni.next();
-//                        if (nitem.equals(item)) {
-//                            //FIXME was using getDisplayAccounts...is this ok?
-//                            for (Iterator nai = nitem.getSourceAccountingLines().iterator(); nai.hasNext();) {
-//                                SourceAccountingLine account = (SourceAccountingLine) nai.next();
-//                                //FIXME i don't think this equals won't work for this
-//                                if (acctString.equals(account)) {
-//                                    amount = amount.subtract(account.getAmount());
-//                                }
-//                            }
-//                            break;
-//                        }
-//                    }
-//
-////                    if (amount.compareTo(zero) != 0) {
-////                        PaymentChangeAccount pca = new PaymentChangeAccount();
-////                        pca.setPaymentChange(paymentChange);
-////                        pca.setGlPendingTransaction(tran);
-////                        pca.setItemLineNumber(item.getItemLineNumber());
-////                        pca.setLastUpdateTimestamp(now);
-////                        pca.setLastUpdateUserId(newPREQ.getLastUpdateUserId());
-////                        pca.setAmount(amount);
-////                        paymentChange.addAccount(pca);
-////                    }
-//                }
             }
         }
+
+        //save summary accounts
+        savePaymentRequestSummaryAccounts(accounts, newPREQ.getPurapDocumentIdentifier());
         
-        // now the actuals & liabilities
         LOG.debug("generateEntriesModifyPreq() Generate GL entries");
         newPREQ.setSourceAccountingLines(accounts);
         generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(newPREQ);
-        saveGLEntriesAndPurapGLEntries(newPREQ.getGeneralLedgerPendingEntries());
-        
-        LOG.debug("generateEntriesModifyPreq() save paymentChange");
-//TOOD        paymentChangeDao.save(paymentChange);
+        saveGLEntries(newPREQ.getGeneralLedgerPendingEntries());
     }
 
     public void generateEntriesCreateCreditMemo(CreditMemoDocument cm) {
@@ -504,14 +454,6 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     
     private void generateEntriesCreditMemo(CreditMemoDocument cm, boolean isCancel) {
         LOG.debug("generateEntriesCreditMemo() started");
-
-        // TODO code PaymentChange
-        // Timestamp now = new Timestamp( (new Date()).getTime() );
-        // PaymentChange paymentChange = new PaymentChange();
-        // paymentChange.setPaymentRequest(null);
-        // paymentChange.setCreditMemo(cm);
-        // paymentChange.setLastUpdateTimestamp(now);
-        // paymentChange.setLastUpdateUserId(cm.getLastUpdateUser().getId());
 
         generalLedgerPendingEntryService.delete(cm.getDocumentNumber());
 
@@ -531,7 +473,10 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         List encumbrances = getCreditMemoEncumbrance(cm, po, isCancel);
         if (encumbrances != null) {
             cm.setGenerateEncumbranceEntries(true);
-            cm.setGenerateCancelEntries(isCancel);
+          
+            //even if generating encumbrance entries on cancel, call is the same because the method gets negative amounts from the map so Debits on negatives = a credit
+            cm.setDebitCreditCodeForGLEntries(GL_DEBIT_CODE);
+
             for (Iterator iter = encumbrances.iterator(); iter.hasNext();) {
                 AccountingLine accountingLine = (AccountingLine) iter.next();
                 if (accountingLine.getAmount().compareTo(ZERO) != 0) {
@@ -546,36 +491,21 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         List<SourceAccountingLine> accountingLines = purapAccountingService.generateSummaryWithNoZeroTotals(cm.getItems());
         if (accountingLines != null) {
             cm.setGenerateEncumbranceEntries(false);
-            cm.setGenerateCancelEntries(false);
+
+            if (!isCancel) {
+                //on create, use CREDIT code
+                cm.setDebitCreditCodeForGLEntries(GL_CREDIT_CODE);
+            }
+            else {
+                //on cancel, use DEBIT code
+                cm.setDebitCreditCodeForGLEntries(GL_DEBIT_CODE);
+            }
+            
             for (Iterator iter = accountingLines.iterator(); iter.hasNext();) {
                 AccountingLine accountingLine = (AccountingLine) iter.next();
                 GenerateGeneralLedgerPendingEntriesEvent glEvent = new GenerateGeneralLedgerPendingEntriesEvent(cm, accountingLine, sequenceHelper);
                 success &= kualiRuleService.applyRules(glEvent);
                 sequenceHelper.increment(); // increment for the next line
-
-                // FIXME finish coding
-                // // Create Payment Change Account
-                // for (Iterator accounts = cm.getDisplayAccounts().iterator(); accounts.hasNext();) {
-                // DisplayAccount account = (DisplayAccount)accounts.next();
-                // LOG.debug("generateEntriesCreateCm() account " + account.getAccountNumber() + " " + account.getAmount());
-                // if ( acctString.equals(account.getGlAccountingString()) ) {
-                // for (Iterator items = account.getItems().iterator(); items.hasNext();) {
-                // DisplayItem item = (DisplayItem) items.next();
-                // if ( item.getAmount().compareTo(zero) != 0 ) {
-                // LOG.debug("generateEntriesCreateCm() item " + item.getItemLineNumber() + " " + item.getAmount());
-                // PaymentChangeAccount pca = new PaymentChangeAccount();
-                // pca.setPaymentChange(paymentChange);
-                // pca.setGlPendingTransaction(tran);
-                // pca.setItemLineNumber(item.getItemLineNumber());
-                // pca.setLastUpdateTimestamp(now);
-                // pca.setLastUpdateUserId(cm.getLastUpdateUser().getId());
-                // pca.setAmount(zero.subtract(item.getAmount()));
-                // paymentChange.addAccount(pca);
-                // }
-                // }
-                //                  }
-                //                }
-
             }
         }
 
@@ -583,22 +513,19 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             //TODO blowup
         }
 
-        saveGLEntriesAndPurapGLEntries(cm.getGeneralLedgerPendingEntries());
-
-        //TODO save PaymentChange now that it has its accounts
-
+        saveGLEntries(cm.getGeneralLedgerPendingEntries());
         LOG.debug("generateEntriesCreditMemo() ended");
     }
 
     /**
      * This isn't necessary for this release
      */
-    public void generateEntriesModifyCm(CreditMemoDocument cm) {
-      LOG.debug("generateEntriesModifyCm() started");
-      throw new IllegalArgumentException("This method is not implemented");
+    public void generateEntriesModifyCreditMemo(CreditMemoDocument cm) {
+        LOG.debug("generateEntriesModifyCm() started");
+        throw new IllegalArgumentException("This method is not implemented");
     }
 
-    public void generateEntriesApproveAmendPo(PurchaseOrderDocument po) {
+    public void generateEntriesApproveAmendPurchaseOrder(PurchaseOrderDocument po) {
         // Set outstanding encumbered quantity/amount on items
         for (Iterator items = po.getItems().iterator(); items.hasNext();) {
             PurchaseOrderItem item = (PurchaseOrderItem) items.next();
@@ -925,12 +852,163 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
-        //TODO should this use the save in PurhcaseOrderService? (hjs)
+        //FIXME should this use the save in PurhcaseOrderService? (hjs)
         businessObjectService.save(po);
         
         return encumbranceAccounts;
     }
 
+    /**
+     * Re-encumber the Encumbrance on a PO based on values in a PREQ.
+     * 
+     * Note:  This modifies the encumbrance values on the PO and saves the PO
+     * 
+     * This is used when a PREQ is cancelled.
+     * 
+     * @param po Purchase Order
+     * @param preq PREQ for invoice
+     * @return Map of GlAccountingString/BigDecimal for amounts to re-encumber the encumbrance
+     */
+    private List reencumberEncumbrance(PurchaseOrderDocument po, PaymentRequestDocument preq) {
+        LOG.debug("reencumberEncumbrance() started");
+
+        Map encumbranceAccountMap = new HashMap();
+
+        // Get each item one by one
+        for (Iterator items = preq.getItems().iterator(); items.hasNext();) {
+            PaymentRequestItem payRequestItem = (PaymentRequestItem) items.next();
+            PurchaseOrderItem poItem = getPoItem(po, payRequestItem.getItemLineNumber());
+
+            KualiDecimal itemReEncumber = null; // Amount to reencumber for this item
+
+            String logItmNbr = "Item # " + payRequestItem.getItemLineNumber();
+            LOG.debug("reencumberEncumbrance() " + logItmNbr);
+
+            // If there isn't a PO item or the extended price is 0, we don't need encumbrances
+            if ((poItem == null) || (payRequestItem.getExtendedPrice().doubleValue() == 0)) {
+                LOG.debug("reencumberEncumbrance() " + logItmNbr + " No encumbrances required");
+            }
+            else {
+                LOG.debug("reencumberEncumbrance() " + logItmNbr + " Calculate encumbrance GL entries");
+
+                // Do we calculate the encumbrance amount based on quantity or amount?
+                if (poItem.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                    LOG.debug("reencumberEncumbrance() " + logItmNbr + " Calculate encumbrance based on quantity");
+
+                    // Do disencumbrance calculations based on quantity
+                    KualiDecimal preqQuantity = payRequestItem.getItemQuantity() == null ? ZERO : payRequestItem.getItemQuantity();
+                    KualiDecimal outstandingEncumberedQuantity = poItem.getItemOutstandingEncumberedQuantity() == null ? ZERO : poItem.getItemOutstandingEncumberedQuantity();
+                    KualiDecimal invoicedTotal = poItem.getItemInvoicedTotalQuantity() == null ? ZERO : poItem.getItemInvoicedTotalQuantity();
+
+                    poItem.setItemInvoicedTotalQuantity(invoicedTotal.subtract(preqQuantity));
+                    poItem.setItemOutstandingEncumberedQuantity(outstandingEncumberedQuantity.add(preqQuantity));
+
+                    itemReEncumber = preqQuantity.multiply(new KualiDecimal(poItem.getItemUnitPrice()));
+                }
+                else {
+                    LOG.debug("reencumberEncumbrance() " + logItmNbr + " Calculate encumbrance based on amount");
+
+                    itemReEncumber = payRequestItem.getExtendedPrice();
+                    // if re-encumber amount is more than original PO ordered amount... do not exceed ordered amount
+                    // this prevents negative encumbrance
+                    if ((poItem.getExtendedPrice() != null) && (poItem.getExtendedPrice().bigDecimalValue().signum() < 0)) {
+                        // po item extended cost is negative
+                        if ((poItem.getExtendedPrice().compareTo(itemReEncumber)) > 0) {
+                            itemReEncumber = poItem.getExtendedPrice();
+                        }
+                    }
+                    else if ((poItem.getExtendedPrice() != null) && (poItem.getExtendedPrice().bigDecimalValue().signum() >= 0)) {
+                        // po item extended cost is positive
+                        if ((poItem.getExtendedPrice().compareTo(itemReEncumber)) < 0) {
+                            itemReEncumber = poItem.getExtendedPrice();
+                        }
+                    }
+                }
+
+                LOG.debug("reencumberEncumbrance() " + logItmNbr + " Amount to reencumber: " + itemReEncumber);
+
+                KualiDecimal outstandingEncumberedAmount = poItem.getItemOutstandingEncumberedAmount() == null ? ZERO : poItem.getItemOutstandingEncumberedAmount();
+                LOG.debug("relieveEncumbrance() " + logItmNbr + " PO Item Outstanding Encumbrance Amount set to: " + outstandingEncumberedAmount);
+                KualiDecimal newOutstandingEncumberedAmount = outstandingEncumberedAmount.add(itemReEncumber);
+                LOG.debug("relieveEncumbrance() " + logItmNbr + " New PO Item Outstanding Encumbrance Amount to set: " + newOutstandingEncumberedAmount);
+                poItem.setItemOutstandingEncumberedAmount(newOutstandingEncumberedAmount);
+
+                KualiDecimal invoicedTotalAmount = poItem.getItemInvoicedTotalAmount() == null ? ZERO : poItem.getItemInvoicedTotalAmount();
+                LOG.debug("relieveEncumbrance() " + logItmNbr + " PO Item Invoiced Total Amount set to: " + invoicedTotalAmount);
+                KualiDecimal newInvoicedTotalAmount = invoicedTotalAmount.subtract(payRequestItem.getExtendedPrice());
+                LOG.debug("relieveEncumbrance() " + logItmNbr + " New PO Item Invoiced Total Amount to set: " + newInvoicedTotalAmount);
+                poItem.setItemInvoicedTotalAmount(newInvoicedTotalAmount);
+
+                // make the list of accounts for the reencumbrance entry
+                PurchaseOrderAccount lastAccount = null;
+                KualiDecimal accountTotal = ZERO;
+
+                // Sort accounts
+                // FIXME need to add sorting
+                // Collections.sort( (List)poItem.getSourceAccountingLines() );
+
+                for (Iterator accountIter = poItem.getSourceAccountingLines().iterator(); accountIter.hasNext();) {
+                    PurchaseOrderAccount account = (PurchaseOrderAccount) accountIter.next();
+                    if (!account.isEmpty()) {
+                        SourceAccountingLine acctString = account.generateSourceAccountingLine();
+
+                        // amount = item reencumber * account percent / 100
+                        KualiDecimal reencumbranceAmount = itemReEncumber.multiply(new KualiDecimal(account.getAccountLinePercent().toString())).divide(HUNDRED);
+
+                        account.setItemAccountOutstandingEncumbranceAmount(account.getItemAccountOutstandingEncumbranceAmount().add(reencumbranceAmount));
+
+                        // For rounding check at the end
+                        accountTotal = accountTotal.add(reencumbranceAmount);
+
+                        lastAccount = account;
+
+                        LOG.debug("reencumberEncumbrance() " + logItmNbr + " " + acctString + " = " + reencumbranceAmount);
+                        if (encumbranceAccountMap.containsKey(acctString)) {
+                            KualiDecimal currentAmount = (KualiDecimal) encumbranceAccountMap.get(acctString);
+                            encumbranceAccountMap.put(acctString, reencumbranceAmount.add(currentAmount));
+                        }
+                        else {
+                            encumbranceAccountMap.put(acctString, reencumbranceAmount);
+                        }
+                    }
+                }
+
+                // account for rounding by adjusting last account as needed
+                if (lastAccount != null) {
+                    KualiDecimal difference = itemReEncumber.subtract(accountTotal);
+                    LOG.debug("reencumberEncumbrance() difference: " + logItmNbr + " " + difference);
+
+                    SourceAccountingLine acctString = lastAccount.generateSourceAccountingLine();
+                    KualiDecimal amount = (KualiDecimal) encumbranceAccountMap.get(acctString);
+                    if (amount == null) {
+                        encumbranceAccountMap.put(acctString, difference);
+                    }
+                    else {
+                        encumbranceAccountMap.put(acctString, amount.add(difference));
+                    }
+                    lastAccount.setItemAccountOutstandingEncumbranceAmount(lastAccount.getItemAccountOutstandingEncumbranceAmount().add(difference));
+                    // lastAccount.setItemAccountPaidAmount(lastAccount.getItemAccountPaidAmount().subtract(difference));
+                }
+            }
+        }
+
+        //FIXME should this use the save in PurhcaseOrderService? (hjs)
+        businessObjectService.save(po);
+
+        List<SourceAccountingLine> encumbranceAccounts = new ArrayList();
+        for (Iterator iter = encumbranceAccountMap.keySet().iterator(); iter.hasNext();) {
+            SourceAccountingLine acctString = (SourceAccountingLine) iter.next();
+            KualiDecimal amount = (KualiDecimal) encumbranceAccountMap.get(acctString);
+            if (amount.doubleValue() != 0) {
+                acctString.setAmount(amount);
+                encumbranceAccounts.add(acctString);
+            }
+        }
+
+        return encumbranceAccounts;
+    }
+
+    
     private List<SourceAccountingLine> getCreditMemoEncumbrance(CreditMemoDocument cm, PurchaseOrderDocument po, boolean cancel) {
         LOG.debug("getCreditMemoEncumbrance() started");
 

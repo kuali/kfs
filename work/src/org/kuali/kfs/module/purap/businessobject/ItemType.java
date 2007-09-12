@@ -112,6 +112,16 @@ public class ItemType extends PersistableBusinessObjectBase {
     }
 
     /**
+     * Gets the negative value of the quantityBasedGeneralLedgerIndicator attribute which
+     * indicates the item is an amount based item.
+     *  
+     * @return Returns the negative of the quantityBasedGeneralLedgerIndicator.
+     */
+    public boolean isAmountBasedGeneralLedgerIndicator() {
+        return !quantityBasedGeneralLedgerIndicator;
+    }
+
+    /**
      * Gets the quantityBasedGeneralLedgerIndicator attribute. 
      * @return Returns the quantityBasedGeneralLedgerIndicator.
      */

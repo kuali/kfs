@@ -267,17 +267,16 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
              *                if super call is not used handle below the line items in an else below
              */
             if(item.getItemType().isItemTypeAboveTheLineIndicator()) {
-                String errorKeyPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(i) + "].";
+            String errorKeyPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(i) + "].";
 
-                valid &= validateItemQuantity(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.QUANTITY);
-                valid &= validateItemUnitPrice(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.ITEM_UNIT_PRICE);
-                valid &= validateItemExtendedPrice(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.EXTENDED_PRICE);
+            valid &= validateItemQuantity(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.QUANTITY);
+            valid &= validateItemUnitPrice(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.ITEM_UNIT_PRICE);
+            valid &= validateItemExtendedPrice(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.EXTENDED_PRICE);
 
-
-                if (item.getExtendedPrice() != null && item.getExtendedPrice().isNonZero()) {
-                    valid &= processAccountValidation(item.getSourceAccountingLines(), errorKeyPrefix);
-                }
+            if (item.getExtendedPrice() != null && item.getExtendedPrice().isNonZero()) {
+                valid &= processAccountValidation(item.getSourceAccountingLines(), errorKeyPrefix);
             }
+        }
         }
 
         return valid;
@@ -634,23 +633,10 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
 
         CreditMemoDocument cm = (CreditMemoDocument)accountingDocument;
         
-        //GENERATE ENCUMBRANCE ENTRIES (ON CREATE OR CANCEL)
-        if (cm.isGenerateEncumbranceEntries()) {
-            //even if generating encumbrance entries on cancel, call is the same because the method gets negative amounts from the map so Debits on negatives = a credit
-            SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(cm, 
-                    accountingLine, explicitEntry, cm.getPurchaseOrderIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT, true);
-        }
-        //GENERATE ACTUAL ENTRIES ON CREATE
-        else if (!cm.isGenerateCancelEntries()) {
-            SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(cm, 
-                    accountingLine, explicitEntry, cm.getPurchaseOrderIdentifier(), GL_CREDIT_CODE, PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT, false);
-        }
-        //GENERATE ACTUAL ENTRIES ON CANCEL
-        else {
-            SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(cm, 
-                    accountingLine, explicitEntry, cm.getPurchaseOrderIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT, false);
-        }
-        
+        SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(cm, 
+                accountingLine, explicitEntry, cm.getPurchaseOrderIdentifier(), cm.getDebitCreditCodeForGLEntries(), 
+                PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT, cm.isGenerateEncumbranceEntries());
+
         //CMs do not wait for document final approval to post GL entries to the real table; here we are forcing them to be APPROVED
         explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
 

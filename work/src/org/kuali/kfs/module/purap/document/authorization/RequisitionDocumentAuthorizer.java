@@ -84,6 +84,10 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
                 for (Iterator iter = reqDocument.getItems().iterator(); iter.hasNext();) {
                     RequisitionItem item = (RequisitionItem) iter.next();
                     lineList.addAll(item.getSourceAccountingLines());
+                    // If FO has deleted the last accounting line for an item, set entry mode to full so they can add another one
+                    if (item.getItemType().isItemTypeAboveTheLineIndicator() && item.getSourceAccountingLines().size() == 0) {
+                        editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
+                    }
                 }
 
                 if (userOwnsAnyAccountingLine(chartUser, lineList)) {

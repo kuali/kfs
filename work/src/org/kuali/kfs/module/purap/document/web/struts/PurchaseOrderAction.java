@@ -428,9 +428,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
-     * This method is executed when the user click on the "print" button on a Purchase Order Print Document page. It will display
-     * the PDF document on the browser window and set a few fields (transmission dates and statuses) of the original Purchase Order
-     * Document and Purchase Order Print Document itself and save these fields to the database.
+     * This method is executed when the user click on the "print" button on a Purchase Order Print Document page. On a non
+     * javascript enabled browser, it will display a page with 2 buttons. One is to display the PDF, the other is to view
+     * the PO tabbed page where the PO document statuses, buttons, etc had already been updated (the updates of those
+     * occurred while the performPurchaseOrderFirstTransmitViaPrinting method is invoked.
+     * On a javascript enabled browser, it will display both the PO tabbed page containing the updated PO document info
+     * and the pdf on the next window/tab of the browser.
      * 
      * @param mapping
      * @param form
@@ -443,15 +446,53 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         String poDocId = request.getParameter("docId");
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
-            // will throw validation exception if errors occur
             SpringContext.getBean(PurchaseOrderService.class).performPurchaseOrderFirstTransmitViaPrinting(poDocId, baosPDF);
+        }
+        finally {
+            if (baosPDF != null) {
+                baosPDF.reset();
+            }
+        }
+        String basePath = getBasePath(request);
+        String docId = ((PurchaseOrderForm)form).getDocId();
+        String methodToCallPrintPurchaseOrderPDF = "printPurchaseOrderPDFOnly";
+        String methodToCallDocHandler = "docHandler";
+        String printPOPDFUrl = getUrlForPrintPO(basePath, docId, methodToCallPrintPurchaseOrderPDF);
+        String displayPOTabbedPageUrl = getUrlForPrintPO(basePath, docId, methodToCallDocHandler);
+        request.setAttribute("printPOPDFUrl", printPOPDFUrl);
+        request.setAttribute("displayPOTabbedPageUrl", displayPOTabbedPageUrl);
+        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(PurchaseOrderDocument.class);
+        request.setAttribute("purchaseOrderLabel", label);
+        return mapping.findForward("printPurchaseOrderPDF");
+    }
+
+    private String getUrlForPrintPO(String basePath, String docId, String methodToCall) {
+        StringBuffer result = new StringBuffer(basePath);
+        result.append("/purapPurchaseOrder.do?methodToCall=");
+        result.append(methodToCall);
+        result.append("&docId=");
+        result.append(docId);
+        result.append("&command=displayDocSearchView");
+        return result.toString();
+    }
+    
+    public ActionForward printPurchaseOrderPDFOnly(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String poDocId = request.getParameter("docId");
+        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+        try {
+            // will throw validation exception if errors occur
+            SpringContext.getBean(PurchaseOrderService.class).performPrintPurchaseOrderPDFOnly(poDocId, baosPDF);
 
             response.setHeader("Cache-Control", "max-age=30");
             response.setContentType("application/pdf");
             StringBuffer sbContentDispValue = new StringBuffer();
-            //sbContentDispValue.append("inline");
-            sbContentDispValue.append("attachment");
-
+            String useJavascript = request.getParameter("useJavascript");
+            if (useJavascript == null || useJavascript.equalsIgnoreCase("false")) {
+                sbContentDispValue.append("attachment");
+            }
+            else {
+                sbContentDispValue.append("inline");
+            }
             StringBuffer sbFilename = new StringBuffer();
             sbFilename.append("PURAP_PO_");
             sbFilename.append(poDocId);
@@ -481,7 +522,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
         return null;
     }
-
+    
+    
     public ActionForward printPoQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 //        String poDocId = request.getParameter("docId");
 //        PurchaseOrderDocument po = (PurchaseOrderDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);

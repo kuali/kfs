@@ -324,7 +324,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         for (PurchaseOrderItem poi: (List<PurchaseOrderItem>)po.getItems()) {
             if ( (poi.getItemType() != null) && 
       	         ( StringUtils.isNotBlank(poi.getItemDescription())) &&
-                 ( poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE) ||
+                 ( poi.getItemType().isItemTypeAboveTheLineIndicator() ||
                 poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE) ||
                 poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE) ||
                 poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE) ||
@@ -348,7 +348,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
 
                 //We can do the normal table now because description is not too long.
                 String itemLineNumber = new String();
-                if (poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) {
+                if (poi.getItemType().isItemTypeAboveTheLineIndicator()) {
                     itemLineNumber = poi.getItemLineNumber().toString();
                 } else {
                     itemLineNumber = "";

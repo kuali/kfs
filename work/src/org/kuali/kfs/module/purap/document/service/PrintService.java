@@ -3,7 +3,9 @@ package org.kuali.module.purap.service;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Collection;
+import java.util.List;
 
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
@@ -52,7 +54,7 @@ public interface PrintService {
      * @param byteArrayOutputStream      ByteArrayOutputStream that the action is using
      * @return Collection of ServiceError objects
      */
-    public Collection generatePurchaseOrderPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, String environment);
+    public Collection generatePurchaseOrderPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, String environment, List<PurchaseOrderItem> retransmitItems);
     /**
      * Create the Purchase Order Pdf document for retransmission and send it back
      * to the Action so that it can be dealt with.
@@ -61,7 +63,7 @@ public interface PrintService {
      * @param byteArrayOutputStream      ByteArrayOutputStream that the action is using
      * @return Collection of ServiceError objects
      */
-    public Collection generatePurchaseOrderPdfForRetransmission(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, String environment);
+    public Collection generatePurchaseOrderPdfForRetransmission(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, String environment, List<PurchaseOrderItem> retransmitItems);
     /**
      * Create the Purchase Order Pdf document for non-retransmition and save it
      * so that it can be faxed in a later process.

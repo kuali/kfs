@@ -55,10 +55,10 @@ import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.module.purap.PurapConstants.VendorChoice;
 import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteStatus;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
-import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
@@ -409,7 +409,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public void performPurchaseOrderFirstTransmitViaPrinting(String documentNumber, ByteArrayOutputStream baosPDF) {
         PurchaseOrderDocument po = getPurchaseOrderByDocumentNumber(documentNumber);
         String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
-        Collection<String> generatePDFErrors = printService.generatePurchaseOrderPdf(po, baosPDF, environment);
+        Collection<String> generatePDFErrors = printService.generatePurchaseOrderPdf(po, baosPDF, environment, null);
         if (!generatePDFErrors.isEmpty()) {
             addStringErrorMessagesToErrorMap(PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, generatePDFErrors);
             throw new ValidationException("printing purchase order for first transmission failed");
@@ -428,6 +428,16 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 //        takeWorkflowActionsForDocumentTransmission(po, null);
         po.setOverrideWorkflowButtons(Boolean.TRUE);
         attemptSetupOfInitialOpenOfDocument(po);
+    }
+    
+    public void performPrintPurchaseOrderPDFOnly(String documentNumber, ByteArrayOutputStream baosPDF) {
+        PurchaseOrderDocument po = getPurchaseOrderByDocumentNumber(documentNumber);
+        String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        Collection<String> generatePDFErrors = printService.generatePurchaseOrderPdf(po, baosPDF, environment, null);
+        if (!generatePDFErrors.isEmpty()) {
+            addStringErrorMessagesToErrorMap(PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, generatePDFErrors);
+            throw new ValidationException("printing purchase order for first transmission failed");
+        }
     }
     
     private void takeWorkflowActionsForDocumentTransmission(PurchaseOrderDocument po, String annotation) {
@@ -482,8 +492,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 retransmitItems.add(item);
             }
         }
-        po.setItems(retransmitItems);
-        Collection<String> generatePDFErrors = printService.generatePurchaseOrderPdfForRetransmission(po, baosPDF, environment);
+        Collection<String> generatePDFErrors = printService.generatePurchaseOrderPdfForRetransmission(po, baosPDF, environment, retransmitItems);
 
         if (generatePDFErrors.size() > 0) {
             addStringErrorMessagesToErrorMap(PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, generatePDFErrors);

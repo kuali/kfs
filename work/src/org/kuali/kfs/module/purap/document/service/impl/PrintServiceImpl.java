@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +18,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.bo.CampusParameter;
 import org.kuali.module.purap.bo.PurchaseOrderContractLanguage;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.dao.ImageDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -436,14 +436,14 @@ public class PrintServiceImpl implements PrintService {
      * @return Collection of ServiceError objects
      */
     private Collection generatePurchaseOrderPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, 
-        boolean isRetransmit, String environment) {
+        boolean isRetransmit, String environment, List<PurchaseOrderItem> retransmitItems) {
         LOG.debug("generatePurchaseOrderPdf() started");
 
         PurchaseOrderPdf poPdf = new PurchaseOrderPdf();
         Collection errors = new ArrayList();
         try {
             PurchaseOrderPdfParameters pdfParameters = getPurchaseOrderPdfParameters(po);
-            poPdf.generatePdf(po, pdfParameters, byteArrayOutputStream, isRetransmit, environment);
+            poPdf.generatePdf(po, pdfParameters, byteArrayOutputStream, isRetransmit, environment, retransmitItems);
             if (pdfParameters.isUseImage()) {
             imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); // Removes the temporary images; only need to call once.
             }
@@ -462,15 +462,15 @@ public class PrintServiceImpl implements PrintService {
     /**
      * @see org.kuali.module.purap.service.PrintService#generatePurchaseOrderPdf(org.kuali.module.purap.document.PurchaseOrderDocument, java.io.ByteArrayOutputStream, java.lang.String)
      */
-    public Collection generatePurchaseOrderPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, String environment) {
-        return generatePurchaseOrderPdf(po, byteArrayOutputStream, TRANSMISSION_IS_NOT_RETRANSMIT, environment);
+    public Collection generatePurchaseOrderPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, String environment, List<PurchaseOrderItem> retransmitItems) {
+        return generatePurchaseOrderPdf(po, byteArrayOutputStream, TRANSMISSION_IS_NOT_RETRANSMIT, environment, retransmitItems);
     }
 
     /**
      * @see org.kuali.module.purap.service.PrintService#generatePurchaseOrderPdfForRetransmission(org.kuali.module.purap.document.PurchaseOrderDocument, java.io.ByteArrayOutputStream, java.lang.String)
      */
-    public Collection generatePurchaseOrderPdfForRetransmission(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, String environment) {
-        return generatePurchaseOrderPdf(po, byteArrayOutputStream, TRANSMISSION_IS_RETRANSMIT, environment);
+    public Collection generatePurchaseOrderPdfForRetransmission(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, String environment, List<PurchaseOrderItem> retransmitItems) {
+        return generatePurchaseOrderPdf(po, byteArrayOutputStream, TRANSMISSION_IS_RETRANSMIT, environment, retransmitItems);
     }
 
     /**

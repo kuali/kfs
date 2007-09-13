@@ -200,7 +200,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
                 }
                 
                 if (requiresAccountValidationOnAllEnteredItems || (!item.getSourceAccountingLines().isEmpty())) {
-                    processAccountValidation(item.getSourceAccountingLines(),item.getItemIdentifierString());
+                    processAccountValidation(purapDocument, item.getSourceAccountingLines(),item.getItemIdentifierString());
                 }
 //                // only check active items
 //                if(PurApItemUtils.checkItemActive(item)) {
@@ -262,12 +262,12 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      * @param purapDocument
      * @return
      */
-    public boolean processAccountValidation(List<PurApAccountingLine> purAccounts, String itemLineNumber) {
+    public boolean processAccountValidation(AccountingDocument accountingDocument, List<PurApAccountingLine> purAccounts, String itemLineNumber) {
         boolean valid = true;
         valid = valid & verifyHasAccounts(purAccounts,itemLineNumber);
         // if we don't have any accounts... not need to run any further validation as it will all fail
         if (valid) {
-            valid = valid & verifyAccountPercent(purAccounts,itemLineNumber);
+            valid = valid & verifyAccountPercent(accountingDocument, purAccounts,itemLineNumber);
         }
         //We can't invoke the verifyUniqueAccountingStrings in here because otherwise it would be invoking it more than once, if we're also
         //calling it upon Save.
@@ -291,7 +291,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      * @param purAccounts
      * @return
      */
-    protected boolean verifyAccountPercent(List<PurApAccountingLine> purAccounts,String itemLineNumber) {
+    protected boolean verifyAccountPercent(AccountingDocument accountingDocument, List<PurApAccountingLine> purAccounts,String itemLineNumber) {
         boolean valid = true;
         
         //validate that the percents total 100 for each item

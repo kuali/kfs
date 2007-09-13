@@ -126,7 +126,7 @@
 				hideFields="amount" accountingAddLineIndex="${ctr}"
 				suppressCams="${true}" overrideTitle="Item Accounting Lines" />
 		</c:if>
-		<c:if test="${!amendmentEntry && KualiForm.document.statusCode!='AFOA'}">
+		<c:if test="${(!amendmentEntry && KualiForm.document.statusCode!='AFOA') || (KualiForm.document.statusCode=='AFOA' && !empty KualiForm.document.items[ctr].itemUnitPrice)}">
 			<c:set var="optionalFields" value="accountLinePercent" />
 			<c:set var="extraHiddenFields" value=",accountIdentifier,itemIdentifier" />
 			<c:set var="hideFields" value="amount" />

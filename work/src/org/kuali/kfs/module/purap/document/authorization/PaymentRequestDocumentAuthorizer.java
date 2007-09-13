@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap.document.authorization;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +36,8 @@ import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
+import org.kuali.module.purap.bo.PaymentRequestItem;
+import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.service.PurapService;
 
@@ -78,12 +82,22 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
             }
             
-
             if (currentRouteLevels.contains(NodeDetailEnum.ACCOUNT_REVIEW.getName())) {
                 editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
                 //expense_entry was already added in super
                 //add amount edit mode
                 editMode = PurapAuthorizationConstants.PaymentRequestEditMode.ALLOW_ACCOUNT_AMOUNT_ENTRY;
+
+                List lineList = new ArrayList();
+                for (Iterator iter = preq.getItems().iterator(); iter.hasNext();) {
+                    PaymentRequestItem item = (PaymentRequestItem) iter.next();
+                    lineList.addAll(item.getSourceAccountingLines());
+                    // If FO has deleted the last accounting line for an item, set entry mode to full so they can add another one
+                    if (item.getItemType().isItemTypeAboveTheLineIndicator() && item.getSourceAccountingLines().size() == 0) {
+                        editModeMap.remove(AuthorizationConstants.EditMode.VIEW_ONLY);
+                        editModeMap.put(AuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY, "TRUE");
+                    }
+                }
             }
         } 
 

@@ -70,7 +70,16 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     private static KualiDecimal zero = new KualiDecimal(0);
     private static BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
     
-	/**
+	@Override
+    protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
+        PaymentRequestDocument preq = (PaymentRequestDocument) financialDocument;
+        if(SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq)) {
+            return true;
+        }
+        return super.processCustomAddAccountingLineBusinessRules(financialDocument, accountingLine);
+    }
+    
+    /**
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#accountIsAccessible(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
      */
     @Override
@@ -660,4 +669,14 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
 
     }
+
+    @Override
+    protected boolean verifyAccountPercent(AccountingDocument accountingDocument, List<PurApAccountingLine> purAccounts, String itemLineNumber) {
+        if(SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((PaymentRequestDocument) accountingDocument)) {
+            return true;
+        }
+        return super.verifyAccountPercent(accountingDocument, purAccounts, itemLineNumber);
+    }
+    
+    
 }

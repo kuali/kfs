@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.context;
 
-import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -25,21 +24,10 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.lookup.Lookupable;
-import org.kuali.core.lookup.LookupableHelperService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.MemoryMonitor;
 import org.kuali.core.util.cache.MethodCacheInterceptor;
-import org.kuali.kfs.batch.BatchInputFileSetType;
-import org.kuali.kfs.batch.BatchInputFileType;
-import org.kuali.kfs.batch.JobDescriptor;
-import org.kuali.kfs.batch.Step;
-import org.kuali.kfs.batch.TriggerDescriptor;
 import org.kuali.kfs.service.SchedulerService;
-import org.kuali.module.chart.bo.OrganizationReversionCategory;
-import org.kuali.module.gl.batch.poster.PostTransaction;
-import org.kuali.module.gl.batch.poster.VerifyTransaction;
-import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
+import org.kuali.kfs.util.MemoryMonitor;
 import org.kuali.rice.KNSServiceLocator;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -48,7 +36,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import uk.ltd.getahead.dwr.create.SpringCreator;
-import edu.iu.uis.eden.plugin.attributes.WorkflowLookupable;
 
 public class SpringContext {
     private static final Logger LOG = Logger.getLogger(SpringContext.class);
@@ -60,16 +47,13 @@ public class SpringContext {
 
     /**
      * Use this method to retrieve a spring bean when one of the following is the case. Pass in the type of the service interface,
-     * NOT the service implementation.
-     * 1. there is only one bean of the specified type in our spring context
-     * 2. there is only one bean of the specified type in our spring context, but you want the one whose bean id is the same as 
-     * type.getSimpleName() with the exception of the first letter being lower case in the former and upper case in the latter,
-     * 
-     * For example, there are two beans of type DateTimeService in our context – dateTimeService and testDateTimeService.  To
-     * retrieve the former, you should specific DateTimeService.class as the type.  To retrieve the latter, you should specify
-     * ConfigurableDateService.class as the type.
-     * 
-     * Unless you are writing a unit test and need to down cast to an implementation, you do not need to cast the result of this method.
+     * NOT the service implementation. 1. there is only one bean of the specified type in our spring context 2. there is only one
+     * bean of the specified type in our spring context, but you want the one whose bean id is the same as type.getSimpleName() with
+     * the exception of the first letter being lower case in the former and upper case in the latter, For example, there are two
+     * beans of type DateTimeService in our context – dateTimeService and testDateTimeService. To retrieve the former, you should
+     * specific DateTimeService.class as the type. To retrieve the latter, you should specify ConfigurableDateService.class as the
+     * type. Unless you are writing a unit test and need to down cast to an implementation, you do not need to cast the result of
+     * this method.
      * 
      * @param <T>
      * @param type
@@ -97,8 +81,8 @@ public class SpringContext {
     }
 
     /**
-     * Use this method to retrieve all beans of a give type in our spring context.  Pass in the type of the service interface,
-     * NOT the service implementation.
+     * Use this method to retrieve all beans of a give type in our spring context. Pass in the type of the service interface, NOT
+     * the service implementation.
      * 
      * @param <T>
      * @param type
@@ -184,25 +168,24 @@ public class SpringContext {
     private static void initializeApplicationContext(String[] springFiles, boolean initializeSchedule) {
         applicationContext = new ClassPathXmlApplicationContext(springFiles);
         if (Double.valueOf((getBean(KualiConfigurationService.class)).getPropertyString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
-            ManagementFactory.getThreadMXBean().setThreadContentionMonitoringEnabled(true);
-            ManagementFactory.getThreadMXBean().setThreadCpuTimeEnabled(true);
             MemoryMonitor.setPercentageUsageThreshold(Double.valueOf((getBean(KualiConfigurationService.class)).getPropertyString(MEMORY_MONITOR_THRESHOLD_KEY)));
             MemoryMonitor memoryMonitor = new MemoryMonitor(APPLICATION_CONTEXT_DEFINITION);
             memoryMonitor.addListener(new MemoryMonitor.Listener() {
                 org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MemoryMonitor.class);
 
-                public void memoryUsageLow(String springContextId, long usedMemory, long maxMemory) {
-                    LOG.info(new StringBuffer(springContextId).append("$ percent memory used = ").append(((double) usedMemory) / maxMemory).append(" / locked thread ids: ").append(Arrays.toString(ManagementFactory.getThreadMXBean().findMonitorDeadlockedThreads())));
-                    Map<Thread, StackTraceElement[]> st = Thread.getAllStackTraces();
-                    for (Map.Entry<Thread, StackTraceElement[]> e : st.entrySet()) {
-                        StackTraceElement[] el = e.getValue();
-                        Thread t = e.getKey();
-                        StringBuffer sb = new StringBuffer("\n").append(springContextId).append("$ ").append("thread: name=").append(t.getName()).append(", id=").append(t.getId()).append(", priority=").append(t.getPriority()).append(", state=").append(t.getState());
-                        for (StackTraceElement line : el) {
-                            sb.append("\n\tstack trace element: " + line);
-                        }
-                        LOG.info(sb);
+                public void memoryUsageLow(String springContextId, Map<String, String> memoryUsageStatistics, String deadlockedThreadIds) {
+                    StringBuffer logStatement = new StringBuffer(springContextId).append("\n\tMemory Usage");
+                    for (String memoryType : memoryUsageStatistics.keySet()) {
+                        logStatement.append("\n\t\t").append(memoryType.toUpperCase()).append(": ").append(memoryUsageStatistics.get(memoryType));
                     }
+                    logStatement.append("\n\tLocked Thread Ids: ").append(deadlockedThreadIds).append("\n\tThread Stacks");
+                    for (Map.Entry<Thread, StackTraceElement[]> threadStackTrace : Thread.getAllStackTraces().entrySet()) {
+                        logStatement.append("\n\t\tThread: name=").append(threadStackTrace.getKey().getName()).append(", id=").append(threadStackTrace.getKey().getId()).append(", priority=").append(threadStackTrace.getKey().getPriority()).append(", state=").append(threadStackTrace.getKey().getState());
+                        for (StackTraceElement stackTraceElement : threadStackTrace.getValue()) {
+                            logStatement.append("\n\t\t\t" + stackTraceElement);
+                        }
+                    }
+                    LOG.info(logStatement);
                     MemoryMonitor.setPercentageUsageThreshold(0.95);
                 }
             });

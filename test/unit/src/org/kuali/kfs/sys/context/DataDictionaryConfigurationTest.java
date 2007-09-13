@@ -15,7 +15,10 @@
  */
 package org.kuali.core.datadictionary;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -24,6 +27,8 @@ import java.util.TreeSet;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.KualiModule;
+import org.kuali.core.bo.DocumentType;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiModuleService;
 import org.kuali.kfs.KFSConstants;
@@ -80,6 +85,25 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         }
         LOG.info(output);
     }
+    
+    public void testAllDataDictionaryDocumentTypesExistInDocumentTypeTable() throws Exception {
+        loadDataDictionary();
+        List<String> documentTypeCodes = new ArrayList<String>();
+        for (DocumentType type: (Collection<DocumentType>) SpringContext.getBean(BusinessObjectService.class).findAll(DocumentType.class)) {
+            documentTypeCodes.add(type.getFinancialDocumentTypeCode());
+        }
+        Map<String, DocumentEntry> documentEntries = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntries();
+        List<String> ddEntriesWithMissingTypes = new ArrayList<String>();
+        for (DocumentEntry documentEntry: documentEntries.values()) {
+            String code = documentEntry.getDocumentTypeCode();
+            if (!documentTypeCodes.contains(code) && !"RUSR".equals(code)) {
+                ddEntriesWithMissingTypes.add(code + " (" + documentEntry.getDocumentTypeName() + ")");
+            }
+        }
+
+        assertEquals("dataDictionaryDocumentTypesNotDefinedInDatabase: " + ddEntriesWithMissingTypes, 0, ddEntriesWithMissingTypes.size());
+    }
+
     
     private void loadDataDictionary()  throws Exception {
         for (String key : dataDictionary.getFileLocationMap().keySet()) {

@@ -173,7 +173,7 @@
 
 		  <attribute name="csfTimePercent" forceUppercase="true">
 
-                <label>FTE</label>
+                <label>CSF Time Percent</label>
                 <shortLabel>Percent</shortLabel>
                 <maxLength>9</maxLength>
                 <validationPattern><numeric /></validationPattern>

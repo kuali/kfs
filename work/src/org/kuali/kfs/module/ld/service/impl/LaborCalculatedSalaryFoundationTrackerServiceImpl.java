@@ -15,14 +15,18 @@
  */
 package org.kuali.module.labor.service.impl;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
+import org.kuali.core.service.LookupService;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.bo.EmployeeFunding;
+import org.kuali.module.labor.bo.July1PositionFunding;
+import org.kuali.module.labor.bo.LaborCalculatedSalaryFoundationTracker;
 import org.kuali.module.labor.dao.LaborCalculatedSalaryFoundationTrackerDao;
 import org.kuali.module.labor.service.LaborCalculatedSalaryFoundationTrackerService;
+import org.kuali.module.labor.util.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -30,18 +34,64 @@ public class LaborCalculatedSalaryFoundationTrackerServiceImpl implements LaborC
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCalculatedSalaryFoundationTrackerServiceImpl.class);
 
     private LaborCalculatedSalaryFoundationTrackerDao laborCalculatedSalaryFoundationTrackerDao;
+    private LookupService lookupService;
 
     /**
      * @see org.kuali.module.labor.service.LaborBaseFundsService#findCSFTracker(java.util.Map, boolean)
      */
-    public List<CalculatedSalaryFoundationTracker> findCSFTracker(Map fieldValues, boolean isConsolidated) {
+    public List<LaborCalculatedSalaryFoundationTracker> findCSFTracker(Map fieldValues, boolean isConsolidated) {
+        LOG.info("start findCSFTracker()");
         return laborCalculatedSalaryFoundationTrackerDao.findCSFTrackers(fieldValues, isConsolidated);
+    }
+
+    /**
+     * @see org.kuali.module.labor.service.LaborCalculatedSalaryFoundationTrackerService#findCSFTrackerWithJuly1(java.util.Map,
+     *      boolean)
+     */
+    public List<LaborCalculatedSalaryFoundationTracker> findCSFTrackerWithJuly1(Map fieldValues, boolean isConsolidated) {
+        LOG.info("start findCSFTrackerWithJuly1()");
+
+        List<LaborCalculatedSalaryFoundationTracker> CSFTrackerCollection = this.findCSFTracker(fieldValues, isConsolidated);
+        Collection<July1PositionFunding> july1PositionFundings = lookupService.findCollectionBySearch(July1PositionFunding.class, fieldValues);
+        for (July1PositionFunding july1PositionFunding : july1PositionFundings) {
+            LaborCalculatedSalaryFoundationTracker CSFTracker = this.findCSFTracker(CSFTrackerCollection, july1PositionFunding);
+
+            if (CSFTracker != null) {
+                CSFTracker.setJuly1BudgetAmount(CSFTracker.getJuly1BudgetAmount().add(july1PositionFunding.getJuly1BudgetAmount()));
+                CSFTracker.setJuly1BudgetFteQuantity(CSFTracker.getJuly1BudgetFteQuantity().add(july1PositionFunding.getJuly1BudgetFteQuantity()));
+                CSFTracker.setJuly1BudgetTimePercent(CSFTracker.getJuly1BudgetTimePercent().add(july1PositionFunding.getJuly1BudgetTimePercent()));
+            }
+            else {
+                CSFTracker = new LaborCalculatedSalaryFoundationTracker();
+                ObjectUtil.buildObject(CSFTracker, july1PositionFunding);
+                CSFTrackerCollection.add(CSFTracker);
+            }
+        }
+        return CSFTrackerCollection;
+    }
+
+    /**
+     * Check if there is a CSF track in the given set that matches the given object
+     * 
+     * @param csfTrackerCollection the given set of CSF trackers
+     * @param anotherObject the object to be searched
+     * @return the CSF tracker if there is a CSF track in the given set that matches the given object
+     */
+    private LaborCalculatedSalaryFoundationTracker findCSFTracker(List<LaborCalculatedSalaryFoundationTracker> CSFTrackerCollection, Object anotherObject) {
+        for (LaborCalculatedSalaryFoundationTracker CSFTracker : CSFTrackerCollection) {
+            boolean found = ObjectUtil.compareObject(CSFTracker, anotherObject, CSFTracker.getKeyFieldList());
+            if (found) {
+                return CSFTracker;
+            }
+        }
+        return null;
     }
 
     /**
      * @see org.kuali.module.labor.service.LaborBaseFundsService#findCSFTrackersAsAccountStatusBaseFunds(java.util.Map, boolean)
      */
     public List<AccountStatusBaseFunds> findCSFTrackersAsAccountStatusBaseFunds(Map fieldValues, boolean isConsolidated) {
+        LOG.info("start findCSFTrackersAsAccountStatusBaseFunds()");
         return laborCalculatedSalaryFoundationTrackerDao.findCSFTrackersAsAccountStatusBaseFunds(fieldValues, isConsolidated);
     }
 
@@ -50,6 +100,7 @@ public class LaborCalculatedSalaryFoundationTrackerServiceImpl implements LaborC
      *      boolean)
      */
     public List<EmployeeFunding> findCSFTrackersAsEmployeeFunding(Map fieldValues, boolean isConsolidated) {
+        LOG.info("start findCSFTrackersAsEmployeeFunding()");
         return laborCalculatedSalaryFoundationTrackerDao.findCSFTrackersAsEmployeeFunding(fieldValues, isConsolidated);
     }
 
@@ -60,5 +111,14 @@ public class LaborCalculatedSalaryFoundationTrackerServiceImpl implements LaborC
      */
     public void setLaborCalculatedSalaryFoundationTrackerDao(LaborCalculatedSalaryFoundationTrackerDao laborCalculatedSalaryFoundationTrackerDao) {
         this.laborCalculatedSalaryFoundationTrackerDao = laborCalculatedSalaryFoundationTrackerDao;
+    }
+
+    /**
+     * Sets the lookupService attribute value.
+     * 
+     * @param lookupService The lookupService to set.
+     */
+    public void setLookupService(LookupService lookupService) {
+        this.lookupService = lookupService;
     }
 }

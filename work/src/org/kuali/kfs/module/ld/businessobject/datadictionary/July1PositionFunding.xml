@@ -96,40 +96,11 @@
 			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />			
             <attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode" />
             
-            <attribute name="emplid" forceUppercase="true">
-                <label>Emplid</label>
-                <shortLabel>Emplid</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>emplid</summary>
-                <description>emplid description...</description>
-			</attribute>
-			
-       			<attribute name="personName" forceUppercase="true">
-				<label>Person</label>
-				<shortLabel>Name</shortLabel>
-
-				<maxLength>80</maxLength>
-
-				<control>
-					<hidden/>
-					<!-- enable if you want to be able to set the display name separate from the individual name fields
-					<text size="40" />
-					-->
-				</control>
-
-				<summary>Person</summary>
-				<description>Name</description>
-
-			</attribute>
-
-
+            <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
+            <attributeReference name="personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" />
+            <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber"/>
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+            
             <attributeReference name="july1BudgetAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>July1 Budget Amount</label>
                 <shortLabel>Amount</shortLabel>
@@ -139,7 +110,7 @@
             </attributeReference>
             
             <attributeReference name="july1BudgetFteQuantity" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>July1 Budget Fte Quantity</label>
+                <label>July1 Budget FTE Quantity</label>
                 <shortLabel>Quantity</shortLabel>
                 <summary>july1BudgetFteQuantity</summary>
                 <description>july1BudgetFteQuantity description...</description>
@@ -159,23 +130,6 @@
                 <summary>july1BudgetTimePercent</summary>
                 <description>july1BudgetTimePercent description...</description>
 			</attribute>
-
-            <attribute name="positionNumber" forceUppercase="true">
-                <label>Position</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>positionNumber</summary>
-                <description>positionNumber description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
             <attributeReference name="dummyBusinessObject.genericAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Year End Close</label>

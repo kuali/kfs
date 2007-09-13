@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.labor.bo.LaborCalculatedSalaryFoundationTracker">
+
+        <inquiry>
+            <title>Calculated Salary Foundation Tracker Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="accountNumber" />
+                <field attributeName="additionalSequence" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="csfAmount" />
+                <field attributeName="csfCreateTimestamp" />
+                <field attributeName="csfDeleteCode" />
+                <field attributeName="csfFullTimeEmploymentQuantity" />
+                <field attributeName="csfFundingStatusCode" />
+                <field attributeName="csfTimePercent" />
+                <field attributeName="earnCode" />
+                <field attributeName="effectiveDate" />
+                <field attributeName="effectiveSequence" />
+                <field attributeName="emplid" />
+                <field attributeName="employeeRecord" />
+                <field attributeName="financialObjectCode" />
+                <field attributeName="financialSubObjectCode" />
+                <field attributeName="positionNumber" />
+                <field attributeName="subAccountNumber" />
+                <field attributeName="universityFiscalYear" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+        	<lookupableID>laborCalculatedSalaryFoundationTrackerLookupable</lookupableID>
+            <title>Calculated Salary Foundation Tracker Lookup</title>
+
+            <instructions>Look up a Calculated Salary Foundation Tracker</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="universityFiscalYear" />
+                    <sortAttribute attributeName="chartOfAccountsCode" />
+                    <sortAttribute attributeName="accountNumber" />
+                    <sortAttribute attributeName="positionNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+			<lookupFields>
+			    <lookupField attributeName="universityFiscalYear" required="true">
+                   <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
+                </lookupField>
+				<lookupField attributeName="chartOfAccountsCode" required="true" />
+                <lookupField attributeName="accountNumber" required="true" />
+                <lookupField attributeName="subAccountNumber" required="false" />
+                <lookupField attributeName="financialObjectCode" required="false" />
+                <lookupField attributeName="financialSubObjectCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="subAccountNumber" />
+                <field attributeName="financialObjectCode" />
+                <field attributeName="financialSubObjectCode" />
+                <field attributeName="positionNumber" />
+                <field attributeName="personName" />
+                <field attributeName="july1BudgetAmount" />
+                <field attributeName="july1BudgetFteQuantity" />				
+                <field attributeName="csfAmount" />
+                <field attributeName="csfFullTimeEmploymentQuantity" />
+                <field attributeName="csfFundingStatusCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.kfs.bo.Options" sourceAttributeName="universityFiscalYear" />
+			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" />
+			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
+            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" />          
+			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />
+			<attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode" />
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+            <attributeReference name="csfAmount" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfAmount" />			
+            <attributeReference name="csfCreateTimestamp" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfCreateTimestamp" />	
+            <attributeReference name="csfDeleteCode" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfDeleteCode" />	
+            <attributeReference name="csfFullTimeEmploymentQuantity" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfFullTimeEmploymentQuantity" />	
+            <attributeReference name="csfFundingStatusCode" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfFundingStatusCode" />	
+  		    <attributeReference name="csfTimePercent" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfTimePercent" />	
+
+		    <attributeReference name="earnCode" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="earnCode" />	
+            <attributeReference name="effectiveDate" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="effectiveDate" />	
+            <attributeReference name="effectiveSequence" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="effectiveSequence" />	
+
+            <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
+            <attributeReference name="personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" />
+            <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber"/>
+            <attributeReference name="employeeRecord" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="employeeRecord" />	
+			
+			<attributeReference name="july1BudgetAmount" sourceClassName="org.kuali.module.labor.bo.July1PositionFunding" sourceAttributeName="july1BudgetAmount" />
+            <attributeReference name="july1BudgetFteQuantity" sourceClassName="org.kuali.module.labor.bo.July1PositionFunding" sourceAttributeName="july1BudgetFteQuantity" />
+            <attributeReference name="july1BudgetTimePercent" sourceClassName="org.kuali.module.labor.bo.July1PositionFunding" sourceAttributeName="july1BudgetTimePercent" />
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

@@ -191,6 +191,7 @@ public class LaborConstants {
     
     public static class LookupableBeanKeys {
         static final public String PENDING_ENTRY = "laborPendingEntryLookupable";
+        static final public String CSF_TRACKER = "laborCalculatedSalaryFoundationTrackerLookupable";
     }
     
     public static final Map<String, String> periodCodeMapping = new HashMap<String, String>();
@@ -213,7 +214,7 @@ public class LaborConstants {
     public static final String LONG_ROW_TABLE_INRUIRY_ACTION = "laborLongRowTableInquiry.do";
     public static final String LABOR_INQUIRY_OPTIONS_SERVICE = "laborInquiryOptionsService";
     public static final String BASE_FUNDS_LOOKUP_HELPER_SRVICE_NAME = "BaseFundsLookupableHelperService";
-    public static final String CSF_TRACKER_LOOKUP_HELPER_SRVICE_NAME = "CSFTrackerBalanceLookupableHelperService";
+    public static final String CSF_TRACKER_LOOKUP_HELPER_SRVICE_NAME = "laborCalculatedSalaryFoundationTrackerLookupableHelperService";
     public static final String CURRENT_FUNDS_LOOKUP_HELPER_SRVICE_NAME = "CurrentFundsLookupableHelperService";
     public static final String EXPENSE_TRANSFER_ACCOUNTING_LINE_SERVIOCE_NAME = "expenseTransferAccountingLineService";
     public static final String DASHES_DELETE_CODE = "-";

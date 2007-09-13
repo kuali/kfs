@@ -461,7 +461,7 @@ public class ReportServiceImpl implements ReportService {
         }
 
         TransactionListingReport rept = new TransactionListingReport();
-        rept.generateReport(i, runDate, "Scrubber Input Transactions with Bad Balance Types", "scrubber_badbal", reportsDirectory);
+        rept.generateReport(i, runDate, "Scrubber Input Transactions with Blank Balance Types", "scrubber_badbal", reportsDirectory);
     }
 
     public void generateScrubberTransactionsOnline(Date runDate, OriginEntryGroup validGroup, String documentNumber) {

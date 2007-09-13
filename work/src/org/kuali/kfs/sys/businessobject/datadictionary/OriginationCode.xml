@@ -162,7 +162,7 @@
 
                 <maxLength>40</maxLength>
                 <validationPattern>
-                    <alphaNumeric />
+                    <alphaNumeric allowWhitespace="true"/>
                 </validationPattern>
 
                 <control>

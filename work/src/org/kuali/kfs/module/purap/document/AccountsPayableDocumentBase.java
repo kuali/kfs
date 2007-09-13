@@ -95,8 +95,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
 
     public boolean approvalAtAccountsPayableReviewAllowed() {
-        return isAttachmentRequired() &&
-        !documentHasNoImagesAttached();
+        return !(isAttachmentRequired() || documentHasNoImagesAttached());
     }
 
     /**

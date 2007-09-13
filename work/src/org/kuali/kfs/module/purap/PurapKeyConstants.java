@@ -51,6 +51,7 @@ public class PurapKeyConstants {
     public static final String ERROR_NO_ITEMS = "error.requisition.no.items";
     public static final String ERROR_NO_ACCOUNTS = "error.requisition.no.accounts";
     public static final String ERROR_NOT_100_PERCENT = "error.requisition.items.not.100.percent";
+    public static final String ERROR_REQUISITION_ACCOUNT_CLOSED = "error.document.requisition.accountClosed";
     
     //Purchase Order  
     public static final String PURCHASE_ORDER_QUESTION_DOCUMENT = "purchaseOrder.question.text";

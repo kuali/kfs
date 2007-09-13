@@ -161,6 +161,42 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     protected boolean populateOffsetGeneralLedgerPendingEntry(Integer universityFiscalYear, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry offsetEntry) {
         //Requisition doesn't generate GL entries
         return true;
+    }
+
+    @Override
+    public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
+        // make sure it's active for usage
+        if (isAccountClosed(accountingLine)) {
+            return false;
+        }
+        return super.processAddAccountingLineBusinessRules(financialDocument, accountingLine);
+    }
+
+    @Override
+    public boolean processReviewAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
+        // make sure it's active for usage
+        if (isAccountClosed(accountingLine)) {
+            return false;
+        }
+        return super.processReviewAccountingLineBusinessRules(financialDocument, accountingLine);
+    }
+
+    @Override
+    public boolean processUpdateAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLine updatedAccountingLine) {
+        // make sure it's active for usage
+        if (isAccountClosed(accountingLine)) {
+            return false;
+        }
+        return super.processUpdateAccountingLineBusinessRules(financialDocument, accountingLine, updatedAccountingLine);
     } 
+    
+    private boolean isAccountClosed(AccountingLine accountingLine) {
+        accountingLine.refreshNonUpdateableReferences();
+        if (accountingLine.getAccount().isAccountClosedIndicator()) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ACCOUNTS, PurapKeyConstants.ERROR_REQUISITION_ACCOUNT_CLOSED, accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber());
+            return true;
+        }
+        return false;
+    }
 
 }

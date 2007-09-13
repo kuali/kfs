@@ -797,8 +797,8 @@
 			</attribute>
 
             <attribute name="financialHigherEdFunctionCd" forceUppercase="true">
-                <label>Financial Higher Ed Function Cd</label>
-                <shortLabel>Cd</shortLabel>
+                <label>Higher Education Function Code</label>
+                <shortLabel>Higher Ed Func Cd</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>

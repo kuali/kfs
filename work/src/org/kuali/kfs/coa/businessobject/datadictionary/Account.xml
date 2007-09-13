@@ -320,7 +320,7 @@
             </attributeReference>
 
             <attribute name="financialHigherEdFunctionCd" forceUppercase="true">
-                <label>Financial Higher Education Function Code</label>
+                <label>Higher Education Function Code</label>
                 <shortLabel>HighEdFncCd</shortLabel>
 
                 <maxLength>4</maxLength>

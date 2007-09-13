@@ -143,6 +143,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>Total Amount on the 'From' side of the document.</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
             <attributeReference name="finDocApprovalToThisAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
@@ -152,6 +153,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>Total Amount on the 'To' side of the document.</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
             <attributeReference name="accountsDelegatePrmrtIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">

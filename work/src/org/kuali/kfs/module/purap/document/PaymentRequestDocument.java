@@ -1311,4 +1311,13 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         super.prepareForSave(event);
     }
 
+
+    /**
+     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#isAttachmentRequired()
+     */
+    @Override
+    protected boolean isAttachmentRequired() {
+        return StringUtils.equalsIgnoreCase("Y", SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_PREQ_REQUIRE_ATTACHMENT));
+    }
+
 }

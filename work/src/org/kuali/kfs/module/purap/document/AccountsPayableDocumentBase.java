@@ -27,6 +27,7 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -34,6 +35,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.service.PurapAccountingService;
@@ -93,8 +95,15 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
 
     public boolean approvalAtAccountsPayableReviewAllowed() {
-        return !documentHasNoImagesAttached();
+        return isAttachmentRequired() &&
+        !documentHasNoImagesAttached();
     }
+
+    /**
+     * This method checks whether an attachment is required
+     * @return
+     */
+    protected abstract boolean isAttachmentRequired();
     
     private boolean documentHasNoImagesAttached() {
         List boNotes = this.getDocumentBusinessObject().getBoNotes();

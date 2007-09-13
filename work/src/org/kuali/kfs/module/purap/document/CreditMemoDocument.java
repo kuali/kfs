@@ -27,6 +27,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.NoteService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -34,6 +35,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.CREDIT_MEMO_TYPE_LABELS;
 import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
@@ -595,5 +597,12 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         
         super.prepareForSave(event);
     }
-        
+    /**
+     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#isAttachmentRequired()
+     */
+    @Override
+    protected boolean isAttachmentRequired() {
+        return StringUtils.equalsIgnoreCase("Y", SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_CM_REQUIRE_ATTACHMENT));
+    }
+
 }

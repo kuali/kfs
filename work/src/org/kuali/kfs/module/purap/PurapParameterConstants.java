@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap;
 
+import org.kuali.module.purap.document.AccountsPayableDocumentBase;
+
 /**
  * Holds constants for PURAP business parameters.
  */
@@ -22,6 +24,11 @@ public class PurapParameterConstants {
 
     private static final String PURAP_PARAM_PREFIX = "PURAP";
     private static final String STANDARD_SEPARATOR = ".";
+    
+    //PREQ
+    private static final String PREQ_PREFIX = "PREQ_";
+    //CM
+    private static final String CM_PREFIX = "AP_";
     
     // GROUP NAMES
     public static final String PURAP_ADMIN_GROUP = "PurapAdminGroup";
@@ -36,7 +43,9 @@ public class PurapParameterConstants {
     public static final String PURAP_PDP_EPIC_SBUNT_CODE = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "PDP.EPIC.SBUNT.CODE";
     public static final String PURAP_PDP_USER_ID = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "PDP.USER.ID";
     public static final String PURAP_DEFAULT_PO_TRANSMISSION_CODE = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "DEFAULT_PO_TRANSMISSION_CODE";
-
+    public static final String PURAP_PREQ_REQUIRE_ATTACHMENT = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + PREQ_PREFIX + "REQUIRE_ATTACHMENT";
+    public static final String PURAP_CM_REQUIRE_ATTACHMENT = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + CM_PREFIX + "REQUIRE_ATTACHMENT";
+    
     public static class Workgroups {
         public static final String SEARCH_SPECIAL_ACCESS = "WORKGROUP" + STANDARD_SEPARATOR + "SEARCH_SPECIAL_ACCESS";
 

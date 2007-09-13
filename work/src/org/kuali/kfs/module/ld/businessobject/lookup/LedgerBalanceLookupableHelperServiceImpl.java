@@ -45,10 +45,12 @@ import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.ResultRow;
 import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.gl.web.Constant;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.bo.SegmentedBusinessObject;
 import org.kuali.module.labor.service.LaborInquiryOptionsService;
@@ -76,6 +78,19 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
      */
     @Override
     public List getSearchResults(Map fieldValues) {
+        String wildCards ="";
+        for(int i=0;i<KFSConstants.QUERY_CHARACTERS.length;i++) {
+            wildCards+=KFSConstants.QUERY_CHARACTERS[i];
+        }
+        
+        if (wildCards.indexOf(fieldValues.get(KFSPropertyConstants.EMPLID).toString().trim()) != -1) {
+                //StringUtils.indexOfAny(fieldValues.get(KFSPropertyConstants.EMPLID).toString().trim(), KFSConstants.QUERY_CHARACTERS) != 0) {            
+            List emptySearchResults = new ArrayList();
+            Long actualCountIfTruncated = new Long(0);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.EMPLID, KFSConstants.WILDCARD_NOT_ALLOWED_ON_FIELD,"Employee ID field ");
+            return new CollectionIncomplete(emptySearchResults, actualCountIfTruncated);           
+        }
+
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 

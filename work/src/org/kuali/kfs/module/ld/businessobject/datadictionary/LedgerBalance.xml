@@ -75,7 +75,7 @@
                     <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
                 </lookupField>
                 <lookupField attributeName="laborObject.financialObjectFringeOrSalaryCode" required="false" />
-                <lookupField attributeName="emplid" required="false" />
+                <lookupField attributeName="emplid" required="true" />
                 <lookupField attributeName="financialBalanceTypeCode" required="false">
                     <defaultValueFinderClass>org.kuali.module.labor.web.optionfinder.BalanceTypeCodeOptionFinder</defaultValueFinderClass>
                 </lookupField>

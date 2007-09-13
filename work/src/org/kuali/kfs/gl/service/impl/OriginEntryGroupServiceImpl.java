@@ -88,6 +88,17 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     }
 
     /**
+     * @see org.kuali.module.gl.service.OriginEntryGroupService#markPostableIcrGroupsAsUnpostable()
+     */
+    public void markPostableIcrGroupsAsUnpostable() {
+        Collection<OriginEntryGroup> postableGroups = getIcrGroupsToPost();
+        for (OriginEntryGroup postableGroup : postableGroups) {
+            postableGroup.setProcess(Boolean.FALSE);
+            save(postableGroup);
+        }
+    }
+    
+    /**
      * 
      * @see org.kuali.module.gl.service.OriginEntryGroupService#getNewestScrubberErrorGroup()
      */

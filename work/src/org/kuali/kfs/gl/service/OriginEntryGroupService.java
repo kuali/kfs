@@ -44,6 +44,11 @@ public interface OriginEntryGroupService {
     public void markPostableScrubberValidGroupsAsUnpostable();
     
     /**
+     * Marks all of the origin entry groups that would be returned from getIcrGroupsToPost() as don't process
+     */
+    public void markPostableIcrGroupsAsUnpostable();
+    
+    /**
      * Get the newest scrubber error group
      * 
      * @return

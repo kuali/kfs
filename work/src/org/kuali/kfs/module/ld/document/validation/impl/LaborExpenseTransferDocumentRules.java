@@ -43,7 +43,6 @@ import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.LedgerBalance;
@@ -85,18 +84,6 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
             return false;
         }
 
-        // validate the accounting year
-        if (!isValidPayFiscalYear(accountingLine)) {
-            reportError(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR, KFSKeyConstants.Labor.INVALID_PAY_YEAR);
-            return false;
-        }
-
-        // validate the accounting period code
-        if (!isValidPayFiscalPeriod(accountingLine)) {
-            reportError(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, KFSKeyConstants.Labor.INVALID_PAY_PERIOD_CODE);
-            return false;
-        }
-
         // not allow the duplicate source accounting line in the document
         if (isDuplicateSourceAccountingLine(accountingDocument, accountingLine)) {
             reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_DUPLICATE_SOURCE_ACCOUNTING_LINE);
@@ -132,20 +119,11 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         // check to ensure totals of accounting lines in source and target sections match by pay FY + pay period
         isValid = isValid & isAccountingLineTotalsMatchByPayFYAndPayPeriod(sourceLines, targetLines);
 
-        // target accouting lines must have the same amounts as source accounting lines for each object code
+        // target accounting lines must have the same amounts as source accounting lines for each object code
         if (isValid) {
             boolean isValidAmountTransferredByObjectCode = isValidAmountTransferredByObjectCode(expenseTransferDocument);
             if (!isValidAmountTransferredByObjectCode) {
                 reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_TRANSFER_AMOUNT_NOT_BALANCED_BY_OBJECT);
-                isValid = false;
-            }
-        }
-
-        // benefit transfers cannot be made between two different fringe benefit labor object codes.
-        if (isValid) {
-            boolean hasSameFringeBenefitObjectCodes = hasSameFringeBenefitObjectCodes(expenseTransferDocument);
-            if (!hasSameFringeBenefitObjectCodes) {
-                reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR);
                 isValid = false;
             }
         }
@@ -317,47 +295,6 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     }
 
     /**
-     * determine whether the pay fiscal year of the given accounting line is valid
-     * 
-     * @param accountingLine the given accouting line
-     * @return true if the pay fiscal year of the given accounting line is valid; otherwise, false
-     */
-    protected boolean isValidPayFiscalYear(AccountingLine accountingLine) {
-        ExpenseTransferAccountingLine expenseTransferAccountingLine = (ExpenseTransferAccountingLine) accountingLine;
-
-        Integer payrollFiscalYear = expenseTransferAccountingLine.getPayrollEndDateFiscalYear();
-        if (payrollFiscalYear == null) {
-            return false;
-        }
-
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, payrollFiscalYear.toString());
-
-        return SpringContext.getBean(BusinessObjectService.class).countMatching(AccountingPeriod.class, fieldValues) > 0;
-    }
-
-    /**
-     * determine whether the period code of the given accounting line is valid
-     * 
-     * @param accountingLine the given accouting line
-     * @return true if the period code of the given accounting line is valid; otherwise, false
-     */
-    protected boolean isValidPayFiscalPeriod(AccountingLine accountingLine) {
-        ExpenseTransferAccountingLine expenseTransferAccountingLine = (ExpenseTransferAccountingLine) accountingLine;
-
-        Integer payrollFiscalYear = expenseTransferAccountingLine.getPayrollEndDateFiscalYear();
-        if (payrollFiscalYear == null) {
-            return false;
-        }
-
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, payrollFiscalYear.toString());
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, expenseTransferAccountingLine.getPayrollEndDateFiscalPeriodCode());
-
-        return SpringContext.getBean(BusinessObjectService.class).countMatching(AccountingPeriod.class, fieldValues) > 0;
-    }
-
-    /**
      * determine whether the given accounting line has already been in the given document
      * 
      * @param accountingDocument the given document
@@ -395,8 +332,8 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
      */
     protected boolean isValidTransferAmount(Map<String, ExpenseTransferAccountingLine> accountingLineGroupMap) {
         Set<Entry<String, ExpenseTransferAccountingLine>> entrySet = accountingLineGroupMap.entrySet();
-        
-        for(Entry<String, ExpenseTransferAccountingLine> entry : entrySet){
+
+        for (Entry<String, ExpenseTransferAccountingLine> entry : entrySet) {
             ExpenseTransferAccountingLine accountingLine = entry.getValue();
             Map<String, Object> fieldValues = this.buildFieldValueMap(accountingLine);
 
@@ -581,55 +518,6 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     }
 
     /**
-     * Determine whether target accouting lines have the same fringe benefit object codes as source accounting lines
-     * 
-     * @param accountingDocument the given accounting document
-     * @return true if target accouting lines have the same fringe benefit object codes as source accounting lines; otherwise, false
-     */
-    protected boolean hasSameFringeBenefitObjectCodes(AccountingDocument accountingDocument) {
-        LOG.debug("started hasSameFringeBenefitObjectCodes(accountingDocument)");
-        LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
-
-        Set<String> objectCodesFromSourceLine = new HashSet<String>();
-        for (Object sourceAccountingLine : expenseTransferDocument.getSourceAccountingLines()) {
-            AccountingLine line = (AccountingLine) sourceAccountingLine;
-            objectCodesFromSourceLine.add(line.getFinancialObjectCode());
-        }
-
-        Set<String> objectCodesFromTargetLine = new HashSet<String>();
-        for (Object targetAccountingLine : expenseTransferDocument.getTargetAccountingLines()) {
-            AccountingLine line = (AccountingLine) targetAccountingLine;
-            objectCodesFromTargetLine.add(line.getFinancialObjectCode());
-        }
-
-        if (objectCodesFromSourceLine.size() != objectCodesFromTargetLine.size()) {
-            return false;
-        }
-        return objectCodesFromSourceLine.containsAll(objectCodesFromTargetLine);
-    }
-
-    /**
-     * Determine whether the object code of the given accouting line is one of fringe benefit objects of source accounting lines
-     * 
-     * @param accountingDocument the given accounting document
-     * @param accountingLine the given accounting line
-     * @return true if the object code of the given accouting line is one of fringe benefit objects of source accounting lines;
-     *         otherwise, false
-     */
-    protected boolean hasSameFringeBenefitObjectCodes(AccountingDocument accountingDocument, AccountingLine accountingLine) {
-        LOG.debug("started hasSameFringeBenefitObjectCodes(accountingDocument, accountingLine)");
-        LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
-
-        List<String> objectCodesFromSourceLine = new ArrayList<String>();
-        for (Object sourceAccountingLine : expenseTransferDocument.getSourceAccountingLines()) {
-            AccountingLine line = (AccountingLine) sourceAccountingLine;
-            objectCodesFromSourceLine.add(line.getFinancialObjectCode());
-        }
-
-        return objectCodesFromSourceLine.contains(accountingLine.getFinancialObjectCode());
-    }
-
-    /**
      * get the default key of ExpenseTransferAccountingLine
      * 
      * @return the default key of ExpenseTransferAccountingLine
@@ -796,44 +684,11 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     public boolean processGenerateLaborLedgerPendingEntries(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         return true;
     }
-
-    /**
-     * This is responsible for properly negating the sign on an accounting line's amount when its associated document is an error
-     * correction.
-     * 
-     * @param accountingDocument
-     * @param accountingLine
-     */
-    private final void handleDocumentErrorCorrection(LaborLedgerPostingDocument accountingDocument, ExpenseTransferAccountingLine accountingLine) {
-        // If the document corrects another document, make sure the accounting line has the correct sign.
-        if ((null == accountingDocument.getDocumentHeader().getFinancialDocumentInErrorNumber() && accountingLine.getAmount().isNegative()) || (null != accountingDocument.getDocumentHeader().getFinancialDocumentInErrorNumber() && accountingLine.getAmount().isPositive())) {
-            accountingLine.setAmount(accountingLine.getAmount().multiply(new KualiDecimal(1)));
-        }
-    }
-
+    
     /**
      * @see org.kuali.kfs.rule.AccountingLineRule#isDebit(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
      */
-    public boolean isDebit(AccountingDocument accountingDocument, AccountingLine accountingLine) {
-        boolean isDebit = false;
-        if (accountingLine.isSourceAccountingLine()) {
-            isDebit = IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, accountingDocument, accountingLine);
-        }
-        else if (accountingLine.isTargetAccountingLine()) {
-            isDebit = !IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, accountingDocument, accountingLine);
-        }
-        else {
-            throw new IllegalStateException(IsDebitUtils.isInvalidLineTypeIllegalArgumentExceptionMessage);
-        }
-
-        return isDebit;
-    }
-
-    /**
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#isCredit(org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.document.AccountingDocument)
-     */
-    @Override
-    public boolean isCredit(AccountingLine accountingLine, AccountingDocument accountingDocument) {
+    public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine) {
         return false;
     }
 
@@ -912,293 +767,4 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         return fieldValues;
     }
 
-    /**
-     * This method is used to verify if the select labor object code is active.
-     * 
-     * @param accountingDocument
-     * @return
-     */
-    protected boolean isActiveLaborObjectCode(AccountingDocument accountingDocument) {
-        LOG.debug("started -- isActiveLaborObjectCode");
-        LOG.debug("finished -- isActiveLaborObjectCode");
-        return true;
-    }
-
-    /**
-     * util class that contains common algorithms for determining debit amounts
-     */
-    protected static class IsDebitUtils {
-        protected static final String isDebitCalculationIllegalStateExceptionMessage = "an invalid debit/credit check state was detected";
-        protected static final String isErrorCorrectionIllegalStateExceptionMessage = "invalid (error correction) document not allowed";
-        protected static final String isInvalidLineTypeIllegalArgumentExceptionMessage = "invalid accounting line type";
-
-        /**
-         * @param debitCreditCode
-         * @return true if debitCreditCode equals the the debit constant
-         */
-        static boolean isDebitCode(String debitCreditCode) {
-            return StringUtils.equals(KFSConstants.GL_DEBIT_CODE, debitCreditCode);
-        }
-
-        /**
-         * <ol>
-         * <li>object type is included in determining if a line is debit or credit.
-         * </ol>
-         * the following are credits (return false)
-         * <ol>
-         * <li> <code>(isIncome || isLiability) && (lineAmount > 0)</code>
-         * <li> <code>(isExpense || isAsset) && (lineAmount < 0)</code>
-         * </ol>
-         * the following are debits (return true)
-         * <ol>
-         * <li> <code>(isIncome || isLiability) && (lineAmount < 0)</code>
-         * <li> <code>(isExpense || isAsset) && (lineAmount > 0)</code>
-         * </ol>
-         * the following are invalid ( throws an <code>IllegalStateException</code>)
-         * <ol>
-         * <li> <code>document isErrorCorrection</code>
-         * <li> <code>lineAmount == 0</code>
-         * <li> <code>! (isIncome || isLiability || isExpense || isAsset)</code>
-         * </ol>
-         * 
-         * @param rule
-         * @param accountingDocument
-         * @param accountingLine
-         * @return boolean
-         * @throws IllegalStateException if <code>document isErrorCorrection</code> or <code>lineAmount == 0</code> or
-         *         <code>! (isIncome || isLiability || isExpense || isAsset)</code>
-         */
-        static boolean isDebitConsideringType(AccountingDocumentRuleBase rule, AccountingDocument accountingDocument, AccountingLine accountingLine) {
-
-            KualiDecimal amount = accountingLine.getAmount();
-            // zero amounts are not allowed
-            if (amount.isZero()) {
-                throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-            }
-            boolean isDebit = false;
-            boolean isPositiveAmount = accountingLine.getAmount().isPositive();
-
-            // income/liability
-            if (rule.isIncomeOrLiability(accountingLine)) {
-                isDebit = !isPositiveAmount;
-            }
-            // expense/asset
-            else {
-                if (rule.isExpenseOrAsset(accountingLine)) {
-                    isDebit = isPositiveAmount;
-                }
-                else {
-                    throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-                }
-            }
-            return isDebit;
-        }
-
-        /**
-         * <ol>
-         * <li>object type is not included in determining if a line is debit or credit.
-         * <li>accounting line section (source/target) is not included in determining if a line is debit or credit.
-         * </ol>
-         * the following are credits (return false)
-         * <ol>
-         * <li> none
-         * </ol>
-         * the following are debits (return true)
-         * <ol>
-         * <li> <code>(isIncome || isLiability || isExpense || isAsset) && (lineAmount > 0)</code>
-         * </ol>
-         * the following are invalid ( throws an <code>IllegalStateException</code>)
-         * <ol>
-         * <li> <code>lineAmount <= 0</code>
-         * <li> <code>! (isIncome || isLiability || isExpense || isAsset)</code>
-         * </ol>
-         * 
-         * @param rule
-         * @param accountingDocument
-         * @param accountingLine
-         * @return boolean
-         * @throws IllegalStateException if <code>lineAmount <= 0</code> or
-         *         <code>! (isIncome || isLiability || isExpense || isAsset)</code>
-         */
-        static boolean isDebitConsideringNothingPositiveOnly(AccountingDocumentRuleBase rule, AccountingDocument accountingDocument, AccountingLine accountingLine) {
-
-            boolean isDebit = false;
-            KualiDecimal amount = accountingLine.getAmount();
-            // non error correction
-            if (!isErrorCorrection(accountingDocument)) {
-                boolean isPositiveAmount = amount.isPositive();
-                // isDebit if income/liability/expense/asset and line amount is positive
-                if (isPositiveAmount && (rule.isIncomeOrLiability(accountingLine) || rule.isExpenseOrAsset(accountingLine))) {
-                    isDebit = true;
-                }
-                else {
-                    throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-                }
-            }
-            // error correction
-            else {
-                boolean isNegativeAmount = amount.isNegative();
-                // isDebit if income/liability/expense/asset and line amount is negative
-                if (isNegativeAmount && (rule.isIncomeOrLiability(accountingLine) || rule.isExpenseOrAsset(accountingLine))) {
-                    isDebit = false;
-                }
-                else {
-                    throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-                }
-
-            }
-            return isDebit;
-        }
-
-        /**
-         * <ol>
-         * <li>accounting line section (source/target) type is included in determining if a line is debit or credit.
-         * <li> zero line amounts are never allowed
-         * </ol>
-         * the following are credits (return false)
-         * <ol>
-         * <li> <code>isSourceLine && (isIncome || isExpense || isAsset || isLiability) && (lineAmount > 0)</code>
-         * <li> <code>isTargetLine && (isIncome || isExpense || isAsset || isLiability) && (lineAmount < 0)</code>
-         * </ol>
-         * the following are debits (return true)
-         * <ol>
-         * <li> <code>isSourceLine && (isIncome || isExpense || isAsset || isLiability) && (lineAmount < 0)</code>
-         * <li> <code>isTargetLine && (isIncome || isExpense || isAsset || isLiability) && (lineAmount > 0)</code>
-         * </ol>
-         * the following are invalid ( throws an <code>IllegalStateException</code>)
-         * <ol>
-         * <li> <code>lineAmount == 0</code>
-         * <li> <code>! (isIncome || isLiability || isExpense || isAsset)</code>
-         * </ol>
-         * 
-         * @param rule
-         * @param accountingDocument
-         * @param accountingLine
-         * @return boolean
-         * @throws IllegalStateException if <code>lineAmount == 0</code> or
-         *         <code>! (isIncome || isLiability || isExpense || isAsset)</code>
-         */
-        static boolean isDebitConsideringSection(AccountingDocumentRuleBase rule, AccountingDocument accountingDocument, AccountingLine accountingLine) {
-
-            KualiDecimal amount = accountingLine.getAmount();
-            // zero amounts are not allowed
-            if (amount.isZero()) {
-                throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-            }
-            boolean isDebit = false;
-            boolean isPositiveAmount = accountingLine.getAmount().isPositive();
-            // source line
-            if (accountingLine.isSourceAccountingLine()) {
-                // income/liability/expense/asset
-                if (rule.isIncomeOrLiability(accountingLine) || rule.isExpenseOrAsset(accountingLine)) {
-                    isDebit = !isPositiveAmount;
-                }
-                else {
-                    throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-                }
-            }
-            // target line
-            else {
-                if (accountingLine.isTargetAccountingLine()) {
-                    if (rule.isIncomeOrLiability(accountingLine) || rule.isExpenseOrAsset(accountingLine)) {
-                        isDebit = isPositiveAmount;
-                    }
-                    else {
-                        throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-                    }
-                }
-                else {
-                    throw new IllegalArgumentException(isInvalidLineTypeIllegalArgumentExceptionMessage);
-                }
-            }
-            return isDebit;
-        }
-
-        /**
-         * accounting line section (source/target) and object type is included in determining if a line is debit or credit. negative
-         * line amounts are <b>Only</b> allowed during error correction
-         * 
-         * @param rule
-         * @param accountingDocument
-         * @param accountingLine
-         * @return boolean
-         */
-        static boolean isDebitConsideringSectionAndTypePositiveOnly(AccountingDocumentRuleBase rule, AccountingDocument accountingDocument, AccountingLine accountingLine) {
-
-            boolean isDebit = false;
-            KualiDecimal amount = accountingLine.getAmount();
-            // non error correction
-            if (!isErrorCorrection(accountingDocument)) {
-                boolean isPositiveAmount = amount.isPositive();
-                // only allow amount >0
-                if (!isPositiveAmount) {
-                    throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-                }
-                // source line
-                if (accountingLine.isSourceAccountingLine()) {
-                    isDebit = rule.isIncomeOrLiability(accountingLine);
-                }
-                // target line
-                else {
-                    if (accountingLine.isTargetAccountingLine()) {
-                        isDebit = rule.isExpenseOrAsset(accountingLine);
-                    }
-                    else {
-                        throw new IllegalArgumentException(isInvalidLineTypeIllegalArgumentExceptionMessage);
-                    }
-                }
-            }
-            // error correction document
-            else {
-                boolean isNegativeAmount = amount.isNegative();
-                if (!isNegativeAmount) {
-                    throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-                }
-                // source line
-                if (accountingLine.isSourceAccountingLine()) {
-                    isDebit = rule.isExpenseOrAsset(accountingLine);
-                }
-                // target line
-                else {
-                    if (accountingLine.isTargetAccountingLine()) {
-                        isDebit = rule.isIncomeOrLiability(accountingLine);
-                    }
-                    else {
-                        throw new IllegalArgumentException(isInvalidLineTypeIllegalArgumentExceptionMessage);
-                    }
-                }
-            }
-
-            return isDebit;
-        }
-
-        /**
-         * throws an <code>IllegalStateException</code> if the document is an error correction. otherwise does nothing
-         * 
-         * @param rule
-         * @param accountingDocument
-         */
-        static void disallowErrorCorrectionDocumentCheck(AccountingDocumentRuleBase rule, AccountingDocument accountingDocument) {
-            if (isErrorCorrection(accountingDocument)) {
-                throw new IllegalStateException(isErrorCorrectionIllegalStateExceptionMessage);
-            }
-        }
-
-        /**
-         * Convience method for determine if a document is an error correction document.
-         * 
-         * @param accountingDocument
-         * @return true if document is an error correct
-         */
-        static boolean isErrorCorrection(AccountingDocument accountingDocument) {
-            boolean isErrorCorrection = false;
-
-            String correctsDocumentId = accountingDocument.getDocumentHeader().getFinancialDocumentInErrorNumber();
-            if (StringUtils.isNotBlank(correctsDocumentId)) {
-                isErrorCorrection = true;
-            }
-
-            return isErrorCorrection;
-        }
-    }
 }

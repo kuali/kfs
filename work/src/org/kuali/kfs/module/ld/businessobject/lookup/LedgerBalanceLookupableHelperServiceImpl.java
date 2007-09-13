@@ -83,7 +83,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         String pendingEntryOption = laborInquiryOptionsService.getSelectedPendingEntryOption(fieldValues);
 
         // test if the consolidation option is selected or not
-        boolean isConsolidated = laborInquiryOptionsService.isConsolidationSelected(fieldValues, (Collection<Row>) getRows());
+        boolean isConsolidated = laborInquiryOptionsService.isConsolidationSelected(fieldValues);
 
         // get Amount View Option and determine if the results has to be accumulated
         // String amountViewOption = getSelectedAmountViewOption(fieldValues);
@@ -192,8 +192,8 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
                 balance.setMonth12Amount(new KualiDecimal(array[i++].toString()));
                 balance.setMonth13Amount(new KualiDecimal(array[i].toString()));
 
-                balance.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
                 balance.getDummyBusinessObject().setPendingEntryOption(pendingEntryOption);
+                balance.getDummyBusinessObject().setConsolidationOption(Constant.CONSOLIDATION);
 
                 balanceCollection.add(balance);
             }
@@ -255,8 +255,8 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
             balance.setMonth12Amount(copyBalance.getMonth12Amount());
             balance.setMonth13Amount(copyBalance.getMonth13Amount());
 
-            balance.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
             balance.getDummyBusinessObject().setPendingEntryOption(pendingEntryOption);
+            balance.getDummyBusinessObject().setConsolidationOption(Constant.DETAIL);
 
             balanceCollection.add(balance);
         }

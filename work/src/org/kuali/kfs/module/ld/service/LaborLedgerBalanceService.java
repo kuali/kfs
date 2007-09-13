@@ -75,9 +75,9 @@ public interface LaborLedgerBalanceService {
      * 
      * @param ledgerBalanceCollection the given ledger balance collection
      * @param transaction the given transaction information
-     * @return true if the ledger balance has been added; otherwise, false;
+     * @return the ledger balance that has been added; otherwise, null;
      */
-    public boolean addLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, LaborTransaction transaction);
+    public LedgerBalance addLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, LaborTransaction transaction);
 
     /**
      * update the given ledger balance with the given transaction information

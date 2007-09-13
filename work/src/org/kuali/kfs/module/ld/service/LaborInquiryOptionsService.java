@@ -56,6 +56,14 @@ public interface LaborInquiryOptionsService {
      * @return true if consolidation is selected and subaccount is not specified
      */
     public boolean isConsolidationSelected(Map fieldValues, Collection<Row> rows);
+    
+    /**
+     * This method tests if the user selects to see the details or consolidated results
+     * 
+     * @param fieldValues the map containing the search fields and values
+     * @return true if consolidation is selected and subaccount is not specified
+     */
+    public boolean isConsolidationSelected(Map fieldValues);
 
     /**
      * update a given collection entry with the pending entry obtained from the given field values and pending entry option

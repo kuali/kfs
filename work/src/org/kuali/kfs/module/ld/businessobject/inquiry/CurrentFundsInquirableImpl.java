@@ -21,13 +21,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.service.LookupService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
-import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LedgerBalance;
 
 /**
@@ -37,21 +34,17 @@ import org.kuali.module.labor.bo.LedgerBalance;
 public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CurrentFundsInquirableImpl.class);
 
-    private BusinessObjectDictionaryService dataDictionary;
-    private LookupService lookupService;
-    private Class businessObjectClass;
-
     /**
-     * 
      * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#buildUserDefinedAttributeKeyList()
      */
     protected List buildUserDefinedAttributeKeyList() {
         List<String> keys = new ArrayList<String>();
 
-        keys.add(KFSPropertyConstants.EMPLID);
         keys.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        keys.add(KFSPropertyConstants.EMPLID);
         keys.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-        
+        keys.add(Constant.CONSOLIDATION_OPTION);
+        keys.add(Constant.PENDING_ENTRY_OPTION);
         return keys;
     }
 
@@ -59,10 +52,9 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getUserDefinedAttributeMap()
      */
     protected Map getUserDefinedAttributeMap() {
-               
+
         Map userDefinedAttributeMap = new HashMap();
-        userDefinedAttributeMap.put(KFSPropertyConstants.MONTH1_AMOUNT, "");          
-        userDefinedAttributeMap.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ACTUALS_CODE);          
+        userDefinedAttributeMap.put(KFSPropertyConstants.MONTH1_AMOUNT, "");
         return userDefinedAttributeMap;
     }
 
@@ -87,7 +79,6 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyName(java.lang.String)
      */
     protected String getKeyName(String keyName) {
-        keyName = BusinessObjectFieldConverter.convertToTransactionPropertyName(keyName);
         return keyName;
     }
 
@@ -102,8 +93,7 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getBaseUrl()
      */
     protected String getBaseUrl() {
-        // TODO: investigate change to this constant
-        return KFSConstants.GL_MODIFIED_INQUIRY_ACTION;
+        return KFSConstants.GL_BALANCE_INQUIRY_ACTION;
     }
 
     /**
@@ -116,6 +106,6 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
     /**
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
      */
-    protected void addMoreParameters(Properties parameter, String attributeName) {     
+    protected void addMoreParameters(Properties parameter, String attributeName) {
     }
 }

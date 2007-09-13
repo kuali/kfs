@@ -126,7 +126,7 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
      * @see org.kuali.module.labor.service.LaborLedgerBalanceService#addLedgerBalance(java.util.Collection,
      *      org.kuali.module.labor.bo.LaborTransaction)
      */
-    public boolean addLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, LaborTransaction transaction) {
+    public LedgerBalance addLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, LaborTransaction transaction) {
         LedgerBalance ledgerBalance = this.findLedgerBalance(ledgerBalanceCollection, transaction);
 
         if (ledgerBalance == null) {
@@ -135,9 +135,9 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
             updateLedgerBalance(newLedgerBalance, transaction);
             
             ledgerBalanceCollection.add(newLedgerBalance);
-            return true;
+            return newLedgerBalance;
         }
-        return false;
+        return null;
     }
 
     /**

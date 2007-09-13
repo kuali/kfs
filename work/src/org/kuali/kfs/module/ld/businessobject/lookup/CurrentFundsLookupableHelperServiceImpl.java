@@ -185,6 +185,9 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
                 cf.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
                 cf.getDummyBusinessObject().setPendingEntryOption(pendingEntryOption);
                 cf.setOutstandingEncum(getOutstandingEncum(cf));
+                
+                cf.getDummyBusinessObject().setPendingEntryOption(pendingEntryOption);
+                cf.getDummyBusinessObject().setConsolidationOption(Constant.CONSOLIDATION);
 
                 retval.add(cf);
             }
@@ -209,6 +212,10 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
             cf.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
             cf.getDummyBusinessObject().setPendingEntryOption(pendingEntryOption);
             cf.setOutstandingEncum(getOutstandingEncum(cf));
+            
+            cf.getDummyBusinessObject().setPendingEntryOption(pendingEntryOption);
+            cf.getDummyBusinessObject().setConsolidationOption(Constant.DETAIL);
+            
             retval.add(cf);
         }
         return retval;

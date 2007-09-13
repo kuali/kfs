@@ -66,6 +66,7 @@
 	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >
 	    <kul:documentOverview editingMode="${KualiForm.editingMode}"
 	        includePostingYear="true"
+	        fiscalYearReadOnly="true"
 	        postingYearAttributes="${DataDictionary.PaymentRequestDocument.attributes}" />
 	</c:if>
     

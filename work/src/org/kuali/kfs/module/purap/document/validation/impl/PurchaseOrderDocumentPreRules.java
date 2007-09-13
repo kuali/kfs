@@ -40,7 +40,7 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
         PurchaseOrderDocument purchaseOrderDocument = (PurchaseOrderDocument)document;
         
         if (StringUtils.isBlank(event.getQuestionContext()) || StringUtils.equals(question, PurapConstants.PO_OVERRIDE_NOT_TO_EXCEED_QUESTION)) {
-            preRulesOK = confirmNotToExceedOverride(purchaseOrderDocument);
+            preRulesOK &= confirmNotToExceedOverride(purchaseOrderDocument);
         }
         
         return preRulesOK;

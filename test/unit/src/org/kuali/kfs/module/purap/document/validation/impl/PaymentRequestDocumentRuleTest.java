@@ -135,27 +135,6 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
     }
     
     /*
-     * Tests of validatePaymentRequestDates
-     */
-    public void testValidatePayDateNotOverThresholdDaysAway_WarningDaysMinusOne() {
-        Date futureDay = getDateFromOffsetFromToday(PurapConstants.PREQ_PAY_DATE_DAYS_BEFORE_WARNING - 1);
-        preq.setPaymentRequestPayDate(futureDay);
-        assertTrue(rule.validatePayDateNotOverThresholdDaysAway(preq));
-    }   
-    
-    public void testValidatePayDateNotOverThresholdDaysAway_WarningDays() {
-        Date futureDay = getDateFromOffsetFromToday(PurapConstants.PREQ_PAY_DATE_DAYS_BEFORE_WARNING);
-        preq.setPaymentRequestPayDate(futureDay);
-        assertTrue(rule.validatePayDateNotOverThresholdDaysAway(preq));
-    }
-    
-    public void testValidatePayDateNotOverThresholdDaysAway_WarningDaysPlusOne() {
-        Date futureDay = getDateFromOffsetFromToday(PurapConstants.PREQ_PAY_DATE_DAYS_BEFORE_WARNING + 1);
-        preq.setPaymentRequestPayDate(futureDay);
-        assertFalse(rule.validatePayDateNotOverThresholdDaysAway(preq));
-    }
-    
-    /*
      * Tests of validateItem
      */ 
     

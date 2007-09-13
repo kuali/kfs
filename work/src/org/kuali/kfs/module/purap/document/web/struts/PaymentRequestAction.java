@@ -20,6 +20,7 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -27,6 +28,7 @@ import org.kuali.core.UserSession;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -39,9 +41,8 @@ import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.rule.event.CalculateAccountsPayableEvent;
-import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
+import org.kuali.module.purap.rules.PaymentRequestDocumentRule;
 import org.kuali.module.purap.service.PaymentRequestService;
-import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.util.PurQuestionCallback;
 import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
 
@@ -297,5 +298,5 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         SpringContext.getBean(KualiRuleService.class).applyRules(new CalculateAccountsPayableEvent(preqDoc));
         SpringContext.getBean(PaymentRequestService.class).calculatePaymentRequest(preqDoc, true);
     }
-
+    
 }

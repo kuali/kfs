@@ -79,7 +79,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return super.processCustomAddAccountingLineBusinessRules(financialDocument, accountingLine);
     }
     
-    /**
+	/**
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#accountIsAccessible(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
      */
     @Override
@@ -296,8 +296,6 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
         // Pay date in the past validation.
         valid &= validatePayDateNotPast(document);        
-        // Pay date more than 60 days warning.
-        validatePayDateNotOverThresholdDaysAway(document);
         GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
     }
@@ -309,34 +307,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, PurapKeyConstants.ERROR_INVALID_PAY_DATE);
         }
         return valid;
-    }
+    } 
     
-    /**
-     * This method side-effects a warning, and consequently should not be used in such
-     * a way as to cause validation to fail. Returns a boolean for ease of testing.  If the
-     * threshold days value is positive, the method will test future dates accurately.
-     * If the the threshold days value is negative, the method will test past dates.
-     * 
-     * @param document  The PaymentRequestDocument
-     * @return  True if the PREQ's pay date is not over the threshold number of days away. 
-     */
-    boolean validatePayDateNotOverThresholdDaysAway(PaymentRequestDocument document) {
-        boolean valid = true;
-        int thresholdDays = PurapConstants.PREQ_PAY_DATE_DAYS_BEFORE_WARNING;
-        if (SpringContext.getBean(PurapService.class).isDateMoreThanANumberOfDaysAway(
-                document.getPaymentRequestPayDate(),thresholdDays)) {
-            String msg = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(
-                    PurapKeyConstants.WARNING_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS);
-            String threshold = new Integer(thresholdDays).toString();
-            msg = StringUtils.replace(msg, "{0}", threshold);
-            if ( ObjectUtils.isNull(GlobalVariables.getMessageList())) {
-                GlobalVariables.setMessageList(new ArrayList());
-            }
-            GlobalVariables.getMessageList().add(msg);
-            valid &= false;
-        }
-        return valid;
-    }
     /**
      * 
      * This method checks whether the total of the items' extended price, excluding the item types that can be
@@ -406,8 +378,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
 
     private boolean validateEachItem(PaymentRequestDocument paymentRequestDocument, PaymentRequestItem item) {
         boolean valid = true;
-            String identifierString = item.getItemIdentifierString();
-            valid &= validateItem(paymentRequestDocument, item, identifierString);
+        String identifierString = item.getItemIdentifierString();
+        valid &= validateItem(paymentRequestDocument, item, identifierString);
         return valid;
     }
     
@@ -415,9 +387,9 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         boolean valid = true;
         //only run item validations if before full entry
         if(!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument)) {
-            if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) { 
-                valid &= validateItemTypeItems(item, identifierString); 
-            } 
+        if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) { 
+            valid &= validateItemTypeItems(item, identifierString); 
+        } 
             valid &= validateItemWithoutAccounts(item, identifierString);
         }
         //always run account validations
@@ -664,7 +636,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(preq, 
                 accountingLine, explicitEntry, preq.getPurchaseOrderIdentifier(), preq.getDebitCreditCodeForGLEntries(), 
                 PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT, preq.isGenerateEncumbranceEntries());
-
+        
         //PREQs do not wait for document final approval to post GL entries to the real table; here we are forcing them to be APPROVED
         explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
 
@@ -674,9 +646,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     protected boolean verifyAccountPercent(AccountingDocument accountingDocument, List<PurApAccountingLine> purAccounts, String itemLineNumber) {
         if(SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((PaymentRequestDocument) accountingDocument)) {
             return true;
-        }
+}
         return super.verifyAccountPercent(accountingDocument, purAccounts, itemLineNumber);
     }
-    
     
 }

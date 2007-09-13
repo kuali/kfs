@@ -465,6 +465,7 @@ public class PurapConstants extends JstlConstants {
         public static String INVOICE_DATE = "Invoice Date";
         public static String INVOICE_NUMBER = "Invoice Number";
         public static String IN_PROCESS = "In Process";
+        public static String THRESHOLD_DAYS_OVERRIDE_QUESTION = "Threshold Days Override Question";
         public static String VENDOR_INVOICE_AMOUNT = "Vendor Invoice Amount";
         public static String VENDOR_STATE = "State";
         public static String VENDOR_POSTAL_CODE = "Postal Code";

@@ -51,7 +51,7 @@ public class LaborPendingEntryGenerator {
      * @param sequenceHelper the given squence helper
      * @return a set of expense pending entries
      */
-    public static List<LaborLedgerPendingEntry> generateExpesnePendingEntries(LaborLedgerPostingDocument document, ExpenseTransferAccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    public static List<LaborLedgerPendingEntry> generateExpensePendingEntries(LaborLedgerPostingDocument document, ExpenseTransferAccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         List<LaborLedgerPendingEntry> expensePendingEntries = new ArrayList<LaborLedgerPendingEntry>();
         LaborLedgerPendingEntry expensePendingEntry = LaborPendingEntryConverter.getExpensePendingEntry(document, accountingLine, sequenceHelper);
         expensePendingEntries.add(expensePendingEntry);

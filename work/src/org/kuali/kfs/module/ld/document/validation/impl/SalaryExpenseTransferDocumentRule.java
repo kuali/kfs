@@ -264,7 +264,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
 
         ExpenseTransferAccountingLine expenseTransferAccountingLine = (ExpenseTransferAccountingLine) accountingLine;
 
-        List<LaborLedgerPendingEntry> expensePendingEntries = LaborPendingEntryGenerator.generateExpesnePendingEntries(document, expenseTransferAccountingLine, sequenceHelper);
+        List<LaborLedgerPendingEntry> expensePendingEntries = LaborPendingEntryGenerator.generateExpensePendingEntries(document, expenseTransferAccountingLine, sequenceHelper);
         document.getLaborLedgerPendingEntries().addAll(expensePendingEntries);
 
         List<LaborLedgerPendingEntry> benefitPendingEntries = LaborPendingEntryGenerator.generateBenefitPendingEntries(document, expenseTransferAccountingLine, sequenceHelper);

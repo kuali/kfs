@@ -299,4 +299,8 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         SpringContext.getBean(PaymentRequestService.class).calculatePaymentRequest(preqDoc, true);
     }
     
+    @Override
+    public String getActionName(){
+        return PurapConstants.PAYMENT_REQUEST_ACTION_NAME;
+    }
 }

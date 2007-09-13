@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap.web.struts.action;
 
+import java.util.Properties;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.RiceKeyConstants;
 import org.kuali.RicePropertyConstants;
 import org.kuali.core.bo.Note;
 import org.kuali.core.question.ConfirmationQuestion;
@@ -29,21 +32,19 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.util.PurQuestionCallback;
 import org.kuali.module.purap.web.struts.form.AccountsPayableFormBase;
-import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.VendorAddress;
 
@@ -99,12 +100,12 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     public ActionForward calculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
         AccountsPayableDocument apDoc = (AccountsPayableDocument) apForm.getDocument();
-
+            
         customCalculate(apDoc);
 
-        // doesn't really matter what happens above we still reset the calculate flag
+        //doesn't really matter what happens above we still reset the calculate flag
         apForm.setCalculated(true);
-
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -132,7 +133,16 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         requiresCalculate = !apForm.isCalculated() && !SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(purapDocument);
         return requiresCalculate;
     }
-
+    
+    /**
+     * This method returns the current action name
+     * 
+     * @return
+     */
+    public String getActionName(){
+        return null;
+    }
+    
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
@@ -148,7 +158,23 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         customCalculate( (AccountsPayableDocument)apForm.getDocument() );
 
         //route
-        return super.route(mapping, form, request, response);               
+        ActionForward forward = super.route(mapping, form, request, response);
+
+        //if successful, then redirect back to init
+        if( GlobalVariables.getMessageList().contains(RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL) ){
+            String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+
+            Properties parameters = new Properties();                        
+            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.DOC_HANDLER_METHOD);
+            parameters.put(KFSConstants.PARAMETER_COMMAND, "initiate");
+            parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, apForm.getDocTypeName());
+                                
+            String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "purap" + this.getActionName() + ".do", parameters);
+            
+            forward = new ActionForward(lookupUrl, true);
+        }
+
+        return forward;
     }
 
     @Override

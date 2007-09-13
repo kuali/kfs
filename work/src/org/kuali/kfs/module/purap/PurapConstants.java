@@ -328,6 +328,7 @@ public class PurapConstants extends JstlConstants {
     public static String AP_OVERRIDE_INVOICE_NOMATCH_QUESTION = "OverrideInvoiceNoMatch";
     
     // PAYMENT REQUEST
+    public static final String PAYMENT_REQUEST_ACTION_NAME = "PaymentRequest";
     public static final String PAYMENT_REQUEST_DOCUMENT_DOC_TYPE = "PaymentRequestDocument";
     
     public static int PREQ_PAY_DATE_CALCULATION_DAYS = 28;
@@ -495,6 +496,7 @@ public class PurapConstants extends JstlConstants {
     }
     
     // CREDIT MEMO DOCUMENT
+    public static final String CREDIT_MEMO_ACTION_NAME = "CreditMemo";
     public static final String CREDIT_MEMO_DOCUMENT_DOC_TYPE = "CreditMemoDocument";
 
     public static class CreditMemoStatuses {

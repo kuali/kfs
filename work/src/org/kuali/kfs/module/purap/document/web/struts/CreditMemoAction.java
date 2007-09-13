@@ -188,5 +188,9 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         
         return askQuestionWithInput(mapping, form, request, response, CMDocumentsStrings.CANCEL_CM_QUESTION, CMDocumentsStrings.CANCEL_NOTE_PREFIX, operation, PurapKeyConstants.CREDIT_MEMO_QUESTION_CANCEL_DOCUMENT, callback);
     }
-
+    
+    @Override
+    public String getActionName(){
+        return PurapConstants.CREDIT_MEMO_ACTION_NAME;
+    }
 }

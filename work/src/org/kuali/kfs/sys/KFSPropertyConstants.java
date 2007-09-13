@@ -728,6 +728,7 @@ public class KFSPropertyConstants {
     public static final String ITEM_UNIT_AMOUNT = "itemUnitAmount";
     public static final String ITEMS = "items";
     public static final String IU_NORMAL_WORK_MONTHS = "iuNormalWorkMonths";
+    public static final String JULY1_BUDGET_AMOUNT = "july1BudgetAmount";
     public static final String JV_USER = "JVUser";
     public static final String KUALI_USER = "kualiUser";
     public static final String KUALI_USER_CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";

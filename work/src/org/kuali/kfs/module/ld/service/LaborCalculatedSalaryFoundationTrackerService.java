@@ -33,7 +33,7 @@ public interface LaborCalculatedSalaryFoundationTrackerService {
     List<LaborCalculatedSalaryFoundationTracker> findCSFTracker(Map fieldValues, boolean isConsolidated);
 
     /**
-     * This method finds the CSF trackers according to input fields and values
+     * This method finds the CSF trackers combined with the July1 attributes according to input fields and values
      * 
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not

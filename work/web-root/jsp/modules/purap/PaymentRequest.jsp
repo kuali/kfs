@@ -64,7 +64,7 @@
 	</c:if>
 	
 	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >
-	    <purap:documentOverview editingMode="${KualiForm.editingMode}"
+	    <kul:documentOverview editingMode="${KualiForm.editingMode}"
 	        includePostingYear="true"
 	        postingYearAttributes="${DataDictionary.PaymentRequestDocument.attributes}" />
 	</c:if>

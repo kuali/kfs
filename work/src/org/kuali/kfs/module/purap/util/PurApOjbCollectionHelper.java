@@ -149,8 +149,8 @@ public class PurApOjbCollectionHelper {
      * This method identifies items in the first List that are not contained in the second List. It is similar to the (optional)
      * java.util.List retainAll method.
      * 
-     * @param fromList
-     * @param controlList
+     * @param fromList list from the database
+     * @param controlList list from the object
      * @return true iff one or more items were removed
      */
     private List findUnwantedElements(Collection fromList, Collection controlList, OjbCollectionAware template, int depth) {
@@ -158,11 +158,11 @@ public class PurApOjbCollectionHelper {
 
         Iterator iter = fromList.iterator();
         while (iter.hasNext()) {
-            PersistableBusinessObject line = (PersistableBusinessObject) iter.next();
-            PersistableBusinessObject copyLine = (PersistableBusinessObject) ObjectUtils.retrieveObjectWithIdentitcalKey(controlList,line);
-            if (ObjectUtils.isNull(copyLine)) {
-                toRemove.add(line);
-            } else { //since we're not deleting try to recurse on this collection
+            PersistableBusinessObject copyLine = (PersistableBusinessObject) iter.next();
+            PersistableBusinessObject line = (PersistableBusinessObject) ObjectUtils.retrieveObjectWithIdentitcalKey(controlList,copyLine);
+            if (ObjectUtils.isNull(line)) {
+                toRemove.add(copyLine);
+            } else { //since we're not deleting try to recurse on this element
                 processCollectionsRecurse(template, line, copyLine, depth);
             }
         }

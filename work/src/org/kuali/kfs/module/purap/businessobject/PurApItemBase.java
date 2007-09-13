@@ -17,6 +17,7 @@
 package org.kuali.module.purap.bo;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -548,7 +549,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
      */
     @Override
     public List buildListOfDeletionAwareLists() {
-        List managedLists = super.buildListOfDeletionAwareLists();
+        List managedLists = new ArrayList();
 
         managedLists.add(getSourceAccountingLines());
 

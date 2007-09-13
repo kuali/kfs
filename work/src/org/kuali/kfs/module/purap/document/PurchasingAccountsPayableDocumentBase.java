@@ -122,10 +122,10 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         //These next 3 lines are temporary changes so that we can use PurApOjbCollectionHelper for release 2.
         //But these 3 lines will not be necessary anymore if the changes in PurApOjbCollectionHelper is
         //merge into Rice. KULPURAP-1370 is the related jira.
-//        DocumentDaoOjb docDao = SpringContext.getBean(DocumentDaoOjb.class);
-//        PurchasingAccountsPayableDocumentBase retrievedDocument = (PurchasingAccountsPayableDocumentBase)docDao.findByDocumentHeaderId(this.getClass(), this.getDocumentNumber());
-//        SpringContext.getBean(PurApOjbCollectionHelper.class).processCollections(docDao, this, retrievedDocument);
-//        
+        DocumentDaoOjb docDao = SpringContext.getBean(DocumentDaoOjb.class);
+        PurchasingAccountsPayableDocumentBase retrievedDocument = (PurchasingAccountsPayableDocumentBase)docDao.findByDocumentHeaderId(this.getClass(), this.getDocumentNumber());
+        SpringContext.getBean(PurApOjbCollectionHelper.class).processCollections(docDao, this, retrievedDocument);
+        
         super.prepareForSave(event);
     }
 

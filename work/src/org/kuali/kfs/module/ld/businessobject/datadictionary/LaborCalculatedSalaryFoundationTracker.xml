@@ -110,7 +110,9 @@
             <attributeReference name="effectiveSequence" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="effectiveSequence" />	
 
             <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
-            <attributeReference name="personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" />
+            <attributeReference name="personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
+            	<label>Person</label>
+            </attributeReference>
             <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber"/>
             <attributeReference name="employeeRecord" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="employeeRecord" />	
 			

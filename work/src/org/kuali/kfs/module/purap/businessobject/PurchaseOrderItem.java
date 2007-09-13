@@ -319,13 +319,10 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         if (versionNumber == null) {
             //don't allow newly added item to be inactivatable.
             return false;
-}
-        else if (versionNumber!= null && isAmendmentStatus() && itemActiveIndicator && !getPurchaseOrder().getContainsUnpaidPaymentRequestsOrCreditMemos()) {
+        }
+        else if (versionNumber!= null && itemActiveIndicator && !getPurchaseOrder().getContainsUnpaidPaymentRequestsOrCreditMemos()) {
             return true;
         }
         return false;
-    }
-    private boolean isAmendmentStatus() {
-        return getPurchaseOrder().getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.AMENDMENT);
     }
 }

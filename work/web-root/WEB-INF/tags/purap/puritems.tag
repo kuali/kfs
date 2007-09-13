@@ -23,6 +23,15 @@
 <c:set var="amendmentEntry"	value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
 
+<c:choose>
+    <c:when test= "${fn:contains(documentType, 'PurchaseOrder')}">
+        <c:set var="isATypeOfPODoc" value="true" />
+    </c:when>
+    <c:otherwise>
+        <c:set var="isATypeOfPODoc" value="false" />
+    </c:otherwise>
+</c:choose>
+
 <kul:tab tabTitle="Items" defaultOpen="false" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
 	<div class="tab-container" align=center>
     <!--  if (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)), then display the addLine -->
@@ -127,9 +136,19 @@
 				</c:if>
 				<!--  kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" / -->
 				<!-- TODO: PHASE 2B -->
-				<kul:htmlAttributeHeaderCell literalLabel="Inactive"/>
-				<c:if test="${((documentType == 'PurchaseOrderDocument') or (documentType == 'PurchaseOrderAmendmentDocument') or (documentType == 'PurchaseOrderCloseDocument') or (documentType == 'PurchaseOrderPaymentHoldDocument') or (documentType == 'PurchaseOrderRemoveHoldDocument') or (documentType == 'PurchaseOrderReopenDocument') or (documentType == 'PurchaseOrderRetransmitDocument') or (documentType == 'PurchaseOrderVoidDocument'))}">
+				<c:if test="${isATypeOfPODoc}">
+				    <c:choose>
+                        <c:when test="${!(fullEntryMode or amendmentEntry)}">
+                            <kul:htmlAttributeHeaderCell literalLabel="Inactive"/>
+                        </c:when>
+                        <c:otherwise>
+                            <kul:htmlAttributeHeaderCell literalLabel="Actions"/>
+                        </c:otherwise>
+                    </c:choose>
                     <kul:htmlAttributeHeaderCell literalLabel="Amount Paid" />
+                </c:if>
+                <c:if test="${!isATypeOfPODoc}">
+                    <kul:htmlAttributeHeaderCell literalLabel="Actions"/>
                 </c:if>
 			</tr>
 		</c:if>
@@ -210,7 +229,7 @@
 					    <html:hidden property="document.item[${ctr}].itemType.itemTypeCode" /> 
 					    <html:hidden property="document.item[${ctr}].itemType.itemTypeDescription" />
 
-					    <c:if test="${((documentType == 'PurchaseOrderDocument') or (documentType == 'PurchaseOrderAmendmentDocument') or (documentType == 'PurchaseOrderCloseDocument') or (documentType == 'PurchaseOrderPaymentHoldDocument') or (documentType == 'PurchaseOrderRemoveHoldDocument') or (documentType == 'PurchaseOrderReopenDocument') or (documentType == 'PurchaseOrderRetransmitDocument') or (documentType == 'PurchaseOrderVoidDocument'))}">
+					    <c:if test="${isATypeOfPODoc}">
 						    <html:hidden property="document.item[${ctr}].itemActiveIndicator" />
 						    <html:hidden property="document.item[${ctr}].documentNumber" />
   					    </c:if> 
@@ -312,17 +331,21 @@
 					        </div>
 					    </td>
 					</c:if>
-					<c:if test="${(amendmentEntry and ! itemLine.itemActiveIndicator)}">
-						<td class="infoline">
-						    <div align="center">Inactive</div>
-						</td>
-					</c:if>
-					<c:if test="${(not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)))}">
-						<td class="infoline">
-						    <div align="center">&nbsp;</div>
-						</td>
-					</c:if>
-					<c:if test="${((documentType == 'PurchaseOrderDocument') or (documentType == 'PurchaseOrderAmendmentDocument') or (documentType == 'PurchaseOrderCloseDocument') or (documentType == 'PurchaseOrderPaymentHoldDocument') or (documentType == 'PurchaseOrderRemoveHoldDocument') or (documentType == 'PurchaseOrderReopenDocument') or (documentType == 'PurchaseOrderRetransmitDocument') or (documentType == 'PurchaseOrderVoidDocument'))}">
+					<c:choose>
+					    <c:when test="${(isATypeOfPODoc and ! itemLine.itemActiveIndicator)}">
+						    <td class="infoline">
+						        <div align="center">Inactive</div>
+						    </td>
+					    </c:when>
+					    <c:otherwise>
+                            <c:if test="${(not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)))}">
+						        <td class="infoline">
+						            <div align="center">&nbsp;</div>
+						        </td>
+					        </c:if>
+					    </c:otherwise>
+					</c:choose>
+					<c:if test="${isATypeOfPODoc}">
 					    <td class="infoline">
 					        <div align="right">
 					            <kul:htmlControlAttribute

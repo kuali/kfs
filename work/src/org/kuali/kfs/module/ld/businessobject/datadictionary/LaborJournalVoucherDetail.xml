@@ -26,8 +26,27 @@
 				<description>earnCode description...</description>
 			</attribute>
 
+<!-- 		Related on Jira KULRNE-5027
+
 			<attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser"
-				sourceAttributeName="personPayrollIdentifier" />
+				sourceAttributeName="personPayrollIdentifier">
+			</attributeReference>
+-->
+
+			<attribute name="emplid" forceUppercase="true">
+                <label>Emplid</label>
+                <shortLabel>Emplid</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>emplid</summary>
+                <description>emplid description...</description>
+			</attribute>
 
 			<attribute name="employeeRecord" forceUppercase="true">
 				<label>Employee Record</label>

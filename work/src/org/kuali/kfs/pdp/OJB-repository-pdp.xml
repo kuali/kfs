@@ -527,4 +527,28 @@
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
   </class-descriptor>
+
+<class-descriptor class="org.kuali.module.pdp.bo.PreDisbursementProcessorBank" table="PDP_BNK_T">
+	<field-descriptor name="bankRoutingNumber" column="BNK_RTNG_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="bankOfficeCode" column="BNK_OFFC_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="bankServiceNumber" column="BNK_SRVC_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="bankTypeCode" column="BNK_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="bankNewRoutingNumber" column="BNK_NEW_RTNG_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="bankName" column="BNK_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="bankStreetAddress" column="BNK_STR_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="bankCityName" column="BNK_CTY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="bankStateCode" column="BNK_ST_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="bankZipCode" column="BNK_ZIP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="bankZipExtensionCode" column="BNK_ZIP_EXTNS_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="bankPhoneAreaCode" column="BNK_PHN_AREA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="bankPhonePrefixNumber" column="BNK_PHN_PRFX_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="bankPhoneSuffixNumber" column="BNK_PHN_SFX_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="bankInstitutionStatusCode" column="BNK_INST_STAT_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="bankDataViewCode" column="BNK_DTA_V_CD" jdbc-type="VARCHAR"/>
+    <reference-descriptor name="bankState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="bankStateCode" />
+    </reference-descriptor>
+</class-descriptor>
 </descriptor-repository>

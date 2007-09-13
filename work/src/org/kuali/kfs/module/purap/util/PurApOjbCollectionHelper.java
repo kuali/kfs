@@ -160,7 +160,8 @@ public class PurApOjbCollectionHelper {
         while (iter.hasNext()) {
             PersistableBusinessObject copyLine = (PersistableBusinessObject) iter.next();
             PersistableBusinessObject line = (PersistableBusinessObject) ObjectUtils.retrieveObjectWithIdentitcalKey(controlList,copyLine);
-            if (ObjectUtils.isNull(line)) {
+            //FIXME ckirschenman we shouldn't need this (we should be able to check if line is null, but that didn't work for some odd reason so do contains for now
+            if (ObjectUtils.collectionContainsObjectWithIdentitcalKey(controlList, copyLine)) {
                 toRemove.add(copyLine);
             } else { //since we're not deleting try to recurse on this element
                 processCollectionsRecurse(template, line, copyLine, depth);

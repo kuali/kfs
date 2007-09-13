@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,10 +30,15 @@ import org.kuali.core.JstlConstants;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.module.purap.bo.CreditMemoView;
+import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
+import org.kuali.module.purap.bo.PurchaseOrderView;
+import org.kuali.module.purap.bo.RequisitionView;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase;
 
 /**
  * Holds constants for PURAP.
@@ -579,6 +585,7 @@ public class PurapConstants extends JstlConstants {
         HashMap<String,Class> fields = new HashMap<String,Class>();
         fields.put(KFSConstants.VERSION_NUMBER, null);
         fields.put("LOG", null);
+        fields.put("serialVersionUID", null);
         return fields;
     }
     /*
@@ -619,6 +626,12 @@ public class PurapConstants extends JstlConstants {
         returnMap.put(PurapPropertyConstants.ACCOUNT_IDENTIFIER, PurchaseOrderAccount.class);
         returnMap.put(PurapPropertyConstants.STATUS_HISTORY_IDENTIFIER, PurchaseOrderStatusHistory.class);
         returnMap.put(PurapPropertyConstants.PURCHASE_ORDER_VENDOR_QUOTE_IDENTIFIER, PurchaseOrderVendorQuote.class);
+        returnMap.put("relatedRequisitionViews", PurchasingAccountsPayableDocumentBase.class);
+        returnMap.put("relatedPurchaseOrderViews", PurchasingAccountsPayableDocumentBase.class);
+        returnMap.put("relatedPaymentRequestViews", PurchasingAccountsPayableDocumentBase.class);
+        returnMap.put("relatedCreditMemoViews", PurchasingAccountsPayableDocumentBase.class);
+        returnMap.put("paymentHistoryPaymentRequestViews", PurchasingAccountsPayableDocumentBase.class);
+        returnMap.put("paymentHistoryCreditMemoViews", PurchasingAccountsPayableDocumentBase.class);
         return returnMap;
     }
     public final static Map<String,Class> UNCOPYABLE_FIELDS_FOR_PO = uncopyableFieldsForPurchaseOrder();

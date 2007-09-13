@@ -34,11 +34,13 @@ public interface PurApWorkflowIntegrationService {
     /**
      * TODO delyea - documentation
      * @param document
+     * @param potentialAnnotation
      * @param nodeName
      * @param user
-     * @param personUserIdToImpersonate
+     * @param networkIdToImpersonate
+     * @return
      */
-    public void takeAllActionsForGivenCriteria(Document document, String nodeName, UniversalUser user, String personUserIdToImpersonate);
+    public boolean takeAllActionsForGivenCriteria(Document document, String potentialAnnotation, String nodeName, UniversalUser user, String superUserNetworkId);
 
     /**
      * TODO delyea - documentation

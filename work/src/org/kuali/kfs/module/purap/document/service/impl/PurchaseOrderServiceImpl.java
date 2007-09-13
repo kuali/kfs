@@ -19,7 +19,6 @@ import java.io.ByteArrayOutputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -63,6 +62,7 @@ import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.purap.service.LogicContainer;
 import org.kuali.module.purap.service.PrintService;
 import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 import org.kuali.module.purap.service.PurapService;
@@ -219,7 +219,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public void createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument) {
         String newSessionUserId = RiceConstants.SYSTEM_USER;
         try {
-            PurapService.LogicToRunAsFakeUser logicToRun = new PurapService.LogicToRunAsFakeUser() {
+            LogicContainer logicToRun = new LogicContainer() {
                 public Object runLogic(Object[] objects) throws Exception {
                     RequisitionDocument doc = (RequisitionDocument)objects[0];
                     // update REQ data
@@ -424,7 +424,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         po.setPurchaseOrderFirstTransmissionDate(currentDate);
         po.setPurchaseOrderLastTransmitDate(currentDate);
         po.setOverrideWorkflowButtons(Boolean.FALSE);
-        SpringContext.getBean(PurApWorkflowIntegrationService.class).takeAllActionsForGivenCriteria(po, null, GlobalVariables.getUserSession().getUniversalUser(), null);
+        boolean performedAction = SpringContext.getBean(PurApWorkflowIntegrationService.class).takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission", NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getUniversalUser(), null);
+        if (!performedAction) {
+            SpringContext.getBean(PurApWorkflowIntegrationService.class).takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getUniversalUser().getPersonName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), null, RiceConstants.SYSTEM_USER);
+        }
 //        takeWorkflowActionsForDocumentTransmission(po, null);
         po.setOverrideWorkflowButtons(Boolean.TRUE);
         attemptSetupOfInitialOpenOfDocument(po);
@@ -595,7 +598,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             sourceObjectClass = sourceObjectClass.getSuperclass();
             classesToExclude.add(sourceObjectClass);
         }
-        PurApObjectUtils.populateFromBaseWithSuper(sourceDocument, newPurchaseOrderChangeDocument, new HashMap(), classesToExclude);
+        PurApObjectUtils.populateFromBaseWithSuper(sourceDocument, newPurchaseOrderChangeDocument, PurapConstants.UNCOPYABLE_FIELDS_FOR_PO, classesToExclude);
         newPurchaseOrderChangeDocument.getDocumentHeader().setFinancialDocumentDescription(sourceDocument.getDocumentHeader().getFinancialDocumentDescription());
         newPurchaseOrderChangeDocument.getDocumentHeader().setOrganizationDocumentNumber(sourceDocument.getDocumentHeader().getOrganizationDocumentNumber());
 

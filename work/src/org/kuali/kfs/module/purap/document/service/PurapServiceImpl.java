@@ -40,12 +40,13 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.OrganizationParameter;
-import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.purap.service.LogicContainer;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.vendor.service.VendorService;
@@ -347,7 +348,7 @@ public class PurapServiceImpl implements PurapService {
                 // TODO (KULPURAP-1576: dlemus/delyea) route the reopen purchase order here
                 // get the po id and get the current po
                 // check the current po: if status is not closed and there is no pending action... route close po as system user
-        }
+        	}
         }
         // below code preferable to run in post processing
         else if (purapDocument instanceof CreditMemoDocument) {
@@ -363,7 +364,7 @@ public class PurapServiceImpl implements PurapService {
         }
     }
     
-    public Object performLogicWithFakedUserSession(String requiredUniversalUserPersonUserId, LogicToRunAsFakeUser logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception {
+    public Object performLogicWithFakedUserSession(String requiredUniversalUserPersonUserId, LogicContainer logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception {
         if (StringUtils.isBlank(requiredUniversalUserPersonUserId)) {
             throw new RuntimeException("Attempted to perform logic with a fake user session with a blank user person id: '" + requiredUniversalUserPersonUserId + "'");
         }

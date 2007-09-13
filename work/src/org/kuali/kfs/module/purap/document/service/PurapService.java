@@ -121,7 +121,6 @@ public interface PurapService {
      */
     public void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument);
     
-    public Object performLogicWithFakedUserSession(String requiredUniversalUserPersonUserId, LogicToRunAsFakeUser logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception;
-    
-    public abstract interface LogicToRunAsFakeUser { public abstract Object runLogic(Object[] objects) throws Exception; }
+    public Object performLogicWithFakedUserSession(String requiredUniversalUserPersonUserId, LogicContainer logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception;
+
 }

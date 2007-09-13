@@ -65,7 +65,6 @@
                     <kul:htmlControlAttribute 
                     	attributeEntry="${documentAttributes.deliveryCampusCode}" 
                     	property="document.deliveryCampusCode" 
-                    	onchange="submitForm()" 
                     	readOnly="${notOtherDeliveryBuilding}"/>                
                 </td>           	
                 <th align=right valign=middle class="bord-l-b">

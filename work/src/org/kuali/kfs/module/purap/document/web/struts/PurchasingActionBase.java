@@ -164,11 +164,27 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             if (document.isDeliveryBuildingOther()) {
                 document.setDeliveryBuildingName(PurapConstants.DELIVERY_BUILDING_OTHER);
                 document.setDeliveryBuildingCode(PurapConstants.DELIVERY_BUILDING_OTHER_CODE);
+                document.setDeliveryCampusCode(null);
+                document.setDeliveryBuildingLine1Address(null);               
+                document.setDeliveryBuildingLine2Address(null);                
+                document.setDeliveryBuildingRoomNumber(null);                
+                document.setDeliveryCityName(null);                
+                document.setDeliveryStateCode(null);                
+                document.setDeliveryCountryCode(null);                
+                document.setDeliveryPostalCode(null);                
                 baseForm.setNotOtherDeliveryBuilding(false);
             }
             else {
                 document.setDeliveryBuildingName(null);
                 document.setDeliveryBuildingCode(null);
+                document.setDeliveryCampusCode(null);
+                document.setDeliveryBuildingLine1Address(null);               
+                document.setDeliveryBuildingLine2Address(null);                
+                document.setDeliveryBuildingRoomNumber(null);                
+                document.setDeliveryCityName(null);                
+                document.setDeliveryStateCode(null);                
+                document.setDeliveryCountryCode(null);                
+                document.setDeliveryPostalCode(null);                
                 baseForm.setNotOtherDeliveryBuilding(true);
             }
         }

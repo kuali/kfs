@@ -707,6 +707,7 @@ public class OrganizationReversionProcess {
         unitOfWork.setTotalCarryForward(KualiDecimal.ZERO);
 
         if ((organizationReversion == null) || (!organizationReversion.getChartOfAccountsCode().equals(bal.getChartOfAccountsCode())) || (!organizationReversion.getOrganizationCode().equals(account.getOrganizationCode()))) {
+            LOG.debug("Organization Reversion Service: "+organizationReversionService+"; fiscal year: "+paramUniversityFiscalYear+"; account: "+account+"; account organization code: "+account.getOrganizationCode()+"; balance: "+bal+"; balance chart: "+bal.getChartOfAccountsCode());
             organizationReversion = organizationReversionService.getByPrimaryId(paramUniversityFiscalYear, bal.getChartOfAccountsCode(), account.getOrganizationCode());
         }
 

@@ -52,8 +52,7 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.gl.util.Summary;
-import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.bo.CreditMemoItem;
@@ -89,11 +88,20 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     }
     
     private void savePaymentRequestSummaryAccounts(List<SourceAccountingLine> sourceLines, Integer purapDocumentIdentifier) {
+        LOG.debug("savePaymentRequestSummaryAccounts() enter method");
+        paymentRequestService.deleteSummaryAccounts(purapDocumentIdentifier);
         List<PaymentRequestSummaryAccount> summaryAccounts = new ArrayList();
         for (SourceAccountingLine account : sourceLines) {
             summaryAccounts.add(new PaymentRequestSummaryAccount(account, purapDocumentIdentifier));
         }
         businessObjectService.save(summaryAccounts);
+    }
+    
+    private List getPaymentRequestSummaryAccounts(Integer purapDocumentIdentifier) {
+        LOG.debug("getPaymentRequestSummaryAccounts() enter method");
+        Map fieldValues = new HashMap();
+        fieldValues.put(PurapPropertyConstants.PURAP_DOC_ID, purapDocumentIdentifier);
+        return new ArrayList(businessObjectService.findMatching(PaymentRequestSummaryAccount.class, fieldValues));
     }
     
     public void customizeGeneralLedgerPendingEntry(PurchasingAccountsPayableDocument purapDocument, AccountingLine accountingLine, 
@@ -355,10 +363,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      */
     public void generateEntriesModifyPaymentRequest(PaymentRequestDocument preq) {
         LOG.debug("generateEntriesModifyPreq(preq) started");
-        // oldPreq represents the same PREQ as preq, but the old values (prior to the modifications)
-        // preq represents the new values for this PREQ
-        PaymentRequestDocument oldPreq = paymentRequestService.getPaymentRequestById(preq.getPurapDocumentIdentifier());
-        generateEntriesModifyPaymentRequest(preq, oldPreq, false);
+        generateEntriesModifyPaymentRequest(preq, false);
     }
 
     /**
@@ -372,28 +377,24 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      */
     public void generateEntriesTaxApprovePaymentRequest(PaymentRequestDocument preq) {
         LOG.debug("generateEntriesTaxApprovePreq() started");
-        // oldPreq represents the same PREQ as preq, but the old values (prior to the modifications)
-        // preq represents the new values for this PREQ
-//        PaymentRequestDocument oldPreq = paymentRequestService.getPaymentRequestById(preq.getPurapDocumentIdentifier());
-//        this.generateEntriesModifyPreq(preq, oldPreq, true);
+//        this.generateEntriesModifyPreq(preq, true);
         throw new IllegalArgumentException("This method is not implemented");
     }
 
-    private void generateEntriesModifyPaymentRequest(PaymentRequestDocument newPREQ, PaymentRequestDocument oldPREQ, boolean oldPreqExcludeTaxItems) {
+    private void generateEntriesModifyPaymentRequest(PaymentRequestDocument preq, boolean oldPreqExcludeTaxItems) {
         LOG.debug("generateEntriesModifyPreq() started");
 
 //TODO PHASE 2B - ADD TAX EDITING
 //        Collection taxItems = GeneralUtilities.covertArrayToCollection(EpicConstants.ITEM_TYPES_TAX_ITEMS);
 
         Map actualsPositive = new HashMap();
-        List<SourceAccountingLine> newAccountingLines = purapAccountingService.generateSummaryWithNoZeroTotals(newPREQ.getItems());
+        List<SourceAccountingLine> newAccountingLines = purapAccountingService.generateSummaryWithNoZeroTotals(preq.getItems());
         for (SourceAccountingLine newAccount : newAccountingLines) {
             actualsPositive.put(newAccount, newAccount.getAmount());
         }
 
         Map actualsNegative = new HashMap();
-//        List<SourceAccountingLine> oldAccountingLines = purapAccountingService.generateSummaryWithNoZeroTotals(oldPREQ.getItems());
-        List<PaymentRequestSummaryAccount> oldAccountingLines = oldPREQ.getSummaryAccountingLines();
+        List<PaymentRequestSummaryAccount> oldAccountingLines = getPaymentRequestSummaryAccounts(preq.getPurapDocumentIdentifier());
 
 //      TODO PHASE 2B - ADD TAX EDITING
 //        if (oldPreqExcludeTaxItems) {
@@ -436,12 +437,14 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         }
 
         //save summary accounts
-        savePaymentRequestSummaryAccounts(accounts, newPREQ.getPurapDocumentIdentifier());
+        savePaymentRequestSummaryAccounts(accounts, preq.getPurapDocumentIdentifier());
         
         LOG.debug("generateEntriesModifyPreq() Generate GL entries");
-        newPREQ.setSourceAccountingLines(accounts);
-        generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(newPREQ);
-        saveGLEntries(newPREQ.getGeneralLedgerPendingEntries());
+        preq.setSourceAccountingLines(accounts);
+        preq.setGenerateEncumbranceEntries(false);
+        preq.setDebitCreditCodeForGLEntries(GL_DEBIT_CODE);
+        generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(preq);
+        saveGLEntries(preq.getGeneralLedgerPendingEntries());
     }
 
     public void generateEntriesCreateCreditMemo(CreditMemoDocument cm) {

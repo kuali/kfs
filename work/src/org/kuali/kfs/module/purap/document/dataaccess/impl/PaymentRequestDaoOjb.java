@@ -25,6 +25,7 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.DateTimeService;
@@ -35,6 +36,7 @@ import org.kuali.kfs.util.KFSUtils;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
+import org.kuali.module.purap.bo.PaymentRequestSummaryAccount;
 import org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao;
 import org.kuali.module.purap.dao.PaymentRequestDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
@@ -238,6 +240,19 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         return this.getPaymentRequestsByQueryByCriteria(qbc);
     }
       
+    public void deleteSummaryAccounts(Integer purapDocumentIdentifier) {
+        LOG.debug("deleteSummaryAccounts() started");
+
+        if (purapDocumentIdentifier != null) {
+            Criteria criteria = new Criteria();
+            criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, purapDocumentIdentifier);
+
+            getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(PaymentRequestSummaryAccount.class, criteria));
+            getPersistenceBrokerTemplate().clearCache();
+        }
+    }
+
+    //GETTERS & SETTERS
     public void setNegativePaymentRequestApprovalLimitDao(NegativePaymentRequestApprovalLimitDao negativePaymentRequestApprovalLimitDao) {
         this.negativePaymentRequestApprovalLimitDao = negativePaymentRequestApprovalLimitDao;
     }

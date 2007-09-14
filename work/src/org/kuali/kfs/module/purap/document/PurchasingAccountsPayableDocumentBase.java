@@ -146,18 +146,12 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     @Override
     public void populateDocumentForRouting() {
-        /* refreshNonUpdateableReferences needed below to update status reference object for 
-         * document search results display of status description
-         */
-        refreshNonUpdateableReferences();
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
         
-        //TODO f2f: why would we need to do this here?  we do not need this for routing
-        //refreshAccountSummary();
-        
-        //TODO this is only temporary until we find out what's going on with refreshAccountSummary() (hjs)
         setAccountsForRouting(SpringContext.getBean(PurapAccountingService.class).generateSummary(getItems()));
-        
+
+        //need to refresh to get the references for the searchable attributes (ie status) and for invoking route levels (ie account objects) -hjs 
+        refreshNonUpdateableReferences();
         super.populateDocumentForRouting();
     }
 

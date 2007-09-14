@@ -1007,4 +1007,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }        
     }
     
+    public void deleteSummaryAccounts(Integer purapDocumentIdentifier) {
+        paymentRequestDao.deleteSummaryAccounts(purapDocumentIdentifier);
+    }
 }

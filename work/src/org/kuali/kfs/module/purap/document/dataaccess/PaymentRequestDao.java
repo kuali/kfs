@@ -125,4 +125,6 @@ public interface PaymentRequestDao {
      */
 //    public Collection getByStatuses(String statuses[]);
     
+    public void deleteSummaryAccounts(Integer purapDocumentIdentifier);
+    
 }

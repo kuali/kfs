@@ -2228,13 +2228,6 @@
         </query-customizer>
     </collection-descriptor>
 
-    <!-- Do not set this collection to auto save or delete; it needs to be saved by a specific process in the GL entry creation (hjs) -->
-    <collection-descriptor name="summaryAccountingLines" proxy="true" element-class-ref="org.kuali.module.purap.bo.PaymentRequestSummaryAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="false" auto-delete="false">
-        <orderby name="chartOfAccountsCode" sort="ASC" />
-        <orderby name="accountNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="purapDocumentIdentifier" />
-    </collection-descriptor>
-
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.PurchaseOrderStatus" table="PUR_PO_STAT_T">

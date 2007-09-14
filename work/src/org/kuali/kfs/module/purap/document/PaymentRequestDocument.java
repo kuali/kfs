@@ -101,8 +101,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private boolean closePurchaseOrderIndicator;
     private boolean reopenPurchaseOrderIndicator;  
 
-    private List<PaymentRequestSummaryAccount> summaryAccountingLines;  //used for GL entry creation; is persisted to DB (hjs)
-    
     // NOT PERSISTED IN DB
     private String recurringPaymentTypeCode;
     private String vendorShippingTitleCode;
@@ -980,7 +978,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             if (NodeDetailEnum.getNodesRequiringCorrectingGeneralLedgerEntries().contains(currentNode)) {
                 if (NodeDetailEnum.ACCOUNT_REVIEW.getName().equals(currentNode)) {
                     //FIXME (KULPURAP-1580: hjs) this is not working right now becuase the document has already been saved before reaching this point...that is a problem :(
-//                    SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesModifyPreq(this);
+                    SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesModifyPaymentRequest(this);
                 }
             }
         }
@@ -1274,16 +1272,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
     }
 
-
-    public List<PaymentRequestSummaryAccount> getSummaryAccountingLines() {
-        return summaryAccountingLines;
-    }
-
-
-    public void setSummaryAccountingLines(List<PaymentRequestSummaryAccount> summaryAccountingLines) {
-        this.summaryAccountingLines = summaryAccountingLines;
-    }
-
     /**
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getPoDocumentTypeForAccountsPayableDocumentApprove()
      */
@@ -1318,6 +1306,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     @Override
     protected boolean isAttachmentRequired() {
         return StringUtils.equalsIgnoreCase("Y", SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_PREQ_REQUIRE_ATTACHMENT));
-    }
+	}
 
 }

@@ -26,10 +26,9 @@
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
             	<field attributeName="chartOfAccountsCode" />
+            	<field attributeName="organizationCode" />
                 <field attributeName="accountNumber" />
-                <field attributeName="negativePaymentRequestApprovalLimitAmount" />
-                <field attributeName="negativePaymentRequestApprovalLimitIdentifier" />
-                <field attributeName="organizationCode" />
+                <field attributeName="negativePaymentRequestApprovalLimitAmount" />        
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -46,18 +45,16 @@
 
             <lookupFields>
             	<lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="accountNumber" required="false" />               
-                <lookupField attributeName="negativePaymentRequestApprovalLimitAmount" required="false" />
-                <lookupField attributeName="negativePaymentRequestApprovalLimitIdentifier" required="false" />
-                <lookupField attributeName="organizationCode" required="false" />
+            	<lookupField attributeName="organizationCode" required="false" />
+                <lookupField attributeName="accountNumber" required="false" />                            
+                <lookupField attributeName="negativePaymentRequestApprovalLimitAmount" required="false" />   
             </lookupFields>
 
             <resultFields>
             	<field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />               
-                <field attributeName="negativePaymentRequestApprovalLimitAmount" />
-                <field attributeName="negativePaymentRequestApprovalLimitIdentifier" />
-                <field attributeName="organizationCode" />
+            	<field attributeName="organizationCode" />
+                <field attributeName="accountNumber" />              
+                <field attributeName="negativePaymentRequestApprovalLimitAmount" />              
             </resultFields>
         </lookup>
 

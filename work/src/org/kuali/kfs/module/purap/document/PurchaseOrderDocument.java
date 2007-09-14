@@ -27,11 +27,10 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.SequenceAccessorService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
@@ -49,6 +48,7 @@ import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeD
 import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestView;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderStatusHistory;
@@ -56,7 +56,6 @@ import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.PurchaseOrderView;
-import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.RecurringPaymentFrequency;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.service.PurapAccountingService;
@@ -159,10 +158,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     @Override
     public void customPrepareForSave(KualiDocumentEvent event) {
         if (ObjectUtils.isNull(getPurapDocumentIdentifier())) {
-            //need to save to generate PO id to save in GL entries
-            // TODO hstaplet/delyea - is this needed?  Entries are generated prior to this being called and this throws optimistic lock exception now?
-            //FIXME this seems to be causing some problems at the moment.  working on a fix (hjs)
-//            SpringContext.getBean(BusinessObjectService.class).save(this);
+            //need retrieve the next available PO id to save in GL entries (only do if purap id is null which should be on first save)
+            Long poSequenceNumber = SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("PO_ID");
+            setPurapDocumentIdentifier(new Integer(poSequenceNumber.intValue()));
         }
 
         // Set outstanding encumbered quantity/amount on items

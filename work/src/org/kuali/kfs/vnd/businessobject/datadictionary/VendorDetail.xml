@@ -30,38 +30,37 @@
                         <inquirySubSectionHeader name="Vendor Header Information" />
                         <field attributeName="vendorNumber" />
                         <field attributeName="vendorName" />
- 
                         <inquirySubSectionHeader name="Corporate Information" />
                         <field attributeName="vendorHeader.vendorTypeCode" />
-                        <field attributeName="vendorHeader.vendorForeignIndicator" />
-                        <field attributeName="vendorHeader.vendorTaxNumber" />
-                        <field attributeName="vendorHeader.vendorTaxTypeCode" />
-                        <field attributeName="vendorHeader.vendorOwnershipCode" />
-                        <field attributeName="vendorHeader.vendorOwnershipCategoryCode" />
                         <field attributeName="vendorHeader.vendorW9ReceivedIndicator" />
+                        <field attributeName="vendorHeader.vendorForeignIndicator" />
                         <field attributeName="vendorHeader.vendorW8BenReceivedIndicator" />
+                        <field attributeName="vendorHeader.vendorTaxNumber" />
                         <field attributeName="vendorHeader.vendorFederalWithholdingTaxBeginningDate" />
+                        <field attributeName="vendorHeader.vendorTaxTypeCode" />
                         <field attributeName="vendorHeader.vendorFederalWithholdingTaxEndDate" />
+                        <field attributeName="vendorHeader.vendorOwnershipCode" />
                         <field attributeName="vendorHeader.vendorDebarredIndicator" />
- 
+                        <field attributeName="vendorHeader.vendorOwnershipCategoryCode" />
+
                         <inquirySubSectionHeader name="Detail Information" />
                         <field attributeName="vendorPaymentTermsCode" />
-                        <field attributeName="vendorPrepaymentIndicator" />
-                        <field attributeName="vendorCreditCardIndicator" />
-                        <field attributeName="vendorMinimumOrderAmount" />
-                        <field attributeName="vendorShippingTitleCode" />
-                        <field attributeName="vendorShippingPaymentTermsCode" />
-                        <field attributeName="vendorDunsNumber" />
-                        <field attributeName="vendorUrlAddress" />
-                        <field attributeName="vendorConfirmationIndicator" />
                         <field attributeName="vendorSoldToNumber" />
+                        <field attributeName="vendorPrepaymentIndicator" />
                         <field attributeName="vendorSoldToName" />
+                        <field attributeName="vendorCreditCardIndicator" />
                         <field attributeName="vendorRestrictedIndicator" />
+                        <field attributeName="vendorMinimumOrderAmount" />
                         <field attributeName="vendorRestrictedDate" />
+                        <field attributeName="vendorShippingTitleCode" />
                         <field attributeName="vendorRestrictedPerson.personName" />
+                        <field attributeName="vendorShippingPaymentTermsCode" />
                         <field attributeName="vendorRestrictedReasonText" />
-                        <field attributeName="vendorRemitName" />                       
+                        <field attributeName="vendorDunsNumber" />
+                        <field attributeName="vendorRemitName" />
+                        <field attributeName="vendorUrlAddress" />
                         <field attributeName="activeIndicator"/>
+                        <field attributeName="vendorConfirmationIndicator" />
                         <field attributeName="vendorInactiveReasonCode" />               
                     </inquiryFields>
                 </inquirySection>
@@ -76,6 +75,13 @@
                             <field attributeName="vendorCityName" />
                             <field attributeName="vendorStateCode" />
                             <field attributeName="vendorZipCode" />
+                            <field attributeName="vendorAddressInternationalProvinceName" />
+                            <field attributeName="vendorCountryCode" />
+    						<field attributeName="vendorAttentionName" />
+    						<field attributeName="vendorBusinessToBusinessUrlAddress" />
+    						<field attributeName="vendorFaxNumber" />
+						    <field attributeName="vendorAddressEmailAddress" />
+						    <field attributeName="vendorDefaultAddressIndicator" />
                             <field attributeName="active" />
                             <inquiryCollection name="vendorDefaultAddresses" businessObjectClass="org.kuali.module.vendor.bo.VendorDefaultAddress" summaryTitle="Default Address" >
                                 <field attributeName="vendorCampusCode" />
@@ -94,23 +100,24 @@
                 <inquirySection title="Contacts">
                     <inquiryFields>
                         <inquiryCollection name="vendorContacts" businessObjectClass="org.kuali.module.vendor.bo.VendorContact" numberOfColumns="2" summaryTitle="Contact" >                       	
-                        	<field attributeName="vendorContactName"/>
-                        	<field attributeName="vendorContactTypeCode"/>
-                        	<field attributeName="vendorContactEmailAddress"/>
- 							<field attributeName="vendorContactCommentText"/>                      	                     	                       	
-                        	<field attributeName="vendorAttentionName"/>
-                        	<field attributeName="vendorStateCode"/>
-                        	<field attributeName="vendorLine1Address"/>
+                         	<field attributeName="vendorContactTypeCode"/>
                         	<field attributeName="vendorZipCode"/>
-                        	<field attributeName="vendorLine2Address"/>
+                         	<field attributeName="vendorContactName"/>
                         	<field attributeName="vendorAddressInternationalProvinceName"/>
-                        	<field attributeName="vendorCityName"/>  	
+                        	<field attributeName="vendorContactEmailAddress"/>
                         	<field attributeName="vendorCountryCode"/>
-							<field attributeName="active" />
+                        	<field attributeName="vendorLine1Address"/>
+                        	<field attributeName="vendorAttentionName"/>
+                        	<field attributeName="vendorLine2Address"/>
+                        	<field attributeName="vendorContactCommentText"/>
+                         	<field attributeName="vendorCityName"/>
+                        	<field attributeName="active" />
+ 							<field attributeName="vendorStateCode"/>
                         	<inquiryCollection name="vendorContactPhoneNumbers" businessObjectClass="org.kuali.module.vendor.bo.VendorContactPhoneNumber" numberOfColumns="1" summaryTitle="Phone Number" >
                         		<field attributeName="vendorPhoneTypeCode"/>
                         		<field attributeName="vendorPhoneNumber"/>
                         		<field attributeName="vendorPhoneExtensionNumber"/>
+                        		<field attributeName="active" />
                         		<inquirySummaryFields>
            		       		        <inquirySummaryField attributeName="vendorPhoneTypeCode" />
                                     <inquirySummaryField attributeName="vendorPhoneNumber" />
@@ -124,40 +131,6 @@
                     </inquiryFields>
                 </inquirySection>
                 
-                <inquirySection title="Contracts">
-                    <inquiryFields>
-                        <inquiryCollection name="vendorContracts" businessObjectClass="org.kuali.module.vendor.bo.VendorContract" numberOfColumns="2" summaryTitle="Contract" >
-                        	<field attributeName="vendorContractName"/>
-                        	<field attributeName="vendorContractDescription"/>                	
-                        	<field attributeName="vendorCampusCode"/>
-                        	<field attributeName="contractManagerCode"/>
-                        	<field attributeName="vendorContractBeginningDate"/>
-                        	<field attributeName="purchaseOrderCostSourceCode"/>
-                        	<field attributeName="vendorContractEndDate"/>                       	
-                        	<field attributeName="vendorPaymentTermsCode"/>
-                        	<field attributeName="vendorShippingPaymentTermsCode"/>
-                        	<field attributeName="vendorShippingTitleCode"/>
-                        	<field attributeName="vendorContractExtensionDate"/>
-                        	<field attributeName="organizationAutomaticPurchaseOrderLimit"/>
-							<field attributeName="active" />
-                        	<inquiryCollection name="vendorContractOrganizations" businessObjectClass="org.kuali.module.vendor.bo.VendorContractOrganization" summaryTitle="Contract Organization" >
-                        		<field attributeName="chartOfAccountsCode"/>
-                        		<field attributeName="organizationCode"/>
-                        		<field attributeName="vendorContractPurchaseOrderLimitAmount"/>
-                        		<field attributeName="vendorContractExcludeIndicator"/>
-                                <inquirySummaryFields>
-                                    <inquirySummaryField attributeName="chartOfAccountsCode" />
-                                    <inquirySummaryField attributeName="organizationCode" />
-                                </inquirySummaryFields>                        		
-                        	</inquiryCollection>
-                        	<inquirySummaryFields>
-           		       		    <inquirySummaryField attributeName="vendorCampusCode" />
-                                <inquirySummaryField attributeName="vendorContractName" />
-           		       	    </inquirySummaryFields>
-                        </inquiryCollection>
-                    </inquiryFields>
-                </inquirySection>  
-                  
  				<inquirySection title="Supplier Diversities">
                     <inquiryFields>
                         <inquiryCollection name="vendorHeader.vendorSupplierDiversities" businessObjectClass="org.kuali.module.vendor.bo.VendorSupplierDiversity"  summaryTitle="Supplier Diversity" >
@@ -222,6 +195,42 @@
                         </inquiryCollection>
                     </inquiryFields>
                 </inquirySection>
+                
+                <inquirySection title="Contracts">
+                    <inquiryFields>
+                        <inquiryCollection name="vendorContracts" businessObjectClass="org.kuali.module.vendor.bo.VendorContract" numberOfColumns="2" summaryTitle="Contract" >
+                        	<field attributeName="vendorContractName"/>
+                        	<field attributeName="purchaseOrderCostSourceCode"/>
+                          	<field attributeName="vendorContractDescription"/>
+                        	<field attributeName="vendorPaymentTermsCode"/>
+                        	<field attributeName="vendorCampusCode"/>
+                        	<field attributeName="vendorShippingPaymentTermsCode"/>
+                        	<field attributeName="vendorContractBeginningDate"/>
+                        	<field attributeName="vendorShippingTitleCode"/>
+                         	<field attributeName="vendorContractEndDate"/>
+                        	<field attributeName="vendorContractExtensionDate"/>
+                        	<field attributeName="contractManagerCode"/>
+                        	<field attributeName="organizationAutomaticPurchaseOrderLimit"/>
+ 							<field attributeName="vendorB2bIndicator"/>
+							<field attributeName="active" />
+                        	<inquiryCollection name="vendorContractOrganizations" businessObjectClass="org.kuali.module.vendor.bo.VendorContractOrganization" summaryTitle="Contract Organization" >
+                        		<field attributeName="chartOfAccountsCode"/>
+                        		<field attributeName="organizationCode"/>
+                        		<field attributeName="vendorContractPurchaseOrderLimitAmount"/>
+                        		<field attributeName="vendorContractExcludeIndicator"/>
+                        		<field attributeName="active" />
+                                <inquirySummaryFields>
+                                    <inquirySummaryField attributeName="chartOfAccountsCode" />
+                                    <inquirySummaryField attributeName="organizationCode" />
+                                </inquirySummaryFields>                        		
+                        	</inquiryCollection>
+                        	<inquirySummaryFields>
+           		       		    <inquirySummaryField attributeName="vendorCampusCode" />
+                                <inquirySummaryField attributeName="vendorContractName" />
+           		       	    </inquirySummaryFields>
+                        </inquiryCollection>
+                    </inquiryFields>
+                </inquirySection>  
                 
                 <inquirySection title="Notes">
                     <inquiryFields>

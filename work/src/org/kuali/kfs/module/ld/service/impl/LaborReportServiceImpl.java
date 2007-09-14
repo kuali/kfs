@@ -331,7 +331,7 @@ public class LaborReportServiceImpl implements LaborReportService {
         Iterator ti = laborOriginEntryService.getEntriesByGroupListingReportOrder(errorGroup);
 
         TransactionListingReport rept = new TransactionListingReport();
-        rept.generateReport(ti, runDate, "Labor Error Listing - Transactions Remove From the Scrubber", "labor_scrubber_error_listing_", reportsDirectory);
+        rept.generateReport(ti, runDate, "Labor Error Listing - Transactions Removed From the Scrubber", "labor_scrubber_error_listing_", reportsDirectory);
     }
 
 

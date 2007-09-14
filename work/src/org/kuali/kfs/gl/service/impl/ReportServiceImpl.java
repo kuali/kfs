@@ -484,7 +484,7 @@ public class ReportServiceImpl implements ReportService {
         Iterator ti = originEntryService.getEntriesByGroupListingReportOrder(errorGroup);
 
         TransactionListingReport rept = new TransactionListingReport();
-        rept.generateReport(ti, runDate, "Error Listing - Transactions Remove From the Scrubber", "scrubber_errors", reportsDirectory);
+        rept.generateReport(ti, runDate, "Error Listing - Transactions Removed From the Scrubber", "scrubber_errors", reportsDirectory);
     }
 
     /**

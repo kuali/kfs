@@ -34,7 +34,7 @@
         <documentTypeName>CashManagementDocument</documentTypeName>
         <documentTypeCode>CMD</documentTypeCode>
 
-        <label>Cash Managment Document</label>
+        <label>Cash Management Document</label>
         <shortLabel>Cash Mgmt Doc</shortLabel>
 
         <attributes>

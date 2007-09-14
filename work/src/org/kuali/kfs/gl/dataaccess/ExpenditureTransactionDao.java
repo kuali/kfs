@@ -32,4 +32,6 @@ public interface ExpenditureTransactionDao {
     public void delete(ExpenditureTransaction et);
 
     public void save(ExpenditureTransaction et);
+    
+    public void deleteAllExpenditureTransactions();
 }

@@ -102,4 +102,15 @@ public class ExpenditureTransactionDaoOjb extends PlatformAwareDaoBaseOjb implem
 
         getPersistenceBrokerTemplate().store(et);
     }
+
+    /**
+     * @see org.kuali.module.gl.dao.ExpenditureTransactionDao#deleteAllExpenditureTransactions()
+     */
+    public void deleteAllExpenditureTransactions() {
+        Iterator<ExpenditureTransaction> i = getAllExpenditureTransactions();
+        while (i.hasNext()) {
+            ExpenditureTransaction et = i.next();
+            delete(et);
+        }
+    }
 }

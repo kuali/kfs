@@ -1487,11 +1487,18 @@
 		</property>
 	</bean>
 	
+	<bean id="deleteAllExpenditureTransactionsStep" class="org.kuali.module.gl.batch.DeleteAllExpenditureTransactionsStep" parent="step">
+		<property name="expenditureTransactionDao">
+			<ref bean="glExpenditureTransactionDao"/>
+		</property>
+	</bean>
+	
 	<bean id="markPostableGroupsAsUnpostableJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="markPostableScrubberValidGroupsAsUnpostableStep" />
 				<ref bean="markPostableIcrGroupsAsUnpostableStep" />
+				<ref bean="deleteAllExpenditureTransactionsStep" />
 			</list>
 		</property>
 	</bean>

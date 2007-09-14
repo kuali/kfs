@@ -80,13 +80,13 @@ public class SpringContext {
                 LOG.info("Could not find bean of type " + type.getName() + " - checking KNS context");
                 try {
                     bean = KNSServiceLocator.getBean(type);
+                    BEAN_BY_TYPE_CACHE.put(type, bean);
                 }
                 catch (Exception e) {
                     LOG.error(e);
                     throw new NoSuchBeanDefinitionException("No beans of this type in the in KFS or KNS application contexts: " + type.getName());
                 }
             }
-            BEAN_BY_TYPE_CACHE.put(type, bean);
         }
         return bean;
     }
@@ -108,8 +108,8 @@ public class SpringContext {
         }
         else {
             beansOfType = KNSServiceLocator.getBeansOfType(type);
-            beansOfType.putAll(new HashMap(applicationContext.getBeansOfType(type)));
             BEANS_OF_TYPE_CACHE.put(type, beansOfType);
+            beansOfType.putAll(new HashMap(applicationContext.getBeansOfType(type)));
         }
         return beansOfType;         
     }
@@ -129,13 +129,13 @@ public class SpringContext {
                 LOG.info("Could not find bean named " + name + " - checking KNS context");
                 try {
                     bean = KNSServiceLocator.getBean(type, name);
+                    BEAN_BY_NAME_CACHE.put(name, bean);
                 }
                 catch (Exception e) {
                     LOG.error(e);
                     throw new NoSuchBeanDefinitionException(name, new StringBuffer("No bean of this type and name in the in KFS or KNS application contexts: ").append(type.getName()).append(", ").append(name).toString());
                 }
             }
-            BEAN_BY_NAME_CACHE.put(name, bean);
         }
         return bean;
     }

@@ -16,7 +16,6 @@
 package org.kuali.module.purap.dao;
 
 import java.sql.Date;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -39,13 +38,21 @@ public interface PaymentRequestDao {
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(String campusCode,Integer paymentRequestIdentifier,Integer purchaseOrderIdentifier,Integer vendorHeaderGeneratedIdentifier,Integer vendorDetailAssignedIdentifier);
 
     /**
-     * Get all the payment requests that need to be extracted
+     * Get all the payment requests that need to be extracted to PDP
      * 
      * @param onlySpecialPayments True - only include special payments, False - include all
      * @param chartCode if not null, limit results to a single chart
      * @return Iterator of payment requests
      */
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments,String chartCode);
+
+    /**
+     * Get all the payment requests that are marked immediate that need to be extracted to PDP
+     * 
+     * @param chartCode
+     * @return
+     */
+    public Iterator<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode);
 
     /**
      * Get all payment request documents that are eligible for auto-approval.

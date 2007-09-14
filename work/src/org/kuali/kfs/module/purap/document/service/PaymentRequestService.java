@@ -24,10 +24,8 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.util.ExpiredOrClosedAccount;
 import org.kuali.module.vendor.bo.PaymentTermType;
 
-import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 
@@ -80,6 +78,14 @@ public interface PaymentRequestService {
     public void resetExtractedPaymentRequest(PaymentRequestDocument paymentRequest, String note);
     
     public void cancelExtractedPaymentRequest(PaymentRequestDocument paymentRequest, String note);
+
+    /**
+     * Get all the payment requests that are immediate and need to be extracted to PDP
+     * 
+     * @param chartCode
+     * @return
+     */
+    public Iterator<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode);
 
     /**
      * Get all the payment requests that match a credit memo

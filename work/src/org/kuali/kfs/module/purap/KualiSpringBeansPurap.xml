@@ -356,6 +356,12 @@
         </property>
     </bean>
 
+	<bean id="purchasingPreDisbursementImmediatesExtractStep" class="org.kuali.module.purap.batch.ExtractPdpImmediatesStep" parent="step">
+		<property name="pdpExtractService">
+			<ref bean="pdpExtractService"/>
+		</property>
+	</bean>
+
 	<bean id="purchasingPreDisbursementExtractStep" class="org.kuali.module.purap.batch.ExtractPdpStep" parent="step">
 		<property name="pdpExtractService">
 			<ref bean="pdpExtractService"/>

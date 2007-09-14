@@ -80,7 +80,25 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     // won't set the extracted date on the credit memos or payment requests
     boolean testMode = false;
 
+    /**
+     * @see org.kuali.module.purap.service.PdpExtractService#extractImmediatePaymentsOnly()
+     */
+    public void extractImmediatePaymentsOnly() {
+        LOG.debug("extractImmediatePaymentsOnly() started");
+
+        extractPayments(true);
+    }
+
+    /**
+     * @see org.kuali.module.purap.service.PdpExtractService#extractPayments()
+     */
     public void extractPayments() {
+        LOG.debug("extractPayments() started");
+
+        extractPayments(false);
+    }
+
+    private void extractPayments(boolean immediateOnly) {
         LOG.debug("extractPayments() started");
 
         Date processRunDate = dateTimeService.getCurrentDate();
@@ -91,20 +109,27 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             uuser = universalUserService.getUniversalUserByAuthenticationUserId(userId);
         }
         catch (UserNotFoundException e) {
-            LOG.error("extractPaymentsForChart() Unable to find user " + userId);
+            LOG.error("extractPayments() Unable to find user " + userId);
             throw new IllegalArgumentException("Unable to find user " + userId);
         }
         PdpUser puser = new PdpUser(uuser);
 
-        List<String> campusesToProcess = getChartCodes();
+        List<String> campusesToProcess = getChartCodes(immediateOnly);
         for (Iterator iter = campusesToProcess.iterator(); iter.hasNext();) {
             String campus = (String)iter.next();
 
-            extractPaymentsForCampus(campus,puser,processRunDate);
+            extractPaymentsForCampus(campus,puser,processRunDate,immediateOnly);
         }
     }
 
-    private void extractPaymentsForCampus(String campusCode,PdpUser puser,Date processRunDate) {
+    /**
+     * Handle a single campus
+     * 
+     * @param campusCode
+     * @param puser
+     * @param processRunDate
+     */
+    private void extractPaymentsForCampus(String campusCode,PdpUser puser,Date processRunDate,boolean immediateOnly) {
         LOG.debug("extractPaymentsForCampus() started for campus: " + campusCode);
 
         Batch batch = createBatch(campusCode,puser,processRunDate);
@@ -112,20 +137,31 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         BigDecimal totalAmount = new BigDecimal("0");
 
         // Do all the special ones
-        Totals t = extractSpecialPaymentsForChart(campusCode, puser, processRunDate, batch);
+        Totals t = extractSpecialPaymentsForChart(campusCode, puser, processRunDate, batch,immediateOnly);
         count = count + t.count;
         totalAmount = totalAmount.add(t.totalAmount);
 
-        // Do all the regular ones (including credit memos)
-        t = extractRegularPaymentsForChart(campusCode, puser, processRunDate, batch);
-        count = count + t.count;
-        totalAmount = totalAmount.add(t.totalAmount);
-        
+        if ( ! immediateOnly ) {
+            // Do all the regular ones (including credit memos)
+            t = extractRegularPaymentsForChart(campusCode, puser, processRunDate, batch);
+            count = count + t.count;
+            totalAmount = totalAmount.add(t.totalAmount);
+        }
+
         batch.setPaymentCount(count);
         batch.setPaymentTotalAmount(totalAmount);
         paymentFileService.saveBatch(batch);
     }
 
+    /**
+     * Get all the payments that could be combined wih credit memos
+     * 
+     * @param campusCode
+     * @param puser
+     * @param processRunDate
+     * @param batch
+     * @return
+     */
     private Totals extractRegularPaymentsForChart(String campusCode,PdpUser puser,Date processRunDate,Batch batch) {
         Totals t = new Totals();
 
@@ -179,6 +215,15 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         return t;
     }
 
+    /**
+     * Handle a single payment request with no credit memos
+     * 
+     * @param prd
+     * @param batch
+     * @param puser
+     * @param processRunDate
+     * @return
+     */
     private PaymentGroup processSinglePaymentRequestDocument(PaymentRequestDocument prd,Batch batch,PdpUser puser,Date processRunDate) {
         List<PaymentRequestDocument> prds = new ArrayList<PaymentRequestDocument>();
         List<CreditMemoDocument> cmds = new ArrayList<CreditMemoDocument>();
@@ -208,10 +253,25 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         return getByCombineKey(key, itemsToProcess, null);
     }
 
-    private Totals extractSpecialPaymentsForChart(String campusCode,PdpUser puser,Date processRunDate,Batch batch) {
+    /**
+     * Get all the special payments for a campus and process them
+     * 
+     * @param campusCode
+     * @param puser
+     * @param processRunDate
+     * @param batch
+     * @return
+     */
+    private Totals extractSpecialPaymentsForChart(String campusCode,PdpUser puser,Date processRunDate,Batch batch,boolean immediatesOnly) {
         Totals t = new Totals();
 
-        Iterator<PaymentRequestDocument> prIter = paymentRequestService.getPaymentRequestsToExtractSpecialPayments(campusCode);
+        Iterator<PaymentRequestDocument> prIter = null;
+        if ( immediatesOnly ) {
+            prIter = paymentRequestService.getImmediatePaymentRequestsToExtract(campusCode);
+        } else {
+            prIter = paymentRequestService.getPaymentRequestsToExtractSpecialPayments(campusCode);
+        }
+
         while ( prIter.hasNext() ) {
             PaymentRequestDocument prd = prIter.next();
 
@@ -224,6 +284,13 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         return t;
     }
 
+    /**
+     * Mark a credit memo as extracted
+     * 
+     * @param cmd
+     * @param puser
+     * @param processRunDate
+     */
     private void updateCreditMemo(CreditMemoDocument cmd,PdpUser puser,Date processRunDate) {
         if ( ! testMode ) {
             cmd.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
@@ -231,6 +298,13 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         }
     }
 
+    /**
+     * Mark a payment request as extracted
+     * 
+     * @param prd
+     * @param puser
+     * @param processRunDate
+     */
     private void updatePaymentRequest(PaymentRequestDocument prd,PdpUser puser,Date processRunDate) {
         if ( ! testMode ) {
             prd.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
@@ -238,6 +312,14 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         }
     }
 
+    /**
+     * Create the PDP payment group from a list of payment requests & credit memos
+     * 
+     * @param prds
+     * @param cmds
+     * @param batch
+     * @return
+     */
     private PaymentGroup buildPaymentGroup(List<PaymentRequestDocument> prds,List<CreditMemoDocument> cmds,Batch batch) {
 
         // There should always be at least one Payment Request Document in the list.
@@ -258,6 +340,13 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         return pg;
     }
 
+    /**
+     * Create a PDP payment detail from a Credit Memo
+     * 
+     * @param cmd
+     * @param batch
+     * @return
+     */
     private PaymentDetail populatePaymentDetail(CreditMemoDocument cmd,Batch batch) {
         PaymentDetail pd = new PaymentDetail();
 
@@ -318,6 +407,13 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         return pd;
     }
 
+    /**
+     * Create a PDP Payment Detail from a Payment Request
+     * 
+     * @param prd
+     * @param batch
+     * @return
+     */
     private PaymentDetail populatePaymentDetail(PaymentRequestDocument prd,Batch batch) {
         PaymentDetail pd = new PaymentDetail();
 
@@ -377,6 +473,12 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         return pd;
     }
 
+    /**
+     * Add accounts to a PDP Payment Detail
+     * 
+     * @param prd
+     * @param pd
+     */
     private void addAccounts(AccountsPayableDocumentBase prd,PaymentDetail pd) {
         // Calculate the total amount for each account across all items
         Map accounts = new HashMap();
@@ -409,6 +511,12 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         }
     }
 
+    /**
+     * Add Notes to a PDP Payment Detail
+     * 
+     * @param doc
+     * @param pd
+     */
     private void addNotes(AccountsPayableDocumentBase doc,PaymentDetail pd) {
 
         int count = 1;
@@ -455,6 +563,13 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         }
     }
 
+    /**
+     * Populate the PDP Payment Group from fields on a payment request
+     * 
+     * @param prd
+     * @param batch
+     * @return
+     */
     private PaymentGroup populatePaymentGroup(PaymentRequestDocument prd,Batch batch)  {
         LOG.debug("populatePaymentGroup() documentNumber: " + prd.getDocumentNumber());
         PaymentGroup pg = new PaymentGroup();
@@ -500,6 +615,14 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         return pg;
     }
 
+    /**
+     * Create a new PDP batch
+     * 
+     * @param campusCode
+     * @param puser
+     * @param processRunDate
+     * @return
+     */
     private Batch createBatch(String campusCode,PdpUser puser,Date processRunDate) {
         String orgCode = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
         String subUnitCode = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
@@ -524,10 +647,21 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         return batch;
     }
 
-    private List<String> getChartCodes() {
+    /**
+     * Find all the campuses that have payments to process
+     * 
+     * @return
+     */
+    private List<String> getChartCodes(boolean immediatesOnly) {
         List<String> output = new ArrayList<String>();
 
-        Iterator<PaymentRequestDocument> iter = paymentRequestService.getPaymentRequestsToExtract();
+        Iterator<PaymentRequestDocument> iter = null;
+        if ( immediatesOnly ) {
+            iter = paymentRequestService.getImmediatePaymentRequestsToExtract(null);
+        } else {
+            iter = paymentRequestService.getPaymentRequestsToExtract();
+            
+        }
         while ( iter.hasNext() ) {
             PaymentRequestDocument prd = iter.next();
             if ( ! output.contains(prd.getProcessingCampusCode()) ) {

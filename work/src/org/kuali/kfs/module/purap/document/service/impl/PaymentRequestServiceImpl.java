@@ -154,6 +154,15 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
 
     /**
+     * @see org.kuali.module.purap.service.PaymentRequestService#getImmediatePaymentRequestsToExtract(java.lang.String)
+     */
+    public Iterator<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode) {
+        LOG.debug("getImmediatePaymentRequestsToExtract() started");
+
+        return paymentRequestDao.getImmediatePaymentRequestsToExtract(chartCode);
+    }
+
+    /**
      * @see org.kuali.module.purap.service.PaymentRequestService#getPaymentRequestToExtractByChart(java.lang.String)
      */
     public Iterator<PaymentRequestDocument> getPaymentRequestToExtractByChart(String chartCode) {

@@ -110,6 +110,24 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     }
 
     /**
+     * @see org.kuali.module.purap.dao.PaymentRequestDao#getImmediatePaymentRequestsToExtract(java.lang.String)
+     */
+    public Iterator<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode) {
+        LOG.debug("getImmediatePaymentRequestsToExtract() started");
+
+        Criteria criteria = new Criteria();
+        if ( chartCode != null ) {
+            criteria.addEqualTo("processingCampusCode", chartCode);
+        }
+
+        criteria.addIn("statusCode",Arrays.asList(PaymentRequestStatuses.STATUSES_ALLOWED_FOR_EXTRACTION));
+        criteria.addIsNull("extractedDate");
+        criteria.addEqualTo("immediatePaymentIndicator", Boolean.TRUE);
+
+        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentRequestDocument.class,criteria));
+    }
+
+    /**
      * @see org.kuali.module.purap.dao.PaymentRequestDao#getPaymentRequestsToExtract(java.lang.String, java.lang.Integer, java.lang.Integer, java.lang.Integer, java.lang.Integer)
      */
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(String campusCode,Integer paymentRequestIdentifier,Integer purchaseOrderIdentifier,Integer vendorHeaderGeneratedIdentifier,Integer vendorDetailAssignedIdentifier) {

@@ -140,9 +140,9 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
 
     /**
      * 
-     * @see org.kuali.module.gl.dao.OriginEntryDao#deleteEntry(org.kuali.module.gl.bo.OriginEntry)
+     * @see org.kuali.module.gl.dao.OriginEntryDao#deleteEntry(org.kuali.module.gl.bo.OriginEntryable)
      */
-    public void deleteEntry(OriginEntry oe) {
+    public void deleteEntry(OriginEntryable oe) {
         LOG.debug("deleteEntry() started");
 
         getPersistenceBrokerTemplate().delete(oe);

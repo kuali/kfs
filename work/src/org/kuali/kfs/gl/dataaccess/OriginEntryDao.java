@@ -55,7 +55,7 @@ public interface OriginEntryDao {
      * 
      * @param oe Entry to delete
      */
-    public void deleteEntry(OriginEntry oe);
+    public void deleteEntry(OriginEntryable oe);
 
     /**
      * Return an iterator to all documents in a group

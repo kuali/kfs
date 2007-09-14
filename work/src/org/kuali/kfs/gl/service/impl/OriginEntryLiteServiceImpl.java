@@ -94,4 +94,9 @@ public class OriginEntryLiteServiceImpl implements OriginEntryLiteService {
         LOG.debug("save() started");
         originEntryDao.saveOriginEntry(entry);
     }
+
+    public void delete(OriginEntryLite entry) {
+        LOG.debug("delete() started");
+        originEntryDao.deleteEntry(entry);
+    }
 }

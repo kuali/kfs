@@ -402,41 +402,41 @@ public class ScrubberProcess {
             OriginEntry document = i.next();
             
             // Get all the transactions for the document in the valid group
-            Iterator<OriginEntry> transactions = originEntryService.getEntriesByDocument(validGroup, document.getDocumentNumber(), document.getFinancialDocumentTypeCode(), document.getFinancialSystemOriginationCode());
+            Iterator<OriginEntryLite> transactions = originEntryLiteService.getEntriesByDocument(validGroup, document.getDocumentNumber(), document.getFinancialDocumentTypeCode(), document.getFinancialSystemOriginationCode());
 
             while (transactions.hasNext()) {
-                OriginEntry transaction = transactions.next();
+                OriginEntryLite transaction = transactions.next();
 
                 String transactionType = getTransactionType(transaction);
 
                 if (TRANSACTION_TYPE_COST_SHARE_ENCUMBRANCE.equals(transactionType)) {
                     demergerReport.incrementCostShareEncumbranceTransactionsBypassed();
-                    originEntryService.delete(transaction);
+                    originEntryLiteService.delete(transaction);
                 }
                 else if (TRANSACTION_TYPE_OFFSET.equals(transactionType)) {
                     demergerReport.incrementOffsetTransactionsBypassed();
-                    originEntryService.delete(transaction);
+                    originEntryLiteService.delete(transaction);
                 }
                 else if (TRANSACTION_TYPE_CAPITALIZATION.equals(transactionType)) {
                     demergerReport.incrementCapitalizationTransactionsBypassed();
-                    originEntryService.delete(transaction);
+                    originEntryLiteService.delete(transaction);
                 }
                 else if (TRANSACTION_TYPE_LIABILITY.equals(transactionType)) {
                     demergerReport.incrementLiabilityTransactionsBypassed();
-                    originEntryService.delete(transaction);
+                    originEntryLiteService.delete(transaction);
                 }
                 else if (TRANSACTION_TYPE_TRANSFER.equals(transactionType)) {
                     demergerReport.incrementTransferTransactionsBypassed();
-                    originEntryService.delete(transaction);
+                    originEntryLiteService.delete(transaction);
                 }
                 else if (TRANSACTION_TYPE_COST_SHARE.equals(transactionType)) {
                     demergerReport.incrementCostShareTransactionsBypassed();
-                    originEntryService.delete(transaction);
+                    originEntryLiteService.delete(transaction);
                 }
                 else {
                     demergerReport.incrementErrorTransactionsSaved();
-                    transaction.setGroup(errorGroup);
-                    originEntryService.save(transaction);
+                    transaction.setEntryGroupId(errorGroup.getId());
+                    originEntryLiteService.save(transaction);
                 }
             }
         }
@@ -444,44 +444,44 @@ public class ScrubberProcess {
         
         start = System.currentTimeMillis();
         // Read all the transactions in the error group and delete the generated ones
-        Iterator<OriginEntry> ie = originEntryService.getEntriesByGroup(errorGroup);
+        Iterator<OriginEntryLite> ie = originEntryLiteService.getEntriesByGroup(errorGroup);
         while (ie.hasNext()) {
-            OriginEntry transaction = ie.next();
+            OriginEntryLite transaction = ie.next();
 
             String transactionType = getTransactionType(transaction);
 
             if (TRANSACTION_TYPE_COST_SHARE_ENCUMBRANCE.equals(transactionType)) {
                 demergerReport.incrementCostShareEncumbranceTransactionsBypassed();
-                originEntryService.delete(transaction);
+                originEntryLiteService.delete(transaction);
             }
             else if (TRANSACTION_TYPE_OFFSET.equals(transactionType)) {
                 demergerReport.incrementOffsetTransactionsBypassed();
-                originEntryService.delete(transaction);
+                originEntryLiteService.delete(transaction);
             }
             else if (TRANSACTION_TYPE_CAPITALIZATION.equals(transactionType)) {
                 demergerReport.incrementCapitalizationTransactionsBypassed();
-                originEntryService.delete(transaction);
+                originEntryLiteService.delete(transaction);
             }
             else if (TRANSACTION_TYPE_LIABILITY.equals(transactionType)) {
                 demergerReport.incrementLiabilityTransactionsBypassed();
-                originEntryService.delete(transaction);
+                originEntryLiteService.delete(transaction);
             }
             else if (TRANSACTION_TYPE_TRANSFER.equals(transactionType)) {
                 demergerReport.incrementTransferTransactionsBypassed();
-                originEntryService.delete(transaction);
+                originEntryLiteService.delete(transaction);
             }
             else if (TRANSACTION_TYPE_COST_SHARE.equals(transactionType)) {
                 demergerReport.incrementCostShareTransactionsBypassed();
-                originEntryService.delete(transaction);
+                originEntryLiteService.delete(transaction);
             }
         }
         LOG.fatal("Dem2 " + (System.currentTimeMillis() - start));
 
         start = System.currentTimeMillis();
         // Read all the transactions in the valid group and update the cost share transactions
-        Iterator<OriginEntry> it = originEntryService.getEntriesByGroup(validGroup);
+        Iterator<OriginEntryLite> it = originEntryLiteService.getEntriesByGroup(validGroup);
         while (it.hasNext()) {
-            OriginEntry transaction = it.next();
+            OriginEntryLite transaction = it.next();
             demergerReport.incrementValidTransactionsSaved();
 
             String transactionType = getTransactionType(transaction);
@@ -499,7 +499,7 @@ public class ScrubberProcess {
 
                 transaction.setTransactionLedgerEntryDescription(desc.substring(0, DEMERGER_TRANSACTION_LEDGET_ENTRY_DESCRIPTION));
 
-                originEntryService.save(transaction);
+                originEntryLiteService.save(transaction);
             }
         }
 

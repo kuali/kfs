@@ -53,7 +53,7 @@ public interface OriginEntryLiteService {
      */
     public Iterator<OriginEntryLite> getEntriesByDocument(OriginEntryGroup oeg, String documentNumber, String documentTypeCode, String originCode);
     
-    
-    
     public void save(OriginEntryLite entry);
+    
+    public void delete(OriginEntryLite entry);
 }

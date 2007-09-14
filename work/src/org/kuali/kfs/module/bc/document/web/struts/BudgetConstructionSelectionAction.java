@@ -200,12 +200,13 @@ public class BudgetConstructionSelectionAction extends KualiAction {
      */
     public ActionForward performOrgSelectionTree(OrgSelOpMode opMode, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
+        BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;  
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
 
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.ORG_SEL_TREE_METHOD);
         parameters.put("operatingMode", opMode.toString());
-
+        parameters.put("universityFiscalYear", budgetConstructionSelectionForm.getUniversityFiscalYear().toString());
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
             parameters.put(BCConstants.RETURN_ANCHOR, ((KualiForm) form).getAnchor());

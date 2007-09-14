@@ -30,6 +30,7 @@
 	<html-el:hidden name="KualiForm" property="returnAnchor" />
 	<html-el:hidden name="KualiForm" property="returnFormKey" />
 	<html-el:hidden name="KualiForm" property="operatingMode" />
+	<html-el:hidden name="KualiForm" property="universityFiscalYear" />
 	
     <kul:errors keyMatch="pointOfViewOrg" errorTitle="Errors found in Organization Selection:" />
     <kul:messages/>

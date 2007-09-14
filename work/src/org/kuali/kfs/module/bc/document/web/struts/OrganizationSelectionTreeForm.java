@@ -57,6 +57,9 @@ public class OrganizationSelectionTreeForm extends KualiForm {
     private String returnFormKey;
     private String operatingMode;
 
+    //holds the BC fiscal year that is currently active 
+    private Integer universityFiscalYear;
+
     /**
      * Constructs a OrganizationSelectionTreeForm.java.
      */
@@ -332,6 +335,22 @@ public class OrganizationSelectionTreeForm extends KualiForm {
      */
     public void setOperatingModePullFlagLabel(String operatingModePullFlagLabel) {
         this.operatingModePullFlagLabel = operatingModePullFlagLabel;
+    }
+
+    /**
+     * Gets the universityFiscalYear attribute. 
+     * @return Returns the universityFiscalYear.
+     */
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
+
+    /**
+     * Sets the universityFiscalYear attribute value.
+     * @param universityFiscalYear The universityFiscalYear to set.
+     */
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
     }
 
 

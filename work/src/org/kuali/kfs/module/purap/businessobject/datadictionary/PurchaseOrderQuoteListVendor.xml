@@ -116,7 +116,11 @@
                 <description>versionNumber description...</description>
 			</attribute>
 
-			<attributeReference name="vendorDetail.vendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName" />			
+			<attributeReference name="vendorDetail.vendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
+				<control>
+					<lookupReadonly />
+				</control>
+			</attributeReference>
 
         </attributes>
     </businessObject>

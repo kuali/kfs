@@ -587,7 +587,8 @@ public class PurapConstants extends JstlConstants {
         HashMap<String,Class> fields = new HashMap<String,Class>();
         fields.put(KFSConstants.VERSION_NUMBER, null);
         fields.put("LOG", null);
-        fields.put("serialVersionUID", null);
+        // TODO delyea/cck - add this back into the list?  Needs testing in PO Change Doc creation
+//        fields.put("serialVersionUID", null);
         return fields;
     }
     /*

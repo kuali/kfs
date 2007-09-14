@@ -15,21 +15,19 @@
  */
 package org.kuali.module.purap.util;
 
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.document.Document;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.format.FormatException;
 import org.kuali.module.purap.PurapConstants;
 
@@ -70,11 +68,14 @@ public class PurApObjectUtils {
         for (Field field : fields) {
             fieldNames.add(field.getName());
         }
+        int counter = 0;
         for (String fieldName : fieldNames) {
             if ( (isProcessableField(base, fieldName, PurapConstants.KNOWN_UNCOPYABLE_FIELDS)) && (isProcessableField(base, fieldName, supplementalUncopyable)) ) {
                 attemptCopyOfFieldName(base.getName(), fieldName, src, target, supplementalUncopyable);
+                counter++;
             }
         }
+        LOG.debug("Population complete for " + counter + " fields out of a total of " + fieldNames.size() + " potential fields in object with base class '" + base + "'");
     }
     
     private static boolean isProcessableField(Class baseClass, String fieldName, Map excludedFieldNames) {
@@ -104,7 +105,7 @@ public class PurApObjectUtils {
             //purposefully skip for now 
             //(I wish objectUtils getPropertyValue threw named errors instead of runtime) so I could
             //selectively skip
-            LOG.info("couldn't set field '"+fieldName+"' using base class '"+baseClassName+"' due to exception with class name '"+e.getClass().getName()+"'",e);
+            LOG.debug("couldn't set field '"+fieldName+"' using base class '"+baseClassName+"' due to exception with class name '"+e.getClass().getName()+"'",e);
         }
     }
     
@@ -120,10 +121,10 @@ public class PurApObjectUtils {
             listToSet = new ArrayList();
 //        }
         for (Iterator iterator = sourceList.iterator(); iterator.hasNext();) {
-            Object sourceCollectionObject = iterator.next();
-            Object targetCollectionObject = ObjectUtils.createNewObjectFromClass(sourceCollectionObject.getClass());
+            BusinessObject sourceCollectionObject = (BusinessObject) iterator.next();
             LOG.debug("attempting to copy collection member with class '" + sourceCollectionObject.getClass() + "'");
-            populateFromBaseClass(sourceCollectionObject.getClass(), (BusinessObject)sourceCollectionObject, (BusinessObject)targetCollectionObject, supplementalUncopyable);
+            BusinessObject targetCollectionObject = (BusinessObject) ObjectUtils.createNewObjectFromClass(sourceCollectionObject.getClass());
+            populateFromBaseWithSuper(sourceCollectionObject, targetCollectionObject, supplementalUncopyable, new HashSet<Class>());
 //            Object targetCollectionObject = ObjectUtils.deepCopy((Serializable)sourceCollectionObject);
             listToSet.add(targetCollectionObject);
         }
@@ -147,9 +148,9 @@ public class PurApObjectUtils {
      * @param po
      * @param newPO
      */
-    public static void populateFromBaseWithSuper(Document po, Document newPO, Map supplementalUncopyableFieldNames, Set<Class> classesToExclude) {
+    public static void populateFromBaseWithSuper(BusinessObject sourceObject, BusinessObject targetObject, Map supplementalUncopyableFieldNames, Set<Class> classesToExclude) {
         List<Class> classesToCopy = new ArrayList<Class>();
-        Class sourceObjectClass = po.getClass();
+        Class sourceObjectClass = sourceObject.getClass();
         classesToCopy.add(sourceObjectClass);
         while (sourceObjectClass.getSuperclass() != null) {
             sourceObjectClass = sourceObjectClass.getSuperclass();
@@ -159,7 +160,7 @@ public class PurApObjectUtils {
         }
         for (int i = (classesToCopy.size() - 1); i >= 0; i--) {
             Class temp = classesToCopy.get(i);
-            populateFromBaseClass(temp, po, newPO, supplementalUncopyableFieldNames);
+            populateFromBaseClass(temp, sourceObject, targetObject, supplementalUncopyableFieldNames);
         }
     }
 //    public static void populateFromBaseWithSuper(PurchaseOrderDocument po, PurchaseOrderDocument newPO) {

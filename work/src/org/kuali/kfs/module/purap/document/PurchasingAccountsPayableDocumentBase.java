@@ -701,6 +701,13 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public Country getVendorCountry() {
         return vendorCountry;
     }
+    
+    /**
+     * @deprecated Added only to allow for {@link org.kuali.module.purap.util.PurApObjectUtils} class to work correctly
+     */
+    public void setVendorCountry(Country vendorCountry) {
+        this.vendorCountry = vendorCountry;
+    }
 
     protected boolean documentWillStopInRouteNode(String routeNodeName) {
         populateDocumentForRouting();

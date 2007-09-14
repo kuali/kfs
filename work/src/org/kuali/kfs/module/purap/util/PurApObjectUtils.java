@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.format.FormatException;
 import org.kuali.module.purap.PurapConstants;
 
@@ -111,14 +112,24 @@ public class PurApObjectUtils {
     
     private static void copyCollection(String fieldName, BusinessObject targetObject, Object propertyValue, Map supplementalUncopyable) throws FormatException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Collection sourceList = (Collection) propertyValue;
-//        LOG.debug("collection will be typed using class '" + propertyValue.getClass() + "'");
         Collection listToSet = null;
-//        try {
-//            listToSet = new TypedArrayList(propertyValue.getClass());
-//        }
-//        catch (Exception e) {
-//            LOG.info("couldn't set class '"+propertyValue.getClass()+"' on collection... using ArrayList",e);
+        //we probably should be using reflection to check for weird list types but this works for now
+        if(sourceList instanceof TypedArrayList) {
+            TypedArrayList typedArray = (TypedArrayList)sourceList;
+			LOG.debug("collection will be typed using class '" + typedArray.getListObjectType() + "'");            
+            try {
+                listToSet = new TypedArrayList(typedArray.getListObjectType());
+            }
+            catch (Exception e) {
+                LOG.info("couldn't set class '"+propertyValue.getClass()+"' on collection... using TypedArrayList ",e);
+            }
+        } else {
+            LOG.debug("original not typed collection will be non typed ArrayList");
             listToSet = new ArrayList();
+        }
+
+
+            
 //        }
         for (Iterator iterator = sourceList.iterator(); iterator.hasNext();) {
             BusinessObject sourceCollectionObject = (BusinessObject) iterator.next();

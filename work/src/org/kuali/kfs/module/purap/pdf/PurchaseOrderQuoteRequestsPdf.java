@@ -269,7 +269,15 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
       cell.setHorizontalAlignment(Element.ALIGN_LEFT);
       cell.setBorderWidth(0);
       listTable.addCell(cell);
-      cell = new PdfPCell(new Paragraph(poqv.getVendorCityName()+", "+poqv.getVendorStateCode(), cellTextFont));
+      if (poqv.getVendorStateCode() != null) {
+          cell = new PdfPCell(new Paragraph(poqv.getVendorCityName()+", "+poqv.getVendorStateCode(), cellTextFont));
+      }
+      else if (poqv.getVendorCountryCode() != null) {
+          cell = new PdfPCell(new Paragraph(poqv.getVendorCityName()+", "+poqv.getVendorCountryCode(), cellTextFont));
+      }
+      else {
+          cell = new PdfPCell(new Paragraph(poqv.getVendorCityName(), cellTextFont));
+      }
       cell.setHorizontalAlignment(Element.ALIGN_LEFT);
       cell.setBorderWidth(0);
       listTable.addCell(cell);

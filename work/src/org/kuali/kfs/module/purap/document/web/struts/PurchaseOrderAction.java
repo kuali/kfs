@@ -426,6 +426,14 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     private void addExtraButtons(KualiDocumentFormBase kualiDocumentFormBase) {
         ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
     }
+    
+    @Override
+    public ActionForward refreshAccountSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.refreshAccountSummary(mapping, form, request, response);
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase)form;
+        addExtraButtons(kualiDocumentFormBase);
+        return forward;
+    }
 
     /**
      * This method is executed when the user click on the "print" button on a Purchase Order Print Document page. On a non

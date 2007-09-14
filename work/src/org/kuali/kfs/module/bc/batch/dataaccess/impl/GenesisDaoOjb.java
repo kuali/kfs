@@ -2299,7 +2299,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
           criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
           criteriaID.addColumnEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
                                       problemChart);
-          criteriaID.addEqualTo(KFSPropertyConstants.OBJECT_CODE,problemObject);
+          criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE,problemObject);
           ReportQueryByCriteria queryID = 
               new ReportQueryByCriteria(ObjectCode.class,criteriaID);
           Iterator Results = 
@@ -2327,7 +2327,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
         criteriaID.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,Chart);
-        criteriaID.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER,ObjectCode);
+        criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE,ObjectCode);
         QueryByCriteria queryID = 
             new QueryByCriteria(ObjectCode.class,criteriaID);
         Integer Result = 

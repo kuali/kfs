@@ -187,10 +187,16 @@ public class PrintServiceImpl implements PrintService {
         // Get the contract manager's campus
         criteria.clear();
         ContractManager contractManager = po.getContractManager();
-        criteria.put("personUserIdentifier", contractManager.getContractManagerUserIdentifier());
-        UniversalUser contractManagerUser = (UniversalUser) ((List) businessObjectService.findMatching(UniversalUser.class, criteria)).get(0);
-        String contractManagerCampusCode = contractManagerUser.getCampusCode();
-
+        String contractManagerCampusCode = "N/A";
+        if (contractManager != null  && contractManager.getContractManagerUserIdentifier() != null) {
+            criteria.put("personUserIdentifier", contractManager.getContractManagerUserIdentifier());
+            UniversalUser contractManagerUser = (UniversalUser) ((List) businessObjectService.findMatching(UniversalUser.class, criteria)).get(0);
+            contractManagerCampusCode = contractManagerUser.getCampusCode();
+        }
+        else {
+            
+        }
+        
         String pdfFileLocation = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.PDF_DIRECTORY);
         if (pdfFileLocation == null) {
             LOG.debug("savePurchaseOrderPdf() ended");

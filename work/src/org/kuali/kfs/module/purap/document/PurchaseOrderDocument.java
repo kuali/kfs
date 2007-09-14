@@ -161,7 +161,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         if (ObjectUtils.isNull(getPurapDocumentIdentifier())) {
             //need to save to generate PO id to save in GL entries
             // TODO hstaplet/delyea - is this needed?  Entries are generated prior to this being called and this throws optimistic lock exception now?
-            SpringContext.getBean(BusinessObjectService.class).save(this);
+            //FIXME this seems to be causing some problems at the moment.  working on a fix (hjs)
+//            SpringContext.getBean(BusinessObjectService.class).save(this);
         }
 
         // Set outstanding encumbered quantity/amount on items

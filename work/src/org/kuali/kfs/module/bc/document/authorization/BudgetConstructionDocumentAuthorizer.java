@@ -16,6 +16,7 @@
 package org.kuali.module.budget.document.authorization;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -25,11 +26,16 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.DocumentAuthorizerBase;
+import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.exceptions.GroupNotFoundException;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
+import org.kuali.module.budget.service.PermissionService;
+import org.kuali.module.chart.bo.Org;
 
 
 import edu.iu.uis.eden.EdenConstants;
@@ -84,6 +90,42 @@ public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase
         editModeMap.put(editMode, "TRUE");
 
         return editModeMap;
+    }
+
+    /**
+     * This method calculates editMode based on whether or not a user is a BC document approver for at least one organization.
+     * It is used by the Salary Setting by Position and Incumbent expansion screens when not running in budgetByAccountMode
+     * a.k.a. Organization Salary Setting
+     * 
+     * @return
+     */
+    public Map getEditMode(){
+        
+        //TODO this eventually needs to check when the BC system itself is in viewonly mode 
+
+        Map editModeMap = new HashMap();
+        
+        PermissionService permissionService = SpringContext.getBean(PermissionService.class);
+        try {
+            List<Org> pointOfViewOrgs = permissionService.getOrgReview(GlobalVariables.getUserSession().getNetworkId());
+            if (pointOfViewOrgs.isEmpty()){
+//                GlobalVariables.getErrorMap().putError("pointOfViewOrg","error.budget.userNotOrgApprover");
+                String editMode = AuthorizationConstants.EditMode.UNVIEWABLE;
+                editModeMap.put(editMode, "TRUE");
+            } else {
+                String editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
+                editModeMap.put(editMode, "TRUE");
+            }
+            
+        }
+        catch (Exception e){
+            //TODO for now just return unviewable - really should report the exception in some soft way - maybe another EditMode value
+            String editMode = AuthorizationConstants.EditMode.UNVIEWABLE;
+            editModeMap.put(editMode, "TRUE");
+        }
+        
+        return editModeMap;
+
     }
 
     /**

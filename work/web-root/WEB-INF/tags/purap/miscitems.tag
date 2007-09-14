@@ -128,7 +128,7 @@
 		</c:if>
 		<c:if test="${(!amendmentEntry && KualiForm.document.statusCode!='AFOA') || (KualiForm.document.statusCode=='AFOA' && !empty KualiForm.document.items[ctr].itemUnitPrice)}">
 			<c:set var="optionalFields" value="accountLinePercent" />
-			<c:set var="extraHiddenFields" value=",accountIdentifier,itemIdentifier" />
+			<c:set var="extraHiddenFields" value=",accountIdentifier,itemIdentifier,amount" />
 			<c:set var="hideFields" value="amount" />
 			<c:if test="${showAmount}">
 				<c:set var="optionalFields" value="" />

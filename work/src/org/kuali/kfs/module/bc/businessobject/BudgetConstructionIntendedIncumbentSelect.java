@@ -19,6 +19,8 @@ package org.kuali.module.budget.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
+import org.kuali.module.gl.web.Constant;
 
 /**
  * 
@@ -30,11 +32,17 @@ public class BudgetConstructionIntendedIncumbentSelect extends PersistableBusine
 	private String financialObjectCode;
 	private String personName;
 
-	/**
+    // we use the linkButtonOption from this object
+    private TransientBalanceInquiryAttributes dummyBusinessObject;
+
+    /**
 	 * Default constructor.
 	 */
 	public BudgetConstructionIntendedIncumbentSelect() {
-
+        super();
+        this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
+//        this.dummyBusinessObject.setLinkButtonOption(Constant.LOOKUP_BUTTON_VALUE);
+        this.dummyBusinessObject.setLinkButtonOption("Incumbent SalSet");
 	}
 
 	/**
@@ -121,6 +129,22 @@ public class BudgetConstructionIntendedIncumbentSelect extends PersistableBusine
 	}
 
 	/**
+     * Gets the dummyBusinessObject attribute. 
+     * @return Returns the dummyBusinessObject.
+     */
+    public TransientBalanceInquiryAttributes getDummyBusinessObject() {
+        return dummyBusinessObject;
+    }
+
+    /**
+     * Sets the dummyBusinessObject attribute value.
+     * @param dummyBusinessObject The dummyBusinessObject to set.
+     */
+    public void setDummyBusinessObject(TransientBalanceInquiryAttributes dummyBusinessObject) {
+        this.dummyBusinessObject = dummyBusinessObject;
+    }
+
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

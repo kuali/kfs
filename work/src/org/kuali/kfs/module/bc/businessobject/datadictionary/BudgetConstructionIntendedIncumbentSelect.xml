@@ -13,6 +13,9 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+                <field attributeName="personUniversalIdentifier" />
+                    <text size="12" />
+                    <lookupReadonly />
 -->
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
@@ -33,6 +36,9 @@
         </inquiry>
 
         <lookup>
+            <!-- Use this to include the hidden field personUniversalIdentifier in the search criteria -->
+            <lookupableID>intendedIncumbentSelectLookupable</lookupableID>	        
+
             <title>Budget Construction Intended Incumbent Select Lookup</title>
 
             <instructions>Look up a Budget Construction Intended Incumbent Select</instructions>
@@ -54,7 +60,7 @@
                 <field attributeName="emplid" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="personName" />
-                <field attributeName="personUniversalIdentifier" />
+                <field attributeName="dummyBusinessObject.linkButtonOption" />
             </resultFields>
         </lookup>
 
@@ -105,6 +111,7 @@
                 <description>personName description...</description>
 			</attribute>
 
+            <!-- marked hidden and used in the lookup criteria to operate on rows associated with the user -->
             <attribute name="personUniversalIdentifier" forceUppercase="true">
                 <label>Person Universal Identifier</label>
                 <shortLabel>Identifier</shortLabel>
@@ -113,12 +120,19 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="12" />
+                    <hidden />
                 </control>
 
                 <summary>personUniversalIdentifier</summary>
                 <description>personUniversalIdentifier description...</description>
 			</attribute>
+
+			<attributeReference name="dummyBusinessObject.linkButtonOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="linkButtonOption">
+                <label>Incumbent Salary Setting</label>
+                <shortLabel>Incumbent SalSet</shortLabel>
+                <summary>Incumbent Salary Setting</summary>
+                <description>Incumbent Salary Setting ...</description>
+            </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

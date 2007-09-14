@@ -978,7 +978,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             if (NodeDetailEnum.getNodesRequiringCorrectingGeneralLedgerEntries().contains(currentNode)) {
                 if (NodeDetailEnum.ACCOUNT_REVIEW.getName().equals(currentNode)) {
                     //FIXME (KULPURAP-1580: hjs) this is not working right now becuase the document has already been saved before reaching this point...that is a problem :(
-                    SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesModifyPaymentRequest(this);
+//                    SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesModifyPaymentRequest(this);
                 }
             }
         }

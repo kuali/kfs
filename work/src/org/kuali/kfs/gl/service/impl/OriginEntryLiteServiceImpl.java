@@ -44,7 +44,9 @@ import org.kuali.module.gl.bo.OriginEntryLite;
 import org.kuali.module.gl.service.OriginEntryLiteService;
 import org.kuali.module.gl.util.CachingLookup;
 import org.kuali.module.gl.dao.OriginEntryDao;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class OriginEntryLiteServiceImpl implements OriginEntryLiteService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryLiteServiceImpl.class);
     

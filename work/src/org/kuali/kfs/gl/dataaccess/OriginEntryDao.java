@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryable;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 
 /**
@@ -70,7 +71,7 @@ public interface OriginEntryDao {
      * @param oeg Group
      * @return Iterator of entries in the specified group
      */
-    public Iterator<OriginEntry> getEntriesByGroup(OriginEntryGroup oeg, int sort);
+    public <T> Iterator<T> getEntriesByGroup(OriginEntryGroup oeg, int sort);
 
     /**
      * Get bad balance entries
@@ -115,7 +116,7 @@ public interface OriginEntryDao {
      * 
      * @param entry entry to save
      */
-    public void saveOriginEntry(OriginEntry entry);
+    public void saveOriginEntry(OriginEntryable entry);
 
 
     public OriginEntry getExactMatchingEntry(Integer entryId);

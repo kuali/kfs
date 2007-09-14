@@ -127,6 +127,39 @@
     </reference-descriptor>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.module.gl.bo.OriginEntryLite" table="GL_ORIGIN_ENTRY_T">
+    <field-descriptor name="entryId" column="ORIGIN_ENTRY_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="GL_ORIGIN_ENTRY_T_SEQ" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="entryGroupId" column="ORIGIN_ENTRY_GRP_ID" jdbc-type="INTEGER" />
+    <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" />
+    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="financialBalanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="financialSystemOriginationCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="transactionLedgerEntrySequenceNumber" column="TRN_ENTR_SEQ_NBR" jdbc-type="INTEGER" />
+    <field-descriptor name="transactionLedgerEntryDescription" column="TRN_LDGR_ENTR_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="transactionLedgerEntryAmount" column="TRN_LDGR_ENTR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="transactionDebitCreditCode" column="TRN_DEBIT_CRDT_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="transactionDate" column="TRANSACTION_DT" jdbc-type="DATE" />
+    <field-descriptor name="organizationDocumentNumber" column="ORG_DOC_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="organizationReferenceId" column="ORG_REFERENCE_ID" jdbc-type="VARCHAR" />
+    <field-descriptor name="referenceFinancialDocumentTypeCode" column="FDOC_REF_TYP_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="referenceFinancialSystemOriginationCode" column="FS_REF_ORIGIN_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="referenceFinancialDocumentNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="financialDocumentReversalDate" column="FDOC_REVERSAL_DT" jdbc-type="DATE" />
+    <field-descriptor name="transactionEncumbranceUpdateCode" column="TRN_ENCUM_UPDT_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="transactionScrubberOffsetGenerationIndicator" column="TRN_SCRBBR_OFST_GEN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+</class-descriptor>
+
 <class-descriptor class="org.kuali.module.gl.bo.OriginEntrySource" table="GL_ORIGIN_ENTRY_SRC_T">
     <field-descriptor name="code" column="ENTRY_SRC_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="name" column="ENTRY_SRC_NM" jdbc-type="VARCHAR" />

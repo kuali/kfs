@@ -32,6 +32,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.KFSUtils;
 import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryable;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
 
@@ -229,7 +230,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
      * the required order by.
      * 
      */
-    public Iterator<OriginEntry> getEntriesByGroup(OriginEntryGroup oeg, int sort) {
+    public <T> Iterator<T> getEntriesByGroup(OriginEntryGroup oeg, int sort) {
         LOG.debug("getEntriesByGroup() started");
 
         // clear cache because the GLCP document class saves to the origin entry table and
@@ -323,7 +324,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
     /**
      * @param entry the entry to save.
      */
-    public void saveOriginEntry(OriginEntry entry) {
+    public void saveOriginEntry(OriginEntryable entry) {
         LOG.debug("saveOriginEntry() started");
 
         if ((entry != null) && (entry.getTransactionLedgerEntryDescription() != null) && (entry.getTransactionLedgerEntryDescription().length() > 40)) {

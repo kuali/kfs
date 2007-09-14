@@ -19,6 +19,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OffsetDefinitionService;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
@@ -26,7 +27,9 @@ import org.kuali.module.gl.batch.collector.CollectorBatch;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.module.gl.service.OriginEntryLiteService;
 import org.kuali.module.gl.service.OriginEntryService;
+import org.kuali.module.gl.service.OriginEntryableLookupService;
 import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.RunDateService;
 import org.kuali.module.gl.service.ScrubberProcessObjectCodeOverride;
@@ -54,6 +57,8 @@ public class ScrubberServiceImpl implements ScrubberService {
     private ScrubberValidator scrubberValidator;
     private ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride;
     private RunDateService runDateService;
+    private OriginEntryLiteService originEntryLiteService;
+    private OriginEntryableLookupService originEntryableLookupService;
 
     /**
      * 
@@ -61,11 +66,13 @@ public class ScrubberServiceImpl implements ScrubberService {
      */
     public void scrubGroupReportOnly(OriginEntryGroup group,String documentNumber) {
         LOG.debug("scrubGroupReportOnly() started");
+        
+        this.originEntryableLookupService = SpringContext.getBean(OriginEntryableLookupService.class);
 
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService, originEntryableLookupService);
         sp.scrubGroupReportOnly(group,documentNumber);
     }
 
@@ -75,11 +82,13 @@ public class ScrubberServiceImpl implements ScrubberService {
      */
     public void scrubEntries() {
         LOG.debug("scrubEntries() started");
+        
+        this.originEntryableLookupService = SpringContext.getBean(OriginEntryableLookupService.class);
 
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService, originEntryableLookupService);
         sp.scrubEntries();
         LOG.fatal("before scrub commit" + System.currentTimeMillis());
     }
@@ -88,8 +97,11 @@ public class ScrubberServiceImpl implements ScrubberService {
         if (overrideOriginEntryService == null && overrideOriginEntryGroupService == null) {
             throw new NullPointerException("for scrubCollectorBatch, the OriginEntryService and OriginEntryGroupService services must be specified in the parameters");
         }
+        
+        this.originEntryableLookupService = SpringContext.getBean(OriginEntryableLookupService.class);
+        
         // this service is especially developed to support collector scrubbing, demerger, and report generation
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, overrideOriginEntryService, overrideOriginEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, overrideOriginEntryService, overrideOriginEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService, originEntryableLookupService);
         return sp.scrubCollectorBatch(batch, collectorReportData);
     }
 
@@ -151,6 +163,14 @@ public class ScrubberServiceImpl implements ScrubberService {
 
     public void setRunDateService(RunDateService runDateService) {
         this.runDateService = runDateService;
+    }
+
+    /**
+     * Sets the originEntryLiteService attribute value.
+     * @param originEntryLiteService The originEntryLiteService to set.
+     */
+    public void setOriginEntryLiteService(OriginEntryLiteService originEntryLiteService) {
+        this.originEntryLiteService = originEntryLiteService;
     }
     
     

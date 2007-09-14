@@ -34,6 +34,7 @@ import org.kuali.module.gl.batch.collector.CollectorBatch;
 import org.kuali.module.gl.bo.CollectorDetail;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.bo.OriginEntryable;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
@@ -164,7 +165,7 @@ public class CollectorScrubberProcess {
         collectorReportData.setNumDetailDeleted(batch, new Integer(numDetailDeleted));
     }
     
-    protected boolean isOriginEntryRelatedToDetailRecord(OriginEntry originEntry, CollectorDetail detail) {
+    protected boolean isOriginEntryRelatedToDetailRecord(OriginEntryable originEntry, CollectorDetail detail) {
         return StringUtils.equals(originEntry.getUniversityFiscalPeriodCode(), detail.getUniversityFiscalPeriodCode()) &&
                 originEntry.getUniversityFiscalYear() != null && originEntry.getUniversityFiscalYear().equals(detail.getUniversityFiscalYear()) &&
                 StringUtils.equals(originEntry.getChartOfAccountsCode(), detail.getChartOfAccountsCode()) &&
@@ -199,7 +200,7 @@ public class CollectorScrubberProcess {
         return false;
     }
     
-    protected void applyScrubberEditsToDetail(OriginEntry originEntry, CollectorDetail detail) {
+    protected void applyScrubberEditsToDetail(OriginEntryable originEntry, CollectorDetail detail) {
         detail.setUniversityFiscalPeriodCode(originEntry.getUniversityFiscalPeriodCode());
         detail.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());
         detail.setChartOfAccountsCode(originEntry.getChartOfAccountsCode());
@@ -220,14 +221,14 @@ public class CollectorScrubberProcess {
      * @param scrubbedEntry
      * @param batch
      */
-    protected void applyChangesToDetailsFromScrubberEdits(Map<OriginEntry, OriginEntry> unscrubbedToScrubbedEntries) {
-        Set<Entry<OriginEntry, OriginEntry>> mappings = unscrubbedToScrubbedEntries.entrySet();
+    protected void applyChangesToDetailsFromScrubberEdits(Map<OriginEntryable, OriginEntryable> unscrubbedToScrubbedEntries) {
+        Set<Entry<OriginEntryable, OriginEntryable>> mappings = unscrubbedToScrubbedEntries.entrySet();
 
         for (CollectorDetail detail : batch.getCollectorDetails()) {
             int numDetailAccountValuesChanged = 0;
-            for (Entry<OriginEntry, OriginEntry> mapping : mappings) {
-                OriginEntry originalEntry = mapping.getKey();
-                OriginEntry scrubbedEntry = mapping.getValue();
+            for (Entry<OriginEntryable, OriginEntryable> mapping : mappings) {
+                OriginEntryable originalEntry = mapping.getKey();
+                OriginEntryable scrubbedEntry = mapping.getValue();
                 if (isOriginEntryRelatedToDetailRecord(originalEntry, detail)) {
                     if (!StringUtils.equals(originalEntry.getChartOfAccountsCode(), scrubbedEntry.getChartOfAccountsCode()) &&
                             !StringUtils.equals(originalEntry.getAccountNumber(), scrubbedEntry.getAccountNumber())) {

@@ -604,6 +604,9 @@
 		<property name="runDateService">
 			<ref bean="glRunDateService" />
 		</property>
+		<property name="originEntryLiteService">
+			<ref bean="originEntryLiteService" />
+		</property>
 	</bean>
 
 	<bean id="scrubberValidator" class="org.kuali.module.gl.service.impl.ScrubberValidatorImpl">
@@ -771,6 +774,28 @@
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+	
+	<bean id="originEntryLiteCachingLookup" class="org.kuali.module.gl.util.CachingLookup">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="cacheSize" value="7500" />
+	</bean>
+	
+	<bean id="originEntryableLookupService" class="org.kuali.module.gl.service.impl.OriginEntryableLookupServiceImpl">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="originEntryLiteCachingLookup" />
+		</property>
+	</bean>
+	
+	<bean id="originEntryLiteService" class="org.kuali.module.gl.service.impl.OriginEntryLiteServiceImpl">
+		<property name="originEntryDao">
+			<ref bean="originEntryLiteDao" />
 		</property>
 	</bean>
 
@@ -971,6 +996,14 @@
 		<property name="entryClass">
 			<bean class="java.lang.Class" factory-method="forName">
   			<constructor-arg value="org.kuali.module.gl.bo.OriginEntry"/>
+   			</bean>
+		</property>
+	</bean>
+	
+	<bean id="originEntryLiteDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb">
+		<property name="entryClass">
+			<bean class="java.lang.Class" factory-method="forName">
+  			<constructor-arg value="org.kuali.module.gl.bo.OriginEntryLite"/>
    			</bean>
 		</property>
 	</bean>

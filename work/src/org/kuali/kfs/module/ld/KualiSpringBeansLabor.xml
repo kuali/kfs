@@ -276,6 +276,9 @@
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
     </bean>
 	
     <bean id="laborPosterService" class="org.kuali.module.labor.service.impl.LaborPosterServiceImpl">

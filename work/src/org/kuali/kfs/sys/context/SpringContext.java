@@ -44,6 +44,9 @@ public class SpringContext {
     private static final String SPRING_TEST_FILES_KEY = "spring.test.files";
     private static final String MEMORY_MONITOR_THRESHOLD_KEY = "memory.monitor.threshold";
     private static ConfigurableApplicationContext applicationContext;
+    private static Map<Class,Object> BEAN_BY_TYPE_CACHE = new HashMap<Class,Object>();
+    private static Map<String,Object> BEAN_BY_NAME_CACHE = new HashMap<String,Object>();
+    private static Map<Class,Map> BEANS_OF_TYPE_CACHE = new HashMap<Class,Map>();
 
     /**
      * Use this method to retrieve a spring bean when one of the following is the case. Pass in the type of the service interface,
@@ -61,23 +64,31 @@ public class SpringContext {
      */
     public static <T> T getBean(Class<T> type) {
         verifyProperInitialization();
-        try {
-            Collection<T> beansOfType = getBeansOfType(type).values();
-            if (beansOfType.size() > 1) {
-                return getBean(type, type.getSimpleName().substring(0, 1).toLowerCase() + type.getSimpleName().substring(1));
-            }
-            return beansOfType.iterator().next();
+        T bean = null;
+        if (BEAN_BY_TYPE_CACHE.containsKey(type)) {
+            bean = (T)BEAN_BY_TYPE_CACHE.get(type);
         }
-        catch (NoSuchBeanDefinitionException nsbde) {
-            LOG.info("Could not find bean of type " + type.getName() + " - checking KNS context");
+        else {
             try {
-                return KNSServiceLocator.getBean(type);
+                Collection<T> beansOfType = getBeansOfType(type).values();
+                if (beansOfType.size() > 1) {
+                    return getBean(type, type.getSimpleName().substring(0, 1).toLowerCase() + type.getSimpleName().substring(1));
+                }
+                bean = beansOfType.iterator().next();
             }
-            catch (Exception e) {
-                LOG.error(e);
-                throw new NoSuchBeanDefinitionException("No beans of this type in the in KFS or KNS application contexts: " + type.getName());
+            catch (NoSuchBeanDefinitionException nsbde) {
+                LOG.info("Could not find bean of type " + type.getName() + " - checking KNS context");
+                try {
+                    bean = KNSServiceLocator.getBean(type);
+                }
+                catch (Exception e) {
+                    LOG.error(e);
+                    throw new NoSuchBeanDefinitionException("No beans of this type in the in KFS or KNS application contexts: " + type.getName());
+                }
             }
+            BEAN_BY_TYPE_CACHE.put(type, bean);
         }
+        return bean;
     }
 
     /**
@@ -91,27 +102,42 @@ public class SpringContext {
     @SuppressWarnings("unchecked")
     public static <T> Map<String, T> getBeansOfType(Class<T> type) {
         verifyProperInitialization();
-        Map<String, T> beansOfType = KNSServiceLocator.getBeansOfType(type);
-        beansOfType.putAll(new HashMap(applicationContext.getBeansOfType(type)));
-        return beansOfType;
+        Map<String, T> beansOfType = null;
+        if (BEANS_OF_TYPE_CACHE.containsKey(type)) {
+            beansOfType = BEANS_OF_TYPE_CACHE.get(type);
+        }
+        else {
+            beansOfType = KNSServiceLocator.getBeansOfType(type);
+            beansOfType.putAll(new HashMap(applicationContext.getBeansOfType(type)));
+            BEANS_OF_TYPE_CACHE.put(type, beansOfType);
+        }
+        return beansOfType;         
     }
 
     @SuppressWarnings("unchecked")
     private static <T> T getBean(Class<T> type, String name) {
         verifyProperInitialization();
-        try {
-            return (T) applicationContext.getBean(name);
+        T bean = null;
+        if (BEAN_BY_NAME_CACHE.containsKey(name)) {
+            bean = (T)BEAN_BY_NAME_CACHE.get(name);
         }
-        catch (NoSuchBeanDefinitionException nsbde) {
-            LOG.info("Could not find bean named " + name + " - checking KNS context");
+        else {
             try {
-                return KNSServiceLocator.getBean(type, name);
+                bean = (T) applicationContext.getBean(name);
             }
-            catch (Exception e) {
-                LOG.error(e);
-                throw new NoSuchBeanDefinitionException(name, new StringBuffer("No bean of this type and name in the in KFS or KNS application contexts: ").append(type.getName()).append(", ").append(name).toString());
+            catch (NoSuchBeanDefinitionException nsbde) {
+                LOG.info("Could not find bean named " + name + " - checking KNS context");
+                try {
+                    bean = KNSServiceLocator.getBean(type, name);
+                }
+                catch (Exception e) {
+                    LOG.error(e);
+                    throw new NoSuchBeanDefinitionException(name, new StringBuffer("No bean of this type and name in the in KFS or KNS application contexts: ").append(type.getName()).append(", ").append(name).toString());
+                }
             }
+            BEAN_BY_NAME_CACHE.put(name, bean);
         }
+        return bean;
     }
 
     protected static List<MethodCacheInterceptor> getMethodCacheInterceptors() {

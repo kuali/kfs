@@ -107,9 +107,13 @@ public class ExpenditureTransactionDaoOjb extends PlatformAwareDaoBaseOjb implem
      * @see org.kuali.module.gl.dao.ExpenditureTransactionDao#deleteAllExpenditureTransactions()
      */
     public void deleteAllExpenditureTransactions() {
+        LOG.debug("deleteAllExpenditureTransactions() started");
         Iterator<ExpenditureTransaction> i = getAllExpenditureTransactions();
         while (i.hasNext()) {
             ExpenditureTransaction et = i.next();
+            if (LOG.isInfoEnabled()) {
+                LOG.info("The following ExpenditureTransaction was deleted: " + et.toString());
+            }
             delete(et);
         }
     }

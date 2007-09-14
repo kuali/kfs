@@ -70,7 +70,11 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * @see org.kuali.module.gl.service.OriginEntryGroupService#markBackupGroupsUnscrubbable()
      */
     public void markScrubbableBackupGroupsAsUnscrubbable() {
+        LOG.debug("markScrubbableBackupGroupsAsUnscrubbable() started");
         for (OriginEntryGroup scrubbableBackupGroup : getAllScrubbableBackupGroups()) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("marking backup origin entry group as don't process: " + scrubbableBackupGroup.getId());
+            }
             scrubbableBackupGroup.setProcess(Boolean.FALSE);
             save(scrubbableBackupGroup);
         }
@@ -80,8 +84,12 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * @see org.kuali.module.gl.service.OriginEntryGroupService#markPostableScrubberValidGroupsAsUnpostable()
      */
     public void markPostableScrubberValidGroupsAsUnpostable() {
+        LOG.debug("markPostableScrubberValidGroupsAsUnpostable() started");
         Collection<OriginEntryGroup> postableGroups = getGroupsToPost();
         for (OriginEntryGroup postableGroup : postableGroups) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("marking postable SCV origin entry group as don't process: " + postableGroup.getId());
+            }
             postableGroup.setProcess(Boolean.FALSE);
             save(postableGroup);
         }
@@ -91,8 +99,12 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * @see org.kuali.module.gl.service.OriginEntryGroupService#markPostableIcrGroupsAsUnpostable()
      */
     public void markPostableIcrGroupsAsUnpostable() {
+        LOG.debug("markPostableIcrGroupsAsUnpostable() started");
         Collection<OriginEntryGroup> postableGroups = getIcrGroupsToPost();
         for (OriginEntryGroup postableGroup : postableGroups) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("marking postable ICR origin entry group as don't process: " + postableGroup.getId());
+            }
             postableGroup.setProcess(Boolean.FALSE);
             save(postableGroup);
         }

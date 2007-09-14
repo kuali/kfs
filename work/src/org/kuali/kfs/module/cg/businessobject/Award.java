@@ -114,7 +114,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     }
 
     /**
-     * Creates a colleciton of lists within this award object that should be 
+     * Creates a collection of lists within this award object that should be 
      * aware of when the deletion of one of their elements occurs.  This 
      * collection is used to refresh the display upon deletion of an element to
      * ensure that the deleted element is not longer visible on the interface.
@@ -143,7 +143,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
 
     /**
      * This method takes all the applicable attributes from the associated 
-     * proposal object and sets those attributes into their cooresponding award 
+     * proposal object and sets those attributes into their corresponding award 
      * attributes.
      * 
      * @param proposal The associated proposal that the award will be linked to.

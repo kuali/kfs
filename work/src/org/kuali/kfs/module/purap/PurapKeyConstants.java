@@ -97,6 +97,7 @@ public class PurapKeyConstants {
     //Payment Request
     public static final String ERROR_PURCHASE_ORDER_NOT_EXIST="error.invoice.purchaseOrder.notExist";
     public static final String ERROR_PURCHASE_ORDER_NOT_OPEN="error.invoice.purchaseOrder.notOpen";
+    public static final String ERROR_PURCHASE_PENDING_ACTION="error.invoice.purchaseOrder.pending.action";
     public static final String ERROR_PURCHASE_ORDER_IS_PENDING="error.invoice.purchaseOrder.isPending";
     public static final String ERROR_INVALID_INVOICE_DATE="errors.invalid.invoice.date";
     public static final String ERROR_INVALID_PAY_DATE="errors.invalid.pay.date";

@@ -134,12 +134,12 @@ public class CreditMemoServiceImpl implements CreditMemoService {
                 continue;
             }
 
-            if (poItem.getItemInvoicedTotalQuantity() != null && poItem.getItemInvoicedTotalQuantity().isGreaterThan(KualiDecimal.ZERO)) {
+            if (poItem.getItemType().isQuantityBasedGeneralLedgerIndicator() && poItem.getItemInvoicedTotalQuantity().isGreaterThan(KualiDecimal.ZERO)) {
                 invoicedItems.add(poItem);
             }
             else {
                 BigDecimal unitPrice = (poItem.getItemUnitPrice() == null ? new BigDecimal(0) : poItem.getItemUnitPrice());
-                if (PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE.equals(poItem.getItemType()) && (unitPrice.doubleValue() > poItem.getItemOutstandingEncumberedAmount().doubleValue())) {
+                if (unitPrice.doubleValue() > poItem.getItemOutstandingEncumberedAmount().doubleValue()) {
                     invoicedItems.add(poItem);
                 }
             }

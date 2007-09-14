@@ -15,9 +15,13 @@
  */
 package org.kuali.module.purap.util;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,6 +29,8 @@ import java.util.Set;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.TypedArrayList;
+import org.kuali.core.web.format.FormatException;
 import org.kuali.module.purap.PurapConstants;
 
 public class PurApObjectUtils {
@@ -66,7 +72,7 @@ public class PurApObjectUtils {
         }
         for (String fieldName : fieldNames) {
             if ( (isProcessableField(base, fieldName, PurapConstants.KNOWN_UNCOPYABLE_FIELDS)) && (isProcessableField(base, fieldName, supplementalUncopyable)) ) {
-                attemptCopyOfFieldName(base.getName(), fieldName, src, target);
+                attemptCopyOfFieldName(base.getName(), fieldName, src, target, supplementalUncopyable);
             }
         }
     }
@@ -81,16 +87,47 @@ public class PurApObjectUtils {
         return true;
     }
     
-    private static void attemptCopyOfFieldName(String baseClassName, String fieldName, BusinessObject sourceObject, BusinessObject targetObject) {
+    private static void attemptCopyOfFieldName(String baseClassName, String fieldName, BusinessObject sourceObject, BusinessObject targetObject, Map supplementalUncopyable) {
         try {
-            ObjectUtils.setObjectProperty(targetObject, fieldName, ObjectUtils.getPropertyValue(sourceObject, fieldName));
+            Object propertyValue = ObjectUtils.getPropertyValue(sourceObject, fieldName);
+            if ( (ObjectUtils.isNotNull(propertyValue)) && (Collection.class.isAssignableFrom(propertyValue.getClass())) ) {
+                LOG.debug("attempting to copy collection field '"+fieldName+"' using base class '"+baseClassName+"' and property value class '" + propertyValue.getClass() + "'");
+                copyCollection(fieldName, targetObject, propertyValue, supplementalUncopyable);
+            }
+            else {
+                String propertyValueClass = (ObjectUtils.isNotNull(propertyValue)) ? propertyValue.getClass().toString() : "(null)";
+                LOG.debug("attempting to set field '"+fieldName+"' using base class '"+baseClassName+"' and property value class '" + propertyValueClass + "'");
+                ObjectUtils.setObjectProperty(targetObject, fieldName, propertyValue);
+            }
         }
         catch (Exception e) {
             //purposefully skip for now 
             //(I wish objectUtils getPropertyValue threw named errors instead of runtime) so I could
             //selectively skip
-            LOG.debug("couldn't set field '"+fieldName+"' using base class '"+baseClassName+"' due to exception with class name '"+e.getClass().getName()+"'");
+            LOG.info("couldn't set field '"+fieldName+"' using base class '"+baseClassName+"' due to exception with class name '"+e.getClass().getName()+"'",e);
         }
+    }
+    
+    private static void copyCollection(String fieldName, BusinessObject targetObject, Object propertyValue, Map supplementalUncopyable) throws FormatException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        Collection sourceList = (Collection) propertyValue;
+//        LOG.debug("collection will be typed using class '" + propertyValue.getClass() + "'");
+        Collection listToSet = null;
+//        try {
+//            listToSet = new TypedArrayList(propertyValue.getClass());
+//        }
+//        catch (Exception e) {
+//            LOG.info("couldn't set class '"+propertyValue.getClass()+"' on collection... using ArrayList",e);
+            listToSet = new ArrayList();
+//        }
+        for (Iterator iterator = sourceList.iterator(); iterator.hasNext();) {
+            Object sourceCollectionObject = iterator.next();
+            Object targetCollectionObject = ObjectUtils.createNewObjectFromClass(sourceCollectionObject.getClass());
+            LOG.debug("attempting to copy collection member with class '" + sourceCollectionObject.getClass() + "'");
+            populateFromBaseClass(sourceCollectionObject.getClass(), (BusinessObject)sourceCollectionObject, (BusinessObject)targetCollectionObject, supplementalUncopyable);
+//            Object targetCollectionObject = ObjectUtils.deepCopy((Serializable)sourceCollectionObject);
+            listToSet.add(targetCollectionObject);
+        }
+        ObjectUtils.setObjectProperty(targetObject, fieldName, listToSet);
     }
     
     /**

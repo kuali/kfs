@@ -1023,9 +1023,13 @@ public class YearEndServiceImpl implements YearEndService {
         StringBuilder fieldString = new StringBuilder();
         if (value != null) {
             fieldString.append(value);
-        }
-        while (fieldString.length() < size) {
-            fieldString.append(' ');
+            while (fieldString.length() < size) {
+                fieldString.append(' ');
+            }
+        } else {
+            while (fieldString.length() < size) {
+                fieldString.append('-');
+            }
         }
         return fieldString;
     } 

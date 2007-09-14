@@ -788,7 +788,7 @@ public class KFSKeyConstants {
     }
 
     public static final class CashManagement {
-        public static final String URL_LOAD_DOCUMENT_CASH_MGMT = "url.load.document.cashManagment";
+        public static final String URL_LOAD_DOCUMENT_CASH_MGMT = "url.load.document.cashManagement";
 
         public static final String DEFAULT_DOCUMENT_DESCRIPTION = "cashManagement.document.defaultDescription";
         public static final String STATUS_DEPOSIT_CANCELED = "cashManagement.document.status.depositCanceled";

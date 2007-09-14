@@ -19,7 +19,54 @@
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorPhoneNumber">
+    
+        <inquiry>
+            <title>Vendor Phone Number Inquiry</title>
 
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+            	<field attributeName="vendorPhoneTypeCode" />
+            	<field attributeName="vendorPhoneNumber" />
+                <field attributeName="vendorPhoneExtensionNumber" />
+                <field attributeName="vendorPhoneGeneratedIdentifier" />             
+                <field attributeName="vendorDetailAssignedIdentifier" />
+                <field attributeName="vendorHeaderGeneratedIdentifier" />
+                <field attributeName="active"/>               
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>           
+            <lookupableID>vendorPhoneLookupable</lookupableID>
+            <title>Vendor Phone Number Lookup</title>
+
+            <instructions>Lookup a Vendor Phone Number</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="vendorPhoneGeneratedIdentifier" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="vendorPhoneNumber" required="false" />
+                <lookupField attributeName="vendorHeaderGeneratedIdentifier" required="false" />      
+                <lookupField attributeName="vendorDetailAssignedIdentifier" required="false" /> 
+                <lookupField attributeName="vendorPhoneTypeCode" required="false" />         
+                <lookupField attributeName="vendorPhoneExtensionNumber" required="false" />                            
+                <lookupField attributeName="active" required="false">
+                	<defaultValue>Y</defaultValue>
+                </lookupField> 
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="vendorPhoneNumber" />
+            	<field attributeName="vendorHeaderGeneratedIdentifier" />
+            	<field attributeName="vendorDetailAssignedIdentifier" />
+                <field attributeName="vendorPhoneTypeCode" />
+                <field attributeName="vendorPhoneExtensionNumber" />
+                <field attributeName="active"/>               
+            </resultFields>
+        </lookup>
+        
         <attributes>
 			<attribute name="vendorPhoneGeneratedIdentifier" forceUppercase="true">
                 <label>Vendor Phone Generated Identifier</label>

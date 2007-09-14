@@ -571,7 +571,7 @@ public class ReportServiceImpl implements ReportService {
         }
 
         LedgerReport ledgerReport = new LedgerReport();
-        ledgerReport.generateReport(ledgerEntries, executionDate, "Icr Poster Input Transactions", "poster_icr_ledger", reportsDirectory);
+        ledgerReport.generateReport(ledgerEntries, executionDate, "ICR Poster Input Transactions", "poster_icr_ledger", reportsDirectory);
     }
 
     /**

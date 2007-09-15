@@ -15,22 +15,28 @@
  */
 package org.kuali.test.suite;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.regex.Pattern;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Pattern;
 
-import com.meterware.httpunit.WebResponse;
-import com.meterware.httpunit.WebConversation;
-import com.meterware.httpunit.GetMethodWebRequest;
-import org.w3c.dom.NodeList;
-import org.kuali.core.util.AssertionUtils;
-import junit.framework.TestSuite;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+import org.kuali.core.util.AssertionUtils;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * The abstract superclass of suites of all test classes or methods which {@link RelatesTo} a Kuali JIRA issue
@@ -69,16 +75,25 @@ public abstract class JiraRelatedSuite {
             throw initializationException;
         }
         if (!jiraIssuesByState.containsKey(state)) {
+            InputStream jiraIssuesStream = null;
             try {
-                Collection<String> jiraIssues = new HashSet<String>();
-                WebResponse response = new WebConversation().getResponse(new GetMethodWebRequest(state.filterUrl));
-                NodeList keys = response.getDOM().getElementsByTagName("key");
-                for (int i = 0; i < keys.getLength(); i++) {
-                    String jiraKey = keys.item(i).getTextContent();
-                    AssertionUtils.assertThat(EXPECTED_JIRA_KEY.matcher(jiraKey).matches(), "badly formed key: " + jiraKey);
-                    jiraIssues.add(jiraKey);
+                Collection<String> jiraIssues = new HashSet<String>();        
+                NodeList keys;
+                try {
+                    jiraIssuesStream = new URL(state.filterUrl).openStream();
+                    keys = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(jiraIssuesStream).getElementsByTagName("key");
+                    for (int i = 0; i < keys.getLength(); i++) {
+                        String jiraKey = keys.item(i).getTextContent();
+                        AssertionUtils.assertThat(EXPECTED_JIRA_KEY.matcher(jiraKey).matches(), "badly formed key: " + jiraKey);
+                        jiraIssues.add(jiraKey);
+                    }
+                    jiraIssuesByState.put(state, jiraIssues);
                 }
-                jiraIssuesByState.put(state, jiraIssues);
+                finally {
+                    if (jiraIssuesStream != null) {
+                        jiraIssuesStream.close();
+                    }
+                }
             }
             catch (Throwable e) {
                 initializationException = new RuntimeException("test framework cannot get list of " + state + " JIRA issues", e);

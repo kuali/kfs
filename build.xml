@@ -341,7 +341,7 @@
 		<zip destfile="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" basedir="${rice.sampleapp.directory}" includes="${rice.application}/**/**,${tags.directory}/${rice.application}/**/*.tag,${workflow.application}/**/**,${ksb.application}/**/**" excludes="**/CVS" />
 	</target>
 
-	<target name="update-rice-extended" depends="init-property-files,update-rice-kuali-dependencies,update-rice-ddl,update-rice-licenses" />
+	<target name="update-rice-extended" depends="init-property-files,update-rice-kuali-dependencies,update-rice-licenses" />
 
 	<target name="update-rice-kuali-dependencies" depends="init-property-files">
 		<delete>
@@ -373,19 +373,6 @@
 			<propertyset refid="${workflow.application}-properties" />
 		</ant>
 		<zip destfile="${dependencies.project.directory}/${rice.name}-${workflow.name}-${workflow.version}-doc.zip" basedir="${workflow.project.directory}/dist/api" />-->
-	</target>
-
-	<target name="update-rice-ddl" depends="init-property-files">
-		<delete>
-			<fileset dir="${build.project.directory}" includes="${rice.name}*${rice.output.ddl.suffix}" />
-		</delete>
-		<mkdir dir="temp" />
-		<copy todir="temp">
-			<fileset dir="${rice.project.directory}" includes="${rice.ddl.files}" excludes="${rice.excludes},**/CVS" />
-			<regexpmapper from="^.*\${file.separator}src\${file.separator}main\${file.separator}config\${file.separator}(.*)$$" to="\1" />
-		</copy>
-		<zip destfile="${build.project.directory}/${rice.name}-${rice.version}-ddl.zip" basedir="temp" />
-		<delete dir="temp" />
 	</target>
 
 	<target name="update-rice-licenses" depends="init-property-files">

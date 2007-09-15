@@ -267,20 +267,28 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
         for (int i = 0; i < itemList.size(); i++) {
             CreditMemoItem item = (CreditMemoItem) itemList.get(i);
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
-            /*  TODO (KULPURAP-1574: ckirschenman) this is a temporary fix to just run these validations on above the line long term we need to look into using parent validation more
-             *                if super call is not used handle below the line items in an else below
-             */
             if(item.getItemType().isItemTypeAboveTheLineIndicator()) {
-            String errorKeyPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(i) + "].";
-
-            valid &= validateItemQuantity(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.QUANTITY);
-            valid &= validateItemUnitPrice(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.ITEM_UNIT_PRICE);
-            valid &= validateItemExtendedPrice(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.EXTENDED_PRICE);
-
-            if (item.getExtendedPrice() != null && item.getExtendedPrice().isNonZero()) {
-                valid &= processAccountValidation(purapDocument, item.getSourceAccountingLines(), errorKeyPrefix);
+                String errorKeyPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(i) + "].";
+    
+                valid &= validateItemQuantity(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.QUANTITY);
+                valid &= validateItemUnitPrice(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.ITEM_UNIT_PRICE);
+                valid &= validateItemExtendedPrice(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.EXTENDED_PRICE);
+    
+                if (item.getExtendedPrice() != null && item.getExtendedPrice().isNonZero()) {
+                    valid &= processAccountValidation(purapDocument, item.getSourceAccountingLines(), errorKeyPrefix);
+                }
             }
-        }
+            else {
+                String documentTypeClassName = purapDocument.getClass().getName();
+                String[] documentTypeArray = StringUtils.split(documentTypeClassName, ".");
+                String documentType = documentTypeArray[documentTypeArray.length - 1];
+                if (cmDocument.isSourceDocumentPaymentRequest()) {
+                    valid &= valideBelowTheLineValues(documentType, "FromPaymentRequest", item);
+                }
+                else if (cmDocument.isSourceDocumentPurchaseOrder()) {
+                    valid &= valideBelowTheLineValues(documentType, "FromPurchaseOrder", item);
+                }
+            }
         }
 
         return valid;

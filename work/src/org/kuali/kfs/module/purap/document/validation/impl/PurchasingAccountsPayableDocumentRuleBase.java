@@ -153,11 +153,6 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         if (documentType.equals("CreditMemoDocument")) {
            
         }
-        String securityGroup = (String)PurapConstants.ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP.get(documentType);
-        KualiParameterRule allowsZeroRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_ZERO);
-        KualiParameterRule allowsPositiveRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_POSITIVE);
-        KualiParameterRule allowsNegativeRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_NEGATIVE);
-        KualiParameterRule requiresDescriptionRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(securityGroup, PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION);
 
         boolean requiresAccountValidationOnAllEnteredItems = requiresAccountValidationOnAllEnteredItems(purapDocument);
         for (PurApItem item : purapDocument.getItems()) {
@@ -169,34 +164,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
             if (item.isConsideredEntered()) {
                 //only do this check for below the line items
                 if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
-                    if (ObjectUtils.isNotNull(item.getItemUnitPrice()) &&(new KualiDecimal(item.getItemUnitPrice())).isZero()) {
-                        if (allowsZeroRule.getRuleActiveIndicator() &&
-                            !allowsZeroRule.getParameterValueSet().contains(item.getItemTypeCode())) {
-                            valid = false;
-                            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "zero");
-                        }
-                    }
-                    else if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isPositive()) {
-                        if (allowsPositiveRule.getRuleActiveIndicator() &&
-                            !allowsPositiveRule.getParameterValueSet().contains(item.getItemTypeCode())) {
-                            valid = false;
-                            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "positive");
-                        }
-                    }
-                    else if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNegative()) {
-                        if (allowsNegativeRule.getRuleActiveIndicator() &&
-                            !allowsNegativeRule.getParameterValueSet().contains(item.getItemTypeCode())) {
-                            valid = false;
-                            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "negative");
-                        }
-                    }
-                    if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNonZero() && StringUtils.isEmpty(item.getItemDescription())) {
-                        if (requiresDescriptionRule.getRuleActiveIndicator() &&
-                            requiresDescriptionRule.getParameterValueSet().contains(item.getItemTypeCode())) {
-                            valid = false;
-                            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, "The item description of " + item.getItemType().getItemTypeDescription(), "empty");
-                        }
-                    }
+                    valid &= valideBelowTheLineValues(documentType, null, item);
                 }
                 
                 if (requiresAccountValidationOnAllEnteredItems || (!item.getSourceAccountingLines().isEmpty())) {
@@ -209,6 +177,47 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
 //                        processAccountValidation(item.getSourceAccountingLines(),item.getItemIdentifierString());
 //                    }
 //                }
+            }
+        }
+        return valid;
+    }
+
+    protected boolean valideBelowTheLineValues(String documentType, String fromSourceDocument, PurApItem item) {
+        boolean valid = true;
+        String securityGroup = (String)PurapConstants.ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP.get(documentType);
+        if (!StringUtils.isEmpty(fromSourceDocument)) {
+            securityGroup += "." + fromSourceDocument;
+        }
+        KualiParameterRule allowsZeroRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_ZERO);
+        KualiParameterRule allowsPositiveRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_POSITIVE);
+        KualiParameterRule allowsNegativeRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_NEGATIVE);
+        KualiParameterRule requiresDescriptionRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(securityGroup, PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION);
+        if (ObjectUtils.isNotNull(item.getItemUnitPrice()) &&(new KualiDecimal(item.getItemUnitPrice())).isZero()) {
+            if (allowsZeroRule.getRuleActiveIndicator() &&
+                !allowsZeroRule.getParameterValueSet().contains(item.getItemTypeCode())) {
+                valid = false;
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "zero");
+            }
+        }
+        else if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isPositive()) {
+            if (allowsPositiveRule.getRuleActiveIndicator() &&
+                !allowsPositiveRule.getParameterValueSet().contains(item.getItemTypeCode())) {
+                valid = false;
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "positive");
+            }
+        }
+        else if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNegative()) {
+            if (allowsNegativeRule.getRuleActiveIndicator() &&
+                !allowsNegativeRule.getParameterValueSet().contains(item.getItemTypeCode())) {
+                valid = false;
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "negative");
+            }
+        }
+        if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNonZero() && StringUtils.isEmpty(item.getItemDescription())) {
+            if (requiresDescriptionRule.getRuleActiveIndicator() &&
+                requiresDescriptionRule.getParameterValueSet().contains(item.getItemTypeCode())) {
+                valid = false;
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, "The item description of " + item.getItemType().getItemTypeDescription(), " is empty");
             }
         }
         return valid;

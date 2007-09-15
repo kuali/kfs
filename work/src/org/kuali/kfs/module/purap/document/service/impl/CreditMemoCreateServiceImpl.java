@@ -258,7 +258,6 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
                         String param1 = identifier + "." + accountIdentifier;
                         String param2 = calcAmount.bigDecimalValue().subtract(accountAmount.bigDecimalValue()).toString();
                         GlobalVariables.getErrorMap().putError(item.getItemIdentifierString(), PurapKeyConstants.ERROR_ITEM_ACCOUNTING_ROUNDING, param1, param2);
-                        // fix
                         account.setAmount(calcAmount);
                     }
 

@@ -18,10 +18,13 @@ package org.kuali.kfs.context;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.service.KualiConfigurationService;
@@ -32,7 +35,6 @@ import org.kuali.rice.KNSServiceLocator;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -45,6 +47,11 @@ public class SpringContext {
     private static final String SPRING_TEST_FILES_KEY = "spring.test.files";
     private static final String MEMORY_MONITOR_THRESHOLD_KEY = "memory.monitor.threshold";
     private static ConfigurableApplicationContext applicationContext;
+    private static Set<Class> SINGLETON_TYPES = new HashSet<Class>();
+    private static Set<String> SINGLETON_NAMES = new HashSet<String>();
+    private static Map<Class,Object> SINGLETON_BEANS_BY_TYPE_CACHE = new HashMap<Class,Object>();
+    private static Map<String,Object> SINGLETON_BEANS_BY_NAME_CACHE = new HashMap<String,Object>();
+    private static Map<Class,Map> SINGLETON_BEANS_OF_TYPE_CACHE = new HashMap<Class,Map>();
 
     /**
      * Use this method to retrieve a spring bean when one of the following is the case. Pass in the type of the service interface,
@@ -62,25 +69,38 @@ public class SpringContext {
      */
     public static <T> T getBean(Class<T> type) {
         verifyProperInitialization();
-        try {
-            Collection<T> beansOfType = getBeansOfType(type).values();
-            if (beansOfType.size() > 1) {
-                return getBean(type, type.getSimpleName().substring(0, 1).toLowerCase() + type.getSimpleName().substring(1));
-            }
-            return beansOfType.iterator().next();
+        T bean = null;
+        if (SINGLETON_BEANS_BY_TYPE_CACHE.containsKey(type)) {
+            bean = (T)SINGLETON_BEANS_BY_TYPE_CACHE.get(type);
         }
-        catch (NoSuchBeanDefinitionException nsbde) {
-            LOG.info("Could not find bean of type " + type.getName() + " - checking KNS context");
+        else {
             try {
-                return KNSServiceLocator.getBean(type);
+                Collection<T> beansOfType = getBeansOfType(type).values();
+                if (beansOfType.size() > 1) {
+                    bean = getBean(type, type.getSimpleName().substring(0, 1).toLowerCase() + type.getSimpleName().substring(1));
+                }
+                else {
+                    bean = beansOfType.iterator().next();
+                }
             }
-            catch (Exception e) {
-                LOG.error(e);
-                throw new NoSuchBeanDefinitionException("No beans of this type in the in KFS or KNS application contexts: " + type.getName());
+            catch (NoSuchBeanDefinitionException nsbde) {
+                LOG.info("Could not find bean of type " + type.getName() + " - checking KNS context");
+                try {
+                    bean = KNSServiceLocator.getBean(type);
+                }
+                catch (Exception e) {
+                    LOG.error(e);
+                    throw new NoSuchBeanDefinitionException("No beans of this type in the in KFS or KNS application contexts: " + type.getName());
+                }
+            }
+            if (SINGLETON_TYPES.contains(type) || hasSingletonSuperType(type)) {
+                SINGLETON_TYPES.add(type);
+                SINGLETON_BEANS_BY_TYPE_CACHE.put(type, bean);
             }
         }
+        return bean;
     }
-
+    
     /**
      * Use this method to retrieve all beans of a give type in our spring context. Pass in the type of the service interface, NOT
      * the service implementation.
@@ -92,27 +112,56 @@ public class SpringContext {
     @SuppressWarnings("unchecked")
     public static <T> Map<String, T> getBeansOfType(Class<T> type) {
         verifyProperInitialization();
-        Map<String, T> beansOfType = KNSServiceLocator.getBeansOfType(type);
-        beansOfType.putAll(new HashMap(applicationContext.getBeansOfType(type)));
+        Map<String, T> beansOfType = null;
+        if (SINGLETON_BEANS_OF_TYPE_CACHE.containsKey(type)) {
+            beansOfType = SINGLETON_BEANS_OF_TYPE_CACHE.get(type);
+        }
+        else {
+            beansOfType = KNSServiceLocator.getBeansOfType(type);
+            beansOfType.putAll(new HashMap(applicationContext.getBeansOfType(type)));
+            if (SINGLETON_TYPES.contains(type) || hasSingletonSuperType(type)) {
+                SINGLETON_TYPES.add(type);
+                SINGLETON_BEANS_OF_TYPE_CACHE.put(type, beansOfType);
+            }
+        }
         return beansOfType;
     }
-
+    
     @SuppressWarnings("unchecked")
     private static <T> T getBean(Class<T> type, String name) {
         verifyProperInitialization();
-        try {
-            return (T) applicationContext.getBean(name);
+        T bean = null;
+        if (SINGLETON_BEANS_BY_NAME_CACHE.containsKey(name)) {
+            bean = (T)SINGLETON_BEANS_BY_NAME_CACHE.get(name);
         }
-        catch (NoSuchBeanDefinitionException nsbde) {
-            LOG.info("Could not find bean named " + name + " - checking KNS context");
+        else {
             try {
-                return KNSServiceLocator.getBean(type, name);
+                bean = (T) applicationContext.getBean(name);
             }
-            catch (Exception e) {
-                LOG.error(e);
-                throw new NoSuchBeanDefinitionException(name, new StringBuffer("No bean of this type and name in the in KFS or KNS application contexts: ").append(type.getName()).append(", ").append(name).toString());
+            catch (NoSuchBeanDefinitionException nsbde) {
+                LOG.info("Could not find bean named " + name + " - checking KNS context");
+                try {
+                    bean = KNSServiceLocator.getBean(type, name);
+                }
+                catch (Exception e) {
+                    LOG.error(e);
+                    throw new NoSuchBeanDefinitionException(name, new StringBuffer("No bean of this type and name in the in KFS or KNS application contexts: ").append(type.getName()).append(", ").append(name).toString());
+                }
+            }
+            if (SINGLETON_NAMES.contains(type)) {
+                SINGLETON_BEANS_BY_NAME_CACHE.put(name, bean);
             }
         }
+        return bean;
+    }
+
+    private static boolean hasSingletonSuperType(Class type) {
+        for (Class singletonType : SINGLETON_TYPES) {
+            if (singletonType.isAssignableFrom(type)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     protected static List<MethodCacheInterceptor> getMethodCacheInterceptors() {
@@ -129,22 +178,6 @@ public class SpringContext {
     protected static String[] getBeanNames() {
         verifyProperInitialization();
         return applicationContext.getBeanDefinitionNames();
-    }
-    
-    protected static Boolean isBeanSingleton(String name) {
-        BeanDefinition beanDefinition = applicationContext.getBeanFactory().getBeanDefinition(name);
-        if (beanDefinition != null) {
-            return beanDefinition.isAbstract() ? Boolean.TRUE : Boolean.FALSE;
-        }
-        return null;
-    }
-    
-    protected static <T> Boolean isBeanSingleton(Class<T> type) {
-        String[] beanNames = applicationContext.getBeanNamesForType(type);
-        if (beanNames != null && beanNames.length == 1) {
-            return applicationContext.getBeanFactory().getBeanDefinition(beanNames[0]).isSingleton() ? Boolean.TRUE : Boolean.FALSE;
-        }
-        return null;
     }
 
     protected static void initializeApplicationContext() {
@@ -224,5 +257,11 @@ public class SpringContext {
             }
         }
         SpringCreator.setOverrideBeanFactory(applicationContext.getBeanFactory());
+        Collections.addAll(SINGLETON_NAMES, applicationContext.getBeanFactory().getSingletonNames());
+        SINGLETON_NAMES.addAll(KNSServiceLocator.getSingletonNames());
+        for (String singletonName : SINGLETON_NAMES) {
+            SINGLETON_TYPES.add(applicationContext.getBeanFactory().getType(singletonName));
+        }
+        SINGLETON_TYPES.addAll(KNSServiceLocator.getSingletonTypes());
     }
 }

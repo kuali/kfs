@@ -777,11 +777,11 @@
 		</property>
 	</bean>
 	
-	<bean id="originEntryLiteCachingLookup" class="org.kuali.module.gl.util.CachingLookup">
+	<bean id="originEntryLiteCachingLookup" class="org.kuali.module.gl.util.CachingLookup" singleton="false">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="cacheSize" value="7500" />
+		<property name="cacheSize" value="6000" />
 	</bean>
 	
 	<bean id="originEntryableLookupService" class="org.kuali.module.gl.service.impl.OriginEntryableLookupServiceImpl" singleton="false">

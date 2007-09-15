@@ -258,10 +258,10 @@ public class SpringContext {
         }
         SpringCreator.setOverrideBeanFactory(applicationContext.getBeanFactory());
         Collections.addAll(SINGLETON_NAMES, applicationContext.getBeanFactory().getSingletonNames());
-        SINGLETON_NAMES.addAll(KNSServiceLocator.getSingletonNames());
         for (String singletonName : SINGLETON_NAMES) {
             SINGLETON_TYPES.add(applicationContext.getBeanFactory().getType(singletonName));
         }
+        SINGLETON_NAMES.addAll(KNSServiceLocator.getSingletonNames());
         SINGLETON_TYPES.addAll(KNSServiceLocator.getSingletonTypes());
     }
 }

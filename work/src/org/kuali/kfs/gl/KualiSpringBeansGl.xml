@@ -500,6 +500,12 @@
 	<bean id="glOrganizationReversionSelection" class="org.kuali.module.gl.service.impl.orgreversion.OrganizationReversionSelectionImpl" />
 
 	<bean id="glCashOrganizationReversionCategoryLogic" class="org.kuali.module.gl.service.impl.orgreversion.CashOrganizationReversionCategoryLogic" />
+	
+	<bean id="genericOrganizationReversionCategory" class="org.kuali.module.gl.service.impl.orgreversion.GenericOrganizationReversionCategory" singleton="false"> 
+    	<property name="kualiConfigurationService"> 
+        	<ref bean="kualiConfigurationService" /> 
+		</property> 
+	</bean> 
 
 	<bean id="glEncumbranceClosingRuleHelper" class="org.kuali.module.gl.batch.closing.year.service.impl.helper.EncumbranceClosingRuleHelper">
 		<property name="a21SubAccountService">
@@ -778,7 +784,7 @@
 		<property name="cacheSize" value="7500" />
 	</bean>
 	
-	<bean id="originEntryableLookupService" class="org.kuali.module.gl.service.impl.OriginEntryableLookupServiceImpl">
+	<bean id="originEntryableLookupService" class="org.kuali.module.gl.service.impl.OriginEntryableLookupServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>

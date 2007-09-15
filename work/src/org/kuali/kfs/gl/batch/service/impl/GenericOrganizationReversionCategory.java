@@ -29,6 +29,8 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
     private String categoryName;
     private boolean isExpense;
     
+    private KualiConfigurationService kualiConfigurationService;
+    
     KualiParameterRule consolidationRule;
     KualiParameterRule levelRule;
     KualiParameterRule objectTypeRule;
@@ -39,7 +41,6 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
 
     public void setCategoryCode(String code) {
         categoryCode = code;
-        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         isExpense = kualiConfigurationService.getApplicationParameterIndicator(KFSConstants.ORG_REVERSION, categoryCode + KFSConstants.EXPENSE_FLAG);
         consolidationRule = kualiConfigurationService.getApplicationParameterRule(KFSConstants.ORG_REVERSION, categoryCode + KFSConstants.CONSOLIDATION);
         levelRule = kualiConfigurationService.getApplicationParameterRule(KFSConstants.ORG_REVERSION, categoryCode + KFSConstants.LEVEL);
@@ -72,5 +73,13 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
 
     public boolean isExpense() {
         return isExpense;
+    }
+
+    /**
+     * Sets the kualiConfigurationService attribute value.
+     * @param kualiConfigurationService The kualiConfigurationService to set.
+     */
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
     }
 }

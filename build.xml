@@ -88,7 +88,7 @@
 
 	<target name="clean-project" depends="init-property-files">
 		<delete failonerror="false">
-			<fileset dir="${basedir}" includes="${source.directory}/${configuration.file},${source.directory}/${p6spy.file},${webinf.directory}/${web.file},${lib.directory}/${log4j.library.file},${war.directory}/**/**,${test.directory}/**/**,*.war,*.zip,${help.directory}/**/**,${webroot.directory}/${rice.application}/**/**,${webroot.directory}/${tags.directory}/${rice.application}/**/**,${webroot.directory}/${workflow.application}/**/**,${database.directory}/${rice.name}/**/**,${licenses.directory}/${rice.name}/**/**" />
+			<fileset dir="${basedir}" includes="${source.directory}/${configuration.file},${source.directory}/${p6spy.file},${webinf.directory}/${web.file},${lib.directory}/${log4j.library.file},${war.directory}/**/**,${test.directory}/**/**,*.war,*.zip,${help.directory}/**/**,${webroot.directory}/${rice.application}/**/**,${webroot.directory}/${tags.directory}/${rice.application}/**/**,${webroot.directory}/${workflow.application}/**/**,${licenses.directory}/${rice.name}/**/**" />
 		</delete>
 	</target>
 
@@ -133,7 +133,6 @@
 	<target name="filter-project" depends="filter-project-p6spy">
 		<unzip dest="${help.directory}" src="${build.project.directory}/help.zip" />
 		<unzip dest="${webroot.directory}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" />
-		<unzip dest="${database.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.ddl.suffix}" />
 		<unzip dest="${licenses.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
 		<echo file="${source.directory}/${configuration.file}" message="${configuration}" />
 		<echo file="${source.directory}/${p6spy.file}" message="${p6spy}" />

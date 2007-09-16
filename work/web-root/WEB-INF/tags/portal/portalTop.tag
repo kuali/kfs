@@ -13,15 +13,19 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
- 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <title>Kuali Portal Index</title>
-<link href="css/portal.css" rel="stylesheet" type="text/css" />
-<script language="JavaScript" type="text/javascript" src="${ConfigProperties.application.url}/kr/scripts/my_common.js"></script>
+<c:forEach items="${fn:split(ConfigProperties.portal.css.files, ',')}" var="cssFile">
+	<link href="${cssFile}" rel="stylesheet" type="text/css" />
+</c:forEach>
+<c:forEach items="${fn:split(ConfigProperties.portal.javascript.files, ',')}" var="javascriptFile">
+	<script language="JavaScript" type="text/javascript" src="${ConfigProperties.application.url}/${javascriptFile}"></script>
+</c:forEach>
 <script language="javascript" >
 if (top.location != self.location) {
 	top.location = self.location;

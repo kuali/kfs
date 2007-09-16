@@ -62,7 +62,8 @@ public class PaymentGroup implements Serializable,PersistenceBrokerAware {
   private String physCampusProcessCd;       // PHYS_CMP_PROC_CD       
   private String sortValue;                 // PMT_SORT_ORD_VAL
   private String achAccountType;            // CUST_ACCT_TYP_CD
-  private Timestamp epicPaymentExtractedDate; // PDP_EPIC_PMT_CNCL_EXTRT_TS
+  private Timestamp epicPaymentCancelledExtractedDate; // PDP_EPIC_PMT_CNCL_EXTRT_TS
+  private Timestamp epicPaymentPaidExtractedDate; // PDP_EPIC_PMT_PD_EXTRT_TS
   private Timestamp lastUpdate;             // LST_UPDT_TS
   private Integer version;                  // VER_NBR
   
@@ -882,16 +883,20 @@ public class PaymentGroup implements Serializable,PersistenceBrokerAware {
   public void setAchAccountType(String achAccountType) {
     this.achAccountType = achAccountType;
   }
-  /**
-   * @return Returns the epicPaymentExtractedDate.
-   */
-  public Timestamp getEpicPaymentExtractedDate() {
-    return epicPaymentExtractedDate;
+
+  public Timestamp getEpicPaymentCancelledExtractedDate() {
+    return epicPaymentCancelledExtractedDate;
   }
-  /**
-   * @param epicPaymentExtractedDate The epicPaymentExtractedDate to set.
-   */
-  public void setEpicPaymentExtractedDate(Timestamp epicPaymentExtractedDate) {
-    this.epicPaymentExtractedDate = epicPaymentExtractedDate;
+
+  public void setEpicPaymentCancelledExtractedDate(Timestamp epicPaymentCancelledExtractedDate) {
+    this.epicPaymentCancelledExtractedDate = epicPaymentCancelledExtractedDate;
+  }
+
+  public Timestamp getEpicPaymentPaidExtractedDate() {
+    return epicPaymentPaidExtractedDate;
+  }
+
+  public void setEpicPaymentPaidExtractedDate(Timestamp epicPaymentPaidExtractedDate) {
+    this.epicPaymentPaidExtractedDate = epicPaymentPaidExtractedDate;
   }
 }

@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.service;
 
+import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,8 +23,6 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Defines methods that must be implemented by a CreditMemoService implementation.
@@ -131,4 +130,12 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
     public void cancelExtractedCreditMemo(CreditMemoDocument cmDocument, String note);
 
     public void reopenClosedPO(CreditMemoDocument cmDocument);
+
+    /**
+     * Mark a credit memo is being used on a payment
+     * 
+     * @param cm
+     * @param processDate
+     */
+    public void markPaid(CreditMemoDocument cm,Date processDate);
 }

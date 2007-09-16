@@ -89,13 +89,24 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     }
 
     /**
+     * @see org.kuali.module.pdp.service.PaymentGroupService#processPaidGroup(org.kuali.module.pdp.bo.PaymentGroup, java.sql.Date)
+     */
+    public void processPaidGroup(PaymentGroup group, Date processDate) {
+        LOG.debug("processPaidGroup() started");
+
+        Timestamp ts = new Timestamp(processDate.getTime());
+        group.setEpicPaymentPaidExtractedDate(ts);
+        group.setLastUpdate(ts);
+    }
+
+    /**
      * @see org.kuali.module.pdp.service.PaymentGroupService#processCancelledGroup(org.kuali.module.pdp.bo.PaymentGroup, java.sql.Date)
      */
     public void processCancelledGroup(PaymentGroup group, Date processDate) {
         LOG.debug("processCancelledGroup() started");
 
         Timestamp ts = new Timestamp(processDate.getTime());
-        group.setEpicPaymentExtractedDate(ts);
+        group.setEpicPaymentCancelledExtractedDate(ts);
         group.setLastUpdate(ts);
     }
 }

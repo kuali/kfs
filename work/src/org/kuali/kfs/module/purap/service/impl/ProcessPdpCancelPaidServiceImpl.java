@@ -15,8 +15,10 @@
  */
 package org.kuali.module.purap.service.impl;
 
+import java.sql.Date;
 import java.util.Iterator;
 
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.bo.PaymentDetail;
@@ -40,12 +42,15 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     private PaymentRequestService paymentRequestService;
     private CreditMemoService creditMemoService;
     private KualiConfigurationService kualiConfigurationService;
+    private DateTimeService dateTimeService;
  
     /**
      * @see org.kuali.module.purap.service.ProcessPdpCancelPaidService#processPdpCancels()
      */
     public void processPdpCancels() {
         LOG.debug("processPdpCancels() started");
+
+        Date processDate = dateTimeService.getCurrentSqlDate();
 
         String organization = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
         String subUnit = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
@@ -99,6 +104,8 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
                 LOG.error("processPdpCancels() Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
                 throw new IllegalArgumentException("Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
             }
+
+            paymentGroupService.processCancelledGroup(paymentDetail.getPaymentGroup(), processDate);
         }
     }
 
@@ -108,6 +115,47 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     public void processPdpPaids() {
         LOG.debug("processPdpPaids() started");
 
+        Date processDate = dateTimeService.getCurrentSqlDate();
+
+        String organization = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
+        String subUnit = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
+
+        Iterator details = paymentDetailService.getUnprocessedPaidDetails(organization, subUnit);
+        while (details.hasNext()) {
+            PaymentDetail paymentDetail = (PaymentDetail)details.next();
+
+            String documentTypeCode = paymentDetail.getFinancialDocumentTypeCode();
+            String documentNumber = paymentDetail.getCustPaymentDocNbr();
+
+            int documentNumberInt = -1;
+            try {
+                documentNumberInt = Integer.parseInt(documentNumber);
+            } catch (NumberFormatException nfe) {
+                LOG.error("processPdpCancels() Document number " + documentNumber + " is not a number..skipping");
+                continue;
+            }
+
+            if ( PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT.equals(documentTypeCode) ) {
+                PaymentRequestDocument pr = paymentRequestService.getPaymentRequestById(documentNumberInt);
+                if ( pr != null ) {
+                    paymentRequestService.markPaid(pr,processDate);
+                } else {
+                    LOG.error("processPdpPaids() DOES NOT EXIST, CANNOT MARK - Payment Request with doc type of " + documentTypeCode + " with id " + documentNumber);
+                }
+            } else if ( PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(documentTypeCode) ) {
+                CreditMemoDocument cm = creditMemoService.getCreditMemoDocumentById(documentNumberInt);
+                if ( cm != null ) {
+                    creditMemoService.markPaid(cm,processDate);
+                } else {
+                    LOG.error("processPdpPaids() DOES NOT EXIST, CANNOT PROCESS - Credit Memo with doc type of " + documentTypeCode + " with id " + documentNumber);                        
+                }
+            } else {
+                LOG.error("processPdpPaids() Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
+                throw new IllegalArgumentException("Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
+            }
+
+            paymentGroupService.processPaidGroup(paymentDetail.getPaymentGroup(), processDate);            
+        }
     }
 
     /**
@@ -138,5 +186,9 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
 
     public void setPaymentRequestService(PaymentRequestService paymentRequestService) {
         this.paymentRequestService = paymentRequestService;
+    }
+
+    public void setDateTimeService(DateTimeService dts) {
+        this.dateTimeService = dts;
     }
 }

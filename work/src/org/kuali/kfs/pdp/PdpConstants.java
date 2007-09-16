@@ -71,5 +71,6 @@ public class PdpConstants {
         public static String OPEN = "OPEN";
         public static String CANCEL_DISBURSEMENT = "CDIS";
         public static String CANCEL_PAYMENT = "CPAY";
+        public static String EXTRACTED = "EXTR";
     }
 }

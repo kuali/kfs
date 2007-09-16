@@ -326,7 +326,8 @@
     <field-descriptor name="batchId" column="PMT_FIL_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="disbursementTypeCode" column="DISB_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="paymentStatusCode" column="PMT_STAT_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="epicPaymentExtractedDate" column="PDP_EPIC_PMT_CNCL_EXTRT_TS" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="epicPaymentCancelledExtractedDate" column="PDP_EPIC_PMT_CNCL_EXTRT_TS" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="epicPaymentPaidExtractedDate" column="PDP_EPIC_PMT_PD_EXTRT_TS" jdbc-type="TIMESTAMP"/>
 
     <reference-descriptor name="achAccountNumber" class-ref="org.kuali.module.pdp.bo.AchAccountNumber" auto-retrieve="true" auto-update="true" auto-delete="true">
       <foreignkey field-ref="id"/>

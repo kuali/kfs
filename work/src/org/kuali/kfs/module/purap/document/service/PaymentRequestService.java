@@ -149,4 +149,12 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
 
 
     public void deleteSummaryAccounts(Integer purapDocumentIdentifier);
+
+    /**
+     * Mark a payment request as being paid
+     * 
+     * @param pr
+     * @param processDate
+     */
+    public void markPaid(PaymentRequestDocument pr,Date processDate);
 }

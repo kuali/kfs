@@ -44,4 +44,14 @@ public interface PaymentDetailDao {
      * @return
      */
     public Iterator getUnprocessedCancelledDetails(String organization, String subUnit);
+
+    /**
+     * This will return an iterator of all the paid payment details that haven't
+     * already been processed
+     * 
+     * @param organization
+     * @param subUnit
+     * @return
+     */
+    public Iterator getUnprocessedPaidDetails(String organization,String subUnit);
 }

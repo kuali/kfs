@@ -61,7 +61,6 @@ import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
-import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.NegativePaymentRequestApprovalLimitService;
 import org.kuali.module.purap.service.PaymentRequestService;
@@ -70,8 +69,6 @@ import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.module.purap.util.PurApItemUtils;
-import org.kuali.module.purap.web.struts.action.PaymentRequestAction;
-import org.kuali.module.purap.web.struts.action.PurchaseOrderAction;
 import org.kuali.module.vendor.bo.PaymentTermType;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -1091,5 +1088,15 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             }
         }
         return cancelledStatusCode;
+    }
+
+    /**
+     * @see org.kuali.module.purap.service.PaymentRequestService#markPaid(org.kuali.module.purap.document.PaymentRequestDocument, java.sql.Date)
+     */
+    public void markPaid(PaymentRequestDocument pr,Date processDate) {
+        LOG.debug("markPaid() started");
+
+        pr.setPaymentPaidDate(processDate);
+        saveDocumentWithoutValidation(pr);
     }
 }

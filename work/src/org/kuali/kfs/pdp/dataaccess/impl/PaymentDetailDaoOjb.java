@@ -181,7 +181,22 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         criteria.addEqualTo("paymentGroup.batch.customerProfile.subUnitCode", subUnit);
         criteria.addEqualTo("paymentGroup.batch.customerProfile.orgCode", organization);
         criteria.addIn("paymentGroup.paymentStatusCode", codes);
-        criteria.addIsNull("paymentGroup.epicPaymentExtractedDate");
+        criteria.addIsNull("paymentGroup.epicPaymentCancelledExtractedDate");
+
+        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentDetail.class,criteria));
+    }
+
+    /**
+     * @see org.kuali.module.pdp.dao.PaymentDetailDao#getUnprocessedPaidDetails(java.lang.String, java.lang.String)
+     */
+    public Iterator getUnprocessedPaidDetails(String organization,String subUnit) {
+        LOG.debug("getUnprocessedPaidDetails() started");
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("paymentGroup.batch.customerProfile.subUnitCode", subUnit);
+        criteria.addEqualTo("paymentGroup.batch.customerProfile.orgCode", organization);
+        criteria.addEqualTo("paymentGroup.paymentStatusCode", PdpConstants.PaymentStatusCodes.EXTRACTED);
+        criteria.addIsNull("paymentGroup.epicPaymentPaidExtractedDate");
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentDetail.class,criteria));
     }

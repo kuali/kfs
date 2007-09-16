@@ -16,6 +16,8 @@
 package org.kuali.module.purap.service.impl;
 
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -527,6 +529,15 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             String docType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
             SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(cmDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Payment Request "+apDoc.getPurapDocumentIdentifier()+ "cancel", new ArrayList());
         }
-        
+    }
+
+    /**
+     * @see org.kuali.module.purap.service.CreditMemoService#markPaid(org.kuali.module.purap.document.CreditMemoDocument, java.sql.Date)
+     */
+    public void markPaid(CreditMemoDocument cm,Date processDate) {
+        LOG.debug("markPaid() started");
+
+        cm.setCreditMemoPaidTimestamp(new Timestamp(processDate.getTime()));
+        saveDocumentWithoutValidation(cm);
     }
 }

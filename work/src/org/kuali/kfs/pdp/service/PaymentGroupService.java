@@ -37,6 +37,14 @@ public interface PaymentGroupService {
     public List getByDisbursementNumber(Integer disbursementNbr);
 
     /**
+     * Mark a paid group as processed
+     * 
+     * @param group
+     * @param processDate
+     */
+    public void processPaidGroup(PaymentGroup group, Date processDate);
+
+    /**
      * Mark a cancelled group as processed
      * 
      * @param group

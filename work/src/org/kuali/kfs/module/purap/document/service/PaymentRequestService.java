@@ -149,5 +149,4 @@ public interface PaymentRequestService {
 
 
     public void deleteSummaryAccounts(Integer purapDocumentIdentifier);
-
 }

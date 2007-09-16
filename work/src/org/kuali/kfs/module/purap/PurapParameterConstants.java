@@ -15,7 +15,6 @@
  */
 package org.kuali.module.purap;
 
-import org.kuali.module.purap.document.AccountsPayableDocumentBase;
 
 /**
  * Holds constants for PURAP business parameters.
@@ -45,7 +44,12 @@ public class PurapParameterConstants {
     public static final String PURAP_DEFAULT_PO_TRANSMISSION_CODE = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "DEFAULT_PO_TRANSMISSION_CODE";
     public static final String PURAP_PREQ_REQUIRE_ATTACHMENT = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + PREQ_PREFIX + "REQUIRE_ATTACHMENT";
     public static final String PURAP_CM_REQUIRE_ATTACHMENT = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + CM_PREFIX + "REQUIRE_ATTACHMENT";
-    
+
+    public static final String PURAP_PDP_PREQ_CANCEL_NOTE = "PURAP.PDP.PREQ.CANCEL.NOTE";
+    public static final String PURAP_PDP_PREQ_RESET_NOTE = "PURAP.PDP.PREQ.RESET.NOTE";
+    public static final String PURAP_PDP_CM_CANCEL_NOTE = "PURAP.PDP.CM.CANCEL.NOTE";
+    public static final String PURAP_PDP_CM_RESET_NOTE = "PURAP.PDP.CM.RESET.NOTE";
+
     public static class Workgroups {
         public static final String SEARCH_SPECIAL_ACCESS = "WORKGROUP" + STANDARD_SEPARATOR + "SEARCH_SPECIAL_ACCESS";
 

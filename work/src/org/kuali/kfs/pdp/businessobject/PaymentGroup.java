@@ -91,7 +91,11 @@ public class PaymentGroup implements Serializable,PersistenceBrokerAware {
     super();
   }
 
-  /**
+  public String getPaymentStatusCode() {
+    return paymentStatusCode;
+  }
+
+/**
    * WIDTH MUST BE LESS THAN THE # OF SPACES
    * 
    * @param width

@@ -69,5 +69,7 @@ public class PdpConstants {
     public static class PaymentStatusCodes {
         public static String FORMAT = "FORM";
         public static String OPEN = "OPEN";
+        public static String CANCEL_DISBURSEMENT = "CDIS";
+        public static String CANCEL_PAYMENT = "CPAY";
     }
 }

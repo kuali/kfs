@@ -330,7 +330,25 @@
 			<ref bean="negativePaymentRequestApprovalLimitDao" />
 		</property>
 	</bean>
-	
+
+	<bean id="processPdpCancelPaidService" class="org.kuali.module.purap.service.impl.ProcessPdpCancelPaidServiceImpl">
+		<property name="paymentGroupService">
+			<ref bean="pdpPaymentGroupService"/>
+		</property>
+		<property name="paymentDetailService">
+			<ref bean="pdpPaymentDetailService"/>
+		</property>
+		<property name="paymentRequestService">
+			<ref bean="paymentRequestService"/>
+		</property>
+		<property name="creditMemoService">
+			<ref bean="creditMemoService"/>
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService"/>
+		</property>
+	</bean>
+
 	<bean id="requisitionDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.RequisitionDaoOjb" />
 	
 	<bean id="purchaseOrderDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.PurchaseOrderDaoOjb" />
@@ -355,6 +373,12 @@
             <ref bean="paymentRequestService" />
         </property>
     </bean>
+
+	<bean id="processPdPCancelsAndPaidStep" class="org.kuali.module.purap.batch.ProcessPdPCancelsAndPaidStep" parent="step">
+		<property name="processPdpCancelPaidService">
+			<ref bean="processPdpCancelPaidService"/>
+		</property>
+	</bean>
 
 	<bean id="purchasingPreDisbursementImmediatesExtractStep" class="org.kuali.module.purap.batch.ExtractPdpImmediatesStep" parent="step">
 		<property name="pdpExtractService">

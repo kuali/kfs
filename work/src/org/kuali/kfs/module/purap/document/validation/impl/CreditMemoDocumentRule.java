@@ -40,6 +40,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapRuleConstants;
+import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.bo.CreditMemoAccount;
 import org.kuali.module.purap.bo.CreditMemoItem;
@@ -66,7 +67,7 @@ import org.kuali.module.vendor.util.VendorUtils;
 /**
  * Business rules for the Credit Memo Document.
  */
-public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase implements ContinueAccountsPayableRule, CalculateAccountsPayableRule, PreCalculateAccountsPayableRule {
+public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase implements PreCalculateAccountsPayableRule {
 
     /**
      * Validation that occurs on Route of the document.
@@ -663,4 +664,11 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
         return true;
     }
 
+    public boolean processCancelAccountsPayableBusinessRules(AccountsPayableDocument document) {
+        CreditMemoDocument creditMemoDocument = (CreditMemoDocument)document;
+        //TODO: ckirschenman - we are doing this differently than PREQ but it does basically the same thing - merge
+        return SpringContext.getBean(CreditMemoService.class).canCancelCreditMemo(creditMemoDocument, GlobalVariables.getUserSession().getUniversalUser());
+    }
+
+    
 }

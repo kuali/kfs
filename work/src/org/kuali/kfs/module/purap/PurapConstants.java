@@ -327,10 +327,15 @@ public class PurapConstants extends JstlConstants {
     // ACCOUNTS PAYABLE
     public static final String AP_OVERRIDE_INVOICE_NOMATCH_QUESTION = "OverrideInvoiceNoMatch";
     
+    public static class AccountsPayableDocumentStrings {
+        public static final String CANCEL_NOTE_PREFIX = "Note entered while canceling document: ";
+    }
     // PAYMENT REQUEST
     public static final String PAYMENT_REQUEST_ACTION_NAME = "PaymentRequest";
     public static final String PAYMENT_REQUEST_DOCUMENT_DOC_TYPE = "PaymentRequestDocument";
-    
+    public static final int PREQ_PAY_DATE_DEFAULT_NUMBER_OF_DAYS = 10;
+    public static final String PREQ_PAY_DATE_DAYS = "days";
+    public static final String PREQ_PAY_DATE_DATE = "date";
     public static final int PREQ_PAY_DATE_CALCULATION_DAYS = 28;
     public static final int PREQ_PAY_DATE_DAYS_BEFORE_WARNING = 60;
 
@@ -570,7 +575,6 @@ public class PurapConstants extends JstlConstants {
         public static final String HOLD_CM_QUESTION = "HoldCM";
         public static final String HOLD_NOTE_PREFIX = "Note entered while placing Credit Memo on hold: ";
         public static final String CANCEL_CM_QUESTION = "CancelCM";
-        public static final String CANCEL_NOTE_PREFIX = "Note entered while requesting cancel on Credit Memo: ";
         public static final String REMOVE_HOLD_CM_QUESTION = "RemoveCM";
         public static final String REMOVE_HOLD_NOTE_PREFIX = "Note entered while removing hold on Credit Memo: ";
     }
@@ -579,6 +583,7 @@ public class PurapConstants extends JstlConstants {
         public static final String TYPE_PO = "PO";
         public static final String TYPE_PREQ = "PREQ";
         public static final String TYPE_VENDOR = "Vendor";
+        
     }
     
     private static final HashMap<String,Class> uncopyableFields() {

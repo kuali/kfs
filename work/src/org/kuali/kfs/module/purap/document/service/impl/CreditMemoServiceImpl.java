@@ -49,6 +49,7 @@ import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.dao.CreditMemoDao;
+import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -377,34 +378,31 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         return canCancel;
     }
 
+    public String updateStatusByNode(String currentNodeName, AccountsPayableDocument apDoc) {
+        return updateStatusByNode(currentNodeName, (CreditMemoDocument)apDoc);
+    }
     /**
-     * Sets credit memo status to canceled. If gl entries have been created (ap_approve or complete status), cancel entries are
-     * created.
-     * 
-     * @see org.kuali.module.purap.service.CreditMemoService#cancelCreditMemo(org.kuali.module.purap.document.CreditMemoDocument,
-     *      java.lang.String)
+     * This method updates the status of a cm document
+     * @param cmDocument
+     * @param currentNodeName
+     * @param cmDoc
      */
-    public void cancelCreditMemo(CreditMemoDocument cmDocument, String currentNodeName) {
-        // retrieve and save with canceled status, clear gl entries
-        CreditMemoDocument cmDoc = getCreditMemoDocumentById(cmDocument.getPurapDocumentIdentifier());
-        if (!PurapConstants.CreditMemoStatuses.STATUSES_NOT_REQUIRING_ENTRY_REVERSAL.contains(cmDoc.getStatusCode())) {
-            purapGeneralLedgerService.generateEntriesCancelCreditMemo(cmDocument);
-        }
-        
+    private String updateStatusByNode(String currentNodeName, CreditMemoDocument cmDoc) {
         // update the status on the document
         NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(currentNodeName);
+        String cancelledStatusCode = "";
         if (ObjectUtils.isNotNull(currentNode)) {
-            String cancelledStatusCode = currentNode.getDisapprovedStatusCode();
+            cancelledStatusCode = currentNode.getDisapprovedStatusCode();
             if (StringUtils.isNotBlank(cancelledStatusCode)) {
                 purapService.updateStatusAndStatusHistory(cmDoc, cancelledStatusCode);
                 saveDocumentWithoutValidation(cmDoc);
-                cmDocument.setStatusCode(cancelledStatusCode);
-                cmDocument.refreshReferenceObject(PurapPropertyConstants.STATUS);
-                return;
+                return cancelledStatusCode;
+            } else {
+             // TODO (KULPURAP-1579: ckirshenman/hjs) delyea - what to do in a cancel where no status to set exists?
+                LOG.warn("No status found to set for document being disapproved in node '" + currentNodeName + "'");
             }
         }
-        // TODO (KULPURAP-1579: ckirshenman/hjs) delyea - what to do in a cancel where no status to set exists?
-        LOG.warn("No status found to set for document being disapproved in node '" + currentNodeName + "'");
+        return cancelledStatusCode;
     }
 
     /**
@@ -503,5 +501,32 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      */
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
+    }
+
+    public boolean shouldPurchaseOrderBeReversed(AccountsPayableDocument apDoc) {
+        PurchaseOrderDocument po = apDoc.getPurchaseOrderDocument();
+        if(ObjectUtils.isNull(po)) {
+            return false;
+        }
+        //if past full entry and already closed return true
+        if(purapService.isFullDocumentEntryCompleted(apDoc) &&
+                StringUtils.equalsIgnoreCase(PurapConstants.PurchaseOrderStatuses.OPEN,po.getStatusCode())) {
+            return true;
+        }
+        return false;
+    }
+
+    public UniversalUser getUniversalUserForCancel(AccountsPayableDocument apDoc) {
+        // return null, since superuser is fine for CM
+        return null;
+    }
+
+    public void takePurchaseOrderCancelAction(AccountsPayableDocument apDoc) {
+        CreditMemoDocument cmDocument = (CreditMemoDocument)apDoc;
+        if(cmDocument.isReopenPurchaseOrderIndicator()) {
+            String docType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
+            SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(cmDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Payment Request "+apDoc.getPurapDocumentIdentifier()+ "cancel", new ArrayList());
+        }
+        
     }
 }

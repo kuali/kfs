@@ -53,10 +53,13 @@ import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
+import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
+import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
+import org.kuali.module.purap.service.impl.AccountsPayableServiceImpl;
 import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
@@ -938,8 +941,11 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                         newStatusCode = PaymentRequestStatuses.CANCELLED_IN_PROCESS;
                     }
                     if (StringUtils.isNotBlank(newStatusCode)) {
-                        SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, newStatusCode);
-                        SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(this);
+//                        
+//                        SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, newStatusCode);
+//                        
+//                        SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(this);
+                        SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, nodeName);
                         return;
                     }
                 }
@@ -1307,5 +1313,11 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     protected boolean isAttachmentRequired() {
         return StringUtils.equalsIgnoreCase("Y", SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_PREQ_REQUIRE_ATTACHMENT));
 	}
+
+
+    @Override
+    public AccountsPayableDocumentSpecificService getDocumentSpecificService() {
+        return (AccountsPayableDocumentSpecificService)SpringContext.getBean(PaymentRequestService.class);
+    }
 
 }

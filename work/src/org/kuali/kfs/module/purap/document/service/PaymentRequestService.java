@@ -29,7 +29,7 @@ import org.kuali.module.vendor.bo.PaymentTermType;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 
-public interface PaymentRequestService {
+public interface PaymentRequestService extends AccountsPayableDocumentSpecificService {
 
     public void saveDocumentWithoutValidation(PaymentRequestDocument paymentRequestDocument);
     

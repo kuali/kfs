@@ -38,6 +38,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -465,5 +466,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
     public boolean isExtracted() {
         return (ObjectUtils.isNotNull(getExtractedDate()));
-}
+    }
+    
+    public abstract AccountsPayableDocumentSpecificService getDocumentSpecificService();
 }

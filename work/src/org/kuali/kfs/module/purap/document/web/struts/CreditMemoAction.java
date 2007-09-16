@@ -22,25 +22,24 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceKeyConstants;
-import org.kuali.core.bo.Note;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.service.NoteService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapConstants.AccountsPayableDocumentStrings;
 import org.kuali.module.purap.PurapConstants.CMDocumentsStrings;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.rule.event.CalculateAccountsPayableEvent;
-import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
-import org.kuali.module.purap.service.CreditMemoCreateService;
 import org.kuali.module.purap.service.CreditMemoService;
+import org.kuali.module.purap.service.PurapService;
+import org.kuali.module.purap.service.PurapServiceTest;
+import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.PurQuestionCallback;
 import org.kuali.module.purap.web.struts.form.CreditMemoForm;
 
@@ -167,28 +166,25 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         return askQuestionWithInput(mapping, form, request, response, CMDocumentsStrings.REMOVE_HOLD_CM_QUESTION, operation, CMDocumentsStrings.REMOVE_HOLD_NOTE_PREFIX, PurapKeyConstants.CREDIT_MEMO_QUESTION_REMOVE_HOLD_DOCUMENT, callback);
     }
     
+
+    
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#cancel(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.module.purap.web.struts.action.AccountsPayableActionBase#cancelPOActionCallbackMethod()
      */
     @Override
-    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String operation = "Cancel ";
-        
-        PurQuestionCallback callback = new PurQuestionCallback() {
+    protected PurQuestionCallback cancelPOActionCallbackMethod() {
+        return new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 CreditMemoDocument cmDocument = (CreditMemoDocument)document;
                 DocumentService documentService = SpringContext.getBean(DocumentService.class);
-                // save the note
-                Note noteObj = documentService.createNoteFromDocument(cmDocument, noteText);
-                documentService.addNoteToDocument(cmDocument, noteObj);
-                SpringContext.getBean(NoteService.class).save(noteObj);
-                documentService.cancelDocument(cmDocument, noteText);            }
+                cmDocument.setClosePurchaseOrderIndicator(true);
+                //don't think we need this
+//                //TODO: ckirschenman - delyea is this the right event for this case?
+//                documentService.saveDocument(cmDocument, DocumentSystemSaveEvent.class);
+            }
         };
-        
-        return askQuestionWithInput(mapping, form, request, response, CMDocumentsStrings.CANCEL_CM_QUESTION, CMDocumentsStrings.CANCEL_NOTE_PREFIX, operation, PurapKeyConstants.CREDIT_MEMO_QUESTION_CANCEL_DOCUMENT, callback);
     }
-    
+
     @Override
     public String getActionName(){
         return PurapConstants.CREDIT_MEMO_ACTION_NAME;

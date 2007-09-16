@@ -28,7 +28,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * Defines methods that must be implemented by a CreditMemoService implementation.
  */
-public interface CreditMemoService {
+public interface CreditMemoService extends AccountsPayableDocumentSpecificService {
 
     /**
      * Gets the Credit memos that can be extracted
@@ -116,8 +116,6 @@ public interface CreditMemoService {
      * @return boolean - true if user can take document off hold, false if they cannot
      */
     public boolean canRemoveHoldCreditMemo(CreditMemoDocument cmDocument, UniversalUser user);
-
-    public void cancelCreditMemo(CreditMemoDocument cmDocument, String currentNodeName);
 
     /**
      * Determines if the document can be canceled and if the given user has permission to do so.

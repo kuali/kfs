@@ -15,7 +15,9 @@
  */
 package org.kuali.module.purap.web.struts.action;
 
+import java.util.Iterator;
 import java.util.Properties;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,27 +28,39 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceKeyConstants;
 import org.kuali.RicePropertyConstants;
+import org.kuali.core.UserSession;
 import org.kuali.core.bo.Note;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.NoteService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapConstants.AccountsPayableDocumentStrings;
+import org.kuali.module.purap.PurapConstants.CMDocumentsStrings;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.AccountsPayableDocumentBase;
+import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.rule.event.CancelAccountsPayableEvent;
+import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.util.PurQuestionCallback;
 import org.kuali.module.purap.web.struts.form.AccountsPayableFormBase;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.VendorAddress;
+import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -100,12 +114,12 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     public ActionForward calculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
         AccountsPayableDocument apDoc = (AccountsPayableDocument) apForm.getDocument();
-            
+
         customCalculate(apDoc);
 
-        //doesn't really matter what happens above we still reset the calculate flag
+        // doesn't really matter what happens above we still reset the calculate flag
         apForm.setCalculated(true);
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -133,7 +147,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         requiresCalculate = !apForm.isCalculated() && !SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(purapDocument);
         return requiresCalculate;
     }
-    
+
     /**
      * This method returns the current action name
      * 
@@ -142,6 +156,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     public String getActionName(){
         return null;
     }
+    
     
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -192,28 +207,77 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      * This method prompts for a reason to hold a payment request or credit memo.
      */
     protected ActionForward askQuestionWithInput(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String notePrefix, String operation, String messageKey, PurQuestionCallback callback) throws Exception {
+        TreeMap<String,PurQuestionCallback> questionsAndCallbacks = new TreeMap<String,PurQuestionCallback>();
+        questionsAndCallbacks.put(questionType, callback);
+        return askQuestionWithInput(mapping, form, request, response, questionType, notePrefix, operation, messageKey, questionsAndCallbacks, "");
+    }
+
+    /**
+     * This method...
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @param questionType
+     * @param notePrefix
+     * @param operation
+     * @param messageKey
+     * @param callback
+     * @return
+     * @throws Exception
+     */
+    private ActionForward askQuestionWithInput(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String notePrefix, String operation, String messageKey, TreeMap<String,PurQuestionCallback> questionsAndCallbacks, String messagePrefix) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         AccountsPayableDocumentBase apDocument = (AccountsPayableDocumentBase) kualiDocumentFormBase.getDocument();
 
-        Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        String question = (String)request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String reason = request.getParameter(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String noteText = "";
 
         KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
-
+        String firstQuestion = questionsAndCallbacks.firstKey();
+        PurQuestionCallback callback = null;
+        Iterator questions = questionsAndCallbacks.keySet().iterator();
+        String mapQuestion = null;
+        String key = null;
+        
         // Start in logic for confirming the close.
         if (question == null) {
-            String key = kualiConfiguration.getPropertyString(messageKey);
+            key = getQuestionProperty(messageKey, messagePrefix, kualiConfiguration, firstQuestion);
             String message = StringUtils.replace(key, "{0}", operation);
 
             // Ask question if not already asked.
-            return this.performQuestionWithInput(mapping, form, request, response, questionType, message, KFSConstants.CONFIRMATION_QUESTION, questionType, "");
+            return this.performQuestionWithInput(mapping, form, request, response, firstQuestion, message, KFSConstants.CONFIRMATION_QUESTION, questionType, "");
         }
         else {
+            
+            
+            
+     
+            //find callback for this question
+            while (questions.hasNext()) {
+                mapQuestion = (String) questions.next();
+                
+                if(StringUtils.equals(mapQuestion, question)) {
+                    callback = questionsAndCallbacks.get(mapQuestion);
+                    break;
+                }
+            }
+            key = getQuestionProperty(messageKey, messagePrefix, kualiConfiguration, mapQuestion);
+            
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
-            if (question.equals(questionType) && buttonClicked.equals(ConfirmationQuestion.NO)) {
+            if (question.equals(mapQuestion) && buttonClicked.equals(ConfirmationQuestion.NO)) {
                 // If 'No' is the button clicked, just reload the doc
-                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                
+                String nextQuestion = null;
+                // ask another question if more left
+                if(questions.hasNext()) {
+                    nextQuestion = (String) questions.next();
+                    key = getQuestionProperty(messageKey, messagePrefix, kualiConfiguration, nextQuestion);
+                    return this.performQuestionWithInput(mapping, form, request, response, nextQuestion, key, KFSConstants.CONFIRMATION_QUESTION, questionType, "");
+                } else {
+                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                }
             }
             // Have to check length on value entered.
             String introNoteMessage = notePrefix + KFSConstants.BLANK_SPACE;
@@ -231,15 +295,141 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                     // Prevent a NPE by setting the reason to a blank string.
                     reason = "";
                 }
-                
-                return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, questionType, kualiConfiguration.getPropertyString(messageKey), KFSConstants.CONFIRMATION_QUESTION, questionType, "", reason, PurapKeyConstants.ERROR_PAYMENT_REQUEST_REASON_REQUIRED, KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
+
+                return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, mapQuestion, key, KFSConstants.CONFIRMATION_QUESTION, questionType, "", reason, PurapKeyConstants.ERROR_PAYMENT_REQUEST_REASON_REQUIRED, KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
             }
         }
-        
-        // make callback
-        callback.doPostQuestion(apDocument, noteText);
 
+        // make callback
+        if(ObjectUtils.isNotNull(callback)) {
+            callback.doPostQuestion(apDocument, noteText);
+        }
+        String nextQuestion = null;
+        // ask another question if more left
+        if(questions.hasNext()) {
+            nextQuestion = (String) questions.next();
+            key = getQuestionProperty(messageKey, messagePrefix, kualiConfiguration, nextQuestion);
+            return this.performQuestionWithInput(mapping, form, request, response, nextQuestion, key, KFSConstants.CONFIRMATION_QUESTION, questionType, "");
+        }
+        
+        
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * This method...
+     * @param messageKey
+     * @param messagePrefix
+     * @param kualiConfiguration
+     * @param question
+     * @return
+     */
+    private String getQuestionProperty(String messageKey, String messagePrefix, KualiConfigurationService kualiConfiguration, String question) {
+        return kualiConfiguration.getPropertyString((StringUtils.isEmpty(messagePrefix))?messageKey:messagePrefix+question);
+    }
+    
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#cancel(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
+        AccountsPayableDocument document = (AccountsPayableDocument) apForm.getDocument();
+        
+        //validate cancel rules
+        boolean rulePassed = KNSServiceLocator.getKualiRuleService().applyRules(new CancelAccountsPayableEvent(document));
+        
+        if(!rulePassed) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+         
+        return  askCancelQuestion(mapping, form, request, response);
+    }
+
+    private ActionForward askCancelQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AccountsPayableFormBase apForm = (AccountsPayableFormBase)form;
+        String operation = "Cancel ";
+        PurQuestionCallback callback = cancelCallbackMethod();
+        //TODO: ckirschenman - use a different data structure, Ideally a map that keeps the order things are put into it
+        TreeMap<String,PurQuestionCallback> questionsAndCallbacks = new TreeMap<String,PurQuestionCallback>();
+        questionsAndCallbacks.put("cancelAP", callback);
+        AccountsPayableDocument apDoc = (AccountsPayableDocument)apForm.getDocument();
+        //check to see whether we should ask close/reopen question
+        if(apDoc.getDocumentSpecificService().shouldPurchaseOrderBeReversed(apDoc)) {
+            PurQuestionCallback callback2 = cancelPOActionCallbackMethod();
+            questionsAndCallbacks.put("actionOnPoCancel", callback2);    
+        }
+        return askQuestionWithInput(mapping, form, request, response, CMDocumentsStrings.CANCEL_CM_QUESTION, AccountsPayableDocumentStrings.CANCEL_NOTE_PREFIX, operation, PurapKeyConstants.CREDIT_MEMO_QUESTION_CANCEL_DOCUMENT, questionsAndCallbacks, PurapKeyConstants.AP_QUESTION_PREFIX);
+    }
+
+    /**
+     * This method returns a question callback for cancel po action
+     * @return
+     */
+    protected PurQuestionCallback cancelPOActionCallbackMethod() {
+        return new PurQuestionCallback() {
+            public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
+                //base impl do nothing
+                }
+        };
+    }
+
+    /**
+     * This method returns a question callback for cancel action
+     * @return purQuestionCallback
+     */
+    protected PurQuestionCallback cancelCallbackMethod() {
+        return new PurQuestionCallback() {
+            public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
+                DocumentService documentService = SpringContext.getBean(DocumentService.class);
+                AccountsPayableDocumentSpecificService apDocumentSpecificService = document.getDocumentSpecificService();
+                // one way or another we will have to fake the user session so get the current one
+                UserSession originalUserSession = GlobalVariables.getUserSession();
+                //try to get the user, if null assume we should cancel as super
+                UniversalUser user = apDocumentSpecificService.getUniversalUserForCancel(document);
+                if (ObjectUtils.isNotNull(user)) {
+    
+                    try {
+                        // need to run the disapprove as the user who requested the document be canceled
+                        GlobalVariables.setUserSession(new UserSession(user.getPersonUserIdentifier()));
+    
+                        documentService.disapproveDocument(document, noteText);
+                    }
+                    finally {
+                        GlobalVariables.setUserSession(originalUserSession);
+                    }
+    
+                } else if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(document)) {
+                    //for now this works but if place of full entry changes it may need to be based on something else since may need disaprove
+                    try {
+                        // need to run a super user cancel since person canceling may not have an action requested on the document
+                        GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
+                        documentService.superUserDisapproveDocument(documentService.getByDocumentHeaderId(document.getDocumentNumber()), "Document Cancelled by user " + originalUserSession.getUniversalUser().getPersonName() + " (" + originalUserSession.getUniversalUser().getPersonUserIdentifier() + ")");
+                    }
+                    finally {
+                        GlobalVariables.setUserSession(originalUserSession);
+                    }
+                }
+                else {
+                    
+                    try {//TODO: ckirschenman - delyea do we really need this superCancel?
+                        // need to run a super user cancel since person canceling may not have an action requested on the document
+                        GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
+                        documentService.superUserCancelDocument(documentService.getByDocumentHeaderId(document.getDocumentNumber()), "Document Cancelled by user " + originalUserSession.getUniversalUser().getPersonName() + " (" + originalUserSession.getUniversalUser().getPersonUserIdentifier() + ")");
+                    }
+                    finally {
+                        GlobalVariables.setUserSession(originalUserSession);
+                    }
+                    
+                }
+                
+                Note noteObj = documentService.createNoteFromDocument(document, noteText);
+                documentService.addNoteToDocument(document, noteObj);
+                SpringContext.getBean(NoteService.class).save(noteObj);
+    
+            }
+        };
+    }
 }

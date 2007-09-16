@@ -48,16 +48,20 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
+import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.NegativePaymentRequestApprovalLimit;
 import org.kuali.module.purap.bo.PaymentRequestAccount;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.dao.PaymentRequestDao;
+import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
+import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.NegativePaymentRequestApprovalLimitService;
 import org.kuali.module.purap.service.PaymentRequestService;
@@ -66,6 +70,8 @@ import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.module.purap.util.PurApItemUtils;
+import org.kuali.module.purap.web.struts.action.PaymentRequestAction;
+import org.kuali.module.purap.web.struts.action.PurchaseOrderAction;
 import org.kuali.module.vendor.bo.PaymentTermType;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -462,61 +468,68 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * one that is the farthest out.  We always calculate the discount date, if there is one.
      */
     public Date calculatePayDate(Date invoiceDate,PaymentTermType terms) {
-      LOG.debug("calculatePayDate() started");
-      //TODO (KULPURAP-1575: ctk) this method is mainly a direct copy from epic.  It could be made a lot better by using the DateUtils and checking if those constants should be app params
-      Calendar invoiceDateCalendar = Calendar.getInstance();
-      invoiceDateCalendar.setTime(invoiceDate);
-      invoiceDateCalendar.set(Calendar.HOUR, 12);
-      invoiceDateCalendar.set(Calendar.MINUTE, 0);
-      invoiceDateCalendar.set(Calendar.SECOND, 0);
-      invoiceDateCalendar.set(Calendar.MILLISECOND, 0);
-      invoiceDateCalendar.set(Calendar.AM_PM, Calendar.AM);
+        LOG.debug("calculatePayDate() started");
+        //calculate the invoice + processed calendar
+        Calendar invoicedDateCalendar = dateTimeService.getCalendar(invoiceDate);
+        Calendar processedDateCalendar = dateTimeService.getCurrentCalendar();
+        //add default number of days to processed
+        processedDateCalendar.add(Calendar.DAY_OF_MONTH,PurapConstants.PREQ_PAY_DATE_DEFAULT_NUMBER_OF_DAYS);
 
-      // 10 days from now
-      Calendar processDateCalendar = Calendar.getInstance();
-      processDateCalendar.setTime(new java.util.Date());
-      processDateCalendar.add(Calendar.DAY_OF_MONTH,10);
-      processDateCalendar.set(Calendar.HOUR, 12);
-      processDateCalendar.set(Calendar.MINUTE, 0);
-      processDateCalendar.set(Calendar.SECOND, 0);
-      processDateCalendar.set(Calendar.MILLISECOND, 0);
-      processDateCalendar.set(Calendar.AM_PM, Calendar.AM);
-
-      // Handle this weird one.  Due on the 10th or the 25th
-      if (ObjectUtils.isNull(terms) || StringUtils.isEmpty(terms.getVendorPaymentTermsCode())) {
-        // Payment terms are empty
-        invoiceDateCalendar.add(Calendar.DATE,PurapConstants.PREQ_PAY_DATE_CALCULATION_DAYS);
-        
-      } else {
-        // Payment terms are not empty
-        if ( PurapConstants.PMT_TERMS_TYP_NO_DISCOUNT_CD.equals(terms.getVendorPaymentTermsCode()) ) {
-          int dayOfMonth = invoiceDateCalendar.get(Calendar.DAY_OF_MONTH);
-          if ( dayOfMonth < 10 ) {
-            invoiceDateCalendar.set(Calendar.DAY_OF_MONTH,10);
-          } else {
-            invoiceDateCalendar.set(Calendar.DAY_OF_MONTH,25);
-          }
-        } else {
-          if ( (terms.getVendorDiscountDueNumber() != null) && (terms.getVendorDiscountDueNumber().intValue() > 0) ) {
-            if ( "date".equals(terms.getVendorDiscountDueTypeDescription()) ) {
-              invoiceDateCalendar.set(Calendar.DAY_OF_MONTH,terms.getVendorDiscountDueNumber().intValue());
-            } else {
-              invoiceDateCalendar.add(Calendar.DAY_OF_MONTH,terms.getVendorDiscountDueNumber().intValue());
-            }
-          } else {
-            if ( "date".endsWith(terms.getVendorNetDueTypeDescription()) ) {
-              invoiceDateCalendar.set(Calendar.DAY_OF_MONTH,terms.getVendorNetDueNumber().intValue());
-            } else {
-              invoiceDateCalendar.add(Calendar.DAY_OF_MONTH,terms.getVendorNetDueNumber().intValue());
-            }
-          }
+        if(ObjectUtils.isNull(terms)) {
+            return returnLaterDate(invoicedDateCalendar, processedDateCalendar);
         }
-      }
-      if ( processDateCalendar.after(invoiceDateCalendar) ) {
-        return new Date(processDateCalendar.getTime().getTime());
-      } else {
-        return new Date(invoiceDateCalendar.getTime().getTime());
-      }
+        
+        Integer discountDueNumber = terms.getVendorDiscountDueNumber();
+        Integer netDueNumber = terms.getVendorNetDueNumber();
+        if(ObjectUtils.isNotNull(discountDueNumber)) {
+            String discountDueTypeDescription = terms.getVendorDiscountDueTypeDescription();
+            paymentTermsDateCalculation(discountDueTypeDescription, invoicedDateCalendar, discountDueNumber);
+        }
+        else if(ObjectUtils.isNotNull(netDueNumber)) {
+            String netDueTypeDescription = terms.getVendorNetDueTypeDescription();
+            paymentTermsDateCalculation(netDueTypeDescription, invoicedDateCalendar, netDueNumber);
+        }
+        else {
+            throw new RuntimeException("Neither discount or net number were specified for this payment terms type");
+        }
+
+        //return the later date
+        return returnLaterDate(invoicedDateCalendar, processedDateCalendar);
+    }
+
+    /**
+     * This method...
+     * @param invoicedDateCalendar
+     * @param processedDateCalendar
+     * @return
+     */
+    private Date returnLaterDate(Calendar invoicedDateCalendar, Calendar processedDateCalendar) {
+        if(invoicedDateCalendar.after(processedDateCalendar)) {
+            return new Date(invoicedDateCalendar.getTimeInMillis());
+        } else {
+            return new Date(processedDateCalendar.getTimeInMillis());
+        }
+    }
+
+    /**
+     * This method...
+     * @param terms
+     * @param invoicedDateCalendar
+     * @param discountDueNumber
+     */
+    private void paymentTermsDateCalculation(String dueTypeDescription, Calendar invoicedDateCalendar, Integer dueNumber) {
+        
+          if(StringUtils.equals(dueTypeDescription,PurapConstants.PREQ_PAY_DATE_DATE)) {
+            //date specified set to date in next month
+              invoicedDateCalendar.add(Calendar.MONTH, 1);
+              invoicedDateCalendar.set(Calendar.DAY_OF_MONTH,dueNumber.intValue());
+          } else if(StringUtils.equals(PurapConstants.PREQ_PAY_DATE_DAYS, dueTypeDescription)) {
+            //days specified go forward that number
+              invoicedDateCalendar.add(Calendar.DAY_OF_MONTH,dueNumber.intValue());   
+          } else {
+              //improper string
+              throw new RuntimeException("missing payment terms description or not properly enterred on payment term maintenance doc");
+          }
     }
 
 
@@ -1018,5 +1031,65 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     
     public void deleteSummaryAccounts(Integer purapDocumentIdentifier) {
         paymentRequestDao.deleteSummaryAccounts(purapDocumentIdentifier);
+    }
+
+    public boolean shouldPurchaseOrderBeReversed(AccountsPayableDocument apDoc) {
+       PurchaseOrderDocument po = apDoc.getPurchaseOrderDocument();
+       if(ObjectUtils.isNull(po)) {
+           throw new RuntimeException("po should never be null on PREQ");
+       }
+       //if past full entry and already closed return true
+       if(purapService.isFullDocumentEntryCompleted(apDoc) &&
+               StringUtils.equalsIgnoreCase(PurapConstants.PurchaseOrderStatuses.CLOSED,po.getStatusCode())) {
+           return true;
+       }
+       return false;
+    }
+    
+    public UniversalUser getUniversalUserForCancel(AccountsPayableDocument apDoc) { 
+        PaymentRequestDocument preqDoc = (PaymentRequestDocument)apDoc;
+        UniversalUser user = null;
+        if (preqDoc.isPaymentRequestedCancelIndicator()) {            
+            user = preqDoc.getLastActionPerformedByUser();
+        }
+        return user;
+    }
+
+    public void takePurchaseOrderCancelAction(AccountsPayableDocument apDoc) {
+        PaymentRequestDocument preqDocument = (PaymentRequestDocument)apDoc;
+        if(preqDocument.isReopenPurchaseOrderIndicator()) {
+            String docType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT;
+            SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(preqDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Credit Memo "+apDoc.getPurapDocumentIdentifier()+ "cancel", new ArrayList());
+        }
+    }
+    /**
+     * delegate method
+     * @see org.kuali.module.purap.service.AccountsPayableDocumentSpecificService#updateStatusByNode(java.lang.String, org.kuali.module.purap.document.AccountsPayableDocument)
+     */
+    public String updateStatusByNode(String currentNodeName, AccountsPayableDocument apDoc) {
+        return updateStatusByNode(currentNodeName, (PaymentRequestDocument)apDoc);
+    }
+    /**
+     * This method updates the status of a cm document
+     * @param cmDocument
+     * @param currentNodeName
+     * @param cmDoc
+     */
+    private String updateStatusByNode(String currentNodeName, PaymentRequestDocument preqDoc) {
+        // update the status on the document
+        NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(currentNodeName);
+        String cancelledStatusCode = "";
+        if (ObjectUtils.isNotNull(currentNode)) {
+            cancelledStatusCode = currentNode.getDisapprovedStatusCode();
+            if (StringUtils.isNotBlank(cancelledStatusCode)) {
+                purapService.updateStatusAndStatusHistory(preqDoc, cancelledStatusCode);
+                saveDocumentWithoutValidation(preqDoc);
+                return cancelledStatusCode;
+            } else {
+             // TODO (KULPURAP-1579: ckirshenman/hjs) delyea - what to do in a cancel where no status to set exists?
+                LOG.warn("No status found to set for document being disapproved in node '" + currentNodeName + "'");
+            }
+        }
+        return cancelledStatusCode;
     }
 }

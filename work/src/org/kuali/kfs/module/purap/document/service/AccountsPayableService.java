@@ -58,4 +58,5 @@ public interface AccountsPayableService {
      */
     public void processExpiredOrClosedAccount(PurApAccountingLineBase acctLineBase, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList);
     
+    public void cancelAccountsPayableDocument(AccountsPayableDocument apDocument, String currentNodeName);
 }

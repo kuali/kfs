@@ -15,13 +15,8 @@
  */
 package org.kuali.module.purap.rules;
 
-import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
-import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
-
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -32,7 +27,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.RicePropertyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.KualiParameterRule;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -52,20 +46,19 @@ import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.rule.CalculateAccountsPayableRule;
-import org.kuali.module.purap.rule.ContinueAccountsPayableRule;
+import org.kuali.module.purap.document.authorization.PaymentRequestDocumentActionAuthorizer;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 
-public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase implements ContinueAccountsPayableRule, CalculateAccountsPayableRule {
+public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase {
 
     private static KualiDecimal zero = new KualiDecimal(0);
     private static BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
@@ -306,12 +299,14 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     
     boolean validatePayDateNotPast(PaymentRequestDocument document) {
         boolean valid = true;
-        if (SpringContext.getBean(PurapService.class).isDateInPast(document.getPaymentRequestPayDate())) {
+        java.sql.Date paymentRequestPayDate = document.getPaymentRequestPayDate();
+        if (ObjectUtils.isNotNull(paymentRequestPayDate) &&
+                SpringContext.getBean(PurapService.class).isDateInPast(paymentRequestPayDate)) {
             valid &= false;
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, PurapKeyConstants.ERROR_INVALID_PAY_DATE);
         }
         return valid;
-    } 
+    }
     
     /**
      * 
@@ -382,8 +377,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
 
     private boolean validateEachItem(PaymentRequestDocument paymentRequestDocument, PaymentRequestItem item) {
         boolean valid = true;
-        String identifierString = item.getItemIdentifierString();
-        valid &= validateItem(paymentRequestDocument, item, identifierString);
+            String identifierString = item.getItemIdentifierString();
+            valid &= validateItem(paymentRequestDocument, item, identifierString);
         return valid;
     }
     
@@ -391,9 +386,9 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         boolean valid = true;
         //only run item validations if before full entry
         if(!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument)) {
-        if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) { 
-            valid &= validateItemTypeItems(item, identifierString); 
-        } 
+            if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) { 
+                valid &= validateItemTypeItems(item, identifierString); 
+            } 
             valid &= validateItemWithoutAccounts(item, identifierString);
         }
         //always run account validations
@@ -640,7 +635,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(preq, 
                 accountingLine, explicitEntry, preq.getPurchaseOrderIdentifier(), preq.getDebitCreditCodeForGLEntries(), 
                 PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT, preq.isGenerateEncumbranceEntries());
-        
+
         //PREQs do not wait for document final approval to post GL entries to the real table; here we are forcing them to be APPROVED
         explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
 
@@ -653,5 +648,14 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
 }
         return super.verifyAccountPercent(accountingDocument, purAccounts, itemLineNumber);
     }
-    
+    public boolean processCancelAccountsPayableBusinessRules(AccountsPayableDocument document) {
+        boolean valid = true;
+        PaymentRequestDocument preq = (PaymentRequestDocument)document;
+        //no errors for now since we are not showing the button if they can't cancel, if that changes we need errors
+        //also this is different than CreditMemo even though the rules are almost identical we should merge and have one consistent way to do this
+        PaymentRequestDocumentActionAuthorizer preqAuth = new PaymentRequestDocumentActionAuthorizer(preq,GlobalVariables.getUserSession().getUniversalUser());
+        valid = valid &= preqAuth.canCancel();
+        
+        return valid;
+    }
 }

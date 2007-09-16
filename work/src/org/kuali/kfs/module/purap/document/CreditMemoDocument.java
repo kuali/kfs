@@ -44,6 +44,8 @@ import org.kuali.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDeta
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.CreditMemoStatusHistory;
 import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
+import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
+import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.CreditMemoCreateService;
 import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PaymentRequestService;
@@ -205,8 +207,9 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
                         newStatusCode = CreditMemoStatuses.CANCELLED_IN_PROCESS;
                     }
                     if (StringUtils.isNotBlank(newStatusCode)) {
-                        SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, newStatusCode);
-                        SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(this);
+//                        SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, newStatusCode);
+//                        SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(this);
+                        SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, nodeName);
                         return;
                     }
                 }
@@ -216,7 +219,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
             // DOCUMENT CANCELED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
                 String currentNodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
-                SpringContext.getBean(CreditMemoService.class).cancelCreditMemo(this, currentNodeName); 
+                SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, currentNodeName); 
             }
         }
         catch (WorkflowException e) {
@@ -603,6 +606,11 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     @Override
     protected boolean isAttachmentRequired() {
         return StringUtils.equalsIgnoreCase("Y", SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_CM_REQUIRE_ATTACHMENT));
+    }
+
+    @Override
+    public AccountsPayableDocumentSpecificService getDocumentSpecificService() {
+        return SpringContext.getBean(CreditMemoService.class);
     }
 
 }

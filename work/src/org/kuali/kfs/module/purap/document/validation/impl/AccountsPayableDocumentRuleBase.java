@@ -27,8 +27,11 @@ import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.rule.CalculateAccountsPayableRule;
+import org.kuali.module.purap.rule.CancelAccountsPayableRule;
+import org.kuali.module.purap.rule.ContinueAccountsPayableRule;
 
-public class AccountsPayableDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase {
+public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase  implements ContinueAccountsPayableRule, CalculateAccountsPayableRule, CancelAccountsPayableRule {
     
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
@@ -82,5 +85,10 @@ public class AccountsPayableDocumentRuleBase extends PurchasingAccountsPayableDo
             GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, ItemFields.INVOICE_EXTENDED_PRICE, identifierString);
         }
         return valid;
-    }    
+    }
+
+    /**
+     * @see org.kuali.module.purap.rule.CancelAccountsPayableRule#processCancelAccountsPayableBusinessRules(org.kuali.module.purap.document.AccountsPayableDocument)
+     */
+    public abstract boolean processCancelAccountsPayableBusinessRules(AccountsPayableDocument document);
 }

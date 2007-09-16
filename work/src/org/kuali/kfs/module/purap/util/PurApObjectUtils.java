@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.ojb.broker.util.collections.ManageableArrayList;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
@@ -113,7 +114,7 @@ public class PurApObjectUtils {
     private static void copyCollection(String fieldName, BusinessObject targetObject, Object propertyValue, Map supplementalUncopyable) throws FormatException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Collection sourceList = (Collection) propertyValue;
         Collection listToSet = null;
-        //we probably should be using reflection to check for weird list types but this works for now
+        //TypedArrayList requires argument so handle differently than below
         if(sourceList instanceof TypedArrayList) {
             TypedArrayList typedArray = (TypedArrayList)sourceList;
 			LOG.debug("collection will be typed using class '" + typedArray.getListObjectType() + "'");            
@@ -121,11 +122,17 @@ public class PurApObjectUtils {
                 listToSet = new TypedArrayList(typedArray.getListObjectType());
             }
             catch (Exception e) {
-                LOG.info("couldn't set class '"+propertyValue.getClass()+"' on collection... using TypedArrayList ",e);
+                LOG.info("couldn't set class '"+propertyValue.getClass()+"' on collection... using TypedArrayList using ",e);
+                listToSet = new ArrayList();
             }
         } else {
-            LOG.debug("original not typed collection will be non typed ArrayList");
-            listToSet = new ArrayList();
+            try {
+                listToSet = sourceList.getClass().newInstance();
+            }
+            catch (Exception e) {
+                LOG.info("couldn't set class '"+propertyValue.getClass()+"' on collection... using "+sourceList.getClass(),e);
+                listToSet = new ArrayList();
+            }
         }
 
 

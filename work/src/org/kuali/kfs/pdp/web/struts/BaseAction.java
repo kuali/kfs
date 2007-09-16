@@ -1,5 +1,23 @@
 /*
- * Created on Feb 20, 2004
+ * Copyright (c) 2004, 2005 The National Association of College and University Business Officers,
+ * Cornell University, Trustees of Indiana University, Michigan State University Board of Trustees,
+ * Trustees of San Joaquin Delta College, University of Hawai'i, The Arizona Board of Regents on
+ * behalf of the University of Arizona, and the r*smart group.
+ * 
+ * Licensed under the Educational Community License Version 1.0 (the "License"); By obtaining,
+ * using and/or copying this Original Work, you agree that you have read, understand, and will
+ * comply with the terms and conditions of the Educational Community License.
+ * 
+ * You may obtain a copy of the License at:
+ * 
+ * http://kualiproject.org/license.html
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+ * AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES
+ * OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
 package org.kuali.module.pdp.action;
@@ -18,8 +36,8 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.RiceConstants;
+import org.kuali.core.UserSession;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.context.SpringContext;
@@ -31,13 +49,13 @@ import org.kuali.module.pdp.service.SecurityRecord;
 import edu.iu.uis.eden.web.WebAuthenticationService;
 
 /**
- * @author jsissom
- *
- * This Action will do most request processing for this appliation.
+ * This Action will do most request processing for the PDP part of appliation.
  * Your action should override the proper methods to do it's work.
  * 
  * This idea and most of the concepts were stolen from the Scafold base action
  * mentioned in Struts in Action.  The bugs are probably entirely mine.
+ * 
+ * This should be refactored out of the application to make full use of the Kuali Request Processor.
  */
 public abstract class BaseAction extends Action {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BaseAction.class);
@@ -106,10 +124,12 @@ public abstract class BaseAction extends Action {
 
         // Do authorization (check again if backdoorId is set)
         SecurityRecord securityRecord = (SecurityRecord)session.getAttribute("SecurityRecord");
-        if ( (securityRecord == null) || (request.getParameter("backdoorId") != null) ) {
+        String srUser = (String)session.getAttribute("SecurityRecordUser");
+        if ( (securityRecord == null) || (srUser == null) || ! srUser.equals(getUser(request).getNetworkId()) ) {
             LOG.debug("execute() Security Check");
             securityRecord = securityService.getSecurityRecord(getUser(request));
             session.setAttribute("SecurityRecord",securityRecord);
+            session.setAttribute("SecurityRecordUser", getUser(request).getNetworkId());
         }
 
         if ( ! isAuthorized(mapping,form,request,response) ) {
@@ -187,87 +207,16 @@ public abstract class BaseAction extends Action {
 
         HttpSession session = request.getSession();
 
-        String actualUserId = webAuthenticationService.getNetworkId(request);
-        PdpUser user = (PdpUser)session.getAttribute("user");
+        UserSession userSession = (UserSession)request.getSession().getAttribute(RiceConstants.USER_SESSION_KEY);
 
-        // Is back door needed and enabled?
-        String backdoorId = request.getParameter("backdoorId");
-    
-        if ( (backdoorId != null) && isBackDoorAllowed() ) {
-            if ( ! backdoorId.equals(actualUserId)) {
-                LOG.debug("doAuthentication() Backdoor requested");
-                try {
-                    UniversalUser u = userService.getUniversalUserByAuthenticationUserId(backdoorId);
-                    if ( u != null ) {
-                        user = new PdpUser(u);
-                    }
-                } catch (UserNotFoundException e) {
-                    LOG.error("doAuthentication() Sponsored user with no empl ID " + backdoorId);
-                    return mapping.findForward("pdp_authentication_error");
-                }
-                if ( user != null ) {
-                    LOG.debug("doAuthentication() backdoor active");
-                    session.setAttribute("backdoor","Y");
-                    actualUserId = backdoorId;
-                    session.setAttribute("user",user);
-                } else {
-                    LOG.error("doAuthentication() Unable to find backdoor user " + backdoorId);
-                    return mapping.findForward("pdp_authentication_error");
-                }
-            } else {
-                session.removeAttribute("backdoor");
-                user = null;
-            }
-        }
+        // This is needed for PDP. At some point, PDP should be refactored to use UserSession
+        session.setAttribute("user",new PdpUser(userSession.getUniversalUser()));
 
-        if ( user == null ) {
-            LOG.debug("doAuthentication() Regular login");
+        MDC.put("user",userSession.getNetworkId());
 
-            try {
-                UniversalUser u = userService.getUniversalUserByAuthenticationUserId(actualUserId);
-                if ( u != null ) {
-                    user = new PdpUser(u);
-                }
-            } catch (UserNotFoundException e) {
-                LOG.error("doAuthentication() GDS user with no empl ID " + actualUserId, e);
-                return mapping.findForward("pdp_authentication_error");
-            }
-            if ( user == null ) {
-                LOG.error("doAuthentication() Unable to find user " + actualUserId);
-                return mapping.findForward("pdp_authentication_error");
-            } else {
-                session.setAttribute("user",user);      
-            }
-        }
-
-        MDC.put("user",user.getUniversalUser().getPersonUserIdentifier());
         return null;
     }
 
-    /**
-     * Check to see if this request is operating under a backdoor account.
-     * @param request
-     * @return
-     */
-    protected boolean isBackDoorEnabled(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Object bd = session.getAttribute("backdoor");
-        return ( bd != null );
-    }
-
-    /**
-     * This checks the database to see if it is ok to have a back door.
-     * @return
-     */
-    private boolean isBackDoorAllowed() {
-        Boolean b = kualiConfigurationService.getPropertyAsBoolean("BACKDOOR");
-        if ( b == null ) {
-            return false;
-        } else {
-            return b.booleanValue();
-        }
-    }
- 
     /**
      * This group authorization.  Override to change the authorization
      * type.

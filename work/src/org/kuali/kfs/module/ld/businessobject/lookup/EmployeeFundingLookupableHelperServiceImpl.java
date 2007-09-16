@@ -37,10 +37,10 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
+import org.kuali.module.labor.rules.DebitCreditUtil;
 import org.kuali.module.labor.service.LaborInquiryOptionsService;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
-import org.kuali.module.labor.util.DebitCreditUtil;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.web.inquirable.EmployeeFundingInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,7 +49,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * The EmployeeFundingLookupableHelperServiceImpl class is the front-end for all Employee Funding balance inquiry processing.
  */
-
 @Transactional
 public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(EmployeeFundingLookupableHelperServiceImpl.class);

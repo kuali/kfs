@@ -34,16 +34,19 @@ import org.kuali.module.labor.bo.BenefitsCalculation;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
+import org.kuali.module.labor.rules.DebitCreditUtil;
 import org.kuali.module.labor.service.LaborBenefitsCalculationService;
 
 /**
- * This class provides a set of facilities that can conver the accounting document and its accounting lines into labor pending entries
+ * This class provides a set of facilities that can conver the accounting document and its accounting lines into labor pending
+ * entries
  */
 public class LaborPendingEntryConverter {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborPendingEntryConverter.class);
 
     /**
-     * convert the given document and accouting line into the expense pending entries
+     * convert the given document and accounting line into the expense pending entries
+     * 
      * @param document the given accounting document
      * @param accountingLine the given accounting line
      * @param sequenceHelper the given squence helper
@@ -54,11 +57,13 @@ public class LaborPendingEntryConverter {
 
         pendingEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
         pendingEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
+        
         return pendingEntry;
     }
 
     /**
-     * convert the given document and accouting line into the expense pending entries for effort reporting
+     * convert the given document and accounting line into the expense pending entries for effort reporting
+     * 
      * @param document the given accounting document
      * @param accountingLine the given accounting line
      * @param sequenceHelper the given squence helper
@@ -70,11 +75,13 @@ public class LaborPendingEntryConverter {
         pendingEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_A21);
         String debitCreditCode = DebitCreditUtil.getReverseDebitCreditCode(pendingEntry.getTransactionDebitCreditCode());
         pendingEntry.setTransactionDebitCreditCode(debitCreditCode);
+        
         return pendingEntry;
     }
 
     /**
-     * convert the given document and accouting line into the expense reversal pending entries for effort reporting
+     * convert the given document and accounting line into the expense reversal pending entries for effort reporting
+     * 
      * @param document the given accounting document
      * @param accountingLine the given accounting line
      * @param sequenceHelper the given squence helper
@@ -88,31 +95,47 @@ public class LaborPendingEntryConverter {
 
         String debitCreditCode = DebitCreditUtil.getReverseDebitCreditCode(pendingEntry.getTransactionDebitCreditCode());
         pendingEntry.setTransactionDebitCreditCode(debitCreditCode);
+        
         return pendingEntry;
     }
 
     /**
-     * convert the given document and accouting line into the benefit pending entries
+     * convert the given document and accounting line into the benefit pending entries
+     * 
      * @param document the given accounting document
      * @param accountingLine the given accounting line
      * @param sequenceHelper the given squence helper
      * @param benefitAmount the given benefit amount
      * @param fringeBenefitObjectCode the given finge benefit object code
-     * @return a set of benefit pending entries 
+     * @return a set of benefit pending entries
      */
     public static LaborLedgerPendingEntry getBenefitPendingEntry(LaborLedgerPostingDocument document, ExpenseTransferAccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {
         LaborLedgerPendingEntry pendingEntry = getDefaultPendingEntry(document, accountingLine);
+        
+        // if account doesn't accept fringe charges, use reports to account
+        if (!accountingLine.getAccount().isAccountsFringesBnftIndicator()) {
+            pendingEntry.setChartOfAccountsCode(accountingLine.getAccount().getReportsToChartOfAccountsCode());
+            pendingEntry.setAccountNumber(accountingLine.getAccount().getReportsToAccountNumber());
+        }
 
         pendingEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+        pendingEntry.setFinancialObjectCode(pickValue(fringeBenefitObjectCode, KFSConstants.getDashFinancialObjectCode()));
+        
+        ObjectCode fringeObjectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(accountingLine.getPayrollEndDateFiscalYear(), accountingLine.getChartOfAccountsCode(), fringeBenefitObjectCode);
+        pendingEntry.setFinancialObjectTypeCode(fringeObjectCode.getFinancialObjectTypeCode());
+        
         pendingEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         pendingEntry.setTransactionLedgerEntryAmount(benefitAmount.abs());
         pendingEntry.setPositionNumber(KFSConstants.getDashPositionNumber());
+        pendingEntry.setEmplid(KFSConstants.getDashEmplId());
         pendingEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
+        
         return pendingEntry;
     }
 
     /**
-     * convert the given document and accouting line into the benefit pending entry for effort reporting
+     * convert the given document and accounting line into the benefit pending entry for effort reporting
+     * 
      * @param document the given accounting document
      * @param accountingLine the given accounting line
      * @param sequenceHelper the given squence helper
@@ -126,11 +149,13 @@ public class LaborPendingEntryConverter {
         pendingEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_A21);
         String debitCreditCode = DebitCreditUtil.getReverseDebitCreditCode(pendingEntry.getTransactionDebitCreditCode());
         pendingEntry.setTransactionDebitCreditCode(debitCreditCode);
+        
         return pendingEntry;
     }
 
     /**
-     * convert the given document and accouting line into the benefit reversal pending entries for effort reporting
+     * convert the given document and accounting line into the benefit reversal pending entries for effort reporting
+     * 
      * @param document the given accounting document
      * @param accountingLine the given accounting line
      * @param sequenceHelper the given squence helper
@@ -146,11 +171,13 @@ public class LaborPendingEntryConverter {
 
         String debitCreditCode = DebitCreditUtil.getReverseDebitCreditCode(pendingEntry.getTransactionDebitCreditCode());
         pendingEntry.setTransactionDebitCreditCode(debitCreditCode);
+        
         return pendingEntry;
     }
 
     /**
      * convert the given document into benefit clearing pending entries with the given account, chart, amount and benefit type
+     * 
      * @param document the given accounting document
      * @param sequenceHelper the given squence helper
      * @param accountNumber the given account number that the benefit clearing amount can be charged
@@ -184,7 +211,7 @@ public class LaborPendingEntryConverter {
 
         pendingEntry.setProjectCode(KFSConstants.getDashProjectCode());
         pendingEntry.setPositionNumber(KFSConstants.getDashPositionNumber());
-        pendingEntry.setEmplid(KFSConstants.getDashEmplIdLowerCase());
+        pendingEntry.setEmplid(KFSConstants.getDashEmplId());
         pendingEntry.setTransactionTotalHours(null);
 
         return pendingEntry;
@@ -219,7 +246,7 @@ public class LaborPendingEntryConverter {
         pendingEntry.setFinancialObjectTypeCode(objectTypeCode);
 
         KualiDecimal transactionAmount = accountingLine.getAmount();
-        String debitCreditCode = DebitCreditUtil.getDebitCreditCode(transactionAmount, accountingLine.getDebitCreditCode(), false);
+        String debitCreditCode = DebitCreditUtil.getDebitCreditCodeForExpenseDocument(accountingLine);
         pendingEntry.setTransactionDebitCreditCode(debitCreditCode);
         pendingEntry.setTransactionLedgerEntryAmount(transactionAmount.abs());
 
@@ -302,6 +329,7 @@ public class LaborPendingEntryConverter {
     private static Integer getNextSequenceNumber(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         Integer nextSequenceNumber = sequenceHelper.getSequenceCounter();
         sequenceHelper.increment();
+        
         return nextSequenceNumber;
     }
 }

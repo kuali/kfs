@@ -18,6 +18,7 @@ package org.kuali.module.labor.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -32,6 +33,7 @@ import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.BenefitsCalculation;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
+import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.bo.PositionObjectBenefit;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
@@ -56,7 +58,8 @@ public class LaborPendingEntryGenerator {
         LaborLedgerPendingEntry expensePendingEntry = LaborPendingEntryConverter.getExpensePendingEntry(document, accountingLine, sequenceHelper);
         expensePendingEntries.add(expensePendingEntry);
 
-        // if the AL's pay FY and period do not match the University fiscal year and period
+        // if the AL's pay FY and period do not match the University fiscal year and period need to create a reversal entry for
+        // current period
         if (!isAccountingLinePayFYPeriodMatchesUniversityPayFYPeriod(document, accountingLine)) {
             LaborLedgerPendingEntry expenseA21PendingEntry = LaborPendingEntryConverter.getExpenseA21PendingEntry(document, accountingLine, sequenceHelper);
             expensePendingEntries.add(expenseA21PendingEntry);
@@ -64,11 +67,12 @@ public class LaborPendingEntryGenerator {
             LaborLedgerPendingEntry expenseA21ReversalPendingEntry = LaborPendingEntryConverter.getExpenseA21ReversalPendingEntry(document, accountingLine, sequenceHelper);
             expensePendingEntries.add(expenseA21ReversalPendingEntry);
         }
+
         return expensePendingEntries;
     }
 
     /**
-     * generate the benefit pending entries based on the given document and accouting line
+     * generate the benefit pending entries based on the given document and accounting line
      * 
      * @param document the given accounting document
      * @param accountingLine the given accounting line
@@ -101,9 +105,12 @@ public class LaborPendingEntryGenerator {
             KualiDecimal fringeBenefitPercent = benefitsCalculation.getPositionFringeBenefitPercent();
             KualiDecimal benefitAmount = fringeBenefitPercent.multiply(accountingLine.getAmount()).divide(new KualiDecimal(100));
 
-            List<LaborLedgerPendingEntry> pendingEntries = generateBenefitPendingEntries(document, accountingLine, sequenceHelper, benefitAmount, fringeBenefitObjectCode);
-            benefitPendingEntries.addAll(pendingEntries);
+            if (benefitAmount.isNonZero()) {
+                List<LaborLedgerPendingEntry> pendingEntries = generateBenefitPendingEntries(document, accountingLine, sequenceHelper, benefitAmount, fringeBenefitObjectCode);
+                benefitPendingEntries.addAll(pendingEntries);
+            }
         }
+
         return benefitPendingEntries;
     }
 
@@ -121,7 +128,7 @@ public class LaborPendingEntryGenerator {
     public static List<LaborLedgerPendingEntry> generateBenefitPendingEntries(LaborLedgerPostingDocument document, ExpenseTransferAccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {
         List<LaborLedgerPendingEntry> benefitPendingEntries = new ArrayList<LaborLedgerPendingEntry>();
         LaborLedgerPendingEntry benefitPendingEntry = LaborPendingEntryConverter.getBenefitPendingEntry(document, accountingLine, sequenceHelper, benefitAmount, fringeBenefitObjectCode);
-        document.getLaborLedgerPendingEntries().add(benefitPendingEntry);
+        benefitPendingEntries.add(benefitPendingEntry);
 
         // if the AL's pay FY and period do not match the University fiscal year and period
         if (!isAccountingLinePayFYPeriodMatchesUniversityPayFYPeriod(document, accountingLine)) {
@@ -131,11 +138,12 @@ public class LaborPendingEntryGenerator {
             LaborLedgerPendingEntry benefitA21ReversalPendingEntry = LaborPendingEntryConverter.getBenefitA21ReversalPendingEntry(document, accountingLine, sequenceHelper, benefitAmount, fringeBenefitObjectCode);
             benefitPendingEntries.add(benefitA21ReversalPendingEntry);
         }
+
         return benefitPendingEntries;
     }
 
     /**
-     * generate the benefit clearing pending entries with the given benefit amount and finge benefit object code based on the given
+     * generate the benefit clearing pending entries with the given benefit amount and fringe benefit object code based on the given
      * document and accouting line
      * 
      * @param document the given accounting document
@@ -154,23 +162,37 @@ public class LaborPendingEntryGenerator {
         }
 
         Map<String, KualiDecimal> targetLineBenefitAmountSum = new HashMap<String, KualiDecimal>();
-        List<ExpenseTransferSourceAccountingLine> tagetAccountingLines = document.getTargetAccountingLines();
-        for (ExpenseTransferSourceAccountingLine accountingLine : sourceAccountingLines) {
+        List<ExpenseTransferTargetAccountingLine> targetAccountingLines = document.getTargetAccountingLines();
+        for (ExpenseTransferTargetAccountingLine accountingLine : targetAccountingLines) {
             updateBenefitAmountSum(targetLineBenefitAmountSum, accountingLine);
         }
 
-        Set<String> benefitTypeCodes = targetLineBenefitAmountSum.keySet();
-        for (String benefitTypeCode : benefitTypeCodes) {
-            KualiDecimal targetAmount = targetLineBenefitAmountSum.get(benefitTypeCode);
-            KualiDecimal sourceAmount = KualiDecimal.ZERO;
+        Set<String> benefitTypeCodes = new HashSet<String>();
+        for (String key : targetLineBenefitAmountSum.keySet()) {
+            benefitTypeCodes.add(key);
+        }
 
+        for (String key : sourceLineBenefitAmountSum.keySet()) {
+            benefitTypeCodes.add(key);
+        }
+
+        for (String benefitTypeCode : benefitTypeCodes) {
+            KualiDecimal targetAmount = KualiDecimal.ZERO;
+            if (targetLineBenefitAmountSum.containsKey(benefitTypeCode)) {
+                targetAmount = targetLineBenefitAmountSum.get(benefitTypeCode);
+            }
+
+            KualiDecimal sourceAmount = KualiDecimal.ZERO;
             if (sourceLineBenefitAmountSum.containsKey(benefitTypeCode)) {
                 sourceAmount = sourceLineBenefitAmountSum.get(benefitTypeCode);
             }
 
             KualiDecimal clearingAmount = sourceAmount.subtract(targetAmount);
-            benefitClearingPendingEntries.add(LaborPendingEntryConverter.getBenefitClearingPendingEntry(document, sequenceHelper, accountNumber, chartOfAccountsCode, benefitTypeCode, clearingAmount));
+            if (clearingAmount.isNonZero()) {
+                benefitClearingPendingEntries.add(LaborPendingEntryConverter.getBenefitClearingPendingEntry(document, sequenceHelper, accountNumber, chartOfAccountsCode, benefitTypeCode, clearingAmount));
+            }
         }
+
         return benefitClearingPendingEntries;
     }
 
@@ -203,12 +225,13 @@ public class LaborPendingEntryGenerator {
 
             KualiDecimal fringeBenefitPercent = benefitsCalculation.getPositionFringeBenefitPercent();
             KualiDecimal benefitAmount = fringeBenefitPercent.multiply(accountingLine.getAmount()).divide(new KualiDecimal(100));
-            KualiDecimal numericBenefitAmount = DebitCreditUtil.getNumericAmount(benefitAmount, accountingLine.getDebitCreditCode());
+            // KualiDecimal numericBenefitAmount = DebitCreditUtil.getNumericAmount(benefitAmount,
+            // accountingLine.getDebitCreditCode());
 
             if (benefitAmountSumByBenefitType.containsKey(benefitTypeCode)) {
-                numericBenefitAmount = numericBenefitAmount.add(benefitAmountSumByBenefitType.get(benefitTypeCode));
+                benefitAmount = benefitAmount.add(benefitAmountSumByBenefitType.get(benefitTypeCode));
             }
-            benefitAmountSumByBenefitType.put(benefitTypeCode, numericBenefitAmount);
+            benefitAmountSumByBenefitType.put(benefitTypeCode, benefitAmount);
         }
     }
 
@@ -232,6 +255,7 @@ public class LaborPendingEntryGenerator {
         if (StringUtils.equals(periodCode, payPeriodCode)) {
             return false;
         }
+
         return true;
     }
 }

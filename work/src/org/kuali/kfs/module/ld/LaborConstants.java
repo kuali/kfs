@@ -103,6 +103,8 @@ public class LaborConstants {
         public static final String LABOR_LEDGER_SALARY_CODE = "S";
         public static final String SET_ADMIN_WORKGROUP = "Workgroup.SET.Admin";
         public static final String GROUP_SET_DOCUMENT = "Kuali.Labor.SalaryExpenseTransferDocument";
+        public static final String BENEFIT_CLEARING_CHART_PARM_NM = "Benefits.Clearing.ChartOfAccountsCode";
+        public static final String BENEFIT_CLEARING_ACCOUNT_PARM_NM = "Benefits.Clearing.AccountNumber";
     }
 
     public static class BenefitExpenseTransfer {
@@ -220,8 +222,6 @@ public class LaborConstants {
     public static final String DASHES_DELETE_CODE = "-";
     public static final int LLCP_MAX_LENGTH = 294;    
     private static String SPACE_TRANSACTION_DATE = null;
-    public static final String SET_ADMIN_WORKGROUP = "Workgroup.SET.Admin";
-    public static final String GROUP_SET_DOCUMENT = "Kuali.Labor.SalaryExpenseTransferDocument";
         
     public static String getSpaceTransactionDate() {
         if (SPACE_TRANSACTION_DATE == null) {

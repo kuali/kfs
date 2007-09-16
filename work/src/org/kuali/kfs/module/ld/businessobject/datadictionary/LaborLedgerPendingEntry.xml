@@ -68,7 +68,7 @@
                         <field attributeName="transactionDebitCreditCode" />
                         <field attributeName="transactionEncumbranceUpdateCode" />
                         <field attributeName="transactionEntryOffsetCode" />
-                        <field attributeName="transactionEntryProcessedTimestamp" />
+                        <field attributeName="transactionEntryProcessedTs" />
                         <field attributeName="transactionLedgerEntryAmount" />
                         <field attributeName="transactionLedgerEntryDescription" />
                         <field attributeName="transactionLedgerEntrySequenceNumber" />
@@ -759,7 +759,7 @@
                 <description>transactionEntryOffsetCode description...</description>
 			</attribute>
 
-            <attribute name="transactionEntryProcessedTimestamp" forceUppercase="true">
+            <attribute name="transactionEntryProcessedTs" forceUppercase="true">
                 <label>Transaction Entry Processed Timestamp</label>
                 <shortLabel>Timestamp</shortLabel>
 

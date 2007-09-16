@@ -22,10 +22,9 @@ import org.kuali.module.financial.document.YearEndDocument;
  */
 public class YearEndBenefitExpenseTransferDocument extends BenefitExpenseTransferDocument implements YearEndDocument {
 
- /**
-  * 
-  * Constructs a YearEndBenefitExpenseTransferDocument.java.
-  */
+    /**
+     * Constructs a YearEndBenefitExpenseTransferDocument.java.
+     */
     public YearEndBenefitExpenseTransferDocument() {
         super();
     }

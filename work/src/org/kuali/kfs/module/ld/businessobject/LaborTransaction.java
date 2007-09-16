@@ -50,7 +50,6 @@ public interface LaborTransaction extends Transaction {
     public String getLaborLedgerOriginalFinancialSubObjectCode();
     public String getHrmsCompany();
     public String getSetid();
-    //public Date transactionDateTimeStamp;
    
     public DocumentHeader getFinancialDocument();
     public DocumentType getReferenceFinancialDocumentType();

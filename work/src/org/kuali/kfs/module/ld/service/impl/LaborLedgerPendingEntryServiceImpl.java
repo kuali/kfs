@@ -21,19 +21,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.RiceConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.LookupService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
+import org.kuali.module.labor.rule.event.GenerateLaborLedgerBenefitClearingPendingEntriesEvent;
 import org.kuali.module.labor.rule.event.GenerateLaborLedgerPendingEntriesEvent;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +40,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * The LaborLedgerPendingEntryServiceImpl class is a service that supplies Pending Ledger related methods.
  */
-
 @Transactional
 public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerPendingEntryServiceImpl.class);
@@ -66,16 +64,16 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
      */
     public boolean hasPendingLaborLedgerEntry(Map fieldValues) {
         LOG.info("hasPendingLaborLedgerEntry(Map fieldValues) started");
-        
+
         Collection<LaborLedgerPendingEntry> pendingEntries = SpringContext.getBean(LookupService.class).findCollectionBySearch(LaborLedgerPendingEntry.class, fieldValues);
-        
+
         // exclude the pending labor ledger transaction has been processed
         for (LaborLedgerPendingEntry pendingLedgerEntry : pendingEntries) {
             String approvedCode = pendingLedgerEntry.getFinancialDocumentApprovedCode();
             if (!KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED.equals(approvedCode)) {
                 return true;
             }
-        }        
+        }
         return false;
     }
 
@@ -113,7 +111,7 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
             }
         }
 
-        // compare source and target accounting lines, and generate benefit clearing liens as needed
+        // compare source and target accounting lines, and generate benefit clearing lines as needed
         success &= processGenerateLaborLedgerBenefitClearingEntries(document, sequenceHelper);
 
         return success;
@@ -140,8 +138,10 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
     private boolean processLaborLedgerPendingEntryForAccountingLine(LaborLedgerPostingDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine line) {
         LOG.debug("processLaborLedgerPendingEntryForAccountingLine() started");
         boolean success = true;
+
         GenerateLaborLedgerPendingEntriesEvent event = new GenerateLaborLedgerPendingEntriesEvent(document, line, sequenceHelper);
         success &= kualiRuleService.applyRules(event);
+
         return success;
     }
 
@@ -149,10 +149,9 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         LOG.debug("processLaborLedgerPendingEntryForAccountingLine() started");
         boolean success = true;
 
-        // abyrne commented out the lines below to fix the build
-        // GenerateLaborLedgerBenefitClearingPendingEntriesEvent event = new
-        // GenerateLaborLedgerBenefitClearingPendingEntriesEvent(document, sequenceHelper);
-        // success &= kualiRuleService.applyRules(event);
+        GenerateLaborLedgerBenefitClearingPendingEntriesEvent event = new GenerateLaborLedgerBenefitClearingPendingEntriesEvent(document, sequenceHelper);
+        success &= kualiRuleService.applyRules(event);
+
         return success;
     }
 

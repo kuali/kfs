@@ -195,7 +195,6 @@ public class KFSConstants {
     public static final String EMPLOYEE_FUNDING_INQUIRY_ACTION = "employeeFundingInquiry.do";    
     public static final String OVERRIDE_KEYS = "overrideKeys";
 
-    
     /**
      * This value denotes that a max length has not been defined for a given lookup results field
      */
@@ -474,11 +473,10 @@ public class KFSConstants {
     public static final String NOT_LOGICAL_OPERATOR = "!";
     // add AND operator to thest if it is uncommented below
     public static final String[] LOGICAL_OPERATORS = { OR_LOGICAL_OPERATOR, NOT_LOGICAL_OPERATOR };
-
     public static final String WILDCARD_CHARACTER = "*";
-    public static final String[] QUERY_CHARACTERS = { WILDCARD_CHARACTER, "?", "%", ">", "<", "..", OR_LOGICAL_OPERATOR, NOT_LOGICAL_OPERATOR, "=" };       
+    public static final String[] QUERY_CHARACTERS = { WILDCARD_CHARACTER, "?", "%", ">", "<", "..", OR_LOGICAL_OPERATOR, NOT_LOGICAL_OPERATOR, "=" };
     public static final String WILDCARD_NOT_ALLOWED_ON_FIELD = "error.fieldDoNotAllowWildcard";
-    
+
     // disbursement voucher error fields
     public static final String DV_PAYEE_TAB_ERRORS = "DVPayeeErrors,document.dvPayeeDetail.disbVchrPayeeIdNumber,document.dvPayeeDetail.disbVchrPayeeCityName,document.dvPayeeDetail.disbVchrPayeePersonName," + "document.dvPayeeDetail.disbVchrPayeeStateCode,document.dvPayeeDetail.disbVchrPayeeLine1Addr,document.dvPayeeDetail.disbVchrPayeeZipCode,document.dvPayeeDetail.disbVchrPayeeLine2Addr,document.dvPayeeDetail.disbVchrPayeeCountryCode,document.dvPayeeDetail.disbursementVoucherPayeeTypeCode,";
     public static final String DV_PAYMENT_TAB_ERRORS = "DVPaymentErrors,document.dvPayeeDetail.disbVchrPaymentReasonCode,document.disbVchrCheckTotalAmount,document.disbursementVoucherDueDate,document.dvPayeeDetail.disbVchrAlienPaymentCode," + "document.dvPayeeDetail.disbVchrPayeeEmployeeCode,document.dvPayeeDetail.dvPayeeRevolvingFundCode,document.disbVchrAttachmentCode,document.disbVchrSpecialHandlingCode,document.disbVchrPayeeW9CompleteCode" + "document.disbVchrPaymentMethodCode,document.disbursementVoucherDocumentationLocationCode";
@@ -1028,6 +1026,14 @@ public class KFSConstants {
     public static final String BATCH_STEP_RUNNER_JOB_NAME = "stepRunByBatchStepRunner";
     
     // Some static method calls below that could be done in static variables instead but isn't safe to do during class loading w/SpringContext.
+    private static String DASH_FINANCIAL_OBJECT_CODE = null;
+    public static String getDashFinancialObjectCode() {
+        if (DASH_FINANCIAL_OBJECT_CODE == null) {
+            DASH_FINANCIAL_OBJECT_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE), '-');
+        }
+        return DASH_FINANCIAL_OBJECT_CODE;
+    }
+    
     private static String DASH_FINANCIAL_SUB_OBJECT_CODE = null;
     public static String getDashFinancialSubObjectCode() {
         if (DASH_FINANCIAL_SUB_OBJECT_CODE == null) {
@@ -1060,11 +1066,11 @@ public class KFSConstants {
         return DASH_POSITION_NUMBER;
     }
     
-    private static String DASH_EMPLID_LOWER_CASE = null;
-    public static String getDashEmplIdLowerCase() {
-        if (DASH_EMPLID_LOWER_CASE == null) {
-            DASH_EMPLID_LOWER_CASE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(LaborOriginEntry.class, KFSPropertyConstants.EMPLID), '-');
+    private static String DASH_EMPLID = null;
+    public static String getDashEmplId() {
+        if (DASH_EMPLID == null) {
+            DASH_EMPLID = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(LaborOriginEntry.class, KFSPropertyConstants.EMPLID), '-');
         }
-        return DASH_EMPLID_LOWER_CASE;
+        return DASH_EMPLID;
     }
 }

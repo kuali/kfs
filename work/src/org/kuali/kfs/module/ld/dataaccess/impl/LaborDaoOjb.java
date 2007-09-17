@@ -16,11 +16,12 @@
 package org.kuali.module.labor.dao.ojb;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
+import java.util.HashMap;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -28,10 +29,12 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
+import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties;
@@ -39,9 +42,11 @@ import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.July1PositionFunding;
+import org.kuali.module.labor.bo.LaborCalculatedSalaryFoundationTracker;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.util.ConsolidationUtil;
+import org.kuali.module.labor.util.ObjectUtil;
 
 /**
  * This class is for Labor Distribution DAO database queries
@@ -120,6 +125,74 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         return encumbranceTotal;
     }
 
+    
+    /**
+     * @see org.kuali.module.labor.dao.LaborDao#getEncumbranceTotal(java.util.Map)
+     */
+    public Collection getJuly1(Map fieldValues) {
+        Map fieldCriteria = new HashMap();        
+        fieldCriteria.putAll(fieldValues);        
+        fieldCriteria.remove(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        
+        ArrayList objectTypeCodes = new ArrayList();
+        Criteria criteria = new Criteria();
+        //criteria.addBetween(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, LaborConstants.BalanceInquiries.laborLowValueObjectCode, LaborConstants.BalanceInquiries.laborHighValueObjectCode);
+        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldCriteria, new July1PositionFunding()));
+        QueryByCriteria query = QueryFactory.newQuery(July1PositionFunding.class, criteria);
+        
+        Collection<July1PositionFunding> july1PositionFundings = getPersistenceBrokerTemplate().getCollectionByQuery(query);                
+        return july1PositionFundings;
+        
+/*        
+        List july1Container = new ArrayList();
+        July1PositionFunding july1DataObject = null; 
+            
+        Map fieldCriteria = new HashMap();
+        boolean consolidate = false;
+        fieldCriteria.putAll(fieldValues);        
+        fieldCriteria.remove(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        
+        List attributeList = new ArrayList();
+        String[] attributes;
+
+        Criteria criteria = new Criteria();
+        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldCriteria, new July1PositionFunding()));
+                
+        if (!consolidate) {
+            attributeList.add(KFSPropertyConstants.JULY1_BUDGET_AMOUNT);
+        } else {            
+            attributeList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+            attributeList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+            attributeList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+            attributeList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+            attributeList.add(KFSPropertyConstants.EMPLID);
+            attributeList.add(KFSPropertyConstants.POSITION_NUMBER);
+        }
+
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(July1PositionFunding.class, criteria);
+        
+        if (consolidate) {
+            attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
+            
+            query.addGroupBy(attributes.clone());
+            attributeList.add(ConsolidationUtil.sum(KFSPropertyConstants.JULY1_BUDGET_AMOUNT));
+        }       
+        attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
+        query.setAttributes(attributes);
+        Iterator d = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+
+
+        System.out.println("XXXXXXXXXXX:"+d.toString());
+        while(d.hasNext()) {            
+            Object[] data = (Object[])d.next();
+            System.out.println("*****************"+data.toString());
+            for(int i=0;i<data.length;i++) {
+                System.out.printf("Element[%d]: %s",i,data[i].toString());                
+            }
+        }
+        return d;*/
+    }
+    
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getBaseFunds(java.util.Map)
      */
@@ -243,15 +316,12 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
          
          QueryByCriteria query = QueryFactory.newQuery(LaborObject.class, criteria);
          ReportQueryByCriteria query2 = QueryFactory.newReportQuery(LaborObject.class, criteria);
-        // Collection laborObjectCodes = getPersistenceBrokerTemplate().getCollectionByQuery(query2);
          
          
          Object[] laborObjects = null;
 
          Iterator<LaborObject> laborObjectCodes = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query2);
-//         while (laborObjectCodes != null && laborObjectCodes.hasNext()) {
              laborObject = laborObjectCodes.next();
-         return laborObject.isActive();
-    
+         return laborObject.isActive();    
 }
 }

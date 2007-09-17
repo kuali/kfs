@@ -90,4 +90,6 @@ public interface LaborDao {
     @Deprecated
     public boolean isActiveLaborObjectCode(AccountingDocument accountingDocument, AccountingLine accountingLine);
     
+    
+    Collection getJuly1(Map fieldValues);
 }

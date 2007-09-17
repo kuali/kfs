@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
+import org.kuali.core.service.LookupService;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -38,6 +40,9 @@ import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
+import org.kuali.module.labor.bo.July1PositionFunding;
+import org.kuali.module.labor.bo.LaborCalculatedSalaryFoundationTracker;
+import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.service.LaborInquiryOptionsService;
@@ -56,7 +61,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     private LaborDao laborDao;
     private LaborLedgerBalanceService balanceService;
     private LaborInquiryOptionsService laborInquiryOptionsService;
-
+    private LookupService lookupService;
     /**
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
      */
@@ -92,25 +97,40 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, LaborConstants.BalanceInquiries.ERROR_INVALID_LABOR_OBJECT_CODE, "2");
                 return new CollectionIncomplete(emptySearchResults, actualCountIfTruncated);
             }
-
         }
 
         // Parse the map and call the DAO to process the inquiry
-        Collection<AccountStatusCurrentFunds> searchResultsCollection = buildCurrentFundsCollection(toList(laborDao.getCurrentFunds(fieldValues, isConsolidated)), isConsolidated, pendingEntryOption);
-
+        Collection<AccountStatusCurrentFunds> searchResultsCollection = buildCurrentFundsCollection(toList(laborDao.getCurrentFunds(fieldValues, isConsolidated)), isConsolidated, pendingEntryOption);        
+                
         // update search results according to the selected pending entry option
         laborInquiryOptionsService.updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated);
-
+                
+        Collection<July1PositionFunding> july1PositionFundings = laborDao.getJuly1(fieldValues);
+        
+        this.AddJuly1BalanceAmount(searchResultsCollection,july1PositionFundings,isConsolidated);
+        
         // sort list if default sort column given
         List searchResults = (List) searchResultsCollection;
         List defaultSortColumns = getDefaultSortColumns();
         if (defaultSortColumns.size() > 0) {
             Collections.sort(searchResults, new BeanPropertyComparator(defaultSortColumns, true));
         }
-
         return new CollectionIncomplete(searchResults, actualCountIfTruncated);
     }
 
+    
+    private void AddJuly1BalanceAmount(Collection <AccountStatusCurrentFunds>searchResultsCollection ,Collection <July1PositionFunding> july1PositionFundings, boolean isConsolidated) {
+        for (July1PositionFunding july1PositionFunding : july1PositionFundings) {
+            for (AccountStatusCurrentFunds accountStatus  : searchResultsCollection) {
+                boolean found = ObjectUtil.compareObject(accountStatus, july1PositionFunding, accountStatus.getKeyFieldList(isConsolidated));
+                if (found) {
+                    accountStatus.setJuly1BudgetAmount(accountStatus.getJuly1BudgetAmount().add(july1PositionFunding.getJuly1BudgetAmount()));
+                    accountStatus.setVariance(accountStatus.getJuly1BudgetAmount().subtract(accountStatus.getMonth1Amount().add(accountStatus.getOutstandingEncum())));
+                }
+            }
+        }
+    }
+     
     /**
      * @param iterator the iterator of search results of account status
      * @param isConsolidated determine if the consolidated result is desired
@@ -249,6 +269,35 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         return (KualiDecimal) laborDao.getEncumbranceTotal(fieldValues);
     }
 
+/**
+ * 
+ * This method...
+ * @param bo
+ * @return
+ *
+    private KualiDecimal getJuly1BudgetAmount(Map fieldValues, AccountStatusCurrentFunds bo) {
+        System.out.println("**** CurrentFundsLookupableHelperServiceImpl.getJuly1BudgetAmount()");
+        
+        fieldValues.remove(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+
+        if (!bo.getSubAccountNumber().equals(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER)) {
+            fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, bo.getSubAccountNumber());
+        }
+
+        //fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, bo.getFinancialObjectCode());
+
+        if (!bo.getFinancialSubObjectCode().equals(Constant.CONSOLIDATED_SUB_OBJECT_CODE)) {
+            fieldValues.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, bo.getFinancialSubObjectCode());
+        }
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ENCUMBERENCE_CODE); // Encumberance
+                                                                                                                                // Balance
+                                                                                                                                // Type
+        fieldValues.put(KFSPropertyConstants.EMPLID, bo.getEmplid());
+        LOG.debug("using " + fieldValues.values());
+        LOG.debug("using " + fieldValues.keySet());
+        return (KualiDecimal) laborDao.getEncumbranceTotal(fieldValues);
+    }
+*/
     /**
      * Sets the balanceService attribute value.
      * 

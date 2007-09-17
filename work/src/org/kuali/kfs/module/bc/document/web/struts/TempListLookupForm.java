@@ -23,6 +23,9 @@ import org.kuali.core.web.struts.form.LookupForm;
 public class TempListLookupForm extends LookupForm {
     //holds the BC fiscal year that is currently active 
     private Integer universityFiscalYear;
+    
+    // controls automatic initial display of results
+    private boolean showInitialResults;
 
     /**
      * Gets the universityFiscalYear attribute. 
@@ -38,6 +41,22 @@ public class TempListLookupForm extends LookupForm {
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
+    }
+
+    /**
+     * Gets the showInitialResults attribute. 
+     * @return Returns the showInitialResults.
+     */
+    public boolean isShowInitialResults() {
+        return showInitialResults;
+    }
+
+    /**
+     * Sets the showInitialResults attribute value.
+     * @param showInitialResults The showInitialResults to set.
+     */
+    public void setShowInitialResults(boolean showInitialResults) {
+        this.showInitialResults = showInitialResults;
     }
 
 

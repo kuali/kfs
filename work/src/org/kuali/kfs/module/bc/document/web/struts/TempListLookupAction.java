@@ -31,12 +31,30 @@ import org.kuali.core.web.struts.action.KualiLookupAction;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
+import org.kuali.module.budget.web.struts.form.TempListLookupForm;
 
 /**
  * This class...
  */
 public class TempListLookupAction extends KualiLookupAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TempListLookupAction.class);
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        ActionForward forward;
+        TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
+
+        forward =  super.start(mapping, form, request, response);
+        if (tempListLookupForm.isShowInitialResults()){
+            forward = search(mapping, form, request, response);
+        }
+        
+        return forward;  
+    }
 
     /**
      * This differs from KualiLookupAction.clearValues in that any atributes marked hidden

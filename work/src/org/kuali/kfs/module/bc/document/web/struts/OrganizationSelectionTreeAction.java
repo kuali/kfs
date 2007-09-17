@@ -554,6 +554,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
 
             parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, "org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect");
             parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+            parameters.put("showInitialResults", "true");
             parameters.put("universityFiscalYear", organizationSelectionTreeForm.getUniversityFiscalYear().toString());
 
             parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());

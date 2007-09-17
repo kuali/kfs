@@ -142,6 +142,18 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 document.templateVendorAddress(refreshVendorAddress);
             }
         }
+        
+        //We're supposed to refresh vendor again based on the vendor header and detail id on the requisition, unless if
+        //this was a refresh for contract lookup or refresh for vendor lookup
+        if (!(StringUtils.equals(refreshCaller, VendorConstants.VENDOR_CONTRACT_LOOKUPABLE_IMPL) || (StringUtils.equalsIgnoreCase(refreshCaller, VendorConstants.VENDOR_LOOKUPABLE_IMPL)))) {
+            // retrieve vendor based on selection from vendor lookup
+            VendorDetail refreshVendorDetail = new VendorDetail();
+            refreshVendorDetail.setVendorDetailAssignedIdentifier(document.getVendorDetailAssignedIdentifier());
+            refreshVendorDetail.setVendorHeaderGeneratedIdentifier(document.getVendorHeaderGeneratedIdentifier());
+            refreshVendorDetail = (VendorDetail) businessObjectService.retrieve(refreshVendorDetail);
+            document.templateVendorDetail(refreshVendorDetail);
+
+        }
         return super.refresh(mapping, form, request, response);
     }
 

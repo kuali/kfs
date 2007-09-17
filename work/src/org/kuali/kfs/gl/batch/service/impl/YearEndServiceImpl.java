@@ -1011,12 +1011,7 @@ public class YearEndServiceImpl implements YearEndService {
     private String createTransactionLedgerEntryDescription(String descriptorIntro, Balance balance) {
         StringBuilder description = new StringBuilder();
         description.append(descriptorIntro.trim()).append(' ');
-        description.append(getSizedField(5, balance.getSubAccountNumber())).append("-").append(getSizedField(4, balance.getObjectCode())).append("-").append(getSizedField(2, balance.getSubObjectCode()));
-        int socLength = null == balance.getSubObjectCode() ? 0 : balance.getSubObjectCode().length();
-        while (3 > socLength++) {
-            description.append(' ');
-        }
-        return description.append("-").append(getSizedField(2, balance.getObjectTypeCode())).toString();
+        return description.append(getSizedField(5, balance.getSubAccountNumber())).append("-").append(getSizedField(4, balance.getObjectCode())).append("-").append(getSizedField(3, balance.getSubObjectCode())).append("-").append(getSizedField(2, balance.getObjectTypeCode())).toString();
     }
     
     private StringBuilder getSizedField(int size, String value) {

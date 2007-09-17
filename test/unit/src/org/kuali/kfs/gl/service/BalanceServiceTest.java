@@ -42,7 +42,7 @@ public class BalanceServiceTest extends KualiTestBase {
     
     private static String DELETE_BALANCES = "delete from GL_BALANCE_T where ";
     private static String RAW_BALANCES = "select * from GL_BALANCE_T where ";
-    private static String INSERT_BALANCE = "insert into GL_BALANCE_T(FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,UNIV_FISCAL_YR,FIN_SUB_OBJ_CD,FIN_OBJECT_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,FIN_BEG_BAL_LN_AMT,ACLN_ANNL_BAL_AMT,OBJ_ID) values('" + CHART + "','"
+    private static String INSERT_BALANCE = "insert into GL_BALANCE_T(FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,UNIV_FISCAL_YR,FIN_SUB_OBJ_CD,FIN_OBJECT_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,FIN_BEG_BAL_LN_AMT,ACLN_ANNL_BAL_AMT) values('" + CHART + "','"
                                  + ACCOUNT_NUMBER + "','" + SUB_ACCT_NUMBER + "',";
 
     private static boolean runOnce = true;
@@ -77,7 +77,7 @@ public class BalanceServiceTest extends KualiTestBase {
     }
 
     private void insertBalance(String objectTypeCode, String balanceTypeCode, String objectCode, KualiDecimal beginningAmount, KualiDecimal finalAmount) {
-        unitTestSqlDao.sqlCommand(INSERT_BALANCE + "'" + SUB_OBJECT_CODE + "','" + objectCode + "','" + balanceTypeCode + "','" + objectTypeCode + "'," + beginningAmount + "," + finalAmount + ",'" + new Guid().toString() + "')");
+        unitTestSqlDao.sqlCommand(INSERT_BALANCE + "'" + SUB_OBJECT_CODE + "','" + objectCode + "','" + balanceTypeCode + "','" + objectTypeCode + "'," + beginningAmount + "," + finalAmount + ")");
     }
 
     public void purgeTestData() {

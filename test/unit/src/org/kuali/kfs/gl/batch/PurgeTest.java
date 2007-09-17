@@ -51,10 +51,10 @@ public class PurgeTest extends KualiTestBase {
         unitTestSqlDao.sqlCommand("delete from GL_ENTRY_T");
 
         // Shouldn't be deleted
-        unitTestSqlDao.sqlCommand("insert into GL_ENTRY_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, FDOC_TYP_CD," + "FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, OBJ_ID, VER_NBR, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT," + "ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, TRN_POST_DT, TIMESTAMP) " + "values (2002, 'BL', '1031400', '-----', '5000', '---', 'AC', 'EX', '01', 'JV', '01', 'XXX', 1,'" + new Guid().toString() + "', 0, 'YYY', 0, 'D', " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", " + "'XX', '----------', 'X', null,null,null,null,' '," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + "," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
+        unitTestSqlDao.sqlCommand("insert into GL_ENTRY_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, FDOC_TYP_CD," + "FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT," + "ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, TRN_POST_DT, TIMESTAMP) " + "values (2002, 'BL', '1031400', '-----', '5000', '---', 'AC', 'EX', '01', 'JV', '01', 'XXX', 1,'YYY', 0, 'D', " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", " + "'XX', '----------', 'X', null,null,null,null,' '," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + "," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
         // Should be deleted
-        unitTestSqlDao.sqlCommand("insert into GL_ENTRY_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, FDOC_TYP_CD," + "FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, OBJ_ID, VER_NBR, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT," + "ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, TRN_POST_DT, TIMESTAMP) " + "values (2001, 'BL', '1031400', '-----', '5000', '---', 'AC', 'EX', '01', 'JV', '01', 'XXX', 1,'" + new Guid().toString() + "', 0, 'YYY', 0, 'D', " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", " + "'XX', '----------', 'X', null,null,null,null,' '," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + "," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
+        unitTestSqlDao.sqlCommand("insert into GL_ENTRY_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, FDOC_TYP_CD," + "FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT," + "ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, TRN_POST_DT, TIMESTAMP) " + "values (2001, 'BL', '1031400', '-----', '5000', '---', 'AC', 'EX', '01', 'JV', '01', 'XXX', 1,'YYY', 0, 'D', " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", " + "'XX', '----------', 'X', null,null,null,null,' '," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + "," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
         Step purgeStep = SpringContext.getBean(PurgeEntryStep.class);
 
@@ -78,10 +78,10 @@ public class PurgeTest extends KualiTestBase {
         unitTestSqlDao.sqlCommand("delete from GL_balance_T");
 
         // Should be deleted
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, OBJ_ID, " + "VER_NBR, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, " + "MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT, TIMESTAMP) " + "values (1998, 'BL', '1031400', '-----', '5000', '---', 'AC', 'EX','" + new Guid().toString() + "', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, " + "ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, " + "MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT, TIMESTAMP) " + "values (1998, 'BL', '1031400', '-----', '5000', '---', 'AC', 'EX'," + " 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
         // Shouldn't be deleted
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, OBJ_ID, " + "VER_NBR, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, " + "MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT, TIMESTAMP) " + "values (1999, 'BL', '1031400', '-----', '5000', '---', 'AC', 'EX','" + new Guid().toString() + "', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, " + "ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, " + "MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT, TIMESTAMP) " + "values (1999, 'BL', '1031400', '-----', '5000', '---', 'AC', 'EX'," + " 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
         Step purgeStep = SpringContext.getBean(PurgeBalanceStep.class);
 
@@ -105,10 +105,10 @@ public class PurgeTest extends KualiTestBase {
         unitTestSqlDao.sqlCommand("DELETE FROM GL_ACCT_BALANCES_T");
 
         // Should be deleted
-        unitTestSqlDao.sqlCommand("INSERT INTO GL_ACCT_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, " + "OBJ_ID, VER_NBR, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP) VALUES (1998, 'BL', '1031400', '-----', '5000', " + "'---','" + new Guid().toString() + "', 0, 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
+        unitTestSqlDao.sqlCommand("INSERT INTO GL_ACCT_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, " + "CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP) VALUES (1998, 'BL', '1031400', '-----', '5000', " + "'---'," + " 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
         // Shouldn't be deleted
-        unitTestSqlDao.sqlCommand("INSERT INTO GL_ACCT_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, " + "OBJ_ID, VER_NBR, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP) VALUES (1999, 'BL', '1031400', '-----', '5000', " + "'---','" + new Guid().toString() + "', 0, 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
+        unitTestSqlDao.sqlCommand("INSERT INTO GL_ACCT_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, " + "CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP) VALUES (1999, 'BL', '1031400', '-----', '5000', " + "'---'," + " 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
         Step purgeStep = SpringContext.getBean(PurgeAccountBalancesStep.class);
 
@@ -132,10 +132,10 @@ public class PurgeTest extends KualiTestBase {
         unitTestSqlDao.sqlCommand("DELETE FROM GL_ENCUMBRANCE_T");
 
         // Should be deleted
-        unitTestSqlDao.sqlCommand("insert into GL_ENCUMBRANCE_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, " + "FIN_BALANCE_TYP_CD, FDOC_TYP_CD, FS_ORIGIN_CD, FDOC_NBR, OBJ_ID, VER_NBR, TRN_ENCUM_DESC, TRN_ENCUM_DT, ACLN_ENCUM_AMT, ACLN_ENCUM_CLS_AMT, " + "ACLN_ENCUM_PRG_CD, TIMESTAMP) values (2001, 'BL', '1031400', '-----', '5000', '---', 'AC', 'JV', '01', 'XXX','" + new Guid().toString() + "', 0, 'Desc'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", 0, 0, 'N', " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
+        unitTestSqlDao.sqlCommand("insert into GL_ENCUMBRANCE_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, " + "FIN_BALANCE_TYP_CD, FDOC_TYP_CD, FS_ORIGIN_CD, FDOC_NBR, TRN_ENCUM_DESC, TRN_ENCUM_DT, ACLN_ENCUM_AMT, ACLN_ENCUM_CLS_AMT, " + "ACLN_ENCUM_PRG_CD, TIMESTAMP) values (2001, 'BL', '1031400', '-----', '5000', '---', 'AC', 'JV', '01', 'XXX','Desc'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", 0, 0, 'N', " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
         // Shouldn't be deleted
-        unitTestSqlDao.sqlCommand("insert into GL_ENCUMBRANCE_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, " + "FIN_BALANCE_TYP_CD, FDOC_TYP_CD, FS_ORIGIN_CD, FDOC_NBR, OBJ_ID, VER_NBR, TRN_ENCUM_DESC, TRN_ENCUM_DT, ACLN_ENCUM_AMT, ACLN_ENCUM_CLS_AMT, " + "ACLN_ENCUM_PRG_CD, TIMESTAMP) values (2002, 'BL', '1031400', '-----', '5000', '---', 'AC', 'JV', '01', 'XXX', '" + new Guid().toString() + "', 0, 'Desc', " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", " + "0, 0, 'N', " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
+        unitTestSqlDao.sqlCommand("insert into GL_ENCUMBRANCE_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, " + "FIN_BALANCE_TYP_CD, FDOC_TYP_CD, FS_ORIGIN_CD, FDOC_NBR, TRN_ENCUM_DESC, TRN_ENCUM_DT, ACLN_ENCUM_AMT, ACLN_ENCUM_CLS_AMT, " + "ACLN_ENCUM_PRG_CD, TIMESTAMP) values (2002, 'BL', '1031400', '-----', '5000', '---', 'AC', 'JV', '01', 'XXX', 'Desc', " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", " + "0, 0, 'N', " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
         Step purgeStep = SpringContext.getBean(PurgeEncumbranceStep.class);
 
@@ -194,10 +194,10 @@ public class PurgeTest extends KualiTestBase {
         unitTestSqlDao.sqlCommand("DELETE FROM GL_SF_BALANCES_T");
 
         // Should be deleted
-        unitTestSqlDao.sqlCommand("insert into gl_sf_balances_t (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, " + "CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT, TIMESTAMP) values (1998, 'BL', '1031400', '5000','" + new Guid().toString() + "', 0, 'H', 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
+        unitTestSqlDao.sqlCommand("insert into gl_sf_balances_t (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, " + "CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT, TIMESTAMP) values (1998, 'BL', '1031400', '5000','H', 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
         // Shouldn't be deleted
-        unitTestSqlDao.sqlCommand("insert into gl_sf_balances_t (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, " + "CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT, TIMESTAMP) values (1999, 'BL', '1031400', '5000','" + new Guid().toString() + "', 0, 'H', 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
+        unitTestSqlDao.sqlCommand("insert into gl_sf_balances_t (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, " + "CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT, TIMESTAMP) values (1999, 'BL', '1031400', '5000','H', 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
         Step purgeStep = SpringContext.getBean(PurgeSufficientFundBalancesStep.class);
 

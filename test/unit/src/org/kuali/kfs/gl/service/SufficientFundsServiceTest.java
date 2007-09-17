@@ -48,7 +48,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         if (createPles) insertPendingLedgerEntries(accountNumber, sfObjCd);
 
         unitTestSqlDao.sqlCommand("delete from gl_sf_balances_t where univ_fiscal_yr = '2007' and fin_coa_cd = 'BL' and account_nbr = '" + accountNumber +"'");
-        unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT, TIMESTAMP) values (2007, 'BL', '" + accountNumber +"', '" + sfObjCd + "', '" + new Guid().toString() + "', 0, '" + sfType + "', " + budgetAmt + ", " + actualAmt + ", " + encAmt + ", null)");
+        unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT, TIMESTAMP) values (2007, 'BL', '" + accountNumber +"', '" + sfObjCd + "', '" + sfType + "', " + budgetAmt + ", " + actualAmt + ", " + encAmt + ", null)");
         unitTestSqlDao.sqlCommand("update ca_account_t set ACCT_SF_CD = '" + sfType + "', ACCT_PND_SF_CD = 'Y' where FIN_COA_CD = 'BL' and ACCOUNT_NBR = '" + accountNumber +"'");
 
     }

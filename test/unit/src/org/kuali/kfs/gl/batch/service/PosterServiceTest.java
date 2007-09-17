@@ -658,13 +658,13 @@ public class PosterServiceTest extends OriginEntryTestBase {
         unitTestSqlDao.sqlCommand("delete from gl_expend_trn_t");
 
         // This one shouldn't generate any entries
-        unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, OBJ_ID, VER_NBR, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '1031400', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678','" + new Guid().toString() + "', 1, 10000)");
+        unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '1031400', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678', 10000)");
 
         // This one is fin_series_id 001 3.13% to 1 account (2 gl entries)
-        unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, OBJ_ID, VER_NBR, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '4531407', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678','" + new Guid().toString() + "', 1, 10000)");
+        unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '4531407', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678', 10000)");
 
         // This one is fin_series_id 002 3.8% to 2 accounts (2.0% & 1.8%)
-        unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, OBJ_ID, VER_NBR, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '4531408', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678','" + new Guid().toString() + "', 1, 10000)");
+        unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '4531408', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678', 10000)");
 
         // Clear origin entry & origin entry group
         clearOriginEntryTables();

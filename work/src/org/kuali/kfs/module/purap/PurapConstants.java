@@ -29,6 +29,7 @@ import org.kuali.RicePropertyConstants;
 import org.kuali.core.JstlConstants;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.PaymentRequestView;
@@ -590,6 +591,7 @@ public class PurapConstants extends JstlConstants {
         HashMap<String,Class> fields = new HashMap<String,Class>();
         fields.put(KFSConstants.VERSION_NUMBER, null);
         fields.put("LOG", null);
+        fields.put(KFSPropertyConstants.GENERAL_LEDGER_PENDING_ENTRIES, null);
         // TODO delyea/cck - add this back into the list?  Needs testing in PO Change Doc creation
 //        fields.put("serialVersionUID", null);
         return fields;

@@ -15,12 +15,13 @@
  */
 package org.kuali.module.purap.util;
 
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +71,11 @@ public class PurApObjectUtils {
 
         
         for (Field field : fields) {
-            fieldNames.add(field.getName());
+            if(!Modifier.isTransient(field.getModifiers())) {
+                fieldNames.add(field.getName());
+            } else {
+                LOG.warn("field "+field.getName()+ " is transient, skipping ");
+            }
         }
         int counter = 0;
         for (String fieldName : fieldNames) {
@@ -139,7 +144,7 @@ public class PurApObjectUtils {
                 listToSet = sourceList.getClass().newInstance();
             }
             catch (Exception e) {
-                LOG.info("couldn't set class '"+propertyValue.getClass()+"' on collection... using "+sourceList.getClass(),e);
+                LOG.info("couldn't set class '"+propertyValue.getClass()+"' on collection..."+fieldName+" using "+sourceList.getClass(),e);
                 listToSet = new ArrayList();
             }
         }
@@ -150,13 +155,13 @@ public class PurApObjectUtils {
         for (Iterator iterator = sourceList.iterator(); iterator.hasNext();) {
             BusinessObject sourceCollectionObject = (BusinessObject) iterator.next();
             LOG.debug("attempting to copy collection member with class '" + sourceCollectionObject.getClass() + "'");
-//            BusinessObject targetCollectionObject = (BusinessObject) ObjectUtils.createNewObjectFromClass(sourceCollectionObject.getClass());
-//            populateFromBaseWithSuper(sourceCollectionObject, targetCollectionObject, supplementalUncopyable, new HashSet<Class>());
-            BusinessObject targetCollectionObject = (BusinessObject)ObjectUtils.deepCopy((Serializable)sourceCollectionObject);
+            BusinessObject targetCollectionObject = (BusinessObject) ObjectUtils.createNewObjectFromClass(sourceCollectionObject.getClass());
+            populateFromBaseWithSuper(sourceCollectionObject, targetCollectionObject, supplementalUncopyable, new HashSet<Class>());
+//            BusinessObject targetCollectionObject = (BusinessObject)ObjectUtils.deepCopy((Serializable)sourceCollectionObject);
             Map pkMap = KNSServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(targetCollectionObject);
             Set<String> pkFields = pkMap.keySet();
             for (String field : pkFields) {
-                ObjectUtils.setObjectProperty(targetCollectionObject, fieldName, null);
+                ObjectUtils.setObjectProperty(targetCollectionObject, field, null);
             }
             listToSet.add(targetCollectionObject);
         }

@@ -121,7 +121,7 @@
             </lookupFields>
 
             <resultFields> 
-                <field attributeName="transactionLedgerEntrySequenceNumber" />                          
+                <field attributeName="transactionLedgerEntrySequenceNumber" />                                                   
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="universityFiscalPeriodCode" />
                 <field attributeName="chartOfAccountsCode" />
@@ -139,10 +139,45 @@
                 <field attributeName="financialDocumentTypeCode" />
                 <field attributeName="documentNumber" />
                 <field attributeName="financialDocumentApprovedCode" />
+                <field attributeName="financialDocumentReversalDate" />
+
+                <field attributeName="financialSystemOriginationCode" />
+                <field attributeName="transactionLedgerEntryDescription" />
+                <field attributeName="transactionPostingDate" />
+                                                              
+                <field attributeName="projectCode" />               
+                <field attributeName="transactionDate" />
+                <field attributeName="transactionDateTimeStamp" />
+
+                <field attributeName="transactionEncumbranceUpdateCode" />
+                <field attributeName="transactionEntryOffsetCode" />
+                <field attributeName="transactionEntryProcessedTimestamp" />
+                                
+                <field attributeName="referenceFinancialDocumentNumber" />
+                <field attributeName="referenceFinancialDocumentTypeCode" />
+                <field attributeName="referenceFinancialSystemOriginationCode" />
                 
                 <field attributeName="positionNumber" />
                 <field attributeName="earnCode" />
                 <field attributeName="emplid" />
+                <field attributeName="employeeRecord" />
+                <field attributeName="grade" />              
+                <field attributeName="transactionTotalHours" />
+                <field attributeName="laborLedgerOriginalAccountNumber" />
+                <field attributeName="laborLedgerOriginalChartOfAccountsCode" />
+                <field attributeName="laborLedgerOriginalFinancialObjectCode" />
+                <field attributeName="laborLedgerOriginalFinancialSubObjectCode" />
+                <field attributeName="laborLedgerOriginalSubAccountNumber" />
+                <field attributeName="organizationDocumentNumber" />
+                <field attributeName="organizationReferenceId" />
+                <field attributeName="payGroup" />
+                <field attributeName="payPeriodEndDate" />
+                <field attributeName="payrollEndDateFiscalPeriodCode" />
+                <field attributeName="payrollEndDateFiscalYear" />
+                <field attributeName="runIdentifier" />
+                <field attributeName="salaryAdministrationPlan" />
+                <field attributeName="hrmsCompany" /> 
+                <field attributeName="setid" />
             </resultFields>
         </lookup>
 

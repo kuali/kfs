@@ -15,23 +15,23 @@
  */
 package org.kuali.module.purap.util;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.ojb.broker.util.collections.ManageableArrayList;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.format.FormatException;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.rice.KNSServiceLocator;
 
 public class PurApObjectUtils {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurApObjectUtils.class);
@@ -67,6 +67,8 @@ public class PurApObjectUtils {
     public static void populateFromBaseClass(Class base,BusinessObject src,BusinessObject target,Map supplementalUncopyable) {
         List<String> fieldNames = new ArrayList<String>();
         Field[] fields = base.getDeclaredFields();
+
+        
         for (Field field : fields) {
             fieldNames.add(field.getName());
         }
@@ -92,6 +94,7 @@ public class PurApObjectUtils {
     
     private static void attemptCopyOfFieldName(String baseClassName, String fieldName, BusinessObject sourceObject, BusinessObject targetObject, Map supplementalUncopyable) {
         try {
+            
             Object propertyValue = ObjectUtils.getPropertyValue(sourceObject, fieldName);
             if ( (ObjectUtils.isNotNull(propertyValue)) && (Collection.class.isAssignableFrom(propertyValue.getClass())) ) {
                 LOG.debug("attempting to copy collection field '"+fieldName+"' using base class '"+baseClassName+"' and property value class '" + propertyValue.getClass() + "'");
@@ -114,6 +117,12 @@ public class PurApObjectUtils {
     private static void copyCollection(String fieldName, BusinessObject targetObject, Object propertyValue, Map supplementalUncopyable) throws FormatException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Collection sourceList = (Collection) propertyValue;
         Collection listToSet = null;
+        
+        //materialize collections
+        if(ObjectUtils.isNotNull(sourceList)) {
+            ObjectUtils.materializeObjects(sourceList);
+        }
+        
         //TypedArrayList requires argument so handle differently than below
         if(sourceList instanceof TypedArrayList) {
             TypedArrayList typedArray = (TypedArrayList)sourceList;
@@ -141,9 +150,14 @@ public class PurApObjectUtils {
         for (Iterator iterator = sourceList.iterator(); iterator.hasNext();) {
             BusinessObject sourceCollectionObject = (BusinessObject) iterator.next();
             LOG.debug("attempting to copy collection member with class '" + sourceCollectionObject.getClass() + "'");
-            BusinessObject targetCollectionObject = (BusinessObject) ObjectUtils.createNewObjectFromClass(sourceCollectionObject.getClass());
-            populateFromBaseWithSuper(sourceCollectionObject, targetCollectionObject, supplementalUncopyable, new HashSet<Class>());
-//            Object targetCollectionObject = ObjectUtils.deepCopy((Serializable)sourceCollectionObject);
+//            BusinessObject targetCollectionObject = (BusinessObject) ObjectUtils.createNewObjectFromClass(sourceCollectionObject.getClass());
+//            populateFromBaseWithSuper(sourceCollectionObject, targetCollectionObject, supplementalUncopyable, new HashSet<Class>());
+            BusinessObject targetCollectionObject = (BusinessObject)ObjectUtils.deepCopy((Serializable)sourceCollectionObject);
+            Map pkMap = KNSServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(targetCollectionObject);
+            Set<String> pkFields = pkMap.keySet();
+            for (String field : pkFields) {
+                ObjectUtils.setObjectProperty(targetCollectionObject, fieldName, null);
+            }
             listToSet.add(targetCollectionObject);
         }
         ObjectUtils.setObjectProperty(targetObject, fieldName, listToSet);

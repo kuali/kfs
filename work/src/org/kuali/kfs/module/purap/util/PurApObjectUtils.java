@@ -144,7 +144,7 @@ public class PurApObjectUtils {
                 listToSet = sourceList.getClass().newInstance();
             }
             catch (Exception e) {
-                LOG.info("couldn't set class '"+propertyValue.getClass()+"' on collection..."+fieldName+" using "+sourceList.getClass(),e);
+                LOG.info("couldn't set class '"+propertyValue.getClass()+"' on collection..."+fieldName+" using "+sourceList.getClass());
                 listToSet = new ArrayList();
             }
         }

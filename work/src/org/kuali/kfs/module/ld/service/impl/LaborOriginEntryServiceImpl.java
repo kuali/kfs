@@ -451,6 +451,17 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     public int getCountOfEntriesInGroups(Collection<OriginEntryGroup> groups) {
         return laborOriginEntryDao.getCountOfEntriesInGroups(groups);
     }
+    
+
+    /**
+     * @see org.kuali.module.labor.service.LaborOriginEntryService#getCountOfEntriesInSingleGroup(org.kuali.module.gl.bo.OriginEntryGroup)
+     */
+    public int getCountOfEntriesInSingleGroup(OriginEntryGroup group) {
+        List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
+        groups.add(group);
+        
+        return this.getCountOfEntriesInGroups(groups);
+    }
 
     /**
      * Sets the dateTimeService attribute value.
@@ -486,6 +497,5 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
      */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
         this.originEntryGroupService = originEntryGroupService;
-    }
-   
+    }  
 }

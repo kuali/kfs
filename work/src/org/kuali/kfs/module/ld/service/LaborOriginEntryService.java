@@ -211,5 +211,12 @@ public interface LaborOriginEntryService {
      * @return a set of summarized information of the entries within the specified group
      */
     public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList);
+
+    /**
+     * get the count of the origin entry collection in the given group
+     * @param group the given group
+     * @return the count of the origin entry collection in the given group
+     */
+    public int getCountOfEntriesInSingleGroup(OriginEntryGroup group);
     
 }

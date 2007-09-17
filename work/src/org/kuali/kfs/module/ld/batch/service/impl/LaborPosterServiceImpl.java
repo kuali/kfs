@@ -168,8 +168,10 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.REPORT_ERROR, errorMap.size(), 0);
 
         laborReportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, runDate);
-        laborReportService.generateOutputSummaryReport(validGroup, ReportRegistry.LABOR_POSTER_OUTPUT, reportsDirectory, runDate);
         laborReportService.generateErrorTransactionListing(invalidGroup, ReportRegistry.LABOR_POSTER_ERROR, reportsDirectory, runDate);
+        
+        // disabled according to the request in KULLAB-471
+        // laborReportService.generateOutputSummaryReport(validGroup, ReportRegistry.LABOR_POSTER_OUTPUT, reportsDirectory, runDate);
     }
 
     /**
@@ -287,14 +289,16 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         Collection<LaborOriginEntry> entries = laborOriginEntryService.getConsolidatedEntryCollectionByGroup(validGroup);
         laborReportService.generateInputSummaryReport(validGroup, ReportRegistry.LABOR_POSTER_GL_SUMMARY_INPUT, reportsDirectory, runDate);
 
-        int numberOfOriginEntry = entries.size();
+        int numberOfOriginEntries = laborOriginEntryService.getCountOfEntriesInSingleGroup(validGroup);
         int numberOfSelectedOriginEntry = 0;
 
         for (LaborOriginEntry originEntry : entries) {
 
             List<Message> errors = this.isPostableForLaborGLEntry(originEntry);
             if (!errors.isEmpty()) {
-                errorMap.put(originEntry, errors);
+                // disabled according to the request in KULLAB-473
+                // errorMap.put(originEntry, errors);
+                
                 continue;
             }
             String operationType = laborGLLedgerEntryPoster.post(originEntry, 0, runDate);
@@ -302,7 +306,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
             numberOfSelectedOriginEntry++;
         }
-        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.READ, numberOfOriginEntry, 0);
+        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.READ, numberOfOriginEntries, 0);
         Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.SELECT, numberOfSelectedOriginEntry, 0);
         Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.REPORT_ERROR, errorMap.size(), 0);
         laborReportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_GL_SUMMARY, reportsDirectory, runDate);
@@ -351,8 +355,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         List<Summary> reportSummary = new ArrayList<Summary>();
 
         String destination = laborGLLedgerEntryPoster.getDestinationName();
-        reportSummary.add(new Summary(reportSummary.size() + LINE_INTERVAL, "", 0));
-        reportSummary.addAll(Summary.buildDefualtReportSummary(destination, reportSummary.size() + LINE_INTERVAL));
+        reportSummary.add(new Summary(reportSummary.size() + LINE_INTERVAL, "", 0));        
+        Summary.updateReportSummary(reportSummary, destination, KFSConstants.OperationType.INSERT, 0, reportSummary.size() + LINE_INTERVAL);
 
         return reportSummary;
     }

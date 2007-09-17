@@ -336,7 +336,7 @@ public class PurapConstants extends JstlConstants {
     public static final int PREQ_PAY_DATE_DEFAULT_NUMBER_OF_DAYS = 10;
     public static final String PREQ_PAY_DATE_DAYS = "days";
     public static final String PREQ_PAY_DATE_DATE = "date";
-    public static final int PREQ_PAY_DATE_CALCULATION_DAYS = 28;
+    public static final int PREQ_PAY_DATE_EMPTY_TERMS_DEFAULT_DAYS = 28;
     public static final int PREQ_PAY_DATE_DAYS_BEFORE_WARNING = 60;
 
     // Weird PaymentTermsType is due on either the 10th or 25th with no discount

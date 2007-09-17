@@ -38,7 +38,7 @@
     or closes the window when not in budgetByAccountMode --%>
     <div id="globalbuttons" class="globalbuttons">
         <c:if test="${!KualiForm.editingMode['systemViewOnly'] && KualiForm.editingMode['fullEntry']}">
-	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" property="methodToCall.returnToCaller" title="save" alt="save"/>
+	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" property="methodToCall.save" title="save" alt="save"/>
 	    </c:if>
         <c:if test="${KualiForm.budgetByAccountMode}">
             <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" property="methodToCall.returnToCaller" title="close" alt="close"/>

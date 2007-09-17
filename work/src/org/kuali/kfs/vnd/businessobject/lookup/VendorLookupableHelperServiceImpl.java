@@ -238,18 +238,6 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         validateVendorNumber(fieldValues);
         validateVendorName(fieldValues);
         validateTaxNumber(fieldValues);
-        /* The following validations are removed, as of requested by Jira 1456. 
-         * Now users aren't required to choose vendor name or state when vendor type is selected;
-         * nor required to choose vendor name when active status is selected;
-         * nor required to choose vendor type when state is selected.
-         * The checking on the total number of search criteria is also removed, 
-         * as this condition is automatically satisfied with the vendor type defaults to 'PO'
-         * and vendor status defaults to 'active' on the lookup page.
-        validateNumberOfSearchCriteria(fieldValues);
-        validateTypeNameState(fieldValues);
-        validateStatusName(fieldValues);
-        validateStateType(fieldValues);
-        */
         
         if (!GlobalVariables.getErrorMap().isEmpty()) {
             throw new ValidationException("Error(s) in search criteria");
@@ -351,92 +339,6 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         if (StringUtils.isNotBlank(taxNumber) && (!StringUtils.isNumeric(taxNumber) || taxNumber.length() != 9)) {
             GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_TAX_NUMBER, 
                     VendorKeyConstants.ERROR_VENDOR_LOOKUP_TAX_NUM_INVALID);
-        }
-    }
-    
-    /**
-     * This method checks that at least the minimum number of search criteria are selected. Vendor Type does not count as a
-     * criterion.
-     * 
-     * @param fieldValues A Map containing only those key-value pairs that have been filled in on the lookup
-     */
-    private void validateNumberOfSearchCriteria(Map fieldValues) {
-        int criteria = fieldValues.size();
-        String typeCd = (String) fieldValues.get(VendorPropertyConstants.VENDOR_TYPE_CODE);
-        if (StringUtils.isNotBlank(typeCd)) {
-            criteria--;
-        }
-        if (ObjectUtils.isNull(VNDR_MIN_NUM_LOOKUP_CRITERIA)) {
-            BusinessRule minNumLookupRule = kualiConfigurationService.getApplicationRule(VendorRuleConstants.PURAP_ADMIN_GROUP, 
-                    VendorRuleConstants.PURAP_VNDR_MIN_NUM_LOOKUP_CRITERIA);
-            VNDR_MIN_NUM_LOOKUP_CRITERIA = minNumLookupRule.getRuleText();
-        }
-        if (criteria < Integer.parseInt(VNDR_MIN_NUM_LOOKUP_CRITERIA)) {
-            GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NUMBER, 
-                    VendorKeyConstants.ERROR_VENDOR_LOOKUP_FEWER_THAN_MIN_CRITERIA, VNDR_MIN_NUM_LOOKUP_CRITERIA);
-        }
-    }
-    
-    /**
-     * This method validates that if there is a Vendor Type Code selected, either a Name must be filled in, or a State must be
-     * selected.
-     * 
-     * @param fieldValues A Map containing only those key-value pairs that have been filled in on the lookup
-     */
-    private void validateTypeNameState(Map fieldValues) {
-        String typeCd = (String) fieldValues.get(VendorPropertyConstants.VENDOR_TYPE_CODE);
-        String vendorName = (String) fieldValues.get(VendorPropertyConstants.VENDOR_NAME);
-        String vendorFirstName = (String) fieldValues.get(VendorPropertyConstants.VENDOR_FIRST_NAME);
-        String vendorLastName = (String) fieldValues.get(VendorPropertyConstants.VENDOR_LAST_NAME);
-        String vendorStateForLookup = (String) fieldValues.get(VendorPropertyConstants.VENDOR_ADDRESS_STATE_CODE);
-
-        if (StringUtils.isNotBlank(typeCd)) {
-            if (StringUtils.isBlank(vendorStateForLookup)) {
-                if (StringUtils.isBlank(vendorName) && 
-                    StringUtils.isBlank(vendorFirstName) && 
-                    StringUtils.isBlank(vendorLastName)) {
-                    GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NAME, 
-                            VendorKeyConstants.ERROR_VENDOR_LOOKUP_TYPE_NO_NAME_OR_STATE, VendorPropertyConstants.VENDOR_NAME);
-                }
-            }
-        }
-    }
-    
-    /**
-     * This method makes sure that if an active indicator status is chosen, then a Name must be filled in.
-     * 
-     * @param fieldValues A Map containing only those key-value pairs that have been filled in on the lookup
-     */
-    private void validateStatusName(Map fieldValues) {
-        String status = (String) fieldValues.get(VendorPropertyConstants.DATA_OBJ_MAINT_CD_ACTIVE_IND);
-        String vendorName = (String) fieldValues.get(VendorPropertyConstants.VENDOR_NAME);
-        String vendorFirstName = (String) fieldValues.get(VendorPropertyConstants.VENDOR_FIRST_NAME);
-        String vendorLastName = (String) fieldValues.get(VendorPropertyConstants.VENDOR_LAST_NAME);
-
-        if (StringUtils.isNotBlank(status)) {
-            if (StringUtils.isBlank(vendorName) && 
-                StringUtils.isBlank(vendorFirstName) && 
-                StringUtils.isBlank(vendorLastName)) {
-                GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NAME, 
-                        VendorKeyConstants.ERROR_VENDOR_LOOKUP_STATUS_NO_NAME);
-            }
-        }
-    }
-    
-    /**
-     * This method ensures that if a State is selected, a Vendor Type Code must be selected.
-     * 
-     * @param fieldValues A Map containing only those key-value pairs that have been filled in on the lookup
-     */
-    private void validateStateType(Map fieldValues) {
-        String vendorStateForLookup = (String) fieldValues.get(VendorPropertyConstants.VENDOR_ADDRESS_STATE_CODE);
-        String typeCd = (String) fieldValues.get(VendorPropertyConstants.VENDOR_TYPE_CODE);
-
-        if (StringUtils.isNotBlank(vendorStateForLookup)) {
-            if (StringUtils.isBlank(typeCd)) {
-                GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_TYPE_CODE, 
-                        VendorKeyConstants.ERROR_VENDOR_LOOKUP_STATE_NO_TYPE);
-            }
         }
     }
 

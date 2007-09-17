@@ -122,8 +122,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                     if (StringUtils.isNotBlank(costSourceCode)) {
                         document.setPurchaseOrderCostSourceCode(costSourceCode);
                         document.refreshReferenceObject(PurapPropertyConstants.PURCHASE_ORDER_COST_SOURCE); 
-                        // document.setPurchaseOrderCostSource(refreshVendorContract.getPurchaseOrderCostSource());
-                    }
+                     }
                 }
             }
         }

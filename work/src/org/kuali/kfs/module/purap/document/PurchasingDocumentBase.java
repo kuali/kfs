@@ -280,17 +280,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     public void setPurchaseOrderCostSourceCode(String purchaseOrderCostSourceCode) {
         this.purchaseOrderCostSourceCode = purchaseOrderCostSourceCode;
     }
-
-    /**
-     * Gets the purchaseOrderCostSource description 
-     *
-    public String getPurchaseOrderCostSourceDescription() {
-        return new PurchaseOrderCostSourceValuesFinder().getKeyLabel(purchaseOrderCostSourceCode);
-    }
-
-    public void setPurchaseOrderCostSourceDescription(String name) {
-    }
-    */
     
     /**
      * Gets the deliveryRequiredDateReasonCode attribute.

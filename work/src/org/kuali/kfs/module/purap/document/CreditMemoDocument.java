@@ -194,6 +194,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
             if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
                 SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.CreditMemoStatuses.COMPLETE);
                 SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(this);
+                //TODO: ctk - we need a cancel check here in case it's DPTA/AUTO approved and not extracted.
                 return;
             }
             // DOCUMENT DISAPPROVED

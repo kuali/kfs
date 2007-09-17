@@ -929,6 +929,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                     SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(this);
                     return;
                 }
+                //TODO: ctk - we need a cancel check here in case it's DPTA/AUTO approved and not extracted.
             }
             // DOCUMENT DISAPPROVED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {

@@ -28,18 +28,13 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapConstants.AccountsPayableDocumentStrings;
 import org.kuali.module.purap.PurapConstants.CMDocumentsStrings;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.rule.event.CalculateAccountsPayableEvent;
 import org.kuali.module.purap.service.CreditMemoService;
-import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.service.PurapServiceTest;
-import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.PurQuestionCallback;
 import org.kuali.module.purap.web.struts.form.CreditMemoForm;
 

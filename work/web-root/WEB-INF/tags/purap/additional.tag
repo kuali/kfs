@@ -132,7 +132,7 @@
 		                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionOrganizationReference2Text}" /></div>
 		                </th>
 		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference2Text}" property="document.requisitionOrganizationReference1Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+		                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference2Text}" property="document.requisitionOrganizationReference2Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
 		                </td>
 	                </c:when>
         			<c:otherwise>
@@ -160,7 +160,7 @@
 		                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionOrganizationReference3Text}" /></div>
 		                </th>
 		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference1Text}" property="document.requisitionOrganizationReference3Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+		                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference3Text}" property="document.requisitionOrganizationReference3Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
 		                </td>
 	                </c:when>
         			<c:otherwise>

@@ -122,6 +122,14 @@ public class PositionSalarySettingAction extends KualiAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        PositionSalarySettingForm tForm = (PositionSalarySettingForm) form;
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Save for Salary Setting by Position");
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 //TODO this will eventually be spit out into close and save methods, with close calling this method        
         PositionSalarySettingForm positionSalarySettingForm = (PositionSalarySettingForm) form;

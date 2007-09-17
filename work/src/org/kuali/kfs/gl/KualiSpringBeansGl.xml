@@ -788,9 +788,6 @@
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
-		<property name="lookupService">
-			<ref bean="originEntryLiteCachingLookup" />
-		</property>
 	</bean>
 	
 	<bean id="originEntryLiteService" class="org.kuali.module.gl.service.impl.OriginEntryLiteServiceImpl">

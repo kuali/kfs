@@ -73,6 +73,7 @@ import org.kuali.module.gl.service.ScrubberValidator;
 import org.kuali.module.gl.service.OriginEntryableLookupService;
 import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
 import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
+import org.kuali.module.gl.util.CachingLookup;
 import org.kuali.module.gl.util.CollectorReportData;
 import org.kuali.module.gl.util.DocumentGroupData;
 import org.kuali.module.gl.util.Message;
@@ -566,6 +567,7 @@ public class ScrubberProcess {
      * @param originEntryGroup Group to process
      */
     private void processGroup(OriginEntryGroup originEntryGroup) {
+        this.referenceLookup.setLookupService(SpringContext.getBean(CachingLookup.class));
 
         OriginEntryable lastEntry = null;
         scrubCostShareAmount = KualiDecimal.ZERO;
@@ -792,6 +794,8 @@ public class ScrubberProcess {
             // Generate last offset (if necessary)
             generateOffset(lastEntry);
         }
+        
+        this.referenceLookup.setLookupService(null);
     }
 
     private boolean isFatal(List<Message> errors) {

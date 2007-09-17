@@ -68,7 +68,7 @@
                 <shortLabel>Text</shortLabel>
 
                 <maxLength>20</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <text size="22" />
@@ -83,7 +83,7 @@
                 <shortLabel>Text</shortLabel>
 
                 <maxLength>20</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <text size="22" />
@@ -98,7 +98,7 @@
                 <shortLabel>Text</shortLabel>
 
                 <maxLength>20</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <text size="22" />

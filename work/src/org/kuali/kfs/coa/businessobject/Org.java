@@ -884,7 +884,12 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
             seen.add(org);
             org = SpringContext.getBean(OrganizationService.class).getByPrimaryId(rChart, rOrg);
 
-            result.append(rChart + "/" + rOrg + " " + ((org == null) ? "" : org.getOrganizationName()) + "\n");
+            result.append(rChart).append("/").append(rOrg).append(" ");
+            result.append(((org == null) ? "" : org.getOrganizationName()));
+            if(org.getReportsToOrganizationCode() != null && !seen.contains(org)) {
+                result.append(" ==> ");
+            }
+            result.append("\n");
         }
 
         return result.toString();

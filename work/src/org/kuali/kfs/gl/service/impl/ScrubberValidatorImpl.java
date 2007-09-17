@@ -73,7 +73,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private AccountService accountService;
     private OriginationCodeService originationCodeService;
     private PersistenceStructureService persistenceStructureService;
-    private OriginEntryableLookupService referenceLookup;
+    private ThreadLocal<OriginEntryableLookupService> referenceLookup = new ThreadLocal<OriginEntryableLookupService>();
 
     public static final String DATE_FORMAT_STRING = "yyyy-MM-dd";
 
@@ -258,7 +258,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message validateAccount(OriginEntryable originEntry, OriginEntryable workingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateAccount() started");
 
-        Account originEntryAccount = referenceLookup.getAccount(originEntry);
+        Account originEntryAccount = referenceLookup.get().getAccount(originEntry);
         if (originEntryAccount == null) {
             return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ACCOUNT_NOT_FOUND) + "(" + originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber() + ")", Message.TYPE_FATAL);
         }
@@ -314,7 +314,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         List checkedAccountNumbers = new ArrayList();
 
         Account continuationAccount = null;
-        Account originEntryAccount = referenceLookup.getAccount(originEntry);
+        Account originEntryAccount = referenceLookup.get().getAccount(originEntry);
 
         String chartCode = originEntryAccount.getContinuationFinChrtOfAcctCd();
         String accountNumber = originEntryAccount.getContinuationAccountNumber();
@@ -420,7 +420,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         // sub account number of the input origin entry.
         if (StringUtils.hasText(originEntry.getSubAccountNumber())) {
             // sub account IS specified
-            SubAccount originEntrySubAccount = referenceLookup.getSubAccount(originEntry);
+            SubAccount originEntrySubAccount = referenceLookup.get().getSubAccount(originEntry);
             if (!KFSConstants.getDashSubAccountNumber().equals(originEntry.getSubAccountNumber())) {
                 if (originEntrySubAccount == null) {
                     // sub account is not valid
@@ -461,7 +461,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         LOG.debug("validateProjectCode() started");
 
         if (StringUtils.hasText(originEntry.getProjectCode()) && !KFSConstants.getDashProjectCode().equals(originEntry.getProjectCode())) {
-            ProjectCode originEntryProject = referenceLookup.getProjectCode(originEntry);
+            ProjectCode originEntryProject = referenceLookup.get().getProjectCode(originEntry);
             if (originEntryProject == null) {
                 return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_PROJECT_CODE_NOT_FOUND) + " (" + originEntry.getProjectCode() + ")", Message.TYPE_FATAL);
             }
@@ -519,7 +519,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }*/
         }
 
-        Options originEntryOption = referenceLookup.getOption(originEntry);
+        Options originEntryOption = referenceLookup.get().getOption(originEntry);
         if (originEntryOption == null) {
             return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND) + " (" + originEntry.getUniversityFiscalYear() + ")", Message.TYPE_FATAL);
         }
@@ -555,7 +555,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message validateDocumentType(OriginEntryable originEntry, OriginEntryable workingEntry) {
         LOG.debug("validateDocumentType() started");
 
-        DocumentType originEntryDocumentType = referenceLookup.getDocumentType(originEntry);
+        DocumentType originEntryDocumentType = referenceLookup.get().getDocumentType(originEntry);
         if (originEntryDocumentType == null) {
             return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_DOCUMENT_TYPE_NOT_FOUND) + " (" + originEntry.getFinancialDocumentTypeCode() + ")", Message.TYPE_FATAL);
         }
@@ -568,7 +568,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         LOG.debug("validateOrigination() started");
 
         if (StringUtils.hasText(originEntry.getFinancialSystemOriginationCode())) {
-            OriginationCode originEntryOrigination = referenceLookup.getOriginationCode(originEntry);
+            OriginationCode originEntryOrigination = referenceLookup.get().getOriginationCode(originEntry);
             if (originEntryOrigination == null) {
                 return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ORIGIN_CODE_NOT_FOUND) + " (" + originEntry.getFinancialSystemOriginationCode() + ")", Message.TYPE_FATAL);
             }
@@ -602,7 +602,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message validateChart(OriginEntryable originEntry, OriginEntryable workingEntry) {
         LOG.debug("validateChart() started");
 
-        Chart originEntryChart = referenceLookup.getChart(originEntry);
+        Chart originEntryChart = referenceLookup.get().getChart(originEntry);
         if (originEntryChart == null) {
             return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CHART_NOT_FOUND) + " (" + originEntry.getChartOfAccountsCode() + ")", Message.TYPE_FATAL);
         }
@@ -631,7 +631,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         workingEntry.setFinancialObjectCode(originEntry.getFinancialObjectCode());
 
         // the fiscal year can be blank in originEntry, but we're assuming that the year attribute is populated by the validate year method
-        ObjectCode workingEntryFinancialObject = referenceLookup.getFinancialObject(workingEntry);
+        ObjectCode workingEntryFinancialObject = referenceLookup.get().getFinancialObject(workingEntry);
         if (workingEntryFinancialObject == null) {
             return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_FOUND) + " (" + originEntry.getUniversityFiscalYear() + "-" + originEntry.getChartOfAccountsCode() + "-" + originEntry.getFinancialObjectCode() + ")", Message.TYPE_FATAL);
         }
@@ -650,7 +650,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         if (!StringUtils.hasText(originEntry.getFinancialObjectTypeCode())) {
             // If not specified, use the object type from the object code
-            ObjectCode workingEntryFinancialObject = referenceLookup.getFinancialObject(workingEntry);
+            ObjectCode workingEntryFinancialObject = referenceLookup.get().getFinancialObject(workingEntry);
             workingEntry.setFinancialObjectTypeCode(workingEntryFinancialObject.getFinancialObjectTypeCode());
         }
         else {
@@ -659,7 +659,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             // persistenceService.retrieveReferenceObject(workingEntry, KFSPropertyConstants.OBJECT_TYPE);
         }
 
-        ObjectType workingEntryObjectType = referenceLookup.getObjectType(workingEntry);
+        ObjectType workingEntryObjectType = referenceLookup.get().getObjectType(workingEntry);
         if (workingEntryObjectType == null) {
             return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_OBJECT_TYPE_NOT_FOUND) + " (" + originEntry.getFinancialObjectTypeCode() + ")", Message.TYPE_FATAL);
         }
@@ -675,7 +675,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         if (!KFSConstants.getDashFinancialSubObjectCode().equals(originEntry.getFinancialSubObjectCode())) {
-            SubObjCd originEntrySubObject = referenceLookup.getFinancialSubObject(originEntry);
+            SubObjCd originEntrySubObject = referenceLookup.get().getFinancialSubObject(originEntry);
             if (originEntrySubObject != null) {
                 // Exists
                 if (!originEntrySubObject.isFinancialSubObjectActiveIndicator()) {
@@ -699,7 +699,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         if (StringUtils.hasText(originEntry.getFinancialBalanceTypeCode())) {
             // balance type IS NOT empty
-            BalanceTyp originEntryBalanceType = referenceLookup.getBalanceType(originEntry);
+            BalanceTyp originEntryBalanceType = referenceLookup.get().getBalanceType(originEntry);
             if (originEntryBalanceType == null) {
                 // balance type IS NOT valid
                 return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_BALANCE_TYPE_NOT_FOUND) + " (" + originEntry.getFinancialBalanceTypeCode() + ")", Message.TYPE_FATAL);
@@ -743,7 +743,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
         else {
             // balance type IS empty. We can't set it if the year isn't set
-            Options workingEntryOption = referenceLookup.getOption(workingEntry);
+            Options workingEntryOption = referenceLookup.get().getOption(workingEntry);
             if (workingEntryOption != null) {
                 workingEntry.setFinancialBalanceTypeCode(workingEntryOption.getActualFinancialBalanceTypeCd());
             }
@@ -782,7 +782,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
         }
         else {
-            AccountingPeriod originEntryAccountingPeriod = referenceLookup.getAccountingPeriod(originEntry);
+            AccountingPeriod originEntryAccountingPeriod = referenceLookup.get().getAccountingPeriod(originEntry);
             if (originEntryAccountingPeriod == null) {
                 return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND) + " (" + originEntry.getUniversityFiscalPeriodCode() + ")", Message.TYPE_FATAL);
             }
@@ -824,7 +824,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             workingEntry.setReferenceFinancialDocumentNumber(originEntry.getReferenceFinancialDocumentNumber());
 
             // Validate reference document type
-            DocumentType originEntryReferenceDocumentType = referenceLookup.getReferenceDocumentType(originEntry);
+            DocumentType originEntryReferenceDocumentType = referenceLookup.get().getReferenceDocumentType(originEntry);
             if (originEntryReferenceDocumentType != null) {
                 workingEntry.setReferenceFinancialDocumentTypeCode(originEntry.getReferenceFinancialDocumentTypeCode());
             }
@@ -842,8 +842,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
         }
 
-        BalanceTyp workingEntryBalanceType = referenceLookup.getBalanceType(workingEntry);
-        ObjectType workingEntryObjectType = referenceLookup.getObjectType(workingEntry);
+        BalanceTyp workingEntryBalanceType = referenceLookup.get().getBalanceType(workingEntry);
+        ObjectType workingEntryObjectType = referenceLookup.get().getObjectType(workingEntry);
         if (workingEntryBalanceType == null || workingEntryObjectType == null) {
             // We are unable to check this because the balance type or object type is invalid.
             // It would be nice if we could still validate the entry, but we can't.
@@ -873,7 +873,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         LOG.debug("validateTransactionAmount() started");
 
         KualiDecimal amount = originEntry.getTransactionLedgerEntryAmount();
-        BalanceTyp originEntryBalanceType = referenceLookup.getBalanceType(originEntry);
+        BalanceTyp originEntryBalanceType = referenceLookup.get().getBalanceType(originEntry);
         if (originEntryBalanceType == null) {
             // We can't validate the amount without a balance type code
             return null;
@@ -948,6 +948,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @see org.kuali.module.gl.service.ScrubberValidator#setReferenceLookup(org.kuali.module.gl.service.OriginEntryableLookupService)
      */
     public void setReferenceLookup(OriginEntryableLookupService originEntryableLookupService) {
-        this.referenceLookup = originEntryableLookupService;
+        this.referenceLookup.set(originEntryableLookupService);
     }
 }

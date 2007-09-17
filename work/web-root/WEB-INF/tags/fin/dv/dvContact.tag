@@ -42,10 +42,6 @@
                     <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${dvAttributes.campusCode}"/></div></th>
                     <td><kul:htmlControlAttribute attributeEntry="${dvAttributes.campusCode}" property="document.campusCode" readOnly="true"/></td>
                   </tr>
-                  <tr>
-                    <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbVchrCheckStubText}"/></div></th>
-                    <td><kul:htmlControlAttribute attributeEntry="${dvAttributes.disbVchrCheckStubText}" property="document.disbVchrCheckStubText" readOnly="${!fullEntryMode}"/></td>
-                  </tr>
                 </tbody>
               </table>
     </div>

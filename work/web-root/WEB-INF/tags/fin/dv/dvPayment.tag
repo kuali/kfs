@@ -123,6 +123,10 @@
                 </c:if>
               </td>
             </tr>
+            <tr>
+              <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbVchrCheckStubText}"/></div></th>
+              <td colspan="3"><kul:htmlControlAttribute attributeEntry="${dvAttributes.disbVchrCheckStubText}" property="document.disbVchrCheckStubText" readOnly="${!fullEntryMode}"/></td>
+            </tr>
           </table>
      </div>
 </kul:tab>

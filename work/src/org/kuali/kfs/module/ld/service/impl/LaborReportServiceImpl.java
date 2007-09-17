@@ -163,7 +163,8 @@ public class LaborReportServiceImpl implements LaborReportService {
 
         BalanceReport report = new BalanceReport();
         String filePrefix = reportInfo.reportFilename() + "_" + fiscalYear;
-        report.generateReport(runDate, summary, fiscalYear.toString(), balanceTypes, filePrefix, reportsDirectory);
+        String reportTitle = reportInfo.reportTitle() + " for Fiscal Year " + fiscalYear;
+        report.generateReport(summary, balanceTypes, runDate, reportTitle, filePrefix, reportsDirectory);
     }
 
     /**
@@ -178,7 +179,8 @@ public class LaborReportServiceImpl implements LaborReportService {
 
         BalanceEncumbranceReport report = new BalanceEncumbranceReport();
         String filePrefix = reportInfo.reportFilename() + "_" + fiscalYear;
-        report.generateReport(runDate, summary, fiscalYear.toString(), balanceTypes, filePrefix, reportsDirectory);
+        String reportTitle = reportInfo.reportTitle() + " for Fiscal Year " + fiscalYear;
+        report.generateReport(summary, balanceTypes, runDate, reportTitle, filePrefix, reportsDirectory);
     }
 
     /**

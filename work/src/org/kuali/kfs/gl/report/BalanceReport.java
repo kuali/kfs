@@ -89,7 +89,6 @@ public class BalanceReport {
         }
     }
 
-
     /**
      * Print a balance summary report
      * 
@@ -98,6 +97,20 @@ public class BalanceReport {
      * @param balanceTypeCodes
      */
     public void generateReport(Date runDate, List<GlSummary> glBalances, String fiscalYearName, List<String> balanceTypeCodes, String fileprefix, String destinationDirectory) {
+        LOG.debug("generateReport() started");
+        
+        String reportTitle = "GL Summary for Fiscal Year " + fiscalYearName;
+        this.generateReport(glBalances, balanceTypeCodes, runDate, reportTitle, fileprefix, destinationDirectory);
+    }
+
+    /**
+     * Print a balance summary report
+     * 
+     * @param runDate
+     * @param fiscalYearName
+     * @param balanceTypeCodes
+     */
+    public void generateReport(List<GlSummary> glBalances, List<String> balanceTypeCodes, Date runDate, String reportTitle, String fileprefix, String destinationDirectory) {
         LOG.debug("generateReport() started");
 
         Font headerFont = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD);
@@ -108,7 +121,7 @@ public class BalanceReport {
         PageHelper helper = new PageHelper();
         helper.runDate = runDate;
         helper.headerFont = headerFont;
-        helper.title = "GL Summary for Fiscal Year " + fiscalYearName;
+        helper.title = reportTitle;
         helper.type = "Balance Type of ";
 
         int total = balanceTypeCodes.size();

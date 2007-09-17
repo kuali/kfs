@@ -318,7 +318,10 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             if (purchasingForm.getAccountDistributionsourceAccountingLines().size() > 0) {
                 for (PurApItem item : ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems()) {
                     BigDecimal zero = new BigDecimal(0);
-                    if (item.getSourceAccountingLines().size() == 0 && item.getItemUnitPrice() != null && zero.compareTo(item.getItemUnitPrice()) < 0) {
+                    // We should be distributing accounting lines to above the line items all the time;
+                    // but only to the below the line items when there is a unit cost.
+                    boolean unitCostNotZeroForBelowLineItems = item.getItemType().isItemTypeAboveTheLineIndicator() ? true : item.getItemUnitPrice() != null && zero.compareTo(item.getItemUnitPrice()) < 0;
+                    if (item.getSourceAccountingLines().size() == 0 && unitCostNotZeroForBelowLineItems) {
                         item.getSourceAccountingLines().addAll(purchasingForm.getAccountDistributionsourceAccountingLines());
                     }
                 }

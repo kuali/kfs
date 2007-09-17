@@ -81,7 +81,7 @@ public class OrganizationParameterRule extends MaintenanceDocumentRuleBase {
         Chart chart = SpringContext.getBean(ChartService.class).getByPrimaryId(newOrganizationParameter.getChartOfAccountsCode());
         if (ObjectUtils.isNull(chart)) {
             success &= false;
-            errorMap.putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, PurapKeyConstants.ERROR_INVALID_CHART_OF_ACCOUNTS_CODE);
+            errorMap.putError(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.NEW_MAINTAINABLE_OBJECT + "." + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, PurapKeyConstants.ERROR_INVALID_CHART_OF_ACCOUNTS_CODE);
         }
         return success;
     }
@@ -93,7 +93,7 @@ public class OrganizationParameterRule extends MaintenanceDocumentRuleBase {
         Org org = SpringContext.getBean(OrganizationService.class).getByPrimaryId(newOrganizationParameter.getChartOfAccountsCode(), newOrganizationParameter.getOrganizationCode());
         if (ObjectUtils.isNull(org)) {
             success &= false;
-            errorMap.putError(KFSPropertyConstants.ORGANIZATION_CODE, PurapKeyConstants.ERROR_INVALID_ORGANIZATION_CODE);
+            errorMap.putError(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.NEW_MAINTAINABLE_OBJECT + "." + KFSPropertyConstants.ORGANIZATION_CODE, PurapKeyConstants.ERROR_INVALID_ORGANIZATION_CODE);
         }
         return success;
     }

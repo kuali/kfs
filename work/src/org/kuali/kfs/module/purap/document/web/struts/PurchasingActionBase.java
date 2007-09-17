@@ -81,14 +81,11 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             document.setVendorContractName(null);
 
             // retrieve vendor based on selection from vendor lookup
-            VendorDetail refreshVendorDetail = new VendorDetail();
-            refreshVendorDetail.setVendorDetailAssignedIdentifier(document.getVendorDetailAssignedIdentifier());
-            refreshVendorDetail.setVendorHeaderGeneratedIdentifier(document.getVendorHeaderGeneratedIdentifier());
-            refreshVendorDetail = (VendorDetail) businessObjectService.retrieve(refreshVendorDetail);
-            document.templateVendorDetail(refreshVendorDetail);
+            document.refreshReferenceObject("vendorDetail");
+            document.templateVendorDetail(document.getVendorDetail());
 
             // populate default address based on selected vendor
-            VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(refreshVendorDetail.getVendorAddresses(), refreshVendorDetail.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
+            VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(document.getVendorDetail().getVendorAddresses(), document.getVendorDetail().getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
             document.templateVendorAddress(defaultAddress);
         }
 
@@ -110,14 +107,13 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 document.setVendorCustomerNumber(null);
 
                 // retrieve Vendor based on selected contract
-                VendorDetail refreshVendorDetail = new VendorDetail();
-                refreshVendorDetail.setVendorDetailAssignedIdentifier(refreshVendorContract.getVendorDetailAssignedIdentifier());
-                refreshVendorDetail.setVendorHeaderGeneratedIdentifier(refreshVendorContract.getVendorHeaderGeneratedIdentifier());
-                refreshVendorDetail = (VendorDetail) businessObjectService.retrieve(refreshVendorDetail);
-                document.templateVendorDetail(refreshVendorDetail);
+                document.setVendorDetailAssignedIdentifier(refreshVendorContract.getVendorDetailAssignedIdentifier());
+                document.setVendorHeaderGeneratedIdentifier(refreshVendorContract.getVendorHeaderGeneratedIdentifier());
+                document.refreshReferenceObject("vendorDetail");
+                document.templateVendorDetail(document.getVendorDetail());
 
                 // populate default address from selected vendor
-                VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(refreshVendorDetail.getVendorAddresses(), refreshVendorDetail.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
+                VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(document.getVendorDetail().getVendorAddresses(), document.getVendorDetail().getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
                 document.templateVendorAddress(defaultAddress);
                 
                 // populate cost source from the selected contract
@@ -146,13 +142,8 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         //We're supposed to refresh vendor again based on the vendor header and detail id on the requisition, unless if
         //this was a refresh for contract lookup or refresh for vendor lookup
         if (!(StringUtils.equals(refreshCaller, VendorConstants.VENDOR_CONTRACT_LOOKUPABLE_IMPL) || (StringUtils.equalsIgnoreCase(refreshCaller, VendorConstants.VENDOR_LOOKUPABLE_IMPL)))) {
-            // retrieve vendor based on selection from vendor lookup
-            VendorDetail refreshVendorDetail = new VendorDetail();
-            refreshVendorDetail.setVendorDetailAssignedIdentifier(document.getVendorDetailAssignedIdentifier());
-            refreshVendorDetail.setVendorHeaderGeneratedIdentifier(document.getVendorHeaderGeneratedIdentifier());
-            refreshVendorDetail = (VendorDetail) businessObjectService.retrieve(refreshVendorDetail);
-            document.templateVendorDetail(refreshVendorDetail);
-
+            document.refreshReferenceObject("vendorDetail");
+            document.templateVendorDetail(document.getVendorDetail());
         }
         return super.refresh(mapping, form, request, response);
     }

@@ -27,7 +27,7 @@ public class PurapParameterConstants {
     //PREQ
     private static final String PREQ_PREFIX = "PREQ_";
     //CM
-    private static final String CM_PREFIX = "AP_";
+    private static final String CM_PREFIX = "CM_";
     
     // GROUP NAMES
     public static final String PURAP_ADMIN_GROUP = "PurapAdminGroup";

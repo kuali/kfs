@@ -16,7 +16,6 @@
 package org.kuali.module.labor.service.impl;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -27,10 +26,9 @@ import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
-import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
+import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 import org.kuali.module.labor.service.LaborNightlyOutService;
 import org.kuali.module.labor.service.LaborReportService;
@@ -103,12 +101,15 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
 
         // copy the labor general ledger entry to origin entry table
         Collection<LaborGeneralLedgerEntry> generalLedgerEntries = businessObjectService.findAll(LaborGeneralLedgerEntry.class);
+        int numberOfGLEntries = generalLedgerEntries.size();
+        
         for(LaborGeneralLedgerEntry entry : generalLedgerEntries){
             boolean isSaved = saveAsGLOriginEntry(entry, group);
         }
+        
         laborReportService.generateFeedSummaryReport(group, ReportRegistry.LABOR_FEED_ENTRY_SUMMARY, reportDirectory, runDate);        
     }
-
+    
     /*
      * save the given pending ledger entry as a labor origin entry
      */

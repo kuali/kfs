@@ -192,10 +192,12 @@ public class LaborReportServiceImpl implements LaborReportService {
         
         List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
         groups.add(group);
-        
-        PosterOutputSummaryReport posterOutputSummaryReport = new PosterOutputSummaryReport();
-        Map<String, PosterOutputSummaryEntry> posterOutputSummary = originEntryService.getPosterOutputSummaryByGroupId(groups);
-        posterOutputSummaryReport.generateReport(posterOutputSummary, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
+
+        LedgerEntryHolder ledgerEntries;
+        ledgerEntries = groups.size() > 0 ? originEntryService.getSummaryByGroupId(groups) : new LedgerEntryHolder();
+
+        LedgerReport ledgerReport = new LedgerReport();
+        ledgerReport.generateReport(ledgerEntries, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
     }
 
     /**

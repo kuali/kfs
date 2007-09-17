@@ -226,8 +226,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         }
         List<ActionRequestVO> activeRequests = new ArrayList<ActionRequestVO>();
         UserIdVO userIdVO = (ObjectUtils.isNotNull(user)) ? new NetworkIdVO(user.getPersonUserIdentifier()) : null;
-        // abyrne modified the line below, cause it didn't compile
-        ActionRequestVO[] actionRequests = kualiWorkflowInfo.getActionRequests(documentNumber);
+        ActionRequestVO[] actionRequests = kualiWorkflowInfo.getActionRequests(documentNumber, nodeName, userIdVO);
         for (ActionRequestVO actionRequest : actionRequests) {
             // identify which requests for the given node name can be satisfied by an action by this user
             if (actionRequest.isActivated()) {

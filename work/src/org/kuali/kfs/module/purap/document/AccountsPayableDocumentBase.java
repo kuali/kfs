@@ -92,7 +92,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
 
     public boolean requiresAccountsPayableReviewRouting() {
-        return documentHasNoImagesAttached();
+        return !approvalAtAccountsPayableReviewAllowed();
     }
 
     public boolean approvalAtAccountsPayableReviewAllowed() {

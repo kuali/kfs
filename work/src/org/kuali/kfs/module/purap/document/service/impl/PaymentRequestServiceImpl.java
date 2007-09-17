@@ -472,7 +472,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         //add default number of days to processed
         processedDateCalendar.add(Calendar.DAY_OF_MONTH,PurapConstants.PREQ_PAY_DATE_DEFAULT_NUMBER_OF_DAYS);
 
-        if(ObjectUtils.isNull(terms)) {
+        if(ObjectUtils.isNull(terms) || StringUtils.isEmpty(terms.getVendorPaymentTermsCode())) {
+            invoicedDateCalendar.add(Calendar.DAY_OF_MONTH, PurapConstants.PREQ_PAY_DATE_EMPTY_TERMS_DEFAULT_DAYS);
             return returnLaterDate(invoicedDateCalendar, processedDateCalendar);
         }
         

@@ -342,6 +342,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     public Status getStatus() {
+        if(ObjectUtils.isNull(this.status) && StringUtils.isNotEmpty(this.getStatusCode())) {
+            this.refreshReferenceObject(PurapPropertyConstants.STATUS);
+        }
         return status;
     }
 

@@ -145,6 +145,8 @@ public class YearEndServiceImpl implements YearEndService {
         int nonFatalCount = 0;
 
         boolean nonFatalErrorFlag = false;
+        
+        String lastAccount = null;
 
         while (balanceIterator.hasNext()) {
 
@@ -834,6 +836,11 @@ public class YearEndServiceImpl implements YearEndService {
                     // 1144 008190 WRITE GLE-DATA FROM GLEN-RECORD.
 
                     originEntryService.createEntry(offsetEntry, nominalClosingOriginEntryGroup);
+                    
+                    if (!balance.getAccountNumber().equals(lastAccount)) {
+                        // clear cache
+                        lastAccount = balance.getAccountNumber();
+                    }
 
                     // 1145 008200 MOVE WS-AMT-N TO TRN-LDGR-ENTR-AMT.
                     // 1146 008210 IF GLEDATA-STATUS > '09'

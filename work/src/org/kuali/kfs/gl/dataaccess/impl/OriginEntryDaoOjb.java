@@ -504,4 +504,12 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
 
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
+
+    /**
+     * @see org.kuali.module.gl.dao.OriginEntryDao#clearCache()
+     */
+    public void clearCache() {
+        LOG.info("PersistenceBroker "+getPersistenceBrokerTemplate().getPbKey().toString()+" is clearing cache");
+        getPersistenceBrokerTemplate().clearCache();
+    }
 }

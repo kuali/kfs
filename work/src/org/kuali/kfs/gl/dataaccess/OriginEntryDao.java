@@ -144,4 +144,9 @@ public interface OriginEntryDao {
      * @return a set of summarized information of poster input entries within the specified groups
      */       
     public Iterator getPosterOutputSummaryByGroupId(Collection groups);
+    
+    /**
+     * force current persistence broker to clear its cache
+     */
+    public void clearCache();
 }

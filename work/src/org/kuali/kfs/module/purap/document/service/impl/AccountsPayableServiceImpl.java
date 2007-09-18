@@ -35,6 +35,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.bo.PurApAccountingLineBase;
 import org.kuali.module.purap.document.AccountsPayableDocument;
@@ -392,8 +393,10 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         }
         
         if (purapService.isFullDocumentEntryCompleted(apDocument)) {
-            //TODO: ckirschenman check with Heather about whether it's ok to enable this (and can I get a delegate method)
-//            purapGeneralLedgerService.generateEntriesCancel(apDocument);
+            //TODO remove this config (for testing only) hjs
+            if (SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterIndicator(PurapRuleConstants.PURAP_ADMIN_GROUP, "PURAP_GL_CANCEL_AP")) {
+                purapGeneralLedgerService.generateEntriesCancelAccountsPayableDocument(apDocument);
+            }
         }
         AccountsPayableDocumentSpecificService accountsPayableDocumentSpecificService = apDocument.getDocumentSpecificService();
         String cancelledStatusCode = accountsPayableDocumentSpecificService.updateStatusByNode(currentNodeName, cmDoc);

@@ -21,6 +21,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
@@ -902,4 +904,43 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
 
         return simpleValues;
     }
+    
+    /**
+     * Override needed for PURAP GL entry creation (hjs)
+     *   - please do not add "amount" to this method
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj) {
+        if (! (obj instanceof AccountingLine) ) { return false; }
+        AccountingLine accountingLine = (AccountingLine)obj;
+        return new EqualsBuilder()
+            .append(this.chartOfAccountsCode, accountingLine.getChartOfAccountsCode())
+            .append(this.accountNumber,accountingLine.getAccountNumber())
+            .append(this.subAccountNumber,accountingLine.getSubAccountNumber())
+            .append(this.financialObjectCode,accountingLine.getFinancialObjectCode())
+            .append(this.financialSubObjectCode,accountingLine.getFinancialSubObjectCode())
+            .append(this.projectCode,accountingLine.getProjectCode())
+            .append(this.organizationReferenceId,accountingLine.getOrganizationReferenceId())
+            .isEquals();
+    }
+
+    /**
+     * Override needed for PURAP GL entry creation (hjs)
+     *   - please do not add "amount" to this method
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        return new HashCodeBuilder(37,41)
+            .append(this.chartOfAccountsCode)
+            .append(this.accountNumber)
+            .append(this.subAccountNumber)
+            .append(this.financialObjectCode)
+            .append(this.financialSubObjectCode)
+            .append(this.projectCode)
+            .append(this.organizationReferenceId)
+            .toHashCode();
+    }
+
 }

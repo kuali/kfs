@@ -17,6 +17,7 @@ package org.kuali.module.purap.service;
 
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -36,15 +37,11 @@ public interface PurapGeneralLedgerService {
 
     public void generateEntriesCreatePaymentRequest(PaymentRequestDocument preq);
 
-    public void generateEntriesCancelPaymentRequest(PaymentRequestDocument preq);
-
     public void generateEntriesModifyPaymentRequest(PaymentRequestDocument preq);
 
     public void generateEntriesCreateCreditMemo(CreditMemoDocument cm);
 
-    public void generateEntriesCancelCreditMemo(CreditMemoDocument cm);
-
-    public void generateEntriesModifyCreditMemo(CreditMemoDocument cm);
+    public void generateEntriesCancelAccountsPayableDocument(AccountsPayableDocument apDocument);
 
     public void generateEntriesApproveAmendPurchaseOrder(PurchaseOrderDocument po);
 

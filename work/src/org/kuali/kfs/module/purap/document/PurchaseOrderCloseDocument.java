@@ -18,7 +18,9 @@ package org.kuali.module.purap.document;
 
 import static org.kuali.core.util.KualiDecimal.ZERO;
 
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.util.KualiDecimal;
@@ -73,7 +75,7 @@ public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
             PurchaseOrderAccount lastAccount = null;
             if ( itemAmount.compareTo(ZERO) != 0 ) {
                 // Sort accounts
-//                Collections.sort( (List)item.getSourceAccountingLines() );
+                Collections.sort( (List)item.getSourceAccountingLines() );
               
                 for (Iterator iterAcct = item.getSourceAccountingLines().iterator(); iterAcct.hasNext();) {
                     PurchaseOrderAccount acct = (PurchaseOrderAccount) iterAcct.next();

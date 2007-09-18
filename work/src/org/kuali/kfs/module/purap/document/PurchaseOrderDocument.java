@@ -200,6 +200,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                 }
             }//endfor accounts
 
+            //FIXME finish coding rounding
           // Rounding
 //          if (lastAccount != null && this.getAmount() != null) {
 //              KualiDecimal difference = this.getAmount().subtract(accountTotalAmount);

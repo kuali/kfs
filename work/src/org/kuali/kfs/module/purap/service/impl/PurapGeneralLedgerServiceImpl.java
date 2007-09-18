@@ -28,6 +28,7 @@ import static org.kuali.module.purap.PurapConstants.PURAP_ORIGIN_CODE;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -60,6 +61,7 @@ import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PaymentRequestSummaryAccount;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -207,7 +209,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                     preq.getAlternateVendorDetailAssignedIdentifier() != null && 
                     preq.getVendorHeaderGeneratedIdentifier().compareTo(preq.getAlternateVendorHeaderGeneratedIdentifier()) == 0 && 
                     preq.getVendorDetailAssignedIdentifier().compareTo(preq.getAlternateVendorDetailAssignedIdentifier()) == 0) {
-                // TODO PHASE 2b - once alternate payee functionality is added, name might be stored in preq insted of having to go to PO
+                // TODO PHASE 3 - once alternate payee functionality is added, name might be stored in preq insted of having to go to PO
                 explicitEntry.setTransactionLedgerEntryDescription(entryDescription(preq.getPurchaseOrderDocument().getAlternateVendorName()));
             }
             else {
@@ -229,7 +231,6 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             // This is required for encumbrance entries. It's not required for actual/liability
             // entries, but it makes things easier to deal with. If vendor, leave referring stuff blank.
             if (cm.isSourceDocumentPaymentRequest()) {
-
 
                 // if CM is off of PREQ, use vendor name associated with PREQ (primary or alternate)
                 PaymentRequestDocument cmPR = cm.getPaymentRequestDocument();
@@ -265,6 +266,18 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
     }// end purapCustomizeGeneralLedgerPendingEntry()
 
+    public void generateEntriesCancelAccountsPayableDocument(AccountsPayableDocument apDocument) {
+        if (apDocument instanceof PaymentRequestDocument) {
+            generateEntriesCancelPaymentRequest((PaymentRequestDocument)apDocument);
+        }
+        else if (apDocument instanceof CreditMemoDocument) {
+            generateEntriesCancelCreditMemo((CreditMemoDocument)apDocument);
+        }
+        else {
+            //doc not found
+        }
+    }
+        
     public void generateEntriesCreatePaymentRequest(PaymentRequestDocument preq) {
         generateEntriesPaymentRequest(preq, CREATE_PAYMENT_REQUEST);
     }
@@ -277,13 +290,13 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * 
      * @param preq PREQ to cancel
      */
-    public void generateEntriesCancelPaymentRequest(PaymentRequestDocument preq) {
+    private void generateEntriesCancelPaymentRequest(PaymentRequestDocument preq) {
         generateEntriesPaymentRequest(preq, CANCEL_PAYMENT_REQUEST);
     }
 
-    private void generateEntriesPaymentRequest(PaymentRequestDocument preq, boolean isCancel) {
+    private boolean generateEntriesPaymentRequest(PaymentRequestDocument preq, boolean isCancel) {
 
-        //FIXME move this code
+        boolean success = false;
         if (preq.getPurapDocumentIdentifier() != null) {
             
             /* Can't let generalLedgerPendingEntryService just create all the entries because we need the sequenceHelper to carry over
@@ -293,23 +306,26 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             
             generalLedgerPendingEntryService.delete(preq.getDocumentNumber());
             
-            boolean success = true;
             GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
 
-            //relieve encumbrances on PO
-            List encumbrances = relieveEncumbrance(preq);
+            List encumbrances = null;
+            if (!isCancel) {
+                //on create, relieve encumbrances on PO
+                encumbrances = relieveEncumbrance(preq);
+
+                //on create, use CREDIT code
+                preq.setDebitCreditCodeForGLEntries(GL_CREDIT_CODE);
+            }
+            else {
+                //on cancel, reencumber encumbrances on PO
+                encumbrances = reencumberEncumbrance(preq);
+
+                //on cancel, use DEBIT code
+                preq.setDebitCreditCodeForGLEntries(GL_DEBIT_CODE);
+            }
+                
             if (encumbrances != null) {
                 preq.setGenerateEncumbranceEntries(true);
-
-                if (!isCancel) {
-                    //on cancel, use CREDIT code
-                    preq.setDebitCreditCodeForGLEntries(GL_CREDIT_CODE);
-                }
-                else {
-                    //on create, use DEBIT code
-                    preq.setDebitCreditCodeForGLEntries(GL_DEBIT_CODE);
-                }
-                
                 for (Iterator iter = encumbrances.iterator(); iter.hasNext();) {
                     AccountingLine accountingLine = (AccountingLine) iter.next();
                     GenerateGeneralLedgerPendingEntriesEvent glEvent = new GenerateGeneralLedgerPendingEntriesEvent(preq, accountingLine, sequenceHelper);
@@ -343,13 +359,12 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 savePaymentRequestSummaryAccounts(accountingLines, preq.getPurapDocumentIdentifier());
             }
 
-            if (!success) {
-                //TODO blowup
+            if (success) {
+                //Manually save GL entries for Payment Request and encumbrances
+                saveGLEntries(preq.getGeneralLedgerPendingEntries());
             }
-
-            //Manually save GL entries for Payment Request and encumbrances
-            saveGLEntries(preq.getGeneralLedgerPendingEntries());
         }
+        return success;
     }
 
     /**
@@ -366,26 +381,8 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         generateEntriesModifyPaymentRequest(preq, false);
     }
 
-    /**
-     * This is called in the Tax route level of PREQ. It will adjust the accounts on the PREQ if the Tax approver
-     * changes them. It shouldn't generate any G/L entries if they don't change anything. It should only generate entries to move
-     * the money from the old account(s) to the new account(s). 
-     * 
-     * !!IMPORTANT!! Note that this must be called before the preq is stored to the database, since this needs to know the old and new values
-     * 
-     * @param preq Preq check for G/L entries
-     */
-    public void generateEntriesTaxApprovePaymentRequest(PaymentRequestDocument preq) {
-        LOG.debug("generateEntriesTaxApprovePreq() started");
-//        this.generateEntriesModifyPreq(preq, true);
-        throw new IllegalArgumentException("This method is not implemented");
-    }
-
     private void generateEntriesModifyPaymentRequest(PaymentRequestDocument preq, boolean oldPreqExcludeTaxItems) {
         LOG.debug("generateEntriesModifyPreq() started");
-
-//TODO PHASE 2B - ADD TAX EDITING
-//        Collection taxItems = GeneralUtilities.covertArrayToCollection(EpicConstants.ITEM_TYPES_TAX_ITEMS);
 
         Map actualsPositive = new HashMap();
         List<SourceAccountingLine> newAccountingLines = purapAccountingService.generateSummaryWithNoZeroTotals(preq.getItems());
@@ -396,10 +393,6 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         Map actualsNegative = new HashMap();
         List<PaymentRequestSummaryAccount> oldAccountingLines = getPaymentRequestSummaryAccounts(preq.getPurapDocumentIdentifier());
 
-//      TODO PHASE 2B - ADD TAX EDITING
-//        if (oldPreqExcludeTaxItems) {
-//            oldAccountingLines = oldPREQ.getDisplayAccounts(taxItems, PaymentRequest.LIST_ITEMS_EXCLUDED);
-//        }
         for (PaymentRequestSummaryAccount oldAccount : oldAccountingLines) {
             actualsNegative.put(oldAccount.generateSourceAccountingLine(), oldAccount.getAmount());
         }
@@ -430,14 +423,14 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         for (Iterator iter = glEntries.keySet().iterator(); iter.hasNext();) {
             SourceAccountingLine account = (SourceAccountingLine) iter.next();
             KualiDecimal amount = (KualiDecimal) glEntries.get(account);
-            if (amount.doubleValue() != 0) {
+            if (ZERO.compareTo(amount) != 0) {
                 account.setAmount(amount);
                 accounts.add(account);
             }
         }
 
         //save summary accounts
-        savePaymentRequestSummaryAccounts(accounts, preq.getPurapDocumentIdentifier());
+        savePaymentRequestSummaryAccounts(newAccountingLines, preq.getPurapDocumentIdentifier());
         
         LOG.debug("generateEntriesModifyPreq() Generate GL entries");
         preq.setSourceAccountingLines(accounts);
@@ -451,11 +444,11 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         generateEntriesCreditMemo(cm, CREATE_CREDIT_MEMO);
     }
     
-    public void generateEntriesCancelCreditMemo(CreditMemoDocument cm) {
+    private void generateEntriesCancelCreditMemo(CreditMemoDocument cm) {
         generateEntriesCreditMemo(cm, CANCEL_CREDIT_MEMO);
     }
     
-    private void generateEntriesCreditMemo(CreditMemoDocument cm, boolean isCancel) {
+    private boolean generateEntriesCreditMemo(CreditMemoDocument cm, boolean isCancel) {
         LOG.debug("generateEntriesCreditMemo() started");
 
         generalLedgerPendingEntryService.delete(cm.getDocumentNumber());
@@ -512,20 +505,12 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
-        if (!success) {
-            //TODO blowup
+        if (success) {
+            saveGLEntries(cm.getGeneralLedgerPendingEntries());
         }
 
-        saveGLEntries(cm.getGeneralLedgerPendingEntries());
         LOG.debug("generateEntriesCreditMemo() ended");
-    }
-
-    /**
-     * This isn't necessary for this release
-     */
-    public void generateEntriesModifyCreditMemo(CreditMemoDocument cm) {
-        LOG.debug("generateEntriesModifyCm() started");
-        throw new IllegalArgumentException("This method is not implemented");
+        return success;
     }
 
     public void generateEntriesApproveAmendPurchaseOrder(PurchaseOrderDocument po) {
@@ -780,11 +765,10 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 LOG.debug("relieveEncumbrance() " + logItmNbr + " New Invoiced Total Amount is: " + newInvoicedTotalAmount);
                 poItem.setItemInvoicedTotalAmount(newInvoicedTotalAmount);
 
-                // make the list of accounts for the disencumbrance entry
                 // Sort accounts
-                //FIXME none of the sorting of accounts work
-//                Collections.sort((List) poItem.getSourceAccountingLines());
+                Collections.sort((List) poItem.getSourceAccountingLines());
 
+                // make the list of accounts for the disencumbrance entry
                 PurchaseOrderAccount lastAccount = null;
                 KualiDecimal accountTotal = ZERO;
 //                Collections.sort((List) poItem.getSourceAccountingLines());
@@ -872,9 +856,10 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param preq PREQ for invoice
      * @return Map of GlAccountingString/BigDecimal for amounts to re-encumber the encumbrance
      */
-    private List reencumberEncumbrance(PurchaseOrderDocument po, PaymentRequestDocument preq) {
+    private List reencumberEncumbrance(PaymentRequestDocument preq) {
         LOG.debug("reencumberEncumbrance() started");
 
+        PurchaseOrderDocument po = preq.getPurchaseOrderDocument();
         Map encumbranceAccountMap = new HashMap();
 
         // Get each item one by one
@@ -947,8 +932,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 KualiDecimal accountTotal = ZERO;
 
                 // Sort accounts
-                // FIXME need to add sorting
-                // Collections.sort( (List)poItem.getSourceAccountingLines() );
+                Collections.sort((List) poItem.getSourceAccountingLines());
 
                 for (Iterator accountIter = poItem.getSourceAccountingLines().iterator(); accountIter.hasNext();) {
                     PurchaseOrderAccount account = (PurchaseOrderAccount) accountIter.next();
@@ -990,7 +974,6 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                         encumbranceAccountMap.put(acctString, amount.add(difference));
                     }
                     lastAccount.setItemAccountOutstandingEncumbranceAmount(lastAccount.getItemAccountOutstandingEncumbranceAmount().add(difference));
-                    // lastAccount.setItemAccountPaidAmount(lastAccount.getItemAccountPaidAmount().subtract(difference));
                 }
             }
         }
@@ -1085,10 +1068,10 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
                 LOG.debug("getCreditMemoEncumbrance() " + logItmNbr + " Amount to disencumber: " + itemDisEncumber);
 
-                // make the list of accounts for the disencumbrance entry
                 // Sort accounts
-                // Collections.sort( (List)poItem.getSourceAccountingLines() );
+                Collections.sort((List) poItem.getSourceAccountingLines());
 
+                // make the list of accounts for the disencumbrance entry
                 PurchaseOrderAccount lastAccount = null;
                 KualiDecimal accountTotal = ZERO;
                 // Collections.sort((List)poItem.getSourceAccountingLines());
@@ -1167,7 +1150,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     }
 
     
-    // (hjs) this could probably be done in a more generic way with a better method name, but this works for now
+    //TODO (hjs) this could probably be done in a more generic way with a better method name, but this works for now
     private String entryDescription(String description) {
         if (description != null && description.length() > 40) {
             return description.toString().substring(0, 39);

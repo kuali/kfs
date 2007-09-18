@@ -41,6 +41,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
@@ -984,8 +985,10 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             // everything in the below list requires correcting entries to be written to the GL
             if (NodeDetailEnum.getNodesRequiringCorrectingGeneralLedgerEntries().contains(currentNode)) {
                 if (NodeDetailEnum.ACCOUNT_REVIEW.getName().equals(currentNode)) {
-                    //FIXME (KULPURAP-1580: hjs) this is not working right now becuase the document has already been saved before reaching this point...that is a problem :(
-//                    SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesModifyPaymentRequest(this);
+                    //TODO remove this config (for testing only) hjs
+                    if (SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterIndicator(PurapRuleConstants.PURAP_ADMIN_GROUP, "PURAP_GL_MODIFY_PREQ")) {
+                        SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesModifyPaymentRequest(this);
+                    }
                 }
             }
         }

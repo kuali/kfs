@@ -68,20 +68,19 @@
                 <inquirySection title="Address">
                     <inquiryFields>
                         <inquiryCollection name="vendorAddresses" businessObjectClass="org.kuali.module.vendor.bo.VendorAddress" numberOfColumns="2" >
-                            <field attributeName="vendorAddressGeneratedIdentifier" />
                             <field attributeName="vendorAddressTypeCode" />
-                            <field attributeName="vendorLine1Address" />
-                            <field attributeName="vendorLine2Address" />
-                            <field attributeName="vendorCityName" />
-                            <field attributeName="vendorStateCode" />
-                            <field attributeName="vendorZipCode" />
-                            <field attributeName="vendorAddressInternationalProvinceName" />
                             <field attributeName="vendorCountryCode" />
-    						<field attributeName="vendorAttentionName" />
-    						<field attributeName="vendorBusinessToBusinessUrlAddress" />
-    						<field attributeName="vendorFaxNumber" />
-						    <field attributeName="vendorAddressEmailAddress" />
-						    <field attributeName="vendorDefaultAddressIndicator" />
+                            <field attributeName="vendorLine1Address" />
+                            <field attributeName="vendorAttentionName" />
+                            <field attributeName="vendorLine2Address" />
+                            <field attributeName="vendorBusinessToBusinessUrlAddress" />
+                            <field attributeName="vendorCityName" />
+                            <field attributeName="vendorFaxNumber" />
+                            <field attributeName="vendorStateCode" />
+                            <field attributeName="vendorAddressEmailAddress" />
+                            <field attributeName="vendorZipCode" />
+                            <field attributeName="vendorDefaultAddressIndicator" />
+                            <field attributeName="vendorAddressInternationalProvinceName" />
                             <field attributeName="active" />
                             <inquiryCollection name="vendorDefaultAddresses" businessObjectClass="org.kuali.module.vendor.bo.VendorDefaultAddress" summaryTitle="Default Address" >
                                 <field attributeName="vendorCampusCode" />

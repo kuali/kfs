@@ -68,7 +68,7 @@
                         <field attributeName="transactionDebitCreditCode" />
                         <field attributeName="transactionEncumbranceUpdateCode" />
                         <field attributeName="transactionEntryOffsetCode" />
-                        <field attributeName="transactionEntryProcessedTs" />
+                        <field attributeName="transactionEntryProcessedTimestamp" />
                         <field attributeName="transactionLedgerEntryAmount" />
                         <field attributeName="transactionLedgerEntryDescription" />
                         <field attributeName="transactionLedgerEntrySequenceNumber" />
@@ -76,6 +76,7 @@
                         <field attributeName="transactionTotalHours" />
                         <field attributeName="universityFiscalPeriodCode" />
                         <field attributeName="universityFiscalYear" />
+                        <field attributeName="documentHeader.financialDocumentStatusCode" />
                     </inquiryFields>
                 </inquirySection>
             </inquirySections>  
@@ -98,30 +99,34 @@
                 <lookupField attributeName="universityFiscalYear">
                     <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
                 </lookupField>
-                <lookupField attributeName="universityFiscalPeriodCode">
-                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLPeriodCodeOptionFinder</defaultValueFinderClass>
-                </lookupField>
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="accountNumber" required="false" />
                 <lookupField attributeName="subAccountNumber" required="false" />
                 <lookupField attributeName="financialObjectCode" required="false" />
                 <lookupField attributeName="financialSubObjectCode" required="false" />
-                <lookupField attributeName="financialObjectTypeCode" required="false" />
                 <lookupField attributeName="financialBalanceTypeCode">
                 	 <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLActualBalanceTypeOptionFinder</defaultValueFinderClass>
                 </lookupField>
-                
-                <lookupField attributeName="emplid" />
-                <lookupField attributeName="projectCode" required="false" />
-                <lookupField attributeName="financialDocumentApprovedCode" required="false" />
-                <lookupField attributeName="documentNumber" required="false" />
-                <lookupField attributeName="financialDocumentReversalDate" required="false" />
+                <lookupField attributeName="financialObjectTypeCode" required="false" />
+                <lookupField attributeName="universityFiscalPeriodCode">
+                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLPeriodCodeOptionFinder</defaultValueFinderClass>
+                </lookupField>
                 <lookupField attributeName="financialDocumentTypeCode" required="false" />
                 <lookupField attributeName="financialSystemOriginationCode" />
+                <lookupField attributeName="documentNumber" required="false" />
+                <lookupField attributeName="organizationDocumentNumber" required="false" />
+                <lookupField attributeName="projectCode" required="false" />
+				<lookupField attributeName="organizationReferenceId" required="false" />
+				<lookupField attributeName="referenceFinancialDocumentTypeCode" required="false" />
+				<lookupField attributeName="referenceFinancialSystemOriginationCode" required="false" />
+				<lookupField attributeName="referenceFinancialDocumentNumber" required="false" />
+                <lookupField attributeName="emplid" required="false" />
+                <lookupField attributeName="positionNumber" required="false" />
+                <lookupField attributeName="documentHeader.financialDocumentStatusCode" />
             </lookupFields>
 
             <resultFields> 
-                <field attributeName="transactionLedgerEntrySequenceNumber" />                                                   
+                <field attributeName="transactionLedgerEntrySequenceNumber" />                          
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="universityFiscalPeriodCode" />
                 <field attributeName="chartOfAccountsCode" />
@@ -138,8 +143,6 @@
                 
                 <field attributeName="financialDocumentTypeCode" />
                 <field attributeName="documentNumber" />
-                <field attributeName="financialDocumentApprovedCode" />
-                <field attributeName="financialDocumentReversalDate" />
 
                 <field attributeName="financialSystemOriginationCode" />
                 <field attributeName="transactionLedgerEntryDescription" />
@@ -199,7 +202,7 @@
 			</attribute>
 
             <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
+                <label>Chart Code</label>
                 <shortLabel>Chart</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -259,7 +262,7 @@
 			</attribute>
 
             <attribute name="financialBalanceTypeCode" forceUppercase="true">
-                <label>Financial Balance Type Code</label>
+                <label>Balance Type Code</label>
                 <shortLabel>Balance Type</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -271,21 +274,6 @@
 
                 <summary>financialBalanceTypeCode</summary>
                 <description>financialBalanceTypeCode description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentApprovedCode" forceUppercase="true">
-                <label>Financial Document Approved Code</label>
-                <shortLabel>Doc. Approved Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>financialDocumentApprovedCode</summary>
-                <description>financialDocumentApprovedCode description...</description>
 			</attribute>
 
             <attribute name="documentNumber" forceUppercase="true">
@@ -303,23 +291,8 @@
                 <description>documentNumber description...</description>
 			</attribute>
 
-            <attribute name="financialDocumentReversalDate" forceUppercase="true">
-                <label>Financial Document Reversal Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>financialDocumentReversalDate</summary>
-                <description>financialDocumentReversalDate description...</description>
-			</attribute>
-
             <attribute name="financialDocumentTypeCode" forceUppercase="true">
-                <label>Financial Document Type Code</label>
+                <label>Document Type Code</label>
                 <shortLabel>Doc. Type Code</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -334,7 +307,7 @@
 			</attribute>
 
             <attribute name="financialObjectCode" forceUppercase="true">
-                <label>Financial Object Code</label>
+                <label>Object Code</label>
                 <shortLabel>Object</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -349,7 +322,7 @@
 			</attribute>
 
             <attribute name="financialObjectTypeCode" forceUppercase="true">
-                <label>Financial Object Type Code</label>
+                <label>Object Type Code</label>
                 <shortLabel>Object Type</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -364,7 +337,7 @@
 			</attribute>
 
             <attribute name="financialSubObjectCode" forceUppercase="true">
-                <label>Financial Sub Object Code</label>
+                <label>Sub-Object Code</label>
                 <shortLabel>Sub object</shortLabel>
 
                 <maxLength>3</maxLength>
@@ -510,8 +483,8 @@
 			</attribute>
 
             <attribute name="organizationReferenceId" forceUppercase="true">
-                <label>Organization Reference Id</label>
-                <shortLabel>Org Ref Id</shortLabel>
+                <label>Organization Reference ID</label>
+                <shortLabel>Org Ref ID</shortLabel>
 
                 <maxLength>8</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -794,7 +767,7 @@
                 <description>transactionEntryOffsetCode description...</description>
 			</attribute>
 
-            <attribute name="transactionEntryProcessedTs" forceUppercase="true">
+            <attribute name="transactionEntryProcessedTimestamp" forceUppercase="true">
                 <label>Transaction Entry Processed Timestamp</label>
                 <shortLabel>Timestamp</shortLabel>
 
@@ -885,7 +858,7 @@
 			</attribute>
 
             <attribute name="universityFiscalPeriodCode" forceUppercase="true">
-                <label>University Fiscal Period Code</label>
+                <label>Fiscal Period</label>
                 <shortLabel>Period</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -900,7 +873,7 @@
 			</attribute>
 
             <attribute name="universityFiscalYear" forceUppercase="true">
-                <label>University Fiscal Year</label>
+                <label>Fiscal Year</label>
                 <shortLabel>Fiscal Year</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -914,6 +887,21 @@
                 <description>universityFiscalYear description...</description>
 			</attribute>
 
+            <attribute name="documentHeader.financialDocumentStatusCode" forceUppercase="false">
+				<label>Pending Entry Approved Indicator</label>
+                <shortLabel>Pending Entry Approved Indicator</shortLabel>
+
+                <maxLength>2</maxLength>
+                <control>
+                    <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.ApprovedDocumentIndicatorValuesFinder" />
+                </control>
+
+                <summary>Pending Entry Approved Indicator indicates whether a LLPE is approved or not.</summary>
+                <description>Radioboxes that allow the user to include or exclude Pending Ledger Entries from the results. Options include: Approved Only or All. When a financial transaction E-Doc is initiated, Pending Ledger Entries are created. These entries remain in the Pending Ledger Entry table until they are posted.</description>
+
+                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
+            </attribute>
+            
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>

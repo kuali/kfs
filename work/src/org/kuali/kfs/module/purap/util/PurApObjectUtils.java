@@ -223,4 +223,66 @@ public class PurApObjectUtils {
 //        PurApObjectUtils.populateFromBaseClass(PurchasingDocumentBase.class, po, newPO);
 //        PurApObjectUtils.populateFromBaseClass(PurchaseOrderDocument.class, po, newPO);
 //    }
+
+    //KULPURAP-1370 - following changes are to work around an ObjectUtils bug
+    /**
+     * Compares a business object with a List of BOs to determine if an object with the same key as the BO exists in the list. If it
+     * does, the item is returned.
+     * 
+     * @param controlList - The list of items to check
+     * @param bo - The BO whose keys we are looking for in the controlList
+     */
+    public static BusinessObject retrieveObjectWithIdentitcalKey(Collection controlList, BusinessObject bo) {
+        BusinessObject returnBo = null;
+
+        for (Iterator i = controlList.iterator(); i.hasNext();) {
+            BusinessObject listBo = (BusinessObject) i.next();
+            if (equalByKeys(listBo, bo)) {
+                returnBo = listBo;
+            }
+        }
+
+        return returnBo;
+    }
+    
+    /**
+     * Compares two business objects for equality of type and key values.
+     * 
+     * @param bo1
+     * @param bo2
+     * 
+     * @return boolean indicating whether the two objects are equal.
+     */
+    public static boolean equalByKeys(BusinessObject bo1, BusinessObject bo2) {
+        boolean equal = true;
+
+        if (bo1 == null && bo2 == null) {
+            equal = true;
+        }
+        else if (bo1 == null || bo2 == null) {
+            equal = false;
+        }
+        else if (!bo1.getClass().getName().equals(bo2.getClass().getName())) {
+            equal = false;
+        }
+        else {
+            Map bo1Keys = KNSServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(bo1);
+            Map bo2Keys = KNSServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(bo2);
+            for (Iterator iter = bo1Keys.keySet().iterator(); iter.hasNext();) {
+                String keyName = (String) iter.next();
+                if (bo1Keys.get(keyName) != null && bo2Keys.get(keyName) != null) {
+                    if (!bo1Keys.get(keyName).toString().equals(bo2Keys.get(keyName).toString())) {
+                        equal = false;
+                    }
+                } else {
+                   //CHANGE FOR KULPURAP-1370 if one is null we are likely looking at a new object (sequence) which is definitely not equal
+                    equal = false;
+                }
+            }
+        }
+
+
+        return equal;
+    }
+    //END KULPURAP-1370 changes
 }

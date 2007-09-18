@@ -20,8 +20,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.ListUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.OjbCollectionAware;
@@ -159,9 +157,9 @@ public class PurApOjbCollectionHelper {
         Iterator iter = fromList.iterator();
         while (iter.hasNext()) {
             PersistableBusinessObject copyLine = (PersistableBusinessObject) iter.next();
-            PersistableBusinessObject line = (PersistableBusinessObject) ObjectUtils.retrieveObjectWithIdentitcalKey(controlList,copyLine);
-            //FIXME ckirschenman we shouldn't need this (we should be able to check if line is null, but that didn't work for some odd reason so do contains for now
-            if (ObjectUtils.collectionContainsObjectWithIdentitcalKey(controlList, copyLine)) {
+            //FIXME ckirschenman see notes in PurApObjectUtils and KULPURAP-1370 about why it's necessary to call that
+            PersistableBusinessObject line = (PersistableBusinessObject) PurApObjectUtils.retrieveObjectWithIdentitcalKey(controlList,copyLine);
+            if(ObjectUtils.isNull(line)) {
                 toRemove.add(copyLine);
             } else { //since we're not deleting try to recurse on this element
                 processCollectionsRecurse(template, line, copyLine, depth);

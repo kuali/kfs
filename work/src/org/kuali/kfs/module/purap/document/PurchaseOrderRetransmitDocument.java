@@ -49,7 +49,6 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
             setPurchaseOrderLastTransmitDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
-            setPurchaseOrderCurrentIndicator(true);
             SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.PurchaseOrderStatuses.OPEN );
             SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }

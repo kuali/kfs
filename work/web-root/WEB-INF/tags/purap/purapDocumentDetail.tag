@@ -27,6 +27,7 @@
 <c:if test="${empty editableFundingSource}">
 	<c:set var="editableFundingSource" value="false" />
 </c:if>
+<c:set var="contractManagerChangeMode" value="${(not empty KualiForm.editingMode['contractManagerChangeable'])}" />
 
 <div class="h2-container">
 	<h2><c:out value="${detailSectionLabel}"/></h2>

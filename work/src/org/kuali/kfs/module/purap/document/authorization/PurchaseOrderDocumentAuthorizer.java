@@ -90,6 +90,9 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             if (hasInitiateAuthorization(d, user)) {
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
+
+                // contract manager can only be changed prior to routing
+                editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.CONTRACT_MANAGER_CHANGEABLE, "TRUE");
             }
         }
         else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
@@ -99,7 +102,6 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
              * INTERNAL PURCHASING ROUTE LEVEL - Approvers can edit full detail on Purchase Order except they cannot change the CHART/ORG.
              */
             if (((PurchaseOrderDocument)d).isDocumentStoppedInRouteNode(PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum.INTERNAL_PURCHASING_REVIEW)) {
-                //if (currentRouteLevels.contains(NodeDetailEnum.INTERNAL_PURCHASING_REVIEW.getName()) && workflowDocument.isApprovalRequested()) {
                 // FULL_ENTRY allowed; also set internal purchasing lock
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
                 editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.LOCK_INTERNAL_PURCHASING_ENTRY, "TRUE");
@@ -117,11 +119,6 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
         }
         editModeMap.put(editMode, "TRUE");
         
-        // The ability to change contract manager is dependent on being in one of a specific set of statuses prior to routing.
-        if( PurchaseOrderStatuses.CONTRACT_MANAGER_CHANGEABLE_STATUSES.contains(((PurchaseOrderDocument)d).getStatusCode()) ) {
-            editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.CONTRACT_MANAGER_CHANGEABLE, "TRUE");
-        }
-
         return editModeMap;
     }
     

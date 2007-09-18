@@ -28,10 +28,6 @@
         <c:set var="retransmitMode" value="true" scope="request" />
     </c:if>
     
-    <c:if test="${KualiForm.editingMode['contractManagerChangeable']}">
-    	<c:set var="contractManagerChangeMode" value="true" scope="request" />
-    </c:if>
-    
     <kul:hiddenDocumentFields excludePostingYear="true" />
 
     <purap:hiddenPurapFields />

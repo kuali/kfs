@@ -206,7 +206,6 @@ public class PurapConstants extends JstlConstants {
         public static final String AMENDMENT = "AMND";
         
         public static final Set<String> INCOMPLETE_STATUSES = new HashSet<String>();
-        public static final Set<String> CONTRACT_MANAGER_CHANGEABLE_STATUSES = new HashSet<String>();
         static {
             INCOMPLETE_STATUSES.add(AWAIT_TAX_REVIEW);
             INCOMPLETE_STATUSES.add(AWAIT_BUDGET_REVIEW);
@@ -222,11 +221,6 @@ public class PurapConstants extends JstlConstants {
             INCOMPLETE_STATUSES.add(PENDING_PRINT);
             INCOMPLETE_STATUSES.add(WAITING_FOR_VENDOR);
             INCOMPLETE_STATUSES.add(WAITING_FOR_DEPARTMENT);
-            
-            CONTRACT_MANAGER_CHANGEABLE_STATUSES.add(IN_PROCESS);
-            CONTRACT_MANAGER_CHANGEABLE_STATUSES.add(WAITING_FOR_VENDOR);
-            CONTRACT_MANAGER_CHANGEABLE_STATUSES.add(WAITING_FOR_DEPARTMENT);
-            
         }
         
         /**

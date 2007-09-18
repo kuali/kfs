@@ -838,7 +838,7 @@ public class YearEndServiceImpl implements YearEndService {
                     originEntryService.createEntry(offsetEntry, nominalClosingOriginEntryGroup);
                     
                     if (!balance.getAccountNumber().equals(lastAccount)) {
-                        // clear cache
+                        originEntryService.clearCache();
                         lastAccount = balance.getAccountNumber();
                     }
 

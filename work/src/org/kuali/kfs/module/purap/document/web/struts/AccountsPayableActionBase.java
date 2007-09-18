@@ -210,7 +210,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     protected ActionForward askQuestionWithInput(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String notePrefix, String operation, String messageKey, PurQuestionCallback callback) throws Exception {
         TreeMap<String,PurQuestionCallback> questionsAndCallbacks = new TreeMap<String,PurQuestionCallback>();
         questionsAndCallbacks.put(questionType, callback);
-        return askQuestionWithInput(mapping, form, request, response, questionType, notePrefix, operation, messageKey, questionsAndCallbacks, "");
+        return askQuestionWithInput(mapping, form, request, response, questionType, notePrefix, operation, messageKey, questionsAndCallbacks, "", mapping.findForward(KFSConstants.MAPPING_BASIC));
     }
 
     /**
@@ -227,7 +227,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      * @return
      * @throws Exception
      */
-    private ActionForward askQuestionWithInput(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String notePrefix, String operation, String messageKey, TreeMap<String,PurQuestionCallback> questionsAndCallbacks, String messagePrefix) throws Exception {
+    private ActionForward askQuestionWithInput(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String notePrefix, String operation, String messageKey, TreeMap<String,PurQuestionCallback> questionsAndCallbacks, String messagePrefix, ActionForward redirect) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         AccountsPayableDocumentBase apDocument = (AccountsPayableDocumentBase) kualiDocumentFormBase.getDocument();
 
@@ -315,7 +315,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         
         
         
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return redirect;
     }
 
     /**
@@ -362,7 +362,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
             PurQuestionCallback callback2 = cancelPOActionCallbackMethod();
             questionsAndCallbacks.put("actionOnPoCancel", callback2);    
         }
-        return askQuestionWithInput(mapping, form, request, response, CMDocumentsStrings.CANCEL_CM_QUESTION, AccountsPayableDocumentStrings.CANCEL_NOTE_PREFIX, operation, PurapKeyConstants.CREDIT_MEMO_QUESTION_CANCEL_DOCUMENT, questionsAndCallbacks, PurapKeyConstants.AP_QUESTION_PREFIX);
+        return askQuestionWithInput(mapping, form, request, response, CMDocumentsStrings.CANCEL_CM_QUESTION, AccountsPayableDocumentStrings.CANCEL_NOTE_PREFIX, operation, PurapKeyConstants.CREDIT_MEMO_QUESTION_CANCEL_DOCUMENT, questionsAndCallbacks, PurapKeyConstants.AP_QUESTION_PREFIX, mapping.findForward(KFSConstants.MAPPING_PORTAL));
     }
 
     /**

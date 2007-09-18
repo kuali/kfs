@@ -38,7 +38,7 @@
         <documentTypeName>CreditMemoDocument</documentTypeName>
         <documentTypeCode>CM</documentTypeCode>
 
-        <label>CreditMemo</label>
+        <label>Credit Memo</label>
         <shortLabel>CM</shortLabel>
 
         <attributes>
@@ -109,7 +109,7 @@
 
             <attribute name="creditMemoAmount" forceUppercase="true">
                 <label>Credit Memo Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Credit Memo Amt</shortLabel>
 
                 <maxLength>19</maxLength>
                 

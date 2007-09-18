@@ -61,7 +61,7 @@
              
              <tr>
                 <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.creditMemoAmount}" /></div>
+                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.creditMemoAmount}" useShortLabel="true" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.creditMemoAmount}" property="document.creditMemoAmount" readOnly="true" />

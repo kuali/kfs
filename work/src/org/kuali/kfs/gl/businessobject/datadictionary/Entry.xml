@@ -61,12 +61,12 @@
             <defaultSort attributeName="financialObjectCode" sortAscending="true" />
 
             <lookupFields>
-                <lookupField attributeName="universityFiscalYear" required="true">
+                <lookupField attributeName="universityFiscalYear">
                     <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
                 </lookupField>
 
-                <lookupField attributeName="chartOfAccountsCode" required="true" />
-                <lookupField attributeName="accountNumber" required="true" />
+                <lookupField attributeName="chartOfAccountsCode" />
+                <lookupField attributeName="accountNumber" />
                 <lookupField attributeName="subAccountNumber" forceLookup="true" />
                 <lookupField attributeName="financialObjectCode" />
                 <lookupField attributeName="financialSubObjectCode" />
@@ -77,7 +77,7 @@
                 	                
                 <lookupField attributeName="financialObjectTypeCode" />
 
-                <lookupField attributeName="universityFiscalPeriodCode" required="true">
+                <lookupField attributeName="universityFiscalPeriodCode">
                     <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLPeriodCodeOptionFinder</defaultValueFinderClass>
                 </lookupField>
 

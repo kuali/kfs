@@ -25,15 +25,14 @@ public class LoadFederalReserveBankDataStep extends AbstractStep {
 
     private AchBankService achBankService;
     private KualiConfigurationService kualiConfigurationService;
+    private String directoryName;
 
     public boolean execute(String jobName) throws InterruptedException {
         LOG.debug("execute() started");
 
         String filename = kualiConfigurationService.getApplicationParameterValue(PdpConstants.PDP_APPLICATION, PdpConstants.ApplicationParameterKeys.ACH_BANK_INPUT_FILE);
-        // TODO Fix this
-        String stagingDir = "/Users/jsissom/";
 
-        return achBankService.reloadTable(stagingDir + filename);
+        return achBankService.reloadTable(directoryName + filename);
     }
 
     public void setAchBankService(AchBankService achBankService) {
@@ -42,5 +41,9 @@ public class LoadFederalReserveBankDataStep extends AbstractStep {
 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    public void setDirectoryName(String dn) {
+        directoryName = dn;
     }
 }

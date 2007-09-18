@@ -117,6 +117,7 @@
 	<bean id="pdpLoadFederalReserveBankDataStep" class="org.kuali.module.pdp.batch.LoadFederalReserveBankDataStep" parent="step">
 		<property name="achBankService" ref="pdpAchBankService"/>
 		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+		<property name="directoryName" value="${staging.directory}/PDP/"/>
 	</bean>
 
 	<bean id="pdpExtractGlTransactionsStep" class="org.kuali.module.pdp.batch.ExtractGlTransactionsStep" parent="step">

@@ -66,6 +66,22 @@
 			showInvoiced="${showInvoiced}" />
 
 		<!-- BEGIN TOTAL SECTION -->
+	<c:if test="${not isCreditMemo and KualiForm.document.discount}" >
+		<tr>
+			<td align=right width='75%' colspan="5" scope="row" class="datacell">
+			    <div align="right">
+			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandTotalExcludingDiscount}" skipHelpUrl="true" /></b>&nbsp;
+			    </div>
+			</td>
+			<td valign=middle class="datacell" colspan="2">
+		    	<div align="right"><b>${KualiForm.document.grandTotalExcludingDiscount}</b></div>
+			</td>
+	
+			<td colspan=2 class="datacell">
+				&nbsp;
+			</td>
+		</tr>
+	</c:if>
 		<tr>
 			<td align=right width='75%' colspan="5" scope="row" class="datacell">
 			    <div align="right">

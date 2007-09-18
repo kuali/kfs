@@ -379,6 +379,13 @@
 				<description>Invoice Total Prior to Additional Charges description...</description>
 			</attributeReference>
 
+			<attributeReference name="grandTotalExcludingDiscount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
+				<label>Total Before Discount</label>
+				<shortLabel>Total Before Discount</shortLabel>
+				<summary>Total Before Discount</summary>
+				<description>Total Before Discount description...</description>
+			</attributeReference>
+
 			<attributeReference name="grandTotal" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
 				<label>Grand Total</label>
 				<shortLabel>Grand Total</shortLabel>

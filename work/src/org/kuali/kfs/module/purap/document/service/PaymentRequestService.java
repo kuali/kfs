@@ -157,4 +157,11 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @param processDate
      */
     public void markPaid(PaymentRequestDocument pr,Date processDate);
+    
+    /**
+     * 
+     * This method specifies whether a doc has a discount item
+     * @param preq
+     */
+    public boolean hasDiscountItem(PaymentRequestDocument preq);
 }

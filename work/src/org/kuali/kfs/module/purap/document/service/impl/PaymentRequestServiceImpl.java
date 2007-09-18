@@ -49,7 +49,7 @@ import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
-import org.kuali.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
+import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.NegativePaymentRequestApprovalLimit;
 import org.kuali.module.purap.bo.PaymentRequestAccount;
 import org.kuali.module.purap.bo.PaymentRequestItem;
@@ -1075,18 +1075,25 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
     private String updateStatusByNode(String currentNodeName, PaymentRequestDocument preqDoc) {
         // update the status on the document
-        NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(currentNodeName);
+        
         String cancelledStatusCode = "";
-        if (ObjectUtils.isNotNull(currentNode)) {
-            cancelledStatusCode = currentNode.getDisapprovedStatusCode();
-            if (StringUtils.isNotBlank(cancelledStatusCode)) {
-                purapService.updateStatusAndStatusHistory(preqDoc, cancelledStatusCode);
-                saveDocumentWithoutValidation(preqDoc);
-                return cancelledStatusCode;
-            } else {
-             // TODO (KULPURAP-1579: ckirshenman/hjs) delyea - what to do in a cancel where no status to set exists?
-                LOG.warn("No status found to set for document being disapproved in node '" + currentNodeName + "'");
+        if(StringUtils.isEmpty(currentNodeName)) {
+            //if empty probably not coming from workflow TODO - ckirschenman check status to be sure
+            cancelledStatusCode = PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE;
+        } else {
+            NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(currentNodeName);
+            if (ObjectUtils.isNotNull(currentNode)) {
+                cancelledStatusCode = currentNode.getDisapprovedStatusCode();
             }
+        }
+        
+        if (StringUtils.isNotBlank(cancelledStatusCode)) {
+            purapService.updateStatusAndStatusHistory(preqDoc, cancelledStatusCode);
+            saveDocumentWithoutValidation(preqDoc);
+            return cancelledStatusCode;
+        } else {
+            // TODO (KULPURAP-1579: ckirshenman/hjs) delyea - what to do in a cancel where no status to set exists?
+            LOG.warn("No status found to set for document being disapproved in node '" + currentNodeName + "'");
         }
         return cancelledStatusCode;
     }
@@ -1099,5 +1106,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         pr.setPaymentPaidDate(processDate);
         saveDocumentWithoutValidation(pr);
+    }
+
+    public boolean hasDiscountItem(PaymentRequestDocument preq) {
+        return ObjectUtils.isNotNull(findDiscountItem(preq));
     }
 }

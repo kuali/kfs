@@ -61,6 +61,7 @@ import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.impl.AccountsPayableServiceImpl;
+import org.kuali.module.purap.service.impl.PaymentRequestServiceImpl;
 import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
@@ -930,7 +931,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                     SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(this);
                     return;
                 }
-                //TODO: ctk - we need a cancel check here in case it's DPTA/AUTO approved and not extracted.
             }
             // DOCUMENT DISAPPROVED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
@@ -1141,6 +1141,22 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
     
     /**
+     * this method get the total excluding discount
+     * @return
+     */
+    public KualiDecimal getGrandTotalExcludingDiscount() {
+        String[] discountCode = new String[]{PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE};
+        return this.getTotalDollarAmountWithExclusions(discountCode, true);
+    }
+    
+    /**
+     * this method returns true if has discount
+     */
+    public boolean isDiscount() {
+        return SpringContext.getBean(PaymentRequestService.class).hasDiscountItem(this); 
+    }
+    
+    /**
      * The total that was paid on the po excluding below the line
      * @return total paid
      * 
@@ -1179,6 +1195,13 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         //do nothing
     }
 
+    /** 
+     * This method is here due to a setter requirement by the htmlControlAttribute
+     * @param amount
+     */
+    public void setGrandTotalExcludingDiscount(KualiDecimal amount) {
+        //do nothing
+    }  
     /** 
      * This method is here due to a setter requirement by the htmlControlAttribute
      * @param amount
@@ -1323,5 +1346,5 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public AccountsPayableDocumentSpecificService getDocumentSpecificService() {
         return (AccountsPayableDocumentSpecificService)SpringContext.getBean(PaymentRequestService.class);
     }
-
+   
 }

@@ -56,6 +56,7 @@ import org.kuali.module.purap.rule.event.CancelAccountsPayableEvent;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.PurapService;
+import org.kuali.module.purap.service.impl.AccountsPayableServiceImpl;
 import org.kuali.module.purap.util.PurQuestionCallback;
 import org.kuali.module.purap.web.struts.form.AccountsPayableFormBase;
 import org.kuali.module.vendor.VendorConstants;
@@ -403,13 +404,20 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     
                 } else if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(document)) {
                     //for now this works but if place of full entry changes it may need to be based on something else since may need disaprove
-                    try {
-                        // need to run a super user cancel since person canceling may not have an action requested on the document
-                        GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
-                        documentService.superUserDisapproveDocument(documentService.getByDocumentHeaderId(document.getDocumentNumber()), "Document Cancelled by user " + originalUserSession.getUniversalUser().getPersonName() + " (" + originalUserSession.getUniversalUser().getPersonUserIdentifier() + ")");
-                    }
-                    finally {
-                        GlobalVariables.setUserSession(originalUserSession);
+                    //if past full entry and workflow not in final state (should this be checking preq states?)
+                    if(!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {    
+                        
+                        try {
+                            // need to run a super user cancel since person canceling may not have an action requested on the document
+                            GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
+                            documentService.superUserDisapproveDocument(documentService.getByDocumentHeaderId(document.getDocumentNumber()), "Document Cancelled by user " + originalUserSession.getUniversalUser().getPersonName() + " (" + originalUserSession.getUniversalUser().getPersonUserIdentifier() + ")");
+                        }
+                        finally {
+                            GlobalVariables.setUserSession(originalUserSession);
+                        }
+                    } else {
+                        //call gl method here (no reason for post processing since workflow done)
+                        SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(document, "");
                     }
                 }
                 else {

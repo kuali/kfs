@@ -799,7 +799,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
-                columnToAdd.setColumnTitle("Original Accounts Code");
+                columnToAdd.setColumnTitle("Original Chart Code");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 columnToAdd.setPropertyName(KFSPropertyConstants.LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE);
                 cachedColumns.add(columnToAdd);

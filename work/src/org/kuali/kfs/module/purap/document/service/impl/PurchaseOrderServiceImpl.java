@@ -721,8 +721,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         if (POTransmissionMethods.PRINT.equals(po.getPurchaseOrderTransmissionMethodCode())) {
             String newStatusCode = PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.get(po.getPurchaseOrderTransmissionMethodCode());
             LOG.debug("setupDocumentForPendingFirstTransmission() Purchase Order Transmission Type is '" + po.getPurchaseOrderTransmissionMethodCode() + "' setting status to '" + newStatusCode + "'");
-            po.setPurchaseOrderCurrentIndicator(true);
-            po.setPendingActionIndicator(true);
             purapService.updateStatusAndStatusHistory(po, newStatusCode);
         }
         else {

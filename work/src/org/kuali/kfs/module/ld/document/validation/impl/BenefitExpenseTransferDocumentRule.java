@@ -31,6 +31,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
+import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.document.BenefitExpenseTransferDocument;
@@ -65,6 +66,17 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
             isValid = false;
         }
 
+        // Only check this rule for source accounting lines
+        boolean isTargetLine = accountingLine.isTargetAccountingLine();
+        if (!isTargetLine){
+
+            // ensure the accounts in source accounting lines are same
+            if (!hasSameAccount(accountingDocument, accountingLine)) {
+                reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_SAME);
+                return false;
+            }
+        }
+        
         return isValid;
     }
 
@@ -74,7 +86,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
-        
+
         LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) document;
 
         // benefit transfers cannot be made between two different fringe benefit labor object codes.
@@ -148,6 +160,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
                 return false;
             }
         }
+     
         return true;
     }
 

@@ -39,7 +39,7 @@
         <documentTypeName>PurchaseOrderDocument</documentTypeName>
         <documentTypeCode>PO</documentTypeCode>
 
-        <label>PurchaseOrder</label>
+        <label>Purchase Order</label>
         <shortLabel>PO</shortLabel>
 
         <attributes>

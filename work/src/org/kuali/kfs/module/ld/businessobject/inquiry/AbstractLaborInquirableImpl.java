@@ -89,7 +89,7 @@ public abstract class AbstractLaborInquirableImpl extends KualiInquirableImpl {
 
         // process the business object class if the attribute name is not user-defined
         if (!isUserDefinedAttribute) {
-            if (isExclusiveField(attributeName, attributeValue)) {
+            if (isExclusiveFieldToBeALink(attributeName, attributeValue)) {
                 return Constant.EMPTY_STRING;
             }
 
@@ -145,7 +145,14 @@ public abstract class AbstractLaborInquirableImpl extends KualiInquirableImpl {
                 }
 
                 Object keyValue = ObjectUtils.getPropertyValue(businessObject, keyConversion);
-                keyValue = (keyValue == null) ? Constant.EMPTY_STRING : keyValue.toString();
+                keyValue = (keyValue == null) ? Constant.EMPTY_STRING : keyValue.toString();               
+
+                // convert the key value and name into the given ones
+                Object tempKeyValue = this.getKeyValue(keyName, keyValue);
+                keyValue = tempKeyValue == null ? keyValue : tempKeyValue;
+
+                String tempKeyName = this.getKeyName(keyName);
+                keyName = tempKeyName == null ? keyName : tempKeyName;
 
                 // add the key-value pair into the parameter map
                 if (keyName != null)
@@ -243,7 +250,25 @@ public abstract class AbstractLaborInquirableImpl extends KualiInquirableImpl {
             else if (keyName.equals(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE) && keyValue.equals(Constant.CONSOLIDATED_OBJECT_TYPE_CODE)) {
                 return true;
             }
-            if (keyName.equals(KFSPropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(KFSConstants.getDashSubAccountNumber())) {
+        }
+        return false;
+    }
+    
+    /**
+     * This method determines whether the input name-value pair is exclusive to be a link
+     * 
+     * @param keyName the name of the name-value pair
+     * @param keyValue the value of the name-value pair
+     * @return true if the input key is in the exclusive list; otherwise, false
+     */
+    protected boolean isExclusiveFieldToBeALink(Object keyName, Object keyValue) {
+
+        if (keyName != null && keyValue != null) {
+
+            if (isExclusiveField(keyName, keyValue)){
+                return true;
+            }
+            else if (keyName.equals(KFSPropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(KFSConstants.getDashSubAccountNumber())) {
                 return true;
             }
             else if (keyName.equals(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE) && keyValue.equals(KFSConstants.getDashFinancialSubObjectCode())) {

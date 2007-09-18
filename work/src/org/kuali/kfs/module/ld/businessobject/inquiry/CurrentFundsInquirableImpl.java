@@ -41,8 +41,15 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
         List<String> keys = new ArrayList<String>();
 
         keys.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        keys.add(KFSPropertyConstants.EMPLID);
+        keys.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        keys.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         keys.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        keys.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        keys.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        keys.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        keys.add(KFSPropertyConstants.EMPLID);
+        keys.add(KFSPropertyConstants.POSITION_NUMBER);
+        
         keys.add(Constant.CONSOLIDATION_OPTION);
         keys.add(Constant.PENDING_ENTRY_OPTION);
         return keys;
@@ -86,7 +93,7 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getLookupableImplAttributeName()
      */
     protected String getLookupableImplAttributeName() {
-        return "currentFundsLookupable";
+        return Constant.EMPTY_STRING;
     }
 
     /**

@@ -200,9 +200,11 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
         List<String> attributeList = getAttributeList(isConsolidated);
 
         if (!isAttributeNameNeeded) {
+            attributeList.add(ConsolidationUtil.sum(KFSPropertyConstants.CSF_FULL_TIME_EMPLOYMENT_QUANTITY));
             attributeList.add(ConsolidationUtil.sum(KFSPropertyConstants.CSF_AMOUNT));
         }
         else {
+            attributeList.add(KFSPropertyConstants.CSF_FULL_TIME_EMPLOYMENT_QUANTITY);
             attributeList.add(KFSPropertyConstants.CSF_AMOUNT);
         }
         return attributeList;

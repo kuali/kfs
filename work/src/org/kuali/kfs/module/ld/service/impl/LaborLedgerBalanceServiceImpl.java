@@ -186,6 +186,7 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
                 employeeFunding.setCsfTimePercent(CSFTracker.getCsfTimePercent());
                 employeeFunding.setCsfFundingStatusCode(CSFTracker.getCsfFundingStatusCode());
                 employeeFunding.setCsfAmount(CSFTracker.getCsfAmount());
+                employeeFunding.setCsfFullTimeEmploymentQuantity(CSFTracker.getCsfFullTimeEmploymentQuantity());
             }
         }
         return currentFundsCollection;

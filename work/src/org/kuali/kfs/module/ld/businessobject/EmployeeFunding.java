@@ -34,6 +34,7 @@ public class EmployeeFunding extends LedgerBalance {
     private String csfDeleteCode;
     private String csfFundingStatusCode;
     private BigDecimal csfTimePercent;
+    private BigDecimal csfFullTimeEmploymentQuantity;
     private KualiDecimal csfAmount;
 
     private KualiDecimal currentAmount;
@@ -264,5 +265,21 @@ public class EmployeeFunding extends LedgerBalance {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Gets the csfFullTimeEmploymentQuantity attribute. 
+     * @return Returns the csfFullTimeEmploymentQuantity.
+     */
+    public BigDecimal getCsfFullTimeEmploymentQuantity() {
+        return csfFullTimeEmploymentQuantity;
+    }
+
+    /**
+     * Sets the csfFullTimeEmploymentQuantity attribute value.
+     * @param csfFullTimeEmploymentQuantity The csfFullTimeEmploymentQuantity to set.
+     */
+    public void setCsfFullTimeEmploymentQuantity(BigDecimal csfFullTimeEmploymentQuantity) {
+        this.csfFullTimeEmploymentQuantity = csfFullTimeEmploymentQuantity;
     }
 }

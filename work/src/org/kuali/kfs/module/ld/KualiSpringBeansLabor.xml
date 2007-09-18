@@ -599,6 +599,30 @@
 			<ref bean="optionsService" />
 		</property>	
 	</bean>
+			
+    <bean id="laborLedgerEntryForExpenseTransferLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LedgerEntryForExpenseTransferLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>	
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+	</bean>
+	
+	<bean id="laborLedgerEntryForExpenseTransferLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="laborLedgerEntryForExpenseTransferLookupableHelperService" />
+		</property>
+	</bean>	
 	
 	<bean id="laborLedgerBalanceForSalaryExpenseTransferLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">

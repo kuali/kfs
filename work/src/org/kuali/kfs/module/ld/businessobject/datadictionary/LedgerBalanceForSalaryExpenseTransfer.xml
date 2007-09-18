@@ -57,7 +57,7 @@
 
         <lookup>
 	        <lookupableID>laborLedgerBalanceForSalaryExpenseTransferLookupable</lookupableID>	        
-            <title>Ledger Balance Lookup</title>
+            <title>Ledger Balance Lookup for Salary Expense Transfer Document </title>
 
             <instructions>Look up a Ledger Balance</instructions>
 

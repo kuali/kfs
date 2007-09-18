@@ -147,13 +147,6 @@ public abstract class AbstractLaborInquirableImpl extends KualiInquirableImpl {
                 Object keyValue = ObjectUtils.getPropertyValue(businessObject, keyConversion);
                 keyValue = (keyValue == null) ? Constant.EMPTY_STRING : keyValue.toString();
 
-                // convert the key value and name into the given ones
-                Object tempKeyValue = this.getKeyValue(keyName, keyValue);
-                keyValue = tempKeyValue == null ? keyValue : tempKeyValue;
-
-                String tempKeyName = this.getKeyName(keyName);
-                keyName = tempKeyName == null ? keyName : tempKeyName;
-
                 // add the key-value pair into the parameter map
                 if (keyName != null)
                     parameters.put(keyName, keyValue);
@@ -240,27 +233,26 @@ public abstract class AbstractLaborInquirableImpl extends KualiInquirableImpl {
     protected boolean isExclusiveField(Object keyName, Object keyValue) {
 
         if (keyName != null && keyValue != null) {
-            String convertedKeyName = BusinessObjectFieldConverter.convertFromTransactionPropertyName(keyName.toString());
 
-            if (convertedKeyName.equals(KFSPropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER)) {
+            if (keyName.equals(KFSPropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER)) {
                 return true;
             }
-            else if (convertedKeyName.equals(KFSPropertyConstants.SUB_OBJECT_CODE) && keyValue.equals(Constant.CONSOLIDATED_SUB_OBJECT_CODE)) {
+            else if (keyName.equals(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE) && keyValue.equals(Constant.CONSOLIDATED_SUB_OBJECT_CODE)) {
                 return true;
             }
-            else if (convertedKeyName.equals(KFSPropertyConstants.OBJECT_TYPE_CODE) && keyValue.equals(Constant.CONSOLIDATED_OBJECT_TYPE_CODE)) {
+            else if (keyName.equals(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE) && keyValue.equals(Constant.CONSOLIDATED_OBJECT_TYPE_CODE)) {
                 return true;
             }
-            if (convertedKeyName.equals(KFSPropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(KFSConstants.getDashSubAccountNumber())) {
+            if (keyName.equals(KFSPropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(KFSConstants.getDashSubAccountNumber())) {
                 return true;
             }
-            else if (convertedKeyName.equals(KFSPropertyConstants.SUB_OBJECT_CODE) && keyValue.equals(KFSConstants.getDashFinancialSubObjectCode())) {
+            else if (keyName.equals(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE) && keyValue.equals(KFSConstants.getDashFinancialSubObjectCode())) {
                 return true;
             }
-            else if (convertedKeyName.equals(KFSPropertyConstants.PROJECT_CODE) && keyValue.equals(KFSConstants.getDashProjectCode())) {
+            else if (keyName.equals(KFSPropertyConstants.PROJECT_CODE) && keyValue.equals(KFSConstants.getDashProjectCode())) {
                 return true;
             }
-            else if (convertedKeyName.equals(KFSPropertyConstants.POSITION_NUMBER) && keyValue.equals(KFSConstants.getDashPositionNumber())) {
+            else if (keyName.equals(KFSPropertyConstants.POSITION_NUMBER) && keyValue.equals(KFSConstants.getDashPositionNumber())) {
                 return true;
             }
         }

@@ -81,7 +81,7 @@ public class LedgerBalanceInquirableImpl extends AbstractLaborInquirableImpl {
         userDefinedAttributeMap.put(KFSPropertyConstants.MONTH12_AMOUNT, KFSConstants.MONTH12);
         userDefinedAttributeMap.put(KFSPropertyConstants.MONTH13_AMOUNT, KFSConstants.MONTH13);
 
-        userDefinedAttributeMap.put(KFSPropertyConstants.BEGINNING_BALANCE_LINE_AMOUNT, KFSConstants.PERIOD_CODE_BEGINNING_BALANCE);
+        userDefinedAttributeMap.put(KFSPropertyConstants.FINANCIAL_BEGINNING_BALANCE_LINE_AMOUNT, KFSConstants.PERIOD_CODE_BEGINNING_BALANCE);
         userDefinedAttributeMap.put(KFSPropertyConstants.CONTRACTS_GRANTS_BEGINNING_BALANCE_AMOUNT, KFSConstants.PERIOD_CODE_CG_BEGINNING_BALANCE);
 
         return userDefinedAttributeMap;

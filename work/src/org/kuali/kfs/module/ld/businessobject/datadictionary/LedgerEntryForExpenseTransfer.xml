@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.labor.bo.LedgerEntryForExpenseTransfer">
+
+
+        <inquiry>
+            <title>Ledger Entry Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="accountNumber" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="earnCode" />
+                <field attributeName="emplid" />
+                <field attributeName="employeeRecord" />
+                <field attributeName="financialBalanceTypeCode" />
+                <field attributeName="documentNumber" />
+                <field attributeName="financialDocumentReversalDate" />
+                <field attributeName="financialDocumentTypeCode" />
+                <field attributeName="financialObjectCode" />
+                <field attributeName="financialObjectTypeCode" />
+                <field attributeName="financialSubObjectCode" />
+                <field attributeName="financialSystemOriginationCode" />
+                <field attributeName="grade" />
+                <field attributeName="hrmsCompany" />
+                <field attributeName="laborLedgerOriginalAccountNumber" />
+                <field attributeName="laborLedgerOriginalChartOfAccountsCode" />
+                <field attributeName="laborLedgerOriginalFinancialObjectCode" />
+                <field attributeName="laborLedgerOriginalFinancialSubObjectCode" />
+                <field attributeName="laborLedgerOriginalSubAccountNumber" />
+                <field attributeName="organizationDocumentNumber" />
+                <field attributeName="organizationReferenceId" />
+                <field attributeName="payGroup" />
+                <field attributeName="payPeriodEndDate" />
+                <field attributeName="payrollEndDateFiscalPeriodCode" />
+                <field attributeName="payrollEndDateFiscalYear" />
+                <field attributeName="positionNumber" />
+                <field attributeName="projectCode" />
+                <field attributeName="referenceFinancialDocumentNumber" />
+                <field attributeName="referenceFinancialDocumentTypeCode" />
+                <field attributeName="referenceFinancialSystemOriginationCode" />
+                <field attributeName="runIdentifier" />
+                <field attributeName="salaryAdministrationPlan" />
+                <field attributeName="setid" />
+                <field attributeName="subAccountNumber" />
+                <field attributeName="transactionDate" />
+                <field attributeName="transactionDateTimeStamp" />
+                <field attributeName="transactionDebitCreditCode" />
+                <field attributeName="transactionEncumbranceUpdateCode" />
+                <field attributeName="transactionLedgerEntryAmount" />
+                <field attributeName="transactionLedgerEntryDescription" />
+                <field attributeName="transactionLedgerEntrySequenceNumber" />
+                <field attributeName="transactionPostingDate" />
+                <field attributeName="transactionTotalHours" />
+                <field attributeName="universityFiscalPeriodCode" />
+                <field attributeName="universityFiscalYear" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+        	<lookupableID>laborLedgerEntryForExpenseTransferLookupable</lookupableID>
+        	
+            <title>Ledger Entry for Expense Transfer Lookup</title>
+            <instructions>Look up a Ledger Entry for Expense Transfer </instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="financialBalanceTypeCode" />
+                    <sortAttribute attributeName="subAccountNumber" />
+                    <sortAttribute attributeName="financialObjectCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="universityFiscalYear" required="false" />
+                <lookupField attributeName="chartOfAccountsCode" required="false" />                
+                <lookupField attributeName="accountNumber" required="false" />
+                <lookupField attributeName="subAccountNumber" required="false" />
+                
+                <lookupField attributeName="financialBalanceTypeCode" required="false" />
+                <lookupField attributeName="financialObjectCode" required="false" />
+                <lookupField attributeName="financialObjectTypeCode" required="false" />
+                <lookupField attributeName="financialSubObjectCode" required="false" />
+                
+                <lookupField attributeName="universityFiscalPeriodCode" required="false" />
+                <lookupField attributeName="emplid" required="false" />
+                <lookupField attributeName="positionNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="subAccountNumber" />
+                <field attributeName="financialObjectCode" />
+                <field attributeName="financialSubObjectCode" />
+                <field attributeName="financialBalanceTypeCode" />
+                <field attributeName="financialObjectTypeCode" />
+                <field attributeName="universityFiscalPeriodCode" />
+                <field attributeName="financialDocumentTypeCode" />
+                <field attributeName="financialSystemOriginationCode" />
+                <field attributeName="documentNumber" />
+                <field attributeName="positionNumber" />
+                <field attributeName="projectCode" />
+                <field attributeName="transactionLedgerEntryDescription" />
+                <field attributeName="transactionLedgerEntryAmount" />
+                <field attributeName="transactionDebitCreditCode" />
+                <field attributeName="transactionDate" />
+                <field attributeName="organizationDocumentNumber" />
+                <field attributeName="organizationReferenceId" />
+                <field attributeName="referenceFinancialDocumentTypeCode" />
+                <field attributeName="referenceFinancialSystemOriginationCode" />
+                <field attributeName="referenceFinancialDocumentNumber" />
+                <field attributeName="financialDocumentReversalDate" />
+                <field attributeName="transactionEncumbranceUpdateCode" />
+                <field attributeName="transactionPostingDate" />
+                <field attributeName="payPeriodEndDate" />
+                <field attributeName="transactionTotalHours" />
+                <field attributeName="payrollEndDateFiscalYear" />
+                <field attributeName="payrollEndDateFiscalPeriodCode" />
+                <field attributeName="emplid" />
+                <field attributeName="employeeRecord" />
+				<field attributeName="earnCode" />
+                <field attributeName="payGroup" />
+                <field attributeName="salaryAdministrationPlan" />
+				<field attributeName="grade" />
+                <field attributeName="runIdentifier" />
+                <field attributeName="laborLedgerOriginalChartOfAccountsCode" />
+                <field attributeName="laborLedgerOriginalAccountNumber" />
+                <field attributeName="laborLedgerOriginalSubAccountNumber" />
+                <field attributeName="laborLedgerOriginalFinancialObjectCode" />
+                <field attributeName="laborLedgerOriginalFinancialSubObjectCode" />				
+                <field attributeName="hrmsCompany" />
+                <field attributeName="setid" />				
+                <field attributeName="transactionDateTimeStamp" />
+                <field attributeName="transactionLedgerEntrySequenceNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+            <attributeReference name="universityFiscalPeriodCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="universityFiscalPeriodCode" />
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="universityFiscalYear" />
+            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="accountNumber"/>
+            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="subAccountNumber" />            
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="chartOfAccountsCode"/>
+            
+            <attributeReference name="earnCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="earnCode"/>
+            <attributeReference name="emplid" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="emplid" />
+            <attributeReference name="employeeRecord" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="employeeRecord" />
+            <attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="financialBalanceTypeCode" />
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="documentNumber" />
+            <attributeReference name="financialDocumentReversalDate" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="financialDocumentReversalDate" />
+            <attributeReference name="financialDocumentTypeCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="financialDocumentTypeCode" />
+            <attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="financialObjectCode" />
+            <attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="financialObjectTypeCode" />
+            <attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="financialSubObjectCode" />
+            <attributeReference name="financialSystemOriginationCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="financialSystemOriginationCode" />
+            
+            <attributeReference name="grade" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="grade" />
+            <attributeReference name="hrmsCompany" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="hrmsCompany" />
+            <attributeReference name="laborLedgerOriginalAccountNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="laborLedgerOriginalAccountNumber" />
+            <attributeReference name="laborLedgerOriginalChartOfAccountsCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="laborLedgerOriginalChartOfAccountsCode" />
+            <attributeReference name="laborLedgerOriginalFinancialObjectCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="laborLedgerOriginalFinancialObjectCode" />
+            <attributeReference name="laborLedgerOriginalFinancialSubObjectCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="laborLedgerOriginalFinancialSubObjectCode" />
+            <attributeReference name="laborLedgerOriginalSubAccountNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="laborLedgerOriginalSubAccountNumber" />
+            <attributeReference name="organizationDocumentNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="organizationDocumentNumber" />
+            <attributeReference name="organizationReferenceId" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="organizationReferenceId" />
+            <attributeReference name="payGroup" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="payGroup" />
+            <attributeReference name="payPeriodEndDate" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="payPeriodEndDate" />
+            <attributeReference name="payrollEndDateFiscalPeriodCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="payrollEndDateFiscalPeriodCode" />
+            <attributeReference name="payrollEndDateFiscalYear" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="payrollEndDateFiscalYear" />
+            <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="positionNumber" />
+            <attributeReference name="projectCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="projectCode" />
+
+            <attributeReference name="referenceFinancialDocumentNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="referenceFinancialDocumentNumber" />
+            <attributeReference name="referenceFinancialDocumentTypeCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="referenceFinancialDocumentTypeCode" />
+            <attributeReference name="referenceFinancialSystemOriginationCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="referenceFinancialSystemOriginationCode" />
+
+            <attributeReference name="runIdentifier" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="runIdentifier" />
+            <attributeReference name="salaryAdministrationPlan" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="salaryAdministrationPlan" />
+            <attributeReference name="setid" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="setid" />
+
+            <attributeReference name="transactionDate" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionDate" />
+            <attributeReference name="transactionDateTimeStamp" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionDateTimeStamp" />
+            <attributeReference name="transactionDebitCreditCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionDebitCreditCode" />
+            <attributeReference name="transactionEncumbranceUpdateCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionEncumbranceUpdateCode" />
+            <attributeReference name="transactionLedgerEntryAmount" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionLedgerEntryAmount" />
+            <attributeReference name="transactionLedgerEntryDescription" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionLedgerEntryDescription" />
+            <attributeReference name="transactionLedgerEntrySequenceNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionLedgerEntrySequenceNumber" />
+            <attributeReference name="transactionPostingDate" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionPostingDate" />
+            <attributeReference name="transactionTotalHours" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionTotalHours" />
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

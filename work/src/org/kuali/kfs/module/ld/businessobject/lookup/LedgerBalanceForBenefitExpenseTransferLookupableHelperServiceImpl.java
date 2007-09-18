@@ -29,7 +29,7 @@ import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.LaborConstants.BenefitExpenseTransfer;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.ConsolidationUtil;
-import org.kuali.module.labor.web.inquirable.LedgerBalanceInquirableImpl;
+import org.kuali.module.labor.web.inquirable.LedgerBalanceForExpenseTransferInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -43,7 +43,7 @@ public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl e
      */
     @Override
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
-        return (new LedgerBalanceInquirableImpl()).getInquiryUrl(bo, propertyName);
+        return (new LedgerBalanceForExpenseTransferInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 
     /**
@@ -65,7 +65,7 @@ public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl e
         // get the ledger balances with actual balance type code
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, options.getActualFinancialBalanceTypeCd());
         Collection actualBalances = buildDetailedBalanceCollection(getBalanceService().findBalance(fieldValues, false), Constant.NO_PENDING_ENTRY);
-        
+
         // get the ledger balances with effort balance type code
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_A21);
         Collection effortBalances = buildDetailedBalanceCollection(getBalanceService().findBalance(fieldValues, false), Constant.NO_PENDING_ENTRY);

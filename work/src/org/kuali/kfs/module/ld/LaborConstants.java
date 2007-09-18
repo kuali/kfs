@@ -124,6 +124,7 @@ public class LaborConstants {
         public static final String BALANCE_CODE = "BB";
         public static final String EMPLOYEE_FUNDING_EXPENSE_OBJECT_TYPE_CODE = "ES";
         public static final String EMPLOYEE_FUNDING_NORMAL_OP_EXPENSE_OBJECT_TYPE_CODE = "EX";
+        public static final String LEDGER_ENTRY_LOOKUPABLE_FOR_EXPENSE_TRANSFER = "laborLedgerEntryForExpenseTransferLookupable";
     }
 
     public static class ParameterGroups {

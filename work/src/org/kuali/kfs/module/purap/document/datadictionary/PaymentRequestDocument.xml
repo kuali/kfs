@@ -38,7 +38,7 @@
         <documentTypeName>PaymentRequestDocument</documentTypeName>
         <documentTypeCode>PREQ</documentTypeCode>
 
-        <label>PaymentRequest</label>
+        <label>Payment Request</label>
         <shortLabel>PREQ</shortLabel>
 
         <attributes>
@@ -120,7 +120,7 @@
 			
 			<attribute name="vendorInvoiceAmount" forceUppercase="true">
                 <label>Vendor Invoice Amount</label>
-                <shortLabel>Vendor Invoice Amount</shortLabel>
+                <shortLabel>Vendor Inv Amt</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>

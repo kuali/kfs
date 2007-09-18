@@ -112,7 +112,14 @@
 		<property name="universalUserService" ref="universalUserService" />
 	</bean>
 
-	<bean id="pdpExtractGlTransactionsStep" class="org.kuali.module.pdp.batch.ExtractGlTransactionsStep">
+	<bean id="pdpAchBankDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.AchBankDaoOjb"/>
+
+	<bean id="pdpLoadFederalReserveBankDataStep" class="org.kuali.module.pdp.batch.LoadFederalReserveBankDataStep" parent="step">
+		<property name="achBankService" ref="pdpAchBankService"/>
+		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+	</bean>
+
+	<bean id="pdpExtractGlTransactionsStep" class="org.kuali.module.pdp.batch.ExtractGlTransactionsStep" parent="step">
 		<property name="extractGlTransactionService" ref="pdpExtractGlTransactionService" />
 	</bean>
 
@@ -121,6 +128,10 @@
 		<property name="originEntryGroupService" ref="originEntryGroupService" />
 		<property name="originEntryService" ref="originEntryService" />
 		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+
+	<bean id="pdpAchBankService" class="org.kuali.module.pdp.service.impl.AchBankServiceImpl">
+		<property name="achBankDao" ref="pdpAchBankDao"/>
 	</bean>
 
 	<bean id="pdpAchService" class="org.kuali.module.pdp.service.impl.AchServiceJdbc"/>

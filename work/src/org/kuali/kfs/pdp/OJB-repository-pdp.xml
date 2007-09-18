@@ -529,7 +529,7 @@
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
   </class-descriptor>
 
-<class-descriptor class="org.kuali.module.pdp.bo.PreDisbursementProcessorBank" table="PDP_BNK_T">
+<class-descriptor class="org.kuali.module.pdp.bo.AchBank" table="PDP_ACH_BNK_T">
 	<field-descriptor name="bankRoutingNumber" column="BNK_RTNG_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

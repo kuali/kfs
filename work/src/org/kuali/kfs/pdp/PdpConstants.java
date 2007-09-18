@@ -52,6 +52,8 @@ public class PdpConstants {
         public static String SEARCH_RESULTS_TOTAL = "SEARCH_RESULTS_TOTAL";
         public static String SEARCH_RESULTS_PER_PAGE = "SEARCH_RESULTS_PER_PAGE";
 
+        public static String ACH_BANK_INPUT_FILE = "ACH_BANK.INPUT.FILE";
+
         public static String BATCH_OUTPUT_DIR = "BATCH_OUTPUT_DIR";
 
         public static String HARD_EDIT_CC = "HARD_EDIT_CC";

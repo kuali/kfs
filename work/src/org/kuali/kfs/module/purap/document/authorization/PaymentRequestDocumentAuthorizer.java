@@ -129,12 +129,9 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
         if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PurapConstants.PaymentRequestStatuses.INITIATE)) {
             flags.setCanSave(false);
-            flags.setCanClose(false);
-            flags.setCanCancel(true);
+            flags.setCanClose(true);
+            flags.setCanCancel(false);
             flags.setCanDisapprove(false);
-            // If there was a way to add custom flags for our new buttons, we could avoid having the logic in jsp pag and have it here
-            //flags.setCanContinue(true);
-
         }
         else {
             if (!getCurrentRouteLevels(workflowDocument).contains(NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName())) {

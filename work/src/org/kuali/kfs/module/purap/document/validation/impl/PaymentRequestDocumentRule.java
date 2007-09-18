@@ -655,7 +655,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         //also this is different than CreditMemo even though the rules are almost identical we should merge and have one consistent way to do this
         PaymentRequestDocumentActionAuthorizer preqAuth = new PaymentRequestDocumentActionAuthorizer(preq,GlobalVariables.getUserSession().getUniversalUser());
         valid = valid &= preqAuth.canCancel();
-        
+        //TODO: ckirschenman - error here!
         return valid;
     }
 }

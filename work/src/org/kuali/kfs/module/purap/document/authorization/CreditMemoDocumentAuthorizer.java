@@ -112,18 +112,18 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
         CreditMemoDocument creditMemoDocument = (CreditMemoDocument) document;
         if (StringUtils.equals(creditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE)) {
             flags.setCanSave(false);
-            flags.setCanClose(false);
-
+            flags.setCanClose(true);
+            flags.setCanCancel(false);
         }
         else {
             flags.setCanSave(true);
-        }
 
-        if (SpringContext.getBean(CreditMemoService.class).canCancelCreditMemo(creditMemoDocument, GlobalVariables.getUserSession().getUniversalUser())) {
-            flags.setCanCancel(true);
-        }
-        else {
-            flags.setCanCancel(false);
+            if (SpringContext.getBean(CreditMemoService.class).canCancelCreditMemo(creditMemoDocument, GlobalVariables.getUserSession().getUniversalUser())) {
+                flags.setCanCancel(true);
+            }
+            else {
+                flags.setCanCancel(false);
+            }
         }
 
         // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS

@@ -135,8 +135,12 @@ public class CashManagementServiceImpl implements CashManagementService {
         // KULEDOCS-1475: adding handling for two things which should never happen:
         // 1. CashDrawer is open or locked by document 'null'
         // 2. CashDrawer is open or locked by a document which doesn't exist
-        if (!cd.isClosed()) {
+        if (!cd.isClosed() || cd.getStatusCode() == null) {
             boolean forceDrawerClosed = false;
+            
+            if (cd.getStatusCode() == null) {
+                forceDrawerClosed = true;
+            }
 
             if (StringUtils.isBlank(controllingDocId)) {
                 forceDrawerClosed = true;

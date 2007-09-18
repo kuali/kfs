@@ -100,12 +100,12 @@ public class CashManagementDocumentAuthorizer extends DocumentAuthorizerBase {
         CashManagementDocument cmDoc = (CashManagementDocument) document;
 
         // CM document can never be BlanketApproved
-        if (cmDoc.getCashDrawerStatus().equals(CashDrawerConstants.STATUS_CLOSED)) {
+        if (cmDoc.getCashDrawerStatus() == null || cmDoc.getCashDrawerStatus().equals(CashDrawerConstants.STATUS_CLOSED)) {
             flags.setCanBlanketApprove(false);
         }
 
         // CM document can only be saved (via the save button) if the CashDrawer is not closed
-        if (cmDoc.getCashDrawerStatus().equals(CashDrawerConstants.STATUS_CLOSED)) {
+        if (cmDoc.getCashDrawerStatus() == null || cmDoc.getCashDrawerStatus().equals(CashDrawerConstants.STATUS_CLOSED)) {
             flags.setCanSave(false);
         }
 

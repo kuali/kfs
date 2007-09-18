@@ -62,7 +62,6 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
         }
         
         if (workflowDocument.stateIsEnroute()) {
-            ChartUser chartUser = (ChartUser) user.getModuleUser(ChartUser.MODULE_ID);
             List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
             String editMode = AuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
 
@@ -70,7 +69,6 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
              * CONTENT ROUTE LEVEL - Approvers can edit full detail on Requisition except they cannot change the CHART/ORG.
              */
             if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW)) {
-//            if (currentRouteLevels.contains(NodeDetailEnum.CONTENT_REVIEW.getName()) && workflowDocument.isApprovalRequested()) {
                 // FULL_ENTRY will be set by super which is fine; also set content lock
                 editMode = PurapAuthorizationConstants.RequisitionEditMode.LOCK_CONTENT_ENTRY;
             }
@@ -79,7 +77,6 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
              * FISCAL OFFICER ROUTE LEVEL - Approvers can edit only the accounting lines that they own and no other detail on REQ.
              */
             else if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.ACCOUNT_REVIEW)) {
-//            else if (currentRouteLevels.contains(NodeDetailEnum.ACCOUNT_REVIEW.getName())) {
                 List lineList = new ArrayList();
                 for (Iterator iter = reqDocument.getItems().iterator(); iter.hasNext();) {
                     RequisitionItem item = (RequisitionItem) iter.next();
@@ -90,7 +87,7 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
                     }
                 }
 
-                if (userOwnsAnyAccountingLine(chartUser, lineList)) {
+                if (userOwnsAnyAccountingLine((ChartUser) user.getModuleUser(ChartUser.MODULE_ID), lineList)) {
                     // remove FULL_ENTRY because FO cannot edit rest of doc; only their own acct lines
                     editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
                     editMode = AuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY;
@@ -101,7 +98,6 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
              * SEP of DUTIES ROUTE LEVEL - Approvers can only approve or disapprove.
              */
             else if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.SEPARATION_OF_DUTIES_REVIEW)) {
-//            else if (currentRouteLevels.contains(NodeDetailEnum.SEPARATION_OF_DUTIES_REVIEW.getName())) {
                 editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
                 editMode = AuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
             }

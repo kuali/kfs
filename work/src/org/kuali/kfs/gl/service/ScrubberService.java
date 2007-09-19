@@ -42,4 +42,6 @@ public interface ScrubberService {
     public void scrubGroupReportOnly(OriginEntryGroup group,String documentNumber);
     
     public void setDateTimeService(DateTimeService dateTimeService);
+    
+    public void warrensTest();
 }

@@ -49,9 +49,9 @@ public class SpringContext {
     private static ConfigurableApplicationContext applicationContext;
     private static Set<Class> SINGLETON_TYPES = new HashSet<Class>();
     private static Set<String> SINGLETON_NAMES = new HashSet<String>();
-    private static Map<Class,Object> SINGLETON_BEANS_BY_TYPE_CACHE = new HashMap<Class,Object>();
-    private static Map<String,Object> SINGLETON_BEANS_BY_NAME_CACHE = new HashMap<String,Object>();
-    private static Map<Class,Map> SINGLETON_BEANS_OF_TYPE_CACHE = new HashMap<Class,Map>();
+    private static Map<Class,Object> SINGLETON_BEANS_BY_TYPE_CACHE = Collections.synchronizedMap(new HashMap<Class,Object>());
+    private static Map<String,Object> SINGLETON_BEANS_BY_NAME_CACHE = Collections.synchronizedMap(new HashMap<String,Object>());
+    private static Map<Class,Map> SINGLETON_BEANS_OF_TYPE_CACHE = Collections.synchronizedMap(new HashMap<Class,Map>());
 
     /**
      * Use this method to retrieve a spring bean when one of the following is the case. Pass in the type of the service interface,

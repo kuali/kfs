@@ -47,7 +47,7 @@
                 <required>true</required>
                 
                 <control>
-                    <text size="11" />
+                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.PayeeTypeValuesFinder" />
                 </control>
                 
                 <summary>

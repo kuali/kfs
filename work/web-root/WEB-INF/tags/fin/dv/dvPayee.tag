@@ -87,9 +87,7 @@
                 <c:if test="${fullEntryMode}">
                   <kul:lookup boClassName="org.kuali.module.financial.bo.Payee" fieldConversions="payeeIdNumber:document.dvPayeeDetail.disbVchrPayeeIdNumber"/>
                 </c:if>
-                <!-- 
                 <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbursementVoucherPayeeTypeCode}" property="document.dvPayeeDetail.disbursementVoucherPayeeTypeCode" extraReadOnlyProperty="document.dvPayeeDetail.disbursementVoucherPayeeTypeName" readOnly="${!fullEntryMode}"/>
-				 -->
               </td>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeCityName}"/>
                   <c:if test="${fullEntryMode}">

@@ -175,18 +175,20 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
     public List<EmployeeFunding> findEmployeeFundingWithCSFTracker(Map fieldValues, boolean isConsolidated) {
         List<EmployeeFunding> currentFundsCollection = this.findEmployeeFunding(fieldValues, isConsolidated);
         List<EmployeeFunding> CSFTrackersCollection = laborCalculatedSalaryFoundationTrackerService.findCSFTrackersAsEmployeeFunding(fieldValues, isConsolidated);
+        
+        for (EmployeeFunding CSFTrackerAsEmployeeFunding : CSFTrackersCollection) {
+            if (currentFundsCollection.contains(CSFTrackerAsEmployeeFunding)) {
+                int index = currentFundsCollection.indexOf(CSFTrackerAsEmployeeFunding);
+                EmployeeFunding currentFunds = currentFundsCollection.get(index);
 
-        for (EmployeeFunding employeeFunding : currentFundsCollection) {
-            if (CSFTrackersCollection.contains(employeeFunding)) {
-                int index = CSFTrackersCollection.indexOf(employeeFunding);
-                EmployeeFunding CSFTracker = CSFTrackersCollection.get(index);
-
-                // TODO: make sure if there are multiple csf trackers for a single employee funding
-                employeeFunding.setCsfDeleteCode(CSFTracker.getCsfDeleteCode());
-                employeeFunding.setCsfTimePercent(CSFTracker.getCsfTimePercent());
-                employeeFunding.setCsfFundingStatusCode(CSFTracker.getCsfFundingStatusCode());
-                employeeFunding.setCsfAmount(CSFTracker.getCsfAmount());
-                employeeFunding.setCsfFullTimeEmploymentQuantity(CSFTracker.getCsfFullTimeEmploymentQuantity());
+                currentFunds.setCsfDeleteCode(CSFTrackerAsEmployeeFunding.getCsfDeleteCode());
+                currentFunds.setCsfTimePercent(CSFTrackerAsEmployeeFunding.getCsfTimePercent());
+                currentFunds.setCsfFundingStatusCode(CSFTrackerAsEmployeeFunding.getCsfFundingStatusCode());
+                currentFunds.setCsfAmount(CSFTrackerAsEmployeeFunding.getCsfAmount());
+                currentFunds.setCsfFullTimeEmploymentQuantity(CSFTrackerAsEmployeeFunding.getCsfFullTimeEmploymentQuantity());
+            }
+            else{
+                currentFundsCollection.add(CSFTrackerAsEmployeeFunding);              
             }
         }
         return currentFundsCollection;

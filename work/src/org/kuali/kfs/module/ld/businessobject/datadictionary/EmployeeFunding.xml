@@ -40,6 +40,7 @@
                     <sortAttribute attributeName="chartOfAccountsCode" />
                     <sortAttribute attributeName="accountNumber" />
                     <sortAttribute attributeName="financialObjectCode" />
+                    <sortAttribute attributeName="financialSubObjectCode" />
                 </sortAttributes>
             </defaultSort>
             
@@ -48,6 +49,13 @@
                     <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
                 </lookupField>
                 <lookupField attributeName="emplid" required="true"/>
+                
+                <lookupField attributeName="chartOfAccountsCode" />
+                <lookupField attributeName="accountNumber" />
+                <lookupField attributeName="subAccountNumber" />
+                <lookupField attributeName="financialObjectCode" />
+                <lookupField attributeName="financialSubObjectCode" />
+                
                 <lookupField attributeName="dummyBusinessObject.pendingEntryOption">
                     <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder</defaultValueFinderClass>
                 </lookupField>
@@ -62,7 +70,6 @@
                 <field attributeName="subAccountNumber" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialSubObjectCode" />
-                <field attributeName="financialObjectTypeCode" />
 				<field attributeName="positionNumber" />
 				<field attributeName="csfDeleteCode" />				
 				<field attributeName="csfFundingStatusCode" />

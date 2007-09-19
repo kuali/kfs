@@ -377,6 +377,14 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
      * @param payrollEndDateFiscalPeriodCode The payrollEndDateFiscalPeriodCode to set.
      */
     public void setPayrollEndDateFiscalPeriodCode(String payrollEndDateFiscalPeriodCode) {
+        //KULLAB-480
+        try {
+            Integer i = new Integer(payrollEndDateFiscalPeriodCode);
+            if (i < 10 && payrollEndDateFiscalPeriodCode.length() == 1) {
+                payrollEndDateFiscalPeriodCode = "0" + payrollEndDateFiscalPeriodCode;
+            }
+        }
+        catch (NumberFormatException e) {}
         this.payrollEndDateFiscalPeriodCode = payrollEndDateFiscalPeriodCode;
     }
 

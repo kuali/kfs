@@ -750,55 +750,65 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
 
-            List items = po.getItems();
-            String retransmitHeader = po.getRetransmitHeader();
-            po = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(po.getDocumentNumber());
-            po.setItems(items);
-            po.setRetransmitHeader(retransmitHeader);
-            ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
-            try {
-                StringBuffer sbFilename = new StringBuffer();
-                sbFilename.append("PURAP_PO_");
-                sbFilename.append(po.getPurapDocumentIdentifier());
-                sbFilename.append("_");
-                sbFilename.append(System.currentTimeMillis());
-                sbFilename.append(".pdf");
+        List items = po.getItems();
+        String retransmitHeader = po.getRetransmitHeader();
+        po = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(po.getDocumentNumber());
+        //setting the isItemSelectedForRetransmitIndicator items of the PO obtained from the database based on its value from 
+        //the po from the form
+        setItemSelectedForRetransmitIndicatorFromPOInForm(items, po.getItems());
+        po.setRetransmitHeader(retransmitHeader);
+        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+        try {
+            StringBuffer sbFilename = new StringBuffer();
+            sbFilename.append("PURAP_PO_");
+            sbFilename.append(po.getPurapDocumentIdentifier());
+            sbFilename.append("_");
+            sbFilename.append(System.currentTimeMillis());
+            sbFilename.append(".pdf");
 
-                // below method will throw ValidationException if errors are found
-                SpringContext.getBean(PurchaseOrderService.class).retransmitPurchaseOrderPDF(po, baosPDF);
+            // below method will throw ValidationException if errors are found
+            SpringContext.getBean(PurchaseOrderService.class).retransmitPurchaseOrderPDF(po, baosPDF);
 
-                response.setHeader("Cache-Control", "max-age=30");
-                response.setContentType("application/pdf");
-                StringBuffer sbContentDispValue = new StringBuffer();
-                sbContentDispValue.append("inline");
-                sbContentDispValue.append("; filename=");
-                sbContentDispValue.append(sbFilename);
+            response.setHeader("Cache-Control", "max-age=30");
+            response.setContentType("application/pdf");
+            StringBuffer sbContentDispValue = new StringBuffer();
+            sbContentDispValue.append("inline");
+            sbContentDispValue.append("; filename=");
+            sbContentDispValue.append(sbFilename);
 
-                response.setHeader("Content-disposition", sbContentDispValue.toString());
+            response.setHeader("Content-disposition", sbContentDispValue.toString());
 
-                response.setContentLength(baosPDF.size());
+            response.setContentLength(baosPDF.size());
 
-                ServletOutputStream sos;
+            ServletOutputStream sos;
 
-                sos = response.getOutputStream();
+            sos = response.getOutputStream();
 
-                baosPDF.writeTo(sos);
+            baosPDF.writeTo(sos);
 
-                sos.flush();
+            sos.flush();
 
-            }
-            catch (ValidationException e) {
-                LOG.warn("Caught ValidationException while trying to retransmit PO with doc id " + po.getDocumentNumber());
-                return mapping.findForward(KFSConstants.MAPPING_ERROR);
-            }
-            finally {
-                if (baosPDF != null) {
-                    baosPDF.reset();
-                }
-            }
-            return null;
         }
+        catch (ValidationException e) {
+            LOG.warn("Caught ValidationException while trying to retransmit PO with doc id " + po.getDocumentNumber());
+            return mapping.findForward(KFSConstants.MAPPING_ERROR);
+        }
+        finally {
+            if (baosPDF != null) {
+                baosPDF.reset();
+            }
+        }
+        return null;
+    }
 
+    private void setItemSelectedForRetransmitIndicatorFromPOInForm(List itemsFromForm, List itemsFromDB) {
+        int i=0;
+        for (PurchaseOrderItem itemFromForm : (List<PurchaseOrderItem>)itemsFromForm) {
+            ((PurchaseOrderItem)(itemsFromDB.get(i))).setItemSelectedForRetransmitIndicator(itemFromForm.isItemSelectedForRetransmitIndicator());
+            i++;
+        }
+    }
+    
     /**
      * This method is to check on a few conditions that would cause a warning message to be displayed on top of the Purchase Order
      * page.

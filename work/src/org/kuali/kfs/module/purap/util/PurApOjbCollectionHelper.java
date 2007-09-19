@@ -134,7 +134,8 @@ public class PurApOjbCollectionHelper {
      */
     private void cleanse(OjbCollectionAware template, Collection origSource, List unwantedItems) {
         if (unwantedItems.size() > 0) {
-            origSource.removeAll(unwantedItems);
+         // removing the following line because it seems to screw up when overriding equals (and it seems purposeless) see discussion on KULPURAP-1370
+//            origSource.removeAll(unwantedItems);
             Iterator iter = unwantedItems.iterator();
             while (iter.hasNext()) {
                 template.getPersistenceBrokerTemplate().delete(iter.next());

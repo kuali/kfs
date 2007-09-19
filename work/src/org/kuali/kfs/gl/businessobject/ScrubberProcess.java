@@ -575,7 +575,7 @@ public class ScrubberProcess {
         scrubCostShareAmount = KualiDecimal.ZERO;
         unitOfWork = new UnitOfWorkInfo();
 
-        LOG.info("Starting Scrubber Process process group...");
+        LOG.info("Starting Scrubber Process process group... limit of " + TRANS_SIZE);
         Iterator entries = originEntryLiteService.getEntriesByGroup(originEntryGroup);
         while (entries.hasNext()) {
             scrubberGroupService.scrubGroup(this, entries);
@@ -1636,5 +1636,5 @@ public class ScrubberProcess {
         this.scrubberGroupService = scrubberGroupService;
     }
     
-    
+    public static final int TRANS_SIZE = 1000;
 }

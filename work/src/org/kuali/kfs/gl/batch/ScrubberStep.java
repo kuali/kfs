@@ -27,7 +27,11 @@ public class ScrubberStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberStep.class);
     
     public boolean execute(String jobName) {
+        long start = System.currentTimeMillis();
         scrubberService.scrubEntries();
+        long end = System.currentTimeMillis();
+        long total = end - start;
+        LOG.fatal("Time elapsed " + (total/60000) + ":" + ((total % 60000) / 1000));
         LOG.fatal("After scrub commit" + System.currentTimeMillis());
         return true;
     }

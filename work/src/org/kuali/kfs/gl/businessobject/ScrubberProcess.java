@@ -580,7 +580,7 @@ public class ScrubberProcess {
         List list = new ArrayList(TRANS_SIZE);
         while (entries.hasNext()) {
             list.clear();
-            for (int i = 0; i < TRANS_SIZE; i++) {
+            for (int i = 0; i < TRANS_SIZE && entries.hasNext(); i++) {
                 list.add(entries.next());
             }
             // we have to copy the elements from the iterator b/c when we call the scrubber group service,

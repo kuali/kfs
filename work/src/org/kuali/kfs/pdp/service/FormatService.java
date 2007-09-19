@@ -40,7 +40,7 @@ public interface FormatService {
 
     // Actually format the data for check printing.
     // Return a list of Process Summaries to be displayed
-    public List performFormat(Integer procId) throws DisbursementRangeExhaustedException,MissingDisbursementRangeException,NoBankForCustomerException;
+    public List performFormat(Integer procId);
 
     // If the start format process was run and the user doesn't want to continue,
     // this needs to be run to set all payments back to open

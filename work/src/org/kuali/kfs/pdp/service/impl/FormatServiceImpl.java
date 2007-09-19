@@ -139,7 +139,7 @@ public class FormatServiceImpl implements FormatService {
         return GeneralUtilities.getParameterInteger(PdpConstants.ApplicationParameterKeys.FORMAT_SUMMARY_ROWS, appSettingService,40);
     }
 
-    public List performFormat(Integer procId) throws DisbursementRangeExhaustedException,MissingDisbursementRangeException,NoBankForCustomerException {
+    public List performFormat(Integer procId) {
         LOG.debug("performFormat() started");
 
         PaymentProcess proc = processDao.get(procId);

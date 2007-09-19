@@ -22,7 +22,7 @@
  */
 package org.kuali.module.pdp.service;
 
-public class NoBankForCustomerException extends Exception {
+public class NoBankForCustomerException extends RuntimeException {
     private String customerProfile;
 
     public NoBankForCustomerException() {

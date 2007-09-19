@@ -8,7 +8,7 @@ package org.kuali.module.pdp.service;
  * @author jsissom
  *
  */
-public class DisbursementRangeExhaustedException extends Exception {
+public class DisbursementRangeExhaustedException extends RuntimeException {
 
   public DisbursementRangeExhaustedException() {
     super();

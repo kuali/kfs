@@ -77,8 +77,7 @@
 		< purap:vendor
 	        documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}" 
 	        displayPurchaseOrderFields="false" displayPaymentRequestFields="true"/>
-		<!--  c:out value="${KualiForm.paymentRequestInitiated}" / -->
-		
+		<!--  c:out value="${KualiForm.paymentRequestInitiated}" / -->		
 	
 		<purap:paymentRequestInvoiceInfo documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}"
 	 		 displayPaymentRequestInvoiceInfoFields="true" />        
@@ -88,14 +87,6 @@
 			itemAttributes="${DataDictionary.PaymentRequestItem.attributes}"
 			accountingLineAttributes="${DataDictionary.PaymentRequestAccount.attributes}" />
 		   
-	    <kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/> 
-	    	
-	    < kul:adHocRecipients />
-	
-	    <kul:routeLog />
-
-        <gl:generalLedgerPendingEntries />
-
 	    <purap:summaryaccounts
             itemAttributes="${DataDictionary.PaymentRequestItem.attributes}"
     	    documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
@@ -110,6 +101,15 @@
             	&nbsp;&nbsp;&nbsp;<bean:write name="warnings"/><br><br>
           	</html:messages>       
     	</purap:statushistory>
+    	
+        <gl:generalLedgerPendingEntries />
+
+	    <kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/> 
+	    	
+	    < kul:adHocRecipients />
+	
+	    <kul:routeLog />
+    	
 	</c:if>
 	
     <kul:panelFooter />

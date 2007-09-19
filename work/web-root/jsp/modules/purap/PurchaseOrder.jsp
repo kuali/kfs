@@ -115,6 +115,8 @@
           </html:messages>       
     </purap:statushistory>
 
+    <gl:generalLedgerPendingEntries />
+
     <kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true">
           <html:messages id="warnings" property="noteWarning" message="true">
             &nbsp;&nbsp;&nbsp;<bean:write name="warnings"/><br><br>
@@ -124,7 +126,6 @@
     <kul:adHocRecipients />
 
     <kul:routeLog />
-    <gl:generalLedgerPendingEntries />
 
 </c:if>
     <kul:panelFooter />

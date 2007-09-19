@@ -22,9 +22,7 @@
     </c:if>
  
     <c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />
-    
-    
-
+        
     <kul:hiddenDocumentFields excludePostingYear="true" />
 	
 	<purap:hiddenPurapFields includeNonAPFields="false" />
@@ -58,14 +56,6 @@
 			itemAttributes="${DataDictionary.CreditMemoItem.attributes}"
 			accountingLineAttributes="${DataDictionary.CreditMemoAccount.attributes}" isCreditMemo="true" />
 	  
-	    <kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}" allowsNoteFYI="true"/> 
-	
-	    <kul:adHocRecipients />
-	
-	    <kul:routeLog />
-	
-	    <gl:generalLedgerPendingEntries />
-
 	    <purap:summaryaccounts
             itemAttributes="${DataDictionary.CreditMemoItem.attributes}"
     	    documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
@@ -74,13 +64,20 @@
            	
 	    <purap:paymentHistory documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
         
-
 	    <purap:statushistory 
 	        documentAttributes="${DataDictionary.CreditMemoStatusHistory.attributes}">
 	          <html:messages id="warnings" property="statusHistoryWarning" message="true">
 	            &nbsp;&nbsp;&nbsp;<bean:write name="warnings"/><br><br>
 	          </html:messages>       
 	    </purap:statushistory>
+	
+	    <gl:generalLedgerPendingEntries />
+
+	    <kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}" allowsNoteFYI="true"/> 
+	
+	    <kul:adHocRecipients />
+	
+	    <kul:routeLog />
 	
         <kul:panelFooter />
 	</c:if>

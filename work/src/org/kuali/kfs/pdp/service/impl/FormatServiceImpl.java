@@ -225,7 +225,7 @@ public class FormatServiceImpl implements FormatService {
                 pg.setPaymentStatus(ps);
                 if ( checkBank == null ) {
                     LOG.error("performFormat() A bank is needed for CHCK for customer: " + customer);
-                    throw new NoBankForCustomerException("A bank is needed for CHCK for customer: " + customer);
+                    throw new NoBankForCustomerException("A bank is needed for CHCK for customer: " + customer,customer.getChartCode()+"-"+customer.getOrgCode()+"-"+customer.getSubUnitCode());
                 }
                 pg.setBank(checkBank);
             } else {
@@ -235,7 +235,7 @@ public class FormatServiceImpl implements FormatService {
                 pg.setPaymentStatus(ps);
                 if ( achBank == null ) {
                     LOG.error("performFormat() A bank is needed for ACH for customer: " + customer);
-                    throw new NoBankForCustomerException("A bank is needed for ACH for customer: " + customer);
+                    throw new NoBankForCustomerException("A bank is needed for ACH for customer: " + customer,customer.getChartCode()+"-"+customer.getOrgCode()+"-"+customer.getSubUnitCode());
                 }
                 pg.setBank(achBank);
 

@@ -180,10 +180,14 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             errors.add(MessageBuilder.buildErrorMessage(KFSKeyConstants.Labor.ERROR_SUB_FUND_GROUP_NOT_FOUND, invalidSubFundValue.toString(), Message.TYPE_FATAL));
             return false;
         }
-
-        if (!ArrayUtils.contains(this.getFundGroupProcessed(), subFundGroup.getFundGroupCode())) {
-            LOG.warn("Cannot process the fund group code: " + subFundGroup.getFundGroupCode());
-            return false;
+               
+        // Exclude the balance if the fund group code or sub fund group code is not in the specific list
+        String fundGroupCode = subFundGroup.getFundGroupCode();
+        if (!ArrayUtils.contains(this.getFundGroupProcessed(), fundGroupCode)) {
+            if(!ArrayUtils.contains(this.getSubFundGroupProcessed(), subFundGroupCode)){
+                LOG.warn("Cannot process the balance with the subfund group code: " + subFundGroupCode + "; fund group code " + fundGroupCode);
+                return false;
+            }
         }
         return true;
     }
@@ -246,6 +250,15 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      */
     private String[] getFundGroupProcessed() {
         return kualiConfigurationService.getApplicationParameterValues(YEAR_END, YearEnd.FUND_GROUP_PROCESSED);
+    }
+    
+    /**
+     * get the fund group codes that are acceptable by year-end process
+     * 
+     * @return the fund group codes that are acceptable by year-end process
+     */
+    private String[] getSubFundGroupProcessed() {
+        return kualiConfigurationService.getApplicationParameterValues(YEAR_END, YearEnd.SUB_FUND_GROUP_PROCESSED);
     }
 
     /**

@@ -156,6 +156,7 @@ public class LaborConstants {
     
     public static class YearEnd {
         public static final String FUND_GROUP_PROCESSED = "fundGroupProcessed";
+        public static final String SUB_FUND_GROUP_PROCESSED = "subFundGroupProcessed";
         public static final String DOCUMENT_TYPE_CODE = "documentTypeCode";
         public static final String ORIGINATION_CODE = "originationCode";
         public static final String OLD_FISCAL_YEAR = "oldFiscalYear";

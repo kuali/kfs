@@ -26,8 +26,8 @@
 	   	<convert converter="bean" match="org.kuali.module.financial.bo.BankAccount">
 	   		<param name="include" value="financialDocumentBankCode,finDocumentBankAccountNumber,finDocumentBankAccountDesc" />
 	   	</convert>
-	   	<convert converter="bean" match="org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail">
-	   		<param name="include" value="disbVchrPayeeIdNumber, disbVchrPayeePersonName, disbVchrPayeeLine1Addr, disbVchrPayeeLine2Addr, disbVchrPayeeCityName, disbVchrPayeeStateCode, disbVchrPayeeZipCode, disbVchrPayeeCountryCode" />
+	   	<convert converter="bean" match="org.kuali.module.financial.bo.Payee">
+	   		<param name="include" value="payeeIdNumber, payeePersonName, payeeLine1Addr, payeeLine2Addr, payeeCityName, payeeStateCode, payeeZipCode, payeeCountryCode" />
 	   	</convert>
 	    <create creator="spring" javascript="BankService">
 	    	<param name="beanName" value="bankService" />
@@ -37,8 +37,8 @@
 	    	<param name="beanName" value="bankAccountService" />
 	    	<include method="getByPrimaryId" />
 	    </create>
-	    <create creator="spring" javascript="DisbursementVoucherPayeeDetailService">
-	    	<param name="beanName" value="disbursementVoucherPayeeDetailService" />
+	    <create creator="spring" javascript="PayeeService">
+	    	<param name="beanName" value="payeeService" />
 	    	<include method="getByPayeeIdNumber" />
 	    </create>
 	</allow>

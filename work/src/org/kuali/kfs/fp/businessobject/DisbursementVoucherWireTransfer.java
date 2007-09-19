@@ -20,7 +20,6 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.financial.document.DisbursementVoucherDocument;
 
 /**
  * 

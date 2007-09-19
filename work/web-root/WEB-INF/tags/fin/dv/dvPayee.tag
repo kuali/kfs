@@ -21,24 +21,23 @@
     <div class="h2-container">
                 <h2>Payee Information</h2>
               </div>
-    <script language="JavaScript" src="dwr/interface/DisbursementVoucherPayeeDetailService.js" type="text/javascript"></script>
+    <script language="JavaScript" src="dwr/interface/PayeeService.js" type="text/javascript"></script>
     <script language="JavaScript" type="text/javascript">
 
     	var dwrReply = getDwrReply();
     	function getDwrReply() {
     		return { callback:function(data) {
     			if(data) {
-	    			// disbVchrPayeeIdNumber, disbVchrPayeePersonName, disbVchrPayeeLine1Addr, disbVchrPayeeLine2Addr, disbVchrPayeeCityName, disbVchrPayeeStateCode, disbVchrPayeeZipCode, disbVchrPayeeCountryCode
-	    			document.getElementById('document.dvPayeeDetail.disbVchrPayeePersonName').value=data.disbVchrPayeePersonName
-	    			document.getElementById('document.dvPayeeDetail.disbVchrPayeeLine1Addr').value=data.disbVchrPayeeLine1Addr
-	    			document.getElementById('document.dvPayeeDetail.disbVchrPayeeLine2Addr').value=data.disbVchrPayeeLine2Addr
-	    			document.getElementById('document.dvPayeeDetail.disbVchrPayeeCityName').value=data.disbVchrPayeeCityName
-	    			document.getElementById('document.dvPayeeDetail.disbVchrPayeeStateCode').value=data.disbVchrPayeeStateCode
-	    			document.getElementById('document.dvPayeeDetail.disbVchrPayeeZipCode').value=data.disbVchrPayeeZipCode
+	    			document.getElementById('document.dvPayeeDetail.disbVchrPayeePersonName').value=data.payeePersonName
+	    			document.getElementById('document.dvPayeeDetail.disbVchrPayeeLine1Addr').value=data.payeeLine1Addr
+	    			document.getElementById('document.dvPayeeDetail.disbVchrPayeeLine2Addr').value=data.payeeLine2Addr
+	    			document.getElementById('document.dvPayeeDetail.disbVchrPayeeCityName').value=data.payeeCityName
+	    			document.getElementById('document.dvPayeeDetail.disbVchrPayeeStateCode').value=data.payeeStateCode
+	    			document.getElementById('document.dvPayeeDetail.disbVchrPayeeZipCode').value=data.payeeZipCode
 	    			var ddown = document.getElementsByName('document.dvPayeeDetail.disbVchrPayeeCountryCode')[0];
 	    			if(ddown) {
 		    			for (var i=0; i<ddown.options.length; i++) {
-		    				if (ddown.options[i].value == data.disbVchrPayeeCountryCode) {
+		    				if (ddown.options[i].value == data.payeeCountryCode) {
 		    					ddown.options[i].selected=true
 		    				}
 		    			}
@@ -71,7 +70,7 @@
    			if(dvpn) {
 				dvpn = dvpn.value
 				if(dvpn != '') {
-					DisbursementVoucherPayeeDetailService.getByPayeeIdNumber(dvpn, dwrReply);
+					PayeeService.getByPayeeIdNumber(dvpn, dwrReply);
 				}
    			}
    		}

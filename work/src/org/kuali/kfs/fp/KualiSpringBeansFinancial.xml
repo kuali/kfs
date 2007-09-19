@@ -61,7 +61,7 @@
 		</property>
 	</bean>
 
-	<bean id="disbursementVoucherPayeeDetailService" class="org.kuali.module.financial.service.impl.DisbursementVoucherPayeeDetailServiceImpl">
+	<bean id="payeeService" class="org.kuali.module.financial.service.impl.PayeeServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>

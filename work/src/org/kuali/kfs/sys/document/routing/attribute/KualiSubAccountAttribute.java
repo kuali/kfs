@@ -76,7 +76,7 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
     private static final Class ACCOUNT_NUMBER_FIELD_CLASS = SUB_ACCOUNT_NUMBER_FIELD_CLASS;
     private static final String ACCOUNT_NUMBER_FIELD_PROPERTY = KFSPropertyConstants.ACCOUNT_NUMBER;
     private static final Class ORG_CODE_FIELD_CLASS = SUB_ACCOUNT_NUMBER_FIELD_CLASS;
-    private static final String ORG_CODE_FIELD_PROPERTY = KFSPropertyConstants.ORGANIZATION_CODE;
+    private static final String ORG_CODE_FIELD_PROPERTY = KFSPropertyConstants.FIN_REPORT_ORGANIZATION_CODE;
     private static final Class CHART_CODE_FIELD_CLASS = SUB_ACCOUNT_NUMBER_FIELD_CLASS;
     private static final String CHART_CODE_FIELD_PROPERTY = KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
     

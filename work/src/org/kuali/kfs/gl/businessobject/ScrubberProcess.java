@@ -577,8 +577,19 @@ public class ScrubberProcess {
 
         LOG.info("Starting Scrubber Process process group... limit of " + TRANS_SIZE);
         Iterator entries = originEntryLiteService.getEntriesByGroup(originEntryGroup);
+        List list = new ArrayList(TRANS_SIZE);
         while (entries.hasNext()) {
-            scrubberGroupService.scrubGroup(this, entries);
+            list.clear();
+            for (int i = 0; i < TRANS_SIZE; i++) {
+                list.add(entries.next());
+            }
+            // we have to copy the elements from the iterator b/c when we call the scrubber group service,
+            // elements in the entries iterator will be inaccessible b/c the transaction is suspended
+            Iterator transIterator = list.iterator();
+            scrubberGroupService.scrubGroup(this, transIterator);
+            if (transIterator.hasNext()) {
+                throw new RuntimeException();
+            }
         }
 
         if (!collectorMode) {

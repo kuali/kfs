@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceLock;
@@ -77,25 +79,66 @@ public class DelegateGlobalMaintainableImpl extends KualiGlobalMaintainableImpl 
         List <MaintenanceLock> maintenanceLocks = new ArrayList();
         DelegateGlobal delegateGlobal = (DelegateGlobal)getBusinessObject();
         
+        // hold all the locking representations in a set to make sure we don't get any duplicates
+        Set<String> lockingRepresentations = new HashSet<String>();
+        
+        MaintenanceLock maintenanceLock;
         for ( AccountGlobalDetail accountGlobalDetail: delegateGlobal.getAccountGlobalDetails()) {
             for ( DelegateGlobalDetail delegateGlobalDetail : delegateGlobal.getDelegateGlobals() ) {
-                MaintenanceLock maintenanceLock = new MaintenanceLock();
-                maintenanceLock.setDocumentNumber(delegateGlobal.getDocumentNumber());
+                StringBuilder lockRep = new StringBuilder();
+                lockRep.append(Delegate.class.getName());
+                lockRep.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
+                lockRep.append("chartOfAccountsCode");
+                lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+                lockRep.append(accountGlobalDetail.getChartOfAccountsCode());
+                lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
+                lockRep.append("accountNumber");
+                lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+                lockRep.append(accountGlobalDetail.getAccountNumber());
+                lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
+                lockRep.append("financialDocumentTypeCode");
+                lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+                lockRep.append(delegateGlobalDetail.getFinancialDocumentTypeCode());
+                lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
+                lockRep.append("accountDelegateSystemId");
+                lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+                lockRep.append(delegateGlobalDetail.getAccountDelegateUniversalId());
+                //FIXME above is a bit dangerous b/c it hard codes the attribute names, which could change (particularly accountDelegateSystemId) - guess they should either be constants or obtained by looping through Delegate keys; however, I copied this from elsewhere which had them hard-coded, so I'm leaving it for now
 
-                StringBuffer lockrep = new StringBuffer();
-                lockrep.append(Delegate.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
-                lockrep.append("chartOfAccountsCode" + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-                lockrep.append(accountGlobalDetail.getChartOfAccountsCode() + KFSConstants.Maintenance.AFTER_VALUE_DELIM);
-                lockrep.append("accountNumber" + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-                lockrep.append(accountGlobalDetail.getAccountNumber() + KFSConstants.Maintenance.AFTER_VALUE_DELIM);
-                lockrep.append("financialDocumentTypeCode" + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-                lockrep.append(delegateGlobalDetail.getFinancialDocumentTypeCode() + KFSConstants.Maintenance.AFTER_VALUE_DELIM);
-                lockrep.append("accountDelegateSystemId" + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-                lockrep.append(delegateGlobalDetail.getAccountDelegateUniversalId());
-//FIXME above is a bit dangerous b/c it hard codes the attribute names, which could change (particularly accountDelegateSystemId) - guess they should either be constants or obtained by looping through Delegate keys; however, I copied this from elsewhere which had them hard-coded, so I'm leaving it for now
-
-                maintenanceLock.setLockingRepresentation(lockrep.toString());
-                maintenanceLocks.add(maintenanceLock);
+                if (!lockingRepresentations.contains(lockRep.toString())) {
+                    maintenanceLock = new MaintenanceLock();
+                    maintenanceLock.setDocumentNumber(delegateGlobal.getDocumentNumber());
+                    maintenanceLock.setLockingRepresentation(lockRep.toString());
+                    maintenanceLocks.add(maintenanceLock);
+                    lockingRepresentations.add(lockRep.toString());
+                }
+                
+                lockRep = new StringBuilder();
+                lockRep.append(Delegate.class.getName());
+                lockRep.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
+                lockRep.append("chartOfAccountsCode");
+                lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+                lockRep.append(accountGlobalDetail.getChartOfAccountsCode());
+                lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
+                lockRep.append("accountNumber");
+                lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+                lockRep.append(accountGlobalDetail.getAccountNumber());
+                lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
+                lockRep.append("financialDocumentTypeCode");
+                lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+                lockRep.append(delegateGlobalDetail.getFinancialDocumentTypeCode());
+                lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
+                lockRep.append("accountsDelegatePrmrtIndicator");
+                lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+                lockRep.append("true");
+                
+                if (!lockingRepresentations.contains(lockRep.toString())) {
+                    maintenanceLock = new MaintenanceLock();
+                    maintenanceLock.setDocumentNumber(delegateGlobal.getDocumentNumber());
+                    maintenanceLock.setLockingRepresentation(lockRep.toString());
+                    maintenanceLocks.add(maintenanceLock);
+                    lockingRepresentations.add(lockRep.toString());
+                }
             }
         }
         return maintenanceLocks;

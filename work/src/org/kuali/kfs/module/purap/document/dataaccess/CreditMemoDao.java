@@ -52,4 +52,12 @@ public interface CreditMemoDao {
      * @return boolean - true if a match exists in the db, false if not
      */
     public boolean duplicateExists(Integer vendorNumberHeaderId, Integer vendorNumberDetailId, Date date, KualiDecimal amount);
+    
+    /** 
+     * This method returns a credit memo document number by id.
+     * 
+     * @param id
+     * @return
+     */
+    public String getDocumentNumberByCreditMemoId(Integer id);
 }

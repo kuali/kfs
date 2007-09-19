@@ -209,14 +209,26 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         //end proration
     }
 
+    private CreditMemoDocument getCreditMemoByDocumentNumber(String documentNumber) {
+        if (ObjectUtils.isNotNull(documentNumber)) {
+            try {
+                CreditMemoDocument doc = (CreditMemoDocument)documentService.getByDocumentHeaderId(documentNumber);
+                return doc;
+            }
+            catch (WorkflowException e) {
+                String errorMessage = "Error getting credit memo document from document service";
+                LOG.error("getCreditMemoByDocumentNumber() " + errorMessage,e);
+                throw new RuntimeException(errorMessage,e);
+            }
+        }
+        return null;
+    }
+
     /**
      * @see org.kuali.module.purap.service.CreditMemoService#getCreditMemoDocumentById(java.lang.Integer)
      */
     public CreditMemoDocument getCreditMemoDocumentById(Integer purchasingDocumentIdentifier) {
-        Map<String, Integer> criteria = new HashMap<String, Integer>();
-        criteria.put(PurapPropertyConstants.PURAP_DOC_ID, purchasingDocumentIdentifier);
-
-        return (CreditMemoDocument) businessObjectService.findByPrimaryKey(CreditMemoDocument.class, criteria);
+        return getCreditMemoByDocumentNumber(creditMemoDao.getDocumentNumberByCreditMemoId(purchasingDocumentIdentifier));
     }
 
     /**
@@ -234,6 +246,11 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
+        }
+        catch( RuntimeException re){
+            String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + re.getMessage(); 
+            LOG.error(errorMsg, re);
+            throw new RuntimeException(errorMsg, re);            
         }
     }
 

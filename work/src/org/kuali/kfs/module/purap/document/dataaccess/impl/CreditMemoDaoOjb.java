@@ -22,11 +22,16 @@ import java.util.Iterator;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.util.KFSUtils;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.module.purap.dao.CreditMemoDao;
 import org.kuali.module.purap.document.CreditMemoDocument;
+import org.kuali.module.purap.document.PaymentRequestDocument;
 
 /**
  * Provides persistence layer methods for the credit memo document.
@@ -102,4 +107,42 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
             return false;
         }
     }
+    
+    public String getDocumentNumberByCreditMemoId(Integer id) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
+        return getDocumentNumberOfCreditMemoByCriteria(criteria);
+    }
+
+    private String getDocumentNumberOfCreditMemoByCriteria(Criteria criteria) {
+        LOG.debug("getDocumentNumberOfCreditMemoByCriteria() started");
+        Iterator<Object[]> iter = getDocumentNumbersOfCreditMemoByCriteria(criteria, false);
+        if (iter.hasNext()) {
+            Object[] cols = (Object[])iter.next();
+            if (iter.hasNext()) {
+                // the iterator should have held only a single doc id of data but it holds 2 or more
+                String errorMsg = "Expected single document number for given criteria but multiple (at least 2) were returned";
+                LOG.error(errorMsg);
+                KFSUtils.exhaustIterator(iter);
+                throw new RuntimeException();
+            }
+            // at this part of the code, we know there's no more elements in iterator
+            return (String)cols[0];
+        }
+        return null;
+    }
+
+    private Iterator<Object[]> getDocumentNumbersOfCreditMemoByCriteria(Criteria criteria, boolean orderByAscending) {
+        LOG.debug("getDocumentNumberOfCreditMemoByCriteria() started");
+        ReportQueryByCriteria rqbc = new ReportQueryByCriteria(CreditMemoDocument.class, criteria);
+        rqbc.setAttributes(new String[] {KFSPropertyConstants.DOCUMENT_NUMBER});
+        if (orderByAscending) {
+            rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
+        }
+        else {
+            rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
+        }
+        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
+    }
+
 }

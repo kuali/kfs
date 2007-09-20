@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
@@ -49,7 +48,6 @@ import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.CreditMemoCreateService;
 import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PaymentRequestService;
-import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -194,7 +192,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
             if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
                 SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.CreditMemoStatuses.COMPLETE);
                 SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(this);
-                //TODO: ctk - we need a cancel check here in case it's DPTA/AUTO approved and not extracted.
+
                 return;
             }
             // DOCUMENT DISAPPROVED

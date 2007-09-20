@@ -997,7 +997,11 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     
     private List<SourceAccountingLine> getCreditMemoEncumbrance(CreditMemoDocument cm, PurchaseOrderDocument po, boolean cancel) {
         LOG.debug("getCreditMemoEncumbrance() started");
-
+        
+        if(ObjectUtils.isNull(po)) {
+            return null;
+        }
+        
         if (cancel) {
             LOG.debug("getCreditMemoEncumbrance() Receiving items back from vendor (cancelled CM)");
         }

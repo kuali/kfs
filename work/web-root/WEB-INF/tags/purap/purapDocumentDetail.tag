@@ -56,8 +56,9 @@
         </th>
         <td align=left valign=middle class="datacell">
             <kul:htmlControlAttribute
-                property="document.fundingSource.fundingSourceDescription"
+                property="document.fundingSourceCode"
                 attributeEntry="${documentAttributes.fundingSourceCode}"
+                extraReadOnlyProperty="document.fundingSource.fundingSourceDescription"
                 readOnly="${not (fullEntryMode and editableFundingSource)}"/>
         </td>
     </tr>

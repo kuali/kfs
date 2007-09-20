@@ -145,8 +145,4 @@ public interface OriginEntryDao {
      */       
     public Iterator getPosterOutputSummaryByGroupId(Collection groups);
     
-    /**
-     * force current persistence broker to clear its cache
-     */
-    public void clearCache();
 }

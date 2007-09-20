@@ -559,6 +559,9 @@
 		<property name="subFundGroupService">
 			<ref bean="subFundGroupService" />
 		</property>
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
 	</bean>
 
 	<bean id="glScrubberService" class="org.kuali.module.gl.service.impl.ScrubberServiceImpl">

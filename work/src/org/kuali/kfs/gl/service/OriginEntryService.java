@@ -207,9 +207,4 @@ public interface OriginEntryService {
      * Get count of transactions in a group
      */
     public Integer getGroupCount(Integer groupId);
-    
-    /**
-     * Force the persistence broker to clear its cache
-     */
-    public void clearCache();
 }

@@ -493,13 +493,6 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
-     * @see org.kuali.module.gl.service.OriginEntryService#clearCache()
-     */
-    public void clearCache() {
-        originEntryDao.clearCache();
-    }
-
-    /**
      * @see org.kuali.module.gl.service.OriginEntryService#getGroupCount(java.lang.Integer)
      */
     public Integer getGroupCount(Integer groupId) {

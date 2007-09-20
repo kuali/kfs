@@ -27,6 +27,7 @@ import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.module.chart.service.BalanceTypService;
@@ -73,6 +74,7 @@ public class YearEndServiceImpl implements YearEndService {
     private SubFundGroupService subFundGroupService;
     private EncumbranceClosingRuleHelper encumbranceClosingRuleHelper;
     private ReportService reportService;
+    private PersistenceService persistenceService;
 
     public static final String TRANSACTION_DATE_FORMAT_STRING = "yyyy-MM-dd";
     
@@ -858,7 +860,7 @@ public class YearEndServiceImpl implements YearEndService {
                         // 1155 DISPLAY ' SEQUENTIAL RECORDS WRITTEN = ' SEQ-CHECK-CNT.
 
                         LOG.info(new StringBuffer("  SEQUENTIAL RECORDS WRITTEN = ").append(sequenceCheckCount).toString());
-                        originEntryService.clearCache();
+                        persistenceService.clearCache();
 
                     }
 
@@ -1283,4 +1285,13 @@ public class YearEndServiceImpl implements YearEndService {
     public void setSubFundGroupService(SubFundGroupService subFundGroupService) {
         this.subFundGroupService = subFundGroupService;
     }
+
+    /**
+     * Sets the persistenceService attribute value.
+     * @param persistenceService The persistenceService to set.
+     */
+    public void setPersistenceService(PersistenceService persistenceService) {
+        this.persistenceService = persistenceService;
+    }
+    
 }

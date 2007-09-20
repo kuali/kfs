@@ -49,7 +49,6 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jaxrpc-1.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jdom-1.0.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jsearch.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/log4j-1.2.9.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/opensaml-1.0.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/oscache-2.3.2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/quartz-1.6.0.jar"/>

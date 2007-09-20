@@ -29,7 +29,7 @@ import org.kuali.module.financial.bo.ProcurementCardTransaction;
 import org.kuali.module.gl.batch.collector.CollectorBatch;
 import org.kuali.module.gl.batch.collector.CollectorInputFileType;
 import org.kuali.module.gl.bo.CollectorDetail;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.test.ConfigureContext;
 
 /**
@@ -106,7 +106,7 @@ public class BatchInputServiceParseTest extends KualiTestBase {
             Object originEntry = collectorBatch.getOriginEntries().get(i);
 
             assertNotNull("orgin entry record is null on index " + i, originEntry);
-            assertEquals("object type was incorrect on index " + i, OriginEntry.class, originEntry.getClass());
+            assertEquals("object type was incorrect on index " + i, OriginEntryFull.class, originEntry.getClass());
         }
 
         // verify id billing entries were populated

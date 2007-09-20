@@ -51,7 +51,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.CorrectionChange;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.CorrectionCriteria;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.document.CorrectionDocument;
@@ -99,7 +99,7 @@ public class LaborCorrectionAction extends CorrectionAction{
         CorrectionForm rForm = (CorrectionForm) form;
         LOG.debug("execute() methodToCall: " + rForm.getMethodToCall());
 
-        Collection<OriginEntry> persistedOriginEntries = null;
+        Collection<OriginEntryFull> persistedOriginEntries = null;
         
         // If we are called from the docHandler or reload, ignore the persisted origin entries because we are either creating a new document
         // or loading an old one
@@ -113,7 +113,7 @@ public class LaborCorrectionAction extends CorrectionAction{
                         rForm.setDisplayEntries(null);
                     }
                     else {
-                        rForm.setDisplayEntries(new ArrayList<OriginEntry> (rForm.getAllEntries()));
+                        rForm.setDisplayEntries(new ArrayList<OriginEntryFull> (rForm.getAllEntries()));
                     }
                 
                     if ((!"showOutputGroup".equals(rForm.getMethodToCall())) && rForm.getShowOutputFlag()) {
@@ -305,11 +305,11 @@ public class LaborCorrectionAction extends CorrectionAction{
         if (!correctionForm.isRestrictedFunctionalityMode()) {
             CorrectionDocument document = correctionForm.getCorrectionDocument();
             List<LaborOriginEntry> laborSearchResults = laborOriginEntryService.getEntriesByGroupId(groupId);
-            List<OriginEntry> searchResults = new ArrayList();
+            List<OriginEntryFull> searchResults = new ArrayList();
             searchResults.addAll(laborSearchResults);
             
             correctionForm.setAllEntries(searchResults);
-            correctionForm.setDisplayEntries(new ArrayList<OriginEntry> (searchResults));
+            correctionForm.setDisplayEntries(new ArrayList<OriginEntryFull> (searchResults));
 
             updateDocumentSummary(document, correctionForm.getAllEntries(), correctionForm.isRestrictedFunctionalityMode());
             
@@ -341,8 +341,8 @@ public class LaborCorrectionAction extends CorrectionAction{
             int entryId = laborCorrectionForm.getLaborEntryForManualEdit().getEntryId();
 
             // Find it and replace it with the one from the edit spot
-            for (Iterator<OriginEntry> iter = laborCorrectionForm.getAllEntries().iterator(); iter.hasNext();) {
-                OriginEntry element = iter.next();
+            for (Iterator<OriginEntryFull> iter = laborCorrectionForm.getAllEntries().iterator(); iter.hasNext();) {
+                OriginEntryFull element = iter.next();
                 if (element.getEntryId() == entryId) {
                     iter.remove();
                 }
@@ -404,7 +404,7 @@ public class LaborCorrectionAction extends CorrectionAction{
 
         // we've modified the list of all entries, so repersist it
         SpringContext.getBean(GlCorrectionProcessOriginEntryService.class).persistAllEntries(laborCorrectionForm.getGlcpSearchResultsSequenceNumber(), laborCorrectionForm.getAllEntries());
-        laborCorrectionForm.setDisplayEntries(new ArrayList<OriginEntry>(laborCorrectionForm.getAllEntries()));
+        laborCorrectionForm.setDisplayEntries(new ArrayList<OriginEntryFull>(laborCorrectionForm.getAllEntries()));
         if (laborCorrectionForm.getShowOutputFlag()) {
             removeNonMatchingEntries(laborCorrectionForm.getDisplayEntries(), document.getCorrectionChangeGroup());
         }
@@ -508,10 +508,10 @@ public class LaborCorrectionAction extends CorrectionAction{
         return valid;
     }
     
-    protected void removeNonMatchingEntries(Collection<OriginEntry> entries, Collection<CorrectionChangeGroup> groups) {
-        Iterator<OriginEntry> loei = entries.iterator();
+    protected void removeNonMatchingEntries(Collection<OriginEntryFull> entries, Collection<CorrectionChangeGroup> groups) {
+        Iterator<OriginEntryFull> loei = entries.iterator();
         while (loei.hasNext()) {
-            OriginEntry oe = loei.next();
+            OriginEntryFull oe = loei.next();
             if (!CorrectionDocumentUtils.doesLaborEntryMatchAnyCriteriaGroups(oe, groups)) {
                 loei.remove();
             }
@@ -583,7 +583,7 @@ public class LaborCorrectionAction extends CorrectionAction{
         
         laborCorrectionForm.setPersistedOriginEntriesMissing(false);
         List<LaborOriginEntry> laborSearchResults = laborCorrectionDocumentService.retrievePersistedInputOriginEntries(document, recordCountFunctionalityLimit);
-        List<OriginEntry> searchResults = new ArrayList();
+        List<OriginEntryFull> searchResults = new ArrayList();
         searchResults.addAll(laborSearchResults);
         if (searchResults == null) {
             // null when the origin entry list is too large (i.e. in restricted functionality mode)
@@ -592,7 +592,7 @@ public class LaborCorrectionAction extends CorrectionAction{
         }
         else {
             laborCorrectionForm.setAllEntries(searchResults);
-            laborCorrectionForm.setDisplayEntries(new ArrayList<OriginEntry> (searchResults));
+            laborCorrectionForm.setDisplayEntries(new ArrayList<OriginEntryFull> (searchResults));
 
             updateDocumentSummary(document, laborCorrectionForm.getAllEntries(), false);
             
@@ -635,7 +635,7 @@ public class LaborCorrectionAction extends CorrectionAction{
         }
         
         List<LaborOriginEntry> laborSearchResults = laborCorrectionDocumentService.retrievePersistedOutputOriginEntries(document, recordCountFunctionalityLimit);
-        List<OriginEntry> searchResults = new ArrayList();
+        List<OriginEntryFull> searchResults = new ArrayList();
         searchResults.addAll(laborSearchResults);
         
         if (searchResults == null) {
@@ -654,7 +654,7 @@ public class LaborCorrectionAction extends CorrectionAction{
         }
         else {
             laborCorrectionForm.setAllEntries(searchResults);
-            laborCorrectionForm.setDisplayEntries(new ArrayList<OriginEntry> (searchResults));
+            laborCorrectionForm.setDisplayEntries(new ArrayList<OriginEntryFull> (searchResults));
 
             if (setSequentialIds) {
                 CorrectionDocumentUtils.setSequentialEntryIds(laborCorrectionForm.getAllEntries());
@@ -912,7 +912,7 @@ public class LaborCorrectionAction extends CorrectionAction{
             laborCorrectionForm.setEditableFlag(false);
             laborCorrectionForm.setManualEditFlag(false);
             laborCorrectionForm.setShowOutputFlag(false);
-            laborCorrectionForm.setAllEntries(new ArrayList<OriginEntry>());
+            laborCorrectionForm.setAllEntries(new ArrayList<OriginEntryFull>());
             laborCorrectionForm.setRestrictedFunctionalityMode(false);
             laborCorrectionForm.setProcessInBatch(true);
             

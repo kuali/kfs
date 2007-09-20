@@ -18,7 +18,7 @@ package org.kuali.module.gl.service;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 
 /**
  * Implementations of this interface are used to store a list of origin entries to be used
@@ -36,7 +36,7 @@ public interface GlCorrectionProcessOriginEntryService {
      * @return a list of origin entries, or null if no results are currently not in the system.
      * @throws Exception
      */
-    public List<OriginEntry> retrieveAllEntries(String glcpSearchResuiltsSequenceNumber) throws Exception;
+    public List<OriginEntryFull> retrieveAllEntries(String glcpSearchResuiltsSequenceNumber) throws Exception;
     
     /**
      * Persists the origin entries under a given sequence number.  If entries are persisted again under the same sequence number, then
@@ -46,5 +46,5 @@ public interface GlCorrectionProcessOriginEntryService {
      * @param allEntries a list of origin entries
      * @throws Exception
      */
-    public void persistAllEntries(String glcpSearchResuiltsSequenceNumber, List<OriginEntry> allEntries) throws Exception;
+    public void persistAllEntries(String glcpSearchResuiltsSequenceNumber, List<OriginEntryFull> allEntries) throws Exception;
 }

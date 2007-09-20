@@ -31,14 +31,14 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.exception.LoadException;
 import org.kuali.module.labor.LaborConstants;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
+public class LaborOriginEntry extends OriginEntryFull implements LaborTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntry.class);
     private static String SPACES = "                                                                                                              ";
     private static final String DATE_FORMAT = "yyyy-MM-dd";
@@ -132,7 +132,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
             setFromTextFile(line, 0);
         }
         catch (LoadException e) {
-            LOG.error("OriginEntry() Error loading line", e);
+            LOG.error("OriginEntryFull() Error loading line", e);
         }
 
     }

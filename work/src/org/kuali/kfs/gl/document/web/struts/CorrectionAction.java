@@ -59,7 +59,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.CorrectionChange;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.CorrectionCriteria;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.document.CorrectionDocument;
@@ -107,7 +107,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         CorrectionForm rForm = (CorrectionForm) form;
         LOG.debug("execute() methodToCall: " + rForm.getMethodToCall());
 
-        Collection<OriginEntry> persistedOriginEntries = null;
+        Collection<OriginEntryFull> persistedOriginEntries = null;
         
         // If we are called from the docHandler or reload, ignore the persisted origin entries because we are either creating a new document
         // or loading an old one
@@ -121,7 +121,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                         rForm.setDisplayEntries(null);
                     }
                     else {
-                        rForm.setDisplayEntries(new ArrayList<OriginEntry> (rForm.getAllEntries()));
+                        rForm.setDisplayEntries(new ArrayList<OriginEntryFull> (rForm.getAllEntries()));
                     }
                 
                     if ((!"showOutputGroup".equals(rForm.getMethodToCall())) && rForm.getShowOutputFlag()) {
@@ -492,7 +492,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             correctionForm.setEditableFlag(false);
             correctionForm.setManualEditFlag(false);
             correctionForm.setShowOutputFlag(false);
-            correctionForm.setAllEntries(new ArrayList<OriginEntry>());
+            correctionForm.setAllEntries(new ArrayList<OriginEntryFull>());
             correctionForm.setRestrictedFunctionalityMode(false);
             correctionForm.setProcessInBatch(true);
             
@@ -715,7 +715,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                 lineNumber++;
                 if (!StringUtils.isEmpty(currentLine)) {
                     try {
-                        OriginEntry entryFromFile = new OriginEntry();
+                        OriginEntryFull entryFromFile = new OriginEntryFull();
                         entryFromFile.setFromTextFile(currentLine, lineNumber);
                         entryFromFile.setEntryGroupId(newOriginEntryGroup.getId());
                         originEntryService.createEntry(entryFromFile, newOriginEntryGroup);
@@ -995,7 +995,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         // we've modified the list of all entries, so repersist it
         SpringContext.getBean(GlCorrectionProcessOriginEntryService.class).persistAllEntries(correctionForm.getGlcpSearchResultsSequenceNumber(), correctionForm.getAllEntries());
-        correctionForm.setDisplayEntries(new ArrayList<OriginEntry>(correctionForm.getAllEntries()));
+        correctionForm.setDisplayEntries(new ArrayList<OriginEntryFull>(correctionForm.getAllEntries()));
         if (correctionForm.getShowOutputFlag()) {
             removeNonMatchingEntries(correctionForm.getDisplayEntries(), document.getCorrectionChangeGroup());
         }
@@ -1019,7 +1019,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         // Find it and remove it
         for (Iterator iter = correctionForm.getAllEntries().iterator(); iter.hasNext();) {
-            OriginEntry element = (OriginEntry) iter.next();
+            OriginEntryFull element = (OriginEntryFull) iter.next();
             if (element.getEntryId() == entryId) {
                 iter.remove();
                 break;
@@ -1033,7 +1033,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         // we've modified the list of all entries, so repersist it
         SpringContext.getBean(GlCorrectionProcessOriginEntryService.class).persistAllEntries(correctionForm.getGlcpSearchResultsSequenceNumber(), correctionForm.getAllEntries());
-        correctionForm.setDisplayEntries(new ArrayList<OriginEntry>(correctionForm.getAllEntries()));
+        correctionForm.setDisplayEntries(new ArrayList<OriginEntryFull>(correctionForm.getAllEntries()));
         if (correctionForm.getShowOutputFlag()) {
             removeNonMatchingEntries(correctionForm.getDisplayEntries(), document.getCorrectionChangeGroup());
         }
@@ -1058,7 +1058,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         // Find it and put it in the editing spot
         for (Iterator iter = correctionForm.getAllEntries().iterator(); iter.hasNext();) {
-            OriginEntry element = (OriginEntry) iter.next();
+            OriginEntryFull element = (OriginEntryFull) iter.next();
             if (element.getEntryId() == entryId) {
                 correctionForm.setEntryForManualEdit(element);
                 correctionForm.setEntryFinancialDocumentReversalDate(CorrectionDocumentUtils.convertToString(element.getFinancialDocumentReversalDate(), "Date"));
@@ -1088,8 +1088,8 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             int entryId = correctionForm.getEntryForManualEdit().getEntryId();
 
             // Find it and replace it with the one from the edit spot
-            for (Iterator<OriginEntry> iter = correctionForm.getAllEntries().iterator(); iter.hasNext();) {
-                OriginEntry element = iter.next();
+            for (Iterator<OriginEntryFull> iter = correctionForm.getAllEntries().iterator(); iter.hasNext();) {
+                OriginEntryFull element = iter.next();
                 if (element.getEntryId() == entryId) {
                     iter.remove();
                 }
@@ -1100,7 +1100,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
             // we've modified the list of all entries, so repersist it
             SpringContext.getBean(GlCorrectionProcessOriginEntryService.class).persistAllEntries(correctionForm.getGlcpSearchResultsSequenceNumber(), correctionForm.getAllEntries());
-            correctionForm.setDisplayEntries(new ArrayList<OriginEntry>(correctionForm.getAllEntries()));
+            correctionForm.setDisplayEntries(new ArrayList<OriginEntryFull>(correctionForm.getAllEntries()));
             
             if (correctionForm.getShowOutputFlag()) {
                 removeNonMatchingEntries(correctionForm.getDisplayEntries(), document.getCorrectionChangeGroup());
@@ -1181,7 +1181,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
     protected boolean validOriginEntry(CorrectionForm correctionForm) {
         LOG.debug("validOriginEntry() started");
 
-        OriginEntry oe = correctionForm.getEntryForManualEdit();
+        OriginEntryFull oe = correctionForm.getEntryForManualEdit();
 
         boolean valid = true;
         OriginEntryFieldFinder oeff = new OriginEntryFieldFinder();
@@ -1243,10 +1243,10 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         if (!correctionForm.isRestrictedFunctionalityMode()) {
             CorrectionDocument document = correctionForm.getCorrectionDocument();
-            List<OriginEntry> searchResults = originEntryService.getEntriesByGroupId(groupId);
+            List<OriginEntryFull> searchResults = originEntryService.getEntriesByGroupId(groupId);
             
             correctionForm.setAllEntries(searchResults);
-            correctionForm.setDisplayEntries(new ArrayList<OriginEntry> (searchResults));
+            correctionForm.setDisplayEntries(new ArrayList<OriginEntryFull> (searchResults));
 
             updateDocumentSummary(document, correctionForm.getAllEntries(), correctionForm.isRestrictedFunctionalityMode());
             
@@ -1283,7 +1283,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         }
         
         correctionForm.setPersistedOriginEntriesMissing(false);
-        List<OriginEntry> searchResults = correctionDocumentService.retrievePersistedInputOriginEntries(document, recordCountFunctionalityLimit);
+        List<OriginEntryFull> searchResults = correctionDocumentService.retrievePersistedInputOriginEntries(document, recordCountFunctionalityLimit);
 
         if (searchResults == null) {
             // null when the origin entry list is too large (i.e. in restricted functionality mode)
@@ -1292,7 +1292,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         }
         else {
             correctionForm.setAllEntries(searchResults);
-            correctionForm.setDisplayEntries(new ArrayList<OriginEntry> (searchResults));
+            correctionForm.setDisplayEntries(new ArrayList<OriginEntryFull> (searchResults));
 
             updateDocumentSummary(document, correctionForm.getAllEntries(), false);
             
@@ -1342,7 +1342,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             recordCountFunctionalityLimit = CorrectionDocumentUtils.getRecordCountFunctionalityLimit();
         }
         
-        List<OriginEntry> searchResults = correctionDocumentService.retrievePersistedOutputOriginEntries(document, recordCountFunctionalityLimit);
+        List<OriginEntryFull> searchResults = correctionDocumentService.retrievePersistedOutputOriginEntries(document, recordCountFunctionalityLimit);
 
         if (searchResults == null) {
             // null when the origin entry list is too large (i.e. in restricted functionality mode)
@@ -1360,7 +1360,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         }
         else {
             correctionForm.setAllEntries(searchResults);
-            correctionForm.setDisplayEntries(new ArrayList<OriginEntry> (searchResults));
+            correctionForm.setDisplayEntries(new ArrayList<OriginEntryFull> (searchResults));
 
             if (setSequentialIds) {
                 CorrectionDocumentUtils.setSequentialEntryIds(correctionForm.getAllEntries());
@@ -1549,11 +1549,11 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
     /**
      * For criteria based edits, this method will generate the output group
      * 
-     * @param entries a Collection of OriginEntry BOs, this collection and its elements may be directly modified as a result of this method
+     * @param entries a Collection of OriginEntryFull BOs, this collection and its elements may be directly modified as a result of this method
      * @param matchCriteriaOnly if true, only those entries that matched the criteria before changes were applied will remain in the collection
      * @param changeCriteriaGroups a list of criteria and change groups.
      */
-    protected void applyCriteriaOnEntries(Collection<OriginEntry> entries, boolean matchCriteriaOnly, List<CorrectionChangeGroup> changeCriteriaGroups) {
+    protected void applyCriteriaOnEntries(Collection<OriginEntryFull> entries, boolean matchCriteriaOnly, List<CorrectionChangeGroup> changeCriteriaGroups) {
         // Now, if they only want matches in the output group, go through them again and delete items that don't match any of the
         // groups
         // This means that matches within a group are ANDed and each group is ORed
@@ -1561,7 +1561,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             removeNonMatchingEntries(entries, changeCriteriaGroups);
         }
 
-        for (OriginEntry oe : entries) {
+        for (OriginEntryFull oe : entries) {
             for (CorrectionChangeGroup ccg : changeCriteriaGroups) {
                 int matches = 0;
                 for (CorrectionCriteria cc : ccg.getCorrectionCriteria()) {
@@ -1581,10 +1581,10 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         }
     }
     
-    protected void removeNonMatchingEntries(Collection<OriginEntry> entries, Collection<CorrectionChangeGroup> groups) {
-        Iterator<OriginEntry> oei = entries.iterator();
+    protected void removeNonMatchingEntries(Collection<OriginEntryFull> entries, Collection<CorrectionChangeGroup> groups) {
+        Iterator<OriginEntryFull> oei = entries.iterator();
         while (oei.hasNext()) {
-            OriginEntry oe = oei.next();
+            OriginEntryFull oe = oei.next();
             if (!CorrectionDocumentUtils.doesEntryMatchAnyCriteriaGroups(oe, groups)) {
                 oei.remove();
             }
@@ -1634,7 +1634,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
-    protected void sortList(List<OriginEntry> list, String propertyToSortName, Comparator valueComparator, boolean sortDescending) {
+    protected void sortList(List<OriginEntryFull> list, String propertyToSortName, Comparator valueComparator, boolean sortDescending) {
         if (list != null) {
             if (valueComparator instanceof NumericValueComparator || valueComparator instanceof TemporalValueComparator) {
                 // hack alert: NumericValueComparator can only compare strings, so we use the KualiDecimal and Date's built in mechanism compare values using
@@ -1735,7 +1735,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
      * @param entries the entries to summarize 
      * @param clearOutSummary whether to set the doc summary to 0s
      */
-    protected void updateDocumentSummary(CorrectionDocument document, List<OriginEntry> entries,
+    protected void updateDocumentSummary(CorrectionDocument document, List<OriginEntryFull> entries,
             boolean clearOutSummary) {
         if (clearOutSummary) {
             document.setCorrectionCreditTotalAmount(null);

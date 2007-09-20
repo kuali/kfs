@@ -31,7 +31,7 @@ import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.labor.bo.LaborTransaction;
 import org.kuali.module.gl.dao.OriginEntryDao;

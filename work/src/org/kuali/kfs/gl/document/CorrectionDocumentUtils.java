@@ -28,7 +28,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.CorrectionChange;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.CorrectionCriteria;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.web.optionfinder.OriginEntryFieldFinder;
 import org.kuali.module.labor.bo.LaborOriginEntry;
@@ -136,8 +136,8 @@ public class CorrectionDocumentUtils {
      * 
      * @param originEntries
      */
-    public static void setAllEntryIdsToNull(Collection<OriginEntry> originEntries) {
-        for (OriginEntry entry : originEntries) {
+    public static void setAllEntryIdsToNull(Collection<OriginEntryFull> originEntries) {
+        for (OriginEntryFull entry : originEntries) {
             entry.setEntryId(null);
         }
     }
@@ -147,9 +147,9 @@ public class CorrectionDocumentUtils {
      * 
      * @param originEntries
      */
-    public static void setSequentialEntryIds(Collection<OriginEntry> originEntries) {
+    public static void setSequentialEntryIds(Collection<OriginEntryFull> originEntries) {
         int index = 0;
-        for (OriginEntry entry : originEntries) {
+        for (OriginEntryFull entry : originEntries) {
             entry.setEntryId(new Integer(index));
             index++;
         }
@@ -163,7 +163,7 @@ public class CorrectionDocumentUtils {
      * @param oe
      * @return
      */
-    public static boolean entryMatchesCriteria(CorrectionCriteria cc, OriginEntry oe) {
+    public static boolean entryMatchesCriteria(CorrectionCriteria cc, OriginEntryFull oe) {
         OriginEntryFieldFinder oeff = new OriginEntryFieldFinder();
         Object fieldActualValue = oe.getFieldValue(cc.getCorrectionFieldName());
         String fieldTestValue = StringUtils.isBlank(cc.getCorrectionFieldValue()) ? "" : cc.getCorrectionFieldValue();
@@ -200,7 +200,7 @@ public class CorrectionDocumentUtils {
      * @param oe
      * @return
      */
-    public static boolean laborEntryMatchesCriteria(CorrectionCriteria cc, OriginEntry oe) {
+    public static boolean laborEntryMatchesCriteria(CorrectionCriteria cc, OriginEntryFull oe) {
         LaborOriginEntryFieldFinder loeff = new LaborOriginEntryFieldFinder();
         LaborOriginEntry loe = (LaborOriginEntry) oe;
         Object fieldActualValue = loe.getFieldValue(cc.getCorrectionFieldName());
@@ -269,7 +269,7 @@ public class CorrectionDocumentUtils {
      * @param changeCriteriaGroups
      * @return the passed in entry instance, or null (see above)
      */
-    public static OriginEntry applyCriteriaToEntry(OriginEntry entry, boolean matchCriteriaOnly, List<CorrectionChangeGroup> changeCriteriaGroups) {
+    public static OriginEntryFull applyCriteriaToEntry(OriginEntryFull entry, boolean matchCriteriaOnly, List<CorrectionChangeGroup> changeCriteriaGroups) {
         if (matchCriteriaOnly && !doesEntryMatchAnyCriteriaGroups(entry, changeCriteriaGroups)) {
             return null;
         }
@@ -300,7 +300,7 @@ public class CorrectionDocumentUtils {
      * @param groups
      * @return
      */
-    public static boolean doesEntryMatchAnyCriteriaGroups(OriginEntry entry, Collection<CorrectionChangeGroup> groups) {
+    public static boolean doesEntryMatchAnyCriteriaGroups(OriginEntryFull entry, Collection<CorrectionChangeGroup> groups) {
         boolean anyGroupMatch = false;
         for (CorrectionChangeGroup ccg : groups) {
             int matches = 0;
@@ -326,7 +326,7 @@ public class CorrectionDocumentUtils {
      * @param groups
      * @return
      */
-    public static boolean doesLaborEntryMatchAnyCriteriaGroups(OriginEntry entry, Collection<CorrectionChangeGroup> groups) {
+    public static boolean doesLaborEntryMatchAnyCriteriaGroups(OriginEntryFull entry, Collection<CorrectionChangeGroup> groups) {
         boolean anyGroupMatch = false;
         for (CorrectionChangeGroup ccg : groups) {
             int matches = 0;
@@ -350,10 +350,10 @@ public class CorrectionDocumentUtils {
      * @param entries
      * @return
      */
-    public static OriginEntryStatistics getStatistics(Collection<OriginEntry> entries) {
+    public static OriginEntryStatistics getStatistics(Collection<OriginEntryFull> entries) {
         OriginEntryStatistics oes = new OriginEntryStatistics();
 
-        for (OriginEntry oe : entries) {
+        for (OriginEntryFull oe : entries) {
             updateStatisticsWithEntry(oe, oes);
         }
         return oes;
@@ -364,7 +364,7 @@ public class CorrectionDocumentUtils {
      * @param oe
      * @return
      */
-    public static boolean isDebitBudget(OriginEntry oe) {
+    public static boolean isDebitBudget(OriginEntryFull oe) {
         return (oe.getTransactionDebitCreditCode() == null || KFSConstants.GL_BUDGET_CODE.equals(oe.getTransactionDebitCreditCode()) || KFSConstants.GL_DEBIT_CODE.equals(oe.getTransactionDebitCreditCode()));
     }
     
@@ -373,7 +373,7 @@ public class CorrectionDocumentUtils {
      * @param entry
      * @param statistics
      */
-    public static void updateStatisticsWithEntry(OriginEntry entry, OriginEntryStatistics statistics) {
+    public static void updateStatisticsWithEntry(OriginEntryFull entry, OriginEntryStatistics statistics) {
         statistics.incrementCount();
         if (isDebitBudget(entry)) {
             statistics.addDebit(entry.getTransactionLedgerEntryAmount());

@@ -18,7 +18,7 @@ package org.kuali.module.gl.service;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.ReconciliationBlock;
 
@@ -36,5 +36,5 @@ public interface ReconciliationService {
      * @param reconBlock reconciliation data
      * @param errorMessages a non-null list onto which error messages will be appended.  This list will be modified by reference.
      */
-    public void reconcile(Iterator<OriginEntry> entries, ReconciliationBlock reconBlock, List<Message> errorMessages);
+    public void reconcile(Iterator<OriginEntryFull> entries, ReconciliationBlock reconBlock, List<Message> errorMessages);
 }

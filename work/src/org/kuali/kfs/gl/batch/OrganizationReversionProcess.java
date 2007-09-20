@@ -44,7 +44,7 @@ import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.OrgReversionUnitOfWork;
 import org.kuali.module.gl.bo.OrgReversionUnitOfWorkCategoryAmount;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.BalanceService;
@@ -283,8 +283,8 @@ public class OrganizationReversionProcess {
         return recordsWritten;
     }
 
-    private OriginEntry getEntry() {
-        OriginEntry entry = new OriginEntry();
+    private OriginEntryFull getEntry() {
+        OriginEntryFull entry = new OriginEntryFull();
         entry.setUniversityFiscalYear(paramUniversityFiscalYear);
         entry.setUniversityFiscalPeriodCode(KFSConstants.MONTH13);
         entry.setFinancialDocumentTypeCode(DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE);
@@ -298,7 +298,7 @@ public class OrganizationReversionProcess {
 
     private int writeCash() throws FatalErrorException {
         int entriesWritten = 0;
-        OriginEntry entry = getEntry();
+        OriginEntryFull entry = getEntry();
         entry.refreshReferenceObject("option");
 
         entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
@@ -456,7 +456,7 @@ public class OrganizationReversionProcess {
                 KualiDecimal commonAmount = amount.getCarryForward();
                 String commonObject = detail.getOrganizationReversionObjectCode();
 
-                OriginEntry entry = getEntry();
+                OriginEntryFull entry = getEntry();
                 entry.setUniversityFiscalYear(paramUniversityFiscalYear + 1);
                 entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
                 if (ArrayUtils.contains(ORGANIZATION_REVERSION_COA, unitOfWork.chartOfAccountsCode)) {
@@ -534,7 +534,7 @@ public class OrganizationReversionProcess {
     private int writeCarryForward() throws FatalErrorException {
         int originEntriesWritten = 0;
         
-        OriginEntry entry = getEntry();
+        OriginEntryFull entry = getEntry();
         entry.setUniversityFiscalYear(paramUniversityFiscalYear + 1);
         entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
 
@@ -613,7 +613,7 @@ public class OrganizationReversionProcess {
     private int writeReversion() throws FatalErrorException {
         int originEntriesWritten = 0;
         
-        OriginEntry entry = getEntry();
+        OriginEntryFull entry = getEntry();
         entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
         entry.setAccountNumber(unitOfWork.accountNumber);
         entry.setSubAccountNumber(unitOfWork.subAccountNumber);
@@ -721,7 +721,7 @@ public class OrganizationReversionProcess {
             List details = organizationReversion.getOrganizationReversionDetail();
             for (Iterator iter = details.iterator(); iter.hasNext();) {
                 OrganizationReversionDetail element = (OrganizationReversionDetail) iter.next();
-                element.setOrganizationReversionCode(KFSConstants.EMPLOYEE_ACTIVE_STATUS);
+                element.setOrganizationReversionCode(KFSConstants.RULE_CODE_A);
             }
         }
 

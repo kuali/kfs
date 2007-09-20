@@ -25,7 +25,7 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 
 import edu.iu.uis.eden.workgroup.web.WorkgroupForm.WorkgroupMember;
 
@@ -227,7 +227,7 @@ public class LaborConstants {
         
     public static String getSpaceTransactionDate() {
         if (SPACE_TRANSACTION_DATE == null) {
-            SPACE_TRANSACTION_DATE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeSize(OriginEntry.class, KFSPropertyConstants.TRANSACTION_DATE), ' ');
+            SPACE_TRANSACTION_DATE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeSize(OriginEntryFull.class, KFSPropertyConstants.TRANSACTION_DATE), ' ');
         }
         return SPACE_TRANSACTION_DATE;
     }

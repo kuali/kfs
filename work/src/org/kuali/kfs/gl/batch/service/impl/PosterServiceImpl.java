@@ -46,7 +46,7 @@ import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.ExpenditureTransaction;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.bo.Reversal;
@@ -227,7 +227,7 @@ public class PosterServiceImpl implements PosterService {
 
         Transaction originalTransaction = tran;
 
-        final String GL_ORIGIN_ENTRY_T = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(OriginEntry.class).getFullTableName();
+        final String GL_ORIGIN_ENTRY_T = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(OriginEntryFull.class).getFullTableName();
         
         // Update select count in the report
         if (mode == PosterService.MODE_ENTRIES) {
@@ -422,7 +422,7 @@ public class PosterServiceImpl implements PosterService {
         BigDecimal pct = new BigDecimal(icrEntry.getAwardIndrCostRcvyRatePct().toString());
         pct = pct.divide(BDONEHUNDRED);
 
-        OriginEntry e = new OriginEntry();
+        OriginEntryFull e = new OriginEntryFull();
         e.setTransactionLedgerEntrySequenceNumber(0);
 
         // SYMBOL_USE_EXPENDITURE_ENTRY means we use the field from the expenditure entry, SYMBOL_USE_IRC_FROM_ACCOUNT
@@ -509,7 +509,7 @@ public class PosterServiceImpl implements PosterService {
         originEntryService.createEntry(e, group);
 
         // Now generate Offset
-        e = new OriginEntry(e);
+        e = new OriginEntryFull(e);
         if (KFSConstants.GL_DEBIT_CODE.equals(e.getTransactionDebitCreditCode())) {
             e.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
         }

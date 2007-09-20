@@ -27,7 +27,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.service.GlCorrectionProcessOriginEntryService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,7 +46,7 @@ public class GlCorrectionProcessOriginEntryServiceImpl implements GlCorrectionPr
     /**
      * @see org.kuali.module.gl.service.GlCorrectionProcessOriginEntryService#persistAllEntries(java.lang.String, java.util.List)
      */
-    public void persistAllEntries(String glcpSearchResuiltsSequenceNumber, List<OriginEntry> allEntries) throws Exception {
+    public void persistAllEntries(String glcpSearchResuiltsSequenceNumber, List<OriginEntryFull> allEntries) throws Exception {
         String serializedOriginEntries = new String(Base64.encodeBase64(ObjectUtils.toByteArray(allEntries)));
         
         LookupResults lookupResults = retrieveGlcpAllOriginEntries(glcpSearchResuiltsSequenceNumber);
@@ -63,12 +63,12 @@ public class GlCorrectionProcessOriginEntryServiceImpl implements GlCorrectionPr
     /**
      * @see org.kuali.module.gl.service.GlCorrectionProcessOriginEntryService#retrieveAllEntries(java.lang.String)
      */
-    public List<OriginEntry> retrieveAllEntries(String glcpSearchResuiltsSequenceNumber) throws Exception {
+    public List<OriginEntryFull> retrieveAllEntries(String glcpSearchResuiltsSequenceNumber) throws Exception {
         LookupResults lookupResults = retrieveGlcpAllOriginEntries(glcpSearchResuiltsSequenceNumber);
         if (lookupResults == null) {
             return null;
         }
-        List<OriginEntry> allOEs = (List<OriginEntry>) ObjectUtils.fromByteArray(Base64.decodeBase64(lookupResults.getSerializedLookupResults().getBytes()));
+        List<OriginEntryFull> allOEs = (List<OriginEntryFull>) ObjectUtils.fromByteArray(Base64.decodeBase64(lookupResults.getSerializedLookupResults().getBytes()));
         return allOEs;
     }
 

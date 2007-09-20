@@ -37,7 +37,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.MockCollectorBatch;
 import org.kuali.module.gl.batch.collector.CollectorInputFileType;
 import org.kuali.module.gl.bo.CollectorDetail;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.util.CollectorReportData;
@@ -92,11 +92,11 @@ public class CollectorServiceTest extends KualiTestBase {
     public final void testPerformValidation_mixedDocumentTypes() throws Exception {
         MockCollectorBatch collectorBatch = new MockCollectorBatch();
 
-        OriginEntry entry1 = new OriginEntry();
+        OriginEntryFull entry1 = new OriginEntryFull();
         entry1.setFinancialDocumentTypeCode("foo1");
         collectorBatch.addOriginEntry(entry1);
 
-        OriginEntry entry2 = new OriginEntry();
+        OriginEntryFull entry2 = new OriginEntryFull();
         entry2.setFinancialDocumentTypeCode("foo2");
         collectorBatch.addOriginEntry(entry2);
 
@@ -113,7 +113,7 @@ public class CollectorServiceTest extends KualiTestBase {
     public final void testPerformValidation_unmatchedDetailKey() throws Exception {
         MockCollectorBatch collectorBatch = new MockCollectorBatch();
 
-        OriginEntry entry = new OriginEntry();
+        OriginEntryFull entry = new OriginEntryFull();
         entry.setUniversityFiscalYear(new Integer(2007));
         entry.setChartOfAccountsCode("BA");
         entry.setAccountNumber("1912610");
@@ -138,11 +138,11 @@ public class CollectorServiceTest extends KualiTestBase {
     public final void testPerformValidation_mixedBalanceTypes() throws Exception {
         MockCollectorBatch collectorBatch = new MockCollectorBatch();
 
-        OriginEntry entry1 = new OriginEntry();
+        OriginEntryFull entry1 = new OriginEntryFull();
         entry1.setFinancialBalanceTypeCode("AC");
         collectorBatch.addOriginEntry(entry1);
 
-        OriginEntry entry2 = new OriginEntry();
+        OriginEntryFull entry2 = new OriginEntryFull();
         entry2.setFinancialBalanceTypeCode("IE");
         collectorBatch.addOriginEntry(entry2);
 

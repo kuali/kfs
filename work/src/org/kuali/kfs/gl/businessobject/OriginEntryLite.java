@@ -31,7 +31,7 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.exception.LoadException;
 
-public class OriginEntryLite extends PersistableBusinessObjectBase implements OriginEntryable {
+public class OriginEntryLite extends PersistableBusinessObjectBase implements OriginEntry {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryLite.class);
 
     private static final String DATE_FORMAT = "yyyy-MM-dd";
@@ -152,7 +152,7 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
             setFromTextFile(line, 0);
         }
         catch (LoadException e) {
-            LOG.error("OriginEntry() Error loading line", e);
+            LOG.error("OriginEntryFull() Error loading line", e);
         }
     }
 

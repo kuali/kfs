@@ -20,8 +20,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.module.gl.bo.OriginEntryable;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 
 /**
@@ -55,7 +55,7 @@ public interface OriginEntryDao {
      * 
      * @param oe Entry to delete
      */
-    public void deleteEntry(OriginEntryable oe);
+    public void deleteEntry(OriginEntry oe);
 
     /**
      * Return an iterator to all documents in a group
@@ -79,7 +79,7 @@ public interface OriginEntryDao {
      * @param groups
      * @return
      */
-    public Iterator<OriginEntry> getBadBalanceEntries(Collection groups);
+    public Iterator<OriginEntryFull> getBadBalanceEntries(Collection groups);
 
     /**
      * Collection of entries that match criteria
@@ -87,7 +87,7 @@ public interface OriginEntryDao {
      * @param searchCriteria Map of field, value pairs
      * @return collection of entries
      */
-    public Collection<OriginEntry> getMatchingEntriesByCollection(Map searchCriteria);
+    public Collection<OriginEntryFull> getMatchingEntriesByCollection(Map searchCriteria);
 
     /**
      * Iterator of entries that match criteria
@@ -116,10 +116,10 @@ public interface OriginEntryDao {
      * 
      * @param entry entry to save
      */
-    public void saveOriginEntry(OriginEntryable entry);
+    public void saveOriginEntry(OriginEntry entry);
 
 
-    public OriginEntry getExactMatchingEntry(Integer entryId);
+    public OriginEntryFull getExactMatchingEntry(Integer entryId);
 
     /**
      * get the summarized information of the entries that belong to the entry groups with the given group ids

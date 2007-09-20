@@ -21,7 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 
 /**
@@ -860,10 +860,12 @@ public class KFSConstants {
 
     public static final String ACCOUNT_TYPE_S3 = "S3";
     public static final String RULE_CODE_R1 = "R1";
+    public static final String RULE_CODE_R2 = "R2";
     public static final String RULE_CODE_N1 = "N1";
     public static final String RULE_CODE_N2 = "N2";
     public static final String RULE_CODE_C1 = "C1";
     public static final String RULE_CODE_C2 = "C2";
+    public static final String RULE_CODE_A = "A";
     public static final String TRANSACTION_DT = "TRANSACTION_DT";
     public static final String UNALLOC_OBJECT_CD = "UNALLOC_OBJECT_CD";
     public static final String BEG_BUD_CASH_OBJECT_CD = "BEG_BUD_CASH_OBJECT_CD";
@@ -1029,7 +1031,7 @@ public class KFSConstants {
     private static String DASH_FINANCIAL_OBJECT_CODE = null;
     public static String getDashFinancialObjectCode() {
         if (DASH_FINANCIAL_OBJECT_CODE == null) {
-            DASH_FINANCIAL_OBJECT_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE), '-');
+            DASH_FINANCIAL_OBJECT_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntryFull.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE), '-');
         }
         return DASH_FINANCIAL_OBJECT_CODE;
     }
@@ -1037,7 +1039,7 @@ public class KFSConstants {
     private static String DASH_FINANCIAL_SUB_OBJECT_CODE = null;
     public static String getDashFinancialSubObjectCode() {
         if (DASH_FINANCIAL_SUB_OBJECT_CODE == null) {
-            DASH_FINANCIAL_SUB_OBJECT_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE), '-');
+            DASH_FINANCIAL_SUB_OBJECT_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntryFull.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE), '-');
         }
         return DASH_FINANCIAL_SUB_OBJECT_CODE;
     }
@@ -1045,7 +1047,7 @@ public class KFSConstants {
     private static String DASH_SUB_ACCOUNT_NUMBER = null;
     public static String getDashSubAccountNumber() {
         if (DASH_SUB_ACCOUNT_NUMBER == null) {
-            DASH_SUB_ACCOUNT_NUMBER = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER), '-');
+            DASH_SUB_ACCOUNT_NUMBER = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntryFull.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER), '-');
         }
         return DASH_SUB_ACCOUNT_NUMBER;
     }
@@ -1053,7 +1055,7 @@ public class KFSConstants {
     private static String DASH_PROJECT_CODE = null;
     public static String getDashProjectCode() {
         if (DASH_PROJECT_CODE == null) {
-            DASH_PROJECT_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.PROJECT_CODE), '-');
+            DASH_PROJECT_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntryFull.class, KFSPropertyConstants.PROJECT_CODE), '-');
         }
         return DASH_PROJECT_CODE;
     }

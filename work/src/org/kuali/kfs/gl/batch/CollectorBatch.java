@@ -31,7 +31,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.gl.bo.CollectorDetail;
 import org.kuali.module.gl.bo.CollectorHeader;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.CollectorDetailService;
@@ -58,7 +58,7 @@ public class CollectorBatch implements Serializable {
     private String mailingAddress;
     private String departmentName;
 
-    private List<OriginEntry> originEntries;
+    private List<OriginEntryFull> originEntries;
     private List<CollectorDetail> collectorDetails;
 
     // trailer records
@@ -213,21 +213,21 @@ public class CollectorBatch implements Serializable {
     /**
      * Gets the originEntries attribute.
      */
-    public List<OriginEntry> getOriginEntries() {
+    public List<OriginEntryFull> getOriginEntries() {
         return originEntries;
     }
 
     /**
      * Sets the originEntries attribute value.
      */
-    public void setOriginEntries(List<OriginEntry> batchOriginEntry) {
+    public void setOriginEntries(List<OriginEntryFull> batchOriginEntry) {
         this.originEntries = batchOriginEntry;
     }
 
     /**
      * Adds a processed origin entry to the list.
      */
-    public void addOriginEntry(OriginEntry orginEntry) {
+    public void addOriginEntry(OriginEntryFull orginEntry) {
         this.originEntries.add(orginEntry);
     }
 
@@ -266,7 +266,7 @@ public class CollectorBatch implements Serializable {
         SpringContext.getBean(BusinessObjectService.class).save(persistHeader);
         
         OriginEntryService originEntryService = SpringContext.getBean(OriginEntryService.class);
-        for(OriginEntry entry: this.originEntries) {
+        for(OriginEntryFull entry: this.originEntries) {
             entry.setGroup(originEntryGroup);
             if (entry.getFinancialDocumentReversalDate() == null) {
                 entry.setFinancialDocumentReversalDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
@@ -308,7 +308,7 @@ public class CollectorBatch implements Serializable {
         }
         
         // now uppercase all of the origin entry data
-        for (OriginEntry entry : originEntries) {
+        for (OriginEntryFull entry : originEntries) {
             businessObjectDictionaryService.performForceUppercase(entry);
         }
         

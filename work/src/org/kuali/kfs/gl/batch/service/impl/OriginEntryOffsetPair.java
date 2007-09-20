@@ -15,14 +15,14 @@
  */
 package org.kuali.module.gl.util;
 
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 
 /**
  */
 
 public class OriginEntryOffsetPair {
-    private OriginEntry entry;
-    private OriginEntry offset;
+    private OriginEntryFull entry;
+    private OriginEntryFull offset;
     private boolean fatalErrorFlag;
 
     /**
@@ -42,28 +42,28 @@ public class OriginEntryOffsetPair {
     /**
      * @return Returns the entry.
      */
-    public OriginEntry getEntry() {
+    public OriginEntryFull getEntry() {
         return entry;
     }
 
     /**
      * @param entry The entry to set.
      */
-    public void setEntry(OriginEntry entry) {
+    public void setEntry(OriginEntryFull entry) {
         this.entry = entry;
     }
 
     /**
      * @return Returns the offset.
      */
-    public OriginEntry getOffset() {
+    public OriginEntryFull getOffset() {
         return offset;
     }
 
     /**
      * @param offset The offset to set.
      */
-    public void setOffset(OriginEntry offset) {
+    public void setOffset(OriginEntryFull offset) {
         this.offset = offset;
     }
 

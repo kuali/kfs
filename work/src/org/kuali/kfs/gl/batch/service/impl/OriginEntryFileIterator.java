@@ -24,7 +24,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.exception.LoadException;
 
 /**
@@ -34,10 +34,10 @@ import org.kuali.module.gl.exception.LoadException;
  * uses this iterator stores the contents of this iterator in a big list somewhere, then
  * a lot of memory may be consumed, depending on the size of the file.
  */
-public class OriginEntryFileIterator implements Iterator<OriginEntry> {
+public class OriginEntryFileIterator implements Iterator<OriginEntryFull> {
     private static Logger LOG = Logger.getLogger(OriginEntryFileIterator.class);
 
-    protected OriginEntry nextEntry;
+    protected OriginEntryFull nextEntry;
     protected BufferedReader reader;
     protected int lineNumber;
     protected boolean autoCloseReader;
@@ -111,10 +111,10 @@ public class OriginEntryFileIterator implements Iterator<OriginEntry> {
     /**
      * @see java.util.Iterator#next()
      */
-    public OriginEntry next() {
+    public OriginEntryFull next() {
         if (nextEntry != null) {
             // an entry may have been fetched by hasNext()
-            OriginEntry temp = nextEntry;
+            OriginEntryFull temp = nextEntry;
             nextEntry = null;
             return temp;
         }
@@ -127,7 +127,7 @@ public class OriginEntryFileIterator implements Iterator<OriginEntry> {
             }
             
             // clear out the nextEntry to signal that no record has been loaded
-            OriginEntry temp = nextEntry;
+            OriginEntryFull temp = nextEntry;
             nextEntry = null;
             return temp;
         }
@@ -151,7 +151,7 @@ public class OriginEntryFileIterator implements Iterator<OriginEntry> {
                 }
             }
             else {
-                nextEntry = new OriginEntry();
+                nextEntry = new OriginEntryFull();
                 try {
                     nextEntry.setFromTextFile(line, lineNumber - 1);
                 }

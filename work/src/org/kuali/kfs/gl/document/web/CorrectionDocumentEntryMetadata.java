@@ -17,12 +17,12 @@ package org.kuali.module.gl.util;
 
 import java.util.List;
 
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 
 
 public interface CorrectionDocumentEntryMetadata {
 
-    public List<OriginEntry> getAllEntries();
+    public List<OriginEntryFull> getAllEntries();
 
     public boolean getDataLoadedFlag();
 

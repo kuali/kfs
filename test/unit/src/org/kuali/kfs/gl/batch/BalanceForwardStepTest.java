@@ -29,7 +29,7 @@ import java.util.Map;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.context.TestUtils;
 import org.kuali.module.gl.OriginEntryTestBase;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
@@ -103,7 +103,7 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
 
             while (kualiGeneratedNonClosedPriorYearAccountEntryIterator.hasNext()) {
 
-                OriginEntry entry = (OriginEntry) kualiGeneratedNonClosedPriorYearAccountEntryIterator.next();
+                OriginEntryFull entry = (OriginEntryFull) kualiGeneratedNonClosedPriorYearAccountEntryIterator.next();
                 String kualiEntryLine = entry.getLine();
 
                 kualiEntryLine = kualiEntryLine.substring(0, 173);
@@ -126,7 +126,7 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
             Iterator entryIterator = entryService.getEntriesByGroup(group);
             while (entryIterator.hasNext()) {
 
-                OriginEntry entry = (OriginEntry) entryIterator.next();
+                OriginEntryFull entry = (OriginEntryFull) entryIterator.next();
                 String line = entry.getLine().substring(0, 173);
 
                 if (!fisGenerated.remove(line)) {

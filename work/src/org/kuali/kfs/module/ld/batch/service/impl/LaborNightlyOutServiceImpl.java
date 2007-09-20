@@ -22,7 +22,7 @@ import java.util.Iterator;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -135,7 +135,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
      */
     private boolean saveAsGLOriginEntry(LaborGeneralLedgerEntry entry, OriginEntryGroup group) {
         try {
-            OriginEntry originEntry = new OriginEntry();
+            OriginEntryFull originEntry = new OriginEntryFull();
             ObjectUtil.buildObject(originEntry, entry);
 
             originEntry.setEntryGroupId(group.getId());

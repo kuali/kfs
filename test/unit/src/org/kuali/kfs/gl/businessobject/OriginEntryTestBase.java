@@ -35,7 +35,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.context.TestUtils;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -101,7 +101,7 @@ public class OriginEntryTestBase extends KualiTestBase {
 
     protected void loadTransactions(String[] transactions, OriginEntryGroup group) {
         for (int i = 0; i < transactions.length; i++) {
-            OriginEntry e = new OriginEntry(transactions[i]);
+            OriginEntryFull e = new OriginEntryFull(transactions[i]);
             originEntryService.createEntry(e, group);
         }
 
@@ -153,11 +153,11 @@ public class OriginEntryTestBase extends KualiTestBase {
         final List groups = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_grp_t order by origin_entry_grp_src_cd");
         assertEquals("Number of groups is wrong", groupCount, groups.size());
 
-        Collection<OriginEntry> c = originEntryDao.testingGetAllEntries();
+        Collection<OriginEntryFull> c = originEntryDao.testingGetAllEntries();
 
         // now, sort the lines here to avoid any DB sorting issues
-        Comparator<OriginEntry> originEntryComparator = new Comparator<OriginEntry>() {
-        	public int compare(OriginEntry o1, OriginEntry o2) {
+        Comparator<OriginEntryFull> originEntryComparator = new Comparator<OriginEntryFull>() {
+        	public int compare(OriginEntryFull o1, OriginEntryFull o2) {
         		int groupCompareResult = o1.getEntryGroupId().compareTo( o2.getEntryGroupId() );
         		if ( groupCompareResult == 0 ) {
         			return o1.getLine().compareTo( o2.getLine() );
@@ -176,7 +176,7 @@ public class OriginEntryTestBase extends KualiTestBase {
         		}
         	}
         };
-        ArrayList<OriginEntry> sortedEntryTransactions = new ArrayList<OriginEntry>( c );
+        ArrayList<OriginEntryFull> sortedEntryTransactions = new ArrayList<OriginEntryFull>( c );
         Collections.sort( sortedEntryTransactions, originEntryComparator );
         Arrays.sort( requiredEntries, entryHolderComparator );
         
@@ -189,7 +189,7 @@ public class OriginEntryTestBase extends KualiTestBase {
             }
 
         	System.err.println( "Transactions:" );
-            for (OriginEntry element : sortedEntryTransactions ) {
+            for (OriginEntryFull element : sortedEntryTransactions ) {
                 System.err.println("L:" + element.getEntryGroupId() + " " + element.getLine());
             }
         	System.err.println( "Expected Transactions:" );
@@ -203,7 +203,7 @@ public class OriginEntryTestBase extends KualiTestBase {
         
         int count = 0;
         for (Iterator iter = sortedEntryTransactions.iterator(); iter.hasNext();) {
-            OriginEntry foundTransaction = (OriginEntry) iter.next();
+            OriginEntryFull foundTransaction = (OriginEntryFull) iter.next();
 
             // Check group
             int group = getGroup(groups, requiredEntries[count].groupCode);

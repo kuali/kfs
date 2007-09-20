@@ -31,8 +31,8 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.KFSUtils;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.module.gl.bo.OriginEntryable;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
 
@@ -140,9 +140,9 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
 
     /**
      * 
-     * @see org.kuali.module.gl.dao.OriginEntryDao#deleteEntry(org.kuali.module.gl.bo.OriginEntryable)
+     * @see org.kuali.module.gl.dao.OriginEntryDao#deleteEntry(org.kuali.module.gl.bo.OriginEntry)
      */
-    public void deleteEntry(OriginEntryable oe) {
+    public void deleteEntry(OriginEntry oe) {
         LOG.debug("deleteEntry() started");
 
         getPersistenceBrokerTemplate().delete(oe);
@@ -170,7 +170,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
      * 
      * @see org.kuali.module.gl.dao.OriginEntryDao#getMatchingEntries(java.util.Map)
      */
-    public Iterator<OriginEntry> getMatchingEntries(Map searchCriteria) {
+    public Iterator<OriginEntryFull> getMatchingEntries(Map searchCriteria) {
         LOG.debug("getMatchingEntries() started");
 
         Criteria criteria = new Criteria();
@@ -184,7 +184,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
     }
 
-    public Iterator<OriginEntry> getBadBalanceEntries(Collection groups) {
+    public Iterator<OriginEntryFull> getBadBalanceEntries(Collection groups) {
         LOG.debug("getBadBalanceEntries() started");
 
         if(groups.size()<=0) {
@@ -311,7 +311,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
      * 
      * @return
      */
-    public Collection<OriginEntry> testingGetAllEntries() {
+    public Collection<OriginEntryFull> testingGetAllEntries() {
         LOG.debug("testingGetAllEntries() started");
 
         Criteria criteria = new Criteria();
@@ -324,7 +324,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
     /**
      * @param entry the entry to save.
      */
-    public void saveOriginEntry(OriginEntryable entry) {
+    public void saveOriginEntry(OriginEntry entry) {
         LOG.debug("saveOriginEntry() started");
 
         if ((entry != null) && (entry.getTransactionLedgerEntryDescription() != null) && (entry.getTransactionLedgerEntryDescription().length() > 40)) {
@@ -389,7 +389,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
      * 
      * @see org.kuali.module.gl.dao.OriginEntryDao#getMatchingEntriesByCollection(java.util.Map)
      */
-    public Collection<OriginEntry> getMatchingEntriesByCollection(Map searchCriteria) {
+    public Collection<OriginEntryFull> getMatchingEntriesByCollection(Map searchCriteria) {
         LOG.debug("getMatchingEntries() started");
 
         Criteria criteria = new Criteria();
@@ -439,12 +439,12 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
 
-    public OriginEntry getExactMatchingEntry(Integer entryId) {
+    public OriginEntryFull getExactMatchingEntry(Integer entryId) {
         LOG.debug("getMatchingEntries() started");
-        OriginEntry oe = new OriginEntry();
+        OriginEntryFull oe = new OriginEntryFull();
         // in case of no matching entry
         try {
-            oe = (OriginEntry) getPersistenceBrokerTemplate().getObjectById(entryClass, entryId);
+            oe = (OriginEntryFull) getPersistenceBrokerTemplate().getObjectById(entryClass, entryId);
 
         }
         catch (Exception e) {

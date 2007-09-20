@@ -21,7 +21,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.module.gl.bo.CollectorDetail;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.Transaction;
 
 public class DocumentGroupData {
@@ -79,8 +79,8 @@ public class DocumentGroupData {
         return documentNumber.hashCode();
     }
     
-    public OriginEntry populateDocumentGroupDataFieldsInOriginEntry() {
-        OriginEntry entry = new OriginEntry();
+    public OriginEntryFull populateDocumentGroupDataFieldsInOriginEntry() {
+        OriginEntryFull entry = new OriginEntryFull();
         entry.setDocumentNumber(documentNumber);
         entry.setFinancialDocumentTypeCode(financialDocumentTypeCode);
         entry.setFinancialSystemOriginationCode(financialSystemOriginationCode);

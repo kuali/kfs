@@ -24,7 +24,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypeUtils;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.dao.ReconciliationDao;
 import org.kuali.module.gl.exception.LoadException;
 import org.kuali.module.gl.service.ReconciliationService;
@@ -41,7 +41,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReconciliationServiceImpl.class);
     
     private ReconciliationDao reconciliationDao;
-    private Class<? extends OriginEntry> originEntryClass;
+    private Class<? extends OriginEntryFull> originEntryClass;
     
     /**
      * A wrapper around {@link ColumnReconciliation} objects to provide it with information specific to the java beans
@@ -103,7 +103,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
     /**
      * @see org.kuali.module.gl.service.ReconciliationService#reconcile(java.util.Iterator, org.kuali.module.gl.util.ReconciliationBlock, java.util.List)
      */
-    public void reconcile(Iterator<OriginEntry> entries, ReconciliationBlock reconBlock, List<Message> errorMessages) {
+    public void reconcile(Iterator<OriginEntryFull> entries, ReconciliationBlock reconBlock, List<Message> errorMessages) {
         List<ColumnReconciliation> columns = reconBlock.getColumns();
         
         int numEntriesSuccessfullyLoaded = 0;
@@ -132,7 +132,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
             try {
                 while (entries.hasNext()) {
                     numEntriesAttemptedToLoad++;
-                    OriginEntry entry = entries.next();
+                    OriginEntryFull entry = entries.next();
                     for (int c = 0; c < columns.size(); c++) {
                         // this is for each definition of the "S" line in the reconciliation file
                         KualiDecimal columnValue = KualiDecimal.ZERO;
@@ -341,7 +341,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
      * Gets the originEntryClass attribute. 
      * @return Returns the originEntryClass.
      */
-    protected Class<? extends OriginEntry> getOriginEntryClass() {
+    protected Class<? extends OriginEntryFull> getOriginEntryClass() {
         return originEntryClass;
     }
 
@@ -349,7 +349,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
      * Sets the originEntryClass attribute value.
      * @param originEntryClass The originEntryClass to set.
      */
-    public void setOriginEntryClass(Class<? extends OriginEntry> originEntryClass) {
+    public void setOriginEntryClass(Class<? extends OriginEntryFull> originEntryClass) {
         this.originEntryClass = originEntryClass;
     }
 }

@@ -30,7 +30,7 @@ import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.module.financial.exceptions.InvalidFlexibleOffsetException;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -73,9 +73,9 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
 
     /**
      * 
-     * @see org.kuali.module.financial.service.FlexibleOffsetAccountService#updateOffset(org.kuali.module.gl.bo.OriginEntry)
+     * @see org.kuali.module.financial.service.FlexibleOffsetAccountService#updateOffset(org.kuali.module.gl.bo.OriginEntryFull)
      */
-    public boolean updateOffset(OriginEntry originEntry) {
+    public boolean updateOffset(OriginEntryFull originEntry) {
         LOG.debug("setBusinessObjectService() started");
 
         if (!getEnabled()) {

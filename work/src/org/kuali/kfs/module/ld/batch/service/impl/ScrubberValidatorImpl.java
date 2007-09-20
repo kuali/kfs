@@ -30,10 +30,10 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.AccountService;
-import org.kuali.module.gl.bo.OriginEntryable;
 import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.gl.service.OriginEntryableLookupService;
+import org.kuali.module.gl.service.OriginEntryLookupService;
 import org.kuali.module.gl.service.ScrubberValidator;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.ObjectHelper;
@@ -48,7 +48,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private PersistenceService persistenceService;
     private ScrubberValidator scrubberValidator;
     private PersistenceStructureService persistenceStructureService;
-    private OriginEntryableLookupService referenceLookup;
+    private OriginEntryLookupService referenceLookup;
 
     // TODO: those arrays should go to FS_PARAM_T
     private String[] continuationAccountBypassOriginationCodes = new String[] { "EU", "PL" };
@@ -72,7 +72,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @see org.kuali.module.labor.service.LaborScrubberValidator#validateTransaction(owrg.kuali.module.labor.bo.LaborOriginEntry,
      *      org.kuali.module.labor.bo.LaborOriginEntry, org.kuali.module.gl.bo.UniversityDate)
      */
-    public List<Message> validateTransaction(OriginEntryable originEntry, OriginEntryable scrubbedEntry, UniversityDate universityRunDate, boolean validateAccountIndicator) {
+    public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate, boolean validateAccountIndicator) {
         LOG.debug("validateTransaction() started");
         List<Message> errors = new ArrayList<Message>();
         
@@ -116,7 +116,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         
     }
     
-    protected void refreshOriginEntryReferences(OriginEntry originEntry) {
+    protected void refreshOriginEntryReferences(OriginEntryFull originEntry) {
         Map<String, Class> referenceClasses = persistenceStructureService.listReferenceObjectFields(originEntry.getClass());
         for (String reference : referenceClasses.keySet()) {
             if (KFSPropertyConstants.PROJECT.equals(reference)) {
@@ -520,10 +520,10 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
 
     /**
-     * @see org.kuali.module.gl.service.ScrubberValidator#setReferenceLookup(org.kuali.module.gl.service.OriginEntryableLookupService)
+     * @see org.kuali.module.gl.service.ScrubberValidator#setReferenceLookup(org.kuali.module.gl.service.OriginEntryLookupService)
      */
-    public void setReferenceLookup(OriginEntryableLookupService originEntryableLookupService) {
-        this.referenceLookup = originEntryableLookupService;
+    public void setReferenceLookup(OriginEntryLookupService originEntryLookupService) {
+        this.referenceLookup = originEntryLookupService;
     }
     
     

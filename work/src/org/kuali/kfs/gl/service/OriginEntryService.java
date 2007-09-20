@@ -22,7 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.LedgerEntryHolder;
@@ -43,7 +43,7 @@ public interface OriginEntryService {
     /**
      * Copy a set of entries into a new group
      */
-    public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid,boolean process,boolean scrub,Collection<OriginEntry> entries);
+    public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid,boolean process,boolean scrub,Collection<OriginEntryFull> entries);
 
     /**
      * Copy a set of entries into a new group.  This method can use less space than the method that takes in a collection, because iterators can
@@ -57,14 +57,14 @@ public interface OriginEntryService {
      * @param entries
      * @return
      */
-    public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid,boolean process,boolean scrub,Iterator<OriginEntry> entries);
+    public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid,boolean process,boolean scrub,Iterator<OriginEntryFull> entries);
     
     /**
      * Delete entry
      * 
      * @param oe Entry to delete
      */
-    public void delete(OriginEntry oe);
+    public void delete(OriginEntryFull oe);
 
     /**
      * Return all documents in a group
@@ -72,7 +72,7 @@ public interface OriginEntryService {
      * @param oeg Group used to select documents
      * @return Collection to all documents
      */
-    public Collection<OriginEntry> getDocumentsByGroup(OriginEntryGroup oeg);
+    public Collection<OriginEntryFull> getDocumentsByGroup(OriginEntryGroup oeg);
 
     /**
      * Return all entries for a group sorted by account number for the error
@@ -80,7 +80,7 @@ public interface OriginEntryService {
      * @param oeg
      * @return
      */
-    public Iterator<OriginEntry> getEntriesByGroupAccountOrder(OriginEntryGroup oeg);
+    public Iterator<OriginEntryFull> getEntriesByGroupAccountOrder(OriginEntryGroup oeg);
 
     /**
      * Return all entries for a group sorted for display on the pending entry report.
@@ -88,7 +88,7 @@ public interface OriginEntryService {
      * @param oeg
      * @return
      */
-    public Iterator<OriginEntry> getEntriesByGroupReportOrder(OriginEntryGroup oeg);
+    public Iterator<OriginEntryFull> getEntriesByGroupReportOrder(OriginEntryGroup oeg);
     
     /**
      * Return all entries for a group sorted across the columns in report from left to right.
@@ -96,7 +96,7 @@ public interface OriginEntryService {
      * @param oeg
      * @return
      */
-    public Iterator<OriginEntry> getEntriesByGroupListingReportOrder(OriginEntryGroup oeg);
+    public Iterator<OriginEntryFull> getEntriesByGroupListingReportOrder(OriginEntryGroup oeg);
 
     /**
      * Return all entries for the groups where the balance type is empty
@@ -104,7 +104,7 @@ public interface OriginEntryService {
      * @param groups
      * @return
      */
-    public Iterator<OriginEntry> getBadBalanceEntries(Collection groups);
+    public Iterator<OriginEntryFull> getBadBalanceEntries(Collection groups);
 
     /**
      * Return all the entries in a specific group
@@ -112,7 +112,7 @@ public interface OriginEntryService {
      * @param oeg Group used to select entries
      * @return Iterator to all the entires
      */
-    public Iterator<OriginEntry> getEntriesByGroup(OriginEntryGroup oeg);
+    public Iterator<OriginEntryFull> getEntriesByGroup(OriginEntryGroup oeg);
 
     /**
      * Return all the entries for a specific document in a specific group
@@ -123,7 +123,7 @@ public interface OriginEntryService {
      * @param originCode Origin Code selection
      * @return iterator to all the entries
      */
-    public Iterator<OriginEntry> getEntriesByDocument(OriginEntryGroup oeg, String documentNumber, String documentTypeCode, String originCode);
+    public Iterator<OriginEntryFull> getEntriesByDocument(OriginEntryGroup oeg, String documentNumber, String documentTypeCode, String originCode);
 
     /**
      * Take a generic transaction and save it as an origin entry in a specific group
@@ -138,7 +138,7 @@ public interface OriginEntryService {
      * 
      * @param entry
      */
-    public void save(OriginEntry entry);
+    public void save(OriginEntryFull entry);
 
     /**
      * Export all origin entries in a group to a flat text file
@@ -173,7 +173,7 @@ public interface OriginEntryService {
      * @param entries
      * @param bw
      */
-    public void flatFile(Iterator<OriginEntry> entries, BufferedOutputStream bw);
+    public void flatFile(Iterator<OriginEntryFull> entries, BufferedOutputStream bw);
     
     /**
      * get the summarized information of the entries that belong to the entry groups with the given group id list
@@ -183,7 +183,7 @@ public interface OriginEntryService {
      */
     public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList);
 
-    public Collection<OriginEntry> getMatchingEntriesByCollection(Map searchCriteria);
+    public Collection<OriginEntryFull> getMatchingEntriesByCollection(Map searchCriteria);
     
     /**
      * Retrieves a list of origin entries that match the search criteria.
@@ -191,9 +191,9 @@ public interface OriginEntryService {
      * @param groupId
      * @return
      */
-    public List<OriginEntry> getEntriesByGroupId(Integer groupId);
+    public List<OriginEntryFull> getEntriesByGroupId(Integer groupId);
 
-    public OriginEntry getExactMatchingEntry(Integer entryId);
+    public OriginEntryFull getExactMatchingEntry(Integer entryId);
 
     /**
      * get the summarized information of poster input entries that belong to the entry groups with the given group id list

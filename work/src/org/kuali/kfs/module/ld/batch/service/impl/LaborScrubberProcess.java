@@ -47,7 +47,7 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryableLookupService;
+import org.kuali.module.gl.service.OriginEntryLookupService;
 import org.kuali.module.gl.service.ScrubberValidator;
 import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
 import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
@@ -319,7 +319,7 @@ public class LaborScrubberProcess {
         LaborOriginEntry lastEntry = null;
         scrubCostShareAmount = KualiDecimal.ZERO;
         unitOfWork = new UnitOfWorkInfo();
-        OriginEntryableLookupService refLookup = SpringContext.getBean(OriginEntryableLookupService.class);
+        OriginEntryLookupService refLookup = SpringContext.getBean(OriginEntryLookupService.class);
         refLookup.setLookupService(SpringContext.getBean(CachingLookup.class));
         scrubberValidator.setReferenceLookup(refLookup);
 

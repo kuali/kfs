@@ -93,7 +93,7 @@ public class GeneralLedgerTestHelper {
             lin2 = prefix + "     " + suffix;
             
             // now we add 5 characters to reference doc number
-            // reference doc number ends 11 spaces from end (see OriginEntry.java)
+            // reference doc number ends 11 spaces from end (see OriginEntryFull.java)
             prefix = lin2.substring(0, lin2.length() - 11);
             suffix = lin2.substring(lin2.length() - 11);
             

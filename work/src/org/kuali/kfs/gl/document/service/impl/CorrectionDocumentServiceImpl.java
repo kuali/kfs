@@ -38,7 +38,7 @@ import org.kuali.core.web.ui.Column;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.CorrectionChangeDao;
 import org.kuali.module.gl.dao.CorrectionChangeGroupDao;
@@ -312,7 +312,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     /**
      * @see org.kuali.module.gl.service.CorrectionDocumentService#persistOriginEntriesToFile(java.lang.String, java.util.Iterator)
      */
-    public void persistInputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntry> entries) {
+    public void persistInputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntryFull> entries) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (!workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved()) {
             LOG.error("This method may only be called when the document is in the initiated or saved state.");
@@ -325,7 +325,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     /**
      * @see org.kuali.module.gl.service.CorrectionDocumentService#persistOutputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.gl.document.CorrectionDocument, java.util.Iterator)
      */
-    public void persistOutputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntry> entries) {
+    public void persistOutputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntryFull> entries) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (!workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved()) {
             LOG.error("This method may only be called when the document is in the initiated or saved state.");
@@ -334,7 +334,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         persistOriginEntries(fullPathUniqueFileName, entries);
     }
 
-    protected void persistOriginEntries(String fullPathUniqueFileName, Iterator<OriginEntry> entries) {
+    protected void persistOriginEntries(String fullPathUniqueFileName, Iterator<OriginEntryFull> entries) {
         File fileOut = new File(fullPathUniqueFileName);
         FileOutputStream streamOut = null;
         BufferedOutputStream bufferedStreamOut = null;
@@ -344,7 +344,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
             
             byte[] newLine = "\n".getBytes();
             while (entries.hasNext()) {
-                OriginEntry entry = entries.next();
+                OriginEntryFull entry = entries.next();
                 bufferedStreamOut.write(entry.getLine().getBytes());
                 bufferedStreamOut.write(newLine);
             }
@@ -413,18 +413,18 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     /**
      * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedInputOriginEntries(org.kuali.module.gl.document.CorrectionDocument, int)
      */
-    public List<OriginEntry> retrievePersistedInputOriginEntries(CorrectionDocument document, int abortThreshold) {
+    public List<OriginEntryFull> retrievePersistedInputOriginEntries(CorrectionDocument document, int abortThreshold) {
         return retrievePersistedOriginEntries(generateInputOriginEntryFileName(document), abortThreshold);
     }
 
     /**
      * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedOutputOriginEntries(org.kuali.module.gl.document.CorrectionDocument, int)
      */
-    public List<OriginEntry> retrievePersistedOutputOriginEntries(CorrectionDocument document, int abortThreshold) {
+    public List<OriginEntryFull> retrievePersistedOutputOriginEntries(CorrectionDocument document, int abortThreshold) {
         return retrievePersistedOriginEntries(generateOutputOriginEntryFileName(document), abortThreshold);
     }
     
-    protected List<OriginEntry> retrievePersistedOriginEntries(String fullPathUniqueFileName, int abortThreshold) {
+    protected List<OriginEntryFull> retrievePersistedOriginEntries(String fullPathUniqueFileName, int abortThreshold) {
         File fileIn = new File(fullPathUniqueFileName);
         if (!fileIn.exists()) {
             LOG.error("File " + fullPathUniqueFileName + " does not exist.");
@@ -433,14 +433,14 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         BufferedReader reader = null;
         FileReader fReader = null;
         
-        List<OriginEntry> entries = new ArrayList<OriginEntry>();
+        List<OriginEntryFull> entries = new ArrayList<OriginEntryFull>();
         int lineNumber = 0;
         try {
             fReader = new FileReader(fileIn);
             reader = new BufferedReader(fReader);
             String line;
             while ((line = reader.readLine()) != null) {
-                OriginEntry entry = new OriginEntry();
+                OriginEntryFull entry = new OriginEntryFull();
                 entry.setFromTextFile(line, lineNumber);
                 if (abortThreshold != UNLIMITED_ABORT_THRESHOLD && lineNumber >= abortThreshold) {
                     return null;
@@ -473,7 +473,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     /**
      * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedInputOriginEntriesAsIterator(org.kuali.module.gl.document.CorrectionDocument)
      */
-    public Iterator<OriginEntry> retrievePersistedInputOriginEntriesAsIterator(CorrectionDocument document) {
+    public Iterator<OriginEntryFull> retrievePersistedInputOriginEntriesAsIterator(CorrectionDocument document) {
         String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
         return retrievePersistedOriginEntriesAsIterator(fullPathUniqueFileName);
     }
@@ -481,12 +481,12 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     /**
      * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedOutputOriginEntriesAsIterator(org.kuali.module.gl.document.CorrectionDocument)
      */
-    public Iterator<OriginEntry> retrievePersistedOutputOriginEntriesAsIterator(CorrectionDocument document) {
+    public Iterator<OriginEntryFull> retrievePersistedOutputOriginEntriesAsIterator(CorrectionDocument document) {
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
         return retrievePersistedOriginEntriesAsIterator(fullPathUniqueFileName);
     }
     
-    protected Iterator<OriginEntry> retrievePersistedOriginEntriesAsIterator(String fullPathUniqueFileName) {
+    protected Iterator<OriginEntryFull> retrievePersistedOriginEntriesAsIterator(String fullPathUniqueFileName) {
         File fileIn = new File(fullPathUniqueFileName);
         if (!fileIn.exists()) {
             LOG.error("File " + fullPathUniqueFileName + " does not exist.");
@@ -578,7 +578,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         }
         
         // reload the group from the origin entry service
-        Iterator<OriginEntry> inputGroupEntries;
+        Iterator<OriginEntryFull> inputGroupEntries;
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if ((workflowDocument.stateIsSaved() && !(correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad() != null && correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad().equals(document.getCorrectionInputGroupId()))) 
                 || workflowDocument.stateIsInitiated()) {
@@ -621,7 +621,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
                 byte[] newLine = "\n".getBytes();
                 
                 while (inputGroupEntries.hasNext()) {
-                    OriginEntry entry = inputGroupEntries.next();
+                    OriginEntryFull entry = inputGroupEntries.next();
                     
                     entry = CorrectionDocumentUtils.applyCriteriaToEntry(entry, correctionDocumentEntryMetadata.getMatchCriteriaOnly(), document.getCorrectionChangeGroup());
                     if (entry != null) {

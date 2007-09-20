@@ -27,7 +27,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 
 
 /**
@@ -214,7 +214,7 @@ public class GLConstants {
     private static String SPACE_UNIVERSITY_FISCAL_PERIOD_CODE = null;
     public static String getSpaceUniversityFiscalPeriodCode() {
         if (SPACE_UNIVERSITY_FISCAL_PERIOD_CODE == null) {
-            SPACE_UNIVERSITY_FISCAL_PERIOD_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE), ' ');
+            SPACE_UNIVERSITY_FISCAL_PERIOD_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntryFull.class, KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE), ' ');
         }
         return SPACE_UNIVERSITY_FISCAL_PERIOD_CODE;
     }
@@ -238,7 +238,7 @@ public class GLConstants {
     private static String SPACE_DEBIT_CREDIT_CODE = null; 
     public static String getSpaceDebitCreditCode() {
         if (SPACE_DEBIT_CREDIT_CODE == null) {
-            SPACE_DEBIT_CREDIT_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE), ' ');
+            SPACE_DEBIT_CREDIT_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntryFull.class, KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE), ' ');
         }
         return SPACE_DEBIT_CREDIT_CODE;
     }
@@ -254,7 +254,7 @@ public class GLConstants {
     private static String SPACE_TRANSACTION_DATE = null;
     public static String getSpaceTransactionDate() {
         if (SPACE_TRANSACTION_DATE == null) {
-            SPACE_TRANSACTION_DATE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.TRANSACTION_DATE), ' ');
+            SPACE_TRANSACTION_DATE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntryFull.class, KFSPropertyConstants.TRANSACTION_DATE), ' ');
         }
         return SPACE_TRANSACTION_DATE;
     }
@@ -262,7 +262,7 @@ public class GLConstants {
     private static String SPACE_UNIVERSITY_FISCAL_YEAR = null;
     public static String getSpaceUniversityFiscalYear() {
         if (SPACE_UNIVERSITY_FISCAL_YEAR == null) {
-            SPACE_UNIVERSITY_FISCAL_YEAR = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), ' ');
+            SPACE_UNIVERSITY_FISCAL_YEAR = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntryFull.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), ' ');
         }
         return SPACE_UNIVERSITY_FISCAL_YEAR;
     }
@@ -270,7 +270,7 @@ public class GLConstants {
     private static String SPACE_TRANSACTION_ENTRY_SEQUENCE_NUMBER = null;
     public static String getSpaceTransactionEntrySequenceNumber() {
         if (SPACE_TRANSACTION_ENTRY_SEQUENCE_NUMBER == null) {
-            SPACE_TRANSACTION_ENTRY_SEQUENCE_NUMBER = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), ' ');
+            SPACE_TRANSACTION_ENTRY_SEQUENCE_NUMBER = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntryFull.class, KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), ' ');
         }
         return SPACE_TRANSACTION_ENTRY_SEQUENCE_NUMBER;
     }
@@ -278,7 +278,7 @@ public class GLConstants {
     private static String SPACE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = null;
     public static String getSpaceTransactionLedgetEntryDescription() {
         if (SPACE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION == null) {
-            SPACE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC), ' ');
+            SPACE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntryFull.class, KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC), ' ');
         }
         return SPACE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION;
     }
@@ -294,7 +294,7 @@ public class GLConstants {
     private static String SPACE_ALL_ORIGIN_ENTRY_FIELDS = null;
     public static String getSpaceAllOriginEntryFields() {
         if (SPACE_ALL_ORIGIN_ENTRY_FIELDS == null) {
-            Map map = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(OriginEntry.class.getName()).getAttributes();
+            Map map = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(OriginEntryFull.class.getName()).getAttributes();
             
             int totalLength = 0; 
             
@@ -303,7 +303,7 @@ public class GLConstants {
                 AttributeDefinition attributeDefinition = (AttributeDefinition) iter.next();
                 
                 if(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT.equals(attributeDefinition.getName())) {
-                    totalLength += OriginEntry.SPACE_TRANSACTION_LEDGER_ENTRY_AMOUNT.length();
+                    totalLength += OriginEntryFull.SPACE_TRANSACTION_LEDGER_ENTRY_AMOUNT.length();
                 } else if(!(KFSPropertyConstants.ENTRY_GROUP_ID.equals(attributeDefinition.getName()) ||
                         KFSPropertyConstants.ENTRY_ID.equals(attributeDefinition.getName()))) {
                     totalLength += attributeDefinition.getMaxLength();
@@ -319,7 +319,7 @@ public class GLConstants {
     private static String ZERO_TRANSACTION_ENTRY_SEQUENCE_NUMBER = null;
     public static String getZeroTransactionEntrySequenceNumber() {
         if (ZERO_TRANSACTION_ENTRY_SEQUENCE_NUMBER == null) {
-            ZERO_TRANSACTION_ENTRY_SEQUENCE_NUMBER = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), '0');
+            ZERO_TRANSACTION_ENTRY_SEQUENCE_NUMBER = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntryFull.class, KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), '0');
         }
         return ZERO_TRANSACTION_ENTRY_SEQUENCE_NUMBER;
     }
@@ -327,7 +327,7 @@ public class GLConstants {
     private static String DASH_ORGANIZATION_REFERENCE_ID = null;
     public static String getDashOrganizationReferenceId() {
         if (DASH_ORGANIZATION_REFERENCE_ID == null) {
-            DASH_ORGANIZATION_REFERENCE_ID = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.ORGANIZATION_REFERENCE_ID), '-');
+            DASH_ORGANIZATION_REFERENCE_ID = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntryFull.class, KFSPropertyConstants.ORGANIZATION_REFERENCE_ID), '-');
         }
         return DASH_ORGANIZATION_REFERENCE_ID;
     }

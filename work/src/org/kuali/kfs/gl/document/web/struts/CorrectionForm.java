@@ -30,7 +30,7 @@ import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.core.web.ui.Column;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.service.CorrectionDocumentService;
 import org.kuali.module.gl.util.CorrectionDocumentEntryMetadata;
@@ -88,8 +88,8 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     private boolean showOutputFlag = false;
     private boolean showSummaryOutputFlag = false;
     private boolean restrictedFunctionalityMode = false;
-    private List<OriginEntry> allEntries;
-    private List<OriginEntry> displayEntries;
+    private List<OriginEntryFull> allEntries;
+    private List<OriginEntryFull> displayEntries;
     private String entryUniversityFiscalYear;
     private String entryFinancialDocumentReversalDate;
     private String entryTransactionDate;
@@ -102,7 +102,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
      */
     private String glcpSearchResultsSequenceNumber;
     
-    private OriginEntry entryForManualEdit;
+    private OriginEntryFull entryForManualEdit;
 
     private List<GroupHolder> groups;
 
@@ -122,7 +122,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         // Sync up the groups
         syncGroups();
 
-        entryForManualEdit = new OriginEntry();
+        entryForManualEdit = new OriginEntryFull();
         entryForManualEdit.setEntryId(0);
         
         originEntrySearchResultTableMetadata = new KualiTableRenderFormMetadata();
@@ -208,8 +208,8 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         manualEditFlag = false;
         deleteFileFlag = false;
         showOutputFlag = false;
-        allEntries = new ArrayList<OriginEntry>();
-        displayEntries = new ArrayList<OriginEntry>();
+        allEntries = new ArrayList<OriginEntryFull>();
+        displayEntries = new ArrayList<OriginEntryFull>();
 
         restrictedFunctionalityMode = false;
         
@@ -228,7 +228,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         // Sync up the groups
         syncGroups();
 
-        entryForManualEdit = new OriginEntry();
+        entryForManualEdit = new OriginEntryFull();
         entryForManualEdit.setEntryId(0);
     }
 
@@ -241,7 +241,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     }
 
     public void clearEntryForManualEdit() {
-        OriginEntry oe = new OriginEntry();
+        OriginEntryFull oe = new OriginEntryFull();
         oe.setEntryId(0);
         oe.setSubAccountNumber("");
         oe.setFinancialSubObjectCode("");
@@ -266,11 +266,11 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         return entryFinancialDocumentReversalDate;
     }
 
-    public List<OriginEntry> getDisplayEntries() {
+    public List<OriginEntryFull> getDisplayEntries() {
         return displayEntries;
     }
 
-    public void setDisplayEntries(List<OriginEntry> displayEntries) {
+    public void setDisplayEntries(List<OriginEntryFull> displayEntries) {
         this.displayEntries = displayEntries;
     }
 
@@ -362,19 +362,19 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         this.processInBatch = processInBatch;
     }
 
-    public List<OriginEntry> getAllEntries() {
+    public List<OriginEntryFull> getAllEntries() {
         return allEntries;
     }
 
-    public void setAllEntries(List<OriginEntry> allEntriesForManualEdit) {
+    public void setAllEntries(List<OriginEntryFull> allEntriesForManualEdit) {
         this.allEntries = allEntriesForManualEdit;
     }
 
-    public OriginEntry getEntryForManualEdit() {
+    public OriginEntryFull getEntryForManualEdit() {
         return entryForManualEdit;
     }
 
-    public void setEntryForManualEdit(OriginEntry entryForManualEdit) {
+    public void setEntryForManualEdit(OriginEntryFull entryForManualEdit) {
         this.entryForManualEdit = entryForManualEdit;
     }
 

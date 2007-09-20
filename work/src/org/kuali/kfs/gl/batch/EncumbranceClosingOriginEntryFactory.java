@@ -31,7 +31,7 @@ import org.kuali.module.chart.service.OffsetDefinitionService;
 import org.kuali.module.chart.service.SubObjectCodeService;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.Encumbrance;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.util.OriginEntryOffsetPair;
 
 /**
@@ -61,7 +61,7 @@ public class EncumbranceClosingOriginEntryFactory {
 
         // Generate the entry ...
 
-        OriginEntry entry = new OriginEntry(GL_ACLO, GL_ORIGINATION_CODE);
+        OriginEntryFull entry = new OriginEntryFull(GL_ACLO, GL_ORIGINATION_CODE);
 
         String description = encumbrance.getTransactionEncumbranceDescription();
         description += "FR-" + encumbrance.getChartOfAccountsCode() + encumbrance.getAccountNumber();
@@ -75,7 +75,7 @@ public class EncumbranceClosingOriginEntryFactory {
         entry.setAccountNumber(a21SubAccount.getCostShareSourceAccountNumber());
         entry.setSubAccountNumber(a21SubAccount.getCostShareSourceSubAccountNumber());
 
-        // The subAccountNumber is set to dashes in the OriginEntry constructor.
+        // The subAccountNumber is set to dashes in the OriginEntryFull constructor.
         if (KFSConstants.EMPTY_STRING.equals(encumbrance.getSubAccountNumber().trim())) {
 
             entry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
@@ -112,7 +112,7 @@ public class EncumbranceClosingOriginEntryFactory {
 
         // And now the offset ...
 
-        OriginEntry offset = new OriginEntry(GL_ACLO, GL_ORIGINATION_CODE);
+        OriginEntryFull offset = new OriginEntryFull(GL_ACLO, GL_ORIGINATION_CODE);
         final String GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_ENCUMBRANCE_FORWARD_PROCESS, GLConstants.EncumbranceClosingOriginEntry.GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
         offset.setTransactionLedgerEntryDescription(GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
 
@@ -197,7 +197,7 @@ public class EncumbranceClosingOriginEntryFactory {
         OriginEntryOffsetPair pair = new OriginEntryOffsetPair();
 
         // Build the entry ...
-        OriginEntry entry = new OriginEntry(GL_ACLO, GL_ORIGINATION_CODE);
+        OriginEntryFull entry = new OriginEntryFull(GL_ACLO, GL_ORIGINATION_CODE);
 
         Integer thisFiscalYear = new Integer(closingFiscalYear.intValue() + 1);
         entry.setUniversityFiscalYear(thisFiscalYear);
@@ -287,7 +287,7 @@ public class EncumbranceClosingOriginEntryFactory {
         final String BEGINNING_FUND_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_ENCUMBRANCE_FORWARD_PROCESS, GLConstants.EncumbranceClosingOriginEntry.BEGINNING_FUND_BALANCE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
         
         // And now build the offset.
-        OriginEntry offset = new OriginEntry(entry);
+        OriginEntryFull offset = new OriginEntryFull(entry);
         offset.setTransactionLedgerEntryAmount(entry.getTransactionLedgerEntryAmount());
         // KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE case...
         offset.setFinancialObjectCode(OBJECT_CODE_FOR_BALANCE_TYPE_INTERNAL_ENCUMBRANCE);

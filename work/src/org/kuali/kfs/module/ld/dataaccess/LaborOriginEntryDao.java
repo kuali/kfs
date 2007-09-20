@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.labor.bo.LaborOriginEntry;

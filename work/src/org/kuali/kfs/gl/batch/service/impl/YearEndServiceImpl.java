@@ -40,7 +40,7 @@ import org.kuali.module.gl.batch.closing.year.service.impl.helper.EncumbranceClo
 import org.kuali.module.gl.batch.closing.year.util.EncumbranceClosingOriginEntryFactory;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.Encumbrance;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.EncumbranceDao;
@@ -207,7 +207,7 @@ public class YearEndServiceImpl implements YearEndService {
 
                     // 847 005300 4100-WRITE-ACTIVITY.
 
-                    OriginEntry activityEntry = new OriginEntry();
+                    OriginEntryFull activityEntry = new OriginEntryFull();
 
                     // 848 005310 MOVE SPACES TO GLEN-RECORD.
                     // 849 005320 MOVE VAR-UNIV-FISCAL-YR
@@ -651,7 +651,7 @@ public class YearEndServiceImpl implements YearEndService {
                     // 1068 007430 4200-WRITE-OFFSET.
                     // 1069 007440 MOVE SPACES TO GLEN-RECORD.
 
-                    OriginEntry offsetEntry = new OriginEntry();
+                    OriginEntryFull offsetEntry = new OriginEntryFull();
 
                     // 1070 007450 MOVE VAR-UNIV-FISCAL-YR
                     // 1071 007460 TO UNIV-FISCAL-YR OF GLEN-RECORD.

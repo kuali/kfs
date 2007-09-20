@@ -20,7 +20,7 @@ import java.util.Arrays;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.service.BalanceTypService;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 
 public class OriginEntryKey {
     static BalanceTypService balanceTypService = (BalanceTypService) SpringContext.getBean(BalanceTypService.class);
@@ -45,7 +45,7 @@ public class OriginEntryKey {
      * @param entry
      * @return
      */
-    static public OriginEntryKey buildFromOriginEntry(OriginEntry entry) {
+    static public OriginEntryKey buildFromOriginEntry(OriginEntryFull entry) {
         if (null == entry) {
             return null;
         }
@@ -71,7 +71,7 @@ public class OriginEntryKey {
      * 
      * @param entry
      */
-    public void setIntoOriginEntry(OriginEntry entry) {
+    public void setIntoOriginEntry(OriginEntryFull entry) {
         entry.setAccountNumber(getAccountNumber());
         entry.setBalanceType(balanceTypService.getBalanceTypByCode(getBalanceTypeCode()));
         entry.setChartOfAccountsCode(getChartCode());

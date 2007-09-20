@@ -32,7 +32,7 @@ import org.kuali.module.financial.exceptions.InvalidFlexibleOffsetException;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.util.FatalErrorException;
@@ -537,7 +537,7 @@ public class BalanceForwardRuleHelper {
                 // 1143 006700 MOVE SPACE TO CABTYP-FIN-BALTYP-ENC-CD
                 // 1144 006710 END-IF
 
-                OriginEntry entry = new OriginEntry();
+                OriginEntryFull entry = new OriginEntryFull();
 
                 // 1145 006720 EVALUATE SQLCODE
                 // 1146 006730 WHEN 0
@@ -1040,7 +1040,7 @@ public class BalanceForwardRuleHelper {
                     // 1332 008540 4200-WRITE-ACTIVE.
                     // 1333 008550 MOVE SPACES TO GLEN-RECORD.
 
-                    OriginEntry activeEntry = new OriginEntry();
+                    OriginEntryFull activeEntry = new OriginEntryFull();
 
                     // 1334 008560 MOVE WS-UNIV-FISCAL-YR-PLUS-1
                     // 1335 008570 TO UNIV-FISCAL-YR OF GLEN-RECORD.

@@ -22,7 +22,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.NightlyOutService;
@@ -91,7 +91,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
      * save pending ledger entry as origin entry
      */
     private void saveAsOriginEntry(GeneralLedgerPendingEntry pendingEntry, OriginEntryGroup group) {
-        OriginEntry originEntry = new OriginEntry(pendingEntry);
+        OriginEntryFull originEntry = new OriginEntryFull(pendingEntry);
         originEntry.setGroup(group);
 
         originEntryService.createEntry(originEntry, group);

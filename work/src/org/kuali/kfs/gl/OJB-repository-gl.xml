@@ -14,7 +14,7 @@
  limitations under the License.
 -->
 <descriptor-repository version="1.0">
-<class-descriptor class="org.kuali.module.gl.bo.OriginEntry" table="GL_ORIGIN_ENTRY_T">
+<class-descriptor class="org.kuali.module.gl.bo.OriginEntryFull" table="GL_ORIGIN_ENTRY_T">
     <field-descriptor name="entryId" column="ORIGIN_ENTRY_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="GL_ORIGIN_ENTRY_T_SEQ" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

@@ -47,7 +47,7 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.gl.batch.collector.CollectorBatch;
 import org.kuali.module.gl.bo.CollectorDetail;
 import org.kuali.module.gl.bo.CollectorHeader;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.CollectorDetailService;
 import org.kuali.module.gl.service.CollectorHelperService;
@@ -307,7 +307,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         boolean docTypesNotMixed = true;
 
         Set batchDocumentTypes = new HashSet();
-        for (OriginEntry entry : batch.getOriginEntries()) {
+        for (OriginEntryFull entry : batch.getOriginEntries()) {
             batchDocumentTypes.add(entry.getFinancialDocumentTypeCode());
         }
 
@@ -331,7 +331,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         boolean balanceTypesNotMixed = true;
 
         Set balanceTypes = new HashSet();
-        for (OriginEntry entry : batch.getOriginEntries()) {
+        for (OriginEntryFull entry : batch.getOriginEntries()) {
             balanceTypes.add(entry.getFinancialBalanceTypeCode());
         }
 
@@ -357,7 +357,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
 
         // build a Set of keys from the gl entries to compare with
         Set glEntryKeys = new HashSet();
-        for (OriginEntry entry : batch.getOriginEntries()) {
+        for (OriginEntryFull entry : batch.getOriginEntries()) {
             glEntryKeys.add(generateOriginEntryMatchingKey(entry, ", "));
         }
 
@@ -374,7 +374,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         return detailKeysFound;
     }
 
-    private String generateOriginEntryMatchingKey(OriginEntry entry, String delimiter) {
+    private String generateOriginEntryMatchingKey(OriginEntryFull entry, String delimiter) {
         return StringUtils.join(new String[] { entry.getUniversityFiscalYear().toString(), entry.getUniversityFiscalPeriodCode(), entry.getChartOfAccountsCode(), entry.getAccountNumber(),
                 entry.getSubAccountNumber(), entry.getFinancialObjectCode(), entry.getFinancialSubObjectCode(), entry.getFinancialBalanceTypeCode(),
                 entry.getFinancialObjectTypeCode(), entry.getDocumentNumber(), entry.getFinancialDocumentTypeCode(), entry.getFinancialSystemOriginationCode() }, delimiter);

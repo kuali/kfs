@@ -17,7 +17,7 @@ package org.kuali.module.gl.util;
 
 import java.util.Map;
 
-import org.kuali.module.gl.bo.OriginEntryable;
+import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 
 public class ScrubberStatus {
@@ -25,7 +25,7 @@ public class ScrubberStatus {
     private OriginEntryGroup validGroup;
     private OriginEntryGroup errorGroup;
     private OriginEntryGroup expiredGroup;
-    private Map<OriginEntryable, OriginEntryable> unscrubbedToScrubbedEntries;
+    private Map<OriginEntry, OriginEntry> unscrubbedToScrubbedEntries;
     
     /**
      * Gets the errorGroup attribute. 
@@ -87,14 +87,14 @@ public class ScrubberStatus {
      * Gets the unscrubbedToScrubbedEntry attribute. 
      * @return Returns the unscrubbedToScrubbedEntry.
      */
-    public Map<OriginEntryable, OriginEntryable> getUnscrubbedToScrubbedEntries() {
+    public Map<OriginEntry, OriginEntry> getUnscrubbedToScrubbedEntries() {
         return unscrubbedToScrubbedEntries;
     }
     /**
      * Sets the unscrubbedToScrubbedEntry attribute value.
      * @param unscrubbedToScrubbedEntry The unscrubbedToScrubbedEntry to set.
      */
-    public void setUnscrubbedToScrubbedEntries(Map<OriginEntryable, OriginEntryable> unscrubbedToScrubbedEntry) {
+    public void setUnscrubbedToScrubbedEntries(Map<OriginEntry, OriginEntry> unscrubbedToScrubbedEntry) {
         this.unscrubbedToScrubbedEntries = unscrubbedToScrubbedEntry;
     }
 }

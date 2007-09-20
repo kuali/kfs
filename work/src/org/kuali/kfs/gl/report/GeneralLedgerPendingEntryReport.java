@@ -23,7 +23,7 @@ import java.util.Iterator;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Font;
@@ -111,12 +111,12 @@ public class GeneralLedgerPendingEntryReport {
             KualiDecimal totalDocumentDebit = KualiDecimal.ZERO;
             KualiDecimal totalDocumentBlank = KualiDecimal.ZERO;
 
-            OriginEntry lastEntry = null;
+            OriginEntryFull lastEntry = null;
 
             boolean firstAccount = true;
 
             while ( entries.hasNext() ) {
-                OriginEntry entry = (OriginEntry) entries.next();
+                OriginEntryFull entry = (OriginEntryFull) entries.next();
 
                 String docNumber = entry.getFinancialSystemOriginationCode() + "-" + entry.getDocumentNumber();
 

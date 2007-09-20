@@ -19,7 +19,7 @@ import java.util.Iterator;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 
 public class OriginEntryTotals {
     /**
@@ -137,9 +137,9 @@ public class OriginEntryTotals {
         this.otherAmount = otherAmount;
     }
     
-    public void addToTotals(Iterator<OriginEntry> entries) {
+    public void addToTotals(Iterator<OriginEntryFull> entries) {
         while (entries.hasNext()) {
-            OriginEntry originEntry = entries.next();
+            OriginEntryFull originEntry = entries.next();
             if (KFSConstants.GL_CREDIT_CODE.equals(originEntry.getTransactionDebitCreditCode())) {
                 creditAmount = creditAmount.add(originEntry.getTransactionLedgerEntryAmount());
                 numCreditEntries++;

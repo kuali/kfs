@@ -31,16 +31,16 @@ public class OriginEntryTest extends KualiTestBase {
 
         line = "2007BL4131407-----4100---ACEX07TOPSLGEXPIRCGAC          CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                       ";
         String convertedLine = "2007BL4131407-----4100---ACEX07TOPSLGEXPIRCGAC     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                       ";
-        assertEquals(convertedLine, new OriginEntry(line).getLine());
+        assertEquals(convertedLine, new OriginEntryFull(line).getLine());
 
         line = "2007BL4131407-----4100---ACEX07TOPSLGEXPIRCGAC     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                       ";
-        assertEquals(line, new OriginEntry(line).getLine());
+        assertEquals(line, new OriginEntryFull(line).getLine());
 
         line = "2007BL4131407-----9041---ACLI07TOPSLGEXPIRCGAC     12345CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                       ";
-        assertEquals(line, new OriginEntry(line).getLine());
+        assertEquals(line, new OriginEntryFull(line).getLine());
 
         line = "2007BL4131407-----9041---ACLI07TOPSLGEXPIRCGAC     00045CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                       ";
-        assertEquals(line, new OriginEntry(line).getLine());
+        assertEquals(line, new OriginEntryFull(line).getLine());
 
     }
 

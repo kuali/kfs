@@ -29,7 +29,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.MailService;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.EnterpriseFeederNotificationService;
 import org.kuali.module.gl.service.FileEnterpriseFeederHelperService;
@@ -122,7 +122,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
             }
             else {
                 dataFileReader = new BufferedReader(new FileReader(dataFile));
-                Iterator<OriginEntry> fileIterator = new OriginEntryFileIterator(dataFileReader, false);
+                Iterator<OriginEntryFull> fileIterator = new OriginEntryFileIterator(dataFileReader, false);
                 reconciliationService.reconcile(fileIterator, reconciliationBlock, errorMessages);
                 
                 fileIterator = null;
@@ -133,11 +133,11 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
             if (reconciliationProcessSucceeded(errorMessages)) {
                 // exhausted the previous iterator, open a new one up
                 dataFileReader = new BufferedReader(new FileReader(dataFile));
-                Iterator<OriginEntry> fileIterator = new OriginEntryFileIterator(dataFileReader, false);
+                Iterator<OriginEntryFull> fileIterator = new OriginEntryFileIterator(dataFileReader, false);
                 
                 int count = 0;
                 while (fileIterator.hasNext()) {
-                    OriginEntry entry = fileIterator.next();
+                    OriginEntryFull entry = fileIterator.next();
                     entry.setGroup(originEntryGroup);
                     originEntryService.save(entry);
                     count++;

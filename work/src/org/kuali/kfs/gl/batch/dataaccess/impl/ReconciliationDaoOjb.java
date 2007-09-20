@@ -25,7 +25,7 @@ import org.apache.ojb.broker.metadata.FieldDescriptor;
 import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.exceptions.ClassNotPersistableException;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.dao.ReconciliationDao;
 
 /**
@@ -45,7 +45,7 @@ public class ReconciliationDaoOjb extends PlatformAwareDaoBaseOjb implements Rec
     /**
      * @see org.kuali.module.gl.dao.ReconciliationDao#convertDBColumnNamesToJavaName(java.lang.String[])
      */
-    public List<String> convertDBColumnNamesToJavaName(Class<? extends OriginEntry> clazz, String[] columnNames, boolean caseInsensitive) {
+    public List<String> convertDBColumnNamesToJavaName(Class<? extends OriginEntryFull> clazz, String[] columnNames, boolean caseInsensitive) {
         List<String> results = new ArrayList<String>();
         ClassDescriptor classDescriptor = getClassDescriptor(clazz);
         for (int i = 0; i < columnNames.length; i++) {
@@ -81,7 +81,7 @@ public class ReconciliationDaoOjb extends PlatformAwareDaoBaseOjb implements Rec
      * @param persistableClass the class
      * @return the class descriptor
      */
-    protected <E extends OriginEntry> ClassDescriptor getClassDescriptor(Class<E> persistableClass) {
+    protected <E extends OriginEntryFull> ClassDescriptor getClassDescriptor(Class<E> persistableClass) {
         if (persistableClass == null) {
             throw new IllegalArgumentException("invalid (null) object");
         }

@@ -13,7 +13,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 
 /**
  * @author jsissom
@@ -55,8 +55,8 @@ public class GlPendingTransaction implements Serializable {
     super();
   }
 
-  public OriginEntry getOriginEntry() {
-      OriginEntry oe = new OriginEntry();
+  public OriginEntryFull getOriginEntry() {
+      OriginEntryFull oe = new OriginEntryFull();
 
       oe.setFinancialSystemOriginationCode(fsOriginCd);
       oe.setDocumentNumber(fdocNbr);

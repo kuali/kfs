@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.kuali.core.web.ui.Column;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.util.CorrectionDocumentEntryMetadata;
 import org.kuali.module.gl.util.CorrectionDocumentUtils;
@@ -64,7 +64,7 @@ public interface CorrectionDocumentService {
      * @param document an initiated or saved document
      * @param entries
      */
-    public void persistInputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntry> entries);
+    public void persistInputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntryFull> entries);
     
     public void removePersistedInputOriginEntries(CorrectionDocument document);
     
@@ -78,7 +78,7 @@ public interface CorrectionDocumentService {
      * @return the list, or null if there are too many origin entries
      * @throws RuntimeException several reasons, primarily relating to underlying persistence layer problems
      */
-    public List<OriginEntry> retrievePersistedInputOriginEntries(CorrectionDocument document, int abortThreshold);
+    public List<OriginEntryFull> retrievePersistedInputOriginEntries(CorrectionDocument document, int abortThreshold);
     
     /**
      * Returns true if the system is storing input origin entries for this class.  Note that this does not mean that there's at least one input origin
@@ -106,7 +106,7 @@ public interface CorrectionDocumentService {
      * @param document an initiated or saved document
      * @param entries
      */
-    public void persistOutputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntry> entries);
+    public void persistOutputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntryFull> entries);
     
     public void removePersistedOutputOriginEntries(CorrectionDocument document);
     
@@ -120,7 +120,7 @@ public interface CorrectionDocumentService {
      * @return the list, or null if there are too many origin entries
      * @throws RuntimeException several reasons, primarily relating to underlying persistence layer problems 
      */
-    public List<OriginEntry> retrievePersistedOutputOriginEntries(CorrectionDocument document, int abortThreshold);
+    public List<OriginEntryFull> retrievePersistedOutputOriginEntries(CorrectionDocument document, int abortThreshold);
     
     /**
      * Retrieves input origin entries that have been persisted for this document in an iterator.  Implementations of
@@ -130,7 +130,7 @@ public interface CorrectionDocumentService {
      * @return the iterator
      * @throws RuntimeException several reasons, primarily relating to underlying persistence layer problems 
      */
-    public Iterator<OriginEntry> retrievePersistedInputOriginEntriesAsIterator(CorrectionDocument document);
+    public Iterator<OriginEntryFull> retrievePersistedInputOriginEntriesAsIterator(CorrectionDocument document);
     
     /**
      * Retrieves output origin entries that have been persisted for this document in an iterator.  Implementations of
@@ -140,7 +140,7 @@ public interface CorrectionDocumentService {
      * @return the iterator
      * @throws RuntimeException several reasons, primarily relating to underlying persistence layer problems 
      */
-    public Iterator<OriginEntry> retrievePersistedOutputOriginEntriesAsIterator(CorrectionDocument document);
+    public Iterator<OriginEntryFull> retrievePersistedOutputOriginEntriesAsIterator(CorrectionDocument document);
     
     /**
      * Returns true if the system is storing output origin entries for this class.  Note that this does not mean that there's at least one output origin

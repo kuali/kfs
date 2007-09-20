@@ -28,7 +28,7 @@ import java.util.Map;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntryDao;
@@ -178,8 +178,8 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         for (Iterator<OriginEntryGroup> iter = groups.iterator(); iter.hasNext();) {
             OriginEntryGroup group = iter.next();
 
-            for (Iterator<OriginEntry> entry_iter = originEntryDao.getEntriesByGroup(group, 0); entry_iter.hasNext();) {
-                OriginEntry entry = entry_iter.next();
+            for (Iterator<OriginEntryFull> entry_iter = originEntryDao.getEntriesByGroup(group, 0); entry_iter.hasNext();) {
+                OriginEntryFull entry = entry_iter.next();
                 
                 entry.setEntryId(null);
                 entry.setObjectId(new Guid().toString());

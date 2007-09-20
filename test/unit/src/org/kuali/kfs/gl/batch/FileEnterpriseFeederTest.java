@@ -35,7 +35,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.OriginEntryTestBase;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.impl.FileEnterpriseFeederServiceImpl;
@@ -391,11 +391,11 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
      * @param groupOfLoadedEntries
      */
     protected void assertOriginEntriesLoaded(List<String> expectedEntries, OriginEntryGroup groupOfLoadedEntries) {
-        Collection<OriginEntry> actualEntries = originEntryDao.testingGetAllEntries();
+        Collection<OriginEntryFull> actualEntries = originEntryDao.testingGetAllEntries();
         
         assertEquals("Expected and actual number of loaded origin entries do not match.", expectedEntries.size(), actualEntries.size());
         
-        for (OriginEntry actualEntry : actualEntries) {
+        for (OriginEntryFull actualEntry : actualEntries) {
             String line = actualEntry.getLine().substring(0, ORIGIN_ENTRY_TEXT_LINE_LENGTH);
             assertTrue("Unexpected line loaded into origin entry table: " + line, expectedEntries.remove(line));
         }

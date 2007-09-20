@@ -41,7 +41,7 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSConstants.ParameterGroups;
 import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
 import org.kuali.module.gl.batch.collector.CollectorBatch;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.service.CollectorReportService;
 import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
@@ -683,8 +683,8 @@ public class CollectorReportServiceImpl implements CollectorReportService {
                 buf.append("Document ").append(errorDocumentGroup.getDocumentNumber()).append(" Rejected Due to Editing Errors.\n");
                 for (Transaction transaction : batchOriginEntryScrubberErrors.keySet()) {
                     if (errorDocumentGroup.matchesTransaction(transaction)) {
-                        if (transaction instanceof OriginEntry) {
-                            OriginEntry entry = (OriginEntry) transaction;
+                        if (transaction instanceof OriginEntryFull) {
+                            OriginEntryFull entry = (OriginEntryFull) transaction;
                             buf.append("     Origin Entry: ").append(entry.getLine()).append("\n");
                             for (Message message : batchOriginEntryScrubberErrors.get(transaction)) {
                                 buf.append("          ").append(message.getMessage()).append("\n");

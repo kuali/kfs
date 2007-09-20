@@ -31,7 +31,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.CorrectionDocumentService;
@@ -195,7 +195,7 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
                 OriginEntryService originEntryService = SpringContext.getBean(OriginEntryService.class);
                 CorrectionDocumentService correctionDocumentService = SpringContext.getBean(CorrectionDocumentService.class);
                 
-                Iterator<OriginEntry> outputEntries = correctionDocumentService.retrievePersistedOutputOriginEntriesAsIterator(this);
+                Iterator<OriginEntryFull> outputEntries = correctionDocumentService.retrievePersistedOutputOriginEntriesAsIterator(this);
                 
                 // Create output group
                 java.sql.Date today = dateTimeService.getCurrentSqlDate();

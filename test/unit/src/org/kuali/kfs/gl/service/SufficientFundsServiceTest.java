@@ -23,7 +23,7 @@ import org.kuali.core.util.Guid;
 import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.util.SufficientFundsItem;
 import org.kuali.test.ConfigureContext;
 
@@ -79,7 +79,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -102,7 +102,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -125,7 +125,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -149,7 +149,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -172,7 +172,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -195,7 +195,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -218,7 +218,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -241,7 +241,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -264,7 +264,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -287,7 +287,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -310,7 +310,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -334,7 +334,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -357,7 +357,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -380,7 +380,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -403,7 +403,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -426,7 +426,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -449,7 +449,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -472,7 +472,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -495,7 +495,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -519,7 +519,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -542,7 +542,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -565,7 +565,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -588,7 +588,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -611,7 +611,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -634,7 +634,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -657,7 +657,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -680,7 +680,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -704,7 +704,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -727,7 +727,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -750,7 +750,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -773,7 +773,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -796,7 +796,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -820,7 +820,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -843,7 +843,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -866,7 +866,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -890,7 +890,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -913,7 +913,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -936,7 +936,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -959,7 +959,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 
@@ -982,7 +982,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         // Add inputs to expected output ...
         for (int i = 0; i < stringInput.length; i++) {
-            OriginEntry oe = new OriginEntry(stringInput[i]);
+            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
             transactions.add(oe);
         }
 

@@ -36,7 +36,7 @@
         </pattern>
         
         <pattern value="glEntry">  
-            <object-create-rule classname="org.kuali.module.gl.bo.OriginEntry" />
+            <object-create-rule classname="org.kuali.module.gl.bo.OriginEntryFull" />
 
             <call-method-rule pattern="universityFiscalYear"              methodname="setUniversityFiscalYear" paramcount="0" paramtypes="java.lang.Integer" />
             <call-method-rule pattern="chartOfAccountsCode"               methodname="setChartOfAccountsCode" paramcount="0" />

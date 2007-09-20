@@ -784,7 +784,7 @@
 		<property name="cacheSize" value="6000" />
 	</bean>
 	
-	<bean id="originEntryableLookupService" class="org.kuali.module.gl.service.impl.OriginEntryableLookupServiceImpl" singleton="false">
+	<bean id="originEntryLookupService" class="org.kuali.module.gl.service.impl.OriginEntryLookupServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -992,7 +992,7 @@
 	<bean id="originEntryDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb">
 		<property name="entryClass">
 			<bean class="java.lang.Class" factory-method="forName">
-  			<constructor-arg value="org.kuali.module.gl.bo.OriginEntry"/>
+  			<constructor-arg value="org.kuali.module.gl.bo.OriginEntryFull"/>
    			</bean>
 		</property>
 	</bean>
@@ -1542,7 +1542,7 @@
 		</property>
 		<property name="originEntryClass">
 			<bean class="java.lang.Class" factory-method="forName">
-  				<constructor-arg value="org.kuali.module.gl.bo.OriginEntry"/>
+  				<constructor-arg value="org.kuali.module.gl.bo.OriginEntryFull"/>
    			</bean>
 		</property>
 	</bean>

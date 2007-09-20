@@ -26,7 +26,7 @@ import org.kuali.module.chart.service.A21SubAccountService;
 import org.kuali.module.chart.service.PriorYearAccountService;
 import org.kuali.module.chart.service.SubFundGroupService;
 import org.kuali.module.gl.bo.Encumbrance;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.util.FatalErrorException;
 import org.kuali.module.gl.util.ObjectHelper;
 
@@ -167,7 +167,7 @@ public class EncumbranceClosingRuleHelper {
      * @return true if the encumbrance is eligible for cost share.
      * @throws FatalErrorException
      */
-    public boolean isEncumbranceEligibleForCostShare(OriginEntry entry, OriginEntry offset, Encumbrance encumbrance, String objectTypeCode) throws FatalErrorException {
+    public boolean isEncumbranceEligibleForCostShare(OriginEntryFull entry, OriginEntryFull offset, Encumbrance encumbrance, String objectTypeCode) throws FatalErrorException {
 
         PriorYearAccount priorYearAccount = priorYearAccountService.getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber());
 

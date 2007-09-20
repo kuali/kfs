@@ -22,8 +22,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -290,6 +293,12 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         }
         else {
             description = "PO: " + cmDocument.getPurchaseOrderDocument().getPurapDocumentIdentifier() + " Vendor: " + cmDocument.getVendorName();
+        }
+
+        //trim description if longer than whats specified in the data dictionary
+        int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_DESCRIPTION).intValue();
+        if(noteTextMaxLength < description.length()) {            
+            description = description.substring(0, noteTextMaxLength);
         }
 
         cmDocument.getDocumentHeader().setFinancialDocumentDescription(description);

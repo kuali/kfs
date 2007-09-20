@@ -103,8 +103,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private Integer alternateVendorHeaderGeneratedIdentifier;
     private Integer alternateVendorDetailAssignedIdentifier;
     private String purchaseOrderNotes;
-    private boolean closePurchaseOrderIndicator;
-    private boolean reopenPurchaseOrderIndicator;  
 
     // NOT PERSISTED IN DB
     private String recurringPaymentTypeCode;
@@ -630,38 +628,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.purchaseOrderEndDate = purchaseOrderEndDate;
     }
 
-    /**
-     * Gets the closePurchaseOrderIndicator attribute. 
-     * @return Returns the closePurchaseOrderIndicator.
-     */
-    public boolean isClosePurchaseOrderIndicator() {
-        return closePurchaseOrderIndicator;
-    }
-
-    /**
-     * Sets the closePurchaseOrderIndicator attribute value.
-     * @param closePurchaseOrderIndicator The closePurchaseOrderIndicator to set.
-     */
-    public void setClosePurchaseOrderIndicator(boolean closePurchaseOrderIndicator) {
-        this.closePurchaseOrderIndicator = closePurchaseOrderIndicator;
-    }
-
-    /**
-     * Gets the reopenPurchaseOrderIndicator attribute. 
-     * @return Returns the reopenPurchaseOrderIndicator.
-     */
-    public boolean isReopenPurchaseOrderIndicator() {
-        return reopenPurchaseOrderIndicator;
-    }
-
-    /**
-     * Sets the reopenPurchaseOrderIndicator attribute value.
-     * @param reopenPurchaseOrderIndicator The reopenPurchaseOrderIndicator to set.
-     */
-    public void setReopenPurchaseOrderIndicator(boolean reopenPurchaseOrderIndicator) {
-        this.reopenPurchaseOrderIndicator = reopenPurchaseOrderIndicator;
-    }    
-    
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String, java.lang.String)
      */

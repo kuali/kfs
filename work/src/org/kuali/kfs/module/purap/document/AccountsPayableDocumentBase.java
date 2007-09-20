@@ -67,6 +67,8 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     private String noteLine2Text;
     private String noteLine3Text;
     private boolean continuationAccountIndicator;
+    private boolean closePurchaseOrderIndicator;
+    private boolean reopenPurchaseOrderIndicator;  
 
     private boolean unmatchedOverride; // not persisted
     
@@ -144,7 +146,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
         //if routing and close/reopen checkbox selected, call close/reopen po method
         if((event instanceof RouteDocumentEvent) && this.isCloseReopenPoIndicator() ){
-            processCloseReopenPo( getPoDocumentTypeForAccountsPayableDocumentApprove() );
+            processCloseReopenPo( getPoDocumentTypeForAccountsPayableDocumentApprove() );                        
         }
 
         //DO NOT CALL SUPER HERE!!  Cannot call super because it will mess up the GL entry creation process (hjs)
@@ -171,6 +173,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      */
     public void processCloseReopenPo(String docType) {
         String action = null;
+        //setup text for note that will be created, will either be closed or reopened
         if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT.equals(docType)) {
             action = "closed";
         }
@@ -182,6 +185,16 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         }
 //        SpringContext.getBean(PurchaseOrderService.class).updateFlagsAndRoute(this.getPurchaseOrderDocument().getDocumentNumber(), docType, assemblePurchaseOrderNote(docType, identifier, action, docName), new ArrayList());
         SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(this.getPurchaseOrderDocument().getDocumentNumber(), docType, assemblePurchaseOrderNote(docType, action), new ArrayList());
+
+        /* if we made it here, route document has not errored out, so set appropriate indicator
+         * depending on what is being requested.
+         */
+        if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT.equals(docType)) {
+            this.setClosePurchaseOrderIndicator(true);
+        }else if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT.equals(docType)) {
+            this.setReopenPurchaseOrderIndicator(true);
+        }
+        
     }
 
     /**
@@ -384,6 +397,38 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
             this.purchaseOrderDocument = purchaseOrderDocument;
         }
     }
+
+    /**
+     * Gets the closePurchaseOrderIndicator attribute. 
+     * @return Returns the closePurchaseOrderIndicator.
+     */
+    public boolean isClosePurchaseOrderIndicator() {
+        return closePurchaseOrderIndicator;
+    }
+
+    /**
+     * Sets the closePurchaseOrderIndicator attribute value.
+     * @param closePurchaseOrderIndicator The closePurchaseOrderIndicator to set.
+     */
+    public void setClosePurchaseOrderIndicator(boolean closePurchaseOrderIndicator) {
+        this.closePurchaseOrderIndicator = closePurchaseOrderIndicator;
+    }
+
+    /**
+     * Gets the reopenPurchaseOrderIndicator attribute. 
+     * @return Returns the reopenPurchaseOrderIndicator.
+     */
+    public boolean isReopenPurchaseOrderIndicator() {
+        return reopenPurchaseOrderIndicator;
+    }
+
+    /**
+     * Sets the reopenPurchaseOrderIndicator attribute value.
+     * @param reopenPurchaseOrderIndicator The reopenPurchaseOrderIndicator to set.
+     */
+    public void setReopenPurchaseOrderIndicator(boolean reopenPurchaseOrderIndicator) {
+        this.reopenPurchaseOrderIndicator = reopenPurchaseOrderIndicator;
+    }    
 
     public boolean isCloseReopenPoIndicator() {
         return closeReopenPoIndicator;

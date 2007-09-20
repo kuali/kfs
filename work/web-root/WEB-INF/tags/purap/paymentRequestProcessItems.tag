@@ -93,7 +93,7 @@
 			</td>
 			<td colspan=2 class="datacell">
               <c:if test="${empty isCreditMemo or !isCreditMemo}" >
-	              <c:if test="${KualiForm.calculated and (empty KualiForm.document.recurringPaymentTypeCode)}" > 
+	              <c:if test="${KualiForm.calculated and (empty KualiForm.document.recurringPaymentTypeCode) and !KualiForm.document.closePurchaseOrderIndicator}" > 
 	              	<kul:htmlControlAttribute
 					    attributeEntry="${documentAttributes.closeReopenPoIndicator}"
 					    property="document.closeReopenPoIndicator"
@@ -105,7 +105,7 @@
 	              </c:if>
               </c:if>
               <c:if test="${isCreditMemo}" >
-	              <c:if test="${KualiForm.calculated and (empty KualiForm.document.paymentRequestDocument.recurringPaymentTypeCode)}">                   
+	              <c:if test="${KualiForm.calculated and (empty KualiForm.document.paymentRequestDocument.recurringPaymentTypeCode) and !KualiForm.document.reopenPurchaseOrderIndicator}">                   
 	                <kul:htmlControlAttribute
 					    attributeEntry="${documentAttributes.closeReopenPoIndicator}"
 					    property="document.closeReopenPoIndicator"

@@ -384,13 +384,13 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
      */
     public void cancelAccountsPayableDocument(AccountsPayableDocument apDocument, String currentNodeName) {
         // retrieve and save with canceled status, clear gl entries
-        AccountsPayableDocument apDoc;
-        try {
-            apDoc = (AccountsPayableDocument)documentService.getByDocumentHeaderId(apDocument.getDocumentNumber());
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException("Can't get workflow doc "+e);
-        }
+//        AccountsPayableDocument apDoc;
+//        try {
+//            apDoc = (AccountsPayableDocument)documentService.getByDocumentHeaderId(apDocument.getDocumentNumber());
+//        }
+//        catch (WorkflowException e) {
+//            throw new RuntimeException("Can't get workflow doc "+e);
+//        }
         
         if (purapService.isFullDocumentEntryCompleted(apDocument)) {
             //TODO remove this config (for testing only) hjs
@@ -399,8 +399,8 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
             }
         }
         AccountsPayableDocumentSpecificService accountsPayableDocumentSpecificService = apDocument.getDocumentSpecificService();
-        String cancelledStatusCode = accountsPayableDocumentSpecificService.updateStatusByNode(currentNodeName, apDoc);
-        apDocument.setStatusCode(cancelledStatusCode);
+        String cancelledStatusCode = accountsPayableDocumentSpecificService.updateStatusByNode(currentNodeName, apDocument);
+//        apDocument.setStatusCode(cancelledStatusCode);
         apDocument.refreshReferenceObject(PurapPropertyConstants.STATUS);
         //close/reopen po?
         accountsPayableDocumentSpecificService.takePurchaseOrderCancelAction(apDocument);

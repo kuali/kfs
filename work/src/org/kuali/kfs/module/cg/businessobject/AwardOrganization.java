@@ -35,7 +35,7 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
     private String organizationCode;
     private Long proposalNumber;
     private boolean awardPrimaryOrganizationIndicator;
-    private boolean active;
+    private boolean active = true;
     
     private Chart chartOfAccounts;
     private Org organization;
@@ -174,14 +174,14 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
      * @see org.kuali.core.bo.Inactivateable#isActive()
      */
     public boolean isActive() {
-        return organization.isActive();
+        return active;
     }
 
     /**
      * @see org.kuali.core.bo.Inactivateable#setActive(boolean)
      */
     public void setActive(boolean active) {
-        organization.setActive(active);
+        this.active = active;
     }
 
     /**

@@ -32,7 +32,7 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
     private String organizationCode;
     private Long proposalNumber;
     private boolean proposalPrimaryOrganizationIndicator;
-    private boolean active;
+    private boolean active = true;
     
     private Org organization;
     private Chart chartOfAccounts;

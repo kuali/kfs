@@ -32,7 +32,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     private Long proposalNumber;
     private boolean proposalPrimaryProjectDirectorIndicator;
     private String proposalProjectDirectorProjectTitle;
-    private boolean active;
+    private boolean active = true;
     
     private ProjectDirector projectDirector;
 

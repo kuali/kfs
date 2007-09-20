@@ -35,7 +35,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     private String chartOfAccountsCode;
     private String accountNumber;
     private String personUniversalIdentifier;
-    private boolean active;
+    private boolean active = true;
     
     private Account account;
     private Chart chartOfAccounts;
@@ -230,7 +230,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      * @see org.kuali.core.bo.Inactivateable#isActive()
      */
     public boolean isActive() {
-        return account.isAccountClosedIndicator();
+        return active;
     }
 
     /**
@@ -238,6 +238,6 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      * @see org.kuali.core.bo.Inactivateable#setActive(boolean)
      */
     public void setActive(boolean active) {
-        account.setAccountClosedIndicator(active);
+        this.active = true;
     }
 }

@@ -33,7 +33,7 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     private Long proposalNumber;
     private boolean awardPrimaryProjectDirectorIndicator;
     private String awardProjectDirectorProjectTitle;
-    private boolean active;
+    private boolean active = true;
     
     private ProjectDirector projectDirector;
 
@@ -138,14 +138,14 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
      * @see org.kuali.core.bo.Inactivateable#isActive()
      */
     public boolean isActive() {
-        return projectDirector.isActive();
+        return active;
     }
 
     /**
      * @see org.kuali.core.bo.Inactivateable#setActive(boolean)
      */
     public void setActive(boolean active) {
-        projectDirector.setActive(active);
+        this.active=active;
     }
     
     /**

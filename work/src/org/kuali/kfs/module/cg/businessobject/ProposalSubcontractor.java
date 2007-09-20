@@ -33,7 +33,7 @@ public class ProposalSubcontractor extends PersistableBusinessObjectBase impleme
     private String subcontractorNumber;
     private KualiDecimal proposalSubcontractorAmount;
     private String proposalSubcontractorDescription;
-    private boolean active;
+    private boolean active = true;
     
     private Subcontractor subcontractor;
 

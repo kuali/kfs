@@ -39,7 +39,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
     private String subcontractorContactLastName;
     private String subcontractorAuditHistoryText;
     private String awardSubcontractorDescription;
-    private boolean active;
+    private boolean active = true;
     
     private Subcontractor subcontractor;
 
@@ -245,7 +245,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
      * @see org.kuali.core.bo.Inactivateable#setActive(boolean)
      */
     public void setActive(boolean active) {
-        subcontractor.setActive(active);
+        this.active=active;
     }
 
     /**
@@ -253,7 +253,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
      * @see org.kuali.core.bo.Inactivateable#isActive()
      */
     public boolean isActive() {
-        return subcontractor.isActive();
+        return active;
     }
     
     /**

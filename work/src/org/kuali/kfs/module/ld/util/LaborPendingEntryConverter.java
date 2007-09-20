@@ -30,6 +30,8 @@ import org.kuali.kfs.service.HomeOriginationService;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ObjectCodeService;
+import org.kuali.module.financial.document.YearEndDocument;
+import org.kuali.module.financial.document.YearEndDocumentUtil;
 import org.kuali.module.labor.bo.BenefitsCalculation;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
@@ -43,7 +45,7 @@ import org.kuali.module.labor.service.LaborBenefitsCalculationService;
  */
 public class LaborPendingEntryConverter {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborPendingEntryConverter.class);
-
+    
     /**
      * convert the given document and accounting line into the expense pending entries
      * 
@@ -57,6 +59,12 @@ public class LaborPendingEntryConverter {
 
         pendingEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
         pendingEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
+        
+        // year end document should post to previous fiscal year and final period
+        if (document instanceof YearEndDocument) {
+            pendingEntry.setUniversityFiscalYear(YearEndDocumentUtil.getPreviousFiscalYear());
+            pendingEntry.setUniversityFiscalPeriodCode(YearEndDocumentUtil.getFINAL_ACCOUNTING_PERIOD());
+        }
         
         return pendingEntry;
     }
@@ -129,6 +137,12 @@ public class LaborPendingEntryConverter {
         pendingEntry.setPositionNumber(KFSConstants.getDashPositionNumber());
         pendingEntry.setEmplid(KFSConstants.getDashEmplId());
         pendingEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
+        
+        // year end document should post to previous fiscal year and final period
+        if (document instanceof YearEndDocument) {
+            pendingEntry.setUniversityFiscalYear(YearEndDocumentUtil.getPreviousFiscalYear());
+            pendingEntry.setUniversityFiscalPeriodCode(YearEndDocumentUtil.getFINAL_ACCOUNTING_PERIOD());
+        }
         
         return pendingEntry;
     }
@@ -213,6 +227,12 @@ public class LaborPendingEntryConverter {
         pendingEntry.setPositionNumber(KFSConstants.getDashPositionNumber());
         pendingEntry.setEmplid(KFSConstants.getDashEmplId());
         pendingEntry.setTransactionTotalHours(null);
+        
+        // year end document should post to previous fiscal year and final period
+        if (document instanceof YearEndDocument) {
+            pendingEntry.setUniversityFiscalYear(YearEndDocumentUtil.getPreviousFiscalYear());
+            pendingEntry.setUniversityFiscalPeriodCode(YearEndDocumentUtil.getFINAL_ACCOUNTING_PERIOD());
+        }
 
         return pendingEntry;
     }

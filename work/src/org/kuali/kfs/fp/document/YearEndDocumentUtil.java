@@ -24,17 +24,14 @@ import org.kuali.module.financial.service.UniversityDateService;
 
 
 /**
- * 
  * utils for <code>YearEndDocument</code>s
  * 
  * @see org.kuali.module.gl.service.SufficientFundsService
- * 
  */
 public class YearEndDocumentUtil {
     private static final String FINAL_ACCOUNTING_PERIOD = "13";
 
     /**
-     * 
      * @return the previous fiscal year used with all GLPE
      */
     public static final Integer getPreviousFiscalYear() {
@@ -43,7 +40,6 @@ public class YearEndDocumentUtil {
     }
 
     /**
-     * 
      * @return the accounting period code used with all GLPE
      */
     public static final String getFinalAccountingPeriod() {
@@ -69,5 +65,14 @@ public class YearEndDocumentUtil {
         YearEndDocument yearEndDocument = (YearEndDocument) transactionalDocument;
         explicitEntry.setUniversityFiscalPeriodCode(getFinalAccountingPeriod());
         explicitEntry.setUniversityFiscalYear(getPreviousFiscalYear());
+    }
+
+    /**
+     * Gets the fINAL_ACCOUNTING_PERIOD attribute.
+     * 
+     * @return Returns the fINAL_ACCOUNTING_PERIOD.
+     */
+    public static String getFINAL_ACCOUNTING_PERIOD() {
+        return FINAL_ACCOUNTING_PERIOD;
     }
 }

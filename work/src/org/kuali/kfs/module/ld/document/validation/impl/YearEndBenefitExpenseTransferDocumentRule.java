@@ -25,23 +25,5 @@ import org.kuali.module.financial.document.YearEndDocumentUtil;
  * This class creates an instance of year end benefit expense transfer document rule.
  */
 public class YearEndBenefitExpenseTransferDocumentRule extends BenefitExpenseTransferDocumentRule {
-   
-    /**
-     * Constructs a YearEndBenefitExpenseTransferDocumentRule.java.
-     */
-    public YearEndBenefitExpenseTransferDocumentRule() {
-        super();
-    }
-
-    /**
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
-     */
-    @Override
-    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-        super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
-        YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
-    }
-
-
+  
 }

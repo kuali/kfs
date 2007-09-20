@@ -30,8 +30,9 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.rule.CalculateAccountsPayableRule;
 import org.kuali.module.purap.rule.CancelAccountsPayableRule;
 import org.kuali.module.purap.rule.ContinueAccountsPayableRule;
+import org.kuali.module.purap.rule.PreCalculateAccountsPayableRule;
 
-public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase  implements ContinueAccountsPayableRule, CalculateAccountsPayableRule, CancelAccountsPayableRule {
+public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase  implements ContinueAccountsPayableRule, CalculateAccountsPayableRule, PreCalculateAccountsPayableRule, CancelAccountsPayableRule {
     
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
@@ -91,4 +92,5 @@ public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccounts
      * @see org.kuali.module.purap.rule.CancelAccountsPayableRule#processCancelAccountsPayableBusinessRules(org.kuali.module.purap.document.AccountsPayableDocument)
      */
     public abstract boolean processCancelAccountsPayableBusinessRules(AccountsPayableDocument document);
+
 }

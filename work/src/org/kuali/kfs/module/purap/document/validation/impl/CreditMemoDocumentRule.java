@@ -15,9 +15,6 @@
  */
 package org.kuali.module.purap.rules;
 
-import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
-import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -40,21 +37,17 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapRuleConstants;
-import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.bo.CreditMemoAccount;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.rule.CalculateAccountsPayableRule;
-import org.kuali.module.purap.rule.ContinueAccountsPayableRule;
-import org.kuali.module.purap.rule.PreCalculateAccountsPayableRule;
 import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
@@ -67,7 +60,7 @@ import org.kuali.module.vendor.util.VendorUtils;
 /**
  * Business rules for the Credit Memo Document.
  */
-public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase implements PreCalculateAccountsPayableRule {
+public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
 
     /**
      * Validation that occurs on Route of the document.
@@ -155,9 +148,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
      */
     public boolean processPreCalculateAccountsPayableBusinessRules(AccountsPayableDocument document) {
         boolean valid = true;
-        CreditMemoDocument cmDocument = (CreditMemoDocument) document;
-
-        valid = processItemValidation(cmDocument);
+        CreditMemoDocument cmDocument = (CreditMemoDocument) document;        
 
         return valid;
     }

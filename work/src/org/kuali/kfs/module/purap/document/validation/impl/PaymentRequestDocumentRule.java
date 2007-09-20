@@ -49,6 +49,7 @@ import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
+import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
@@ -140,6 +141,18 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         // The Payment Request Pay Date must not be in the past.
         valid &= validatePayDateNotPast(paymentRequestDocument);
         GlobalVariables.getErrorMap().clearErrorPath();
+        return valid;
+    }
+
+    /**
+     * Validates item fields are valid for the calculation process.
+     * 
+     * @see org.kuali.module.purap.rule.PreCalculateAccountsPayableRule#processPreCalculateAccountsPayableBusinessRules(org.kuali.module.purap.document.AccountsPayableDocument)
+     */
+    public boolean processPreCalculateAccountsPayableBusinessRules(AccountsPayableDocument document) {
+        boolean valid = true;
+        PaymentRequestDocument preqDocument = (PaymentRequestDocument) document;
+
         return valid;
     }
 

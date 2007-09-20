@@ -36,6 +36,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.NoteService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -53,6 +54,7 @@ import org.kuali.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.rule.event.CancelAccountsPayableEvent;
+import org.kuali.module.purap.rule.event.PreCalculateAccountsPayableEvent;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.PurapService;
@@ -116,11 +118,14 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
         AccountsPayableDocument apDoc = (AccountsPayableDocument) apForm.getDocument();
 
-        customCalculate(apDoc);
-
-        // doesn't really matter what happens above we still reset the calculate flag
-        apForm.setCalculated(true);
-
+        //call precalculate
+        if( SpringContext.getBean(KualiRuleService.class).applyRules(new PreCalculateAccountsPayableEvent(apDoc)) ) {
+            customCalculate(apDoc);
+    
+            //doesn't really matter what happens above we still reset the calculate flag
+            apForm.setCalculated(true);
+        }
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -148,7 +153,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         requiresCalculate = !apForm.isCalculated() && !SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(purapDocument);
         return requiresCalculate;
     }
-
+    
     /**
      * This method returns the current action name
      * 
@@ -157,7 +162,6 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     public String getActionName(){
         return null;
     }
-    
     
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -241,7 +245,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         Iterator questions = questionsAndCallbacks.keySet().iterator();
         String mapQuestion = null;
         String key = null;
-        
+
         // Start in logic for confirming the close.
         if (question == null) {
             key = getQuestionProperty(messageKey, messagePrefix, kualiConfiguration, firstQuestion);
@@ -277,8 +281,8 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                     key = getQuestionProperty(messageKey, messagePrefix, kualiConfiguration, nextQuestion);
                     return this.performQuestionWithInput(mapping, form, request, response, nextQuestion, key, KFSConstants.CONFIRMATION_QUESTION, questionType, "");
                 } else {
-                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
-                }
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
             }
             // Have to check length on value entered.
             String introNoteMessage = notePrefix + KFSConstants.BLANK_SPACE;
@@ -296,14 +300,14 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                     // Prevent a NPE by setting the reason to a blank string.
                     reason = "";
                 }
-
+                
                 return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, mapQuestion, key, KFSConstants.CONFIRMATION_QUESTION, questionType, "", reason, PurapKeyConstants.ERROR_PAYMENT_REQUEST_REASON_REQUIRED, KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
             }
         }
-
+        
         // make callback
         if(ObjectUtils.isNotNull(callback)) {
-            callback.doPostQuestion(apDocument, noteText);
+        callback.doPostQuestion(apDocument, noteText);
         }
         String nextQuestion = null;
         // ask another question if more left
@@ -312,7 +316,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
             key = getQuestionProperty(messageKey, messagePrefix, kualiConfiguration, nextQuestion);
             return this.performQuestionWithInput(mapping, form, request, response, nextQuestion, key, KFSConstants.CONFIRMATION_QUESTION, questionType, "");
         }
-        
+
         
         
         return redirect;
@@ -328,8 +332,8 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      */
     private String getQuestionProperty(String messageKey, String messagePrefix, KualiConfigurationService kualiConfiguration, String question) {
         return kualiConfiguration.getPropertyString((StringUtils.isEmpty(messagePrefix))?messageKey:messagePrefix+question);
-    }
-    
+	}    
+
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#cancel(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -407,18 +411,18 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                     //if past full entry and workflow not in final state (should this be checking preq states?)
                     if(!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {    
                         
-                        try {
-                            // need to run a super user cancel since person canceling may not have an action requested on the document
-                            GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
-                            documentService.superUserDisapproveDocument(documentService.getByDocumentHeaderId(document.getDocumentNumber()), "Document Cancelled by user " + originalUserSession.getUniversalUser().getPersonName() + " (" + originalUserSession.getUniversalUser().getPersonUserIdentifier() + ")");
-                        }
-                        finally {
-                            GlobalVariables.setUserSession(originalUserSession);
-                        }
+                    try {
+                        // need to run a super user cancel since person canceling may not have an action requested on the document
+                        GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
+                        documentService.superUserDisapproveDocument(documentService.getByDocumentHeaderId(document.getDocumentNumber()), "Document Cancelled by user " + originalUserSession.getUniversalUser().getPersonName() + " (" + originalUserSession.getUniversalUser().getPersonUserIdentifier() + ")");
+                    }
+                    finally {
+                        GlobalVariables.setUserSession(originalUserSession);
+                    }
                     } else {
                         //call gl method here (no reason for post processing since workflow done)
                         SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(document, "");
-                    }
+                }
                 }
                 else {
                     

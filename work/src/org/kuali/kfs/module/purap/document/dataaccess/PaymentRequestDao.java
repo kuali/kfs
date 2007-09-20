@@ -65,7 +65,7 @@ public interface PaymentRequestDao {
      * 
      * @return an Iterator over all payment request documents eligible for automatic approval
      */
-    public Iterator<PaymentRequestDocument> getEligibleForAutoApproval();
+    public List<PaymentRequestDocument> getEligibleForAutoApproval();
 
     /**
      * Get a payment request document number by id

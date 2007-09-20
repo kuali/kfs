@@ -28,10 +28,13 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.KFSUtils;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
@@ -41,6 +44,8 @@ import org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao;
 import org.kuali.module.purap.dao.PaymentRequestDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.service.PurapAccountingService;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements PaymentRequestDao {
 
@@ -160,16 +165,34 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     /**
      * @see org.kuali.module.purap.dao.PaymentRequestDao#getEligibleForAutoApproval()
      */
-    public Iterator<PaymentRequestDocument> getEligibleForAutoApproval() {
+    public List<PaymentRequestDocument> getEligibleForAutoApproval() {
         Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
         Criteria criteria = new Criteria();
         criteria.addLessThan(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, todayAtMidnight);
         criteria.addNotEqualTo("holdIndicator", "Y");
         criteria.addNotEqualTo("paymentRequestedCancelIndicator", "Y");
         criteria.addIn("status", Arrays.asList(PurapConstants.PaymentRequestStatuses.PREQ_STATUSES_FOR_AUTO_APPROVE));
-        
+
         Query query = new QueryByCriteria(PaymentRequestDocument.class, criteria);
-        return (Iterator<PaymentRequestDocument>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
+        Iterator<PaymentRequestDocument> documents = (Iterator<PaymentRequestDocument>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
+        ArrayList<String> documentHeaderIds = new ArrayList<String>();
+        while (documents.hasNext()) {
+            PaymentRequestDocument document = (PaymentRequestDocument) documents.next();
+            documentHeaderIds.add(document.getDocumentNumber());
+        }
+        
+        if (documentHeaderIds.size() > 0) {
+            try {
+                return SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(PaymentRequestDocument.class, documentHeaderIds);
+            }
+            catch (WorkflowException e) {
+                throw new InfrastructureException("unable to retrieve paymentRequestDocuments", e);
+            }
+        }
+        else {
+            return null;
+        }
+        
     }
     
     public String getDocumentNumberByPaymentRequestId(Integer id) {

@@ -180,16 +180,14 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public boolean autoApprovePaymentRequests() {
         boolean hadErrorAtLeastOneError = true;
         // should objects from existing user session be copied over
-        Iterator<PaymentRequestDocument> docs = paymentRequestDao.getEligibleForAutoApproval();
-        if (docs.hasNext()) {
+        List<PaymentRequestDocument> docs = paymentRequestDao.getEligibleForAutoApproval();
+        if (docs != null) {
             String samt = kualiConfigurationService.getApplicationParameterValue(
                     PurapParameterConstants.PURAP_ADMIN_GROUP, 
                     PurapParameterConstants.PURAP_DEFAULT_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT);
             KualiDecimal defaultMinimumLimit = new KualiDecimal(samt);
-            
-            while (docs.hasNext()) {
-                PaymentRequestDocument doc = docs.next();
-                hadErrorAtLeastOneError |= !autoApprovePaymentRequest(doc, defaultMinimumLimit);
+            for (PaymentRequestDocument paymentRequestDocument : docs) {
+                hadErrorAtLeastOneError |= !autoApprovePaymentRequest(paymentRequestDocument, defaultMinimumLimit);
             }
         }
         return hadErrorAtLeastOneError;
@@ -199,7 +197,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         if (isEligibleForAutoApproval(doc, defaultMinimumLimit)) {
             try {
                 purapService.updateStatusAndStatusHistory(doc, PaymentRequestStatuses.AUTO_APPROVED);
-                documentService.blanketApproveDocument(doc, "auto-approving: Total is below threshold.", new ArrayList());
+                documentService.blanketApproveDocument(doc, "auto-approving: Total is below threshold.", null);
             }
             catch (WorkflowException we) {
                 LOG.error("Exception encountered when approving document number " + doc.getDocumentNumber() + ".", we);

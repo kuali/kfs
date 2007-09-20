@@ -61,7 +61,7 @@
                 <description>The type of Pre Paid Expenses. Select one from the pulldown list.</description>
             </attribute>
 
-            <attribute name="disbVchrExpenseCompanyName">
+            <attributeReference name="disbVchrExpenseCompanyName" sourceClassName="org.kuali.module.financial.bo.TravelCompanyCode" sourceAttributeName="name">
                 <label>Company</label>
                 <shortLabel>Company</shortLabel>
 
@@ -77,9 +77,9 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>A free-form text field that identifies the Company of the Non-Employee Traveler.</description>
-            </attribute>
+            </attributeReference>
 
-            <attribute name="disbVchrPrePaidExpenseCompanyName">
+            <attributeReference name="disbVchrPrePaidExpenseCompanyName" sourceClassName="org.kuali.module.financial.bo.TravelCompanyCode" sourceAttributeName="name">
                 <label>Company</label>
                 <shortLabel>Company</shortLabel>
 
@@ -95,7 +95,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>A free-form text field that identifies the Company of the Non-Employee Traveler.</description>
-            </attribute>
+            </attributeReference>
 
             <attribute name="disbVchrExpenseAmount">
                 <label>Amount</label>

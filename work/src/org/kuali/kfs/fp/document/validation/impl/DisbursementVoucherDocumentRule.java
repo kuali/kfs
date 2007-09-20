@@ -56,10 +56,12 @@ import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.module.financial.bo.NonResidentAlienTaxPercent;
 import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.bo.PaymentReasonCode;
+import org.kuali.module.financial.bo.TravelCompanyCode;
 import org.kuali.module.financial.bo.WireCharge;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.financial.document.authorization.DisbursementVoucherDocumentAuthorizer;
@@ -89,6 +91,44 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * Constructs a DisbursementVoucherDocumentRule instance.
      */
     public DisbursementVoucherDocumentRule() {
+    }
+
+    /**
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
+     */
+    @Override
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        boolean valid = super.processCustomSaveDocumentBusinessRules(document);
+        
+        DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) document; 
+
+        // check non employee travel company exists
+        int i = 0;
+        List<DisbursementVoucherNonEmployeeExpense> expenses = disbursementVoucherDocument.getDvNonEmployeeTravel().getDvNonEmployeeExpenses();
+        for (DisbursementVoucherNonEmployeeExpense expense : expenses) {
+            TravelCompanyCode travelCompanyCode = retrieveCompany(expense.getDisbVchrExpenseCode(), expense.getDisbVchrExpenseCompanyName());
+            
+            if (ObjectUtils.isNull(travelCompanyCode)) {
+                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL + "." + KFSPropertyConstants.DV_NON_EMPLOYEE_EXPENSES + "[" + i + "]" + "." + KFSPropertyConstants.DISB_VCHR_EXPENSE_COMPANY_NAME, KFSKeyConstants.ERROR_EXISTENCE, "Company ");
+            }
+            
+            i++;
+        }
+
+        // check prepaid expenses company exists
+        i = 0;
+        List<DisbursementVoucherNonEmployeeExpense> prePaidExpenses = disbursementVoucherDocument.getDvNonEmployeeTravel().getDvPrePaidEmployeeExpenses();
+        for (DisbursementVoucherNonEmployeeExpense prePaidExpense : prePaidExpenses) {
+            TravelCompanyCode travelCompanyCode = retrieveCompany(prePaidExpense.getDisbVchrExpenseCode(), prePaidExpense.getDisbVchrExpenseCompanyName());
+            
+            if (ObjectUtils.isNull(travelCompanyCode)) {
+                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL + "." + KFSPropertyConstants.DV_PRE_PAID_EMPLOYEE_EXPENSES + "[" + i + "]" + "." + KFSPropertyConstants.DISB_VCHR_EXPENSE_COMPANY_NAME, KFSKeyConstants.ERROR_EXISTENCE, "Company ");
+            }
+            
+            i++;
+        }
+        
+        return valid;
     }
 
     /**
@@ -1389,7 +1429,21 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         return wireCharge;
     }
-
+    
+    /**
+     * Retrieves the Company object from the company name.
+     * 
+     * @param companyCode
+     * @param companyName
+     * @return <code>Payee</code>
+     */
+    private TravelCompanyCode retrieveCompany(String companyCode, String companyName) {
+        TravelCompanyCode travelCompanyCode = new TravelCompanyCode();
+        travelCompanyCode.setCode(companyCode);
+        travelCompanyCode.setName(companyName);
+        return (TravelCompanyCode) SpringContext.getBean(BusinessObjectService.class).retrieve(travelCompanyCode);
+    }
+    
     /**
      * Retrieves the Payee object from the payee id number.
      * 

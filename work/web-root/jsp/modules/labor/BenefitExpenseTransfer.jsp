@@ -26,10 +26,18 @@
 	<c:set var="disabled" value="true"/>
 </c:if>	
 
+<c:set var="documentTypeName" value="KualiBenefitExpenseTransferDocument"/>
+<c:set var="htmlFormAction" value="laborBenefitExpenseTransfer"/>
+
+<c:if test="${isYearEnd}">
+  <c:set var="documentTypeName" value="KualiYearEndBenefitExpenseTransferDocument"/>
+  <c:set var="htmlFormAction" value="laborYearEndBenefitExpenseTransfer"/>
+</c:if>
+
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiBenefitExpenseTransferDocument"
-	htmlFormAction="laborBenefitExpenseTransfer" renderMultipart="true"
-	showTabButtons="true">
+    documentTypeName="${documentTypeName}"
+    htmlFormAction="${htmlFormAction}" renderMultipart="true"
+    showTabButtons="true">
 
 	<kul:hiddenDocumentFields />
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />

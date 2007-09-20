@@ -25,10 +25,18 @@
 <c:if test="${fn:length(KualiForm.document.sourceAccountingLines)>0 || readOnly}">
 	<c:set var="disabled" value="true"/>
 </c:if>
-		
+
+<c:set var="documentTypeName" value="KualiSalaryExpenseTransferDocument"/>
+<c:set var="htmlFormAction" value="laborSalaryExpenseTransfer"/>
+
+<c:if test="${isYearEnd}">
+  <c:set var="documentTypeName" value="KualiYearEndSalaryExpenseTransferDocument"/>
+  <c:set var="htmlFormAction" value="laborYearEndSalaryExpenseTransfer"/>
+</c:if>
+
 <kul:documentPage showDocumentInfo="true"
-    documentTypeName="KualiSalaryExpenseTransferDocument"
-    htmlFormAction="laborSalaryExpenseTransfer" renderMultipart="true"
+    documentTypeName="${documentTypeName}"
+    htmlFormAction="${htmlFormAction}" renderMultipart="true"
     showTabButtons="true">
 
     <html:hidden property="financialBalanceTypeCode" />

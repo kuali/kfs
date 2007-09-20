@@ -829,8 +829,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
      */
     @Override
     public PersistableBusinessObject getDocumentBusinessObject() {
-        if (ObjectUtils.isNotNull(getPurapDocumentIdentifier()) && ObjectUtils.isNull(documentBusinessObject)) {
-                refreshDocumentBusinessObject();
+        if (ObjectUtils.isNotNull(getPurapDocumentIdentifier()) && ((ObjectUtils.isNull(documentBusinessObject)) || ObjectUtils.isNull(((PurchaseOrderDocument)documentBusinessObject).getPurapDocumentIdentifier()))) {    
+            refreshDocumentBusinessObject();
+        } else if(ObjectUtils.isNull(getPurapDocumentIdentifier())) {
+            //needed to keep populate happy
+            documentBusinessObject = new PurchaseOrderDocument();
         }
         return documentBusinessObject;
     }

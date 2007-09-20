@@ -19,6 +19,8 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -284,6 +286,17 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
     public void setAwardedVendorNumber(Long awardedVendorNumber) {
         this.awardedVendorNumber = awardedVendorNumber;
+    }
+
+    /**
+     * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public void populate(HttpServletRequest request) {
+        PurchaseOrderDocument  po = (PurchaseOrderDocument)this.getDocument();
+        //call this to make sure it's refreshed from the database if need be since the populate setter doesn't do that
+        po.getDocumentBusinessObject();
+        super.populate(request);
     }
     
     

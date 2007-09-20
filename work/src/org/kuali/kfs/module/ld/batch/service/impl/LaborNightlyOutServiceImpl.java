@@ -107,7 +107,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
             boolean isSaved = saveAsGLOriginEntry(entry, group);
         }
         
-        laborReportService.generateFeedSummaryReport(group, ReportRegistry.LABOR_FEED_ENTRY_SUMMARY, reportDirectory, runDate);        
+        laborReportService.generateGLSummaryReport(group, ReportRegistry.LABOR_GL_SUMMARY, reportDirectory, runDate);        
     }
     
     /*

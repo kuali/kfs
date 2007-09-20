@@ -287,7 +287,9 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         Map<Transaction, List<Message>> errorMap = new HashMap<Transaction, List<Message>>();
 
         Collection<LaborOriginEntry> entries = laborOriginEntryService.getConsolidatedEntryCollectionByGroup(validGroup);
-        laborReportService.generateInputSummaryReport(validGroup, ReportRegistry.LABOR_POSTER_GL_SUMMARY_INPUT, reportsDirectory, runDate);
+        
+        // disabled according to the request in KULLAB-491
+        // laborReportService.generateInputSummaryReport(validGroup, ReportRegistry.LABOR_POSTER_GL_SUMMARY_INPUT, reportsDirectory, runDate);
 
         int numberOfOriginEntries = laborOriginEntryService.getCountOfEntriesInSingleGroup(validGroup);
         int numberOfSelectedOriginEntry = 0;

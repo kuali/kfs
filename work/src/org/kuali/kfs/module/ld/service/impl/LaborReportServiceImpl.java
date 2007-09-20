@@ -187,7 +187,7 @@ public class LaborReportServiceImpl implements LaborReportService {
      * @see org.kuali.module.labor.service.LaborReportService#generateFeedSummaryReport(org.kuali.module.gl.bo.OriginEntryGroup,
      *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
      */
-    public void generateFeedSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+    public void generateGLSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         LOG.info("generateFeedSummaryReport() started");
         
         List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();

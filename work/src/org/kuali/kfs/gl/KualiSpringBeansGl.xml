@@ -607,9 +607,6 @@
 		<property name="originEntryLiteService">
 			<ref bean="originEntryLiteService" />
 		</property>
-		<property name="scrubberGroupService">
-			<ref bean="glScrubberGroupService" />
-		</property>
 	</bean>
 
 	<bean id="scrubberValidator" class="org.kuali.module.gl.service.impl.ScrubberValidatorImpl">
@@ -1614,12 +1611,6 @@
 	<bean id="glRunDateService" class="org.kuali.module.gl.service.impl.RunDateServiceImpl">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService"/>
-		</property>
-	</bean>
-	
-	<bean id="glScrubberGroupService" class="org.kuali.module.gl.service.impl.scrubber.ScrubberGroupServiceImpl">
-		<property name="originEntryGroupService">
-			<ref bean="originEntryGroupService" />
 		</property>
 	</bean>
 </beans>

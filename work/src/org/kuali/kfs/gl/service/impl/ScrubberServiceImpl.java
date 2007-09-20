@@ -15,6 +15,8 @@
  */
 package org.kuali.module.gl.service.impl;
 
+import java.util.Iterator;
+
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -32,6 +34,7 @@ import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.OriginEntryableLookupService;
 import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.RunDateService;
+import org.kuali.module.gl.service.ScrubberGroupService;
 import org.kuali.module.gl.service.ScrubberProcessObjectCodeOverride;
 import org.kuali.module.gl.service.ScrubberService;
 import org.kuali.module.gl.service.ScrubberValidator;
@@ -71,6 +74,7 @@ public class ScrubberServiceImpl implements ScrubberService {
 
         ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService);
         sp.setReferenceLookup(SpringContext.getBean(OriginEntryableLookupService.class));
+        sp.setScrubberGroupService(scrubberGroupService);
         sp.scrubGroupReportOnly(group,documentNumber);
         sp.setReferenceLookup(null);
     }
@@ -87,6 +91,7 @@ public class ScrubberServiceImpl implements ScrubberService {
 
         ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService);
         sp.setReferenceLookup(SpringContext.getBean(OriginEntryableLookupService.class));
+        sp.setScrubberGroupService(scrubberGroupService);
         sp.scrubEntries();
         sp.setReferenceLookup(null);
         LOG.fatal("before scrub commit" + System.currentTimeMillis());
@@ -100,6 +105,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         // this service is especially developed to support collector scrubbing, demerger, and report generation
         ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, overrideOriginEntryService, overrideOriginEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService);
         sp.setReferenceLookup(SpringContext.getBean(OriginEntryableLookupService.class));
+        sp.setScrubberGroupService(scrubberGroupService);
         ScrubberStatus result = sp.scrubCollectorBatch(batch, collectorReportData);
         sp.setReferenceLookup(null);
         return result;
@@ -173,5 +179,35 @@ public class ScrubberServiceImpl implements ScrubberService {
         this.originEntryLiteService = originEntryLiteService;
     }
     
+    private ScrubberGroupService scrubberGroupService;
     
+    public void warrensTest() {
+        OriginEntryGroup group = originEntryGroupService.createGroup(new java.sql.Date(System.currentTimeMillis()), "COLL", false, false, false);
+        System.out.println("\ngroup COLL " + group.getId() + " should exist in the DB.");
+        
+        OriginEntryGroup testGroup = originEntryGroupService.getExactMatchingEntryGroup(11946);
+        Iterator entries = originEntryLiteService.getEntriesByGroup(testGroup);
+        try {
+            scrubberGroupService.fail(entries);
+        }
+        catch (RuntimeException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        try {
+            scrubberGroupService.succeed(entries);
+        }
+        catch (RuntimeException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public ScrubberGroupService getScrubberGroupService() {
+        return scrubberGroupService;
+    }
+
+    public void setScrubberGroupService(ScrubberGroupService scrubberGroupService) {
+        this.scrubberGroupService = scrubberGroupService;
+    }
 }

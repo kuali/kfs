@@ -32,6 +32,7 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -46,7 +47,6 @@ import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorContract;
-import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.PhoneNumberService;
 import org.kuali.module.vendor.service.VendorService;
 
@@ -379,5 +379,18 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             item.getSourceAccountingLines().remove(accountIndex);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * This method sets the line for account distribution
+     * @param accountIndex
+     * @param purchasingAccountsPayableForm
+     * @return
+     */
+    protected SourceAccountingLine customAccountRetrieval(int accountIndex, PurchasingAccountsPayableFormBase purchasingAccountsPayableForm) {
+        PurchasingFormBase purchasingForm = (PurchasingFormBase)purchasingAccountsPayableForm;
+        SourceAccountingLine line;
+        line = (SourceAccountingLine) ObjectUtils.deepCopy(purchasingForm.getAccountDistributionsourceAccountingLines().get(accountIndex));
+        return line;
     }
 }

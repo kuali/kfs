@@ -218,16 +218,28 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         String[] indexes = getSelectedLineForAccounts(request);
         int itemIndex = Integer.parseInt(indexes[0]);
         int accountIndex = Integer.parseInt(indexes[1]);
-        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingAccountsPayableFormBase purchasingAccountsPayableForm = (PurchasingAccountsPayableFormBase) form;
         SourceAccountingLine line;
         if (itemIndex == -2) {
-            line = (SourceAccountingLine) ObjectUtils.deepCopy(purchasingForm.getAccountDistributionsourceAccountingLines().get(accountIndex));
+            
+            line = customAccountRetrieval(accountIndex, purchasingAccountsPayableForm);
         }
         else {
-            PurApItem item = (PurApItem) ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItem((itemIndex));
+            PurApItem item = (PurApItem) ((PurchasingAccountsPayableDocument) purchasingAccountsPayableForm.getDocument()).getItem((itemIndex));
             line = (SourceAccountingLine) ObjectUtils.deepCopy(item.getSourceAccountingLines().get(accountIndex));
         }
         return line;
+    }
+
+    /**
+     * This method does custom processing on accounting lines
+     * @param accountIndex
+     * @param purchasingAccountsPayableForm
+     * @return
+     */
+    protected SourceAccountingLine customAccountRetrieval(int accountIndex, PurchasingAccountsPayableFormBase purchasingAccountsPayableForm) {
+        //default impl returns null
+        return null;
     }
 
     /**

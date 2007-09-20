@@ -65,8 +65,8 @@ public class PurapParameterConstants {
 
         // ACCOUNTS PAYABLE DOCUMENT
         public static final String WORKGROUP_ACCOUNTS_PAYABLE = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "WORKGROUP.ACCOUNTS_PAYABLE";
-        //TODO PURAP: need an accounts payable supervisor group
-        public static final String WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR = WORKGROUP_ACCOUNTS_PAYABLE;
+        //accounts payable supervisor group
+        public static final String WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "WORKGROUP.ACCOUNTS_PAYABLE_SUPERVISOR";
     }
     
     public static class WorkflowParameters {

@@ -1638,5 +1638,5 @@ public class ScrubberProcess {
         this.scrubberGroupService = scrubberGroupService;
     }
     
-    public static final int TRANS_SIZE = 100;
+    public static final int TRANS_SIZE = 10000;
 }

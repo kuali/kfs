@@ -19,6 +19,7 @@ import static org.kuali.kfs.KFSConstants.ACCOUNTING_LINE_ERRORS;
 import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
 import static org.kuali.kfs.KFSConstants.ZERO;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_BALANCE_CONSIDERING_SOURCE_AND_TARGET_AMOUNTS;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_PC_TRANSACTION_TOTAL_ACCTING_LINE_TOTAL_NOT_EQUAL;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_ZERO_AMOUNT;
 import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.ACCOUNT_NUMBER_GLOBAL_RESTRICTION_PARM_NM;
 import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.FUNCTION_CODE_GLOBAL_RESTRICTION_PARM_NM;
@@ -45,6 +46,7 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
@@ -240,7 +242,41 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
             GlobalVariables.getErrorMap().putError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_BALANCE_CONSIDERING_SOURCE_AND_TARGET_AMOUNTS, new String[] { sourceTotal.toString(), targetTotal.toString() });
         }
 
+        List<ProcurementCardTransactionDetail> pcTransactionEntries = pcDocument.getTransactionEntries();
+        
+        for(ProcurementCardTransactionDetail pcTransactionDetail : pcTransactionEntries) {
+            isValid &= isTransactionBalanceValid(pcTransactionDetail);
+        }
+        
         return isValid;
+    }
+    
+    /**
+     * 
+     * This method...
+     * @param pcTransaction
+     * @return
+     */
+    protected boolean isTransactionBalanceValid(ProcurementCardTransactionDetail pcTransaction) {
+        boolean inBalance = true;
+        KualiDecimal transAmount = pcTransaction.getTransactionTotalAmount();
+        List<ProcurementCardTargetAccountingLine> targetAcctingLines = pcTransaction.getTargetAccountingLines();
+        
+        KualiDecimal targetLineTotal = new KualiDecimal(0.00);
+        
+        for(TargetAccountingLine targetLine : targetAcctingLines) {
+            targetLineTotal = targetLineTotal.add(targetLine.getAmount());
+        }
+        
+        // perform absolute value check because current system has situations where amounts may be opposite in sign
+        // This will no longer be necessary following completion of KULFDBCK-1290
+        inBalance = transAmount.abs().equals(targetLineTotal.abs());
+        
+        if(!inBalance) {
+            GlobalVariables.getErrorMap().putError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_PC_TRANSACTION_TOTAL_ACCTING_LINE_TOTAL_NOT_EQUAL, new String[] {transAmount.toString(), targetLineTotal.toString()});
+        }
+        
+        return inBalance;
     }
 
     /**

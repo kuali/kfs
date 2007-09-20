@@ -653,7 +653,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         PaymentRequestDocument preq = (PaymentRequestDocument)document;
         //no errors for now since we are not showing the button if they can't cancel, if that changes we need errors
         //also this is different than CreditMemo even though the rules are almost identical we should merge and have one consistent way to do this
-        PaymentRequestDocumentActionAuthorizer preqAuth = new PaymentRequestDocumentActionAuthorizer(preq,GlobalVariables.getUserSession().getUniversalUser());
+        PaymentRequestDocumentActionAuthorizer preqAuth = new PaymentRequestDocumentActionAuthorizer(preq);
         valid = valid &= preqAuth.canCancel();
         //TODO: ckirschenman - error here!
         return valid;

@@ -66,7 +66,7 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
         Map editModeMap = super.getEditMode(document, user, sourceAccountingLines, targetAccountingLines);
         PaymentRequestDocument preq = (PaymentRequestDocument) document;
 
-        PaymentRequestDocumentActionAuthorizer preqDocAuth  = new PaymentRequestDocumentActionAuthorizer(preq,user); 
+        PaymentRequestDocumentActionAuthorizer preqDocAuth  = new PaymentRequestDocumentActionAuthorizer(preq); 
         
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
 
@@ -138,7 +138,7 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
                 flags.setCanDisapprove(false);
             }
 
-            PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument, user);
+            PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument);
 
             flags.setCanApprove(preqDocAuth.canApprove());
             flags.setCanCancel(preqDocAuth.canCancel());

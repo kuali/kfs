@@ -17,6 +17,7 @@ package org.kuali.module.purap.document.authorization;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
@@ -42,7 +43,9 @@ public class PaymentRequestDocumentActionAuthorizer {
     private boolean fiscalOfficerDelegateUser;
     private boolean approver;
         
-    public PaymentRequestDocumentActionAuthorizer(PaymentRequestDocument preq, UniversalUser user){
+    public PaymentRequestDocumentActionAuthorizer(PaymentRequestDocument preq){
+        
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         
         //doc indicators
         this.docStatus = preq.getStatusCode();        

@@ -408,18 +408,24 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      */
     private String updateStatusByNode(String currentNodeName, CreditMemoDocument cmDoc) {
         // update the status on the document
-        NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(currentNodeName);
+
         String cancelledStatusCode = "";
-        if (ObjectUtils.isNotNull(currentNode)) {
-            cancelledStatusCode = currentNode.getDisapprovedStatusCode();
-            if (StringUtils.isNotBlank(cancelledStatusCode)) {
-                purapService.updateStatusAndStatusHistory(cmDoc, cancelledStatusCode);
-                saveDocumentWithoutValidation(cmDoc);
-                return cancelledStatusCode;
-            } else {
-             // TODO (KULPURAP-1579: ckirshenman/hjs) delyea - what to do in a cancel where no status to set exists?
-                LOG.warn("No status found to set for document being disapproved in node '" + currentNodeName + "'");
+        if(StringUtils.isEmpty(currentNodeName)) {
+            cancelledStatusCode = PurapConstants.CreditMemoStatuses.CANCELLED_POST_AP_APPROVE;
+        } else {
+            NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(currentNodeName);
+            if(ObjectUtils.isNotNull(currentNode)) {
+                cancelledStatusCode = currentNode.getDisapprovedStatusCode();
             }
+        }
+
+        if (StringUtils.isNotBlank(cancelledStatusCode)) {
+            purapService.updateStatusAndStatusHistory(cmDoc, cancelledStatusCode);
+            saveDocumentWithoutValidation(cmDoc);
+            return cancelledStatusCode;
+        } else {
+            // TODO (KULPURAP-1579: ckirshenman/hjs) delyea - what to do in a cancel where no status to set exists?
+            LOG.warn("No status found to set for document being disapproved in node '" + currentNodeName + "'");
         }
         return cancelledStatusCode;
     }

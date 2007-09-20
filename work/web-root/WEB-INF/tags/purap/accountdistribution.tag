@@ -19,6 +19,7 @@
 	description="The DataDictionary entry containing attributes for this row's fields."%>
 
 <html:hidden property="hideDistributeAccounts" />
+<c:set var="amendmentEntry"	value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 
 <br />
 <c:if test="${(fullEntryMode or amendmentEntry)}">

@@ -39,6 +39,7 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.rule.event.AddPurchasingAccountsPayableItemEvent;
@@ -308,10 +309,15 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             if (purchasingForm.getAccountDistributionsourceAccountingLines().size() > 0) {
                 for (PurApItem item : ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems()) {
                     BigDecimal zero = new BigDecimal(0);
+                    boolean itemIsActive = true;
+                    if (item instanceof PurchaseOrderItem) {
+                        // if item is PO item... only validate active items
+                        itemIsActive = ((PurchaseOrderItem)item).isItemActiveIndicator();
+                    }
                     // We should be distributing accounting lines to above the line items all the time;
                     // but only to the below the line items when there is a unit cost.
                     boolean unitCostNotZeroForBelowLineItems = item.getItemType().isItemTypeAboveTheLineIndicator() ? true : item.getItemUnitPrice() != null && zero.compareTo(item.getItemUnitPrice()) < 0;
-                    if (item.getSourceAccountingLines().size() == 0 && unitCostNotZeroForBelowLineItems) {
+                    if (item.getSourceAccountingLines().size() == 0 && unitCostNotZeroForBelowLineItems && itemIsActive) {
                         item.getSourceAccountingLines().addAll(purchasingForm.getAccountDistributionsourceAccountingLines());
                     }
                 }

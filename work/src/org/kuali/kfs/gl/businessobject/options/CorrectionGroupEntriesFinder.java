@@ -25,6 +25,7 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.KFSConstants;
 
 /**
  * This class returns list of payment method key value pairs.
@@ -36,7 +37,8 @@ public class CorrectionGroupEntriesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List activeLabels = new ArrayList();
-
+        
+        
         OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
 
         Collection<OriginEntryGroup> groupList = originEntryGroupService.getAllOriginEntryGroup();
@@ -46,8 +48,13 @@ public class CorrectionGroupEntriesFinder extends KeyValuesBase {
         OEGTypeComparator oegTypeComparator = new OEGTypeComparator();
         Collections.sort(sortedGroupList, oegTypeComparator);
 
+        String groupException ="";
+        for(int i=0;i<KFSConstants.LLCP_GROUP_FILTER_EXCEPTION.length;i++) {
+            groupException+=KFSConstants.LLCP_GROUP_FILTER_EXCEPTION[i] + " ";
+        }
+        
         for (OriginEntryGroup oeg : sortedGroupList) {
-            if (!oeg.getSourceCode().startsWith("L")){
+            if (!oeg.getSourceCode().startsWith("L") || groupException.contains(oeg.getSourceCode())){
                 activeLabels.add(new KeyLabelPair(oeg.getId().toString(), oeg.getName()));
             }
         }

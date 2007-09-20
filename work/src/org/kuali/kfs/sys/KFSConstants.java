@@ -194,6 +194,7 @@ public class KFSConstants {
     public static final String LABOR_MODIFIED_INQUIRY_ACTION = "laborModifiedInquiry.do";
     public static final String EMPLOYEE_FUNDING_INQUIRY_ACTION = "employeeFundingInquiry.do";    
     public static final String OVERRIDE_KEYS = "overrideKeys";
+    public static final String[] LLCP_GROUP_FILTER_EXCEPTION = new String[]{ "LLGL" };
 
     /**
      * This value denotes that a max length has not been defined for a given lookup results field

@@ -1035,13 +1035,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void setPurchaseOrderNotes(String purchaseOrderNotes) {
         this.purchaseOrderNotes = purchaseOrderNotes;
     }
-
-
-    @Override
-    public List<PaymentRequestView> getRelatedPaymentRequestViews() {
-        return null;
-    }
-    
+   
     public String getRecurringPaymentTypeCode() {
         return recurringPaymentTypeCode;
     }

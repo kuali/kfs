@@ -269,12 +269,12 @@
             <c:choose>
                 <c:when test="${not empty KualiForm.forcedLookupOptionalFields[currentField]}">
                     <c:set var="key" value="${fn:split(KualiForm.forcedLookupOptionalFields[currentField], &quot;,&quot;)[0]}"/>
-                    <c:set var="boClassSimpleName" value="${fn:split(KualiForm.forcedLookupOptionalFields[currentField], &quot;,&quot;)[1]}"/>
+                    <c:set var="boClassFullName" value="${fn:split(KualiForm.forcedLookupOptionalFields[currentField], &quot;,&quot;)[1]}"/>
                     
  			        <fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
 				        accountingLine="${accountingLine}"
-				        baselineAccountingLine="${baselineAccountingLine}"
-                        boClassSimpleName="${boClassSimpleName}"
+				        baselineAccountingLine="${baselineAccountingLine}" lookup="true"
+                        boClassFullName="${boClassFullName}" 
 				        field="${currentField}" attributes="${accountingLineAttributes}"
                         lookupUnkeyedFieldConversions="${currentField}:${accountingLine}.${key}"
 				        readOnly="${readOnly||!(empty forcedReadOnlyFields[currentField])}" displayHidden="${displayHidden}" />
@@ -375,29 +375,37 @@
 		
 		<tr>
 		    <c:forTokens items="${optionalFields}" delims=" ," var="currentField" begin="${currentRowCount*dataColumnCount}" end="${(currentRowCount+1)*dataColumnCount -1}">
-			    <%-- TODO: identify the reference class of the current field so that a quickfinder can be enabled--%>
-			    <c:set var="sourceAttribute" value="" />
-			   	<c:choose>
-				    <c:when test="${not empty sourceAttribute }">
-					    <fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
-						accountingLine="${accountingLine}"
-						baselineAccountingLine="${baselineAccountingLine}"
-						field="${currentField}" 
-						attributes="${accountingLineAttributes}" lookup="true" inquiry="true"
-						boClassFullName="${sourceAttribute}"
-						readOnly="${readOnly&&(empty editableFields[currentField])}"
-						displayHidden="${displayHidden}" />
-				    </c:when>
-				    <c:otherwise>
-						<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
-							accountingLine="${accountingLine}"
-							baselineAccountingLine="${baselineAccountingLine}"
-							field="${currentField}" attributes="${accountingLineAttributes}"
-							readOnly="${readOnly}" displayHidden="${displayHidden}" />
-							
-					</c:otherwise>
-				</c:choose>
+              <c:choose>
+                 <c:when test="${not empty KualiForm.forcedLookupOptionalFields[currentField]}">
+                    <c:set var="lookupField" value="${fn:split(KualiForm.forcedLookupOptionalFields[currentField], &quot;;&quot;)[0]}"/>
+                    <c:set var="boClassFullName" value="${fn:split(KualiForm.forcedLookupOptionalFields[currentField], &quot;;&quot;)[1]}"/>
+                    <c:set var="mappedFields" value="${fn:split(KualiForm.forcedLookupOptionalFields[currentField], &quot;;&quot;)[2]}"/>
+					
+                    <c:forTokens var="mappedField" items="${mappedFields}" delims=",">
+					   <c:set var="conversionField" value="${fn:split(mappedField, &quot;:&quot;)[0]}"/>
+                       <c:set var="lineField" value="${fn:split(mappedField, &quot;:&quot;)[1]}"/>
+                       <c:set var="lookupParameters" value="${lookupParameters}${accountingLine}.${lineField}:${conversionField},"/>
+                       <c:set var="fieldConversions" value="${fieldConversions}${conversionField}:${accountingLine}.${lineField},"/>
+                    </c:forTokens>
+                    
+ 			        <fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
+				        accountingLine="${accountingLine}"
+				        baselineAccountingLine="${baselineAccountingLine}" lookup="true"
+                        boClassFullName="${boClassFullName}" 
+				        field="${currentField}" conversionField="${lookupField}" attributes="${accountingLineAttributes}"
+                        lookupUnkeyedFieldConversions="${fieldConversions}" lookupParameters="${lookupParameters}"
+				        readOnly="${readOnly||!(empty forcedReadOnlyFields[currentField])}" displayHidden="${displayHidden}" />
+				  </c:when>
+				  <c:otherwise>
+					 <fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
+						 accountingLine="${accountingLine}"
+					     baselineAccountingLine="${baselineAccountingLine}"
+						 field="${currentField}" attributes="${accountingLineAttributes}"
+						 readOnly="${readOnly}" displayHidden="${displayHidden}" />
+				  </c:otherwise>
+			</c:choose>
 			</c:forTokens>
+			
 			<c:if test="${currentRowCount == (numOfNewRows - 1)}">
 				<fin:accountingLineActionDataCell
 					dataCellCssClass="${dataCellCssClass}" actionGroup="${actionGroup}"

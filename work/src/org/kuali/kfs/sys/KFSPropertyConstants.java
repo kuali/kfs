@@ -934,6 +934,7 @@ public class KFSPropertyConstants {
     public static final String PERSON_NAME_SUFFIX_TEXT = "personNameSuffixText";
     public static final String PERSON_ORIGINATION = "personOrigination";
     public static final String PERSON_ORIGINATION_CODE = "personOriginationCode";
+    public static final String PERSON_PAYROLL_IDENTIFIER = "personPayrollIdentifier";
     public static final String PERSON_POST_DOCTORAL_INDICATOR = "personPostDoctoralIndicator";
     public static final String PERSON_PROJECT_DIRECTORY_INDICATOR = "personProjectDirectoryIndicator";
     public static final String PERSON_SALARY_JUSTIFICATION_TEXT = "personSalaryJustificationText";

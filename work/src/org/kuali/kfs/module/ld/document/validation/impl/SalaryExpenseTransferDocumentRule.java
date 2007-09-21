@@ -92,11 +92,9 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
             return false;
         }
 
-        AccountingDocument accountingDocument = (AccountingDocument) document;
         // ensure the employee ids in the source accounting lines are same
-        // if (!hasSameEmployee(accountingDocument)) {
+        AccountingDocument accountingDocument = (AccountingDocument) document;
         if (!hasAccountingLinesSameEmployee(accountingDocument)) {
-            // reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_EMPLOYEE_ID_NOT_SAME);
             return false;
         }
 
@@ -117,12 +115,6 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
             return false;
         }
 
-        // ensure the employee ids in the source accounting lines are same
-        // if (!hasSameEmployee(accountingDocument)) {
-        /*
-         * if (!hasAccountingLinesSameEmployee(accountingDocument)) { //reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES,
-         * KFSKeyConstants.Labor.ERROR_EMPLOYEE_ID_NOT_SAME); return false; }
-         */
         return isValid;
     }
 

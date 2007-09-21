@@ -81,7 +81,7 @@
 			<ref bean="kualiRuleService" />
 		</property>	
 	</bean>
-	
+
     <bean id="laborGeneralLedgerEntryService" class="org.kuali.module.labor.service.impl.LaborGeneralLedgerEntryServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
@@ -459,13 +459,13 @@
 		<property name="steps">
 			<list>
 				<ref bean="laborNightlyOutStep"/>
-				<ref bean="clearLaborPendingStep"/>
 				<ref bean="createLaborBackupGroupStep"/>
 				<ref bean="laborScrubberStep"/>
 				<ref bean="laborPosterStep"/>
 				<ref bean="laborBalanceSummaryStep"/>
 				<ref bean="laborFeedStep" />
-				<ref bean="laborClearGLEntryStep"/>		
+				<ref bean="laborClearGLEntryStep"/>	
+				<ref bean="clearLaborPendingStep"/>
 			</list>
 		</property>
 	</bean>
@@ -493,7 +493,7 @@
     <bean id="laborEncumbranceTransactionGenerator" class="org.kuali.module.labor.batch.payrollaccrual.impl.EncumbranceTransactionGenerator"/> 
     <bean id="laborDisencumbranceTransactionGenerator" class="org.kuali.module.labor.batch.payrollaccrual.impl.DisencumbranceTransactionGenerator"/>    
         
-    <!-- Section 4: Spring Bean for Balance Inquiry -->   	
+    <!-- Section 4: Spring Bean for Balance Inquiry -->  
 	<bean id="laborPendingEntryLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="laborPendingEntryLookupableHelperService" />
@@ -524,7 +524,7 @@
 		</property>
     </bean> 
     
-    <bean id="laborLedgerBalanceLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LedgerBalanceLookupableHelperServiceImpl" singleton="false">
+    	<bean id="laborLedgerBalanceLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LedgerBalanceLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -864,7 +864,7 @@
 		<property name="laborDao">
 			<ref bean="laborDao" />
 		</property>		
-	</bean>   	
+	</bean>    	
 		
 	<bean id="expenseTransferAccountingLineService" class="org.kuali.kfs.service.impl.AccountingLineServiceImpl">
 		<property name="accountingLineDao">

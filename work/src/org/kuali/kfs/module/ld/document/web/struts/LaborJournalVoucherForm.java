@@ -15,16 +15,25 @@
  */
 package org.kuali.module.labor.web.struts.form;
 
+import java.util.Map;
+
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.module.financial.web.struts.form.JournalVoucherForm;
+import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.LaborConstants.JournalVoucherOffsetType;
+import org.kuali.module.labor.bo.PositionData;
 import org.kuali.module.labor.document.LaborJournalVoucherDocument;
 
+/**
+ * Action form for the Labor Journal Voucher Document.
+ */
 public class LaborJournalVoucherForm extends JournalVoucherForm {
-    
     private String originalOffsetTypeCode = JournalVoucherOffsetType.NO_OFFSET.typeCode;
-    
+
     /**
      * Constructs a JournalVoucherForm instance.
      */
@@ -34,7 +43,7 @@ public class LaborJournalVoucherForm extends JournalVoucherForm {
         setSelectedBalanceType(new BalanceTyp());
         setOriginalBalanceType("");
     }
-    
+
     /**
      * This method returns the journal voucher document associated with this form.
      * 
@@ -54,7 +63,8 @@ public class LaborJournalVoucherForm extends JournalVoucherForm {
     }
 
     /**
-     * Gets the originalOffsetTypeCode attribute. 
+     * Gets the originalOffsetTypeCode attribute.
+     * 
      * @return Returns the originalOffsetTypeCode.
      */
     public String getOriginalOffsetTypeCode() {
@@ -63,9 +73,27 @@ public class LaborJournalVoucherForm extends JournalVoucherForm {
 
     /**
      * Sets the originalOffsetTypeCode attribute value.
+     * 
      * @param originalOffsetTypeCode The originalOffsetTypeCode to set.
      */
     public void setOriginalOffsetTypeCode(String originalOffsetTypeCode) {
         this.originalOffsetTypeCode = originalOffsetTypeCode;
+    }
+
+    /**
+     * Configure map for optional accounting line quickfinders.
+     * 
+     * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#getForcedLookupOptionalFields()
+     */
+    public Map getForcedLookupOptionalFields() {
+        Map retval = super.getForcedLookupOptionalFields();
+
+        String lookupField = KFSPropertyConstants.POSITION_NUMBER;
+        retval.put(KFSPropertyConstants.POSITION_NUMBER, lookupField + ";" + PositionData.class.getName());
+
+        lookupField = KFSPropertyConstants.PERSON_PAYROLL_IDENTIFIER;
+        retval.put(KFSPropertyConstants.EMPLID, lookupField + ";" + UniversalUser.class.getName());
+        
+        return retval;
     }
 }

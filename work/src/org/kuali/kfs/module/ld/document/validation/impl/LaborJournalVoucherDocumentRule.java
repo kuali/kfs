@@ -15,21 +15,78 @@
  */
 package org.kuali.module.labor.rules;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.module.chart.bo.FundGroup;
 import org.kuali.module.financial.rules.JournalVoucherDocumentRule;
 import org.kuali.module.labor.bo.LaborJournalVoucherDetail;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
+import org.kuali.module.labor.bo.PositionData;
 import org.kuali.module.labor.document.LaborJournalVoucherDocument;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule;
 import org.kuali.module.labor.util.ObjectUtil;
 
+/**
+ * Business rule class for the Labor Journal Voucher Document.
+ */
 public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule implements GenerateLaborLedgerPendingEntriesRule<LaborLedgerPostingDocument> {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborJournalVoucherDocumentRule.class);
+
+    /**
+     * @see org.kuali.module.financial.rules.JournalVoucherDocumentRule#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.kfs.bo.AccountingLine)
+     */
+    @Override
+    public boolean processCustomAddAccountingLineBusinessRules(AccountingDocument document, AccountingLine accountingLine) {
+        boolean isValid = super.processCustomAddAccountingLineBusinessRules(document, accountingLine);
+
+        LaborJournalVoucherDetail laborVoucherAccountingLine = (LaborJournalVoucherDetail) accountingLine;
+
+        // position code existence check
+        String positionNumber = laborVoucherAccountingLine.getPositionNumber();
+        if (!StringUtils.isBlank(positionNumber) && !KFSConstants.getDashPositionNumber().equals(positionNumber)) {
+            Map criteria = new HashMap();
+            criteria.put(KFSPropertyConstants.POSITION_NUMBER, positionNumber);
+
+            Collection positionMatches = SpringContext.getBean(BusinessObjectService.class).findMatching(PositionData.class, criteria);
+            if (positionMatches == null || positionMatches.isEmpty()) {
+                String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(PositionData.class.getName()).getAttributeDefinition(KFSPropertyConstants.POSITION_NUMBER).getLabel();
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.POSITION_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
+                isValid = false;
+            }
+        }
+
+        // emplid existence check
+        String emplid = laborVoucherAccountingLine.getEmplid();
+        if (!StringUtils.isBlank(emplid) && !KFSConstants.getDashEmplId().equals(emplid)) {
+            Map criteria = new HashMap();
+            criteria.put(KFSPropertyConstants.PERSON_PAYROLL_IDENTIFIER, emplid);
+
+            Collection emplidMatches = SpringContext.getBean(UniversalUserService.class).findUniversalUsers(criteria);
+            if (emplidMatches == null || emplidMatches.isEmpty()) {
+                String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(LaborJournalVoucherDetail.class.getName()).getAttributeDefinition(KFSPropertyConstants.EMPLID).getLabel();
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.EMPLID, KFSKeyConstants.ERROR_EXISTENCE, label);
+                isValid = false;
+            }
+        }
+
+        return isValid;
+    }
 
     /**
      * @see org.kuali.core.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.AccountingDocument,
@@ -47,33 +104,35 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
     public boolean processGenerateLaborLedgerPendingEntries(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         LOG.debug("processGenerateLaborLedgerPendingEntries() started");
 
-        return addLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, new LaborLedgerPendingEntry());
-    }
-    
-    private boolean addLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, LaborLedgerPendingEntry pendingLedgerEntry) {
-        LOG.debug("processExplicitGeneralLedgerPendingEntry() started");
-        
-        try{
-            LaborJournalVoucherDocument laborJournalVoucherDocument = (LaborJournalVoucherDocument)accountingDocument;
-            
+        try {
+            LaborJournalVoucherDocument laborJournalVoucherDocument = (LaborJournalVoucherDocument) accountingDocument;
+            LaborLedgerPendingEntry pendingLedgerEntry = new LaborLedgerPendingEntry();
+
             // populate the explicit entry
             ObjectUtil.buildObject(pendingLedgerEntry, accountingLine);
             populateExplicitGeneralLedgerPendingEntry(laborJournalVoucherDocument, accountingLine, sequenceHelper, pendingLedgerEntry);
-    
+
             // apply the labor JV specific information
             customizeExplicitGeneralLedgerPendingEntry(laborJournalVoucherDocument, accountingLine, pendingLedgerEntry);
             pendingLedgerEntry.setFinancialDocumentTypeCode(laborJournalVoucherDocument.getOffsetTypeCode());
-    
-            // add the new explicit entry to the document now
-            laborJournalVoucherDocument.getLaborLedgerPendingEntries().add(pendingLedgerEntry);
             
-            // increment the sequence counter
+            if (StringUtils.isBlank(((LaborJournalVoucherDetail) accountingLine).getEmplid())){
+                pendingLedgerEntry.setEmplid(KFSConstants.getDashEmplId());
+            }
+            
+            if (StringUtils.isBlank(((LaborJournalVoucherDetail) accountingLine).getPositionNumber())) {
+                pendingLedgerEntry.setPositionNumber(KFSConstants.getDashPositionNumber());
+            }
+
+            laborJournalVoucherDocument.getLaborLedgerPendingEntries().add(pendingLedgerEntry);
             sequenceHelper.increment();
         }
-        catch(Exception e){
+        catch (Exception e) {
             LOG.error("Cannot add a Labor Ledger Pending Entry into the list");
             return false;
-        }        
+        }
+        
         return true;
     }
+
 }

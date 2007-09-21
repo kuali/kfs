@@ -73,7 +73,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
             // ensure the accounts in source accounting lines are same
             if (!hasSameAccount(accountingDocument, accountingLine)) {
                 reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_SAME);
-                return false;
+                isValid = false;
             }
         }
         

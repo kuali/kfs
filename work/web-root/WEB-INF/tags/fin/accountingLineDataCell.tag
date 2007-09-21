@@ -123,17 +123,6 @@
 <c:if test="${empty lookupParameters}">
     <c:set var="lookupParameters" value=""/>
 </c:if>
-<c:choose>
-	<c:when test="${not empty boClassFullName}">
-		<c:set var="boClassName" value="${boClassFullName}"/>
-	</c:when>
-    <c:when test="${empty boPackageName}">
-        <c:set var="boClassName" value="org.kuali.module.chart.bo.${boClassSimpleName}"/>
-    </c:when>
-    <c:otherwise>
-        <c:set var="boClassName" value="${boPackageName}.${boClassSimpleName}"/>
-    </c:otherwise>
-</c:choose>
 <c:set var="rowSpan" value="${empty rowSpan ? 1 : rowSpan}"/>
 <c:set var="useXmlHttp" value="${(!readOnly) && (!empty detailFunction)}" />
 <%-- test to see if we are dealing with the extra JV fields here --%>
@@ -191,13 +180,19 @@
 
     <%-- lookup control --%>
     <c:if test="${!readOnly && lookup}">
-    	<c:choose>
-        <c:when test="${not empty boClassFullName}">
-            <kul:lookup boClassName="${boClassName}" fieldLabel="${attributes[field].shortLabel}" />        	
-        </c:when>
-        <c:otherwise>
-            <%-- todo: this lookup to field conversion swapping in accountingLineLookup.tag --%>
-            <%-- c:set var="lookupParameters" value="${lookupParameters}"/ --%>
+        <c:choose>
+	      <c:when test="${not empty boClassFullName}">
+		    <c:set var="boClassName" value="${boClassFullName}"/>
+	      </c:when>
+          <c:when test="${empty boPackageName}">
+           <c:set var="boClassName" value="org.kuali.module.chart.bo.${boClassSimpleName}"/>
+          </c:when>
+          <c:otherwise>
+            <c:set var="boClassName" value="${boPackageName}.${boClassSimpleName}"/>
+          </c:otherwise>
+        </c:choose>
+        
+
             <c:set var="fieldConversions" value="${lookupUnkeyedFieldConversions}"/>
             <c:forTokens var="key" items="${lookupOrInquiryKeys}" delims=",">
                 <c:set var="withAccountingLine" value="${accountingLine}.${key}"/>
@@ -207,15 +202,14 @@
                 <c:set var="lookupParameters" value="${lookupParameters}${withAccountingLine}:${key}"/>
                 <c:set var="fieldConversions" value="${fieldConversions}${key}:${withAccountingLine},"/>
             </c:forTokens>
+            
             <kul:lookup
                 boClassName="${boClassName}"
                 fieldConversions="${fieldConversions}${conversionField}:${qualifiedField}"
-                lookupParameters="${lookupParameters}" fieldLabel="${attributes[field].shortLabel}"
-                />
-        </c:otherwise>
-        </c:choose>
+                lookupParameters="${lookupParameters}" fieldLabel="${attributes[field].shortLabel}" />
     </c:if>
 </span>
+
 <c:if test="${!empty baselineAccountingLine}">
     <fin:hiddenAccountingLineField
         accountingLine="${baselineAccountingLine}"
@@ -224,6 +218,7 @@
         displayHidden="${displayHidden}"
         />
 </c:if>
+
 <c:if test="${!empty overrideField}">
 	<c:forTokens var="currentField" items="${overrideField}" delims=","> 
 	    <fin:accountingLineOverrideField

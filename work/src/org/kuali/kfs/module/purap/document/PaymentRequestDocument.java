@@ -27,7 +27,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -40,7 +39,6 @@ import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
@@ -48,7 +46,6 @@ import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.Node
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PaymentRequestStatusHistory;
-import org.kuali.module.purap.bo.PaymentRequestSummaryAccount;
 import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
@@ -60,8 +57,6 @@ import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
-import org.kuali.module.purap.service.impl.AccountsPayableServiceImpl;
-import org.kuali.module.purap.service.impl.PaymentRequestServiceImpl;
 import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
@@ -792,10 +787,9 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         }
         this.setPaymentRequestPayDate(SpringContext.getBean(PaymentRequestService.class).calculatePayDate(this.getInvoiceDate(), this.getVendorPaymentTerms()));
         for (PurchaseOrderItem poi : (List<PurchaseOrderItem>)po.getItems()) {
-            //TODO (KULPURAP-1393: ctk) add this back if we end up building the list of items at every load
-//            if(poi.isItemActiveIndicator()) {
+            if(poi.isItemActiveIndicator()) {
                 this.getItems().add(new PaymentRequestItem(poi,this, expiredOrClosedAccountList));                
-//              }
+              }
         }
         //add missing below the line
         SpringContext.getBean(PurapService.class).addBelowLineItems(this);
@@ -1311,6 +1305,19 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     @Override
     public AccountsPayableDocumentSpecificService getDocumentSpecificService() {
         return (AccountsPayableDocumentSpecificService)SpringContext.getBean(PaymentRequestService.class);
+    }
+    
+    public PaymentRequestItem getPreqItemFromPOItem(PurchaseOrderItem poi) {
+        for (PaymentRequestItem preqItem : (List<PaymentRequestItem>)this.getItems()) {
+            if(preqItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+                if(preqItem.getItemLineNumber().compareTo(poi.getItemLineNumber())==0) {
+                    return preqItem;
+                }
+            } else {
+                return (PaymentRequestItem)SpringContext.getBean(PurapService.class).getBelowTheLineByType(this, poi.getItemType());
+            }
+        }
+        return null;
     }
    
 }

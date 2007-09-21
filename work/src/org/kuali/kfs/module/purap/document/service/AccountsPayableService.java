@@ -58,5 +58,18 @@ public interface AccountsPayableService {
      */
     public void processExpiredOrClosedAccount(PurApAccountingLineBase acctLineBase, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList);
     
+    /**
+     * 
+     * This method calls the cancel related functions
+     * @param apDocument
+     * @param currentNodeName
+     */
     public void cancelAccountsPayableDocument(AccountsPayableDocument apDocument, String currentNodeName);
+    
+    /**
+     * 
+     * This method updates the item based on what's eligible to be payed on po
+     * @param apDocument
+     */
+    public void updateItemList(AccountsPayableDocument apDocument);
 }

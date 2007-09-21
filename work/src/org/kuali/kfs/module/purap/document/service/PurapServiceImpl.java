@@ -40,6 +40,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.OrganizationParameter;
+import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.document.CreditMemoDocument;
@@ -47,6 +48,8 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.LogicContainer;
+import org.kuali.module.purap.service.PaymentRequestService;
+import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.vendor.service.VendorService;
@@ -340,8 +343,10 @@ public class PurapServiceImpl implements PurapService {
         // below code preferable to run in post processing
         else if (purapDocument instanceof PaymentRequestDocument) {
             PaymentRequestDocument paymentRequest = (PaymentRequestDocument)purapDocument;
-            // change PREQ accounts from percents to dollars
-            // TODO Chris - put code here for document to change percents into dollars and any related functions
+            //eliminate unentered items
+            deleteUnenteredItems(paymentRequest);
+            // change PREQ accounts from percents to dollars (FIXME ctk - this won't do anything if we area already considered full entry at this point)
+            SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequest);
             // do GL entries for PREQ creation
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePaymentRequest((PaymentRequestDocument)purapDocument);
             if (paymentRequest.isClosePurchaseOrderIndicator()) {
@@ -349,11 +354,11 @@ public class PurapServiceImpl implements PurapService {
                 // get the po id and get the current po
                 // check the current po: if status is not closed and there is no pending action... route close po as system user
         	}
+            //TODO ctk - David is this save ok here?!?! It seems like my updates don't happen without it
+            SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(paymentRequest);
         }
         // below code preferable to run in post processing
         else if (purapDocument instanceof CreditMemoDocument) {
-            // change CM accounts from percents to dollars
-            // TODO Chris - put code here for document to change percents into dollars and any related functions
             // do GL entries for CM creation
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateCreditMemo((CreditMemoDocument)purapDocument);
             // get the po id and get the current PO
@@ -362,6 +367,20 @@ public class PurapServiceImpl implements PurapService {
         else {
             throw new RuntimeException("Attempted to perform full entry logic for unhandled document type '" + purapDocument.getClass().getName() + "'");
         }
+    }
+
+    /**
+     * This method...
+     * @param paymentRequest
+     */
+    private void deleteUnenteredItems(PaymentRequestDocument paymentRequest) {
+        List<PaymentRequestItem> deletionList = new ArrayList<PaymentRequestItem>();
+        for (PaymentRequestItem preqItem : (List<PaymentRequestItem>)paymentRequest.getItems()) {
+            if(!preqItem.isConsideredEntered()) {
+                deletionList.add(preqItem);
+            }
+        }
+        paymentRequest.getItems().removeAll(deletionList);
     }
     
     public Object performLogicWithFakedUserSession(String requiredUniversalUserPersonUserId, LogicContainer logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception {

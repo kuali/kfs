@@ -109,6 +109,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         AccountsPayableDocument document = (AccountsPayableDocument) kualiDocumentFormBase.getDocument();
         
         SpringContext.getBean(AccountsPayableService.class).generateExpiredOrClosedAccountWarning(document);
+        SpringContext.getBean(AccountsPayableService.class).updateItemList(document);
     }
 
     /**

@@ -970,7 +970,7 @@ public class BalanceForwardRuleHelper {
 
                             // 1316 DISPLAY ' SEQUENTIAL RECORDS WRITTEN = ' SEQ-CHECK-CNT
 
-                            LOG.info("  SEQUENTIAL RECORDS WRITTEN = " + state.getSequenceWriteCount());
+                            LOG.info(" ORIGIN ENTRIES INSERTED = " + state.getSequenceWriteCount());
 
                             // 1317 END-IF
 

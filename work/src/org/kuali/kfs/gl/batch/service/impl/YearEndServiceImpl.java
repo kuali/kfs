@@ -859,7 +859,7 @@ public class YearEndServiceImpl implements YearEndService {
 
                         // 1155 DISPLAY ' SEQUENTIAL RECORDS WRITTEN = ' SEQ-CHECK-CNT.
 
-                        LOG.info(new StringBuffer("  SEQUENTIAL RECORDS WRITTEN = ").append(sequenceCheckCount).toString());
+                        LOG.info(new StringBuffer(" ORIGIN ENTRIES INSERTED = ").append(sequenceCheckCount).toString());
                         persistenceService.clearCache();
 
                     }
@@ -1074,6 +1074,10 @@ public class YearEndServiceImpl implements YearEndService {
             // The helper and this class (YearEndServiceImpl) are heavily dependent upon one
             // another in terms of expected behavior and shared responsibilities.
             balanceForwardRuleHelper.processBalance(balance);
+            
+            if (balanceForwardRuleHelper.getState().getSequenceWriteCount() % 1000 == 0) {
+                persistenceService.clearCache();
+            }
 
         }
 
@@ -1211,6 +1215,11 @@ public class YearEndServiceImpl implements YearEndService {
 
                     }
                 }
+            }
+            
+            if (originEntriesWritten % 1000 == 0) {
+                LOG.info(" ORIGIN ENTRIES INSERTED = " + originEntriesWritten);
+                persistenceService.clearCache();
             }
         }
 

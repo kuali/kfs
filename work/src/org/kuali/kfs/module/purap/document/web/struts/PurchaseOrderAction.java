@@ -730,10 +730,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
         else {
             po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
-            // po =
-            // SpringContext.getBean(PurchaseOrderService.class).updateFlagsAndRoute(kualiDocumentFormBase.getDocument().getDocumentNumber(),
-            // PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, kualiDocumentFormBase.getAnnotation(),
-            // combineAdHocRecipients(kualiDocumentFormBase));
         }
 
         kualiDocumentFormBase.setDocument(po);

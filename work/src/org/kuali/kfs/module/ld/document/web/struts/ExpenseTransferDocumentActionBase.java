@@ -184,6 +184,8 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.refresh(mapping, form, request, response);
+        
         ExpenseTransferDocumentFormBase expenseTransferDocumentForm = (ExpenseTransferDocumentFormBase) form;
 
         Collection<PersistableBusinessObject> rawValues = null;

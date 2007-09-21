@@ -84,26 +84,25 @@
                     <th width=141 align=center><b>Extended Cost</b></th>
                 </tr>
                 <logic:iterate indexId="ctr" name="KualiForm" property="document.items" id="itemLine">
-                    <c:if test="${ (itemLine.itemType.itemTypeAboveTheLineIndicator) }" >
-
+                    <c:if test="${ (itemLine.itemType.itemTypeAboveTheLineIndicator) and (itemLine.itemActiveIndicator) }" >
                         <tr>
 			
-				<kul:htmlAttributeHeaderCell scope="row">
-                    <html:hidden property="document.item[${ctr}].documentNumber" />
-           		    <html:hidden property="document.item[${ctr}].itemIdentifier" />
-           		    <html:hidden property="document.item[${ctr}].itemLineNumber" />
-           		    <html:hidden property="document.item[${ctr}].itemQuantity" />
-                    <html:hidden property="document.item[${ctr}].versionNumber" />
-                    <div align="center"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemSelectedForRetransmitIndicator}" property="document.item[${ctr}].itemSelectedForRetransmitIndicator" /></div>
-                </kul:htmlAttributeHeaderCell>
+                            <kul:htmlAttributeHeaderCell scope="row">
+                                <html:hidden property="document.item[${ctr}].documentNumber" />
+           		                <html:hidden property="document.item[${ctr}].itemIdentifier" />
+           		                <html:hidden property="document.item[${ctr}].itemLineNumber" />
+           		                <html:hidden property="document.item[${ctr}].itemQuantity" />
+                                <html:hidden property="document.item[${ctr}].versionNumber" />
+                                <div align="center"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemSelectedForRetransmitIndicator}" property="document.item[${ctr}].itemSelectedForRetransmitIndicator" /></div>
+                            </kul:htmlAttributeHeaderCell>
 
-                <td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemTypeCode}" property="document.item[${ctr}].itemTypeCode" /></td>
-                <td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemQuantity}" property="document.item[${ctr}].itemQuantity" /></td>			
- 				<td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" property="document.item[${ctr}].itemUnitOfMeasureCode" /></td>
- 				<td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemCatalogNumber}" property="document.item[${ctr}].itemCatalogNumber" /></td>
- 				<td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" /></td>
- 				<td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" /></td>
- 				<td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.extendedPrice}" property="document.item[${ctr}].extendedPrice" /></td>
+                            <td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemTypeCode}" property="document.item[${ctr}].itemTypeCode" /></td>
+                            <td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemQuantity}" property="document.item[${ctr}].itemQuantity" /></td>			
+ 				            <td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" property="document.item[${ctr}].itemUnitOfMeasureCode" /></td>
+ 				            <td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemCatalogNumber}" property="document.item[${ctr}].itemCatalogNumber" /></td>
+ 				            <td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" /></td>
+ 				            <td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" /></td>
+ 				            <td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.extendedPrice}" property="document.item[${ctr}].extendedPrice" /></td>
                         </tr>
                     </c:if>
                 </logic:iterate>

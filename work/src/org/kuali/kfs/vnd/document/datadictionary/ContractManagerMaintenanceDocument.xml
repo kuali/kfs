@@ -51,7 +51,7 @@
                     <maintainableField name="contractManagerCode" required="true" />
                 	<maintainableField name="contractManagerUserIdentifier" required="true" >
                 		<overrideLookupClass>org.kuali.core.bo.user.UniversalUser</overrideLookupClass>
-                		<overrideFieldConversions>personUniversalIdentifier:contractManagerUserIdentifier,personName:contractManagerName,personLocalPhoneNumber:contractManagerPhoneNumber</overrideFieldConversions>
+                		<overrideFieldConversions>personUserIdentifier:contractManagerUserIdentifier,personName:contractManagerName,personLocalPhoneNumber:contractManagerPhoneNumber</overrideFieldConversions>
                 	</maintainableField>
                 	<maintainableField name="contractManagerName" required="true" />
                 	<maintainableField name="contractManagerPhoneNumber" required="true" />
@@ -63,5 +63,5 @@
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>
-    </maintenanceDocument>
+    </maintenanceDocument>射入
 </dictionaryEntry>

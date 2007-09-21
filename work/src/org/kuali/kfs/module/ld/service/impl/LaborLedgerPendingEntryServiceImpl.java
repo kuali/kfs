@@ -158,13 +158,22 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
     public void delete(String documentHeaderId) {
         LOG.debug("delete() started");
 
-        this.getLaborLedgerPendingEntryDao().delete(documentHeaderId);
+        laborLedgerPendingEntryDao.delete(documentHeaderId);
     }
 
     public Collection findPendingEntries(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingEntries() started");
 
-        return getLaborLedgerPendingEntryDao().findPendingEntries(fieldValues, isApproved);
+        return laborLedgerPendingEntryDao.findPendingEntries(fieldValues, isApproved);
+    }
+    
+    /**
+     * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#findPendingLedgerEntriesForAccountBalance(java.util.Map,
+     *      boolean, boolean)
+     */
+    public Iterator findPendingLedgerEntriesForLedgerBalance(Map fieldValues, boolean isApproved) {
+        LOG.debug("findPendingLedgerEntriesForAccountBalance() started");
+        return laborLedgerPendingEntryDao.findPendingLedgerEntriesForLedgerBalance(fieldValues, isApproved);
     }
 
     /**
@@ -185,24 +194,11 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         this.laborLedgerPendingEntryDao = laborLedgerPendingEntryDao;
     }
 
-    public LaborLedgerPendingEntryDao getLaborLedgerPendingEntryDao() {
-        return laborLedgerPendingEntryDao;
-    }
-
     public void setKualiRuleService(KualiRuleService kualiRuleService) {
         this.kualiRuleService = kualiRuleService;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#findPendingLedgerEntriesForAccountBalance(java.util.Map,
-     *      boolean, boolean)
-     */
-    public Iterator findPendingLedgerEntriesForLedgerBalance(Map fieldValues, boolean isApproved) {
-        LOG.debug("findPendingLedgerEntriesForAccountBalance() started");
-        return laborLedgerPendingEntryDao.findPendingLedgerEntriesForLedgerBalance(fieldValues, isApproved);
     }
 }

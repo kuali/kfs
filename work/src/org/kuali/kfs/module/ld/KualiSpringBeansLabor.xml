@@ -62,8 +62,6 @@
 		</property>
 	</bean>
 
-	<bean id="laborLedgerPendingEntryDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborLedgerPendingEntryDaoOjb" />
-
     <!--  Section 1: Spring Beans for Business Objects -->
 
 	<bean id="laborUserService" class="org.kuali.module.labor.service.impl.LaborUserServiceImpl" parent="kualiModuleUserServiceBase">
@@ -83,33 +81,6 @@
 			<ref bean="kualiRuleService" />
 		</property>	
 	</bean>
-
-	<bean id="laborPendingEntryLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
-		<property name="lookupableHelperService">
-			<ref bean="laborPendingEntryLookupableHelperService" />
-		</property>
-	</bean>
-
-	<bean id="laborPendingEntryLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LaborPendingEntryLookupableHelperServiceImpl">
-		<property name="persistenceStructureService">
-			<ref bean="persistenceStructureService" />
-		</property>
-		<property name="lookupService">
-			<ref bean="lookupService" />
-		</property>
-		<property name="businessObjectDictionaryService">
-			<ref bean="businessObjectDictionaryService" />
-		</property>
-		<property name="businessObjectMetaDataService">
-			<ref bean="businessObjectMetaDataService" />
-		</property>
-		<property name="dataDictionaryService">
-			<ref bean="dataDictionaryService" />
-		</property>
-		<property name="laborLedgerPendingEntryService">
-			<ref bean="laborLedgerPendingEntryService" />
-		</property>
-    </bean>
 	
     <bean id="laborGeneralLedgerEntryService" class="org.kuali.module.labor.service.impl.LaborGeneralLedgerEntryServiceImpl">
         <property name="businessObjectService">
@@ -202,6 +173,7 @@
 			
 	<bean id="laborBaseFundsDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborBaseFundsDaoOjb" />
 	<bean id="laborCalculatedSalaryFoundationTrackerDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborCalculatedSalaryFoundationTrackerDaoOjb" />
+	<bean id="laborLedgerPendingEntryDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborLedgerPendingEntryDaoOjb" />
 	
     <!-- Section 3: Spring Bean for Batch processes -->
     
@@ -521,8 +493,38 @@
     <bean id="laborEncumbranceTransactionGenerator" class="org.kuali.module.labor.batch.payrollaccrual.impl.EncumbranceTransactionGenerator"/> 
     <bean id="laborDisencumbranceTransactionGenerator" class="org.kuali.module.labor.batch.payrollaccrual.impl.DisencumbranceTransactionGenerator"/>    
         
-    <!-- Section 4: Spring Bean for Balance Inquiry -->  
-    	<bean id="laborLedgerBalanceLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LedgerBalanceLookupableHelperServiceImpl" singleton="false">
+    <!-- Section 4: Spring Bean for Balance Inquiry -->   	
+	<bean id="laborPendingEntryLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="laborPendingEntryLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="laborPendingEntryLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LaborPendingEntryLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="laborLedgerPendingEntryService">
+			<ref bean="laborLedgerPendingEntryService" />
+		</property>		
+		<property name="laborInquiryOptionsService">
+			<ref bean="laborInquiryOptionsService" />
+		</property>
+    </bean> 
+    
+    <bean id="laborLedgerBalanceLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LedgerBalanceLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -825,7 +827,7 @@
 		<property name="llcpDirectoryName" value="${staging.directory}/GLCP"/>
 	</bean>
 	
-	<bean id="laborInquiryOptionsService" class="org.kuali.module.labor.service.impl.LaborInquiryOptionsServiceImpl"  singleton="false">
+	<bean id="laborInquiryOptionsService" class="org.kuali.module.labor.service.impl.LaborInquiryOptionsServiceImpl">
 		<property name="laborLedgerPendingEntryService">
 			<ref bean="laborLedgerPendingEntryService" />
 		</property>	
@@ -862,7 +864,7 @@
 		<property name="laborDao">
 			<ref bean="laborDao" />
 		</property>		
-	</bean>    	
+	</bean>   	
 		
 	<bean id="expenseTransferAccountingLineService" class="org.kuali.kfs.service.impl.AccountingLineServiceImpl">
 		<property name="accountingLineDao">

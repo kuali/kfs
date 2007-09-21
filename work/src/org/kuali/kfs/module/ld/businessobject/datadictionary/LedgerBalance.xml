@@ -64,9 +64,10 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="universityFiscalYear" />
                     <sortAttribute attributeName="chartOfAccountsCode" />
                     <sortAttribute attributeName="accountNumber" />
+                    <sortAttribute attributeName="subAccountNumber" />
+                	<sortAttribute attributeName="financialObjectCode" />
                 </sortAttributes>
             </defaultSort>
 

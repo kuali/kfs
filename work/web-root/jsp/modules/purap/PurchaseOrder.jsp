@@ -35,7 +35,8 @@
     <html:hidden property="document.requisitionIdentifier" />
     <html:hidden property="document.purchaseOrderCurrentIndicator" />
     <html:hidden property="document.pendingActionIndicator" />
-
+    <html:hidden property="document.purchaseOrderLastTransmitDate" />
+    
     <c:if test="${empty KualiForm.editingMode['amendmentEntry']}">
         <kul:documentOverview editingMode="${KualiForm.editingMode}"
             includePostingYear="true"

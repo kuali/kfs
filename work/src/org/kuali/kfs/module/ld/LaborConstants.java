@@ -50,7 +50,7 @@ public class LaborConstants {
         public static final String EXPENSE_TRANSFER_ET = "ET";
         public static final String EXPENSE_TRANSFER_SACH = "SACH";
         public static final String EXPENSE_TRANSFER_YEST = "YEST";
-        public static final String EXPENSE_TRANSFER_YEBT = "YEBT";
+        public static final String EXPENSE_TRANSFER_YEBT = "YEBT";        
     }
 
     public static class DestinationNames {
@@ -179,10 +179,10 @@ public class LaborConstants {
 
     
     public enum JournalVoucherOffsetType {
-        NO_OFFSET("LLJV", "No Offset"),
-        ACCRUAL("LJVA", "Accrual"),
-        CASH("LJVC", "Cash"),
-        ENCUMBRANCE("LJVE", "Encumbrance");
+        NO_OFFSET("LLJV", "LABOR LEDGER JOUNAL VOUCHER"),
+        ACCRUAL("LJVA", "LABOR LEDGER JOUNAL VOUCHER ACCRUALS OFFSET"),
+        CASH("LJVC", "LABOR LEDGER JOUNAL VOUCHER CASH OFFSET"),
+        ENCUMBRANCE("LJVE", "LABOR LEDGER JOUNAL VOUCHER ENCUMBRANCE OFFSET");
         
         public String typeCode;
         public String description;

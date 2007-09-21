@@ -121,7 +121,12 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
         descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.EXPENSE_TRANSFER_YEST, "PAYROLL EXPENSE TRANSFERS");
         descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.HAND_DRAWN_CHECK, "PAYROLL HAND DRAWN CHECK PAYMENTS");
         descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.OVERPAYMENT, "PAYROLL OVERPAYMENT COLLECTIONS");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.RETROACTIVE_ADJUSTMENT, "PAYROLL RETROACTIVE ADJUSTMENTS");
+        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.RETROACTIVE_ADJUSTMENT, "PAYROLL RETROACTIVE ADJUSTMENTS");  
+        
+        descriptionMap.put(LaborConstants.JournalVoucherOffsetType.ACCRUAL.typeCode, LaborConstants.JournalVoucherOffsetType.ACCRUAL.description);
+        descriptionMap.put(LaborConstants.JournalVoucherOffsetType.CASH.typeCode, LaborConstants.JournalVoucherOffsetType.CASH.description);
+        descriptionMap.put(LaborConstants.JournalVoucherOffsetType.ENCUMBRANCE.typeCode, LaborConstants.JournalVoucherOffsetType.ENCUMBRANCE.description);
+        descriptionMap.put(LaborConstants.JournalVoucherOffsetType.NO_OFFSET.typeCode, LaborConstants.JournalVoucherOffsetType.NO_OFFSET.description);
 
         return descriptionMap;
     }

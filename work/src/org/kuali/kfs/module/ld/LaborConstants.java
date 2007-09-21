@@ -179,17 +179,19 @@ public class LaborConstants {
 
     
     public enum JournalVoucherOffsetType {
-        NO_OFFSET("LLJV", "LABOR LEDGER JOUNAL VOUCHER"),
-        ACCRUAL("LJVA", "LABOR LEDGER JOUNAL VOUCHER ACCRUALS OFFSET"),
-        CASH("LJVC", "LABOR LEDGER JOUNAL VOUCHER CASH OFFSET"),
-        ENCUMBRANCE("LJVE", "LABOR LEDGER JOUNAL VOUCHER ENCUMBRANCE OFFSET");
+        NO_OFFSET("LLJV", "No Offset", "LABOR LEDGER JOUNAL VOUCHER"),
+        ACCRUAL("LJVA", "Accrual", "LABOR LEDGER JOUNAL VOUCHER ACCRUALS OFFSET"),
+        CASH("LJVC", "Cash", "LABOR LEDGER JOUNAL VOUCHER CASH OFFSET"),
+        ENCUMBRANCE("LJVE", "Encumbrance", "LABOR LEDGER JOUNAL VOUCHER ENCUMBRANCE OFFSET");
         
         public String typeCode;
         public String description;
+        public String longDescription;
         
-        private JournalVoucherOffsetType(String typeCode, String description){
+        private JournalVoucherOffsetType(String typeCode, String description, String longDescription){
             this.typeCode = typeCode;
             this.description = description;
+            this.longDescription = longDescription;
         }        
     }
     

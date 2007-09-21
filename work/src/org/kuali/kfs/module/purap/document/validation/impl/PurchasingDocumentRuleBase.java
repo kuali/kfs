@@ -31,6 +31,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.purap.PurapConstants;
@@ -39,6 +40,7 @@ import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.PurapConstants.ItemFields;
 import org.kuali.module.purap.PurapConstants.ItemTypeCodes;
+import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
@@ -344,5 +346,30 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return valid;
     }
 
+    
+    @Override
+    protected boolean processCustomUpdateAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
+        if (!verifyAccountingLinePercent((PurApAccountingLine)updatedAccountingLine)) {
+            return false;
+        }
+        return super.processCustomUpdateAccountingLineBusinessRules(accountingDocument, originalAccountingLine, updatedAccountingLine);
+    }
+
+    @Override
+    public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
+        if (!verifyAccountingLinePercent((PurApAccountingLine)accountingLine)) {
+            return false;
+        }
+        return super.processAddAccountingLineBusinessRules(financialDocument, accountingLine);
+    }
+
+    private boolean verifyAccountingLinePercent(PurApAccountingLine purapAccountingLine) {
+        // make sure it's a whole number
+        if (purapAccountingLine.getAccountLinePercent().scale() > 0) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ACCOUNTS, PurapKeyConstants.ERROR_PURCHASING_PERCENT_NOT_WHOLE, purapAccountingLine.getAccountLinePercent().toPlainString());
+            return false;
+        }
+        return true;
+    }
 
 }

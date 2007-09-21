@@ -95,6 +95,7 @@
 	                       boClassName="org.kuali.module.labor.bo.LedgerBalanceForSalaryExpenseTransfer"
 	                       actionPath="glBalanceInquiryLookup.do"
 	                       lookupParameters="universityFiscalYear:universityFiscalYear,emplid:emplid,financialBalanceTypeCode:financialBalanceTypeCode"
+	                       tabindexOverride="KualiForm.currentTabIndex"
 	                       hideReturnLink="false" image="buttonsmall_search.gif"/>
 	                </c:if>
 				</td>

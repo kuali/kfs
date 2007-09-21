@@ -128,6 +128,7 @@
 								boClassName="org.kuali.module.labor.bo.LedgerBalanceForBenefitExpenseTransfer"
 								actionPath="glBalanceInquiryLookup.do"
 								lookupParameters="universityFiscalYear:universityFiscalYear,accountNumber:accountNumber,subAccountNumber:subAccountNumber,chartOfAccountsCode:chartOfAccountsCode,emplid:emplid"
+								tabindexOverride="KualiForm.currentTabIndex"
 								hideReturnLink="false" image="buttonsmall_search.gif"/>
 					</c:if>
 				</td>				

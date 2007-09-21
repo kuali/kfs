@@ -1012,7 +1012,7 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
      * @param accountingLine
      * @return true if sales tax check is needed, false otherwise
      */
-    private boolean isSalesTaxRequired(AccountingDocument financialDocument, AccountingLine accountingLine) {
+    protected boolean isSalesTaxRequired(AccountingDocument financialDocument, AccountingLine accountingLine) {
         boolean required = false;
         DocumentTypeService docTypeService = SpringContext.getBean(DocumentTypeService.class);
         String docType = docTypeService.getDocumentTypeCodeByClass(financialDocument.getClass());

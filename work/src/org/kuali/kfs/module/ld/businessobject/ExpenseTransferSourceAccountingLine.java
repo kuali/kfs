@@ -180,4 +180,19 @@ public class ExpenseTransferSourceAccountingLine extends SourceAccountingLine
         }
         return retval;
     }
+    
+    /**
+     * Used to copy a particular transaction line into another
+     * This method...
+     * @param from
+     */
+    public void copyFrom(ExpenseTransferAccountingLine from) {        
+        super.copyFrom(from);
+        System.out.println("******8Source - Copy from XXXXXXXXXXXXXX");
+        this.setPayrollTotalHours(from.getPayrollTotalHours());
+        this.setPositionNumber(from.getPositionNumber());
+        this.setPayrollEndDateFiscalYear(from.getPayrollEndDateFiscalYear());
+        this.setPayrollEndDateFiscalPeriodCode(from.getPayrollEndDateFiscalPeriodCode());    
+        this.setEmplid(from.getEmplid());    
+    }
 }

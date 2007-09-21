@@ -28,6 +28,7 @@ import java.util.Map;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
@@ -291,11 +292,17 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
         Collection<OriginEntryGroup> c = originEntryGroupDao.getMatchingGroups(criteria);
 
+        //GLCP and LLCP group filter exception
+        String groupException ="";
+        for(int i=0;i<KFSConstants.LLCP_GROUP_FILTER_EXCEPTION.length;i++) {
+            groupException+=KFSConstants.LLCP_GROUP_FILTER_EXCEPTION[i] + " ";
+        }
+        
         // Get the row counts for each group
 
         for (OriginEntryGroup group: c){
             
-            if (group.getSourceCode().startsWith("L")){
+            if (group.getSourceCode().startsWith("L") && !groupException.contains(group.getSourceCode())){
                 group.setRows(laborOriginEntryDao.getGroupCount(group.getId()));    
             } else {
                 group.setRows(originEntryDao.getGroupCount(group.getId()));

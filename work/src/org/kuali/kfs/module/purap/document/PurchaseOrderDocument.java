@@ -839,7 +839,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     }
     
     public void refreshDocumentBusinessObject() {
-        documentBusinessObject = SpringContext.getBean(PurchaseOrderService.class).getOldestPurchaseOrder(this);
+        documentBusinessObject = SpringContext.getBean(PurchaseOrderService.class).getOldestPurchaseOrder(this,(PurchaseOrderDocument)this.documentBusinessObject);
     }
 
     @Override

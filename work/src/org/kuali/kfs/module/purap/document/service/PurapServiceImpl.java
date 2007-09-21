@@ -345,7 +345,7 @@ public class PurapServiceImpl implements PurapService {
             PaymentRequestDocument paymentRequest = (PaymentRequestDocument)purapDocument;
             //eliminate unentered items
             deleteUnenteredItems(paymentRequest);
-            // change PREQ accounts from percents to dollars (FIXME ctk - this won't do anything if we area already considered full entry at this point)
+            // change PREQ accounts from percents to dollars (FIXME ctk (look into) - this won't do anything if we are already considered full entry at this point)
             SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequest);
             // do GL entries for PREQ creation
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePaymentRequest((PaymentRequestDocument)purapDocument);
@@ -359,8 +359,10 @@ public class PurapServiceImpl implements PurapService {
         }
         // below code preferable to run in post processing
         else if (purapDocument instanceof CreditMemoDocument) {
+            CreditMemoDocument creditMemo = (CreditMemoDocument)purapDocument;
+            SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(creditMemo);
             // do GL entries for CM creation
-            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateCreditMemo((CreditMemoDocument)purapDocument);
+            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateCreditMemo(creditMemo);
             // get the po id and get the current PO
             // route 'Re-Open PO Document' if PO criteria meets requirements from EPIC business rules
         }

@@ -64,7 +64,7 @@ public interface PurchaseOrderService {
 
     public void setCurrentAndPendingIndicatorsForDisapprovedPODocuments(PurchaseOrderDocument newPO);
 
-    public PurchaseOrderDocument getOldestPurchaseOrder(PurchaseOrderDocument po);
+    public PurchaseOrderDocument getOldestPurchaseOrder(PurchaseOrderDocument po, PurchaseOrderDocument documentBusinessObject);
 
     public ArrayList<Note> getPurchaseOrderNotes(Integer id);
 

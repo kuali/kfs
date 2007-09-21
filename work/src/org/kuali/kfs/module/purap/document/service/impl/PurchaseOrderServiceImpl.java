@@ -25,6 +25,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.RiceConstants;
+import org.kuali.core.bo.AdHocRouteRecipient;
 import org.kuali.core.bo.Note;
 import org.kuali.core.document.DocumentBase;
 import org.kuali.core.exceptions.UserNotFoundException;
@@ -780,14 +781,20 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return null;
     }
     
-    public PurchaseOrderDocument getOldestPurchaseOrder(PurchaseOrderDocument po) {
+    public PurchaseOrderDocument getOldestPurchaseOrder(PurchaseOrderDocument po, PurchaseOrderDocument documentBusinessObject) {
         LOG.debug("entering getOldestPO(PurchaseOrderDocument)");
         if (ObjectUtils.isNotNull(po)) {
             String oldestDocumentNumber = purchaseOrderDao.getOldestPurchaseOrderDocumentNumber(po.getPurapDocumentIdentifier());
             if (StringUtils.equals(oldestDocumentNumber, po.getDocumentNumber())) {
                 //manually set bo notes - this is mainly done for performance reasons (preferably we could call
                 //retrieve doc notes in PersistableBusinessObjectBase but that is private)
-                po.setBoNotes(SpringContext.getBean(NoteService.class).getByRemoteObjectId(po.getObjectId()));
+//                po.setBoNotes(SpringContext.getBean(NoteService.class).getByRemoteObjectId(po.getObjectId()));
+                if(ObjectUtils.isNotNull(documentBusinessObject)) {
+                    List<Note> dbNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(po.getObjectId());
+                    //need to set fields that are not ojb managed (i.e. the notes on the documentBusinessObject may have been modified independently of the ones in the db)
+                    fixDbNoteFields(documentBusinessObject, dbNotes);
+                    po.setBoNotes(dbNotes);
+                }
                 LOG.debug("exiting getOldestPO(PurchaseOrderDocument)");
                 return po;
             }
@@ -795,6 +802,26 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             return getPurchaseOrderByDocumentNumber(oldestDocumentNumber);
         }
         return null;
+    }
+
+    /**
+     * This method fixes non ojb managed missing fields from the db FIXME we should do this reflectively and do more than FYI if necessary
+     * @param documentBusinessObject
+     * @param dbNotes
+     */
+    private void fixDbNoteFields(PurchaseOrderDocument documentBusinessObject, List<Note> dbNotes) {
+        for (int i = 0; i < dbNotes.size(); i++) {
+            Note dbNote = dbNotes.get(i);
+            List<Note> currentNotes = (List<Note>)documentBusinessObject.getBoNotes();
+            if(i<currentNotes.size()) {
+                Note currentNote = (currentNotes).get(i);
+                //set the fyi from the current note if not empty
+                AdHocRouteRecipient fyiNoteRecipient = currentNote.getFyiNoteRecipient();
+                if(ObjectUtils.isNotNull(fyiNoteRecipient)) {
+                    dbNote.setFyiNoteRecipient(fyiNoteRecipient);
+                }
+            }
+        }
     }
     
     public ArrayList<Note> getPurchaseOrderNotes(Integer id) {

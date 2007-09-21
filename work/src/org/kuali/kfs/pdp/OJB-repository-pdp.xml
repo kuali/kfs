@@ -552,4 +552,26 @@
         <foreignkey field-ref="bankStateCode" />
     </reference-descriptor>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.pdp.bo.PayeeAchAccount" table="PDP_PAYEE_ACH_ACCT_T">
+	<field-descriptor name="achAccountGeneratedIdentifier" column="ACH_ACCT_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_ACH_ACCT_GNRTD_ID_SEQ" autoincrement="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="bankRoutingNumber" column="BNK_RTNG_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="bankAccountNumber" column="BNK_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="payeeName" column="PAYEE_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="payeeEmailAddress" column="PAYEE_EMAIL_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
+	<field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
+	<field-descriptor name="disbVchrPayeeIdNumber" column="DV_PAYEE_ID_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="payeeSocialSecurityNumber" column="PAYEE_SSN_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="payeeFederalEmployerIdentificationNumber" column="PAYEE_FEIN_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="payeeIdentifierTypeCode" column="PAYEE_ID_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="psdTransactionCode" column="PSD_TRN_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<reference-descriptor name="bankRouting" class-ref="org.kuali.module.pdp.bo.AchBank" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="bankRoutingNumber" />
+	</reference-descriptor>
+</class-descriptor>
 </descriptor-repository>

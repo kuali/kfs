@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
@@ -52,6 +53,8 @@ public class PurchaseOrderRetransmitDocumentAuthorizer extends PurchaseOrderDocu
         Map editModeMap = new HashMap();
         String editMode = PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB;
         editModeMap.put(editMode, "TRUE");
+        String viewOnlyEditMode = AuthorizationConstants.EditMode.VIEW_ONLY;
+        editModeMap.put(viewOnlyEditMode, "TRUE");
 
         return editModeMap;
     }

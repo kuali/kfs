@@ -67,7 +67,7 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
             if (cd == null) {
                 throw new IllegalStateException("There is no cash drawer associated with cash receipt: " + crd.getDocumentNumber());
             }
-            else if (cd.isClosed() || cd.getReferenceFinancialDocumentNumber() == null) {
+            else if (cd.isClosed()) {
                 flags.setCanBlanketApprove(false);
                 flags.setCanApprove(false);
             }

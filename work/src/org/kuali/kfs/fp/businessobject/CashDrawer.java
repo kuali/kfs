@@ -75,7 +75,7 @@ public class CashDrawer extends PersistableBusinessObjectBase {
      * @return boolean
      */
     public boolean isClosed() {
-        return (statusCode == null || StringUtils.equals(KFSConstants.CashDrawerConstants.STATUS_CLOSED, statusCode));
+        return (statusCode == null || StringUtils.equals(KFSConstants.CashDrawerConstants.STATUS_CLOSED, statusCode) || referenceFinancialDocumentNumber == null);
     }
 
     /**

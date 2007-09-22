@@ -31,6 +31,7 @@
             <authorization action="initiate">
                 <workgroups>
                     <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
+                    <workgroup>Kuali_ROLE_GLOBAL_OBJECT_CODE_USER</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>

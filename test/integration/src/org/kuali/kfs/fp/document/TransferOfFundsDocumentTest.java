@@ -82,36 +82,6 @@ public class TransferOfFundsDocumentTest extends KualiTestBase {
         return list;
     }
 
-
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
-    @RelatesTo(RelatesTo.JiraIssue.KULRNE4834)
-    public void testWorkflowRouting() throws Exception {
-        // save and route the document
-        AccountingDocument document = (AccountingDocument) buildDocumentForWorkflowRoutingTest();
-        final String docHeaderId = document.getDocumentNumber();
-        routeDocument(document, SpringContext.getBean(DocumentService.class));
-
-        // the document should now be routed to VPUTMAN and RORENFRO as Fiscal Officers
-        WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
-        approve(docHeaderId, VPUTMAN, ACCOUNT_REVIEW);
-        approve(docHeaderId, RORENFRO, ACCOUNT_REVIEW);
-
-        // now doc should be in Org Review routing to CSWINSON, RRUFFNER, SEASON, and DFOGLE
-        WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ORG_REVIEW);
-        approve(docHeaderId, CSWINSON, ORG_REVIEW);
-        approve(docHeaderId, RRUFFNER, ORG_REVIEW);
-        approve(docHeaderId, SEASON, ORG_REVIEW);
-        approve(docHeaderId, DFOGLE, ORG_REVIEW);
-
-        // TODO once the sub fund node has been added, add code here to test it...
-
-        WorkflowTestUtils.waitForStatusChange(document.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
-
-        changeCurrentUser(VPUTMAN);
-        document = (AccountingDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docHeaderId);
-        assertTrue("Document should now be final.", document.getDocumentHeader().getWorkflowDocument().stateIsFinal());
-    }
-
     private void approve(String docHeaderId, UserNameFixture user, String expectedNode) throws Exception {
         changeCurrentUser(user);
         AccountingDocumentTestUtils.approve(docHeaderId, user, expectedNode, SpringContext.getBean(DocumentService.class));

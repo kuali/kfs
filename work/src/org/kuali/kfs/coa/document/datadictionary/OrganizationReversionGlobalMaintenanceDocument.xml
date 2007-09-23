@@ -30,6 +30,7 @@
             <authorization action="initiate">
                 <workgroups>
                     <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
+                    <workgroup>KUALI_ORGREVMNT</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>

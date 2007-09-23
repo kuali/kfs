@@ -18,6 +18,8 @@ package org.kuali.module.labor.rules;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.RiceConstants;
@@ -25,6 +27,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -62,6 +65,8 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
      */
     @Override
     protected boolean isValidAmountTransferredByObjectCode(AccountingDocument accountingDocument) {
+        LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
+        
         // check if user is allowed to edit the object code.
         String adminGroupName = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(LaborConstants.SalaryExpenseTransfer.GROUP_SET_DOCUMENT, LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP);
         boolean isAdmin = false;
@@ -71,12 +76,27 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
         catch (Exception e) {
             throw new RuntimeException("Workgroup " + LaborConstants.SalaryExpenseTransfer.GROUP_SET_DOCUMENT + " not found", e);
         }
-        
+
         if (isAdmin) {
             return true;
         }
-        
-        return super.isValidAmountTransferredByObjectCode(accountingDocument);
+
+        // if approving document, check the object code balances match when document was inititated, else check they balance
+        boolean isValid = true;
+        if (accountingDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
+            if (!isObjectCodeBalancesUnchanged(accountingDocument)) {
+                reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_TRANSFER_AMOUNT_BY_OBJECT_APPROVAL_CHANGE);
+                isValid = false;
+            }
+        }
+        else {
+            if (!expenseTransferDocument.getUnbalancedObjectCodes().isEmpty()) {
+                reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_TRANSFER_AMOUNT_NOT_BALANCED_BY_OBJECT);
+                isValid = false;
+            }
+        }
+
+        return isValid;
     }
 
     /**
@@ -154,6 +174,36 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
     }
 
     /**
+     * Checks the current object code balance map of the document against the balances captured before the document was returned for
+     * approval.
+     * 
+     * @param accountingDocument SalaryExpenseTransferDocument to check
+     * @return true if the balances have not changed, false if they have
+     */
+    private boolean isObjectCodeBalancesUnchanged(AccountingDocument accountingDocument) {
+        boolean isUnchanged = true;
+
+        Map<String, KualiDecimal> initiatedObjectCodeBalances = ((SalaryExpenseTransferDocument) accountingDocument).getApprovalObjectCodeBalances();
+        Map<String, KualiDecimal> currentObjectCodeBalances = ((SalaryExpenseTransferDocument) accountingDocument).getUnbalancedObjectCodes();
+
+        Set<Entry<String, KualiDecimal>> initiatedObjectCodes = initiatedObjectCodeBalances.entrySet();
+        Set<Entry<String, KualiDecimal>> currentObjectCodes = currentObjectCodeBalances.entrySet();
+
+        if (initiatedObjectCodes == null) {
+            if (currentObjectCodes != null) {
+                isUnchanged = false;
+            }
+        }
+        else {
+            if (!initiatedObjectCodes.equals(currentObjectCodes)) {
+                isUnchanged = false;
+            }
+        }
+
+        return isUnchanged;
+    }
+
+    /**
      * determine whether the employees in the source accouting lines are same
      * 
      * @param accountingDocument the given accouting document
@@ -208,7 +258,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
         if (!targetAccountingLinesValidationResult) {
             reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_EMPLOYEE_ID_NOT_SAME_IN_TARGET);
         }
-        
+
         return (sourceAccountingLinesValidationResult && targetAccountingLinesValidationResult);
     }
 
@@ -273,12 +323,12 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
     public boolean processGenerateLaborLedgerBenefitClearingPendingEntries(LaborLedgerPostingDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         LOG.info("started processGenerateLaborLedgerBenefitClearingPendingEntries()");
 
-        String chartOfAccountsCode = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(LaborConstants.SalaryExpenseTransfer.GROUP_SET_DOCUMENT, LaborConstants.SalaryExpenseTransfer.BENEFIT_CLEARING_CHART_PARM_NM); 
-        String accountNumber = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(LaborConstants.SalaryExpenseTransfer.GROUP_SET_DOCUMENT, LaborConstants.SalaryExpenseTransfer.BENEFIT_CLEARING_ACCOUNT_PARM_NM); 
-        
+        String chartOfAccountsCode = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(LaborConstants.SalaryExpenseTransfer.GROUP_SET_DOCUMENT, LaborConstants.SalaryExpenseTransfer.BENEFIT_CLEARING_CHART_PARM_NM);
+        String accountNumber = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(LaborConstants.SalaryExpenseTransfer.GROUP_SET_DOCUMENT, LaborConstants.SalaryExpenseTransfer.BENEFIT_CLEARING_ACCOUNT_PARM_NM);
+
         List<LaborLedgerPendingEntry> benefitClearingPendingEntries = LaborPendingEntryGenerator.generateBenefitClearingPendingEntries(document, sequenceHelper, accountNumber, chartOfAccountsCode);
         document.getLaborLedgerPendingEntries().addAll(benefitClearingPendingEntries);
-        
+
         return true;
     }
 }

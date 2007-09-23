@@ -26,6 +26,10 @@
 	<c:set var="disabled" value="true"/>
 </c:if>	
 
+<c:if test="${fn:length(KualiForm.document.targetAccountingLines)>0 || readOnly}">
+	<c:set var="targetDisabled" value="true"/>
+</c:if>
+
 <c:set var="documentTypeName" value="KualiBenefitExpenseTransferDocument"/>
 <c:set var="htmlFormAction" value="laborBenefitExpenseTransfer"/>
 
@@ -174,10 +178,10 @@
 							src="${ConfigProperties.externalizable.images.url}tinybutton-copyall.gif"
 							title="Copy all Source Accounting Lines"
 							alt="Copy all Source Lines" styleClass="tinybutton" />
-						<html:image property="methodToCall.deleteAllAccountingLines"
-							src="${ConfigProperties.externalizable.images.url}tinybutton-deleteall.gif"
-							title="Delete all Source Accounting Lines"
-							alt="Delete all Source Lines" styleClass="tinybutton" />
+	                   <html:image property="methodToCall.deleteAllSourceAccountingLines"
+					       src="${ConfigProperties.externalizable.images.url}tinybutton-deleteall.gif"
+						   title="Delete all Source Accounting Lines"
+					       alt="Delete all Source Lines" styleClass="tinybutton" />
 					</c:if>							
 							
                     </jsp:attribute>
@@ -208,6 +212,12 @@
 					forcedReadOnlyFields="${KualiForm.forcedReadOnlyTargetFields}"
 					accountingLineAttributes="${accountingLineAttributesMap}">
 					<jsp:attribute name="importRowOverride">
+					    <c:if test="${targetDisabled}">
+                          <html:image property="methodToCall.deleteAllTargetAccountingLines"
+					        src="${ConfigProperties.externalizable.images.url}tinybutton-deleteall.gif"
+						    title="Delete all Target Accounting Lines"
+						    alt="Delete all Target Lines" styleClass="tinybutton" />
+						</c:if>    
 					</jsp:attribute>
 				</ld:importedAccountingLineGroup>
 			</table>

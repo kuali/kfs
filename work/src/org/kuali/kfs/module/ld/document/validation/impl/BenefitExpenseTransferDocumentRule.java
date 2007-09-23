@@ -69,7 +69,6 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         // Only check this rule for source accounting lines
         boolean isTargetLine = accountingLine.isTargetAccountingLine();
         if (!isTargetLine){
-
             // ensure the accounts in source accounting lines are same
             if (!hasSameAccount(accountingDocument, accountingLine)) {
                 reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_SAME);
@@ -97,7 +96,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
                 isValid = false;
             }
         }
-
+        
         return isValid;
     }
 

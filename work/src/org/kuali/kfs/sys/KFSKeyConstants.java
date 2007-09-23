@@ -941,6 +941,7 @@ public class KFSKeyConstants {
         public static final String ERROR_TRANSFER_AMOUNT_EXCEED_MAXIMUM = "error.labor.tranferAmountExceedMaximum";
         public static final String ERROR_CANNOT_TRANSFER_NEGATIVE_AMOUNT = "error.labor.cannotTransferNegativeAmount";
         public static final String ERROR_TRANSFER_AMOUNT_NOT_BALANCED_BY_OBJECT = "error.labor.transferAmountNotBalancedByObject";
+        public static final String ERROR_TRANSFER_AMOUNT_BY_OBJECT_APPROVAL_CHANGE = "error.labor.transferAmountByObjectApprovalChange";
         public static final String ERROR_DUPLICATE_SOURCE_ACCOUNTING_LINE = "error.labor.duplicateSourceAccountingLine";
         public static final String ERROR_LABOR_ERROR_CORRECTION_PERSISTED_ORIGIN_ENTRIES_MISSING = "error.labor.correction.persisted.origin.entries.missing";
         public static final String ERROR_ACCOUNT_NOT_SAME = "error.labor.accountNotSame";

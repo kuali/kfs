@@ -15,15 +15,42 @@
  */
 package org.kuali.module.labor.document;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.kuali.core.util.KualiDecimal;
+
 /**
  * Class representing the Salary Expense Transfer Document.
  */
 public class SalaryExpenseTransferDocument extends LaborExpenseTransferDocumentBase {
-    
+    private Map<String, KualiDecimal> approvalObjectCodeBalances;
+
     /**
      * Default Constructor.
      */
     public SalaryExpenseTransferDocument() {
         super();
+        
+        approvalObjectCodeBalances = new HashMap<String, KualiDecimal>();
     }
+
+    /**
+     * Gets the approvalObjectCodeBalances attribute.
+     * 
+     * @return Returns the approvalObjectCodeBalances.
+     */
+    public Map<String, KualiDecimal> getApprovalObjectCodeBalances() {
+        return approvalObjectCodeBalances;
+    }
+
+    /**
+     * Sets the approvalObjectCodeBalances attribute value.
+     * 
+     * @param approvalObjectCodeBalances The approvalObjectCodeBalances to set.
+     */
+    public void setApprovalObjectCodeBalances(Map<String, KualiDecimal> approvalObjectCodeBalances) {
+        this.approvalObjectCodeBalances = approvalObjectCodeBalances;
+    }
+
 }

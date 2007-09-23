@@ -23,11 +23,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.labor.LaborConstants;
@@ -55,10 +55,12 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
      */
     public SalaryExpenseTransferForm() {
         super();
+        
         setDocument(new SalaryExpenseTransferDocument());
-        setFinancialBalanceTypeCode("AC");
+        setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
         setLookupResultsBOClassName(LedgerBalance.class.getName());
         setUser(new LaborUser(new UniversalUser()));
+        setFormatterType(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.APPROVAL_OBJECT_CODE_BALANCES, CurrencyFormatter.class);
     }
 
     /**

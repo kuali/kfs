@@ -15,10 +15,17 @@
  */
 package org.kuali.module.labor.document;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
 
@@ -35,6 +42,65 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
      */
     public LaborExpenseTransferDocumentBase() {
         super();
+    }
+
+    /**
+     * Determine whether target accouting lines have the same amounts as source accounting lines for each object code
+     * 
+     * @return true if target accouting lines have the same amounts as source accounting lines for each object code; otherwise,
+     *         false
+     */
+    public Map<String, KualiDecimal> getUnbalancedObjectCodes() {
+        Map<String, KualiDecimal> amountsFromSourceLine = summerizeByObjectCode(getSourceAccountingLines());
+        Map<String, KualiDecimal> amountsFromTargetLine = summerizeByObjectCode(getTargetAccountingLines());
+
+        Map<String, KualiDecimal> unbalancedAmounts = new HashMap<String, KualiDecimal>();
+        for (String objectCode : amountsFromSourceLine.keySet()) {
+            KualiDecimal sourceAmount = amountsFromSourceLine.get(objectCode);
+
+            if (!amountsFromTargetLine.containsKey(objectCode)) {
+                unbalancedAmounts.put(objectCode, sourceAmount.negated());
+            }
+            else {
+                KualiDecimal targetAmount = amountsFromTargetLine.get(objectCode);
+                KualiDecimal amountDifference = targetAmount.subtract(sourceAmount);
+                if (amountDifference.isNonZero()) {
+                    unbalancedAmounts.put(objectCode, amountDifference);
+                }
+            }
+        }
+      
+        for (String objectCode : amountsFromTargetLine.keySet()) {
+            if (!amountsFromSourceLine.containsKey(objectCode)) {
+                KualiDecimal targetAmount = amountsFromTargetLine.get(objectCode);          
+                unbalancedAmounts.put(objectCode, targetAmount);
+            }           
+        }
+
+        return unbalancedAmounts;
+    }
+
+    /**
+     * summerize the amounts of accounting lines by object codes
+     * 
+     * @param accountingLines the given accounting line list
+     * @return the summerized amounts by object codes
+     */
+    private Map<String, KualiDecimal> summerizeByObjectCode(List accountingLines) {
+        Map<String, KualiDecimal> amountByObjectCode = new HashMap<String, KualiDecimal>();
+
+        for (Object accountingLine : accountingLines) {
+            AccountingLine line = (AccountingLine) accountingLine;
+            String objectCode = line.getFinancialObjectCode();
+            KualiDecimal amount = line.getAmount();
+
+            if (amountByObjectCode.containsKey(objectCode)) {
+                amount = amount.add(amountByObjectCode.get(objectCode));
+            }
+            amountByObjectCode.put(objectCode, amount);
+        }
+
+        return amountByObjectCode;
     }
 
     /**

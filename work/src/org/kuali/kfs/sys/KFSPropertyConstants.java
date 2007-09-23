@@ -125,6 +125,7 @@ public class KFSPropertyConstants {
     public static final String APPOINTMENT_TYPE_COST_SHARE_FRINGE_RATE_AMOUNT = "appointmentTypeCostShareFringeRateAmount";
     public static final String APPOINTMENT_TYPE_DESCRIPTION = "appointmentTypeDescription";
     public static final String APPOINTMENT_TYPE_FRINGE_RATE_AMOUNT = "appointmentTypeFringeRateAmount";
+    public static final String APPROVAL_OBJECT_CODE_BALANCES = "approvalObjectCodeBalances";
     public static final String ATTACHMENT = "attachment";
     public static final String ATTRIBUTE_CONTROL_TYPE = "attributeControlType";
     public static final String ATTRIBUTE_DESCRIPTION = "attributeDescription";

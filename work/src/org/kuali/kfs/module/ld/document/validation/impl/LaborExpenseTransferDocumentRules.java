@@ -97,6 +97,12 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
             return false;
         }
 
+        // verify if the accounts in target accounting lines accept fringe benefits
+        if (!isAccountAcceptFringeBenefit(accountingLine)) {
+            reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_ACCEPT_FRINGES, accountingLine.getAccount().getReportsToChartOfAccountsCode(), accountingLine.getAccount().getReportsToAccountNumber());
+            return false;
+        }
+
         return true;
     }
 
@@ -119,15 +125,6 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         // check to ensure totals of accounting lines in source and target sections match by pay FY + pay period
         isValid = isValid & isAccountingLineTotalsMatchByPayFYAndPayPeriod(sourceLines, targetLines);
 
-        // target accounting lines must have the same amounts as source accounting lines for each object code
-        if (isValid) {
-            boolean isValidAmountTransferredByObjectCode = isValidAmountTransferredByObjectCode(expenseTransferDocument);
-            if (!isValidAmountTransferredByObjectCode) {
-                reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_TRANSFER_AMOUNT_NOT_BALANCED_BY_OBJECT);
-                isValid = false;
-            }
-        }
-
         // allow a negative amount to be moved from one account to another but do not allow a negative amount to be created when the
         // balance is positive
         Map<String, ExpenseTransferAccountingLine> accountingLineGroupMap = this.getAccountingLineGroupMap(sourceLines, ExpenseTransferSourceAccountingLine.class);
@@ -139,19 +136,9 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
             }
         }
 
-        // determine if an expired account can be used to accept amount transfer
+        // target accounting lines must have the same amounts as source accounting lines for each object code
         if (isValid) {
-            boolean canExpiredAccountBeUsed = canExpiredAccountBeUsed(expenseTransferDocument);
-            if (!canExpiredAccountBeUsed) {
-                reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
-                isValid = false;
-            }
-
-            // verify if the accounts in target accounting lines accept fringe benefits
-            if (!this.isAccountsAcceptFringeBenefit(expenseTransferDocument)) {
-                reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_ACCEPT_FRINGES);
-                return false;
-            }
+            isValid = isValidAmountTransferredByObjectCode(expenseTransferDocument);
         }
 
         // only allow a transfer of benefit dollars up to the amount that already exist in labor ledger detail for a given pay
@@ -353,7 +340,6 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         return true;
     }
 
-
     /**
      * Determine whether target accouting lines have the same amounts as source accounting lines for each object code
      * 
@@ -363,47 +349,16 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
      */
     protected boolean isValidAmountTransferredByObjectCode(AccountingDocument accountingDocument) {
         LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
-        Map<String, KualiDecimal> amountsFromSourceLine = summerizeByObjectCode(expenseTransferDocument.getSourceAccountingLines());
-        Map<String, KualiDecimal> amountsFromTargetLine = summerizeByObjectCode(expenseTransferDocument.getTargetAccountingLines());
 
-        if (amountsFromSourceLine.size() != amountsFromTargetLine.size()) {
-            return false;
+        boolean isValid = true;
+
+        Map<String, KualiDecimal> unbalancedObjectCodes = expenseTransferDocument.getUnbalancedObjectCodes();
+        if (!unbalancedObjectCodes.isEmpty()) {
+            reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_TRANSFER_AMOUNT_NOT_BALANCED_BY_OBJECT);
+            isValid = false;
         }
 
-        for (String objectCode : amountsFromSourceLine.keySet()) {
-            if (!amountsFromTargetLine.containsKey(objectCode)) {
-                return false;
-            }
-
-            KualiDecimal sourceAmount = amountsFromSourceLine.get(objectCode);
-            KualiDecimal targetAmount = amountsFromTargetLine.get(objectCode);
-            if (!sourceAmount.equals(targetAmount)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * summerize the amounts of accounting lines by object codes
-     * 
-     * @param accountingLines the given accounting line list
-     * @return the summerized amounts by object codes
-     */
-    private Map<String, KualiDecimal> summerizeByObjectCode(List accountingLines) {
-        Map<String, KualiDecimal> amountByObjectCode = new HashMap<String, KualiDecimal>();
-
-        for (Object accountingLine : accountingLines) {
-            AccountingLine line = (AccountingLine) accountingLine;
-            String objectCode = line.getFinancialObjectCode();
-            KualiDecimal amount = line.getAmount();
-
-            if (amountByObjectCode.containsKey(objectCode)) {
-                amount = amount.add(amountByObjectCode.get(objectCode));
-            }
-            amountByObjectCode.put(objectCode, amount);
-        }
-        return amountByObjectCode;
+        return isValid;
     }
 
     /**
@@ -493,28 +448,26 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     }
 
     /**
-     * determine whether the accounts in the target accounting lines accept fringe benefits.
+     * determine whether the account in the target line accepts fringe benefits.
      * 
-     * @param accountingDocument the given accounting document
+     * @param accountingLine the line to check
      * @return true if the accounts in the target accounting lines accept fringe benefits; otherwise, false
      */
-    protected boolean isAccountsAcceptFringeBenefit(AccountingDocument accountingDocument) {
-        LOG.debug("started isAccountsAcceptFringeBenefit");
-        List<AccountingLine> accountingLines = accountingDocument.getTargetAccountingLines();
+    protected boolean isAccountAcceptFringeBenefit(AccountingLine accountingLine) {
+        boolean acceptsFringeBenefits = true;
 
-        for (AccountingLine accountingLine : accountingLines) {
-            Account account = accountingLine.getAccount();
-            if (account != null && !account.isAccountsFringesBnftIndicator()) {
-                String overrideCode = accountingLine.getOverrideCode();
-                boolean canNonFringeAccountUsed = NON_FRINGE_ACCOUNT_USED.equals(overrideCode);
-                canNonFringeAccountUsed = canNonFringeAccountUsed || EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED.equals(overrideCode);
+        Account account = accountingLine.getAccount();
+        if (account != null && !account.isAccountsFringesBnftIndicator()) {
+            String overrideCode = accountingLine.getOverrideCode();
+            boolean canNonFringeAccountUsed = NON_FRINGE_ACCOUNT_USED.equals(overrideCode);
+            canNonFringeAccountUsed = canNonFringeAccountUsed || EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED.equals(overrideCode);
 
-                if (!canNonFringeAccountUsed) {
-                    return false;
-                }
+            if (!canNonFringeAccountUsed) {
+                acceptsFringeBenefits = false;
             }
         }
-        return true;
+
+        return acceptsFringeBenefits;
     }
 
     /**
@@ -684,32 +637,13 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     public boolean processGenerateLaborLedgerPendingEntries(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         return true;
     }
-    
+
     /**
-     * @see org.kuali.kfs.rule.AccountingLineRule#isDebit(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.rule.AccountingLineRule#isDebit(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.kfs.bo.AccountingLine)
      */
     public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine) {
         return false;
-    }
-
-    /**
-     * determine whether the expired accounts in the target accounting lines can be used.
-     * 
-     * @param accountingDocument the given accounting document
-     * @return true if the expired accounts in the target accounting lines can be used; otherwise, false
-     */
-    protected boolean canExpiredAccountBeUsed(AccountingDocument accountingDocument) {
-        LOG.info("started canExpiredAccountBeUsed(accountingDocument)");
-        List<AccountingLine> accountingLines = accountingDocument.getTargetAccountingLines();
-
-        for (AccountingLine accountingLine : accountingLines) {
-            boolean canExpiredAccountBeUsed = this.canExpiredAccountBeUsed(accountingLine);
-
-            if (!canExpiredAccountBeUsed) {
-                return false;
-            }
-        }
-        return true;
     }
 
     /**

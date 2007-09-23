@@ -17,6 +17,7 @@ package org.kuali.module.labor.web.struts.action;
 
 import static org.kuali.kfs.KFSKeyConstants.ERROR_ZERO_AMOUNT;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -288,32 +289,6 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
     }
 
     /**
-     * Delete all accounting lines
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return mapping
-     * @throws Exception
-     */
-    public ActionForward deleteAllAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
-        boolean success = false;
-
-        List sourceAccountingLines = financialDocumentForm.getFinancialDocument().getSourceAccountingLines();
-        if (sourceAccountingLines != null) {
-            success = sourceAccountingLines.removeAll(sourceAccountingLines);
-        }
-
-        List targetAccountingLines = financialDocumentForm.getFinancialDocument().getTargetAccountingLines();
-        if (success && targetAccountingLines != null) {
-            success = targetAccountingLines.removeAll(targetAccountingLines);
-        }
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
      * Delete all source accounting lines
      * 
      * @param mapping
@@ -325,11 +300,8 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
      */
     public ActionForward deleteAllSourceAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
-        boolean success = false;
-        List sourceAccountingLines = financialDocumentForm.getFinancialDocument().getSourceAccountingLines();
-        if (sourceAccountingLines != null) {
-            success = sourceAccountingLines.removeAll(sourceAccountingLines);
-        }
+        financialDocumentForm.getFinancialDocument().setSourceAccountingLines(new ArrayList());
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -345,11 +317,8 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
      */
     public ActionForward deleteAllTargetAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
-        boolean success = false;
-        List targetAccountingLines = financialDocumentForm.getFinancialDocument().getTargetAccountingLines();
-        if (targetAccountingLines != null) {
-            success = targetAccountingLines.removeAll(targetAccountingLines);
-        }
+        financialDocumentForm.getFinancialDocument().setTargetAccountingLines(new ArrayList());
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }     
     
@@ -376,6 +345,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
             insertAccountingLine(false, financialDocumentForm, line);
         }
         processAccountingLineOverrides(line);
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

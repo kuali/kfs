@@ -54,7 +54,7 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="vendorContractName" />
+                    <sortAttribute attributeName="vendorDetail.vendorName" />
                 </sortAttributes>
             </defaultSort>
 

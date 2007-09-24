@@ -209,7 +209,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         // TODO: should call add line event/rules here
         PurApItem item = purchasingForm.getAndResetNewPurchasingItemLine();
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("item", purDocument, item));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("", purDocument, item));
         // AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(itemIndex) + "]",
         // purchasingForm.getDocument(), (AccountingLine) line)
         if (rulePassed) {

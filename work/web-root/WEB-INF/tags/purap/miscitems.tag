@@ -17,6 +17,8 @@
 
 <%@ attribute name="overrideTitle" required="false"
 	description="The title to be used for this section." %>
+<%@ attribute name="documentAttributes" required="false" type="java.util.Map" 
+	description="The DataDictionary entry containing attributes for this row's fields." %>
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map"
 	description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="accountingLineAttributes" required="true"
@@ -28,7 +30,10 @@
 <%@ attribute name="showInvoiced" required="false"
     type="java.lang.Boolean"
     description="post the unitPrice into the extendedPrice field" %>
-
+<%@ attribute name="specialItemTotalType" required="false" %>
+<%@ attribute name="specialItemTotalOverride" required="false" fragment="true"
+              description="Fragment of code to specify special item total line" %>
+              
 <c:if test="${empty overrideTitle}">
 	<c:set var="overrideTitle" value="Misc Items"/>
 </c:if>
@@ -65,6 +70,11 @@
 	id="itemLine">
 	<%-- to ensure order this should pull out items from APC instead of this--%>
 	<c:if test="${itemLine.itemType.itemTypeAboveTheLineIndicator != true}">
+		<c:if test="${not empty specialItemTotalType and itemLine.itemTypeCode == specialItemTotalType }">
+			  <c:if test="${!empty specialItemTotalOverride}">
+      			<jsp:invoke fragment="specialItemTotalOverride"/>
+  			  </c:if>
+		</c:if>
 		<tr>
 			<td colspan="11" class="tab-subhead" style="border-right: none;">
 			<kul:htmlControlAttribute

@@ -158,6 +158,10 @@ public class PurapServiceImpl implements PurapService {
         
         List<PurApItem> existingItems = document.getItems();
 
+        List<PurApItem> belowTheLine = new ArrayList<PurApItem>();
+        //needed in case they get out  of sync below won't work
+        sortBelowTheLine(itemTypes, existingItems, belowTheLine);        
+
         List<String> existingItemTypes = new ArrayList();
         for (PurApItem existingItem : existingItems) {
             existingItemTypes.add(existingItem.getItemTypeCode());
@@ -187,6 +191,49 @@ public class PurapServiceImpl implements PurapService {
         }
     }
 
+    /**
+     *
+     * This method sorts the below the line elements 
+     * @param itemTypes
+     * @param existingItems
+     * @param belowTheLine
+     */
+    private void sortBelowTheLine(String[] itemTypes, List<PurApItem> existingItems, List<PurApItem> belowTheLine) {
+        //sort existing below the line if any
+        for (int i = 0; i < existingItems.size(); i++) {
+            PurApItem purApItem = existingItems.get(i);
+            if(!purApItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+                belowTheLine.add(existingItems.get(i));
+            }
+        }
+        existingItems.removeAll(belowTheLine);
+        for (int i = 0; i < itemTypes.length; i++) {
+            for (PurApItem purApItem : belowTheLine) {
+                if(StringUtils.equalsIgnoreCase(purApItem.getItemTypeCode(),itemTypes[i])) {
+                    existingItems.add(purApItem);
+                    break;
+                }
+            }
+        }
+        belowTheLine.removeAll(existingItems);
+        if(belowTheLine.size()!=0) {
+            throw new RuntimeException("below the line item sort didn't work: trying to remove an item without adding it back");
+        }
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.purap.service.PurapService#sortBelowTheLine(java.lang.String[], java.util.List, java.util.List)
+     */
+    public void sortBelowTheLine(PurchasingAccountsPayableDocument document) {
+        String[] itemTypes = getBelowTheLineForDocument(document);
+        
+        List<PurApItem> existingItems = document.getItems();
+
+        List<PurApItem> belowTheLine = new ArrayList<PurApItem>();
+        //needed in case they get out  of sync below won't work
+        sortBelowTheLine(itemTypes, existingItems, belowTheLine);  
+    }
     /**
      * This method get the Below the line item type codes from the parameters table
      * @param document

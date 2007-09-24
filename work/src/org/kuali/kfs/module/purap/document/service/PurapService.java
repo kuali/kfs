@@ -25,6 +25,7 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -122,5 +123,11 @@ public interface PurapService {
     public void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument);
     
     public Object performLogicWithFakedUserSession(String requiredUniversalUserPersonUserId, LogicContainer logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception;
-
+    
+    /**
+     * 
+     * This method sorts the below the line elements
+     * @param document
+     */
+    public void sortBelowTheLine(PurchasingAccountsPayableDocument document);
 }

@@ -416,6 +416,8 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
             //credit memo needs more analysis remove this when it's merged with below
             return;
         }
+        
+        //don't run the following if past full entry
         if(purapService.isFullDocumentEntryCompleted(apDocument)) {
             return;
         }
@@ -432,7 +434,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
             }
             PaymentRequestItem preqItem = preq.getPreqItemFromPOItem(purchaseOrderItem);
             if(ObjectUtils.isNull(preqItem)) {
-                //must me a new item from amendment add to preqItems
+                //must be a new item from amendment add to preqItems
                 preqItems.add(new PaymentRequestItem(purchaseOrderItem, preq));
                 continue;
             }

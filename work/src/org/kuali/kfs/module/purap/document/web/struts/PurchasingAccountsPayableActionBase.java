@@ -40,8 +40,8 @@ import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.PurapAccountingService;
+import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.web.struts.form.PurchasingAccountsPayableFormBase;
-import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -63,6 +63,9 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         for (org.kuali.core.bo.Note note : (java.util.List<org.kuali.core.bo.Note>)document.getBoNotes()) {
             note.refreshReferenceObject("attachment");
         }
+        
+        //sort the below  the line
+        SpringContext.getBean(PurapService.class).sortBelowTheLine(document);
         
         updateBaseline(document,(PurchasingAccountsPayableFormBase)kualiDocumentFormBase);
     }

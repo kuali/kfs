@@ -228,7 +228,9 @@ public abstract class AbstractLaborInquirableImpl extends KualiInquirableImpl {
      * 
      * @param parameter the current parameter map
      */
-    protected abstract void addMoreParameters(Properties parameter, String attributeName);
+    protected void addMoreParameters(Properties parameter, String attributeName){
+        return;
+    }
 
     /**
      * This method determines whether the input name-value pair is exclusive from the processing

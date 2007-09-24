@@ -25,14 +25,23 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.labor.bo.PositionData;
 
+/**
+ * This class is used to generate the URL for the user-defined attributes for the Position Inquiry screen. It is entended the
+ * KualiInquirableImpl class, so it covers both the default implementation and customized implemetnation.
+ */
 public class PositionDataDetailsInquirableImpl extends AbstractLaborInquirableImpl {
 
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
+     */
     @Override
     protected void addMoreParameters(Properties parameter, String attributeName) {
         parameter.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#buildUserDefinedAttributeKeyList()
+     */
     protected List buildUserDefinedAttributeKeyList() {
         List keys = new ArrayList();
         keys.add(KFSPropertyConstants.POSITION_NUMBER);
@@ -40,37 +49,51 @@ public class PositionDataDetailsInquirableImpl extends AbstractLaborInquirableIm
         return keys;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getAttributeName(java.lang.String)
+     */
     protected String getAttributeName(String attributeName) {
         return KFSPropertyConstants.POSITION_NUMBER;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getBaseUrl()
+     */
     protected String getBaseUrl() {
         return KFSConstants.INQUIRY_ACTION;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getInquiryBusinessObjectClass(java.lang.String)
+     */
     protected Class getInquiryBusinessObjectClass(String attributeName) {
         return PositionData.class;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getKeyName(java.lang.String)
+     */
     protected String getKeyName(String keyName) {
         return keyName;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getKeyValue(java.lang.String, java.lang.Object)
+     */
     protected Object getKeyValue(String keyName, Object keyValue) {
         return keyValue;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getLookupableImplAttributeName()
+     */
     protected String getLookupableImplAttributeName() {
         return null;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getUserDefinedAttributeMap()
+     */
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
         userDefinedAttributeMap.put(KFSPropertyConstants.POSITION_NUMBER, KFSPropertyConstants.POSITION_NUMBER);

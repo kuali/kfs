@@ -21,19 +21,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.service.LookupService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.bo.LedgerEntry;
 
 /**
  * This class is used to generate the URL for the user-defined attributes for the Ledger Balance screen. It is entended the
  * KualiInquirableImpl class, so it covers both the default implementation and customized implemetnation.
- * 
- * 
  */
 public class LedgerBalanceInquirableImpl extends AbstractLaborInquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LedgerBalanceInquirableImpl.class);

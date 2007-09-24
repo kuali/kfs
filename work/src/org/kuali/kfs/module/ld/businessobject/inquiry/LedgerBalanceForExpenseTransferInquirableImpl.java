@@ -24,8 +24,6 @@ import org.kuali.module.labor.bo.LedgerEntryForExpenseTransfer;
 /**
  * This class is used to generate the URL for the user-defined attributes for the Ledger Balance screen. It is entended the
  * KualiInquirableImpl class, so it covers both the default implementation and customized implemetnation.
- * 
- * 
  */
 public class LedgerBalanceForExpenseTransferInquirableImpl extends LedgerBalanceInquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LedgerBalanceForExpenseTransferInquirableImpl.class);

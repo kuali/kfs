@@ -28,54 +28,70 @@ import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.bo.PositionData;
 import org.kuali.module.labor.bo.PositionFunding;
 
+/**
+ * This class is used to generate the URL for the user-defined attributes for the Position Inquiry screen. It is entended the
+ * KualiInquirableImpl class, so it covers both the default implementation and customized implemetnation.
+ */
 public class PositionDataInquirableImpl extends AbstractLaborInquirableImpl {
 
-    @Override
-    protected void addMoreParameters(Properties parameter, String attributeName) {
-    }
-
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#buildUserDefinedAttributeKeyList()
+     */
     protected List buildUserDefinedAttributeKeyList() {
         List keys = new ArrayList();
         keys.add(KFSPropertyConstants.POSITION_NUMBER);
         return keys;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getAttributeName(java.lang.String)
+     */
     protected String getAttributeName(String attributeName) {
         return attributeName;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getBaseUrl()
+     */
     protected String getBaseUrl() {
         return KFSConstants.GL_MODIFIED_INQUIRY_ACTION;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getInquiryBusinessObjectClass(java.lang.String)
+     */
     protected Class getInquiryBusinessObjectClass(String attributeName) {
         return PositionFunding.class;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getKeyName(java.lang.String)
+     */
     protected String getKeyName(String keyName) {
         return keyName;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getKeyValue(java.lang.String, java.lang.Object)
+     */
     protected Object getKeyValue(String keyName, Object keyValue) {
         return keyValue;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getLookupableImplAttributeName()
+     */
     protected String getLookupableImplAttributeName() {
         return null;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getUserDefinedAttributeMap()
+     */
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
         userDefinedAttributeMap.put(GLConstants.DummyBusinessObject.LINK_BUTTON_OPTION, "");
-        
+
         return userDefinedAttributeMap;
     }
 }

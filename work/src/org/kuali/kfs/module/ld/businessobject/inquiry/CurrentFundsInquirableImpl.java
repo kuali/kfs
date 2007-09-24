@@ -23,7 +23,6 @@ import java.util.Properties;
 
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.bo.LedgerBalance;
 
@@ -49,7 +48,7 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
         keys.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
         keys.add(KFSPropertyConstants.EMPLID);
         keys.add(KFSPropertyConstants.POSITION_NUMBER);
-        
+
         keys.add(Constant.CONSOLIDATION_OPTION);
         keys.add(Constant.PENDING_ENTRY_OPTION);
         return keys;
@@ -108,11 +107,5 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
      */
     protected Class getInquiryBusinessObjectClass(String attributeName) {
         return LedgerBalance.class;
-    }
-
-    /**
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
-     */
-    protected void addMoreParameters(Properties parameter, String attributeName) {
     }
 }

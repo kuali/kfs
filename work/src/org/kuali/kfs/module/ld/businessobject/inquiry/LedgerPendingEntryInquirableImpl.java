@@ -17,62 +17,66 @@ package org.kuali.module.labor.web.inquirable;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
+/**
+ * This class is used to generate the URL for the user-defined attributes for the pending ledger entry screen. It is entended the
+ * KualiInquirableImpl class, so it covers both the default implementation and customized implemetnation.
+ */
 public class LedgerPendingEntryInquirableImpl extends AbstractLaborInquirableImpl {
 
-    @Override
-    protected void addMoreParameters(Properties parameter, String attributeName) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#buildUserDefinedAttributeKeyList()
+     */
     protected List buildUserDefinedAttributeKeyList() {
-        // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getAttributeName(java.lang.String)
+     */
     protected String getAttributeName(String attributeName) {
-        // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getBaseUrl()
+     */
     protected String getBaseUrl() {
-        // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getInquiryBusinessObjectClass(java.lang.String)
+     */
     protected Class getInquiryBusinessObjectClass(String attributeName) {
-        // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getKeyName(java.lang.String)
+     */
     protected String getKeyName(String keyName) {
-        // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getKeyValue(java.lang.String, java.lang.Object)
+     */
     protected Object getKeyValue(String keyName, Object keyValue) {
-        // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getLookupableImplAttributeName()
+     */
     protected String getLookupableImplAttributeName() {
-        // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getUserDefinedAttributeMap()
+     */
     protected Map getUserDefinedAttributeMap() {
-        // TODO Auto-generated method stub
         return null;
     }
-
 }

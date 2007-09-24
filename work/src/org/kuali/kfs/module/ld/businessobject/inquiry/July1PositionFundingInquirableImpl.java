@@ -21,8 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.service.LookupService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
@@ -35,16 +33,11 @@ import org.kuali.module.labor.bo.LedgerBalance;
 public class July1PositionFundingInquirableImpl extends AbstractLaborInquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(July1PositionFundingInquirableImpl.class);
 
-    private BusinessObjectDictionaryService dataDictionary;
-    private LookupService lookupService;
-    private Class businessObjectClass;
-
     /**
-     * 
      * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#buildUserDefinedAttributeKeyList()
      */
     protected List buildUserDefinedAttributeKeyList() {
-        List<String> keys = new ArrayList<String>();        
+        List<String> keys = new ArrayList<String>();
         return keys;
     }
 
@@ -52,7 +45,7 @@ public class July1PositionFundingInquirableImpl extends AbstractLaborInquirableI
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getUserDefinedAttributeMap()
      */
     protected Map getUserDefinedAttributeMap() {
-               
+
         Map userDefinedAttributeMap = new HashMap();
         return userDefinedAttributeMap;
     }
@@ -93,7 +86,6 @@ public class July1PositionFundingInquirableImpl extends AbstractLaborInquirableI
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getBaseUrl()
      */
     protected String getBaseUrl() {
-        // TODO: investigate change to this constant
         return KFSConstants.GL_MODIFIED_INQUIRY_ACTION;
     }
 
@@ -102,11 +94,5 @@ public class July1PositionFundingInquirableImpl extends AbstractLaborInquirableI
      */
     protected Class getInquiryBusinessObjectClass(String attributeName) {
         return LedgerBalance.class;
-    }
-
-    /**
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
-     */
-    protected void addMoreParameters(Properties parameter, String attributeName) {     
     }
 }

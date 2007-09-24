@@ -146,8 +146,6 @@ public interface SchedulerService {
      */
     public List<String> getJobStatuses();
 
-    public void runStep(String groupName, String jobName, String stepName, Date startTime, String requestorEmailAddress);
-
     /**
      * Requests that the given job be stopped as soon as possble. It is up to the job to watch for this request and terminiate. Long
      * running steps may not end unless they check for the interrupted status on their current Thread ot Step instance.

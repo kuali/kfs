@@ -142,10 +142,6 @@ public class BatchJobStatus extends TransientBusinessObjectBase {
         getSchedulerService().runJob(getName(), startStep, endStep, startTime, requestorEmailAddress );
     }
     
-    public void runStep( String stepName, String requestorEmailAddress ) {
-        getSchedulerService().runStep( getGroup(), getName(), stepName, new Date(), requestorEmailAddress );
-    }
-    
     public void interrupt() {
         getSchedulerService().interruptJob(getName());
     }

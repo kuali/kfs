@@ -84,6 +84,7 @@
                             <field attributeName="active" />
                             <inquiryCollection name="vendorDefaultAddresses" businessObjectClass="org.kuali.module.vendor.bo.VendorDefaultAddress" summaryTitle="Default Address" >
                                 <field attributeName="vendorCampusCode" />
+                                <field attributeName="active" />
                                 <inquirySummaryFields>
            		       		        <inquirySummaryField attributeName="vendorCampusCode" />
            		       	        </inquirySummaryFields>

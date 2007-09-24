@@ -27,12 +27,14 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.labor.web.inquirable.PositionDataDetailsInquirableImpl;
 import org.kuali.module.labor.web.inquirable.PositionDataInquirableImpl;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class...
+ * The class is the front-end for all position data inquiry processing.
  */
+@Transactional
 public class PositionDataLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
-    
+
     /**
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
      */
@@ -50,12 +52,12 @@ public class PositionDataLookupableHelperServiceImpl extends AbstractLookupableH
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         // remove hidden fields
-        LookupUtils.removeHiddenCriteriaFields( getBusinessObjectClass(), fieldValues );
+        LookupUtils.removeHiddenCriteriaFields(getBusinessObjectClass(), fieldValues);
 
         setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
         setReferencesToRefresh(fieldValues.get(KFSConstants.REFERENCES_TO_REFRESH));
-        
+
         List searchResults = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, false);
         // sort list if default sort column given
         List defaultSortColumns = getDefaultSortColumns();

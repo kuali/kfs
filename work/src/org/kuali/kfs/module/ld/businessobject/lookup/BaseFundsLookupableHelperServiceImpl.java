@@ -98,6 +98,7 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
 
     /**
      * Sets the laborBaseFundsService attribute value.
+     * 
      * @param laborBaseFundsService The laborBaseFundsService to set.
      */
     public void setLaborBaseFundsService(LaborBaseFundsService laborBaseFundsService) {

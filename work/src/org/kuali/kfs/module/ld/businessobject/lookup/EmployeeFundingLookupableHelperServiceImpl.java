@@ -160,7 +160,8 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
     }
 
     /**
-     * update the amount of the given employee funding with the given pending entry 
+     * update the amount of the given employee funding with the given pending entry
+     * 
      * @param employeeFunding the given employee funding
      * @param pendingEntry the given pending entry
      */
@@ -179,6 +180,7 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
 
     /**
      * determine whether the given pending entry is qualified to be processed as an employee funding
+     * 
      * @param pendingEntry the given pending entry
      * @return true if the given pending entry is qualified to be processed as an employee funding; otherwise, false
      */

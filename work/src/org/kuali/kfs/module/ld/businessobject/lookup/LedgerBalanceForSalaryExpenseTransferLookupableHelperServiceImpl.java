@@ -32,6 +32,9 @@ import org.kuali.module.labor.util.ConsolidationUtil;
 import org.kuali.module.labor.web.inquirable.LedgerBalanceForExpenseTransferInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * The class is the front-end for the balance inquiry of Ledger Balance For Salary Expense Transfer processing.
+ */
 @Transactional
 public class LedgerBalanceForSalaryExpenseTransferLookupableHelperServiceImpl extends LedgerBalanceLookupableHelperServiceImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LedgerBalanceForSalaryExpenseTransferLookupableHelperServiceImpl.class);

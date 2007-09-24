@@ -15,25 +15,17 @@
  */
 package org.kuali.module.labor.web.lookupable;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.service.BalanceService;
-import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.service.LaborCalculatedSalaryFoundationTrackerService;
-import org.kuali.module.labor.service.impl.LaborBaseFundsServiceImpl;
 import org.kuali.module.labor.web.inquirable.LaborCalculatedSalaryFoundationTrackerInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class LaborCalculatedSalaryFoundationTrackerLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCalculatedSalaryFoundationTrackerLookupableHelperServiceImpl.class);
-    
+
     private LaborCalculatedSalaryFoundationTrackerService laborCalculatedSalaryFoundationTrackerService;
 
     /**
@@ -56,7 +48,7 @@ public class LaborCalculatedSalaryFoundationTrackerLookupableHelperServiceImpl e
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
         return (new LaborCalculatedSalaryFoundationTrackerInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
-    
+
     /**
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
@@ -69,7 +61,7 @@ public class LaborCalculatedSalaryFoundationTrackerLookupableHelperServiceImpl e
 
         return new CollectionIncomplete(searchResultsCollection, new Long(searchResultsCollection.size()));
     }
-    
+
     /**
      * build the serach result list from the given collection and the number of all qualified search results
      * 
@@ -91,6 +83,7 @@ public class LaborCalculatedSalaryFoundationTrackerLookupableHelperServiceImpl e
 
     /**
      * Sets the laborCalculatedSalaryFoundationTrackerService attribute value.
+     * 
      * @param laborCalculatedSalaryFoundationTrackerService The laborCalculatedSalaryFoundationTrackerService to set.
      */
     public void setLaborCalculatedSalaryFoundationTrackerService(LaborCalculatedSalaryFoundationTrackerService laborCalculatedSalaryFoundationTrackerService) {

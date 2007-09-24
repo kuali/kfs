@@ -20,17 +20,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.inquirable.InquirableFinancialDocument;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
@@ -66,18 +61,18 @@ public class LaborPendingEntryLookupableHelperServiceImpl extends AbstractLookup
     @Override
     public List getSearchResults(Map fieldValues) {
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));       
-        
+        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+
         // determine if only approved pending entries need to be returned
         String pendingEntryOption = laborInquiryOptionsService.getSelectedPendingEntryOption(fieldValues);
         boolean isApprovedPendingSelected = Constant.APPROVED_PENDING_ENTRY.equals(pendingEntryOption) ? true : false;
-        
+
         Collection<LaborLedgerPendingEntry> searchResults = laborLedgerPendingEntryService.findPendingEntries(fieldValues, isApprovedPendingSelected);
         Long resultSize = searchResults == null ? 0 : new Long(searchResults.size());
-        
+
         return this.buildSearchResultList(searchResults, resultSize);
     }
-    
+
     /**
      * build the serach result list from the given collection and the number of all qualified search results
      * 
@@ -109,6 +104,7 @@ public class LaborPendingEntryLookupableHelperServiceImpl extends AbstractLookup
 
     /**
      * Sets the laborInquiryOptionsService attribute value.
+     * 
      * @param laborInquiryOptionsService The laborInquiryOptionsService to set.
      */
     public void setLaborInquiryOptionsService(LaborInquiryOptionsService laborInquiryOptionsService) {

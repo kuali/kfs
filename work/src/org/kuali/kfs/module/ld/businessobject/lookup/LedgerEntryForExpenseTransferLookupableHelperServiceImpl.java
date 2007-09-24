@@ -31,9 +31,11 @@ import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.web.inquirable.EntryInquirableImpl;
 import org.kuali.module.gl.web.inquirable.InquirableFinancialDocument;
 import org.kuali.module.labor.bo.LedgerEntry;
-import org.kuali.module.labor.bo.LedgerEntryForExpenseTransfer;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * The class is the front-end for the balance inquiry of Ledger entry For Expense Transfer processing.
+ */
 @Transactional
 public class LedgerEntryForExpenseTransferLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LedgerEntryForExpenseTransferLookupableHelperServiceImpl.class);
@@ -75,7 +77,7 @@ public class LedgerEntryForExpenseTransferLookupableHelperServiceImpl extends Ab
 
         // get the actual size of all qualified search results
         Long actualSize = new Long(consolidatedEntries.size());
-        
+
         return this.buildSearchResultList(consolidatedEntries, actualSize);
     }
 

@@ -24,6 +24,11 @@ import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.LaborBalanceSummary;
 import org.kuali.module.labor.bo.LedgerBalance;
 
+/**
+ * This is the data access object for ledger balance.
+ * 
+ * @see org.kuali.module.labor.bo.LedgerBalance
+ */
 public interface LaborLedgerBalanceDao {
 
     /**
@@ -45,13 +50,14 @@ public interface LaborLedgerBalanceDao {
     public Iterator getConsolidatedBalanceRecordCount(Map fieldValues);
 
     /**
-     * @param fiscalYear the given fiscal year 
+     * @param fiscalYear the given fiscal year
      * @return an iterator over all balances for a given fiscal year
      */
     public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear);
 
     /**
      * retrieve the current funds according to the given field values
+     * 
      * @param fieldValues the given field values
      * @return the current funds according to the given field values
      */
@@ -59,13 +65,15 @@ public interface LaborLedgerBalanceDao {
 
     /**
      * retrieve the encumbrance funds according to the given field values
+     * 
      * @param fieldValues the given field values
      * @return the encumbrance funds according to the given field values
      */
     public List<LedgerBalance> findEncumbranceFunds(Map fieldValues);
-    
+
     /**
      * retrieve the current funds according to the given field values
+     * 
      * @param fieldValues the given field values
      * @return the current funds according to the given field values
      */
@@ -73,6 +81,7 @@ public interface LaborLedgerBalanceDao {
 
     /**
      * retrieve the encumbrance funds according to the given field values
+     * 
      * @param fieldValues the given field values
      * @return the encumbrance funds according to the given field values
      */
@@ -80,6 +89,7 @@ public interface LaborLedgerBalanceDao {
 
     /**
      * find the summary of the ledger balances for the given fiscal year and balance types
+     * 
      * @param fiscalYear the given fiscal year
      * @param balanceTypes the given balance type codes
      * @return the ledger balances for the given fiscal year and balance types

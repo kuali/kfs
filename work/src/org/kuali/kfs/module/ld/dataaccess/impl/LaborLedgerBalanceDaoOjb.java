@@ -58,6 +58,11 @@ import org.kuali.module.labor.dao.LaborLedgerBalanceDao;
 import org.kuali.module.labor.util.ConsolidationUtil;
 import org.kuali.module.labor.util.ObjectUtil;
 
+/**
+ * This is the data access object for ledger balance.
+ * 
+ * @see org.kuali.module.labor.bo.LedgerBalance
+ */
 public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements LaborLedgerBalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerBalanceDaoOjb.class);
     private KualiConfigurationService kualiConfigurationService;

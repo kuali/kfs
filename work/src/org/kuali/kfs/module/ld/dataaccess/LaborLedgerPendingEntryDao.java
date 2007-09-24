@@ -24,6 +24,8 @@ import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 
 /**
  * This interface defines basic methods that GeneralLedgerPendingEntry Dao's must provide
+ * 
+ * @see org.kuali.module.labor.bo.LaborLedgerPendingEntry
  */
 public interface LaborLedgerPendingEntryDao extends GeneralLedgerPendingEntryDao {
 
@@ -40,7 +42,7 @@ public interface LaborLedgerPendingEntryDao extends GeneralLedgerPendingEntryDao
      * This method retrieves all pending ledger entries with the given search criteria
      * 
      * @param fieldValues the input fields and values
-     * @param businessObject 
+     * @param businessObject
      * @return all pending ledger entries that may belong to pendingentry table
      */
     public Collection<LaborLedgerPendingEntry> hasPendingLaborLedgerEntry(Map fieldValues, Object businessObject);

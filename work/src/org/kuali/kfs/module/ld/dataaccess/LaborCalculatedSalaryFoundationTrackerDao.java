@@ -23,6 +23,11 @@ import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.LaborCalculatedSalaryFoundationTracker;
 
+/**
+ * This is the data access object for calculated salary foundation tracker
+ * 
+ * @see org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker
+ */
 public interface LaborCalculatedSalaryFoundationTrackerDao {
     
     /**

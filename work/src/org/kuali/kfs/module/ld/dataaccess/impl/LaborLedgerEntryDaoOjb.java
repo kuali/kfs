@@ -30,15 +30,20 @@ import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.dao.LaborLedgerEntryDao;
 
+/**
+ * This is the data access object for ledger entry.
+ * 
+ * @see org.kuali.module.labor.bo.LedgerEntry
+ */
 public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements LaborLedgerEntryDao {
 
     /**
      * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#getMaxSquenceNumber(org.kuali.module.labor.bo.LedgerEntry)
      */
     public Integer getMaxSquenceNumber(LedgerEntry ledgerEntry) {
-        //TODO: this is a piece of duplicate code. We need to refactor it later
+        // TODO: this is a piece of duplicate code. We need to refactor it later
         Criteria criteria = new Criteria();
-        
+
         criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, ledgerEntry.getUniversityFiscalYear());
         criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, ledgerEntry.getChartOfAccountsCode());
         criteria.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, ledgerEntry.getAccountNumber());
@@ -57,11 +62,11 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
 
         Iterator iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         Integer maxSequenceNumber = Integer.valueOf(0);
-        
+
         if (iterator.hasNext()) {
             Object[] data = (Object[]) KFSUtils.retrieveFirstAndExhaustIterator(iterator);
             if (data[0] != null) {
-                maxSequenceNumber = ((BigDecimal)data[0]).intValue();
+                maxSequenceNumber = ((BigDecimal) data[0]).intValue();
             }
         }
         return maxSequenceNumber;
@@ -75,11 +80,12 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
 
         QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
-}
+    }
+
     /**
-     * @return the Class type of the business object accessed and managed 
+     * @return the Class type of the business object accessed and managed
      */
-    private Class getEntryClass(){
+    private Class getEntryClass() {
         return LedgerEntry.class;
     }
 }

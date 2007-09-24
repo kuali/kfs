@@ -33,6 +33,11 @@ import org.kuali.module.labor.dao.LaborBaseFundsDao;
 import org.kuali.module.labor.util.ConsolidationUtil;
 import org.kuali.module.labor.util.ObjectUtil;
 
+/**
+ * This is the data access object for account status base funds.
+ * 
+ * @see org.kuali.module.labor.bo.AccountStatusBaseFunds
+ */
 public class LaborBaseFundsDaoOjb extends PlatformAwareDaoBaseOjb implements LaborBaseFundsDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBaseFundsDaoOjb.class);
 

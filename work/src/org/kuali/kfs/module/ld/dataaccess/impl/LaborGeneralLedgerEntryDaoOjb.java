@@ -27,15 +27,20 @@ import org.kuali.kfs.util.KFSUtils;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
 import org.kuali.module.labor.dao.LaborGeneralLedgerEntryDao;
 
+/**
+ * This is the data access object for labor general ledger entry
+ * 
+ * @see org.kuali.module.labor.bo.LaborGeneralLedgerEntry
+ */
 public class LaborGeneralLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements LaborGeneralLedgerEntryDao {
 
     /**
      * @see org.kuali.module.labor.dao.LaborGeneralLedgerEntryDao#getMaxSequenceNumber(org.kuali.module.labor.bo.LaborGeneralLedgerEntry)
      */
     public Integer getMaxSequenceNumber(LaborGeneralLedgerEntry laborGeneralLedgerEntry) {
-        //TODO: this is a piece of duplicate code. We need to refactor it later
+        // TODO: this is a piece of duplicate code. We need to refactor it later
         Criteria criteria = new Criteria();
-        
+
         criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, laborGeneralLedgerEntry.getUniversityFiscalYear());
         criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, laborGeneralLedgerEntry.getChartOfAccountsCode());
         criteria.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, laborGeneralLedgerEntry.getAccountNumber());
@@ -54,11 +59,11 @@ public class LaborGeneralLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb imple
 
         Iterator iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         Integer maxSequenceNumber = Integer.valueOf(0);
-        
+
         if (iterator.hasNext()) {
             Object[] data = (Object[]) KFSUtils.retrieveFirstAndExhaustIterator(iterator);
             if (data[0] != null) {
-                maxSequenceNumber = ((BigDecimal)data[0]).intValue();
+                maxSequenceNumber = ((BigDecimal) data[0]).intValue();
             }
         }
         return maxSequenceNumber;

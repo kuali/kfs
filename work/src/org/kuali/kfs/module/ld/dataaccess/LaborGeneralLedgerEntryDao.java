@@ -18,10 +18,17 @@ package org.kuali.module.labor.dao;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
 
 /**
- * This class...
+ * This is the data access object for labor general ledger entry
+ * 
+ * @see org.kuali.module.labor.bo.LaborGeneralLedgerEntry
  */
 public interface LaborGeneralLedgerEntryDao {
 
+    /**
+     * get the max squence number with the given Labor General edger Entry object
+     * 
+     * @param laborGeneralLedgerEntry the given labor General Ledger Entry
+     * @return the max squence number with the infomation in the given Labor General edger Entry object
+     */
     Integer getMaxSequenceNumber(LaborGeneralLedgerEntry laborGeneralLedgerEntry);
-
 }

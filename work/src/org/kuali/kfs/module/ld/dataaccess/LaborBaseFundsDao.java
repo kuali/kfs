@@ -20,6 +20,10 @@ import java.util.Map;
 
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 
+/**
+ * This is the data access object for account status base funds.
+ * @see org.kuali.module.labor.bo.AccountStatusBaseFunds
+ */
 public interface LaborBaseFundsDao {
 
     /**

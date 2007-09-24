@@ -26,7 +26,6 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb;
@@ -34,7 +33,11 @@ import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.dao.LaborOriginEntryDao;
 
-
+/**
+ * This is the data access object for labor origin entry.
+ * 
+ * @see org.kuali.module.labor.bo.LaborOriginEntry
+ */
 public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOriginEntryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntryDaoOjb.class);
 
@@ -62,8 +65,9 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
      */
     public int getCountOfEntriesInGroups(Collection<OriginEntryGroup> groups) {
         LOG.debug("getCountOfEntriesInGroups() started");
-        
-        if(groups.size()==0) return 0;
+
+        if (groups.size() == 0)
+            return 0;
 
         // extract the group ids of the given groups
         List<Integer> groupIds = new ArrayList<Integer>();
@@ -106,18 +110,31 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
 
+    /**
+     * build the returning attribute list for the calling query
+     * 
+     * @return the returning attribute list
+     */
     private List<String> buildConsolidationAttributeList() {
         List<String> attributeList = this.buildGroupByList();
         attributeList.add("sum(" + KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")");
         return attributeList;
     }
 
+    /**
+     * build the grouping attribute list for the calling query
+     * 
+     * @return the grouping attribute list
+     */
     private List<String> buildGroupByList() {
         List<String> groupByList = new ArrayList<String>(LaborConstants.consolidationAttributesOfOriginEntry());
         groupByList.remove(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
         return groupByList;
     }
 
+    /**
+     * @see org.kuali.module.labor.dao.LaborOriginEntryDao#testingLaborGetAllEntries()
+     */
     public Collection<LaborOriginEntry> testingLaborGetAllEntries() {
         LOG.debug("testingGetAllEntries() started");
 
@@ -127,6 +144,9 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
 
+    /**
+     * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getLaborEntriesByGroup(org.kuali.module.gl.bo.OriginEntryGroup, int)
+     */
     public Iterator<LaborOriginEntry> getLaborEntriesByGroup(OriginEntryGroup oeg, int sort) {
         LOG.debug("getEntriesByGroup() started");
 
@@ -198,12 +218,11 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
     }
-    
-    
+
     /**
-     * 
-     * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getMatchingEntriesByCollection(java.util.Map)
+     * @see org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb#getMatchingEntriesByCollection(java.util.Map)
      */
+    @Override
     public Collection getMatchingEntriesByCollection(Map searchCriteria) {
         LOG.debug("getMatchingEntries() started");
 
@@ -217,10 +236,11 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
         qbc.addOrderByAscending("entryGroupId");
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
-    
+
     /**
      * @param entry the entry to save.
      */
+    @Deprecated
     public void saveOriginEntry(LaborOriginEntry entry) {
         LOG.debug("saveOriginEntry() started");
 
@@ -229,14 +249,15 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
         }
         getPersistenceBrokerTemplate().store(entry);
     }
-    
+
     /**
-     * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getSummaryByGroupId(java.util.List)
+     * @see org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb#getSummaryByGroupId(java.util.Collection)
      */
+    @Override
     public Iterator getSummaryByGroupId(Collection groupIdList) {
         LOG.debug("getSummaryByGroupId() started");
-        
-        if(groupIdList == null || groupIdList.size()<=0) {
+
+        if (groupIdList == null || groupIdList.size() <= 0) {
             return null;
         }
 

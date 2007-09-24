@@ -58,6 +58,7 @@ import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
+import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.web.ui.AccountingLineDecorator;
 import org.kuali.module.gl.GLConstants;
@@ -77,7 +78,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * This class handles UI actions for all shared methods of expense transfer documents.
  */
-public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
+public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExpenseTransferDocumentActionBase.class);
 
     /**

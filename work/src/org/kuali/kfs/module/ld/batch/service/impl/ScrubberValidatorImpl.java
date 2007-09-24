@@ -28,6 +28,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.gl.bo.OriginEntry;
@@ -37,6 +38,7 @@ import org.kuali.module.gl.service.OriginEntryLookupService;
 import org.kuali.module.gl.service.ScrubberValidator;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.ObjectHelper;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.springframework.util.StringUtils;
 
@@ -56,17 +58,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private String[] continuationAccountBypassDocumentTypeCodes = new String[] { "TOPS", "CD", "LOCR" };
     private int numOfAttempts = 10;
     private int numOfExtraMonthsForCGAccount = 3;
-    
-    
-    // TODO: Indicators should come from parameter
-    private boolean subfundWageExclusionInd = true;
-    private boolean accountFringeExclusionInd = true;
-    private boolean suspenseAccountLogicInd = true;
-    private boolean continuationAccountLogicInd = true;
-    
-    
-    
-
     
     /**
      * @see org.kuali.module.labor.service.LaborScrubberValidator#validateTransaction(owrg.kuali.module.labor.bo.LaborOriginEntry,
@@ -231,7 +222,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
     private Message validateAccount(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateAccount() started");
-
+        
         Calendar today = Calendar.getInstance();
         today.setTime(universityRunDate.getUniversityDate());
         
@@ -272,7 +263,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         adjustAccountIfContractsAndGrants(account);
         
-        //TODO: Labor's new features
+        //Labor's new features
+        boolean subfundWageExclusionInd = kualiConfigurationService.getApplicationParameterIndicator(LaborConstants.Scrubber.PARAMETER_GROUP, LaborConstants.Scrubber.SUBFUND_WAGE_EXCLUSTION_PARAMETER);
+        boolean accountFringeExclusionInd = kualiConfigurationService.getApplicationParameterIndicator(LaborConstants.Scrubber.PARAMETER_GROUP, LaborConstants.Scrubber.ACCOUNT_FRINGE__EXCLUSTION_PARAMETER);
+        boolean suspenseAccountLogicInd = kualiConfigurationService.getApplicationParameterIndicator(LaborConstants.Scrubber.PARAMETER_GROUP, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
+        boolean continuationAccountLogicInd = kualiConfigurationService.getApplicationParameterIndicator(LaborConstants.Scrubber.PARAMETER_GROUP, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_LOGIC_PARAMETER);
         
         //checking Sub-Fund Wage Exclusion indicator
         if (subfundWageExclusionInd) {
@@ -452,6 +447,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         // We failed to find a valid continuation account.
+        boolean suspenseAccountLogicInd = kualiConfigurationService.getApplicationParameterIndicator(LaborConstants.Scrubber.PARAMETER_GROUP, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
         if (suspenseAccountLogicInd){
             useSuspenseAccount(laborWorkingEntry);
             return null;

@@ -154,6 +154,16 @@ public class LaborConstants {
         public static final String BALANCE_TYPES_NOT_PROCESSED = "balanceTypesNotProcessed";
     }
     
+    public static class Scrubber {
+        public static final String PARAMETER_GROUP = "Labor.Scrubber";
+        public static final String SUBFUND_WAGE_EXCLUSTION_PARAMETER = "LaborScrubberSubFundWageExclusionParameter";
+        public static final String ACCOUNT_FRINGE__EXCLUSTION_PARAMETER = "LaborScrubberAccountFringeExclusionParameter";
+        public static final String SUSPENSE_ACCOUNT_LOGIC_PARAMETER = "LaborSuspenseAccountLogicParameter";
+        public static final String CONTINUATION_ACCOUNT_LOGIC_PARAMETER = "LaborContinuationAccountLogicParameter";
+        
+        
+    }
+    
     public static class YearEnd {
         public static final String FUND_GROUP_PROCESSED = "fundGroupProcessed";
         public static final String SUB_FUND_GROUP_PROCESSED = "subFundGroupProcessed";

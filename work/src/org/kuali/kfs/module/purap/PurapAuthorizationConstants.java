@@ -29,6 +29,7 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String LOCK_VENDOR_ENTRY = "lockVendorEntry";
         public static final String LOCK_CONTENT_ENTRY = "lockContentEntry";
         public static final String ALLOW_FISCAL_ENTRY = "allowFiscalEntry";
+        public static final String ALLOW_ITEM_ENTRY = "allowItemEntry";
     }
 
     public static class PurchaseOrderEditMode extends EditMode {

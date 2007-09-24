@@ -387,6 +387,9 @@
                         suppressCams="true" overrideTitle="Item Accounting Lines" />
 				</c:if>
 				<c:if test="${(!amendmentEntry)}">
+					<c:if test="${!empty KualiForm.editingMode['allowItemEntry'] && (KualiForm.editingMode['allowItemEntry'] == itemLine.itemIdentifier)}" >
+					    <c:set target="${KualiForm.editingMode}" property="expenseEntry" value="true" />
+					</c:if>
 					<purap:puraccountingLineCams editingMode="${KualiForm.editingMode}"
 						editableAccounts="${KualiForm.editableAccounts}"
 						sourceAccountingLinesOnly="true"

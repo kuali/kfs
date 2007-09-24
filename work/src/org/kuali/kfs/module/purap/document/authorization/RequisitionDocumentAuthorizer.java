@@ -83,7 +83,8 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
                     lineList.addAll(item.getSourceAccountingLines());
                     // If FO has deleted the last accounting line for an item, set entry mode to full so they can add another one
                     if (item.getItemType().isItemTypeAboveTheLineIndicator() && item.getSourceAccountingLines().size() == 0) {
-                        editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
+                        editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
+                        editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.ALLOW_ITEM_ENTRY, item.getItemIdentifier());
                     }
                 }
 

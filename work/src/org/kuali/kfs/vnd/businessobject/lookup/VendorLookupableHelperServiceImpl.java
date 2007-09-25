@@ -140,8 +140,11 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         if (StringUtils.isNotEmpty(vendorName)) {
             // if searching by vendorName, also search in list of alias names
             fieldValues.put(VendorPropertyConstants.VENDOR_ALIAS_NAME_FULL_PATH, vendorName);
+            // also make sure that we only use active aliases to match the query string
+            fieldValues.put(VendorPropertyConstants.VENDOR_ALIAS_ACTIVE, "Y");
             fieldValues.remove( VendorPropertyConstants.VENDOR_NAME );
             List<BusinessObject> searchResults2 = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded);
+            
             searchResults.addAll( searchResults2 );
             if ( searchResults instanceof CollectionIncomplete && searchResults2 instanceof CollectionIncomplete ) {
             	((CollectionIncomplete)searchResults).setActualSizeIfTruncated( ((CollectionIncomplete)searchResults).getActualSizeIfTruncated().longValue() + ((CollectionIncomplete)searchResults2 ).getActualSizeIfTruncated().longValue() );

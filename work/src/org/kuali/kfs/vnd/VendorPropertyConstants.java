@@ -69,6 +69,7 @@ public class VendorPropertyConstants {
     public static final String VENDOR_HEADER_GENERATED_ID = "vendorHeaderGeneratedIdentifier";
     public static final String VENDOR_ALIAS_NAME = "vendorAliasName";
     public static final String VENDOR_ALIAS_NAME_FULL_PATH = "vendorAliases.vendorAliasName";
+    public static final String VENDOR_ALIAS_ACTIVE = "vendorAliases.active";
     
     public static final String CONTRACT_LANGUAGE_CREATE_DATE = "contractLanguageCreateDate";
 

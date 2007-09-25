@@ -2926,24 +2926,13 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.purap.document.AssignContractManagerDocument" table="FP_DOC_HEADER_T">
+<class-descriptor class="org.kuali.module.purap.document.AssignContractManagerDocument" table="PUR_ASGN_CONTR_MGR_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="financialDocumentStatusCode" column="FDOC_STATUS_CD" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="financialDocumentDescription" column="FDOC_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialDocumentTotalAmount" column="FDOC_TOTAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="organizationDocumentNumber" column="ORG_DOC_NBR" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="financialDocumentInErrorNumber" column="FDOC_IN_ERR_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialDocumentTemplateNumber" column="FDOC_TMPL_NBR" jdbc-type="VARCHAR" />
-    <!-- TODO (KULPURAP-1570: hjs) remove following field from here, BO, and database after workflow API to retrieve this is implemented -->
-    <field-descriptor name="documentFinalDate" column="TEMP_DOC_FNL_DT" jdbc-type="DATE" />
-<!--
-    <collection-descriptor name="notes" element-class-ref="org.kuali.core.bo.DocumentNote" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="finDocNotePostedDttmStamp" sort="ASC" />
-        <inverse-foreignkey field-ref="documentNumber" />
-    </collection-descriptor>
--->
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
     <collection-descriptor name="assignContractManagerDetails" proxy="true" element-class-ref="org.kuali.module.purap.bo.AssignContractManagerDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>

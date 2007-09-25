@@ -16,7 +16,6 @@
 
 package org.kuali.module.purap.document;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,7 +26,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.context.SpringContext;
@@ -47,13 +45,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class AssignContractManagerDocument extends TransactionalDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerDocument.class);
 
-    private String documentNumber;
-    private String financialDocumentStatusCode;
-    private String financialDocumentDescription;
-    private KualiDecimal financialDocumentTotalAmount;
-    private String organizationDocumentNumber;
-    private String financialDocumentInErrorNumber;
-    private String financialDocumentTemplateNumber;
+    private List<AssignContractManagerDetail> assignContractManagerDetails = new ArrayList();
 
     // Not persisted (only for labels in tag) 
     private String requisitionNumber;
@@ -64,12 +56,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
     private String requisitionCreateDate;
     private String firstItemDescription;
     private String firstObjectCode;
-    // TODO (KULPURAP-1570: hjs) remove following field from here, OJB, and database after workflow API to retrieve this is implemented
-    private Date documentFinalDate;
 
-    private List notes;
-
-    private List<AssignContractManagerDetail> assignContractManagerDetails = new ArrayList();
     
     /**
 	 * Default constructor.
@@ -195,78 +182,6 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
  
     public void setAssignContractManagerDetails(List assignContractManagerDetails) {
         this.assignContractManagerDetails = assignContractManagerDetails;
-    }
-
-    public Date getDocumentFinalDate() {
-        return documentFinalDate;
-    }
-
-    public void setDocumentFinalDate(Date documentFinalDate) {
-        this.documentFinalDate = documentFinalDate;
-    }
-
-    public String getFinancialDocumentDescription() {
-        return financialDocumentDescription;
-    }
-
-    public void setFinancialDocumentDescription(String financialDocumentDescription) {
-        this.financialDocumentDescription = financialDocumentDescription;
-    }
-
-    public String getFinancialDocumentInErrorNumber() {
-        return financialDocumentInErrorNumber;
-    }
-
-    public void setFinancialDocumentInErrorNumber(String financialDocumentInErrorNumber) {
-        this.financialDocumentInErrorNumber = financialDocumentInErrorNumber;
-    }
-
-    public String getFinancialDocumentStatusCode() {
-        return financialDocumentStatusCode;
-    }
-
-    public void setFinancialDocumentStatusCode(String financialDocumentStatusCode) {
-        this.financialDocumentStatusCode = financialDocumentStatusCode;
-    }
-
-    public String getFinancialDocumentTemplateNumber() {
-        return financialDocumentTemplateNumber;
-    }
-
-    public void setFinancialDocumentTemplateNumber(String financialDocumentTemplateNumber) {
-        this.financialDocumentTemplateNumber = financialDocumentTemplateNumber;
-    }
-
-    public KualiDecimal getFinancialDocumentTotalAmount() {
-        return financialDocumentTotalAmount;
-    }
-
-    public void setFinancialDocumentTotalAmount(KualiDecimal financialDocumentTotalAmount) {
-        this.financialDocumentTotalAmount = financialDocumentTotalAmount;
-    }
-
-    public List getNotes() {
-        return notes;
-    }
-
-    public void setNotes(List notes) {
-        this.notes = notes;
-    }
-
-    public String getOrganizationDocumentNumber() {
-        return organizationDocumentNumber;
-    }
-
-    public void setOrganizationDocumentNumber(String organizationDocumentNumber) {
-        this.organizationDocumentNumber = organizationDocumentNumber;
-    }
-
-    public String getDocumentNumber() {
-        return documentNumber;
-    }
-
-    public void setDocumentNumber(String documentNumber) {
-        this.documentNumber = documentNumber;
     }
 
     /**

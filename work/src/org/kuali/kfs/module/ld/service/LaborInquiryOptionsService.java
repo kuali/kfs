@@ -66,14 +66,24 @@ public interface LaborInquiryOptionsService {
     public boolean isConsolidationSelected(Map fieldValues);
 
     /**
-     * update a given collection entry with the pending entry obtained from the given field values and pending entry option
-     * @param entryCollection the given entry collection
+     * update a given balance collection with the pending entry obtained from the given field values and pending entry option
+     * @param balanceCollection the given ledger balance collection
      * @param fieldValues the given field values
      * @param pendingEntryOption the given pending entry option: all, approved or none
-     * @param isConsolidated indicate if the collection entries have been consolidated
+     * @param isConsolidated indicate if the collection balances have been consolidated
+     * @see org.kuali.module.labor.bo.LedgerBalance
      */
-    public void updateByPendingLedgerEntry(Collection entryCollection, Map fieldValues, String pendingEntryOption, boolean isConsolidated);
+    public void updateLedgerBalanceByPendingLedgerEntry(Collection balanceCollection, Map fieldValues, String pendingEntryOption, boolean isConsolidated);
 
+    /**
+     * update a given ledger entry collection with the pending entry obtained from the given field values and pending entry option
+     * @param entryCollection the given ledger entry collection
+     * @param fieldValues the given field values
+     * @param pendingEntryOption the given pending entry option: all, approved or none
+     * @see org.kuali.module.labor.bo.LedgerEntry
+     */
+    public void updateLedgerEntryByPendingLedgerEntry(Collection entryCollection, Map fieldValues, String pendingEntryOption);
+ 
     /**
      * Get the Pending Entry Option selected 
      * 
@@ -81,13 +91,4 @@ public interface LaborInquiryOptionsService {
      * @return String 
      */
     public String getSelectedPendingEntryOption(Map fieldValues);
-    
-    /**
-     * update a given collection entry with the pending entry obtained from the given field values and isApproved
-     * @param entryCollection the given entry collection
-     * @param fieldValues the given field values
-     * @param isApproved indicate if the resulting pending entry has been approved
-     * @param isConsolidated indicate if the collection entries have been consolidated
-     */
-    public void updateEntryCollection(Collection entryCollection, Map fieldValues, boolean isApproved, boolean isConsolidated);
 }

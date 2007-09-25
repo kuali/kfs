@@ -37,6 +37,7 @@ import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.gl.bo.Entry;
+import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.bo.UniversityDate;
 
 /**
@@ -115,6 +116,7 @@ public class LedgerEntry extends Entry {
 	 */
 	public LedgerEntry() {
 	    super();
+        this.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
 	}
 
 	/**

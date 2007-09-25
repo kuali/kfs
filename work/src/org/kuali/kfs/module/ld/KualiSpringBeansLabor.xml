@@ -524,7 +524,7 @@
 		</property>
     </bean> 
     
-    	<bean id="laborLedgerBalanceLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LedgerBalanceLookupableHelperServiceImpl" singleton="false">
+    <bean id="laborLedgerBalanceLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LedgerBalanceLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -620,11 +620,38 @@
 		</property>
 	</bean>
 	
+	<bean id="laborLedgerEntryLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="laborLedgerEntryLookupableHelperService" />
+		</property>
+	</bean>	
+	
+    <bean id="laborLedgerEntryLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LedgerEntryLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>	
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="laborInquiryOptionsService">
+			<ref bean="laborInquiryOptionsService" />
+		</property>		
+	</bean>
+	
 	<bean id="laborLedgerEntryForExpenseTransferLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="laborLedgerEntryForExpenseTransferLookupableHelperService" />
 		</property>
-	</bean>	
+	</bean>		
 	
 	<bean id="laborLedgerBalanceForSalaryExpenseTransferLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">

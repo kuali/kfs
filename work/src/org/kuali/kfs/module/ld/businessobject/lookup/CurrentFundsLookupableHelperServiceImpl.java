@@ -101,7 +101,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         Collection<AccountStatusCurrentFunds> searchResultsCollection = buildCurrentFundsCollection(toList(laborDao.getCurrentFunds(fieldValues, isConsolidated)), isConsolidated, pendingEntryOption);
 
         // update search results according to the selected pending entry option
-        laborInquiryOptionsService.updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated);
+        laborInquiryOptionsService.updateLedgerEntryByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption);
 
         Collection<July1PositionFunding> july1PositionFundings = laborDao.getJuly1(fieldValues);
 

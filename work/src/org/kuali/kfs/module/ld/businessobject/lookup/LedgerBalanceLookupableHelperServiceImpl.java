@@ -111,7 +111,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         Collection searchResultsCollection = this.buildBalanceCollection(balanceIterator, isConsolidated, pendingEntryOption);
 
         // update search results according to the selected pending entry option
-        laborInquiryOptionsService.updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated);
+        laborInquiryOptionsService.updateLedgerBalanceByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated);
 
         // perform the accumulation of the amounts
         this.accumulate(searchResultsCollection, isAccumulated);

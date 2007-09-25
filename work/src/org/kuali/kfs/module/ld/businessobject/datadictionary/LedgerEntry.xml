@@ -75,6 +75,7 @@
         </inquiry>
 
         <lookup>
+        	<lookupableID>laborLedgerEntryLookupable</lookupableID>
             <title>Ledger Entry Lookup</title>
 
             <instructions>Look up a Ledger Entry</instructions>
@@ -134,6 +135,10 @@
                 <lookupField attributeName="transactionTotalHours" required="false" />
                 <lookupField attributeName="universityFiscalPeriodCode" required="false" />
                 <lookupField attributeName="universityFiscalYear" required="false" />
+                
+                <lookupField attributeName="dummyBusinessObject.pendingEntryOption">
+                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder</defaultValueFinderClass>
+                </lookupField>                
             </lookupFields>
 
             <resultFields>
@@ -187,36 +192,15 @@
         </lookup>
 
         <attributes>
-
-            <attribute name="accountNumber" forceUppercase="true">
-                <label>Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>accountNumber</summary>
-                <description>accountNumber description...</description>
-			</attribute>
-
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.kfs.bo.Options" sourceAttributeName="universityFiscalYear" />
+            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" />          
+			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
+			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" />
+            
+			<attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code"/>
+			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />
+			<attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code" />
+			<attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode" />
 
             <attribute name="earnCode" forceUppercase="true">
                 <label>Earn Code</label>
@@ -262,22 +246,7 @@
                 <summary>employeeRecord</summary>
                 <description>employeeRecord description...</description>
 			</attribute>
-
-            <attribute name="financialBalanceTypeCode" forceUppercase="true">
-                <label>Balance Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>financialBalanceTypeCode</summary>
-                <description>financialBalanceTypeCode description...</description>
-			</attribute>
-
+			
             <attribute name="documentNumber" forceUppercase="true">
                 <label>Document Number</label>
                 <shortLabel>Number</shortLabel>
@@ -321,51 +290,6 @@
 
                 <summary>financialDocumentTypeCode</summary>
                 <description>financialDocumentTypeCode description...</description>
-			</attribute>
-
-            <attribute name="financialObjectCode" forceUppercase="true">
-                <label>Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>financialObjectCode</summary>
-                <description>financialObjectCode description...</description>
-			</attribute>
-
-            <attribute name="financialObjectTypeCode" forceUppercase="true">
-                <label>Object Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>financialObjectTypeCode</summary>
-                <description>financialObjectTypeCode description...</description>
-			</attribute>
-
-            <attribute name="financialSubObjectCode" forceUppercase="true">
-                <label>Sub-Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>financialSubObjectCode</summary>
-                <description>financialSubObjectCode description...</description>
 			</attribute>
 
             <attribute name="financialSystemOriginationCode" forceUppercase="false">
@@ -694,21 +618,6 @@
                 <description>setid description...</description>
 			</attribute>
 
-            <attribute name="subAccountNumber" forceUppercase="true">
-                <label>Sub-Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>subAccountNumber</summary>
-                <description>subAccountNumber description...</description>
-			</attribute>
-
             <attribute name="transactionDate" forceUppercase="true">
                 <label>Transaction Date</label>
                 <shortLabel>Date</shortLabel>
@@ -859,23 +768,7 @@
                 <description>universityFiscalPeriodCode description...</description>
 			</attribute>
 
-            <attribute name="universityFiscalYear" forceUppercase="true">
-                <label>Fiscal Year</label>
-                <shortLabel>Year</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>universityFiscalYear</summary>
-                <description>universityFiscalYear description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
+            <attributeReference name="dummyBusinessObject.pendingEntryOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="pendingEntryOption" />
         </attributes>
     </businessObject>
 </dictionaryEntry>

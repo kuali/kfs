@@ -17,19 +17,12 @@ package org.kuali.module.labor.web.lookupable;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.bo.Entry;
-import org.kuali.module.gl.web.inquirable.EntryInquirableImpl;
-import org.kuali.module.gl.web.inquirable.InquirableFinancialDocument;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,22 +30,8 @@ import org.springframework.transaction.annotation.Transactional;
  * The class is the front-end for the balance inquiry of Ledger entry For Expense Transfer processing.
  */
 @Transactional
-public class LedgerEntryForExpenseTransferLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
+public class LedgerEntryForExpenseTransferLookupableHelperServiceImpl extends LedgerEntryLookupableHelperServiceImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LedgerEntryForExpenseTransferLookupableHelperServiceImpl.class);
-
-    /**
-     * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
-     */
-    @Override
-    public String getInquiryUrl(BusinessObject businessObject, String propertyName) {
-        if (KFSPropertyConstants.DOCUMENT_NUMBER.equals(propertyName)) {
-            if (businessObject instanceof Entry) {
-                Entry entry = (Entry) businessObject;
-                return new InquirableFinancialDocument().getInquirableDocumentUrl(entry);
-            }
-        }
-        return (new EntryInquirableImpl()).getInquiryUrl(businessObject, propertyName);
-    }
 
     /**
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
@@ -79,24 +58,5 @@ public class LedgerEntryForExpenseTransferLookupableHelperServiceImpl extends Ab
         Long actualSize = new Long(consolidatedEntries.size());
 
         return this.buildSearchResultList(consolidatedEntries, actualSize);
-    }
-
-    /**
-     * build the serach result list from the given collection and the number of all qualified search results
-     * 
-     * @param searchResultsCollection the given search results, which may be a subset of the qualified search results
-     * @param actualSize the number of all qualified search results
-     * @return the serach result list with the given results and actual size
-     */
-    protected List buildSearchResultList(Collection searchResultsCollection, Long actualSize) {
-        CollectionIncomplete results = new CollectionIncomplete(searchResultsCollection, actualSize);
-
-        // sort list if default sort column given
-        List searchResults = (List) results;
-        List defaultSortColumns = getDefaultSortColumns();
-        if (defaultSortColumns.size() > 0) {
-            Collections.sort(results, new BeanPropertyComparator(defaultSortColumns, true));
-        }
-        return searchResults;
     }
 }

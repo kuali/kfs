@@ -22,6 +22,9 @@ import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.LaborCalculatedSalaryFoundationTracker;
 
+/**
+ * This interface provides its clients with access to CSF tracker entries in the backend data store.  
+ */
 public interface LaborCalculatedSalaryFoundationTrackerService {
     /**
      * This method finds the CSF trackers according to input fields and values

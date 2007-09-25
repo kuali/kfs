@@ -15,23 +15,18 @@
  */
 package org.kuali.module.labor.service.impl;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.labor.bo.LaborTransaction;
-import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.dao.LaborLedgerEntryDao;
-import org.kuali.module.labor.rules.DebitCreditUtil;
 import org.kuali.module.labor.service.LaborLedgerEntryService;
-import org.kuali.module.labor.util.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class implements LaborOriginEntryService to provide the access to labor ledger entries in data stores.
+ * This class implements LaborLedgerEntryService to provide the access to labor ledger entries in data stores.
+ * @see org.kuali.module.labor.bo.LedgerEntry
  */
 @Transactional
 public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {

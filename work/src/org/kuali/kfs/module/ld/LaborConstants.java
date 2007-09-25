@@ -159,9 +159,7 @@ public class LaborConstants {
         public static final String SUBFUND_WAGE_EXCLUSTION_PARAMETER = "LaborScrubberSubFundWageExclusionParameter";
         public static final String ACCOUNT_FRINGE__EXCLUSTION_PARAMETER = "LaborScrubberAccountFringeExclusionParameter";
         public static final String SUSPENSE_ACCOUNT_LOGIC_PARAMETER = "LaborSuspenseAccountLogicParameter";
-        public static final String CONTINUATION_ACCOUNT_LOGIC_PARAMETER = "LaborContinuationAccountLogicParameter";
-        
-        
+        public static final String CONTINUATION_ACCOUNT_LOGIC_PARAMETER = "LaborContinuationAccountLogicParameter";       
     }
     
     public static class YearEnd {
@@ -186,13 +184,13 @@ public class LaborConstants {
         public static final int LLPE_DESCRIPTION_MAX_LENGTH = 40;
     }
     public static final String LABOR_LEDGER_CHART_OF_ACCOUNT_CODE = "UA";
-
+    public static final int TRANSACTION_DESCRIPTION_MAX_LENGTH = 40;
     
     public enum JournalVoucherOffsetType {
         NO_OFFSET("LLJV", "No Offset", "LABOR LEDGER JOUNAL VOUCHER"),
-        ACCRUAL("LJVA", "Accrual", "LABOR LEDGER JOUNAL VOUCHER ACCRUALS OFFSET"),
-        CASH("LJVC", "Cash", "LABOR LEDGER JOUNAL VOUCHER CASH OFFSET"),
-        ENCUMBRANCE("LJVE", "Encumbrance", "LABOR LEDGER JOUNAL VOUCHER ENCUMBRANCE OFFSET");
+        ACCRUAL("LJVA", "Accrual", "LLJV ACCRUALS OFFSET"),
+        CASH("LJVC", "Cash", "LLJV CASH OFFSET"),
+        ENCUMBRANCE("LJVE", "Encumbrance", "LLJV ENCUMBRANCE OFFSET");
         
         public String typeCode;
         public String description;

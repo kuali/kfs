@@ -15,6 +15,9 @@
  */
 package org.kuali.module.labor.service;
 
+/**
+ * The interface defines loading and cleanup methods for nightly batch jobs
+ */
 public interface LaborNightlyOutService {
     /**
      * Delete all the pending entries that were copied for processing.

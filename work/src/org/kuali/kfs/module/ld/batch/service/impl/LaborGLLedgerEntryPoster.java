@@ -19,16 +19,14 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
-import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.service.LaborGeneralLedgerEntryService;
-import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class LaborGLLedgerEntryPoster implements PostTransaction {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborGLLedgerEntryPoster.class);   
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborGLLedgerEntryPoster.class);
     private LaborGeneralLedgerEntryService laborGeneralLedgerEntryService;
 
     /**
@@ -58,10 +56,12 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
 
         laborGeneralLedgerEntry.setTransactionDebitCreditCode(this.getDebitCreditCode(transaction));
         laborGeneralLedgerEntry.setTransactionLedgerEntryAmount(this.getTransactionAmount(transaction));
-        laborGeneralLedgerEntry.setTransactionLedgerEntryDescription(this.getTransactionDescription(transaction));
+
+        String description = StringUtils.left(this.getTransactionDescription(transaction), LaborConstants.TRANSACTION_DESCRIPTION_MAX_LENGTH);
+        laborGeneralLedgerEntry.setTransactionLedgerEntryDescription(description);
 
         laborGeneralLedgerEntry.setTransactionEncumbranceUpdateCode(this.getEncumbranceUpdateCode(transaction));
-        
+
         Integer sequenceNumber = laborGeneralLedgerEntryService.getMaxSequenceNumber(laborGeneralLedgerEntry) + 1;
         laborGeneralLedgerEntry.setTransactionLedgerEntrySequenceNumber(sequenceNumber);
 
@@ -103,7 +103,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
     }
 
     /**
-     * @return the description dictionary that can be used to look up approperite description 
+     * @return the description dictionary that can be used to look up approperite description
      */
     private Map<String, String> getDescriptionMap() {
         Map<String, String> descriptionMap = new HashMap<String, String>();
@@ -121,8 +121,8 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
         descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.EXPENSE_TRANSFER_YEST, "PAYROLL EXPENSE TRANSFERS");
         descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.HAND_DRAWN_CHECK, "PAYROLL HAND DRAWN CHECK PAYMENTS");
         descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.OVERPAYMENT, "PAYROLL OVERPAYMENT COLLECTIONS");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.RETROACTIVE_ADJUSTMENT, "PAYROLL RETROACTIVE ADJUSTMENTS");  
-        
+        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.RETROACTIVE_ADJUSTMENT, "PAYROLL RETROACTIVE ADJUSTMENTS");
+
         descriptionMap.put(LaborConstants.JournalVoucherOffsetType.ACCRUAL.typeCode, LaborConstants.JournalVoucherOffsetType.ACCRUAL.longDescription);
         descriptionMap.put(LaborConstants.JournalVoucherOffsetType.CASH.typeCode, LaborConstants.JournalVoucherOffsetType.CASH.longDescription);
         descriptionMap.put(LaborConstants.JournalVoucherOffsetType.ENCUMBRANCE.typeCode, LaborConstants.JournalVoucherOffsetType.ENCUMBRANCE.longDescription);
@@ -140,6 +140,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
 
     /**
      * Sets the laborGeneralLedgerEntryService attribute value.
+     * 
      * @param laborGeneralLedgerEntryService The laborGeneralLedgerEntryService to set.
      */
     public void setLaborGeneralLedgerEntryService(LaborGeneralLedgerEntryService laborGeneralLedgerEntryService) {

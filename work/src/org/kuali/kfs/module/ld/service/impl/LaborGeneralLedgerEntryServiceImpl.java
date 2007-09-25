@@ -22,7 +22,8 @@ import org.kuali.module.labor.service.LaborGeneralLedgerEntryService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class implements LaborOriginEntryService to provide the access to labor general ledger entries in data stores.
+ * This class implements LaborGeneralLedgerEntryService to provide the access to labor general ledger entries in data stores.
+ * @see org.kuali.module.labor.bo.LaborGeneralLedgerEntry
  */
 @Transactional
 public class LaborGeneralLedgerEntryServiceImpl implements LaborGeneralLedgerEntryService {

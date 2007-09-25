@@ -80,7 +80,6 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
 
     private final static int LINE_INTERVAL = 2;
 
-
     /**
      * @see org.kuali.module.labor.service.LaborYearEndBalanceForwardService#forwardBalance()
      */

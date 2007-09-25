@@ -20,6 +20,9 @@ import java.util.Map;
 
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 
+/**
+ * This interface provides its clients with access to labor base fund entries in the backend data store.  
+ */
 public interface LaborBaseFundsService {
     
     /**

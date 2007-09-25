@@ -37,12 +37,12 @@ import org.kuali.module.labor.util.ReportRegistry;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class...
+ * The class implements loading and cleanup methods for nightly batch jobs
  */
 @Transactional
 public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborNightlyOutServiceImpl.class);
-    
+
     private LaborLedgerPendingEntryService laborLedgerPendingEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private LaborReportService laborReportService;
@@ -71,7 +71,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
 
             // copy the pending entry to labor origin entry table
             boolean isSaved = saveAsLaborOriginEntry(pendingEntry, group);
-            if(isSaved){
+            if (isSaved) {
                 // update the pending entry to indicate it has been copied
                 pendingEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
                 pendingEntry.setTransactionDate(runDate);
@@ -80,17 +80,17 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
         }
         laborReportService.generateInputSummaryReport(group, ReportRegistry.LABOR_PENDING_ENTRY_SUMMARY, reportDirectory, runDate);
     }
-    
+
     /**
      * @see org.kuali.module.labor.service.LaborNightlyOutService#deleteCopiedLaborGenerealLedgerEntries()
      */
     public void deleteCopiedLaborGenerealLedgerEntries() {
         Collection<LaborGeneralLedgerEntry> generalLedgerEntries = businessObjectService.findAll(LaborGeneralLedgerEntry.class);
-        for(LaborGeneralLedgerEntry entry : generalLedgerEntries){
+        for (LaborGeneralLedgerEntry entry : generalLedgerEntries) {
             businessObjectService.delete(entry);
-        }       
+        }
     }
-    
+
     /**
      * @see org.kuali.module.labor.service.LaborNightlyOutService#copyLaborGenerealLedgerEntries()
      */
@@ -102,14 +102,14 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
         // copy the labor general ledger entry to origin entry table
         Collection<LaborGeneralLedgerEntry> generalLedgerEntries = businessObjectService.findAll(LaborGeneralLedgerEntry.class);
         int numberOfGLEntries = generalLedgerEntries.size();
-        
-        for(LaborGeneralLedgerEntry entry : generalLedgerEntries){
+
+        for (LaborGeneralLedgerEntry entry : generalLedgerEntries) {
             boolean isSaved = saveAsGLOriginEntry(entry, group);
         }
-        
-        laborReportService.generateGLSummaryReport(group, ReportRegistry.LABOR_GL_SUMMARY, reportDirectory, runDate);        
+
+        laborReportService.generateGLSummaryReport(group, ReportRegistry.LABOR_GL_SUMMARY, reportDirectory, runDate);
     }
-    
+
     /*
      * save the given pending ledger entry as a labor origin entry
      */
@@ -129,7 +129,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
         }
         return true;
     }
-    
+
     /*
      * save the given pending ledger entry as a labor origin entry
      */

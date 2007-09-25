@@ -22,24 +22,38 @@ import java.util.Map;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.labor.bo.PositionObjectBenefit;
 import org.kuali.module.labor.service.LaborPositionObjectBenefitService;
+import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * This class provides its clients with access to labor position object benefit entries in the backend data store.
+ * 
+ * @see org.kuali.module.labor.bo.PositionObjectBenefit
+ */
+@Transactional
 public class LaborPositionObjectBenefitServiceImpl implements LaborPositionObjectBenefitService {
 
     private BusinessObjectService businessObjectService;
-    
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
 
-    public Collection<PositionObjectBenefit> getPositionObjectBenefits(
-            Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
-        
+    /**
+     * @see org.kuali.module.labor.service.LaborPositionObjectBenefitService#getPositionObjectBenefits(java.lang.Integer,
+     *      java.lang.String, java.lang.String)
+     */
+    public Collection<PositionObjectBenefit> getPositionObjectBenefits(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
+
         Map fieldValues = new HashMap();
         fieldValues.put("universityFiscalYear", universityFiscalYear);
-        fieldValues.put("chartOfAccountsCode", chartOfAccountsCode);        
+        fieldValues.put("chartOfAccountsCode", chartOfAccountsCode);
         fieldValues.put("financialObjectCode", financialObjectCode);
-        
+
         return businessObjectService.findMatching(PositionObjectBenefit.class, fieldValues);
     }
 
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 }

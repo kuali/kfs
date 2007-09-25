@@ -24,6 +24,10 @@ import org.kuali.module.labor.service.LaborBaseFundsService;
 import org.kuali.module.labor.service.LaborCalculatedSalaryFoundationTrackerService;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * This class provides its clients with access to labor base fund entries in the backend data store.
+ * @see org.kuali.module.labor.bo.AccountStatusBaseFunds
+ */
 @Transactional
 public class LaborBaseFundsServiceImpl implements LaborBaseFundsService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBaseFundsServiceImpl.class);

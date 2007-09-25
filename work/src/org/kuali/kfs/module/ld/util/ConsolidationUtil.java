@@ -31,6 +31,11 @@ import org.kuali.module.labor.bo.LedgerBalance;
 public class ConsolidationUtil {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ConsolidationUtil.class);
 
+    /**
+     * wrap the given field name with SQL function "sum"
+     * @param fieldName the given field name
+     * @return the wrapped field name with SQL function "sum"
+     */
     public static final String sum(String fieldName) {
         return "sum(" + fieldName + ")";
     }

@@ -138,7 +138,7 @@
 				<!-- TODO: PHASE 2B -->
 				<c:if test="${isATypeOfPODoc}">
 				    <c:choose>
-                        <c:when test="${!(fullEntryMode or amendmentEntry)}">
+                        <c:when test="${((documentType != 'PurchaseOrderDocument') && !(fullEntryMode or amendmentEntry))}">
                             <kul:htmlAttributeHeaderCell literalLabel="Inactive"/>
                         </c:when>
                         <c:otherwise>

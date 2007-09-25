@@ -36,7 +36,6 @@ import org.kuali.module.labor.bo.BenefitsCalculation;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
-import org.kuali.module.labor.rules.DebitCreditUtil;
 import org.kuali.module.labor.service.LaborBenefitsCalculationService;
 
 /**

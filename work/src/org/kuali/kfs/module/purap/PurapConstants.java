@@ -31,6 +31,8 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
@@ -364,11 +366,11 @@ public class PurapConstants extends JstlConstants {
         //Note it doesn't make much sense to compare auto_approved and dept_approved but this is 
         //easier than two enums plus this should primarily be used for user enterred areas
         public enum STATUS_ORDER{
-            INITIATE (PurapConstants.PaymentRequestStatuses.INITIATE,true),
-            IN_PROCESS (PurapConstants.PaymentRequestStatuses.IN_PROCESS,true),
             CANCELLED_IN_PROCESS (PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS,false),
             CANCELLED_PRIOR_TO_AP_APPROVAL (PurapConstants.PaymentRequestStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL,false),
             CANCELLED_POST_AP_APPROVE (PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE,false),
+            INITIATE (PurapConstants.PaymentRequestStatuses.INITIATE,true),
+            IN_PROCESS (PurapConstants.PaymentRequestStatuses.IN_PROCESS,true),
             AWAITING_ACCOUNTS_PAYABLE_REVIEW (PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW,false),
             AWAITING_SUB_ACCT_MGR_REVIEW (PurapConstants.PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW,false),
             AWAITING_FISCAL_REVIEW (PurapConstants.PaymentRequestStatuses.AWAITING_FISCAL_REVIEW,false),
@@ -384,7 +386,7 @@ public class PurapConstants extends JstlConstants {
             STATUS_ORDER(String statusCode,boolean fullEntry) {
                 this.statusCode = statusCode;
                 this.fullEntryAllowed = fullEntry;
-        }
+            }
 
             public static STATUS_ORDER getByStatusCode(String statusCode)
             {
@@ -397,6 +399,19 @@ public class PurapConstants extends JstlConstants {
             }
             public static boolean isFullDocumentEntryCompleted(String status) {
                 return !getByStatusCode(status).fullEntryAllowed;
+            }
+            
+            public static STATUS_ORDER getPreviousStatus(String statusCode) {
+                STATUS_ORDER statusOrder = STATUS_ORDER.getByStatusCode(statusCode);
+                if (statusOrder.ordinal() > 0) {
+                    return STATUS_ORDER.values()[statusOrder.ordinal() - 1];
+                }
+                return null;
+            }
+            
+            public static boolean isFirstNonFullEntryStatus(String statusCode) {
+                //NOTE this won't work if there endsup being two ways to get to the first full entry status (i.e. like AUTO/DEPT for final)
+                return !getByStatusCode(statusCode).fullEntryAllowed && getPreviousStatus(statusCode).fullEntryAllowed; 
             }
         }
 
@@ -511,11 +526,11 @@ public class PurapConstants extends JstlConstants {
         public static final String AWAITING_FISCAL_REVIEW = "AFOA";   // Waiting for Fiscal Officer approval
         //TODO: Chris - these methods are the same as in PaymentRequestStatus.STATUS_ORDER combine
         public enum STATUS_ORDER{
-            INITIATE (PurapConstants.CreditMemoStatuses.INITIATE,true),
-            IN_PROCESS (PurapConstants.CreditMemoStatuses.IN_PROCESS,true),
             CANCELLED_IN_PROCESS (PurapConstants.CreditMemoStatuses.CANCELLED_IN_PROCESS,false),
             CANCELLED_PRIOR_TO_AP_APPROVAL (PurapConstants.CreditMemoStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL,false),
             CANCELLED_POST_AP_APPROVE (PurapConstants.CreditMemoStatuses.CANCELLED_POST_AP_APPROVE,false),
+            INITIATE (PurapConstants.CreditMemoStatuses.INITIATE,true),
+            IN_PROCESS (PurapConstants.CreditMemoStatuses.IN_PROCESS,true),
             AWAITING_ACCOUNTS_PAYABLE_REVIEW (PurapConstants.CreditMemoStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW,false),
             AWAITING_FISCAL_REVIEW (PurapConstants.CreditMemoStatuses.AWAITING_FISCAL_REVIEW,false),
             COMPLETE (PurapConstants.CreditMemoStatuses.COMPLETE,false),
@@ -540,6 +555,19 @@ public class PurapConstants extends JstlConstants {
             }
             public static boolean isFullDocumentEntryCompleted(String status) {
                 return !getByStatusCode(status).fullEntryAllowed;
+            }
+            
+            public static STATUS_ORDER getPreviousStatus(String statusCode) {
+                STATUS_ORDER statusOrder = STATUS_ORDER.getByStatusCode(statusCode);
+                if (statusOrder.ordinal() > 0) {
+                    return STATUS_ORDER.values()[statusOrder.ordinal() - 1];
+                }
+                return null;
+            }
+            
+            public static boolean isFirstNonFullEntryStatus(String statusCode) {
+                //NOTE this won't work if there endsup being two ways to get to the first full entry status (i.e. like AUTO/DEPT for final)
+                return !getByStatusCode(statusCode).fullEntryAllowed && getPreviousStatus(statusCode).fullEntryAllowed; 
             }
         }
         

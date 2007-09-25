@@ -17,11 +17,12 @@ package org.kuali.module.labor.util;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase.IsDebitUtils;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 
+/**
+ * This class provides a set of utilities that handle the debit credit logic.
+ */
 public class DebitCreditUtil {
 
     /**
@@ -136,7 +137,7 @@ public class DebitCreditUtil {
     public static KualiDecimal getNumericAmount(KualiDecimal amount, String currentDebitCreditCode) {
         KualiDecimal actualAmount = amount;
 
-        if(amount == null){
+        if (amount == null) {
             actualAmount = KualiDecimal.ZERO;
         }
         else if (KFSConstants.GL_CREDIT_CODE.equals(currentDebitCreditCode)) {

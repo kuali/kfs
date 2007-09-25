@@ -26,24 +26,44 @@ import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 
+/**
+ * This class can generate PDF report with the given transaction summary
+ */
 public class TransactionSummaryReport extends AbstractPdfReportGenerator {
     private Element reportContents;
 
+    /**
+     * generate the PDF report according to the given report information
+     * 
+     * @param reportSummary the given report contents
+     * @param reportingDate the given reporting data
+     * @param reportTitle the given report title
+     * @param reportFilename the given report file name
+     * @param reportsDirectory the given dirctory where the generated report will be stored
+     */
     public void generateReport(List<String> reportSummary, Date reportingDate, String reportTitle, String reportFilename, String reportsDirectory) {
         setReportContents(reportSummary);
         String filename = this.generateReportFileName(reportFilename, reportsDirectory, reportingDate);
-        this.generatePdfReport(reportingDate, reportTitle, filename);       
+        this.generatePdfReport(reportingDate, reportTitle, filename);
     }
 
+    /**
+     * @see org.kuali.module.gl.util.AbstractPdfReportGenerator#getReportContents()
+     */
     @Override
     public Element getReportContents() {
         return this.reportContents;
     }
-    
+
+    /**
+     * setup the report contents with the given information
+     * 
+     * @param reportSummary the given report contents
+     */
     public void setReportContents(List<String> reportSummary) {
         reportContents = this.buildSummaryTable(reportSummary);
     }
-    
+
     // construct the summary table
     private PdfPTable buildSummaryTable(List<String> reportSummary) {
 

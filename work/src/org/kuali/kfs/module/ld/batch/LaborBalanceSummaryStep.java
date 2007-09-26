@@ -16,25 +16,29 @@
 package org.kuali.module.labor.batch;
 
 import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.labor.service.LaborPosterService;
+import org.kuali.module.labor.service.LaborBalanceSummaryReportService;
 
+/**
+ * This class defines the batch step for labor balance summary report generation
+ */
 public class LaborBalanceSummaryStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBalanceSummaryStep.class);
-    private LaborPosterService laborPosterService;
+    private LaborBalanceSummaryReportService laborBalanceSummaryReportService;
 
     /**
      * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
      */
     public boolean execute(String jobName) throws InterruptedException {
-        laborPosterService.generateBalanceSummaryReports();
+        laborBalanceSummaryReportService.generateBalanceSummaryReports();
         return true;
     }
 
     /**
-     * Sets the laborPosterService attribute value.
-     * @param laborPosterService The laborPosterService to set.
+     * Sets the laborBalanceSummaryReportService attribute value.
+     * 
+     * @param laborBalanceSummaryReportService The laborBalanceSummaryReportService to set.
      */
-    public void setLaborPosterService(LaborPosterService laborPosterService) {
-        this.laborPosterService = laborPosterService;
+    public void setLaborBalanceSummaryReportService(LaborBalanceSummaryReportService laborBalanceSummaryReportService) {
+        this.laborBalanceSummaryReportService = laborBalanceSummaryReportService;
     }
 }

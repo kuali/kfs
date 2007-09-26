@@ -267,9 +267,6 @@
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
         </property>
-        <property name="optionsService">
-			<ref bean="optionsService" />
-		</property>	
 
         <property name="laborReportService">
             <ref bean="laborReportService" />
@@ -288,6 +285,21 @@
             <ref bean="laborGLLedgerEntryPoster" />
         </property>
     </bean>
+    
+    <bean id="laborBalanceSummaryReportService" class="org.kuali.module.labor.service.impl.LaborBalanceSummaryReportServiceImpl">
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
+        <property name="kualiConfigurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>
+        <property name="optionsService">
+			<ref bean="optionsService" />
+		</property>	
+        <property name="laborReportService">
+            <ref bean="laborReportService" />
+        </property>
+    </bean>    
 
     <bean id="laborReportService" class="org.kuali.module.labor.service.impl.LaborReportServiceImpl">
         <property name="laborOriginEntryService">
@@ -397,8 +409,8 @@
 	</bean>
 		           
 	<bean id="laborBalanceSummaryStep" class="org.kuali.module.labor.batch.LaborBalanceSummaryStep" parent="step">
-		<property name="laborPosterService">
-			<ref bean="laborPosterService" />
+		<property name="laborBalanceSummaryReportService">
+			<ref bean="laborBalanceSummaryReportService" />
 		</property>
 	</bean>
 	  

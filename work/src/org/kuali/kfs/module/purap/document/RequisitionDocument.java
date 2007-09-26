@@ -26,6 +26,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.document.Copyable;
+import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
@@ -39,6 +40,7 @@ import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ConciseXmlDocumentConversionService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -88,6 +90,12 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 	public RequisitionDocument() {
         super();
     }
+
+    //TODO uncomment once WorkflowXmlRequisitionDocument is filled in with fields
+//    @Override
+//    protected Document getDocumentRepresentationForSerialization() {
+//        return SpringContext.getBean(ConciseXmlDocumentConversionService.class).getDocumentForSerialization(this);
+//    }
 
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#isBoNotesSupport()

@@ -77,7 +77,10 @@
                    <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.paymentRequestCostSourceCode}" readOnly="${not displayInitTab}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentRequestCostSourceCode}" property="document.paymentRequestCostSourceCode" readOnly="true" />
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentRequestCostSourceCode}" 
+                   property="document.paymentRequestCostSourceCode" 
+                   extraReadOnlyProperty="document.paymentRequestCostSource.purchaseOrderCostSourceDescription"
+                   readOnly="true" />
                 </td>
             </tr>
             

@@ -74,6 +74,10 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
     private String finCoaCd;
     private String accountNbr;
 
+    /**
+     * Constructs a KualiCGAttribute.java. This class tries to find an entry for a chart/account in the AwardAccount table. If it
+     * does, it look the Award up in the Award table and routes it to the workgroup listed.
+     */
 
     public KualiCGAttribute() {
     }
@@ -145,13 +149,19 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
                 awardWorkgroups.add(role);
             }
             else {
-                if (!KualiWorkflowUtils.isTargetLineOnly(docTypeName)) {
-                    NodeList sourceLineNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.getSourceAccountingLineClassName(docTypeName)), docContent.getDocument(), XPathConstants.NODESET);
-                    awardWorkgroups.addAll(getAwardWorkgroupCriteria(xpath, sourceLineNodes, roleName));
+                if (docTypeName == KualiWorkflowUtils.ACCOUNT_DOC_TYPE) {
+                    NodeList maintainableNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX_NTS + KualiWorkflowUtils.getBusinessObjectAttributeLabel(Class.forName(KualiWorkflowUtils.ACCOUNT_DOC_TYPE), "Account")), docContent.getDocument(), XPathConstants.NODESET);
+                    awardWorkgroups.addAll(getAwardWorkgroupCriteria(xpath, maintainableNodes, roleName));
                 }
-                if (!KualiWorkflowUtils.isSourceLineOnly(docTypeName)) {
-                    NodeList targetLineNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.getTargetAccountingLineClassName(docTypeName)), docContent.getDocument(), XPathConstants.NODESET);
-                    awardWorkgroups.addAll(getAwardWorkgroupCriteria(xpath, targetLineNodes, roleName));
+                else {
+                    if (!KualiWorkflowUtils.isTargetLineOnly(docTypeName)) {
+                        NodeList sourceLineNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.getSourceAccountingLineClassName(docTypeName)), docContent.getDocument(), XPathConstants.NODESET);
+                        awardWorkgroups.addAll(getAwardWorkgroupCriteria(xpath, sourceLineNodes, roleName));
+                    }
+                    if (!KualiWorkflowUtils.isSourceLineOnly(docTypeName)) {
+                        NodeList targetLineNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.getTargetAccountingLineClassName(docTypeName)), docContent.getDocument(), XPathConstants.NODESET);
+                        awardWorkgroups.addAll(getAwardWorkgroupCriteria(xpath, targetLineNodes, roleName));
+                    }
                 }
             }
             for (Iterator iterator = awardWorkgroups.iterator(); iterator.hasNext();) {
@@ -165,13 +175,13 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
         return qualifiedRoleNames;
     }
 
-    private static Set getAwardWorkgroupCriteria(XPath xpath, NodeList accountingLineNodes, String roleName) throws XPathExpressionException {
+    private static Set getAwardWorkgroupCriteria(XPath xpath, NodeList routingDataNodes, String roleName) throws XPathExpressionException {
         Set awardWorkgroups = new HashSet();
-        for (int i = 0; i < accountingLineNodes.getLength(); i++) {
-            Node accountingLineNode = accountingLineNodes.item(i);
+        for (int i = 0; i < routingDataNodes.getLength(); i++) {
+            Node routingDataNode = routingDataNodes.item(i);
             AwardWorkgroupRole role = new AwardWorkgroupRole(roleName);
-            role.chart = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, accountingLineNode);
-            role.accountNumber = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountingLineNode);
+            role.chart = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, routingDataNode);
+            role.accountNumber = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, routingDataNode);
 
             awardWorkgroups.add(role);
         }
@@ -239,6 +249,7 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
 
         return roles;
     }
+
     public boolean isRequired() {
         return required;
     }

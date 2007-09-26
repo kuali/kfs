@@ -42,12 +42,22 @@
       <tr>
         <th scope="row">add:</th>
         <td class="infoline">
-          <div align="center">
-            <c:if test="${ empty KualiForm.newRoutingFormSubcontractor.subcontractor.subcontractorName }">&nbsp;</c:if>
-            <html:hidden property="newRoutingFormSubcontractor.subcontractor.subcontractorName" write="true" />
-            <kul:htmlControlAttribute property="newRoutingFormSubcontractor.routingFormSubcontractorNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorNumber}" />
+            <kul:htmlControlAttribute property="newRoutingFormSubcontractor.routingFormSubcontractorNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorNumber}" onblur="onblur_subcontractorNumber('newRoutingFormSubcontractor.routingFormSubcontractorNumber')"/>
             <kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" lookupParameters="newRoutingFormSubcontractor.subcontractor.subcontractorName:subcontractorName,newRoutingFormSubcontractor.routingFormSubcontractorNumber:subcontractorNumber" fieldConversions="subcontractorName:newRoutingFormSubcontractor.subcontractor.subcontractorName,subcontractorNumber:newRoutingFormSubcontractor.routingFormSubcontractorNumber" tabindexOverride="5100" anchor="${currentTabIndex}" />
-          </div>
+            <html:hidden property="newRoutingFormSubcontractor.subcontractor.subcontractorName" />
+            <div id="newRoutingFormSubcontractor.subcontractor.subcontractorName.div" >
+                        <c:if test="${!empty KualiForm.newRoutingFormSubcontractor.routingFormSubcontractorNumber}">
+                        	<c:choose>
+								<c:when test="${empty KualiForm.newRoutingFormSubcontractor.subcontractor.subcontractorName}">
+									<span style='color: red;'><c:out value="subcontractor not found" /> </span>
+								</c:when>
+								<c:otherwise>
+									<c:out value="${KualiForm.newRoutingFormSubcontractor.subcontractor.subcontractorName}" />
+								</c:otherwise>
+						</c:choose>                        
+                        </c:if>
+
+            </div>
         </td>
         <td class="infoline">
           <div align="right">
@@ -68,17 +78,26 @@
           </th>
           <td>
             <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorSequenceNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorSequenceNumber}" />
-            <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorNumber}" />
             <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].documentNumber" attributeEntry="${subcontractorAttributes.documentNumber}"/>
             <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].objectId" attributeEntry="${subcontractorAttributes.objectId}" />
             <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].versionNumber" attributeEntry="${subcontractorAttributes.versionNumber}"/>
-            <div align="center">
-              <c:if test="${ empty routingFormSubcontractor.subcontractor.subcontractorName }">&nbsp;</c:if>
-              <html:hidden property="document.routingFormSubcontractor[${status.index}].subcontractor.subcontractorName" write="true" />
+            <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorNumber}" onblur="onblur_subcontractorNumber('document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumber')" />
               <c:if test="${not readOnly and not budgetLinked}">
                 <kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" lookupParameters="document.routingFormSubcontractor[${status.index}].subcontractor.subcontractorName:subcontractorName,document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumber:subcontractorNumber" fieldConversions="subcontractorName:document.routingFormSubcontractor[${status.index}].subcontractor.subcontractorName,subcontractorNumber:document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumber" tabindexOverride="5100" anchor="${currentTabIndex}" />
               </c:if>
-            </div>
+              <html:hidden property="document.routingFormSubcontractor[${status.index}].subcontractor.subcontractorName" />
+            <div id="document.routingFormSubcontractor[${status.index}].subcontractor.subcontractorName.div" >
+                        <c:if test="${!empty routingFormSubcontractor.routingFormSubcontractorNumber}">
+                        	<c:choose>
+								<c:when test="${empty routingFormSubcontractor.subcontractor.subcontractorName}">
+									<span style='color: red;'><c:out value="subcontractor not found" /> </span>
+								</c:when>
+								<c:otherwise>
+									<c:out value="${routingFormSubcontractor.subcontractor.subcontractorName}" />
+								</c:otherwise>
+						</c:choose>                        
+                        </c:if>
+           </div>
           </td>
           <td>
             <div align="right">

@@ -57,12 +57,26 @@
                 <td class="infoline">
                   <html:hidden property="newRoutingFormPerson.personToBeNamedIndicator" />
                   <html:hidden property="newRoutingFormPerson.personUniversalIdentifier" />
-                  <html:hidden write="true" property="newRoutingFormPerson.user.personName"/>
+                  <html:text property="newRoutingFormPerson.user.personUserIdentifier" onblur="personIDLookup('newRoutingFormPerson.user.personUserIdentifier')"/>                  
+                  <html:hidden property="newRoutingFormPerson.user.personName"/>
                   <c:if test="${empty KualiForm.newRoutingFormPerson.personUniversalIdentifier && !KualiForm.newRoutingFormPerson.personToBeNamedIndicator}">&nbsp;</c:if>
 		    	  <c:if test="${KualiForm.newRoutingFormPerson.personToBeNamedIndicator}">TO BE NAMED</c:if>
                   <c:if test="${!viewOnly}">
                     <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:newRoutingFormPerson.personUniversalIdentifier,personName:newRoutingFormPerson.user.personName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newRoutingFormPerson.personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
                   </c:if>
+		          <div id="newRoutingFormPerson.user.personName.div" >
+		             <c:if test="${!empty KualiForm.newRoutingFormPerson.user.personUserIdentifier}">
+		                 <c:choose>
+							<c:when test="${empty KualiForm.newRoutingFormPerson.user.personName}">
+								<span style='color: red;'><c:out value="person not found" /> </span>
+							</c:when>
+							<c:otherwise>
+								<c:out value="${KualiForm.newRoutingFormPerson.user.personName}" />
+							</c:otherwise>
+						 </c:choose>                        
+		              </c:if>
+		           </div>
+                  
                 </td>
                 <td class="infoline">
                   <c:forEach items="${KualiForm.document.routingFormPersonRoles}" var="routingFormPersonRole" varStatus="status"> 
@@ -132,7 +146,8 @@
                   <html:hidden property="document.routingFormPersonnel[${status.index}].personEmailAddress" />
                   <th scope="row"><div align="center">${status.index+1}</div></th>
                   <td>
-                    <html:hidden write="true" property="document.routingFormPersonnel[${status.index}].user.personName" />
+                    <html:hidden property="document.routingFormPersonnel[${status.index}].user.personName" />
+                    <html:text property="document.routingFormPersonnel[${status.index}].user.personUserIdentifier" onblur="personIDLookup('document.routingFormPersonnel[${status.index}].user.personUserIdentifier')"/>                  
                     <c:if test="${empty person.personUniversalIdentifier && !person.personToBeNamedIndicator}">&nbsp;</c:if>
 		    	    <c:if test="${person.personToBeNamedIndicator}">TO BE NAMED</c:if>
                     <c:if test="${!viewOnly}">
@@ -143,6 +158,19 @@
                         </c:otherwise>
                       </c:choose>
                     </c:if>
+		          <div id="document.routingFormPersonnel[${status.index}].user.personName.div" >
+		             <c:if test="${!empty person.personUniversalIdentifier}">
+		                 <c:choose>
+							<c:when test="${empty person.user.personName}">
+								<span style='color: red;'><c:out value="person not found" /> </span>
+							</c:when>
+							<c:otherwise>
+								<c:out value="${person.user.personName}" />
+							</c:otherwise>
+						 </c:choose>                        
+		              </c:if>
+		           </div>
+                    
                   </td>
                   <td>
                     <!-- Hidden variables for document.routingFormPersonRoles above under newRoutingFormPerson item -->

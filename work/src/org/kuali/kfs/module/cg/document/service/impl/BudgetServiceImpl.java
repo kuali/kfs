@@ -16,9 +16,12 @@
 package org.kuali.module.kra.budget.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
@@ -26,6 +29,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.Budget;
@@ -620,4 +624,24 @@ public class BudgetServiceImpl implements BudgetService {
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
+
+    public String getByPrimaryId(String documentNumber) {
+        Budget budget=(Budget) businessObjectService.findByPrimaryKey(Budget.class, mapPrimaryKeys(documentNumber));
+        if (budget!=null && StringUtils.isBlank(budget.getBudgetName())) {
+            budget.setBudgetName("Budget Name is empty");
+        }
+        
+        if (budget==null) {
+            return "";
+        } else {
+            return budget.getBudgetName();
+        }
+    }
+
+    private Map<String, Object> mapPrimaryKeys(String documentNumber) {
+        Map<String, Object> primaryKeys = new HashMap();
+        primaryKeys.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber.trim());
+        return primaryKeys;
+    }
+
 }

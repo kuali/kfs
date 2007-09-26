@@ -22,6 +22,7 @@
 <c:set var="budgetNonpersonnelCategory" value="${DataDictionary.NonpersonnelCategory.attributes}" />
 <c:set var="budgetNonpersonnelSubCategory" value="${DataDictionary.NonpersonnelSubCategory.attributes}" />
 <c:set var="budgetNonpersonnelObjectCode" value="${DataDictionary.NonpersonnelObjectCode.attributes}" />
+<c:set var="subcontractorAttributes" value="${DataDictionary.RoutingFormSubcontractor.attributes}" />
 
 <div align="right">
 	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.NONPERSONNEL_HEADER_TAB}" altText="page help"/>
@@ -66,7 +67,7 @@
             </c:if>
             
             <div class="h2-container">
-              <h2>${nonpersonnelCategory.name}</h2>
+              <a name="NonPersonnel"></a><h2>${nonpersonnelCategory.name}</h2>
             </div>
             
               <table class="datatable" align="center" cellpadding="0" cellspacing="0">
@@ -116,9 +117,25 @@
                         </c:when>
                         <c:otherwise>
                           <c:if test="${empty KualiForm.newNonpersonnelList[i].subcontractorNumber}">&nbsp;</c:if>
-                          <html:hidden property="newNonpersonnel[${i}].subcontractorNumber" />
-                          <html:hidden property="newNonpersonnel[${i}].budgetNonpersonnelDescription" write="true" />
-                          <kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" fieldConversions="subcontractorNumber:newNonpersonnel[${i}].subcontractorNumber,subcontractorName:newNonpersonnel[${i}].budgetNonpersonnelDescription" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newNonpersonnel[${i}].subcontractorNumber=484&newNonpersonnel[${i}].budgetNonpersonnelDescription=TO BE NAMED" anchor="${currentTabIndex}"/>
+                          <!-- <html:hidden property="newNonpersonnel[${i}].subcontractorNumber" /> -->
+            <kul:htmlControlAttribute property="newNonpersonnel[${i}].subcontractorNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorNumber}" onblur="onblur_subcontractorNumber_nonPersonnel('newNonpersonnel[${i}].subcontractorNumber','', 'budgetNonpersonnelDescription')"/>
+                         <html:hidden property="newNonpersonnel[${i}].budgetNonpersonnelDescription" />
+                          <kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" fieldConversions="subcontractorNumber:newNonpersonnel[${i}].subcontractorNumber,subcontractorName:newNonpersonnel[${i}].budgetNonpersonnelDescription" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newNonpersonnel[${i}].subcontractorNumber=484&newNonpersonnel[${i}].budgetNonpersonnelDescription=TO BE NAMED" anchor="NonPersonnel"/>
+          
+                      <div id="newNonpersonnel[${i}].budgetNonpersonnelDescription.div" >
+                        <c:if test="${!empty KualiForm.newNonpersonnelList[i].subcontractorNumber}">
+                        	<c:choose>
+								<c:when test="${empty KualiForm.newNonpersonnelList[i].budgetNonpersonnelDescription}">
+									<span style='color: red;'><c:out value="subcontractor not found" /> </span>
+								</c:when>
+								<c:otherwise>
+									<c:out value="${KualiForm.newNonpersonnelList[i].budgetNonpersonnelDescription}" />
+								</c:otherwise>
+						</c:choose>                        
+                        </c:if>
+
+            		</div>
+          
                         </c:otherwise>
                       </c:choose>
                     </div>
@@ -138,7 +155,7 @@
                   <td class="infoline" align="right">
                     <div align="center"><kul:htmlControlAttribute property="newNonpersonnel[${i}].budgetThirdPartyCostShareAmount" attributeEntry="${budgetNonpersonnel.budgetThirdPartyCostShareAmount}" disabled="${! KualiForm.document.budget.budgetThirdPartyCostShareIndicator}" styleClass="amount" />
                     </div></td>
-                  <td class="infoline"><div align="center"><html:image property="methodToCall.insertNonpersonnelLine.anchor${currentTabIndex}.line${i}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="add nonpersonnel line"/></div></td>
+                  <td class="infoline"><div align="center"><html:image property="methodToCall.insertNonpersonnelLine.anchorNonPersonnel.line${i}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="add nonpersonnel line"/></div></td>
                 </tr>
                 </c:if>
                 
@@ -197,16 +214,31 @@
 						                  <kul:htmlControlAttribute property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelDescription" attributeEntry="${budgetNonpersonnel.budgetNonpersonnelDescription}" disabled="${copiedOver}" readOnly="${viewOnly}" />
                             </c:when>
                             <c:otherwise>
-                              <html:hidden property="document.budget.nonpersonnelItem[${ctr}].subcontractorNumber" />
-                              <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelDescription" write="true" />
-                              <c:if test="${empty KualiForm.document.budget.nonpersonnelItems[ctr].subcontractorNumber}">&nbsp;</c:if>
+                              <!-- <html:hidden property="document.budget.nonpersonnelItem[${ctr}].subcontractorNumber" />  -->
+            <kul:htmlControlAttribute property="document.budget.nonpersonnelItem[${ctr}].subcontractorNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorNumber}" onblur="onblur_subcontractorNumber_nonPersonnel('document.budget.nonpersonnelItem[${ctr}].subcontractorNumber','', 'budgetNonpersonnelDescription')"/>
+                              <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelDescription"  />
                               <!-- logic for disabling copied over items -->
 			                        <c:choose>
 				                        <c:when test="${nonpersonnelItem.copiedOverItem || viewOnly}">
 			  	                        <!-- display hidden: is a copied over item -->
                                 </c:when>
-				                        <c:otherwise>
-                                  <kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" fieldConversions="subcontractorNumber:document.budget.nonpersonnelItem[${ctr}].subcontractorNumber,subcontractorName:document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelDescription" anchor="${currentTabIndex}"/>
+				                <c:otherwise>
+                                  <kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" fieldConversions="subcontractorNumber:document.budget.nonpersonnelItem[${ctr}].subcontractorNumber,subcontractorName:document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelDescription" anchor="NonPersonnel"/>
+
+				                      <div id="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelDescription.div" >
+				                        <c:if test="${!empty nonpersonnelItem.subcontractorNumber}">
+				                        	<c:choose>
+												<c:when test="${empty nonpersonnelItem.budgetNonpersonnelDescription}">
+													<span style='color: red;'><c:out value="subcontractor not found" /> </span>
+												</c:when>
+												<c:otherwise>
+													<c:out value="${nonpersonnelItem.budgetNonpersonnelDescription}" />
+												</c:otherwise>
+										</c:choose>                        
+				                        </c:if>
+				
+				            		</div>
+				
                                 </c:otherwise>
                               </c:choose>
                             </c:otherwise>
@@ -229,7 +261,7 @@
                             </div></td>
                           <c:if test="${! viewOnly }">
                             <td class="datacell-nowrap" align="center">
-                              <div align="center"><html:image property="methodToCall.deleteNonpersonnel.anchor${currentTabIndex}.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete"/>
+                              <div align="center"><html:image property="methodToCall.deleteNonpersonnel.anchorNonPersonnel.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete"/>
 		                        </div></td>
 		                      </c:if>
 		                </tr>
@@ -246,7 +278,7 @@
                   <c:if test="${! viewOnly }"><td class="infoline">&nbsp;</td></c:if>
                 </tr>
                 <tr>
-                  <td height="30" colspan="7" class="infoline" ><div align="right"> </div><div align="center"><html:image property="methodToCall.nonpersonnelCopyOver.code${nonpersonnelCategory.code}." src="${ConfigProperties.externalizable.images.url}tinybutton-viewperalloc.gif" styleClass="tinybutton" /><c:if test="${! viewOnly }">&nbsp; <html:image property="methodToCall.recalculate.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" /></c:if></div></td>
+                  <td height="30" colspan="7" class="infoline" ><div align="right"> </div><div align="center"><html:image property="methodToCall.nonpersonnelCopyOver.code${nonpersonnelCategory.code}." src="${ConfigProperties.externalizable.images.url}tinybutton-viewperalloc.gif" styleClass="tinybutton" /><c:if test="${! viewOnly }">&nbsp; <html:image property="methodToCall.recalculate.anchorNonPersonnel" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" /></c:if></div></td>
                 </tr>
               </tbody></table>
             </div>

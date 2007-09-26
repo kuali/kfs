@@ -45,5 +45,12 @@
         </tbody></table>
         
           <kul:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
+<SCRIPT type="text/javascript">
+var kualiForm = document.forms['KualiForm'];
+var kualiElements = kualiForm.elements;
+</SCRIPT>
+<script language="javascript" src="scripts/cg/proposalDocument.js"></script>
+<script language="javascript" src="dwr/interface/SubcontractorService.js"></script>
+<script language="javascript" src="dwr/interface/AccountService.js"></script>
         
 </kul:documentPage>

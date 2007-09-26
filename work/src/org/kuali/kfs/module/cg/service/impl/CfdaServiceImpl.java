@@ -8,13 +8,16 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.LookupService;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.Cfda;
 import org.kuali.module.cg.service.CfdaService;
 import org.kuali.module.cg.service.CfdaUpdateResults;
@@ -220,4 +223,15 @@ public class CfdaServiceImpl implements CfdaService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+
+    public Cfda getByPrimaryId(String cfdaNumber) {
+        return (Cfda) businessObjectService.findByPrimaryKey(Cfda.class, mapPrimaryKeys(cfdaNumber));
+    }
+    
+    private Map<String, Object> mapPrimaryKeys(String cfdaNumber) {
+        Map<String, Object> primaryKeys = new HashMap();
+        primaryKeys.put(KFSPropertyConstants.CFDA_NUMBER, cfdaNumber.trim());
+        return primaryKeys;
+    }
+
 }

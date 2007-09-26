@@ -42,8 +42,23 @@
               <tr>
                 <th align=right valign=middle width="25%">Budget Document Number:</th>
                 <td colspan="3" align=left valign=middle nowrap >
-                  <kul:htmlControlAttribute property="document.routingFormBudgetNumber" attributeEntry="${routingFormDocumentAttributes.routingFormBudgetNumber}" />
-	    		  <kul:lookup boClassName="org.kuali.module.kra.budget.bo.Budget" lookupParameters="document.routingFormBudgetNumber:documentNumber" fieldConversions="documentNumber:document.routingFormBudgetNumber" anchor="${currentTabIndex}" />
+                  <kul:htmlControlAttribute property="document.routingFormBudgetNumber" attributeEntry="${routingFormDocumentAttributes.routingFormBudgetNumber}" onblur="budgetNameLookup('document.routingFormBudgetNumber')" />
+	    		  <kul:lookup boClassName="org.kuali.module.kra.budget.bo.Budget" lookupParameters="document.routingFormBudgetNumber:documentNumber" fieldConversions="documentNumber:document.routingFormBudgetNumber,budgetName:document.budget.budgetName" anchor="${currentTabIndex}" />
+                  <html:hidden property="document.budget.documentNumber" />
+                  <html:hidden property="document.budget.budgetName" />
+    			    <div id="document.budget.budgetName.div" >
+		             <c:if test="${!empty KualiForm.document.routingFormBudgetNumber}">
+		                 <c:choose>
+							<c:when test="${empty KualiForm.document.budget.budgetName}">
+								<span style='color: red;'><c:out value="Budget document not found or Name is empty" /> </span>
+							</c:when>
+							<c:otherwise>
+								<c:out value="${KualiForm.document.budget.budgetName}" />
+							</c:otherwise>
+						 </c:choose>                        
+		              </c:if>
+		           </div>
+                 
                 </td>
               </tr>
               <tr>
@@ -179,5 +194,11 @@
   </table>  
   
   </div>
+<SCRIPT type="text/javascript">
+var kualiForm = document.forms['KualiForm'];
+var kualiElements = kualiForm.elements;
+</SCRIPT>
+<script language="javascript" src="scripts/cg/proposalDocument.js"></script>
+<script language="javascript" src="dwr/interface/BudgetService.js"></script>
 	
 </kul:documentPage>

@@ -23,7 +23,7 @@
 <kul:tab tabTitle="Other Organizations" defaultOpen="false" tabErrorKey="document.routingFormOrganization*" >
   <div class="tab-container" align="center">
             <div class="h2-container">
-              <h2>Other Organizations</h2>
+              <a name="otherOrganizations"></a><h2>Other Organizations</h2>
             </div>
 
             <table cellpadding=0 cellspacing="0"  summary="">
@@ -32,9 +32,12 @@
               </tr>
               <tr>
                 <th width="50">&nbsp;</th>
-                <th> <div align="center">Chart</div></th>
-
-                <th> <div align="center">Org</div></th>
+                <kul:htmlAttributeHeaderCell
+                 literalLabel="* Chart/Org"
+                 scope="col"
+                 forceRequired="true"
+                 colspan="2"
+        		/>
                 <th >Action</th>
               </tr>
 
@@ -44,13 +47,23 @@
 
               <tr>
                 <th scope="row">add:</th>
-                <td class="infoline"><div align="center">
-                  <kul:htmlControlAttribute property="newRoutingFormOrganization.chartOfAccountsCode" attributeEntry="${routingFormOrganizationAttributes.chartOfAccountsCode}" />
-                </div></td>
-                <td class="infoline"><div align="center">
-                  <kul:htmlControlAttribute property="newRoutingFormOrganization.organizationCode" attributeEntry="${routingFormOrganizationAttributes.organizationCode}" />
-                  <kul:lookup boClassName="org.kuali.module.chart.bo.Org" lookupParameters="newRoutingFormOrganization.organizationCode:organizationCode,newRoutingFormOrganization.chartOfAccountsCode:chartOfAccountsCode" fieldConversions="organizationCode:newRoutingFormOrganization.organizationCode,chartOfAccountsCode:newRoutingFormOrganization.chartOfAccountsCode" tabindexOverride="5100" anchor="${currentTabIndex}" />
-                </div></td>
+                <td nowrap class="infoline" colspan="2">
+                  <div align="center">
+					<c:choose>
+						<c:when test="${empty KualiForm.newRoutingFormOrganization.chartOfAccountsCode}">(select by org)</c:when>
+						<c:otherwise>
+							${KualiForm.newRoutingFormOrganization.chartOfAccountsCode}/${KualiForm.newRoutingFormOrganization.organizationCode}
+							<html:hidden property="newRoutingFormOrganization.chartOfAccountsCode"/>
+							<html:hidden property="newRoutingFormOrganization.organizationCode"/>
+						</c:otherwise>
+					</c:choose>
+					&nbsp;&nbsp;
+					<kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormOrganization.chartOfAccountsCode,organizationCode:newRoutingFormOrganization.organizationCode"  anchor="otherOrganizations" />
+					</div>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</td>
+                
+                
                 <td class="infoline"><div align=center><html:image property="methodToCall.insertRoutingFormOrganization.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add other organization" /></div></td>
               </tr>
               
@@ -59,21 +72,26 @@
                   <th class="neutral">
                     <div align="center">${status.index+1}</div>
                   </th> 
-                  <td class="neutral">
+                <td nowrap class="neutral" colspan="2">
                     <html:hidden property="document.routingFormOrganization[${status.index}].documentNumber" />
                     <kul:htmlControlAttribute property="document.routingFormOrganization[${status.index}].objectId" attributeEntry="${routingFormOrganizationAttributes.objectId}" />
                     <kul:htmlControlAttribute property="document.routingFormOrganization[${status.index}].versionNumber" attributeEntry="${routingFormOrganizationAttributes.versionNumber}" />
-                    <div align="center"><span class="infoline">
-                      <kul:htmlControlAttribute property="document.routingFormOrganization[${status.index}].chartOfAccountsCode" attributeEntry="${routingFormOrganizationAttributes.chartOfAccountsCode}" />
-                    </span></div>
-                  </td>
-                  <td>
-                    <div align="center">
-                      <span class="infoline">
-                        <kul:htmlControlAttribute property="document.routingFormOrganization[${status.index}].organizationCode" attributeEntry="${routingFormOrganizationAttributes.organizationCode}" /></span>
-                        <kul:lookup boClassName="org.kuali.module.chart.bo.Org" lookupParameters="document.routingFormOrganization[${status.index}].organizationCode:organizationCode,document.routingFormOrganization[${status.index}].chartOfAccountsCode:chartOfAccountsCode" fieldConversions="organizationCode:document.routingFormOrganization[${status.index}].organizationCode,chartOfAccountsCode:document.routingFormOrganization[${status.index}].chartOfAccountsCode" tabindexOverride="5100" anchor="${currentTabIndex}" />
-                    </div>
-                  </td>
+                  <div align="center">
+					<c:choose>
+						<c:when test="${empty routingFormOrganization.chartOfAccountsCode}">(select by org)</c:when>
+						<c:otherwise>
+							${routingFormOrganization.chartOfAccountsCode}/${routingFormOrganization.organizationCode}
+							<html:hidden property="document.routingFormOrganization[${status.index}].chartOfAccountsCode"/>
+							<html:hidden property="document.routingFormOrganization[${status.index}].organizationCode"/>
+						</c:otherwise>
+					</c:choose>
+					&nbsp;&nbsp;
+					<kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormOrganization[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormOrganization[${status.index}].organizationCode" anchor="otherOrganizations" />
+				</div>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</td>
+                  
+                  
                   <td class="neutral">
                     <div align="center"><html:image property="methodToCall.deleteRoutingFormOrganization.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete institution cost share" /></div>
                   </td>

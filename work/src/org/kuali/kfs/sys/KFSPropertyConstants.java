@@ -273,6 +273,7 @@ public class KFSPropertyConstants {
     public static final String CATALOG_OF_DOMESTIC_ASSISTANCE_NUMBER = "accountCfdaNumber";
     public static final String CENTRAL_PROCESSOR_USER = "centralProcessorUser";
     public static final String CHART = "chart";
+    public static final String CFDA_NUMBER = "cfdaNumber";
     public static final String CHART_OF_ACCOUNTS = "chartOfAccounts";
     public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
     public static final String CHART_RESPONSIBILITIES = "chartResponsibilities";

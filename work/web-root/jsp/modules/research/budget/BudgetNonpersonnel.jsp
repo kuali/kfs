@@ -31,5 +31,11 @@
 
 	<div align="center"><kul:documentControls transactionalDocument="false"
 		saveButtonOverride="saveNonpersonnel" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" /></div>
+<SCRIPT type="text/javascript">
+var kualiForm = document.forms['KualiForm'];
+var kualiElements = kualiForm.elements;
+</SCRIPT>
+<script language="javascript" src="scripts/cg/proposalDocument.js"></script>
+<script language="javascript" src="dwr/interface/SubcontractorService.js"></script>
 
 </kul:documentPage>

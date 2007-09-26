@@ -46,6 +46,7 @@ import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.bo.AdhocPerson;
+import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.ContractGrantProposal;
 import org.kuali.module.kra.routingform.bo.Purpose;
@@ -152,7 +153,9 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private List<RoutingFormPurpose> routingFormPurposes;
     private List<RoutingFormProjectType> routingFormProjectTypes;
     private List<RoutingFormPersonRole> routingFormPersonRoles;
-    
+    // for budget document number ajax
+    private Budget budget;
+
 	/**
 	 * Default constructor.
 	 */
@@ -2032,5 +2035,13 @@ public class RoutingFormDocument extends ResearchDocumentBase {
             xml.append("</documentContent>");
         }
         return xml.toString();
+    }
+
+    public Budget getBudget() {
+        return budget;
+    }
+
+    public void setBudget(Budget budget) {
+        this.budget = budget;
     }
 }

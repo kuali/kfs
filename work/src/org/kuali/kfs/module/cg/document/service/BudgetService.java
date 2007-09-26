@@ -15,6 +15,7 @@
  */
 package org.kuali.module.kra.budget.service;
 
+import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -36,4 +37,7 @@ public interface BudgetService {
      * @return boolean
      */
     public String buildCostShareRemovedCode(BudgetDocument budgetDocument);
+    
+    public String getByPrimaryId(String documentNumber);
+
 }

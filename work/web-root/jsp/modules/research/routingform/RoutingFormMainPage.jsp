@@ -42,4 +42,13 @@
 
     <kul:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
 
+<SCRIPT type="text/javascript">
+var kualiForm = document.forms['KualiForm'];
+var kualiElements = kualiForm.elements;
+</SCRIPT>
+<script language="javascript" src="scripts/cg/proposalDocument.js"></script>
+<script language="javascript" src="dwr/interface/AgencyService.js"></script>
+<script language="javascript" src="dwr/interface/CfdaService.js"></script>
+<script language="javascript" src="dwr/interface/ProjectDirectorService.js"></script>
+
 </kul:documentPage>

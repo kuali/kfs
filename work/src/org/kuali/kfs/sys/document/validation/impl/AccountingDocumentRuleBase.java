@@ -33,6 +33,8 @@ import static org.kuali.kfs.KFSKeyConstants.ERROR_APC_INDIRECT_ALLOWED_MULTIPLE;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_APC_INDIRECT_DENIED_MULTIPLE;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_FORMAT;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_MAX_LENGTH;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_INVALID_ACCOUNT;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_REQUIRED;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_BALANCE;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_FUND_GROUP_SET_DOES_NOT_BALANCE;
@@ -68,6 +70,7 @@ import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rule.event.BlanketApproveDocumentEvent;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DictionaryValidationService;
@@ -95,12 +98,13 @@ import org.kuali.kfs.rule.GenerateGeneralLedgerPendingEntriesRule;
 import org.kuali.kfs.rule.ReviewAccountingLineRule;
 import org.kuali.kfs.rule.SufficientFundsCheckingPreparationRule;
 import org.kuali.kfs.rule.UpdateAccountingLineRule;
+import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER;
+import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER_SECURITY_GROUP;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.HomeOriginationService;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.financial.bo.SalesTax;
 import org.kuali.module.gl.service.SufficientFundsService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -465,7 +469,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
 
         // now make sure all the necessary business objects are fully populated
-        accountingLine.refresh();
+        accountingLine.refreshNonUpdateableReferences();
 
         // validate required checks in addition to format checks
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(accountingLine);
@@ -557,13 +561,6 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
                 // Check the fund group allowances
                 valid &= isFundGroupAllowed(accountingLine);
-                /*
-                if(isSalesTaxRequired(financialDocument, accountingLine)) {
-                    //then set the salesTaxRequired on the accountingLine
-                    accountingLine.setSalesTaxRequired(true);
-                    //check to see if the sales tax info has been put in
-                    valid &= isSalesTaxEntered(accountingLine);
-                }*/
             }
         }
 
@@ -1298,68 +1295,6 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         AttributeReference returnAttributeReference = new AttributeReference(ObjectCode.class, FINANCIAL_OBJECT_TYPE_CODE, accountingLine.getObjectCode().getFinancialObjectTypeCode());
         LOG.debug("createObjectTypeAttributeReference(AccountingLine) - end");
         return returnAttributeReference;
-    }
-
-    /**
-     * 
-     * This method checks to see if this doctype needs sales tax
-     * If it does then it checks to see if the account and object code
-     * require sales tax
-     * If it does then it returns true.
-     * @param accountingLine
-     * @return true if sales tax check is needed, false otherwise
-     */
-    private boolean isSalesTaxRequired(AccountingDocument financialDocument, AccountingLine accountingLine) {
-        boolean required = false;
-        DocumentTypeService docTypeService = SpringContext.getBean(DocumentTypeService.class);
-        String docType = docTypeService.getDocumentTypeCodeByClass(financialDocument.getClass());
-        //first we need to check just the doctype to see if it needs the sales tax check
-        KualiParameterRule docTypeRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_SALES_TAX_COLLECTION_GROUPING, APPLICATION_PARAMETER.DOCTYPE_SALES_TAX_CHECK);
-        
-        // apply the rule, see if it fails
-        if (!docTypeRule.failsRule(docType)) {
-            required = true;
-        }
-        
-        //second we need to check the account and object code combination to see if it needs sales tax
-        if(required) {
-            KualiParameterRule objCdAndAccountRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_SALES_TAX_COLLECTION_GROUPING, APPLICATION_PARAMETER.VALID_ACCOUNT_AND_OBJ_CD);
-            //get the object code and account
-            String objCd = accountingLine.getObjectCode().getCode();
-            String account = accountingLine.getAccountNumber();
-            if(!StringUtils.isEmpty(objCd) && !StringUtils.isEmpty(account)) {
-                String compare = account + ":" + objCd;
-                if(objCdAndAccountRule.failsRule(compare)) {
-                   required = false; 
-                }
-            }
-        }
-        return required;
-    }
-    
-    /**
-     * 
-     * This method checks to see if the sales tax information was put into the accounting
-     * line
-     * @param accountingLine
-     * @return true if entered correctly, false otherwise
-     */
-    private boolean isSalesTaxEntered(AccountingLine accountingLine) {
-        boolean valid = true;
-        SalesTax salesTax = accountingLine.getSalesTax();
-        if(salesTax == null) {
-            valid &= false;
-        } else if(StringUtils.isBlank(salesTax.getChartOfAccountsCode())  || 
-                  StringUtils.isBlank(salesTax.getAccountNumber()) || 
-                  salesTax.getFinancialDocumentGrossSalesAmount() == null ||
-                  salesTax.getFinancialDocumentTaxableSalesAmount() == null ||
-                  salesTax.getFinancialDocumentSaleDate() == null) {
-            //need some errors here, but fail with one for now
-            GlobalVariables.getErrorMap().putError("salesTax", ERROR_REQUIRED);
-            valid &= false;
-            
-        }
-        return valid;
     }
     
     /**

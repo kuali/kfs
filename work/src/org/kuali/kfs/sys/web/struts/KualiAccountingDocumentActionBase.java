@@ -287,9 +287,11 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
             handleDecorator(formLine, baseLine, decorator);
             
             //update sales tax required attribute for view
-            handleSalesTaxRequired(transDoc, formLine, source, false, index);
+            //handleSalesTaxRequired(transDoc, formLine, source, false, index);
+            checkSalesTax(transDoc, formLine, source, false, index);
             if (baseLine != null) {
                 handleSalesTaxRequired(transDoc, baseLine, source, false, index);
+                //checkSalesTax(transDoc, baseLine, source, false, index);
             }
 
             // only generate update events for specific action methods
@@ -993,6 +995,7 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
         if(isSalesTaxRequired(document, line)) {
             //then set the salesTaxRequired on the accountingLine
             line.setSalesTaxRequired(true);
+            populateSalesTax(line);
             //check to see if the sales tax info has been put in
             passed &= isValidSalesTaxEntered(line, source, newLine, index);
         }
@@ -1094,8 +1097,7 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
                 GlobalVariables.getErrorMap().putError("salesTax.financialDocumentSaleDate", ERROR_REQUIRED, "Sale Date");
             }
             if(StringUtils.isNotBlank(salesTax.getChartOfAccountsCode()) && StringUtils.isNotBlank(salesTax.getAccountNumber())) {
-                //dictionaryValidationService.validateReferenceExistsAndIsActive(salesTax, )
-                //if(!dictionaryValidationService.validateDefaultExistenceChecks(salesTax)) {
+                
                 if(boService.getReferenceIfExists(salesTax, "account") == null) {
                     valid &= false;
                     GlobalVariables.getErrorMap().putError("salesTax.accountNumber", ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_INVALID_ACCOUNT, salesTax.getChartOfAccountsCode(), salesTax.getAccountNumber());

@@ -67,7 +67,7 @@
 		</property>
 		<property name="triggerNames">
 			<list>
-				<value>yearEndJob</value>
+				<value>yearEndJobTrigger</value>
 			</list>
 		</property>
 	</bean>

@@ -344,12 +344,6 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
                 GlobalVariables.getErrorMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_AMOUNT_NONPOSITIVE, label);
                 valid = false;
             }
-
-            // if item type is misc check description was given
-            if (StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CRDT_CODE, item.getItemTypeCode()) && StringUtils.isBlank(item.getItemDescription())) {
-                GlobalVariables.getErrorMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_MISCDESCRIPTION);
-                valid = false;
-            }
         }
 
         return valid;

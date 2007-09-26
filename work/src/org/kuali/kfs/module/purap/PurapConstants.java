@@ -409,9 +409,9 @@ public class PurapConstants extends JstlConstants {
                 return null;
             }
             
-            public static boolean isFirstNonFullEntryStatus(String statusCode) {
+            public static boolean isFirstFullEntryStatus(String statusCode) {
                 //NOTE this won't work if there endsup being two ways to get to the first full entry status (i.e. like AUTO/DEPT for final)
-                return !getByStatusCode(statusCode).fullEntryAllowed && getPreviousStatus(statusCode).fullEntryAllowed; 
+                return getByStatusCode(statusCode).fullEntryAllowed && !getPreviousStatus(statusCode).fullEntryAllowed; 
             }
         }
 
@@ -565,9 +565,9 @@ public class PurapConstants extends JstlConstants {
                 return null;
             }
             
-            public static boolean isFirstNonFullEntryStatus(String statusCode) {
+            public static boolean isFirstFullEntryStatus(String statusCode) {
                 //NOTE this won't work if there endsup being two ways to get to the first full entry status (i.e. like AUTO/DEPT for final)
-                return !getByStatusCode(statusCode).fullEntryAllowed && getPreviousStatus(statusCode).fullEntryAllowed; 
+                return getByStatusCode(statusCode).fullEntryAllowed && !getPreviousStatus(statusCode).fullEntryAllowed; 
             }
         }
         

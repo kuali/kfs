@@ -67,7 +67,7 @@
 		</property>
 		<property name="triggerNames">
 			<list>
-				<value>yearEndJobTrigger</value>
+				<value>yearEndJob</value>
 			</list>
 		</property>
 	</bean>
@@ -1198,7 +1198,7 @@
 	</bean>
 	
 	<bean id="yearEndJobTrigger" parent="cronTrigger">
-		<property name="jobName" value="encumbranceForwardJob" />
+		<property name="jobName" value="yearEndJob" />
 		<property name="cronExpression" value="00 00 08 ? * *" />
 	</bean>
 	

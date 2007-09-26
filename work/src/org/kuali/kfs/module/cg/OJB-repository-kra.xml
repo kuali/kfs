@@ -476,17 +476,17 @@
     <field-descriptor name="userCreditHoursNumber" column="USR_CRDT_HRS_NBR" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="userCreditHourAmount" column="USR_CRDT_HR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="userMiscellaneousFeeAmount" column="USR_MISC_FEE_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
-    <reference-descriptor name="budgetFringeRate" class-ref="org.kuali.module.kra.budget.bo.BudgetFringeRate" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="budgetFringeRate" class-ref="org.kuali.module.kra.budget.bo.BudgetFringeRate" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
         <foreignkey field-ref="institutionAppointmentTypeCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="task" class-ref="org.kuali.module.kra.budget.bo.BudgetTask" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="task" class-ref="org.kuali.module.kra.budget.bo.BudgetTask" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
         <foreignkey field-ref="budgetTaskSequenceNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="period" class-ref="org.kuali.module.kra.budget.bo.BudgetPeriod" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="period" class-ref="org.kuali.module.kra.budget.bo.BudgetPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
         <foreignkey field-ref="budgetPeriodSequenceNumber" />
     </reference-descriptor>
@@ -500,17 +500,17 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
-    <reference-descriptor name="budgetFringeRate" class-ref="org.kuali.module.kra.budget.bo.BudgetFringeRate" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="budgetFringeRate" class-ref="org.kuali.module.kra.budget.bo.BudgetFringeRate" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
         <foreignkey field-ref="institutionAppointmentTypeCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="task" class-ref="org.kuali.module.kra.budget.bo.BudgetTask" auto-retrieve="true" auto-update="false" auto-delete="false" >
+    <reference-descriptor name="task" class-ref="org.kuali.module.kra.budget.bo.BudgetTask" auto-retrieve="true" auto-update="none" auto-delete="none" >
         <foreignkey field-ref="documentNumber" />
         <foreignkey field-ref="budgetTaskSequenceNumber" />
     </reference-descriptor>
 
-    <collection-descriptor name="userAppointmentTaskPeriods" element-class-ref="org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+    <collection-descriptor name="userAppointmentTaskPeriods" proxy="true" element-class-ref="org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
         <inverse-foreignkey field-ref="documentNumber" />
         <inverse-foreignkey field-ref="budgetUserSequenceNumber" />
         <inverse-foreignkey field-ref="budgetTaskSequenceNumber" />
@@ -541,7 +541,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="budgetIndirectCostRate" column="BDGT_IDC_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbDecimalPercentageFieldConversion" />
-    <reference-descriptor name="indirectCostLookup" class-ref="org.kuali.module.kra.budget.bo.IndirectCostLookup" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="indirectCostLookup" class-ref="org.kuali.module.kra.budget.bo.IndirectCostLookup" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="budgetOnCampusIndicator" />
         <foreignkey field-ref="budgetPurposeCode" />
     </reference-descriptor>
@@ -590,11 +590,11 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="budgetManualIndirectCostRate" column="BDGT_MAN_IDC_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbDecimalPercentageFieldConversion" />
     <field-descriptor name="budgetManualMtdcAmount" column="BDGT_MAN_MTDC_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
-    <reference-descriptor name="task" class-ref="org.kuali.module.kra.budget.bo.BudgetTask" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="task" class-ref="org.kuali.module.kra.budget.bo.BudgetTask" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
         <foreignkey field-ref="budgetTaskSequenceNumber" />
     </reference-descriptor>
-    <reference-descriptor name="period" class-ref="org.kuali.module.kra.budget.bo.BudgetPeriod" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="period" class-ref="org.kuali.module.kra.budget.bo.BudgetPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
         <foreignkey field-ref="budgetPeriodSequenceNumber" />
     </reference-descriptor>

@@ -47,10 +47,10 @@
     <reference-descriptor name="vendorOwnershipCategory" class-ref="org.kuali.module.vendor.bo.OwnershipCategory" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="vendorOwnershipCategoryCode" />
     </reference-descriptor>
-    <collection-descriptor name="vendorSupplierDiversities" element-class-ref="org.kuali.module.vendor.bo.VendorSupplierDiversity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="none">
+    <collection-descriptor name="vendorSupplierDiversities" proxy="true" element-class-ref="org.kuali.module.vendor.bo.VendorSupplierDiversity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
     </collection-descriptor>
-    <collection-descriptor name="vendorTaxChanges" element-class-ref="org.kuali.module.vendor.bo.VendorTaxChange" auto-retrieve="false" auto-update="object" auto-delete="false" proxy="false">
+    <collection-descriptor name="vendorTaxChanges" element-class-ref="org.kuali.module.vendor.bo.VendorTaxChange" auto-retrieve="false" auto-update="object" auto-delete="none" proxy="true">
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
     </collection-descriptor>
 </class-descriptor>
@@ -101,38 +101,38 @@
     <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingPaymentTermsCode" />
     </reference-descriptor>
-    <collection-descriptor name="vendorAliases" element-class-ref="org.kuali.module.vendor.bo.VendorAlias" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <collection-descriptor name="vendorAliases" proxy="true" element-class-ref="org.kuali.module.vendor.bo.VendorAlias" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="vendorAliasName" sort="ASC" />
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </collection-descriptor>
-    <collection-descriptor name="vendorAddresses" element-class-ref="org.kuali.module.vendor.bo.VendorAddress" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <collection-descriptor name="vendorAddresses" proxy="true" element-class-ref="org.kuali.module.vendor.bo.VendorAddress" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="vendorAddressTypeCode" sort="ASC" />
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </collection-descriptor>
-    <collection-descriptor name="vendorContacts" element-class-ref="org.kuali.module.vendor.bo.VendorContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true" proxy="false">
+    <collection-descriptor name="vendorContacts" element-class-ref="org.kuali.module.vendor.bo.VendorContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="vendorContactTypeCode" sort="ASC" />
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </collection-descriptor>
-    <collection-descriptor name="vendorContracts" element-class-ref="org.kuali.module.vendor.bo.VendorContract" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true" proxy="false">
+    <collection-descriptor name="vendorContracts" element-class-ref="org.kuali.module.vendor.bo.VendorContract" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="vendorContractName" sort="ASC" />
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </collection-descriptor>
-    <collection-descriptor name="vendorCustomerNumbers" element-class-ref="org.kuali.module.vendor.bo.VendorCustomerNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <collection-descriptor name="vendorCustomerNumbers" proxy="true" element-class-ref="org.kuali.module.vendor.bo.VendorCustomerNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="vendorOrganizationCode" sort="ASC" />
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </collection-descriptor>
-    <collection-descriptor name="vendorPhoneNumbers" element-class-ref="org.kuali.module.vendor.bo.VendorPhoneNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true" proxy="false">
+    <collection-descriptor name="vendorPhoneNumbers" element-class-ref="org.kuali.module.vendor.bo.VendorPhoneNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="vendorPhoneGeneratedIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </collection-descriptor>
-    <collection-descriptor name="vendorShippingSpecialConditions" element-class-ref="org.kuali.module.vendor.bo.VendorShippingSpecialCondition" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <collection-descriptor name="vendorShippingSpecialConditions" proxy="true" element-class-ref="org.kuali.module.vendor.bo.VendorShippingSpecialCondition" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </collection-descriptor>
@@ -171,7 +171,7 @@
     <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
-    <collection-descriptor name="vendorDefaultAddresses" proxy="false" element-class-ref="org.kuali.module.vendor.bo.VendorDefaultAddress" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <collection-descriptor name="vendorDefaultAddresses" proxy="true" element-class-ref="org.kuali.module.vendor.bo.VendorDefaultAddress" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="vendorDefaultAddressGeneratedIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="vendorAddressGeneratedIdentifier" />
     </collection-descriptor>
@@ -209,7 +209,7 @@
     <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
-    <collection-descriptor name="vendorContactPhoneNumbers" element-class-ref="org.kuali.module.vendor.bo.VendorContactPhoneNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <collection-descriptor name="vendorContactPhoneNumbers" proxy="true" element-class-ref="org.kuali.module.vendor.bo.VendorContactPhoneNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="vendorContactPhoneGeneratedIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="vendorContactGeneratedIdentifier" />
     </collection-descriptor>
@@ -257,7 +257,7 @@
     <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.module.vendor.bo.ShippingTitle" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingTitleCode" />
     </reference-descriptor>
-    <collection-descriptor name="vendorContractOrganizations"  element-class-ref="org.kuali.module.vendor.bo.VendorContractOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true" proxy="false">
+    <collection-descriptor name="vendorContractOrganizations"  element-class-ref="org.kuali.module.vendor.bo.VendorContractOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="organizationCode" sort="ASC" />
         <inverse-foreignkey field-ref="vendorContractGeneratedIdentifier" />

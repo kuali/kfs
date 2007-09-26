@@ -33,7 +33,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
 
 import junit.framework.AssertionFailedError;
 
@@ -49,6 +48,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.rice.definition.ObjectDefinition;
 import org.kuali.rice.resourceloader.GlobalResourceLoader;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.suite.RelatesTo;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -86,6 +86,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
         if ( (StringUtils.isNotBlank(ruleAttributeXml)) && (StringUtils.isNotBlank(searchAttributeXml)) ) {
             return;
         }
+       
         DataSource mySource = SpringContext.getBean(DataSource.class);
         ruleAttributeXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<data >\n<ruleAttributes>\n";
         searchAttributeXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<data >\n<ruleAttributes>\n";
@@ -95,7 +96,8 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
             dbCon = mySource.getConnection();
             Statement dbAsk = dbCon.createStatement();
             ResultSet dbAnswer = dbAsk.executeQuery("select * from EN_RULE_ATTRIB_T");
-//            ResultSet dbAnswer = dbAsk.executeQuery("select * from EN_RULE_ATTRIB_T where RULE_ATTRIB_NM = 'KualiPurchaseOrderTransmissionMethodAttribute'");
+//            ResultSet dbAnswer = dbAsk.executeQuery("select * from EN_RULE_ATTRIB_T where RULE_ATTRIB_NM = 'KualiPurApSearchResultsDisplayType'");
+            
             while (dbAnswer.next()) {
                 String className = dbAnswer.getString("RULE_ATTRIB_CLS_NM");
                 if (StringUtils.isNotBlank(className)) {
@@ -146,19 +148,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
             ruleAttributeXml = ruleAttributeXml.replaceAll(" & ", " &amp; ");
             searchAttributeXml = searchAttributeXml.replaceAll(" & ", " &amp; ");
 
-//            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-//            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-//            DocumentBuilder builder = factory.newDocumentBuilder();
-//            factory.setCoalescing(true);  //so it expands CDATA stuff
-//            document = builder.parse(new InputSource(new StringReader(ruleAttributeXml)));
-//            StringWriter writer = new StringWriter();
-//            Result result = new StreamResult(writer);
-//            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-//            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-//            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-//            transformer.transform(new DOMSource(document), result);
-//            ruleAttributeXml = writer.toString();
-            loadDataDictionaryEntries();
+           loadDataDictionaryEntries();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -176,6 +166,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
     /**
      * This method goes through all of the ruleAttributes in the inputSource and tries to get a label out of the data dictionary.
      */
+    @RelatesTo(RelatesTo.JiraIssue.KULRNE5721)//disable test while XML is out of sync
     public void testConfirmLabels() {
         testFailed = false;
         
@@ -285,9 +276,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
                             }
                             else {
                                 potentialFailMessage = "For attribute '" + attributeName + "' the title should have been '" + testString + "' but was actually '" + theTitle + "'";
-                                if (isNameFromDataDictionaryLongLabel(originalNode, fieldDefAttributes.getNamedItem("name").getNodeValue(), configNodeName)) {
-                                    assertEquals(potentialFailMessage,testString,theTitle);
-                                }
+                                assertEquals(potentialFailMessage,testString,theTitle);
                             }
                         }
                     }
@@ -308,36 +297,14 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
             LOG.error("General Exception thrown for attribute '" + attributeName + "'", e);
             testFailed = true;
         }
-    }
-
-    private boolean isNameFromDataDictionaryLongLabel(Node originalNode, String fieldDefName, String configNodeName) throws XPathExpressionException {
-        String findXpathExpressionPrefix = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + configNodeName +  "/fieldDef[@name='" + fieldDefName + "']";
-        Node fieldDef = (Node) myXPath.evaluate(findXpathExpressionPrefix, originalNode, XPathConstants.NODE);
-        if ( (fieldDef != null) && (fieldDef.getAttributes() != null) ) {
-            NamedNodeMap attributeNodes = fieldDef.getAttributes();
-            Node title = attributeNodes.getNamedItem("title");
-            if (title != null) {
-                String potentialClassNameLongLabel = KualiXmlAttributeHelper.getPotentialKualiClassName(title.getNodeValue(), KualiXmlAttributeHelper.ATTRIBUTE_LABEL_BO_REFERENCE_PREFIX, KualiXmlAttributeHelper.ATTRIBUTE_LABEL_BO_REFERENCE_SUFFIX);
-                String potentialClassNameShortLabel = KualiXmlAttributeHelper.getPotentialKualiClassName(title.getNodeValue(), KualiXmlAttributeHelper.ATTRIBUTE_SHORT_LABEL_BO_REFERENCE_PREFIX, KualiXmlAttributeHelper.ATTRIBUTE_SHORT_LABEL_BO_REFERENCE_SUFFIX);
-                // if we have a title attribute but it doesn't match either label setting then it's been hard coded
-                if ( (StringUtils.isBlank(potentialClassNameLongLabel)) && (StringUtils.isBlank(potentialClassNameShortLabel)) ) {
-                    return false;
-                }
-                // if we have a title based on the short label from the data dictionary then return false
-                if ( (StringUtils.isBlank(potentialClassNameLongLabel)) && (StringUtils.isNotBlank(potentialClassNameShortLabel)) ) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
+   }
 
     /**
      * This method confirms that the labels are coming from the data dictionary by modifing all the dictionary values
      * programatically to a nonsense value. It then rebuilds the Hash Table and runs confirmLabels() to make sure the labels have
      * changed.
      */
-//    @RelatesTo(RelatesTo.JiraIssue.KULOWF281)
+   @RelatesTo(RelatesTo.JiraIssue.KULRNE5721)//disable test while XML is out of sync
     public void testLabelSource() {
         DataDictionaryService myDDService = SpringContext.getBean(DataDictionaryService.class);
         XPath xpath = XPathHelper.newXPath();
@@ -348,6 +315,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
             for (Object tempVal : tempArray) {
 
                 ((AttributeDefinition) ((BusinessObjectEntry) tempEntity).getAttributes().get(tempVal)).setLabel(nonsenseString);
+                ((AttributeDefinition) ((BusinessObjectEntry) tempEntity).getAttributes().get(tempVal)).setShortLabel(nonsenseString);
             }
 
         }
@@ -356,6 +324,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
             Object[] tempArray = (((DocumentEntry) tempEntity).getAttributes().keySet().toArray());
             for (Object tempVal : tempArray) {
                 ((AttributeDefinition) ((DocumentEntry) tempEntity).getAttributes().get(tempVal)).setLabel(nonsenseString);
+                ((AttributeDefinition) ((DocumentEntry) tempEntity).getAttributes().get(tempVal)).setShortLabel(nonsenseString);
             }
 
         }

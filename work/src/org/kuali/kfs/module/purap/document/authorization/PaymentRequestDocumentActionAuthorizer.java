@@ -24,6 +24,7 @@ import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.service.PaymentRequestService;
+import org.kuali.module.purap.service.PurapService;
 
 /**
  * This class determines permissions for a user
@@ -38,6 +39,7 @@ public class PaymentRequestDocumentActionAuthorizer {
     private boolean canRemoveRequestCancel;
     private boolean canHold;
     private boolean canRequestCancel;
+    private boolean fullEntryCompleted;
     
     private boolean apUser;
     private boolean fiscalOfficerDelegateUser;
@@ -52,7 +54,8 @@ public class PaymentRequestDocumentActionAuthorizer {
         this.requestCancelIndicator = preq.getPaymentRequestedCancelIndicator();
         this.holdIndicator = preq.isHoldIndicator();
         this.extracted = (preq.getExtractedDate() ==  null ? false : true);
-        
+        this.fullEntryCompleted = SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq); 
+            
         //special indicators
         if (SpringContext.getBean(PaymentRequestService.class).isPaymentRequestHoldable(preq) &&
             SpringContext.getBean(PaymentRequestService.class).canHoldPaymentRequest(preq, user) ) {                        
@@ -130,14 +133,21 @@ public class PaymentRequestDocumentActionAuthorizer {
     private boolean isApprover(){
         return approver;
     }
-    
+
+    public boolean isFullEntryCompleted() {
+        return fullEntryCompleted;
+    }
+
+    public void setFullEntryCompleted(boolean fullEntryCompleted) {
+        this.fullEntryCompleted = fullEntryCompleted;
+    }
+
     public boolean canCalculate(){
         boolean hasPermission = false;
         
         //Phase 2B Rule: (PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals( getDocStatus() ) && isApprover()) ||
         
-        if( ( PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals( getDocStatus() ) && isApUser()) ||
-            ( PaymentRequestStatuses.IN_PROCESS.equals( getDocStatus()) && isApUser() ) ){
+        if( isFullEntryCompleted() == false && isApUser() ){            
             hasPermission = true;
         }
         

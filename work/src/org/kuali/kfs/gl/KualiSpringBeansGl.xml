@@ -57,11 +57,7 @@
 				<value>sufficientFundsJob</value>
 				<value>posterSummaryReportJob</value>
 				<value>clearPendingEntriesJob</value>
-				<value>encumbranceForwardJob</value>
-				<value>balanceForwardJob</value>
-				<value>nominalActivityClosingJob</value>
-				<value>organizationReversionClosingJob</value>
-				<value>organizationReversionOpeningJob</value>
+				<value>yearEndJob</value>
 				<value>manualPurgeJob</value>
 				<value>clearOldOriginEntriesJob</value>
 				<value>purgeCorrectionProcessFilesJob</value>
@@ -71,7 +67,7 @@
 		</property>
 		<property name="triggerNames">
 			<list>
-				<value>yearEndJobsTrigger</value>
+				<value>yearEndJobTrigger</value>
 			</list>
 		</property>
 	</bean>
@@ -1201,71 +1197,23 @@
 		</property>
 	</bean>
 	
-	<bean id="yearEndJobsTrigger" parent="cronTrigger">
+	<bean id="yearEndJobTrigger" parent="cronTrigger">
 		<property name="jobName" value="encumbranceForwardJob" />
 		<property name="cronExpression" value="00 00 08 ? * *" />
 	</bean>
 	
-	<bean id="encumbranceForwardJob" parent="scheduledJobDescriptor">
+	<bean id="yearEndJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="encumbranceForwardStep" />
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="balanceForwardJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
 				<ref bean="balanceForwardStep" />
-			</list>
-		</property>
-		<property name="dependencies">
-			<map>
-				<entry key="encumbranceForwardJob" value="softDependency" />
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="nominalActivityClosingJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
 				<ref bean="nominalActivityClosingStep" />
-			</list>
-		</property>
-		<property name="dependencies">
-			<map>
-				<entry key="balanceForwardJob" value="softDependency" />
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="organizationReversionClosingJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
 				<ref bean="organizationReversionClosingStep" />
-			</list>
-		</property>
-		<property name="dependencies">
-			<map>
-				<entry key="nominalActivityClosingJob" value="softDependency" />
-			</map>
-		</property>
-	</bean>
-		
-	<bean id="organizationReversionOpeningJob" parent="unscheduledJobDescriptor">
-		<property name="steps">
-			<list>
 				<ref bean="organizationReversionOpeningStep" />
 			</list>
 		</property>
-		<property name="dependencies">
-			<map>
-				<entry key="organizationReversionClosingJob" value="softDependency" />
-			</map>
-		</property>
 	</bean>
-
+	
 	<bean id="purgeEntryStep" class="org.kuali.module.gl.batch.PurgeEntryStep" parent="step">
 		<property name="entryService">
 			<ref bean="glEntryService" />

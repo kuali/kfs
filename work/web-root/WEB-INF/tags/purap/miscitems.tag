@@ -30,6 +30,9 @@
 <%@ attribute name="showInvoiced" required="false"
     type="java.lang.Boolean"
     description="post the unitPrice into the extendedPrice field" %>
+<%@ attribute name="extraHiddenItemFields" required="false"
+              description="A comma seperated list of names to be added to the list of normally hidden fields
+              for the existing misc items." %>
 <%@ attribute name="specialItemTotalType" required="false" %>
 <%@ attribute name="specialItemTotalOverride" required="false" fragment="true"
               description="Fragment of code to specify special item total line" %>
@@ -93,7 +96,9 @@
 			    <html:hidden property="document.item[${ctr}].itemType.active" /> 
 			    <html:hidden property="document.item[${ctr}].itemType.quantityBasedGeneralLedgerIndicator" />
  			    <html:hidden property="document.item[${ctr}].itemType.itemTypeAboveTheLineIndicator" />
- 			    
+ 				<c:forTokens var="hiddenField" items="${extraHiddenItemFields}" delims=",">
+ 					<html:hidden property="document.item[${ctr}].${hiddenField}" />
+ 				</c:forTokens>		    
 				
 			    <div align="right">
 			        <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" property="document.item[${ctr}].itemType.itemTypeDescription" readOnly="${true}" />:&nbsp;

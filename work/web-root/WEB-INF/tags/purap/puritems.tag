@@ -19,6 +19,9 @@
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="camsAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
+<%@ attribute name="extraHiddenItemFields" required="false"
+              description="A comma seperated list of names to be added to the list of normally hidden fields
+              for the existing misc items." %>
 
 <c:set var="amendmentEntry"	value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
@@ -101,6 +104,7 @@
 				        <html:image property="methodToCall.addItem" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert an Item" title="Add an Item" styleClass="tinybutton" />
 				    </div>
 				</td>
+				
 				<html:hidden property="newPurchasingItemLine.documentNumber" value="${KualiForm.document.documentNumber}" />
 			</tr>
 		</c:if>
@@ -231,11 +235,13 @@
 
 					    <c:if test="${isATypeOfPODoc}">
 						    <html:hidden property="document.item[${ctr}].itemActiveIndicator" />
-						    <html:hidden property="document.item[${ctr}].documentNumber" />
   					    </c:if> 
 					    <html:hidden property="document.item[${ctr}].itemType.active" />
 					    <html:hidden property="document.item[${ctr}].itemType.quantityBasedGeneralLedgerIndicator" />
 					    <html:hidden property="document.item[${ctr}].itemType.itemTypeAboveTheLineIndicator" />
+						<c:forTokens var="hiddenField" items="${extraHiddenItemFields}" delims=",">
+ 							<html:hidden property="document.item[${ctr}].${hiddenField}" />
+ 						</c:forTokens>		    
 					    &nbsp;<b><html:hidden write="true" property="document.item[${ctr}].itemLineNumber" /></b>&nbsp; 
 					    <c:if test="${fullEntryMode}">
 						    <html:image property="methodToCall.upItem.line${ctr}"
@@ -378,7 +384,7 @@
 						editableAccounts="${KualiForm.editableAccounts}"
 						sourceAccountingLinesOnly="true"
 						optionalFields="accountLinePercent"
-						extraHiddenFields=",accountIdentifier,itemIdentifier"
+						extraHiddenFields=",accountIdentifier,itemIdentifier,amount"
 						accountingLineAttributes="${accountingLineAttributes}"
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
@@ -394,7 +400,7 @@
 						editableAccounts="${KualiForm.editableAccounts}"
 						sourceAccountingLinesOnly="true"
 						optionalFields="accountLinePercent"
-						extraHiddenFields=",accountIdentifier,itemIdentifier"
+						extraHiddenFields=",accountIdentifier,itemIdentifier,amount"
 						accountingLineAttributes="${accountingLineAttributes}"
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
@@ -413,7 +419,7 @@
 			<th height=30 colspan="11">&nbsp;</th>
 		</tr>
 
-		<purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" />
+		<purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" extraHiddenItemFields="${extraHiddenItemFields}" />
 
 
 		<!-- BEGIN TOTAL SECTION -->

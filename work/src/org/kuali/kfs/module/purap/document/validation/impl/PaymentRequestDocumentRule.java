@@ -467,8 +467,18 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public boolean validateItemAccounts(PaymentRequestDocument paymentRequestDocument, PaymentRequestItem item, String identifierString) {
         boolean valid = true;
         List<PurApAccountingLine> accountingLines = item.getSourceAccountingLines();
+        KualiDecimal itemTotal = item.getExtendedPrice();
+        KualiDecimal accountTotal = KualiDecimal.ZERO;
         for ( PurApAccountingLine accountingLine :  accountingLines ) {
             valid &= this.processReviewAccountingLineBusinessRules(paymentRequestDocument, accountingLine);
+            accountTotal = accountTotal.add(accountingLine.getAmount());
+        }
+        if(SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((PaymentRequestDocument) paymentRequestDocument)) {
+            //check amounts not percent after full entry
+            if(accountTotal.compareTo(itemTotal)!=0) {
+                valid = false;
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_AMOUNT_TOTAL, identifierString);
+            }
         }
         return valid;
     }
@@ -658,7 +668,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     protected boolean verifyAccountPercent(AccountingDocument accountingDocument, List<PurApAccountingLine> purAccounts, String itemLineNumber) {
         if(SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((PaymentRequestDocument) accountingDocument)) {
             return true;
-}
+        }
         return super.verifyAccountPercent(accountingDocument, purAccounts, itemLineNumber);
     }
     public boolean processCancelAccountsPayableBusinessRules(AccountsPayableDocument document) {

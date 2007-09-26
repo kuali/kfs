@@ -569,13 +569,13 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 //this is probably not the best way of doing it but should work for now if we start excluding discount from below we will need to manually add
                 SpringContext.getBean(PurapService.class).addBelowLineItems(paymentRequestDocument);
                 discountItem = findDiscountItem(paymentRequestDocument);
-            }
-            KualiDecimal totalCost = paymentRequestDocument.getTotalDollarAmountAboveLineItems();
-            BigDecimal discountAmount = pt.getVendorPaymentTermsPercent().multiply(totalCost.bigDecimalValue()).multiply(new BigDecimal(PurapConstants.PREQ_DISCOUNT_MULT));
-            //do we really need to set both, not positive, but probably won't hurt
-            discountItem.setItemUnitPrice(discountAmount.setScale(2,KualiDecimal.ROUND_BEHAVIOR));
-            discountItem.setExtendedPrice(new KualiDecimal(discountAmount));
-            
+            } else if(discountItem.getExtendedPrice().isZero()) {
+                KualiDecimal totalCost = paymentRequestDocument.getTotalDollarAmountAboveLineItems();
+                BigDecimal discountAmount = pt.getVendorPaymentTermsPercent().multiply(totalCost.bigDecimalValue()).multiply(new BigDecimal(PurapConstants.PREQ_DISCOUNT_MULT));
+                //do we really need to set both, not positive, but probably won't hurt
+                discountItem.setItemUnitPrice(discountAmount.setScale(2,KualiDecimal.ROUND_BEHAVIOR));
+                discountItem.setExtendedPrice(new KualiDecimal(discountAmount));
+            }         
         } else { //no discount
             if(discountItem!=null) {
                 paymentRequestDocument.getItems().remove(discountItem);

@@ -69,6 +69,11 @@
 				<value>markPostableGroupsAsUnpostableJob</value>
 			</list>
 		</property>
+		<property name="triggerNames">
+			<list>
+				<value>yearEndJobsTrigger</value>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="glUserService" class="org.kuali.module.gl.service.impl.GlUserServiceImpl" parent="kualiModuleUserServiceBase">

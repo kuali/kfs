@@ -27,6 +27,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.ObjectType;
+import org.kuali.module.chart.bo.PriorYearAccount;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
@@ -66,6 +67,7 @@ public class Balance extends PersistableBusinessObjectBase {
 
     private Chart chart;
     private Account account;
+    private PriorYearAccount priorYearAccount;
     private ObjectCode financialObject;
     private SubObjCd financialSubObject;
     private SubAccount subAccount;
@@ -745,5 +747,21 @@ public class Balance extends PersistableBusinessObjectBase {
      */
     public void setObjectType(ObjectType objectType) {
         this.objectType = objectType;
+    }
+
+    /**
+     * Gets the priorYearAccount attribute. 
+     * @return Returns the priorYearAccount.
+     */
+    public PriorYearAccount getPriorYearAccount() {
+        return priorYearAccount;
+    }
+
+    /**
+     * Sets the priorYearAccount attribute value.
+     * @param priorYearAccount The priorYearAccount to set.
+     */
+    public void setPriorYearAccount(PriorYearAccount priorYearAccount) {
+        this.priorYearAccount = priorYearAccount;
     }
 }

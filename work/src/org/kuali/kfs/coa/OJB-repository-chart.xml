@@ -197,7 +197,7 @@
     </reference-descriptor>
 
 	<!-- FIXME: remove after testing -->
-    <reference-descriptor name="extension" class-ref="org.kuali.module.chart.bo.AccountExtension" auto-retrieve="true" auto-update="true" auto-delete="true" proxy="false">
+    <reference-descriptor name="extension" class-ref="org.kuali.module.chart.bo.AccountExtension" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
@@ -1261,7 +1261,7 @@
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 
-    <collection-descriptor name="organizationReversionDetail" element-class-ref="org.kuali.module.chart.bo.OrganizationReversionDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+    <collection-descriptor name="organizationReversionDetail" element-class-ref="org.kuali.module.chart.bo.OrganizationReversionDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true">
         <orderby name="organizationReversionCategoryCode" sort="ASC" />
         <inverse-foreignkey field-ref="universityFiscalYear" />
         <inverse-foreignkey field-ref="chartOfAccountsCode" />
@@ -1342,11 +1342,11 @@
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
   
-  <collection-descriptor name="organizationReversionGlobalDetails" element-class-ref="org.kuali.module.chart.bo.OrganizationReversionGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="none">
+  <collection-descriptor name="organizationReversionGlobalDetails" element-class-ref="org.kuali.module.chart.bo.OrganizationReversionGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true">
     <orderby name="organizationReversionCategoryCode" sort="ASC" />
     <inverse-foreignkey field-ref="documentNumber" />
   </collection-descriptor>
-  <collection-descriptor name="organizationReversionGlobalOrganizations" element-class-ref="org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="none">
+  <collection-descriptor name="organizationReversionGlobalOrganizations" element-class-ref="org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true">
     <orderby name="organizationCode" sort="ASC"/>
     <inverse-foreignkey field-ref="documentNumber" />
   </collection-descriptor>
@@ -1491,7 +1491,7 @@
     <reference-descriptor name="sufficientFundsCode" class-ref="org.kuali.module.chart.bo.codes.SufficientFundsCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="accountSufficientFundsCode" />
     </reference-descriptor>
-    <collection-descriptor name="accountGlobalDetails" element-class-ref="org.kuali.module.chart.bo.AccountGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <collection-descriptor name="accountGlobalDetails" element-class-ref="org.kuali.module.chart.bo.AccountGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
@@ -1606,7 +1606,7 @@
     <reference-descriptor name="financialFederalFunded" class-ref="org.kuali.module.chart.bo.codes.FederalFundedCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="financialFederalFundedCode" />
     </reference-descriptor>
-	<collection-descriptor name="objectCodeGlobalDetails" element-class-ref="org.kuali.module.chart.bo.ObjectCodeGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+	<collection-descriptor name="objectCodeGlobalDetails" element-class-ref="org.kuali.module.chart.bo.ObjectCodeGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="universityFiscalYear" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
@@ -1645,13 +1645,13 @@
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
 	
-	<collection-descriptor name="accountGlobalDetails" element-class-ref="org.kuali.module.chart.bo.AccountGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+	<collection-descriptor name="accountGlobalDetails" element-class-ref="org.kuali.module.chart.bo.AccountGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
     <!-- no real need to sort by chart b/c they're all the same, but is it best to list the full foreign key to account? -->
     	<orderby name="chartOfAccountsCode" sort="ASC" />
     	<orderby name="accountNumber" sort="ASC" />
     	<inverse-foreignkey field-ref="documentNumber" />
   	</collection-descriptor>
-	<collection-descriptor name="subObjCdGlobalDetails" element-class-ref="org.kuali.module.chart.bo.SubObjCdGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+	<collection-descriptor name="subObjCdGlobalDetails" element-class-ref="org.kuali.module.chart.bo.SubObjCdGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
     <!-- no real need to sort by fiscal year or chart b/c they're all the same, but is it best to list the full foreign key to object code? -->
     	<orderby name="universityFiscalYear" sort="ASC" />
     	<orderby name="chartOfAccountsCode" sort="ASC" />
@@ -1714,7 +1714,7 @@
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
-    <collection-descriptor name="organizationRoutingModel" element-class-ref="org.kuali.module.chart.bo.OrganizationRoutingModel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <collection-descriptor name="organizationRoutingModel" element-class-ref="org.kuali.module.chart.bo.OrganizationRoutingModel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="accountDelegateUniversalId" sort="ASC" />
         <orderby name="financialDocumentTypeCode" sort="ASC" />
         <inverse-foreignkey field-ref="chartOfAccountsCode" />
@@ -1858,12 +1858,12 @@
 <class-descriptor class="org.kuali.module.chart.bo.DelegateGlobal" table="FP_MAINTENANCE_DOCUMENT_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
 
-    <collection-descriptor name="accountGlobalDetails" element-class-ref="org.kuali.module.chart.bo.AccountGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <collection-descriptor name="accountGlobalDetails" element-class-ref="org.kuali.module.chart.bo.AccountGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-    <collection-descriptor name="delegateGlobals" element-class-ref="org.kuali.module.chart.bo.DelegateGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <collection-descriptor name="delegateGlobals" element-class-ref="org.kuali.module.chart.bo.DelegateGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="accountDelegateUniversalId" sort="ASC" />
         <orderby name="financialDocumentTypeCode" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />

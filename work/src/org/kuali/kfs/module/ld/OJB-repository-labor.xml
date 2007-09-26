@@ -120,7 +120,7 @@
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <collection-descriptor name="a21DetailLines" element-class-ref="org.kuali.module.labor.bo.A21DetailLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <collection-descriptor name="a21DetailLines" proxy="true" element-class-ref="org.kuali.module.labor.bo.A21DetailLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
         <orderby name="subAccountNumber" sort="ASC" />
@@ -1012,7 +1012,7 @@
         <foreignkey field-ref="a21LaborReportNumber" />
         <foreignkey field-ref="a21LaborFiscalYear" />
     </reference-descriptor>
-    <collection-descriptor name="a21DetailLineBuild" element-class-ref="org.kuali.module.labor.bo.A21DetailLineBuild" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <collection-descriptor name="a21DetailLineBuild" proxy="true" element-class-ref="org.kuali.module.labor.bo.A21DetailLineBuild" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
         <orderby name="subAccountNumber" sort="ASC" />
@@ -1673,7 +1673,7 @@
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-    <collection-descriptor name="correctionChangeGroup" element-class-ref="org.kuali.module.gl.bo.CorrectionChangeGroup" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="false" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="correctionChangeGroup" element-class-ref="org.kuali.module.gl.bo.CorrectionChangeGroup" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="correctionChangeGroupLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
@@ -1685,12 +1685,12 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="correctionCriteriaNextLineNumber" column="GL_COR_CRTA_NXT_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="correctionChangeNextLineNumber" column="GL_COR_CHG_NXT_LN_NBR" jdbc-type="INTEGER" />
-    <collection-descriptor name="correctionCriteria" element-class-ref="org.kuali.module.gl.bo.CorrectionCriteria" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="false" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="correctionCriteria" element-class-ref="org.kuali.module.gl.bo.CorrectionCriteria" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="correctionCriteriaLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
         <inverse-foreignkey field-ref="correctionChangeGroupLineNumber" />
     </collection-descriptor>
-    <collection-descriptor name="correctionChange" element-class-ref="org.kuali.module.gl.bo.CorrectionChange" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="false" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="correctionChange" element-class-ref="org.kuali.module.gl.bo.CorrectionChange" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="correctionChangeLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
         <inverse-foreignkey field-ref="correctionChangeGroupLineNumber" />

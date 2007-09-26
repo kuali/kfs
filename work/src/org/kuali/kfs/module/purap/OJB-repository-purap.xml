@@ -306,7 +306,7 @@
     <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
-    <collection-descriptor name="statusHistories" element-class-ref="org.kuali.module.purap.bo.RequisitionStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <collection-descriptor name="statusHistories" proxy="true" element-class-ref="org.kuali.module.purap.bo.RequisitionStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="statusHistoryIdentifier" sort="DESC" />
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
     </collection-descriptor>
@@ -620,15 +620,15 @@
         <orderby name="purchaseOrderVendorStipulationIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-    <collection-descriptor name="statusHistories" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" 
-               auto-retrieve="true" auto-update="true" indirection-table="PUR_PO_STAT_HIST_LNK_T"> 
+    <collection-descriptor name="statusHistories" proxy="true" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" 
+               auto-retrieve="true" auto-update="object" auto-delete="none" indirection-table="PUR_PO_STAT_HIST_LNK_T"> 
         <fk-pointing-to-this-class column="FDOC_NBR"/>
         <fk-pointing-to-element-class column="PO_STAT_HIST_ID"/> 
     </collection-descriptor> 
-    <collection-descriptor name="purchaseOrderVendorQuotes"
+    <collection-descriptor name="purchaseOrderVendorQuotes" proxy="true"
             collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
             element-class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorQuote"
-            auto-retrieve="true" auto-update="true" auto-delete="object">
+            auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber"/>
         <orderby name="vendorName" sort="ASC"/>
     </collection-descriptor>
@@ -832,15 +832,15 @@
         <orderby name="purchaseOrderVendorStipulationIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-    <collection-descriptor name="statusHistories" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" 
-               auto-retrieve="true" auto-update="true" indirection-table="PUR_PO_STAT_HIST_LNK_T"> 
+    <collection-descriptor name="statusHistories" proxy="true" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" 
+               auto-retrieve="true" auto-update="object" auto-delete="none" indirection-table="PUR_PO_STAT_HIST_LNK_T"> 
         <fk-pointing-to-this-class column="FDOC_NBR"/>
         <fk-pointing-to-element-class column="PO_STAT_HIST_ID"/> 
     </collection-descriptor> 
-    <collection-descriptor name="purchaseOrderVendorQuotes"
+    <collection-descriptor name="purchaseOrderVendorQuotes" proxy="true"
             collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
             element-class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorQuote"
-            auto-retrieve="true" auto-update="true" auto-delete="object">
+            auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber"/>
         <orderby name="vendorName" sort="ASC"/>
     </collection-descriptor>
@@ -1044,15 +1044,15 @@
         <orderby name="purchaseOrderVendorStipulationIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-    <collection-descriptor name="statusHistories" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" 
-               auto-retrieve="true" auto-update="true" indirection-table="PUR_PO_STAT_HIST_LNK_T"> 
+    <collection-descriptor name="statusHistories" proxy="true" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" 
+               auto-retrieve="true" auto-update="object" auto-delete="none" indirection-table="PUR_PO_STAT_HIST_LNK_T"> 
         <fk-pointing-to-this-class column="FDOC_NBR"/>
         <fk-pointing-to-element-class column="PO_STAT_HIST_ID"/> 
     </collection-descriptor> 
-    <collection-descriptor name="purchaseOrderVendorQuotes"
+    <collection-descriptor name="purchaseOrderVendorQuotes" proxy="true"
             collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
             element-class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorQuote"
-            auto-retrieve="true" auto-update="true" auto-delete="object">
+            auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber"/>
         <orderby name="vendorName" sort="ASC"/>
     </collection-descriptor>
@@ -1256,15 +1256,15 @@
         <orderby name="purchaseOrderVendorStipulationIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-    <collection-descriptor name="statusHistories" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" 
-               auto-retrieve="true" auto-update="true" indirection-table="PUR_PO_STAT_HIST_LNK_T"> 
+    <collection-descriptor name="statusHistories" proxy="true" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" 
+               auto-retrieve="true" auto-update="object" auto-delete="none" indirection-table="PUR_PO_STAT_HIST_LNK_T"> 
         <fk-pointing-to-this-class column="FDOC_NBR"/>
         <fk-pointing-to-element-class column="PO_STAT_HIST_ID"/> 
     </collection-descriptor> 
-    <collection-descriptor name="purchaseOrderVendorQuotes"
+    <collection-descriptor name="purchaseOrderVendorQuotes" proxy="true"
             collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
             element-class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorQuote"
-            auto-retrieve="true" auto-update="true" auto-delete="object">
+            auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber"/>
         <orderby name="vendorName" sort="ASC"/>
     </collection-descriptor>
@@ -1468,15 +1468,15 @@
         <orderby name="purchaseOrderVendorStipulationIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-    <collection-descriptor name="statusHistories" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" 
-               auto-retrieve="true" auto-update="true" indirection-table="PUR_PO_STAT_HIST_LNK_T"> 
+    <collection-descriptor name="statusHistories" proxy="true" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" 
+               auto-retrieve="true" auto-update="object" auto-delete="none" indirection-table="PUR_PO_STAT_HIST_LNK_T"> 
         <fk-pointing-to-this-class column="FDOC_NBR"/>
         <fk-pointing-to-element-class column="PO_STAT_HIST_ID"/> 
     </collection-descriptor> 
-    <collection-descriptor name="purchaseOrderVendorQuotes"
+    <collection-descriptor name="purchaseOrderVendorQuotes" proxy="true"
             collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
             element-class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorQuote"
-            auto-retrieve="true" auto-update="true" auto-delete="object">
+            auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber"/>
         <orderby name="vendorName" sort="ASC"/>
     </collection-descriptor>
@@ -1680,15 +1680,15 @@
         <orderby name="purchaseOrderVendorStipulationIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-    <collection-descriptor name="statusHistories" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" 
-               auto-retrieve="true" auto-update="true" indirection-table="PUR_PO_STAT_HIST_LNK_T"> 
+    <collection-descriptor name="statusHistories" proxy="true" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" 
+               auto-retrieve="true" auto-update="object" auto-delete="none" indirection-table="PUR_PO_STAT_HIST_LNK_T"> 
         <fk-pointing-to-this-class column="FDOC_NBR"/>
         <fk-pointing-to-element-class column="PO_STAT_HIST_ID"/> 
     </collection-descriptor> 
-    <collection-descriptor name="purchaseOrderVendorQuotes"
+    <collection-descriptor name="purchaseOrderVendorQuotes" proxy="true"
             collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
             element-class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorQuote"
-            auto-retrieve="true" auto-update="true" auto-delete="object">
+            auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber"/>
         <orderby name="vendorName" sort="ASC"/>
     </collection-descriptor>
@@ -1892,15 +1892,15 @@
         <orderby name="purchaseOrderVendorStipulationIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-    <collection-descriptor name="statusHistories" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" 
-               auto-retrieve="true" auto-update="true" indirection-table="PUR_PO_STAT_HIST_LNK_T"> 
+    <collection-descriptor name="statusHistories" proxy="true" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" 
+               auto-retrieve="true" auto-update="object" auto-delete="none" indirection-table="PUR_PO_STAT_HIST_LNK_T"> 
         <fk-pointing-to-this-class column="FDOC_NBR"/>
         <fk-pointing-to-element-class column="PO_STAT_HIST_ID"/> 
     </collection-descriptor> 
-    <collection-descriptor name="purchaseOrderVendorQuotes"
+    <collection-descriptor name="purchaseOrderVendorQuotes" proxy="true"
             collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
             element-class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorQuote"
-            auto-retrieve="true" auto-update="true" auto-delete="object">
+            auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber"/>
         <orderby name="vendorName" sort="ASC"/>
     </collection-descriptor>
@@ -2104,15 +2104,15 @@
         <orderby name="purchaseOrderVendorStipulationIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-    <collection-descriptor name="statusHistories" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" 
-               auto-retrieve="true" auto-update="true" indirection-table="PUR_PO_STAT_HIST_LNK_T"> 
+    <collection-descriptor name="statusHistories" proxy="true" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" 
+               auto-retrieve="true" auto-update="object" auto-delete="none" indirection-table="PUR_PO_STAT_HIST_LNK_T"> 
         <fk-pointing-to-this-class column="FDOC_NBR"/>
         <fk-pointing-to-element-class column="PO_STAT_HIST_ID"/> 
     </collection-descriptor> 
-    <collection-descriptor name="purchaseOrderVendorQuotes"
+    <collection-descriptor name="purchaseOrderVendorQuotes" proxy="true"
             collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
             element-class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorQuote"
-            auto-retrieve="true" auto-update="true" auto-delete="object">
+            auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber"/>
         <orderby name="vendorName" sort="ASC"/>
     </collection-descriptor>
@@ -2195,7 +2195,7 @@
     <reference-descriptor name="processingCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="processingCampusCode" />
     </reference-descriptor>
-    <collection-descriptor name="statusHistories" element-class-ref="org.kuali.module.purap.bo.PaymentRequestStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <collection-descriptor name="statusHistories" proxy="true" element-class-ref="org.kuali.module.purap.bo.PaymentRequestStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="statusHistoryIdentifier" sort="DESC" />
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
     </collection-descriptor>
@@ -2221,7 +2221,7 @@
     </reference-descriptor>
 
     <!-- Do not set this collection to auto save or delete; it needs to be saved by a specific process in the GL entry creation (hjs) -->
-   <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="false" auto-delete="false">
+   <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <query-customizer class="org.kuali.kfs.dao.ojb.OjbQueryCustomizer">
             <attribute attribute-name="documentNumber" attribute-value="parent.documentNumber" />
@@ -2562,7 +2562,7 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="purchaseOrderQuoteListName" column="PO_QT_LST_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER"/>
-    <collection-descriptor name="quoteListVendors" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="false" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <collection-descriptor name="quoteListVendors" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="purchaseOrderQuoteListIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="purchaseOrderQuoteListIdentifier" />
     </collection-descriptor>
@@ -3094,7 +3094,7 @@
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
     </collection-descriptor>
 
-   <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="false" auto-delete="false">
+   <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <query-customizer class="org.kuali.kfs.dao.ojb.OjbQueryCustomizer">
             <attribute attribute-name="documentNumber" attribute-value="parent.documentNumber" />

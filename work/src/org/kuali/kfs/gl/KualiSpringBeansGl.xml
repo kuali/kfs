@@ -1196,16 +1196,16 @@
 		</property>
 	</bean>
 	
+	<bean id="yearEndJobsTrigger" parent="cronTrigger">
+		<property name="jobName" value="encumbranceForwardJob" />
+		<property name="cronExpression" value="00 00 08 ? * *" />
+	</bean>
+	
 	<bean id="encumbranceForwardJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="encumbranceForwardStep" />
 			</list>
-		</property>
-		<property name="dependencies">
-			<map>
-				<entry key="posterJob" value="hardDependency" />
-			</map>
 		</property>
 	</bean>
 	
@@ -1217,7 +1217,7 @@
 		</property>
 		<property name="dependencies">
 			<map>
-				<entry key="posterJob" value="hardDependency" />
+				<entry key="encumbranceForwardJob" value="softDependency" />
 			</map>
 		</property>
 	</bean>
@@ -1230,7 +1230,7 @@
 		</property>
 		<property name="dependencies">
 			<map>
-				<entry key="posterJob" value="hardDependency" />
+				<entry key="balanceForwardJob" value="softDependency" />
 			</map>
 		</property>
 	</bean>
@@ -1243,7 +1243,7 @@
 		</property>
 		<property name="dependencies">
 			<map>
-				<entry key="posterJob" value="hardDependency" />
+				<entry key="nominalActivityClosingJob" value="softDependency" />
 			</map>
 		</property>
 	</bean>
@@ -1256,7 +1256,7 @@
 		</property>
 		<property name="dependencies">
 			<map>
-				<entry key="posterJob" value="hardDependency" />
+				<entry key="organizationReversionClosingJob" value="softDependency" />
 			</map>
 		</property>
 	</bean>

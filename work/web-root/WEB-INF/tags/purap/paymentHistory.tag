@@ -113,7 +113,7 @@
 				<logic:iterate id="cmHistory" name="KualiForm" property="document.paymentHistoryCreditMemoViews" indexId="ctr">
 	        		<tr>
 	        			<td align="left" valign="middle" class="datacell">
-	        				<c:out value="${cmHistory.creditMemoNumber}" />
+	        				<c:out value="${cmHistory.purapDocumentIdentifier}" />
 		        		</td>
 		        		<td align="left" valign="middle" class="datacell">
 	        				<c:out value="${cmHistory.creditMemoNumber}" />

@@ -294,34 +294,4 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         OJBUtility.limitResultSize(query);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
-    
-    /**
-     * 
-     * This method is used to verify if the select labor object code is active.
-     * @param String the labor object code to be checked
-     * @return
-     */
-    @Deprecated
-    public boolean isActiveLaborObjectCode(AccountingDocument accountingDocument, AccountingLine accountingLine) {
-         
-         String chart = accountingLine.getChartOfAccountsCode();
-         int fiscalYear = accountingLine.getPostingYear();
-         String laborObjectCode = accountingLine.getFinancialObjectCode(); 
-         
-         LaborObject laborObject;
-         Criteria criteria = new Criteria();
-         criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
-         criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chart);
-         criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, laborObjectCode);
-         
-         QueryByCriteria query = QueryFactory.newQuery(LaborObject.class, criteria);
-         ReportQueryByCriteria query2 = QueryFactory.newReportQuery(LaborObject.class, criteria);
-         
-         
-         Object[] laborObjects = null;
-
-         Iterator<LaborObject> laborObjectCodes = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query2);
-             laborObject = laborObjectCodes.next();
-         return laborObject.isActive();    
-}
 }

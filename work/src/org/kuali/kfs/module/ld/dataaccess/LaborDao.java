@@ -27,7 +27,7 @@ import org.kuali.kfs.document.AccountingDocument;
  * access methods here are put down to business object level.
  */
 public interface LaborDao {
-
+ 
     /**
      * This method returns a CSF Tracker total for a given selection criteria
      * 
@@ -44,7 +44,7 @@ public interface LaborDao {
      * @return
      */
     Object getEncumbranceTotal(Map fieldValues);
-
+    
     /**
      * This method returns base funds data
      * 
@@ -54,7 +54,7 @@ public interface LaborDao {
      */
     @Deprecated
     Iterator getBaseFunds(Map fieldValues, boolean isConsolidated);
-
+    
     /**
      * This method returns current funds data
      * 
@@ -63,7 +63,7 @@ public interface LaborDao {
      * @return Collection
      */
     Iterator getCurrentFunds(Map fieldValues, boolean isConsolidated);
-
+    
     /**
      * This method returns current funds data
      * 
@@ -72,7 +72,7 @@ public interface LaborDao {
      */
     @Deprecated
     Iterator getEmployeeFunding(Map fieldValues);
-
+    
     /**
      * This method returns current July1 Position Funding data
      * 
@@ -80,17 +80,6 @@ public interface LaborDao {
      * @return Collection
      */
     Collection getJuly1PositionFunding(Map fieldValues);
-
-
-    /**
-     * This method is used to verify if the select labor object code is active.
-     * 
-     * @param String the labor object code to be checked
-     * @return
-     */
-    @Deprecated
-    public boolean isActiveLaborObjectCode(AccountingDocument accountingDocument, AccountingLine accountingLine);
-
-
+    
     Collection getJuly1(Map fieldValues);
 }

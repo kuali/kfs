@@ -27,7 +27,7 @@ import org.kuali.module.chart.bo.ObjectCode;
 /**
  * Labor Object Code Business Object.
  */
-public class LaborObject extends PersistableBusinessObjectBase implements Inactivateable {
+public class LaborObject extends PersistableBusinessObjectBase {
 
 	private Integer universityFiscalYear;
 	private String chartOfAccountsCode;
@@ -42,7 +42,6 @@ public class LaborObject extends PersistableBusinessObjectBase implements Inacti
 	private Chart chartOfAccounts;
     private PositionObjectGroup positionObjectGroup;
     private Options option;
-    private boolean active;
     
 	/**
 	 * Default constructor.
@@ -275,20 +274,6 @@ public class LaborObject extends PersistableBusinessObjectBase implements Inacti
      */
     public void setPositionObjectGroup(PositionObjectGroup positionObjectGroup) {
         this.positionObjectGroup = positionObjectGroup;
-    }
-    
-    /**
-     * @see org.kuali.core.bo.Inactivateable#isActive()
-     */
-    public boolean isActive() {
-        return this.active;
-    }
-
-    /**
-     * @see org.kuali.core.bo.Inactivateable#setActive(boolean)
-     */
-    public void setActive(boolean active) {
-        this.active = active;
     }
     
     /**

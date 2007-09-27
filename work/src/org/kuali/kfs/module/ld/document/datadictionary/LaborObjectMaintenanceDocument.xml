@@ -64,7 +64,6 @@
                     <maintainableField name="financialObjectHoursRequiredIndicator" />
                     <maintainableField name="financialObjectPayTypeCode" />
                     <maintainableField name="positionObjectGroupCode" />   
-                    <maintainableField name="active" />                        	
 	            	<maintainableField name="versionNumber" />
 	         	</maintainableItems>
 	        </maintainableSection>

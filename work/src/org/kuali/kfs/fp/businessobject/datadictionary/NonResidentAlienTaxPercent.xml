@@ -94,7 +94,7 @@
 
                 <maxLength>22</maxLength>
                 <validationPattern>
-                    <alphaNumeric />
+                    <fixedPoint allowNegative="true" precision="5" scale="2" />
                 </validationPattern>
 
                 <control>

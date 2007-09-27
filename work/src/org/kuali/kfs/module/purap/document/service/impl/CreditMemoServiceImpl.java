@@ -45,6 +45,7 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
+import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.CreditMemoAccount;
@@ -58,6 +59,7 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
+import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapAccountingService;
@@ -436,7 +438,24 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      *      java.lang.String)
      */
     public void cancelExtractedCreditMemo(CreditMemoDocument cmDocument, String note) {
-        // TODO (KULPURAP-1444: ckirshenman) Auto-generated method stub
+        LOG.debug("cancelExtractedCreditMemo() started");
+        if (CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getStatusCode())) {
+            LOG.debug("cancelExtractedCreditMemo() ended");
+            return;
+        }
+        Note noteObj;
+        try {
+            noteObj = documentService.createNoteFromDocument(cmDocument, note);
+            documentService.addNoteToDocument(cmDocument, noteObj);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+        
+        SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(cmDocument, "");
+        LOG.debug("cancelExtractedCreditMemo() CM " + cmDocument.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
+        LOG.debug("cancelExtractedCreditMemo() ended");
 
     }
 
@@ -445,7 +464,26 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      *      java.lang.String)
      */
     public void resetExtractedCreditMemo(CreditMemoDocument cmDocument, String note) {
-        // TODO (KULPURAP-1444: ckirshenman) Auto-generated method stub
+        LOG.debug("resetExtractedCreditMemo() started");
+        if (CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getStatusCode())) {
+            LOG.debug("resetExtractedCreditMemo() ended");
+            return;
+        }
+        cmDocument.setExtractedDate(null);
+        cmDocument.setCreditMemoPaidTimestamp(null);
+ 
+        Note noteObj;
+        try {
+            noteObj = documentService.createNoteFromDocument(cmDocument, note);
+            documentService.addNoteToDocument(cmDocument, noteObj);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        saveDocumentWithoutValidation(cmDocument);
+        
+        LOG.debug("resetExtractedCreditMemo() CM " + cmDocument.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
+        LOG.debug("resetExtractedCreditMemo() ended");
     }
 
     /**

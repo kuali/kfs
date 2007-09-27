@@ -63,7 +63,7 @@ public class BatchStepRunner {
     
     private static void runStep(String stepName, String jobName) throws Exception {
         GlobalVariables.setErrorMap(new ErrorMap());
-        GlobalVariables.setMessageList(new ArrayList());
+        GlobalVariables.setMessageList(new ArrayList<Object>());
         String stepUserParameter = "USER";
         KualiConfigurationService configService = SpringContext.getBean(KualiConfigurationService.class);
         LOG.debug("runStep() Retrieving step " + stepName);
@@ -71,6 +71,8 @@ public class BatchStepRunner {
         try {
 	        if (configService.parameterExists(step.getNamespace(), step.getComponentName(), stepUserParameter)) {
 	            GlobalVariables.setUserSession(new UserSession(configService.getParameterValue(step.getNamespace(), step.getComponentName(), stepUserParameter)));
+	        } else {
+	            GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
 	        }
         } catch ( Exception ex ) {
         	// database may not be created yet, if performing the initial import - handle the database error which results
@@ -79,7 +81,7 @@ public class BatchStepRunner {
         String stepRunIndicatorParameter = "RUN_IND";
         boolean skipStep = false;
         try {
-        	skipStep = !configService.getIndicatorParameter(step.getNamespace(), step.getComponentName(), stepRunIndicatorParameter);
+        	skipStep = configService.parameterExists(step.getNamespace(), step.getComponentName(), stepRunIndicatorParameter) && !configService.getIndicatorParameter(step.getNamespace(), step.getComponentName(), stepRunIndicatorParameter);
         } catch ( Exception ex ) {
         	// database may not be created yet, if performing the initial import - handle the database error which results
         	LOG.warn( "error checking application parameter", ex );

@@ -164,6 +164,13 @@ public class SpringContext {
         return false;
     }
 
+    protected static List<MethodCacheInterceptor> getMethodCacheInterceptors() {
+        List<MethodCacheInterceptor> methodCacheInterceptors = new ArrayList();
+        methodCacheInterceptors.add(getBean(MethodCacheInterceptor.class));
+        methodCacheInterceptors.add(KNSServiceLocator.getBean(MethodCacheInterceptor.class));
+        return methodCacheInterceptors;
+    }
+
     protected static Object getBean(String beanName) {
         return getBean(Object.class, beanName);
     }

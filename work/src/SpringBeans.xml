@@ -166,6 +166,36 @@
 
 	<bean id="annotationTransactionAttributeSource" class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
 
+ 	<bean id="methodCacheAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="advice" ref="methodCacheInterceptor" />
+		<property name="pointcut" ref="methodCachePointcut" />
+	</bean>
+
+	<bean id="methodCacheInterceptor" class="org.kuali.core.util.cache.MethodCacheInterceptor">
+		<property name="cache" ref="methodCache" />
+		<property name="expirationTimeInSeconds">
+			<value>60</value>
+		</property>
+	</bean>
+
+	<bean id="methodCache" factory-bean="methodResultsCacheAdministrator" factory-method="getCache" />
+
+	<bean id="methodResultsCacheAdministrator" class="com.opensymphony.oscache.general.GeneralCacheAdministrator" destroy-method="destroy">
+		<constructor-arg index="0">
+			<props>
+				<prop key="cache.memory">true</prop>
+				<prop key="cache.key">__oscache_mrcache</prop>
+				<prop key="cache.persistence.overflow.only">false</prop>
+				<prop key="cache.capacity">1000</prop>
+				<prop key="cache.event.listeners">org.kuali.core.util.cache.MethodResultsCacheMonitor</prop>
+			</props>
+		</constructor-arg>
+	</bean>
+
+	<bean id="methodCachePointcut" class="org.kuali.core.util.spring.ClassOrMethodAnnotationPointcut">
+		<constructor-arg value="org.kuali.core.util.spring.Cached" />
+	</bean>
+
 	<bean id="methodLoggingAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
 		<property name="advice" ref="methodLoggingInterceptor" />
 		<property name="pointcut" ref="methodLoggingPointcut" />

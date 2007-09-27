@@ -184,6 +184,23 @@ public class TestUtils {
         return formatted.toString();
     }
     
+    public static boolean methodIsCached(Method method, Object[] arguments) {
+        for (MethodCacheInterceptor methodCacheInterceptor : SpringContext.getMethodCacheInterceptors()) {
+            if (methodCacheInterceptor.containsCacheKey(methodCacheInterceptor.buildCacheKey(method.toString(), arguments))) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static void removeCachedMethod(Method method, Object[] arguments) {
+        for (MethodCacheInterceptor methodCacheInterceptor : SpringContext.getMethodCacheInterceptors()) {
+            if (methodCacheInterceptor.containsCacheKey(methodCacheInterceptor.buildCacheKey(method.toString(), arguments))) {
+                methodCacheInterceptor.removeCacheKey(methodCacheInterceptor.buildCacheKey(method.toString(), arguments));
+            }
+        }
+    }
+
     private static String buildIndent(int level) {
         int indentSize = level * 4;
         char[] indent = new char[indentSize];
@@ -289,6 +306,13 @@ public class TestUtils {
         // update parameter text and store
         systemParameter.setParameterValue(parameterText);
         SpringContext.getBean(BusinessObjectService.class).save(systemParameter);
+
+        // clear method cache
+        removeCachedMethod(KualiConfigurationService.class.getMethod("getIndicatorParameter", new Class[] { String.class, String.class, String.class }), new Object[] { parameterNamespace, parameterDetailTypeCode, parameterName });
+        removeCachedMethod(KualiConfigurationService.class.getMethod("getParameterValues", new Class[] { String.class, String.class, String.class }), new Object[] { parameterNamespace, parameterDetailTypeCode, parameterName });
+        removeCachedMethod(KualiConfigurationService.class.getMethod("getParameterValuesAsList", new Class[] { String.class, String.class, String.class }), new Object[] { parameterNamespace, parameterDetailTypeCode, parameterName });
+        removeCachedMethod(KualiConfigurationService.class.getMethod("getParameterValuesAsSet", new Class[] { String.class, String.class, String.class }), new Object[] { parameterNamespace, parameterDetailTypeCode, parameterName });
+        removeCachedMethod(KualiConfigurationService.class.getMethod("getParameterValue", new Class[] { String.class, String.class, String.class }), new Object[] { parameterNamespace, parameterDetailTypeCode, parameterName });
     }    
     
     /**

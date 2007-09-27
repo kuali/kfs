@@ -15,6 +15,8 @@
  */
 package org.kuali.module.chart.service;
 
+import java.util.List;
+
 import org.kuali.module.chart.bo.ObjectType;
 
 /**
@@ -29,4 +31,76 @@ public interface ObjectTypeService {
      * @return
      */
     public ObjectType getByPrimaryKey(String objectTypeCode);
+    
+    /**
+     * Returns a list of basic expense objects from options table for a given university fiscal year
+     * @param universityFiscalYear
+     * @return
+     */
+    public List<String> getBasicExpenseObjectTypes(Integer universityFiscalYear);
+    
+    
+    /**
+     * Returns the expense transfer object type from options table for a given university fiscal year
+     * @param universityFiscalYear
+     * @return
+     */
+    public String getExpenseTransferObjectType(Integer universityFiscalYear);
+    
+    /**
+     * Returns the asset object type from options table for a given university fiscal year
+     * @param universityFiscalYear
+     * @return
+     */
+    public String getAssetObjectType(Integer universityFiscalYear);
+    
+    /**
+     * Returns a list of basic income objects from options table for a given university fiscal year
+     * @param universityFiscalYear
+     * @return
+     */
+    public List<String> getBasicIncomeObjectTypes(Integer universityFiscalYear);
+    
+    /**
+     * Returns the income transfer object type from options table for a given university fiscal year
+     * @param universityFiscalYear
+     * @return
+     */
+    public String getIncomeTransferObjectType(Integer universityFiscalYear);
+    
+    /**
+     * Returns a list of basic expense objects from options table for the current university fiscal year
+     * @param universityFiscalYear
+     * @return
+     */
+    public List<String> getCurrentYearBasicExpenseObjectTypes();
+    
+    
+    /**
+     * Returns the expense transfer object type from options table for the current university fiscal year
+     * @param universityFiscalYear
+     * @return
+     */
+    public String getCurrentYearExpenseTransferObjectType();
+    
+    /**
+     * Returns the asset object type from options table for the current university fiscal year
+     * @param universityFiscalYear
+     * @return
+     */
+    public String getCurrentYearAssetObjectType();
+    
+    /**
+     * Returns a list of basic income objects from options table for the current university fiscal year
+     * @param universityFiscalYear
+     * @return
+     */
+    public List<String> getCurrentYearBasicIncomeObjectTypes();
+    
+    /**
+     * Returns the income transfer object type from options table for the current university fiscal year
+     * @param universityFiscalYear
+     * @return
+     */
+    public String getCurrentYearIncomeTransferObjectType();    
 }

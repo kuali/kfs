@@ -43,7 +43,7 @@
             <![CDATA[&nbsp;]]>
         </summary>
         <description>The Service Billing (SB) document is used for the billing of goods or services provided by a university department to another university department, reflecting income to the provider and expense to the customer. However, Service Billing differs from Internal Billing document in that it does not route for fiscal officer approval. Approval is by a formal pre-agreement between the service provider and the department being billed, and is based on a service provider's ability to provide documentation for all transactions. This pre-agreement ensures that only authorized organizations can create a billing without approval routing.</description>
-        <help securityGroupName="Kuali.FinancialTransactionProcessing.ServiceBillingDocument" parameterName="FINANCIAL_HELP_SERVICE_BILLING_DOCUMENT" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="ServiceBilling" parameterName="SERVICE_BILLING" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
     </transactionalDocument>

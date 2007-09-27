@@ -27,11 +27,13 @@ import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRul
 import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
 import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
 import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.TRANSACTION_LEDGER_ENTRY_DESCRIPTION_DELIMITER;
+import static org.kuali.module.financial.rules.NonCheckDisbursementDocumentRuleConstants.NON_CHECK_DISBURSEMENT_SECURITY_GROUPING;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.SourceAccountingLine;
@@ -52,10 +54,19 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
      * 
      * @return String
      */
-    @Override
-    protected String getDefaultSecurityGrouping() {
-        return GENERAL_ERROR_CORRECTION_SECURITY_GROUPING;
+    protected String getDefaultParameterNamespace() {
+        return KFSConstants.FINANCIAL_NAMESPACE;
     }
+    
+    /**
+     * Convenience method for accessing the most-likely requested detail type code
+     * 
+     * @return String
+     */
+    protected String getDefaultParameterDetailTypeCode() {
+        return KFSConstants.Components.GENERAL_ERROR_CORRECTION_DOC;
+    }    
+    
 
     /**
      * Convenience method for accessing delimiter for the <code>TransactionLedgerEntryDescription</code> of a
@@ -195,11 +206,10 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
     protected boolean isObjectTypeAndObjectSubTypeAllowed(ObjectCode code) {
         boolean retval = true;
 
-        retval = !(failsRule(COMBINED_RESTRICTED_OBJECT_TYPE_CODES, code.getFinancialObjectTypeCode()) && failsRule(COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES, code.getFinancialObjectSubTypeCode()));
-
-        if (!retval) {
+        if (!getKualiConfigurationService().evaluateConstrainedParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.GENERAL_ERROR_CORRECTION_DOC, COMBINED_RESTRICTED_OBJECT_TYPE_CODES, code.getFinancialObjectTypeCode(), code.getFinancialObjectSubTypeCode())) {
             // add message
             GlobalVariables.getErrorMap().putError(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_TYPE_CODE_WITH_SUB_TYPE_CODE, new String[] { code.getFinancialObjectCode(), code.getFinancialObjectTypeCode(), code.getFinancialObjectSubTypeCode() });
+            retval = false;
         }
 
         return retval;
@@ -220,7 +230,7 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
         if (valid) {
             ObjectCode objectCode = accountingLine.getObjectCode();
 
-            if (failsRule(RESTRICTED_OBJECT_TYPE_CODES, objectCode.getFinancialObjectTypeCode())) {
+            if (failsRule( RESTRICTED_OBJECT_TYPE_CODES, objectCode.getFinancialObjectTypeCode())) {
                 valid = false;
 
                 // add message
@@ -276,7 +286,7 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
         if (valid) {
             ObjectCode objectCode = accountingLine.getObjectCode();
 
-            if (failsRule(RESTRICTED_OBJECT_SUB_TYPE_CODES, objectCode.getFinancialObjectSubTypeCode())) {
+            if (failsRule( RESTRICTED_OBJECT_SUB_TYPE_CODES, objectCode.getFinancialObjectSubTypeCode())) {
                 valid = false;
 
                 // add message

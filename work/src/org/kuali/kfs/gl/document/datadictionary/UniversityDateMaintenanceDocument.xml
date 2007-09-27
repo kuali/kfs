@@ -40,7 +40,7 @@
 
         <summary>University Date maintenance document</summary>
         <description>Document used to create or update University Date objects</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_UNIVERSITY_DATE" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="UniversityDate" parameterName="UNIVERSITY_DATE" />
 
         <lockingKeys>
             <field attributeName="universityDate" />

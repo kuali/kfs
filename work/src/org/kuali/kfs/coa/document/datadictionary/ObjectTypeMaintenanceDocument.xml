@@ -40,7 +40,7 @@
         <shortLabel>ObjTypeMaintDoc</shortLabel>
         <summary>Object Type Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Object Types, or modify existing Object Types.</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_OBJECT_TYPE" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="ObjectType" parameterName="OBJECT_TYPE" />
 
         <lockingKeys>
             <field attributeName="code" />

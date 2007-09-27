@@ -18,7 +18,7 @@
 <%@ attribute name="editingMode" required="true" description="used to decide if items may be edited" type="java.util.Map"%>
 <c:set var="readOnly" value="${not empty editingMode['viewOnly']}" />
 
-<kul:tab tabTitle="Credit Card Receipts" defaultOpen="true" tabErrorKey="${Constants.CREDIT_CARD_RECEIPTS_LINE_ERRORS}">
+<kul:tab tabTitle="Credit Card Receipts" defaultOpen="true" tabErrorKey="${KFSConstants.CREDIT_CARD_RECEIPTS_LINE_ERRORS}">
 <c:set var="ccrAttributes" value="${DataDictionary.CreditCardDetail.attributes}" />
  <div class="tab-container" align=center>
 	<div class="h2-container">

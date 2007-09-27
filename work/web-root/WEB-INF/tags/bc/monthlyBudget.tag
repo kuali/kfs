@@ -21,7 +21,7 @@
 <c:set var="pbgl" value="${KualiForm.budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger}" />
 <c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['fullEntry']}" />
 
-<kul:tabTop tabTitle="Monthly Budget Construction" defaultOpen="true" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_MONTHLY_BUDGET_ERRORS}">
+<kul:tabTop tabTitle="Monthly Budget Construction" defaultOpen="true" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_MONTHLY_BUDGET_ERRORS}">
 <div class="tab-container" align=center>
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
 
@@ -85,12 +85,12 @@
               accountingLine="budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger"
               field="subAccountNumber"
               detailField="subAccount.subAccountName"
-              attributes="${pbglAttributes}" inquiry="${pbgl.subAccountNumber ne Constants.DASHES_SUB_ACCOUNT_NUMBER}"
+              attributes="${pbglAttributes}" inquiry="${pbgl.subAccountNumber ne '-----'}"
               boClassSimpleName="SubAccount"
               readOnly="true"
               displayHidden="false"
               lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode,accountNumber"
-              accountingLineValuesMap="${pbgl.valuesMap}" />
+              accountingLineValuesMap="${pbgl.valuesMap}" /><%-- FIXME: need to get current "default" value from constants --%>
           
           <bc:pbglLineDataCell dataCellCssClass="datacell"
               accountingLine="budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger"
@@ -107,12 +107,12 @@
               accountingLine="budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger"
               field="financialSubObjectCode"
               detailField="financialSubObject.financialSubObjectCdshortNm"
-              attributes="${pbglAttributes}" inquiry="${pbgl.financialSubObjectCode ne Constants.DASHES_SUB_OBJECT_CODE}"
+              attributes="${pbglAttributes}" inquiry="${pbgl.financialSubObjectCode ne '---'}"
               boClassSimpleName="SubObjCd"
               readOnly="true"
               displayHidden="false"
               lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode,financialObjectCode,accountNumber"
-              accountingLineValuesMap="${pbgl.valuesMap}" />
+              accountingLineValuesMap="${pbgl.valuesMap}" /><%-- FIXME: need to get current "default" value from constants --%>
 
           <bc:pbglLineDataCell dataCellCssClass="datacell"
               accountingLine="budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger"

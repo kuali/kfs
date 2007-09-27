@@ -191,7 +191,7 @@
         <objectLabel>Budget Grad Assistant Fringe Rates</objectLabel>
         <objectDescription>words</objectDescription>
         
-        <objectHelp securityGroupName="KraAdminGroup" parameterName="budgetRatesHelp" />
+        <objectHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="RATES" />
 
     </businessObject>
 </dictionaryEntry>

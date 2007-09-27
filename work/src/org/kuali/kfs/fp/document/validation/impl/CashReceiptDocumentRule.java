@@ -20,10 +20,9 @@ import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_INVAL
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.Parameter;
 import org.kuali.core.document.Document;
-import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
@@ -180,13 +179,12 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
      */
     private boolean validateAccountAndObjectCode(AccountingLine accountingLine, boolean source, boolean newLine, int index) {
         boolean isValid = true;
-        KualiParameterRule objCdAndAccountRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_SALES_TAX_COLLECTION_GROUPING, APPLICATION_PARAMETER.VALID_ACCOUNT_AND_OBJ_CD);
+        Parameter objCdAndAccountRule = getKualiConfigurationService().getParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DOCUMENT, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES);
         //get the object code and account
         String objCd = accountingLine.getFinancialObjectCode();
         String account = accountingLine.getAccountNumber();
         if(!StringUtils.isEmpty(objCd) && !StringUtils.isEmpty(account)) {
-            String paramText = objCdAndAccountRule.getParameterText();
-            String[] params = paramText.split(";");
+            String[] params = getKualiConfigurationService().getParameterValues(objCdAndAccountRule);
             boolean acctsMatched = false;
             for(int i = 0; i < params.length; i++) {
                 String paramAcct = params[i].split(":")[0];
@@ -196,7 +194,7 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
             }
             if(acctsMatched) {
                 String compare = account + ":" + objCd;
-                if(objCdAndAccountRule.failsRule(compare)) {
+                if(getKualiConfigurationService().failsRule( objCdAndAccountRule, compare ) ) {
                     isValid = false; 
                 } 
             }

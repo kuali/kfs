@@ -68,13 +68,13 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
         LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
         
         // check if user is allowed to edit the object code.
-        String adminGroupName = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(LaborConstants.SalaryExpenseTransfer.GROUP_SET_DOCUMENT, LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP);
+        String adminGroupName = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(LaborConstants.LABOR_NAMESPACE, LaborConstants.Components.SALARY_EXPENSE_TRANSFER, LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP_PARM_NM);
         boolean isAdmin = false;
         try {
             isAdmin = GlobalVariables.getUserSession().getUniversalUser().isMember(adminGroupName);
         }
         catch (Exception e) {
-            throw new RuntimeException("Workgroup " + LaborConstants.SalaryExpenseTransfer.GROUP_SET_DOCUMENT + " not found", e);
+            throw new RuntimeException("Workgroup " + LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP_PARM_NM + " not found", e);
         }
 
         if (isAdmin) {
@@ -323,8 +323,8 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
     public boolean processGenerateLaborLedgerBenefitClearingPendingEntries(LaborLedgerPostingDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         LOG.info("started processGenerateLaborLedgerBenefitClearingPendingEntries()");
 
-        String chartOfAccountsCode = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(LaborConstants.SalaryExpenseTransfer.GROUP_SET_DOCUMENT, LaborConstants.SalaryExpenseTransfer.BENEFIT_CLEARING_CHART_PARM_NM);
-        String accountNumber = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(LaborConstants.SalaryExpenseTransfer.GROUP_SET_DOCUMENT, LaborConstants.SalaryExpenseTransfer.BENEFIT_CLEARING_ACCOUNT_PARM_NM);
+        String chartOfAccountsCode = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(LaborConstants.LABOR_NAMESPACE, LaborConstants.Components.SALARY_EXPENSE_TRANSFER, LaborConstants.SalaryExpenseTransfer.BENEFIT_CLEARING_CHART_PARM_NM); 
+        String accountNumber = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(LaborConstants.LABOR_NAMESPACE, LaborConstants.Components.SALARY_EXPENSE_TRANSFER, LaborConstants.SalaryExpenseTransfer.BENEFIT_CLEARING_ACCOUNT_PARM_NM); 
 
         List<LaborLedgerPendingEntry> benefitClearingPendingEntries = LaborPendingEntryGenerator.generateBenefitClearingPendingEntries(document, sequenceHelper, accountNumber, chartOfAccountsCode);
         document.getLaborLedgerPendingEntries().addAll(benefitClearingPendingEntries);

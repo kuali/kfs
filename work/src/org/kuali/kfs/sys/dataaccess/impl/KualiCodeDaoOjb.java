@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.bo.ApplicationConstant;
 import org.kuali.core.bo.KualiCode;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.KFSConstants;
@@ -56,7 +55,6 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
     private static Map codeColumns = new HashMap();
     static {
         codeColumns.put(AgencyType.class, "code");
-        codeColumns.put(ApplicationConstant.class, "code");
         codeColumns.put(BalanceTyp.class, "code");
         codeColumns.put(BudgetAggregationCode.class, "code");
         codeColumns.put(PaymentReasonCode.class, "code");
@@ -77,7 +75,6 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
     private static Map nameColumns = new HashMap();
     static {
         nameColumns.put(AgencyType.class, "name");
-        nameColumns.put(ApplicationConstant.class, "name");
         nameColumns.put(BalanceTyp.class, "name");
         nameColumns.put(BudgetAggregationCode.class, "name");
         nameColumns.put(PaymentReasonCode.class, "name");

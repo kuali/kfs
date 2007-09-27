@@ -22,7 +22,7 @@ package org.kuali.module.financial.rules;
  */
 public interface DistributionOfIncomeAndExpenseDocumentRuleConstants {
     public static final String DISTRIBUTION_OF_INCOME_AND_EXPENSE_DOCUMENT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.DistributionOfIncomeAndExpenseDocument";
-    public static final String RESTRICTED_SUB_TYPE_GROUP_CODES = "RestrictedSubTypeCodes";
+    public static final String RESTRICTED_SUB_TYPE_GROUP_CODES = "OBJECT_SUB_TYPES";
 
-    public static final String RESTRICTED_OBJECT_TYPE_CODES = "RestrictedObjectTypeCodes";
+    public static final String RESTRICTED_OBJECT_TYPE_CODES = "OBJECT_TYPES";
 }

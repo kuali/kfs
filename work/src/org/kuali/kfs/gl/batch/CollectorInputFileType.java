@@ -45,11 +45,12 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
         return KFSConstants.COLLECTOR_FILE_TYPE_INDENTIFIER;
     }
 
-    /**
-     * @see org.kuali.kfs.batch.BatchInputFileType#getWorkgroupParameterName()
-     */
-    public String getWorkgroupParameterName() {
-        return SystemGroupParameterNames.COLLECTOR_FILE_TYPE_WORKGROUP_PARAMAETER_NAME;
+    public String getWorkgroupParameterNamespace() {
+        return KFSConstants.SystemGroupParameterNames.COLLECTOR_FILE_TYPE_PARAMETER_NAMESPACE;
+    }
+    
+    public String getWorkgroupParameterComponent() {
+        return KFSConstants.SystemGroupParameterNames.COLLECTOR_FILE_TYPE_PARAMETER_COMPONENT;
     }
 
     /**

@@ -288,8 +288,8 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
         boolean success = true;
 
         // check on-off tof flag
-        boolean generateTransfer = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterIndicator(BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, GENERATE_TOF_GLPE_ENTRIES_PARM_NM);
-        String transferObjectCode = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, TRANSFER_OBJECT_CODE_PARM_NM);
+        boolean generateTransfer = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.BUDGET_ADJUSTMENT_DOC, GENERATE_TOF_GLPE_ENTRIES_PARM_NM);
+        String transferObjectCode = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.BUDGET_ADJUSTMENT_DOC, TRANSFER_OBJECT_CODE_PARM_NM);
         Integer currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
 
         if (generateTransfer) {
@@ -556,10 +556,10 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
         String errorKey = KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE;
 
         /* check object sub type global restrictions */
-        objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_SUB_TYPE_CODES, accountingLine.getObjectCode().getFinancialObjectSubTypeCode(), errorKey, AccountingLineRuleUtil.getObjectSubTypeCodeLabel());
+        objectCodeAllowed = objectCodeAllowed && executeParameterRestriction(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.BUDGET_ADJUSTMENT_DOC, RESTRICTED_OBJECT_SUB_TYPE_CODES, accountingLine.getObjectCode().getFinancialObjectSubTypeCode(), errorKey, AccountingLineRuleUtil.getObjectSubTypeCodeLabel());
 
         /* check object code is in permitted list for payment reason */
-        objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_CODES, accountingLine.getFinancialObjectCode(), errorKey, AccountingLineRuleUtil.getObjectCodeLabel());
+        objectCodeAllowed = objectCodeAllowed && executeParameterRestriction(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.BUDGET_ADJUSTMENT_DOC, RESTRICTED_OBJECT_CODES, accountingLine.getFinancialObjectCode(), errorKey, AccountingLineRuleUtil.getObjectCodeLabel());
 
         return objectCodeAllowed;
     }

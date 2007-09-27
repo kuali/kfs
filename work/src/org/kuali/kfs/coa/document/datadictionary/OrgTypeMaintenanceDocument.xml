@@ -38,7 +38,7 @@
         <shortLabel>OrgTypeMaintDoc</shortLabel>
         <summary>Organization Type Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Organization Types, or modify existing Organization Types.</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_ORGANIZATION_TYPE" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="OrganizationType" parameterName="ORGANIZATION_TYPE" />
 
         <lockingKeys>
             <field attributeName="organizationTypeCode" />

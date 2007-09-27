@@ -80,7 +80,7 @@ public class RunDateServiceTest extends KualiTestBase {
     }
     
     public void testCalculateCutoffDuringMidnightHour() throws Exception {
-        TestUtils.setSystemParameter(GLConstants.GL_SCRUBBER_GROUP, GLConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME,
+        TestUtils.setSystemParameter(GLConstants.GL_NAMESPACE,GLConstants.Components.SCRUBBER_STEP, GLConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME,
                 "0:05:00", false, false);
         Map<String, String> expectedCurrentToRunTimeMappings = new LinkedHashMap<String, String>();
         

@@ -47,7 +47,6 @@
 
         <summary>Proposal maintenance document</summary>
         <description>Document used to create or update Proposal objects</description>
-		<!--help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_ACCOUNT" /-->
 
         <lockingKeys>
             <field attributeName="proposalNumber" />

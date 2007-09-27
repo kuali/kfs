@@ -40,7 +40,7 @@
 
         <summary>Ownership Type Code Maintenance Document</summary>
         <description>Document used to create or update Ownership Type objects</description>
-        <help securityGroupName="Kuali.DisbursementVoucher.Help" parameterName="DISBURSEMENT_VOUCHER_HELP_OWNERSHIP_TYPE_CODE" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="OwnershipType" parameterName="OWNERSHIP_TYPE" />
 
         <lockingKeys>
             <field attributeName="code" />

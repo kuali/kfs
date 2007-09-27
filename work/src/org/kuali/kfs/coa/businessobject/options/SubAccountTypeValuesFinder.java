@@ -18,9 +18,7 @@ package org.kuali.module.chart.lookup.keyvalues;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.KFSConstants;
@@ -41,13 +39,8 @@ public class SubAccountTypeValuesFinder extends KeyValuesBase {
 
     public List getKeyValues() {
 
-        // todo: use getApplicationParameterValues() instead?
-        KualiParameterRule parmRule = configService.getApplicationParameterRule(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, SubAccountRule.CG_ALLOWED_SUBACCOUNT_TYPE_CODES);
         // now we need to retrieve the parm values
-        String[] parmValues = { "" };
-        if (StringUtils.isNotBlank(parmRule.getParameterText())) {
-            parmValues = parmRule.getParameterText().split(";");
-        }
+        String[] parmValues = configService.getParameterValues(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.SUB_ACCOUNT, KFSConstants.ChartApcParms.CG_ALLOWED_SUBACCOUNT_TYPE_CODES);
 
         List activeLabels = new ArrayList();
         activeLabels.add(new KeyLabelPair("", ""));

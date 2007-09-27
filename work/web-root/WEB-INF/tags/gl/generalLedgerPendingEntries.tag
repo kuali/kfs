@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<kul:tab tabTitle="General Ledger Pending Entries" defaultOpen="false" tabErrorKey="${Constants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS}">
+<kul:tab tabTitle="General Ledger Pending Entries" defaultOpen="false" tabErrorKey="${KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS}">
 <div class="tab-container" align=center>
 		<div class="h2-container">
 		<h2>General Ledger Pending Entries <kul:lookup boClassName="org.kuali.kfs.bo.GeneralLedgerPendingEntry" lookupParameters="document.documentNumber:documentNumber" hideReturnLink="true" suppressActions="true"/></h2>

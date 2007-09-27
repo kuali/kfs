@@ -21,9 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.ApplicationParameterException;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -166,11 +164,11 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
      * @throws ApplicationParameterException if the CCR offset BankAccount is not defined in the APC.
      */
     private BankAccount getOffsetBankAccount() {
-        final String scriptName = CreditCardReceiptDocumentRuleConstants.KUALI_TRANSACTION_PROCESSING_CREDIT_CARD_RECEIPT_SECURITY_GROUPING;
+        final String parameterNamespace = KFSConstants.FINANCIAL_NAMESPACE;
         final String parameter = CreditCardReceiptDocumentRuleConstants.CASH_OFFSET_BANK_ACCOUNT;
-        final String[] parameterValues = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValues(scriptName, parameter);
+        final String[] parameterValues = getKualiConfigurationService().getParameterValues(parameterNamespace, KFSConstants.Components.CREDIT_CARD_RECEIPT_DOC, parameter);
         if (parameterValues.length != 2) {
-            throw new ApplicationParameterException(scriptName, parameter, "invalid parameter format: must be 'bankCode;bankAccountNumber'");
+            throw new RuntimeException( parameterNamespace+"/"+parameter+": invalid parameter format: must be 'bankCode;bankAccountNumber'");
         }
         final String bankCode = parameterValues[0];
         final String bankAccountNumber = parameterValues[1];

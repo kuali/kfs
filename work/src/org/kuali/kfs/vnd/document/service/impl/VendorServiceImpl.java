@@ -56,7 +56,17 @@ public class VendorServiceImpl implements VendorService {
     private VendorDao vendorDao;
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
+    private KualiConfigurationService configService;
+    private UniversalUserService universalUserService;
     
+    public UniversalUserService getUniversalUserService() {
+        return universalUserService;
+    }
+
+    public void setUniversalUserService(UniversalUserService universalUserService) {
+        this.universalUserService = universalUserService;
+    }
+
     public void setVendorDao(VendorDao vendorDao) {
         this.vendorDao = vendorDao;
     }
@@ -85,8 +95,8 @@ public class VendorServiceImpl implements VendorService {
      * @see org.kuali.module.vendor.service.VendorService#getApoLimitFromContract(Integer, String, String)
     */
     public KualiDecimal getApoLimitFromContract(Integer contractId, String chart, String org) {
-        LOG.debug("Entering getApoLimitFromContract with contractId:" + contractId + ", chart:" + chart + ", org:" + org);
-
+        LOG.debug("Entering getApoLimitFromContract with contractId:"+contractId+", chart:"+chart+", org:"+org);
+        
         // See if there is a contractOrg for this contract and look for the special case of APO limit in the contract orgs table, return the value found
         if (ObjectUtils.isNotNull(contractId) && ObjectUtils.isNotNull(chart) && ObjectUtils.isNotNull(org)) {
             VendorContractOrganization exampleContractOrg = new VendorContractOrganization();
@@ -94,12 +104,12 @@ public class VendorServiceImpl implements VendorService {
             exampleContractOrg.setChartOfAccountsCode(chart);
             exampleContractOrg.setOrganizationCode(org);
             Map orgKeys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(exampleContractOrg);
-            VendorContractOrganization contractOrg = (VendorContractOrganization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorContractOrganization.class, orgKeys);
+            VendorContractOrganization contractOrg = (VendorContractOrganization) businessObjectService.findByPrimaryKey(VendorContractOrganization.class, orgKeys);
             if (ObjectUtils.isNotNull(contractOrg)) {
                 if (!contractOrg.isVendorContractExcludeIndicator()) { // It's not excluded.
                     return contractOrg.getVendorContractPurchaseOrderLimitAmount();
                 }
-            }
+            }            
         }
 
         // didn't search the table or not found in the table and contract exists, return the default APO limit in contract
@@ -107,15 +117,16 @@ public class VendorServiceImpl implements VendorService {
             VendorContract exampleContract = new VendorContract();
             exampleContract.setVendorContractGeneratedIdentifier(contractId);
             Map contractKeys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(exampleContract);
-            VendorContract contract = (VendorContract) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorContract.class, contractKeys);
-            if (ObjectUtils.isNotNull(contract)) {
-                return contract.getOrganizationAutomaticPurchaseOrderLimit();
-            }
+            VendorContract contract = (VendorContract) businessObjectService.findByPrimaryKey(VendorContract.class, contractKeys);
+                
+	        if (ObjectUtils.isNotNull(contract)) {
+    	        return contract.getOrganizationAutomaticPurchaseOrderLimit();
+        	}
         }
-
+        
         // otherwise no APO limit found
         return null;
-    }
+      }
 
     /**
      * @see org.kuali.module.vendor.service.VendorService#getParentVendor(java.lang.Integer)
@@ -124,7 +135,7 @@ public class VendorServiceImpl implements VendorService {
         LOG.debug("Entering getParentVendor for vendorHeaderGeneratedIdentifier:"+vendorHeaderGeneratedIdentifier);
         Map criterion = new HashMap();
         criterion.put("vendorHeaderGeneratedIdentifier", vendorHeaderGeneratedIdentifier);
-        List<VendorDetail> vendors = (List<VendorDetail>)SpringContext.getBean(BusinessObjectService.class).findMatching(
+        List<VendorDetail> vendors = (List<VendorDetail>)businessObjectService.findMatching(
                 VendorDetail.class, criterion);
         VendorDetail result = null;
         if (ObjectUtils.isNull(vendors)){
@@ -295,8 +306,8 @@ public class VendorServiceImpl implements VendorService {
             String ssnTaxId = vendorToUse.getVendorHeader().getVendorTaxNumber();
             if (StringUtils.isNotBlank(ssnTaxId)) {
                 try {
-                    UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new PersonTaxId(ssnTaxId));
-                    return (user.isFaculty() || user.isStaff() || user.isAffiliate()) && !SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(KFSConstants.ADMIN_GROUP, KFSConstants.ALLOWED_EMPLOYEE_STATUS_RULE).failsRule(user.getEmployeeStatusCode());
+                    UniversalUser user = universalUserService.getUniversalUser(new PersonTaxId(ssnTaxId));
+                    return (user.isFaculty() || user.isStaff() || user.isAffiliate()) && !configService.failsRule(KFSConstants.CORE_NAMESPACE, KFSConstants.Components.KUALI_MODULE_USER, KFSConstants.ALLOWED_EMPLOYEE_STATUS_RULE,user.getEmployeeStatusCode());
                 }
                 catch (UserNotFoundException e) {
                     // user is not in the system... assume non-employee
@@ -318,5 +329,13 @@ public class VendorServiceImpl implements VendorService {
             throw new RuntimeException(errorMsg);
         }
         return vendorToUse.getVendorHeader().getVendorForeignIndicator();
+    }
+
+    public KualiConfigurationService getConfigService() {
+        return configService;
+    }
+
+    public void setConfigService(KualiConfigurationService configService) {
+        this.configService = configService;
     }
 }

@@ -28,7 +28,7 @@
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	<!-- JOURNAL VOUCHER SPECIFIC FIELDS -->
 	<kul:tab tabTitle="Journal Voucher Details" defaultOpen="true"
-		tabErrorKey="${Constants.EDIT_JOURNAL_VOUCHER_ERRORS}">
+		tabErrorKey="${KFSConstants.EDIT_JOURNAL_VOUCHER_ERRORS}">
 		<div class="tab-container" align=center>
 		<div class="h2-container">
 		<h2>Journal Voucher Details</h2>
@@ -154,7 +154,7 @@
 	</kul:tab>
 	<fin:voucherAccountingLines
 		isDebitCreditAmount="${KualiForm.selectedBalanceType.financialOffsetGenerationIndicator}"
-		displayExternalEncumbranceFields="${KualiForm.selectedBalanceType.code==Constants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE}"
+		displayExternalEncumbranceFields="${KualiForm.selectedBalanceType.code==KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE}"
 		editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}"
 		includeObjectTypeCode="true" />

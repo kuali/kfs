@@ -28,9 +28,9 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.AccountService;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.UniversityDate;
@@ -230,7 +230,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ACCOUNT_NOT_FOUND) + "(" + laborOriginEntry.getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber() + ")", Message.TYPE_FATAL);
         }
                                                                    
-        if (kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_ANNAL_CLOSING_DOC_TYPE).equals(laborOriginEntry.getFinancialDocumentTypeCode())) {
+        if (kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE).equals(laborOriginEntry.getFinancialDocumentTypeCode())) {
             laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
             laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
             return null;
@@ -264,10 +264,10 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         adjustAccountIfContractsAndGrants(account);
         
         //Labor's new features
-        boolean subfundWageExclusionInd = kualiConfigurationService.getApplicationParameterIndicator(LaborConstants.Scrubber.PARAMETER_GROUP, LaborConstants.Scrubber.SUBFUND_WAGE_EXCLUSTION_PARAMETER);
-        boolean accountFringeExclusionInd = kualiConfigurationService.getApplicationParameterIndicator(LaborConstants.Scrubber.PARAMETER_GROUP, LaborConstants.Scrubber.ACCOUNT_FRINGE__EXCLUSTION_PARAMETER);
-        boolean suspenseAccountLogicInd = kualiConfigurationService.getApplicationParameterIndicator(LaborConstants.Scrubber.PARAMETER_GROUP, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
-        boolean continuationAccountLogicInd = kualiConfigurationService.getApplicationParameterIndicator(LaborConstants.Scrubber.PARAMETER_GROUP, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_LOGIC_PARAMETER);
+        boolean subfundWageExclusionInd = kualiConfigurationService.getIndicatorParameter(LaborConstants.LABOR_NAMESPACE,LaborConstants.Scrubber.PARAMETER_GROUP, LaborConstants.Scrubber.SUBFUND_WAGE_EXCLUSION_PARAMETER);
+        boolean accountFringeExclusionInd = kualiConfigurationService.getIndicatorParameter(LaborConstants.LABOR_NAMESPACE,LaborConstants.Scrubber.PARAMETER_GROUP, LaborConstants.Scrubber.ACCOUNT_FRINGE_EXCLUSION_PARAMETER);
+        boolean suspenseAccountLogicInd = kualiConfigurationService.getIndicatorParameter(LaborConstants.LABOR_NAMESPACE,LaborConstants.Scrubber.PARAMETER_GROUP, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
+        boolean continuationAccountLogicInd = kualiConfigurationService.getIndicatorParameter(LaborConstants.LABOR_NAMESPACE,LaborConstants.Scrubber.PARAMETER_GROUP, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_LOGIC_PARAMETER);
         
         //checking Sub-Fund Wage Exclusion indicator
         if (subfundWageExclusionInd) {
@@ -447,7 +447,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         // We failed to find a valid continuation account.
-        boolean suspenseAccountLogicInd = kualiConfigurationService.getApplicationParameterIndicator(LaborConstants.Scrubber.PARAMETER_GROUP, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
+        boolean suspenseAccountLogicInd = kualiConfigurationService.getIndicatorParameter(LaborConstants.LABOR_NAMESPACE, LaborConstants.Scrubber.PARAMETER_GROUP, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
         if (suspenseAccountLogicInd){
             useSuspenseAccount(laborWorkingEntry);
             return null;
@@ -463,7 +463,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private void adjustAccountIfContractsAndGrants(Account account) {
         if (account.isForContractsAndGrants() && (!account.isAccountClosedIndicator())) {
             
-            String daysOffset = kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
+            String daysOffset = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.SCRUBBER_STEP, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
             int daysOffsetInt = 3 * 30; //default to 90 days (approximately 3 months)
             
             if(daysOffset.trim().length()>0){

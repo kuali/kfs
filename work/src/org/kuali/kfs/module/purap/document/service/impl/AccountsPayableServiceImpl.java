@@ -29,15 +29,14 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestItem;
@@ -55,7 +54,6 @@ import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.ExpiredOrClosedAccount;
 import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
-import org.kuali.module.purap.util.PurApItemUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -165,11 +163,11 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         
         //get parameter to see if fiscal officers may see the continuation account warning
-        String showContinuationAccountWaringFO = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_FISCAL_OFFICERS);
+        String showContinuationAccountWaringFO = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT,  PurapConstants.PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_FISCAL_OFFICERS);
         
         //TODO (KULPURAP-1569: dlemus) See if/how we want to allow AP users to view the continuation account warning
         //get parameter to see if ap users may see the continuation account warning        
-        String showContinuationAccountWaringAP = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_AP_USERS);
+        String showContinuationAccountWaringAP = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, PurapConstants.PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_AP_USERS);
         
         // versus doing it in their respective documents (preq, credit memo)
         // if not initiate or in process and 
@@ -399,7 +397,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         
         if (purapService.isFullDocumentEntryCompleted(apDocument)) {
             //TODO remove this config (for testing only) hjs
-            if (SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterIndicator(PurapRuleConstants.PURAP_ADMIN_GROUP, "PURAP_GL_CANCEL_AP")) {
+            if (SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, "PURAP_GL_CANCEL_AP")) {
                 purapGeneralLedgerService.generateEntriesCancelAccountsPayableDocument(apDocument);
             }
         }

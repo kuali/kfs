@@ -34,6 +34,8 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
@@ -249,8 +251,8 @@ public class PurapServiceImpl implements PurapService {
         if (documentType.equals("CreditMemoDocument")) {
            
         }
-        String securityGroup = (String)PurapConstants.ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP.get(documentType);
-        String[] itemTypes = kualiConfigurationService.getApplicationParameterValues(securityGroup, PurapConstants.BELOW_THE_LINES_PARAMETER);
+        String parameterDetailTypeCode = (String)PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType);
+        String[] itemTypes = kualiConfigurationService.getParameterValues( KFSConstants.PURAP_NAMESPACE, parameterDetailTypeCode, PurapConstants.BELOW_THE_LINES_PARAMETER);
         return itemTypes;
     }
     
@@ -270,7 +272,7 @@ public class PurapServiceImpl implements PurapService {
         }
         return belowTheLineItem;
     }
-
+    
     /**
      * @see org.kuali.module.purap.service.PurapService#isDateInPast(java.sql.Date)
      */
@@ -336,7 +338,7 @@ public class PurapServiceImpl implements PurapService {
 
         java.util.Date today = dateTimeService.getCurrentDate();
         java.util.Date closingDate = universityDateService.getLastDateOfFiscalYear(universityDateService.getCurrentFiscalYear());
-        Integer allowEncumberNext = new Integer(kualiConfigurationService.getApplicationParameterValue(PurapRuleConstants.PURAP_ADMIN_GROUP, PurapRuleConstants.ALLOW_ENCUMBER_NEXT_YEAR_DAYS));
+        Integer allowEncumberNext = new Integer(kualiConfigurationService.getParameterValue(KFSConstants.PURAP_NAMESPACE, PurapConstants.Components.REQUISITION, PurapRuleConstants.ALLOW_ENCUMBER_NEXT_YEAR_DAYS));
         int diffTodayClosing = dateTimeService.dateDiff(today, closingDate, false);
 
         if (ObjectUtils.isNotNull(closingDate) && ObjectUtils.isNotNull(today) && ObjectUtils.isNotNull(allowEncumberNext)) {
@@ -414,7 +416,7 @@ public class PurapServiceImpl implements PurapService {
             // route 'Re-Open PO Document' if PO criteria meets requirements from EPIC business rules
         }
         else {
-            throw new RuntimeException("Attempted to perform full entry logic for unhandled document type '" + purapDocument.getClass().getName() + "'");
+        	throw new RuntimeException("Attempted to perform full entry logic for unhandled document type '" + purapDocument.getClass().getName() + "'");
         }
     }
 
@@ -431,7 +433,7 @@ public class PurapServiceImpl implements PurapService {
         }
         paymentRequest.getItems().removeAll(deletionList);
     }
-    
+
     public Object performLogicWithFakedUserSession(String requiredUniversalUserPersonUserId, LogicContainer logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception {
         if (StringUtils.isBlank(requiredUniversalUserPersonUserId)) {
             throw new RuntimeException("Attempted to perform logic with a fake user session with a blank user person id: '" + requiredUniversalUserPersonUserId + "'");

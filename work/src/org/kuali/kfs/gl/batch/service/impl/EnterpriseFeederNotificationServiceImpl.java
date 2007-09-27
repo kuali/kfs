@@ -16,21 +16,18 @@
 package org.kuali.module.gl.service.impl;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.mail.InvalidAddressException;
 import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.MailService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.service.EnterpriseFeederNotificationService;
 import org.kuali.module.gl.util.EnterpriseFeederStatus;
 import org.kuali.module.gl.util.FileReconOkLoadOkStatus;
@@ -109,7 +106,8 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
      */
     protected Set<String> generateToEmailAddresses(String feederProcessName, EnterpriseFeederStatus status, String doneFileDescription, String dataFileDescription, String reconFileDescription, List<Message> errorMessages) {
         Set<String> addresses = new HashSet<String> ();
-        String[] addressesArray = kualiConfigurationService.getApplicationParameterValues(KFSConstants.ParameterGroups.ENTERPRSISE_FEEDER_SECURITY_GROUP_NAME,
+        String[] addressesArray = kualiConfigurationService.getParameterValues(KFSConstants.GL_NAMESPACE,
+                GLConstants.Components.ENTERPRISE_FEED_STEP,
                 KFSConstants.EnterpriseFeederApplicationParameterKeys.TO_ADDRESS);
         for (String address : addressesArray) {
             addresses.add(address);

@@ -46,7 +46,7 @@
 
             Non-mandatory transfers are allocation of unrestricted cash between fund groups which are not required either by the terms of a loan or by other external agreements. These transfers are the most commonly used through most institutions. See FIS documentation here: &lt;a target="_blank" href="http://www.fms.indiana.edu/fis/documentation/tf6.pdf"&gt; http://www.fms.indiana.edu/fis/documentation/tf6.pdf &lt;/a&gt;
         </description>
-        <help securityGroupName="Kuali.FinancialTransactionProcessing.TransferOfFundsDocument" parameterName="FINANCIAL_HELP_TRANSFER_OF_FUNDS_DOCUMENT" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="TransferOfFunds" parameterName="TRANSFER_OF_FUNDS" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
     </transactionalDocument>

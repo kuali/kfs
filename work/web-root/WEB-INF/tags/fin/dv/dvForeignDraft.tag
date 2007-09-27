@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<kul:tab tabTitle="Foreign Draft" defaultOpen="false" tabErrorKey="${Constants.DV_FOREIGNDRAFTS_TAB_ERRORS}">
+<kul:tab tabTitle="Foreign Draft" defaultOpen="false" tabErrorKey="${KFSConstants.DV_FOREIGNDRAFTS_TAB_ERRORS}">
 	<c:set var="wireTransAttributes" value="${DataDictionary.DisbursementVoucherWireTransfer.attributes}" />
     <div class="tab-container" align=center>
     <div class="h2-container">

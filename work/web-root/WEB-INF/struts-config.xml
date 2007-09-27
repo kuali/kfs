@@ -157,7 +157,7 @@
             <forward name="basic" path="/jsp/modules/generalLedger/KualiBalanceInquiryReportMenu.jsp" />
         </action>
 
-        <action path="/dvPerDiem" name="DisbursementVoucherForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiHelpAction">
+        <action path="/dvPerDiem" name="DisbursementVoucherForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.financial.web.struts.action.DisbursementVoucherHelpAction">
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/kr/WEB-INF/jsp/core/KualiHelp.jsp" />
             <forward name="dvPerDiemLinks" path="/jsp/modules/financial/DisbursementVoucherTravelPerDiemLinks.jsp" />

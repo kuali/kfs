@@ -570,7 +570,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      */
     @Override
     protected boolean isAttachmentRequired() {
-        return StringUtils.equalsIgnoreCase("Y", SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_CM_REQUIRE_ATTACHMENT));
+        return StringUtils.equalsIgnoreCase("Y", SpringContext.getBean(KualiConfigurationService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.CREDIT_MEMO_DOC, PurapParameterConstants.PURAP_CM_REQUIRE_ATTACHMENT));
     }
 
     @Override

@@ -28,6 +28,7 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
@@ -310,7 +311,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         }
         
         // make sure that the vendor is of 'PO' type
-        String allowedVendorType = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapRuleConstants.PURAP_ADMIN_GROUP, PurapRuleConstants.PURAP_VENDOR_TYPE_ALLOWED_ON_REQ_AND_PO);
+        String allowedVendorType = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, PurapRuleConstants.PURAP_VENDOR_TYPE_ALLOWED_ON_REQ_AND_PO);
         if (ObjectUtils.isNotNull(vendorHeader) && 
             ObjectUtils.isNotNull(vendorHeader.getVendorTypeCode()) && 
             !vendorHeader.getVendorTypeCode().equals(allowedVendorType)) {       

@@ -39,7 +39,7 @@
         <shortLabel>OffsetDefMaintDoc</shortLabel>
         <summary>Offset Definition Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Offset Definitions, remove exsiting Offset Definitions, or modify existing Offset Definitions.</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_OFFSET_DEFINITION" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="OffsetDefinition" parameterName="OFFSET_DEFINITION" />
 
         <lockingKeys>
             <field attributeName="universityFiscalYear" />
@@ -55,7 +55,7 @@
             <reference attributeName="financialBalanceType" attributeToHighlightOnFail="financialBalanceTypeCode" />
         </defaultExistenceChecks>
         <applyApcRules>
-            <apcRule attributeName="financialObjectCode" apcGroup="ChartMaintenanceEDoc" apcRule="OffsetDefinition.FinancialObjectCode" errorMessage="error.document.offsetDefinitionMaintenance.invalidFinancialObjectCode" />
+            <apcRule attributeName="financialObjectCode" parameterNamespace="KFS-CA" parameterName="OffsetDefinition.FinancialObjectCode" errorMessage="error.document.offsetDefinitionMaintenance.invalidFinancialObjectCode" />
         </applyApcRules>
         <maintainableSections>
             <maintainableSection title="Edit Offset Definition">

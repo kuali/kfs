@@ -42,7 +42,7 @@
         <description>
             The year end version of the Transfer of Funds (TOF) document. See FIS documentation here: &lt;a target="_blank" href="http://www.fms.indiana.edu/fis/documentation/tf6.pdf"&gt; http://www.fms.indiana.edu/fis/documentation/tf6.pdf &lt;/a&gt;
         </description>
-        <help securityGroupName="Kuali.FinancialTransactionProcessing.YearEndTransferOfFundsDocument" parameterName="FINANCIAL_HELP_YEAR_END_TRANSFER_OF_FUNDS_DOCUMENT" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="YearEndTransferOfFunds" parameterName="YEAR_END_TRANSFER_OF_FUNDS" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
     </transactionalDocument>

@@ -20,6 +20,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.spring.Cached;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSConstants.ChartApcParms;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Org;
@@ -34,6 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class OrganizationServiceImpl implements OrganizationService {
     private OrganizationDao organizationDao;
+    private KualiConfigurationService configService;
+    private ChartService chartService; 
     
     /**
      * Implements the getByPrimaryId method defined by OrganizationService.
@@ -128,13 +131,30 @@ public class OrganizationServiceImpl implements OrganizationService {
     public String[] getRootOrganizationCode()
     {
         String rootChart = 
-        SpringContext.getBean(ChartService.class).getUniversityChart().getChartOfAccountsCode();
+        getChartService().getUniversityChart().getChartOfAccountsCode();
         String selfReportsOrgType =
-        SpringContext.getBean(KualiConfigurationService.class).getApplicationRule(
-                ChartApcParms.GROUP_CHART_MAINT_EDOCS,
-                ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES).getRuleText();
+        getConfigService().getParameterValue(
+                KFSConstants.CHART_NAMESPACE,
+                KFSConstants.Components.ORGANIZATION,
+                ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
         return (organizationDao.getRootOrganizationCode(rootChart,
                                                         selfReportsOrgType));
+    }
+
+    public KualiConfigurationService getConfigService() {
+        return configService;
+    }
+
+    public void setConfigService(KualiConfigurationService configService) {
+        this.configService = configService;
+    }
+
+    public ChartService getChartService() {
+        return chartService;
+    }
+
+    public void setChartService(ChartService chartService) {
+        this.chartService = chartService;
     }
     
 }

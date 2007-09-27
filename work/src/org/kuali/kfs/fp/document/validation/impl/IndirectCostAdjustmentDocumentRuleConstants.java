@@ -23,8 +23,8 @@ package org.kuali.module.financial.rules;
 public interface IndirectCostAdjustmentDocumentRuleConstants {
     public static final String INDIRECT_COST_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.IndirectCostAdjustmentDocument";
 
-    public static final String RESTRICTED_SUB_TYPE_GROUP_CODES = "RestrictedSubTypeCodes";
-    public static final String RESTRICTED_OBJECT_TYPE_CODES = "RestrictedObjectTypeCodes";
-    public static final String GRANT_OBJECT_CODE = "GrantObjectCode";
-    public static final String RECEIPT_OBJECT_CODE = "ReceiptObjectCode";
+    public static final String RESTRICTED_SUB_TYPE_GROUP_CODES = "OBJECT_SUB_TYPES";
+    public static final String RESTRICTED_OBJECT_TYPE_CODES = "OBJECT_TYPES";
+    public static final String GRANT_OBJECT_CODE = "GRANT_OBJECT";
+    public static final String RECEIPT_OBJECT_CODE = "RECEIPT_OBJECT";
 }

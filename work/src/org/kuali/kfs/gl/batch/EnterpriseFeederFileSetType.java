@@ -122,8 +122,16 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
         return isAuthorized;
     }
 
+    public String getWorkgroupParameterNamespace() {
+        return KFSConstants.SystemGroupParameterNames.ENTERPRISE_FEEDER_FILE_SET_TYPE_PARAMETER_NAMESPACE;
+    }
+    
+    public String getWorkgroupParameterComponent() {
+        return KFSConstants.SystemGroupParameterNames.ENTERPRISE_FEEDER_FILE_SET_TYPE_PARAMETER_COMPONENT;
+    }
+    
     public String getWorkgroupParameterName() {
-        return SystemGroupParameterNames.ENTERPRISE_FEEDER_FILE_SET_TYPE_WORKGROUP_PARAMAETER_NAME;
+        return KFSConstants.SystemGroupParameterNames.FILE_SET_TYPE_WORKGROUP_PARAMETER_NAME;
     }
 
     /**

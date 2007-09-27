@@ -20,7 +20,7 @@
 <kul:tab
     tabTitle="Pre-Encumbrance Details"
     defaultOpen="true"
-    tabErrorKey="${Constants.EDIT_PRE_ENCUMBRANCE_ERRORS}"
+    tabErrorKey="${KFSConstants.EDIT_PRE_ENCUMBRANCE_ERRORS}"
     >
     <div class="tab-container" align=center>
     <div class="h2-container">

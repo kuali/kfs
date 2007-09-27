@@ -19,28 +19,19 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
 import org.kuali.RicePropertyConstants;
 import org.kuali.core.JstlConstants;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
-import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
-import org.kuali.module.purap.bo.CreditMemoView;
-import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
-import org.kuali.module.purap.bo.PurchaseOrderView;
-import org.kuali.module.purap.bo.RequisitionView;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase;
 
 /**
@@ -49,9 +40,24 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase;
 public class PurapConstants extends JstlConstants {
 
     // special user used in the special ap cancel action
-    public static final String SYSTEM_AP_USER = RiceConstants.SYSTEM_USER;
+    public static final String SYSTEM_AP_USER = KFSConstants.SYSTEM_USER;
     
     public static final KualiDecimal HUNDRED = new KualiDecimal(100);
+    
+    public static final String PURAP_NAMESPACE = "KFS-PA";
+    
+    public static final String B2_B_ALLOW_COPY_DAYS = "B2_B_ALLOW_COPY_DAYS";
+    
+    public static final String DEFAULT_FUNDING_SOURCE = "DEFAULT_FUNDING_SOURCE";
+    
+    public static class Components {
+        public static final String CREDIT_MEMO_DOC = "CreditMemo";
+        public static final String ASSIGN_CONTRACT_MANGER = "AssignContractManager";
+        public static final String PAYMENT_REQUEST = "PaymentRequest";
+        public static final String REQUISITION = "Requisition";
+        public static final String PURCHASE_ORDER = "PurchaseOrder";
+        public static final String PDP = "PurchasingPreDisbursement";
+    }
     
     // STANDARD PARAMETER PREFIXES
     public static class QuoteTypes {
@@ -98,16 +104,16 @@ public class PurapConstants extends JstlConstants {
     public static final String DELIVERY_BUILDING_OTHER_CODE = "OTH";
 
     // PDF KFSConstants
-    public static final String IMAGE_TEMP_PATH = "PURAP.IMAGE.TEMP.PATH";
-    public static final String PDF_DIRECTORY = "PURAP.PDF.DIRECTORY";
-    public static final String STATUS_INQUIRY_URL = "PURAP.STATUS.INQUIRY.URL";
-    public static final String PURCHASING_DIRECTOR_IMAGE_PREFIX = "PURAP.PUR.DIRECTOR.IMAGE.PREFIX";
-    public static final String PURCHASING_DIRECTOR_IMAGE_EXTENSION = "PURAP.PUR.DIRECTOR.IMAGE.EXTENSION";
-    public static final String CONTRACT_MANAGER_IMAGE_PREFIX = "PURAP.CONTRACT.MGR.IMAGE.PREFIX";
-    public static final String CONTRACT_MANAGER_IMAGE_EXTENSION = "PURAP.CONTRACT.MGR.IMAGE.EXTENSION";
-    public static final String LOGO_IMAGE_PREFIX = "PURAP.PDF.LOGO.IMAGE.PREFIX";
-    public static final String LOGO_IMAGE_EXTENSION = "PURAP.PDF.LOGO.IMAGE.EXTENSION";
-    public static final String PDF_IMAGES_AVAILABLE_INDICATOR = "PURAP.PDF.IMAGES.AVAILABLE.INDICATOR";
+    public static final String IMAGE_TEMP_PATH = "PDF_IMAGE_TEMP_PATH";
+    public static final String PDF_DIRECTORY = "PDF_DIRECTORY";
+    public static final String STATUS_INQUIRY_URL = "PDF_STATUS_INQUIRY_URL";
+    public static final String PURCHASING_DIRECTOR_IMAGE_PREFIX = "PDF_DIRECTOR_IMAGE_PREFIX";
+    public static final String PURCHASING_DIRECTOR_IMAGE_EXTENSION = "PDF_DIRECTOR_IMAGE_EXTENSION";
+    public static final String CONTRACT_MANAGER_IMAGE_PREFIX = "PDF_IMAGE_PREFIX";
+    public static final String CONTRACT_MANAGER_IMAGE_EXTENSION = "PDF_IMAGE_EXTENSION";
+    public static final String LOGO_IMAGE_PREFIX = "PDF_LOGO_IMAGE_PREFIX";
+    public static final String LOGO_IMAGE_EXTENSION = "PDF_LOGO_IMAGE_EXTENSION";
+    public static final String PDF_IMAGES_AVAILABLE_INDICATOR = "PDF_IMAGES_AVAILABLE_IND";
 
     public static class RequisitionStatuses {
         // TODO delyea - check statuses for use/MDS entry
@@ -329,7 +335,6 @@ public class PurapConstants extends JstlConstants {
     }
     // PAYMENT REQUEST
     public static final String PAYMENT_REQUEST_ACTION_NAME = "PaymentRequest";
-    public static final String PAYMENT_REQUEST_DOCUMENT_DOC_TYPE = "PaymentRequestDocument";
     public static final int PREQ_PAY_DATE_DEFAULT_NUMBER_OF_DAYS = 10;
     public static final String PREQ_PAY_DATE_DAYS = "days";
     public static final String PREQ_PAY_DATE_DATE = "date";
@@ -339,8 +344,8 @@ public class PurapConstants extends JstlConstants {
     // Weird PaymentTermsType is due on either the 10th or 25th with no discount
     public static final String PMT_TERMS_TYP_NO_DISCOUNT_CD = "00N2T";
 
-    public static final String PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_FISCAL_OFFICERS = "PURAP.AP_SHOW_CONTINUATION_ACCOUNT_WARNING_FISCAL_OFFICERS";
-    public static final String PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_AP_USERS = "PURAP.AP_SHOW_CONTINUATION_ACCOUNT_WARNING_AP_USERS";
+    public static final String PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_FISCAL_OFFICERS = "SHOW_CONTINUATION_ACCOUNT_WARNING_FISCAL_OFFICERS_IND";
+    public static final String PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_AP_USERS = "SHOW_CONTINUATION_ACCOUNT_WARNING_AP_USERS_IND";
 
     public static final class PaymentRequestIndicatorText {
         public static final String HOLD = "HOLD";
@@ -493,10 +498,10 @@ public class PurapConstants extends JstlConstants {
         public static final String VENDOR_POSTAL_CODE = "Postal Code";
     }
 
-    public static final String BELOW_THE_LINES_PARAMETER = "BELOW_THE_LINE_ITEMS";
-    public static final String ITEM_ALLOWS_ZERO = "ALLOWS_ZERO";
-    public static final String ITEM_ALLOWS_POSITIVE = "ALLOWS_POSITIVE";
-    public static final String ITEM_ALLOWS_NEGATIVE = "ALLOWS_NEGATIVE";
+    public static final String BELOW_THE_LINES_PARAMETER = "BELOW_THE_LINE_ITEM_TYPES";
+    public static final String ITEM_ALLOWS_ZERO = "ITEM_TYPES_ALLOWING_ZERO";
+    public static final String ITEM_ALLOWS_POSITIVE = "ITEM_TYPES_ALLOWING_POSITIVE";
+    public static final String ITEM_ALLOWS_NEGATIVE = "ITEM_TYPES_ALLOWING_NEGATIVE";
     public static final String ITEM_REQUIRES_USER_ENTERED_DESCRIPTION = "REQUIRES_USER_ENTERED_DESCRIPTION";
 
     public static class ItemFields {
@@ -512,7 +517,6 @@ public class PurapConstants extends JstlConstants {
     
     // CREDIT MEMO DOCUMENT
     public static final String CREDIT_MEMO_ACTION_NAME = "CreditMemo";
-    public static final String CREDIT_MEMO_DOCUMENT_DOC_TYPE = "CreditMemoDocument";
 
     public static class CreditMemoStatuses {
         // TODO delyea - check statuses for use/MDS entry
@@ -680,25 +684,25 @@ public class PurapConstants extends JstlConstants {
     
     public static final Integer PRORATION_SCALE = new Integer(6);
     
-    //variables moved down so doc types are defined before this call, KULPURAP-1185
-    private static final HashMap<String, String> itemTypes()
+    private static HashMap<String, String> getPurapParameterDetailTypeCodes()
     {
         HashMap<String, String> map;
         map = new HashMap<String, String>();
-        map.put("RequisitionDocument", "Kuali.PURAP.RequisitionDocument");
-        map.put("PurchaseOrderDocument", "Kuali.PURAP.PurchaseOrderDocument");
-        map.put("PurchaseOrderCloseDocument", "Kuali.PURAP.PurchaseOrderDocument");
-        map.put("PurchaseOrderReopenDocument", "Kuali.PURAP.PurchaseOrderDocument");
-        map.put("PurchaseOrderAmendmentDocument", "Kuali.PURAP.PurchaseOrderDocument");
-        map.put("PurchaseOrderPaymentHoldDocument", "Kuali.PURAP.PurchaseOrderDocument");
-        map.put("PurchaseOrderRemoveHoldDocument", "Kuali.PURAP.PurchaseOrderDocument");
-        map.put("PurchaseOrderRetransmitDocument", "Kuali.PURAP.PurchaseOrderDocument");
-        map.put("PurchaseOrderVoidDocument", "Kuali.PURAP.PurchaseOrderDocument");
-        map.put(PAYMENT_REQUEST_DOCUMENT_DOC_TYPE, "Kuali.PURAP.PaymentRequestDocument");
-        map.put(CREDIT_MEMO_DOCUMENT_DOC_TYPE, "Kuali.PURAP.CreditMemoDocument");
+        map.put("RequisitionDocument", PurapConstants.Components.REQUISITION);
+        map.put("PurchaseOrderDocument", PurapConstants.Components.PURCHASE_ORDER);
+        map.put("PurchaseOrderCloseDocument", PurapConstants.Components.PURCHASE_ORDER);
+        map.put("PurchaseOrderReopenDocument", PurapConstants.Components.PURCHASE_ORDER);
+        map.put("PurchaseOrderAmendmentDocument", PurapConstants.Components.PURCHASE_ORDER);
+        map.put("PurchaseOrderPaymentHoldDocument", PurapConstants.Components.PURCHASE_ORDER);
+        map.put("PurchaseOrderRemoveHoldDocument", PurapConstants.Components.PURCHASE_ORDER);
+        map.put("PurchaseOrderRetransmitDocument", PurapConstants.Components.PURCHASE_ORDER);
+        map.put("PurchaseOrderVoidDocument", PurapConstants.Components.PURCHASE_ORDER);
+        map.put("PaymentRequestDocument", PurapConstants.Components.PAYMENT_REQUEST);
+        map.put("CreditMemoDocument", PurapConstants.Components.CREDIT_MEMO_DOC);
         return map;
 }	    
-	public static final HashMap<String,String> ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP =
-                        itemTypes();
+    
+    public static final HashMap<String,String> PURAP_DETAIL_TYPE_CODE_MAP =
+        getPurapParameterDetailTypeCodes();
 
 }

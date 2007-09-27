@@ -41,7 +41,6 @@ public class AccountPreRules extends MaintenancePreRulesBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountPreRules.class);
 
-    private static final String CHART_MAINTENANCE_EDOC = "ChartMaintenanceEDoc";
     private static final String DEFAULT_STATE_CODE = "Account.Defaults.StateCode";
     private static final String DEFAULT_ACCOUNT_TYPE_CODE = "Account.Defaults.AccountType";
 

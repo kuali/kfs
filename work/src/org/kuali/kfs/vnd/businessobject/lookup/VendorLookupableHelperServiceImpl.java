@@ -25,7 +25,6 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.BusinessRule;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
@@ -257,9 +256,8 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         String vendorName = (String) fieldValues.get(VendorPropertyConstants.VENDOR_NAME);
         if (StringUtils.isNotBlank(vendorName)) {
             if (ObjectUtils.isNull(VNDR_LOOKUP_MIN_NAME_LENGTH)) {
-                BusinessRule minNameLengthRule = kualiConfigurationService.getApplicationRule(VendorRuleConstants.PURAP_ADMIN_GROUP, 
+                VNDR_LOOKUP_MIN_NAME_LENGTH = kualiConfigurationService.getParameterValue(KFSConstants.VENDOR_NAMESPACE, KFSConstants.Components.LOOKUP,
                         VendorRuleConstants.PURAP_VNDR_LOOKUP_MIN_NAME_LENGTH);
-                VNDR_LOOKUP_MIN_NAME_LENGTH = minNameLengthRule.getRuleText();
             }
             if (vendorName.length() < Integer.parseInt(VNDR_LOOKUP_MIN_NAME_LENGTH)) {
                 GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NAME, 

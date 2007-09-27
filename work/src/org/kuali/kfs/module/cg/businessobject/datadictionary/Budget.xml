@@ -351,7 +351,7 @@
         <objectLabel>General Parameters</objectLabel>
         <objectDescription>Help description for budget parameters - general.</objectDescription>
 
-		<objectHelp securityGroupName="KraAdminGroup" parameterName="budgetParametersGeneralHelp" />
+		<objectHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="PARAMETERS_GENERAL" />
 		
     </businessObject>
 </dictionaryEntry>

@@ -15,16 +15,20 @@
  */
 package org.kuali.module.gl.batch.closing.year.service.impl.helper;
 
+import java.util.List;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.PriorYearAccount;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.service.A21SubAccountService;
+import org.kuali.module.chart.service.ObjectTypeService;
 import org.kuali.module.chart.service.PriorYearAccountService;
 import org.kuali.module.chart.service.SubFundGroupService;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.util.FatalErrorException;
@@ -210,7 +214,12 @@ public class EncumbranceClosingRuleHelper {
 
         }
 
-        String[] expenseObjectCodeTypes = kualiConfigurationService.getApplicationParameterValues(KFSConstants.ParameterGroups.SYSTEM, AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER.EXPENSE_OBJECT_TYPE_CODES);
+        //String[] expenseObjectCodeTypes = kualiConfigurationService.getParameterValues(KFSConstants.GL_NAMESPACE, AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER.EXPENSE_OBJECT_TYPE_CODES);
+        ObjectTypeService objectTypeService = (ObjectTypeService)SpringContext.getBean(ObjectTypeService.class);
+        List<String> objectTypes = objectTypeService.getCurrentYearBasicExpenseObjectTypes();
+        objectTypes.add( objectTypeService.getCurrentYearExpenseTransferObjectType());
+        String[] expenseObjectCodeTypes = objectTypes.toArray(new String[0]);
+        
         String[] encumbranceBalanceTypeCodes = new String[] { KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE, KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE, KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE };
 
         // the object type code must be an expense and the encumbrance balance type code must correspond to an internal, external or

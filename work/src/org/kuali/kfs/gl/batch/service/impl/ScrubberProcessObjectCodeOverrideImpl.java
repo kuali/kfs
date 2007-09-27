@@ -15,8 +15,6 @@
  */
 package org.kuali.module.gl.service.impl;
 
-import org.kuali.core.bo.FinancialSystemParameter;
-import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.service.ScrubberProcessObjectCodeOverride;
 
 public class ScrubberProcessObjectCodeOverrideImpl implements ScrubberProcessObjectCodeOverride {

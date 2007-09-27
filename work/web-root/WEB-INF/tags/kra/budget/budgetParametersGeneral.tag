@@ -127,7 +127,7 @@
     	<!-- <html:hidden property="document.budget.federalPassThroughAgencyNumber" /> -->
     	<html:hidden  property="document.budget.federalPassThroughAgency.fullName"/>
     	<c:choose>
-    		<c:when test="${!viewOnly && KualiForm.document.budget.budgetAgency.agencyTypeCode != Constants.AGENCY_TYPE_CODE_FEDERAL}">
+    		<c:when test="${!viewOnly && KualiForm.document.budget.budgetAgency.agencyTypeCode != KFSConstants.AGENCY_TYPE_CODE_FEDERAL}">
     			<!-- <c:if test="${empty KualiForm.document.budget.federalPassThroughAgencyNumber}">&nbsp;</c:if> -->
 	     <div id="pDiv">
 	       <div id="cDiv">

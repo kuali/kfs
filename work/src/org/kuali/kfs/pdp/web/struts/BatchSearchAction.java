@@ -16,7 +16,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.action.BaseAction;
 import org.kuali.module.pdp.bo.Batch;
 import org.kuali.module.pdp.bo.BatchSearch;
@@ -243,11 +245,11 @@ public class BatchSearchAction extends BaseAction {
     }
 
     private int getSearchResultsPerPage() {
-        return GeneralUtilities.getParameterInteger("SEARCH_RESULTS_PER_PAGE",kualiConfigurationService);
+        return GeneralUtilities.getParameterInteger(KFSConstants.Components.LOOKUP,PdpConstants.ApplicationParameterKeys.SEARCH_RESULTS_PER_PAGE, kualiConfigurationService);
     }
 
     private int getMaxSearchTotal() {
-        return GeneralUtilities.getParameterInteger("SEARCH_RESULTS_TOTAL",kualiConfigurationService);
+        return GeneralUtilities.getParameterInteger(KFSConstants.Components.LOOKUP,PdpConstants.ApplicationParameterKeys.SEARCH_RESULTS_TOTAL, kualiConfigurationService);
     }
 
     public void setBatchSearchService(BatchSearchService b) {

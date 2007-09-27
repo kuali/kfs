@@ -18,7 +18,7 @@
 <%@ attribute name="editingMode" required="true" description="used to decide if items may be edited" type="java.util.Map"%>
 <c:set var="readOnly" value="${not empty editingMode['viewOnly']}" />
 
-<kul:tab tabTitle="Advance Deposits" defaultOpen="true" tabErrorKey="${Constants.ADVANCE_DEPOSITS_LINE_ERRORS}">
+<kul:tab tabTitle="Advance Deposits" defaultOpen="true" tabErrorKey="${KFSConstants.ADVANCE_DEPOSITS_LINE_ERRORS}">
 <c:set var="adAttributes" value="${DataDictionary.AdvanceDepositDetail.attributes}" />
  <div class="tab-container" align=center>
 	<div class="h2-container">

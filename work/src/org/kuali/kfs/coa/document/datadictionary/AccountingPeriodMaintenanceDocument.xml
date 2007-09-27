@@ -41,7 +41,7 @@
 
         <summary>Accounting Period maintenance document</summary>
         <description>Document used to create or update Accounting Period objects</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_ACCOUNTING_PERIOD" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="AccountingPeriod" parameterName="ACCOUNTING_PERIOD" />
 
         <lockingKeys>
             <field attributeName="universityFiscalYear" />

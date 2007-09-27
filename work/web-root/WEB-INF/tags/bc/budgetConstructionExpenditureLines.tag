@@ -35,7 +35,7 @@
 <c:set var="benecalcDisabled" value="${KualiForm.benefitsCalculationDisabled}" />
 
 
-<kul:tab tabTitle="Expenditure" defaultOpen="false" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_EXPENDITURE_TAB_ERRORS}">
+<kul:tab tabTitle="Expenditure" defaultOpen="false" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_EXPENDITURE_TAB_ERRORS}">
 <div class="tab-container" align=center>
 
         <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
@@ -170,7 +170,7 @@
                   anchor="expenditureexistingLineLineAnchor${status.index}" />
 
               <c:set var="doLookupOrInquiry" value="false"/>
-              <c:if test="${item.financialSubObjectCode ne Constants.DASHES_SUB_OBJECT_CODE}">
+              <c:if test="${item.financialSubObjectCode ne '---'}"><%-- FIXME: need to get current "default" value from constants --%>
                   <c:set var="doLookupOrInquiry" value="true"/>
               </c:if>
 

@@ -79,7 +79,7 @@ public class InternalBillingDocumentRuleTest extends KualiTestBase {
         line.refresh();
         assertGlobalErrorMapEmpty();
         boolean actual = new InternalBillingDocumentRule().isSubFundGroupAllowed(line);
-        assertGlobalErrorMapContains(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_APC_INDIRECT_DENIED_MULTIPLE, new String[] { INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING + ":" + RESTRICTED_SUB_FUND_GROUP_CODES, null, // ignore
+        assertGlobalErrorMapContains(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_APC_INDIRECT_DENIED_MULTIPLE, new String[] { RESTRICTED_SUB_FUND_GROUP_CODES, null, // ignore
                 // source
                 // line
                 // number

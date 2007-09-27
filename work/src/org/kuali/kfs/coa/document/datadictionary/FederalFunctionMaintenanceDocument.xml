@@ -40,7 +40,7 @@
 
         <summary>Federal Function Maintenance Document</summary>
         <description>Document used to create or update Federal Function Maintenance Document objects</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_FEDERAL_FUNCTION" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="FederalFunction" parameterName="FEDERAL_FUNCTION" />
 
         <lockingKeys>
             <field attributeName="financialFederalFunctionCode" />

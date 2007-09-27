@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.pdp.bo.PaymentDetailSearch;
 import org.kuali.module.pdp.form.paymentsearch.PaymentDetailSearchForm;
 import org.kuali.module.pdp.service.PaymentDetailSearchService;
@@ -38,7 +39,7 @@ public class SessionTestAction extends BaseAction {
   }
 
   private int getSearchResultsPerPage() {
-      return GeneralUtilities.getParameterInteger("SEARCH_RESULTS_PER_PAGE", kualiConfigurationService);
+      return GeneralUtilities.getParameterInteger(KFSConstants.Components.LOOKUP, "SEARCH_RESULTS_PER_PAGE", kualiConfigurationService);
   }
 
   protected ActionForward executeLogic(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response) throws Exception {

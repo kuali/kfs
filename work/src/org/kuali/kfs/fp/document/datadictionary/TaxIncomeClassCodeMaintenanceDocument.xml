@@ -40,7 +40,7 @@
 
         <summary>Tax Income Class Code Maintenance Document</summary>
         <description>Document used to create or update Tax Income Class objects</description>
-        <help securityGroupName="Kuali.DisbursementVoucher.Help" parameterName="DISBURSEMENT_VOUCHER_HELP_TAX_INCOME_CLASS_CODE" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="TaxIncomeClass" parameterName="TAX_INCOME_CLASS_CODE" />
 
         <lockingKeys>
             <field attributeName="code" />

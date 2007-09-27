@@ -41,7 +41,7 @@
 
         <summary>Service Billing Control maintenance document</summary>
         <description>Document used to create or update Service Billing Control objects</description>
-        <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_SERVICE_BILLING_CONTROL" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="ServiceBillingControl" parameterName="SERVICE_BILLING_CONTROL" />
 
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />

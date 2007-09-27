@@ -44,7 +44,7 @@
 
         <summary>Sub-Account maintenance document</summary>
         <description>Document used to create or update Sub-Account objects</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_SUB_ACCOUNT" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="SubAccount" parameterName="SUB_ACCOUNT" />
 
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />

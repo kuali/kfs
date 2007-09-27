@@ -18,20 +18,220 @@ package org.kuali.kfs;
 import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.RiceConstants;
+import org.kuali.core.JstlConstants;
+import org.kuali.core.bo.Campus;
+import org.kuali.core.bo.DocumentType;
+import org.kuali.core.bo.user.KualiModuleUser;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.batch.PurgeDocumentContentsStep;
+import org.kuali.kfs.batch.ScheduleStep;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.Country;
+import org.kuali.kfs.bo.HomeOrigination;
+import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.bo.OriginationCode;
+import org.kuali.kfs.bo.PostalZipCode;
+import org.kuali.kfs.bo.State;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.chart.batch.FiscalYearMakerStep;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.module.chart.bo.AcctType;
+import org.kuali.module.chart.bo.AicpaFunction;
+import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.chart.bo.Delegate;
+import org.kuali.module.chart.bo.FederalFunction;
+import org.kuali.module.chart.bo.FundGroup;
+import org.kuali.module.chart.bo.HigherEdFunction;
+import org.kuali.module.chart.bo.ObjLevel;
+import org.kuali.module.chart.bo.ObjSubTyp;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.ObjectCons;
+import org.kuali.module.chart.bo.ObjectType;
+import org.kuali.module.chart.bo.OffsetDefinition;
+import org.kuali.module.chart.bo.Org;
+import org.kuali.module.chart.bo.OrgType;
+import org.kuali.module.chart.bo.OrganizationReversion;
+import org.kuali.module.chart.bo.OrganizationReversionCategory;
+import org.kuali.module.chart.bo.Program;
+import org.kuali.module.chart.bo.ProjectCode;
+import org.kuali.module.chart.bo.ReportingCodes;
+import org.kuali.module.chart.bo.ResponsibilityCenter;
+import org.kuali.module.chart.bo.RestrictedStatus;
+import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.chart.bo.SubFundGroup;
+import org.kuali.module.chart.bo.SubFundGroupType;
+import org.kuali.module.chart.bo.SubObjCd;
+import org.kuali.module.chart.bo.UniversityBudgetOfficeFunction;
+import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.module.chart.bo.codes.FederalFundedCode;
+import org.kuali.module.financial.bo.Bank;
+import org.kuali.module.financial.bo.BankAccount;
+import org.kuali.module.financial.bo.CreditCardType;
+import org.kuali.module.financial.bo.CreditCardVendor;
+import org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation;
+import org.kuali.module.financial.bo.FiscalYearFunctionControl;
+import org.kuali.module.financial.bo.MessageOfTheDay;
+import org.kuali.module.financial.bo.NonResidentAlienTaxPercent;
+import org.kuali.module.financial.bo.OffsetAccount;
+import org.kuali.module.financial.bo.OwnershipTypeCode;
+import org.kuali.module.financial.bo.Payee;
+import org.kuali.module.financial.bo.PaymentReasonCode;
+import org.kuali.module.financial.bo.SalesTax;
+import org.kuali.module.financial.bo.ServiceBillingControl;
+import org.kuali.module.financial.bo.TaxControlCode;
+import org.kuali.module.financial.bo.TaxIncomeClassCode;
+import org.kuali.module.financial.bo.TravelCompanyCode;
+import org.kuali.module.financial.bo.TravelExpenseTypeCode;
+import org.kuali.module.financial.bo.TravelMileageRate;
+import org.kuali.module.financial.bo.TravelPerDiem;
+import org.kuali.module.financial.bo.WireCharge;
+import org.kuali.module.gl.batch.PurgeCorrectionProcessFilesStep;
+import org.kuali.module.gl.bo.Batch;
+import org.kuali.module.gl.bo.Encumbrance;
+import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryFull;
+import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 
 /**
  * This class is used to define global constants.
  */
-public class KFSConstants {
+public class KFSConstants extends JstlConstants {
     private static final long serialVersionUID = 2882277719647128949L;
     
     // special user used in the post-processor
     public static final String SYSTEM_USER = "KULUSER";
+
+    public static final String KFS_NAMESPACE_PREFIX = "KFS-";
+    
+    public static final String CHART_NAMESPACE = "KFS-CA";
+    public static final String FINANCIAL_NAMESPACE = "KFS-FP";
+    public static final String LABOR_NAMESPACE = "KFS-LD";
+    public static final String GL_NAMESPACE = "KFS-GL";
+    public static final String KRA_NAMESPACE = "KFS-RA";
+    public static final String CONTRACTS_AND_GRANTS_NAMESPACE = "KFS-CG";
+    public static final String PURAP_NAMESPACE = "KFS-PA";
+    public static final String CORE_NAMESPACE = RiceConstants.KNS_NAMESPACE;
+    public static final String PDP_NAMESPACE = "KFS-PD";
+    public static final String VENDOR_NAMESPACE = "KFS-VN";
+    public static final String KFS_SYSTEM_NAMESPACE = "KFS-SY";
+    
+    public static class Components {
+        public static final String NOT_APPLICABLE = RiceConstants.DetailTypes.NA_PARM_DETAIL_TYPE;
+    
+        public final static String BATCH = Batch.class.getSimpleName();
+        public final static String CAMPUS = Campus.class.getSimpleName();
+        //public final static String SYSTEM_PARAMETER = SystemParameter.class.getSimpleName();
+        public final static String UNIVERSAL_USER = UniversalUser.class.getSimpleName();
+        //public final static String OFFSET = OffsetAccount.class.getSimpleName();
+        public final static String ENCUMBRANCE = Encumbrance.class.getSimpleName();
+        public final static String PURGE_DOCUMENT_CONTENTS_STEP = PurgeDocumentContentsStep.class.getSimpleName();
+        public final static String SCHEDULE_STEP = ScheduleStep.class.getSimpleName();
+        
+        public final static String LOOKUP = "Lookup";
+        public final static String ALL = "All";
+        
+        public final static String KUALI_MODULE_USER = KualiModuleUser.class.getSimpleName();
+        
+        // KFS System related components
+        public final static String COUNTRY = Country.class.getSimpleName();
+        public final static String DOCUMENT_TYPE = DocumentType.class.getSimpleName();
+        public final static String DOCUMENT = "Document";
+        public final static String ORIGINATION = OriginationCode.class.getSimpleName();
+        public final static String POSTAL_CODE = PostalZipCode.class.getSimpleName();
+        public final static String STATE = State.class.getSimpleName();
+        public final static String OPTIONS = Options.class.getSimpleName();
+        
+        //CHART RELATED COMPONENTS
+        public final static String FISCAL_YEAR_MAKER_STEP = FiscalYearMakerStep.class.getSimpleName();
+        public final static String ACCOUNT = Account.class.getSimpleName();
+        public final static String ACCOUNTING_PERIOD = AccountingPeriod.class.getSimpleName();
+        public final static String ACCOUNT_DELEGATE = Delegate.class.getSimpleName();
+        public final static String ACCOUNT_TYPE = AcctType.class.getSimpleName();
+        public final static String AICPA_FUNCTION = AicpaFunction.class.getSimpleName();
+        public final static String BALANCE_TYPE = BalanceTyp.class.getSimpleName();
+        public final static String CHART = Chart.class.getSimpleName();
+        public final static String FEDERAL_FUNCTION = FederalFunction.class.getSimpleName();
+        public final static String FEDERAL_FUNDED_CODE = FederalFundedCode.class.getSimpleName();
+        public final static String FINANCIAL_REPORTING_CODE = ReportingCodes.class.getSimpleName();
+        public final static String FUND_GROUP = FundGroup.class.getSimpleName();
+        public final static String HIGHER_EDUCATION_FUNCTION = HigherEdFunction.class.getSimpleName();
+        public final static String HOME_ORIGINATION = HomeOrigination.class.getSimpleName();
+        public final static String OBJECT = ObjectCode.class.getSimpleName();
+        public final static String OBJECT_CONSOLIDATION = ObjectCons.class.getSimpleName();
+        public final static String OBJECT_LEVEL = ObjLevel.class.getSimpleName();
+        public final static String OBJECT_SUB_TYPE = ObjSubTyp.class.getSimpleName();
+        public final static String OBJECT_TYPE = ObjectType.class.getSimpleName();
+        public final static String OFFSET_DEFINITION = OffsetDefinition.class.getSimpleName();
+        public final static String ORGANIZATION = Org.class.getSimpleName();
+        public final static String ORGANIZATION_TYPE = OrgType.class.getSimpleName();
+        public final static String PROJECT = ProjectCode.class.getSimpleName();
+        public final static String RESPONSIBILITY_CENTER = ResponsibilityCenter.class.getSimpleName();
+        public final static String RESTRICTED_STATUS = RestrictedStatus.class.getSimpleName();
+        public final static String SUB_FUND_GROUP = SubFundGroup.class.getSimpleName();
+        public final static String SUB_FUND_GROUP_TYPE = SubFundGroupType.class.getSimpleName();
+        public final static String SUB_OBJECT_CODE = SubObjCd.class.getSimpleName();
+        public final static String UNIVERSITY_BUDGET_OFFICE_FUNCTION = UniversityBudgetOfficeFunction.class.getSimpleName();
+        public final static String SUB_ACCOUNT = SubAccount.class.getSimpleName();
+        public final static String CHART_USER = ChartUser.class.getSimpleName();
+        public final static String ORGANIZATION_REVERSION = OrganizationReversion.class.getSimpleName();
+        public final static String ORGANIZATION_REVERSION_CATEGORY = OrganizationReversionCategory.class.getSimpleName();
+        
+        //FINANCIAL RELATED COMPONENTS
+        public final static String BANK = Bank.class.getSimpleName();
+        public final static String BANK_ACCOUNT = BankAccount.class.getSimpleName();
+        public final static String CREDIT_CARD_TYPE = CreditCardType.class.getSimpleName();
+        public final static String CREDIT_CARD_VENDOR = CreditCardVendor.class.getSimpleName();
+        public final static String FISCAL_YEAR_FUNCTION_CONTROL = FiscalYearFunctionControl.class.getSimpleName();
+        public final static String MESSAGE_OF_THE_DAY = MessageOfTheDay.class.getSimpleName();
+        public final static String OFFSET_ACCOUNT = OffsetAccount.class.getSimpleName();
+        public final static String SERVICE_BILLING_CONTROL = ServiceBillingControl.class.getSimpleName();
+        public final static String SALES_TAX = SalesTax.class.getSimpleName();
+        public final static String DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION = DisbursementVoucherDocumentationLocation.class.getSimpleName();
+        public final static String NON_RESIDENT_ALIEN_TAX_PERCENT = NonResidentAlienTaxPercent.class.getSimpleName();
+        public final static String OWNERSHIP_TYPE_CODE = OwnershipTypeCode.class.getSimpleName();
+        public final static String PAYEE = Payee.class.getSimpleName();
+        public final static String PAYMENT_REASON_CODE = PaymentReasonCode.class.getSimpleName();
+        public final static String TAX_CONTROL_CODE = TaxControlCode.class.getSimpleName();
+        public final static String TAX_INCOME_CLASS_CODE = TaxIncomeClassCode.class.getSimpleName();
+        public final static String TRAVEL_COMPANY = TravelCompanyCode.class.getSimpleName();
+        public final static String TRAVEL_EXPENSE_TYPE_CODE = TravelExpenseTypeCode.class.getSimpleName();
+        public final static String TRAVEL_MILEAGE_RATE = TravelMileageRate.class.getSimpleName();
+        public final static String TRAVEL_PER_DIEM = TravelPerDiem.class.getSimpleName();
+        public final static String WIRE_CHARGE = WireCharge.class.getSimpleName();
+        public final static String AUXILIARY_VOUCHER = "AuxiliaryVoucher";
+        public final static String PURGE_CORRECTION_PROCESS_FILES_STEP = PurgeCorrectionProcessFilesStep.class.getSimpleName();
+        public final static String ACCOUNTING_LINE = AccountingLine.class.getSimpleName();
+        public final static String ADVANCE_DEPOSIT_DOC = "AdvanceDeposit";
+        public final static String PRE_ENCUMBRANCE_DOC = "PreEncumbrance";
+        public final static String PROCUREMENT_CARD_DOC = "ProcurementCard";
+        public final static String PROCUREMENT_CARD_AUTO_APPROVE_DOCUMENTS_STEP = "ProcurementCardAutoApproveDocumentsStep";
+        public final static String PROCUREMENT_CARD_CREATE_DOCUMENTS_STEP = "ProcurementCardCreateDocumentsStep";
+        public final static String PROCUREMENT_CARD_LOAD_STEP = "ProcurementCardLoadStep";
+        public final static String INDIRECT_COST_ADJUSTMENT_DOC = "IndirectCostAdjustment";
+        public final static String INTERNAL_BILLING_DOC = "InternalBilling";
+        public final static String JOURNAL_VOUCHER_DOC = "JournalVoucher";
+        public final static String NON_CHECK_DISBURSEMENT_DOC = "NonCheckDisbursement";
+        public final static String DISBURSEMENT_VOUCHER_DOC = "DisbursementVoucher";
+        public final static String SERVICE_BILLING_DOC = "ServiceBilling";
+        public final static String BUDGET_ADJUSTMENT_DOC = "BudgetAdjustment";
+        public final static String CASH_MANAGEMENT_DOC = "CashManagement";
+        public final static String CASH_RECEIPT_DOC = "CashReceipt";
+        public final static String CREDIT_CARD_RECEIPT_DOC = "CreditCardReceipt";
+        public final static String DISTRIBUTION_OF_INCOME_AND_EXPENSE_DOC = "DistributionOfIncomeAndExpense";
+        public final static String GENERAL_ERROR_CORRECTION_DOC = "GeneralErrorCorrection";
+        public final static String GENERAL_LEDGER_CORRECTION_PROCESS_DOC = "GeneralLedgerCorrectionProcess";        
+        public final static String TRANSFER_OF_FUNDS_DOC = "TransferOfFunds";
+        
+        public final static String BALANCE_INQUIRY_AVAILABLE_BALANCES = "BalanceInquiryAvailableBalances";
+
+        public final static String UNIVERSITY_DATE = UniversityDate.class.getSimpleName();;
+    }        
     
     public static final String PARAM_MAINTENANCE_VIEW_MODE = "maintenanceViewMode";
     public static final String PARAM_MAINTENANCE_VIEW_MODE_MAINTENANCE = "maintenance";
@@ -70,7 +270,7 @@ public class KFSConstants {
     public static final String KFS_MODULE_CODE = "FS";
     public static final String KFS_MODULE_NAME = "Financial Systems";
 
-    public static final String LOOKUP_RESULTS_LIMIT_URL_KEY = "lookup.results.limit";
+    public static final String LOOKUP_RESULTS_LIMIT_URL_KEY = "RESULTS_LIMIT";
     public static final String DOCHANDLER_DO_URL = "/DocHandler.do?docId=";
     public static final String DOCHANDLER_URL_CHUNK = "&command=displayDocSearchView";
    
@@ -215,12 +415,15 @@ public class KFSConstants {
      */
     public static final String CHECKBOX_PRESENT_ON_FORM_ANNOTATION = "{CheckboxPresentOnFormAnnotation}";
 
-    public static final String ORG_REVERSION = "OrgReversion";
-    public static final String EXPENSE_FLAG = "_Expense_Flag";
-    public static final String CONSOLIDATION = "_Consolidation";
-    public static final String LEVEL = "_Level";
-    public static final String OBJECT_TYPE = "_ObjectType";
-    public static final String OBJECT_SUB_TYPE = "_ObjectSubType";
+    public static class OrgReversion {
+        public static final String VALID_PREFIX = "EXTENDED_DEFINITIONS-VALID_";
+        public static final String INVALID_PREFIX = "EXTENDED_DEFINITIONS-INVALID_";
+        public static final String OBJECT_CONSOL_PARAM_SUFFIX = "OBJECT_CONSOLIDATIONS_BY_ORGANIZATION_REVERSION_CATEGORY";
+        public static final String OBJECT_LEVEL_PARAM_SUFFIX = "OBJECT_LEVELS_BY_ORGANIZATION_REVERSION_CATEGORY";
+        public static final String OBJECT_TYPE_PARAM_SUFFIX = "OBJECT_TYPES_BY_ORGANIZATION_REVERSION_CATEGORY";
+        public static final String OBJECT_SUB_TYPE_PARAM_SUFFIX = "OBJECT_SUB_TYPES_BY_ORGANIZATION_REVERSION_CATEGORY";
+        public static final String IS_EXPENSE_PARAM = "ORGANIZATION_REVERSION_CATEGORY_IS_EXPENSE";
+    }
 
     // Script for the GL batch process
     public static final String GENERAL_LEDGER_YEAR_END_SCRIPT = "fis_gl_year_end.sh";
@@ -686,118 +889,132 @@ public class KFSConstants {
         public static final String CLEAR_FOREIGN_DRAFT_TAB_QUESTION_ID = "ClearForeignDraftTabQuestion";
     }
     
-    public static String ADMIN_GROUP = "AdminGroup";
-    public static final String ALLOWED_EMPLOYEE_STATUS_RULE = "AllowedEmployeeStatuses";
+    public static final String ALLOWED_EMPLOYEE_STATUS_RULE = "ACTIVE_EMPLOYEE_STATUSES";
 
     public static class CoreApcParms {
-        public static final String GROUP_CORE_MAINT_EDOCS = "CoreMaintenanceEDoc";
         
         // Kuali User params
-        public static final String USER_INVALID_EMPLOYEE_STATUSES = "KualiUser.InvalidEmployeeStatus";
+        public static final String USER_INVALID_EMPLOYEE_STATUSES = "ACTIVE_KFS_USER_EMPLOYEE_STATUSES";
         
-        public static final String UNIVERSAL_USER_EDIT_WORKGROUP = "UniversalUser.EditWorkgroup";
+        public static final String UNIVERSAL_USER_EDIT_WORKGROUP = "UNIVERSAL_USER_EDIT_GROUP";
+        
     }
     
+    public static final String MAINTENANCE_ADMIN_WORKGROUP_PARM_NM = "MAINTENANCE_ADMIN_GROUP";
+    
     public static class ChartApcParms {
-        public static final String GROUP_CHART_MAINT_EDOCS = "ChartMaintenanceEDoc";
 
-        public static final String FISCAL_YEAR_MAKER_REPLACE_MODE = "replaceMode";
-        public static final String FISCAL_YEAR_MAKER_SOURCE_FISCAL_YEAR = "sourceFiscalYear";
+        public static final String FISCAL_YEAR_MAKER_REPLACE_MODE = "REPLACE_MODE";
+        public static final String FISCAL_YEAR_MAKER_SOURCE_FISCAL_YEAR = "SOURCE_FISCAL_YEAR";
+
+        //added from parameter refactoring.
+        public static final String APC_HRMS_ACTIVE_KEY = "USE_HRMS_ORGANIZATION_ATTRIBUTES_IND";
+        public final static String OBJECT_CODE_ILLEGAL_VALUES = "OBJECTS";
+        public static final String DOCTYPE_AND_OBJ_CODE_ACTIVE = "DOCUMENT_TYPES_REQUIRING_ACTIVE_OBJECTS";
+        public static final String INVALID_DOCUMENT_TYPES_BY_OBJECT_SUB_TYPE = "INVALID_DOCUMENT_TYPES_BY_OBJECT_SUB_TYPE";
+        public static final String VALID_DOCUMENT_TYPES_BY_OBJECT_SUB_TYPE = "VALID_DOCUMENT_TYPES_BY_OBJECT_SUB_TYPE";
+        public static final String CG_ALLOWED_SUBACCOUNT_TYPE_CODES = "SUB_ACCOUNT_TYPES";
 
         // Account parms
-        public static final String ACCOUNT_USER_EMP_STATUSES = "Account.User.AllowedEmployeeStatus";
-        public static final String ACCOUNT_USER_EMP_TYPES = "Account.User.AllowedEmployeeType";
+        public static final String ACCOUNT_USER_EMP_STATUSES = "ROLE_EMPLOYEE_STATUSES";
+        public static final String ACCOUNT_USER_EMP_TYPES = "ROLE_EMPLOYEE_TYPES";
 
         // Delegate parms
-        public static final String DELEGATE_USER_EMP_STATUSES = "Delegate.User.AllowedEmployeeStatus";
-        public static final String DELEGATE_USER_EMP_TYPES = "Delegate.User.AllowedEmployeeType";
+        public static final String DELEGATE_USER_EMP_STATUSES = "EMPLOYEE_STATUSES";
+        public static final String DELEGATE_USER_EMP_TYPES = "EMPLOYEE_TYPES";
 
         // SubAccount parms
-        public static final String SUBACCOUNT_CG_WORKGROUP_PARM_NAME = "SubAccount.CGWorkgroup";
+        public static final String SUBACCOUNT_CG_WORKGROUP_PARM_NAME = "CG_GROUP";
 
         // Org parms
-        public static final String DEFAULT_ACCOUNT_NOT_REQUIRED_ORG_TYPES = "Org.DefaultAccountNotRequired.OrgTypes";
-        public static final String ORG_MUST_REPORT_TO_SELF_ORG_TYPES = "Org.OrgMustReportToSelf.OrgTypes";
-        public static final String ORG_PLANT_WORKGROUP_PARM_NAME = "Org.PlantWorkgroup";
+        public static final String DEFAULT_ACCOUNT_NOT_REQUIRED_ORG_TYPES = "ORGANIZATION_TYPES_NOT_REQUIRING_DEFAULT_ACCOUNT";
+        public static final String ORG_MUST_REPORT_TO_SELF_ORG_TYPES = "ORGANIZATION_TYPES_THAT_MUST_REPORT_TO_SELF";
+        public static final String ORG_PLANT_WORKGROUP_PARM_NAME = "PLANT_GROUP";
 
         public static final String ADMINISTRATOR_WORKGROUP = "Maintenance.Admin.Workgroup";
         
-        public static final String ACCOUNT_FUND_GROUP_DENOTES_CG = "Account.FundGroupDenotesCG";
-        public static final String ACCOUNT_CG_DENOTING_VALUE = "Account.CGDenotingValue";
+        public static final String ACCOUNT_FUND_GROUP_DENOTES_CG = "FUND_GROUP_DENOTES_CG_IND";
+        public static final String ACCOUNT_CG_DENOTING_VALUE = "CG_DENOTING_VALUE";
         
-        public static final String DEFAULT_USER_CHART_CODE_SOURCE_ATTRIBUTE = "Default.User.ChartCode.Source.Attribute";
-        public static final String DEFAULT_USER_CHART_CODE_EXTRACTION_REGEXP = "Default.User.ChartCode.Extraction.RegExp";
-        public static final String DEFAULT_USER_ORGANIZATION_CODE_SOURCE_ATTRIBUTE = "Default.User.OrganizationCode.Source.Attribute";
-        public static final String DEFAULT_USER_ORGANIZATION_CODE_EXTRACTION_REGEXP = "Default.User.OrganizationCode.Extraction.RegExp";
+        public static final String DEFAULT_USER_CHART_CODE_SOURCE_ATTRIBUTE = "DEFAULT_CHART_SOURCE_ATTRIBUTE";
+        public static final String DEFAULT_USER_CHART_CODE_EXTRACTION_REGEXP = "DEFAULT_CHART_EXTRACTION_REG_EXP";
+        public static final String DEFAULT_USER_ORGANIZATION_CODE_SOURCE_ATTRIBUTE = "DEFAULT_ORGANIZATION_SOURCE_ATTRIBUTE";
+        public static final String DEFAULT_USER_ORGANIZATION_CODE_EXTRACTION_REGEXP = "DEFAULT_ORGANIZATION_EXTRACTION_REG_EXP";
     }
 
     public static class FinancialApcParms {
-        public static final String GROUP_DV_DOCUMENT = "Kuali.FinancialTransactionProcessing.DisbursementVoucherDocument";        
+//        public static final String GROUP_DV_DOCUMENT = "Kuali.FinancialTransactionProcessing.DisbursementVoucherDocument";        
         
-        public static final String DV_TAX_WORKGROUP = "Workgroup.Tax"; 
-        public static final String DV_ADMIN_WORKGROUP = "Workgroup.Admin"; 
-        public static final String DV_FOREIGNDRAFT_WORKGROUP = "Workgroup.ForeignDraft"; 
-        public static final String DV_WIRETRANSFER_WORKGROUP = "Workgroup.WireTransfer"; 
-        public static final String DV_TRAVEL_WORKGROUP = "Workgroup.Travel"; 
-        public static final String ACCOUNTING_LINE_IMPORT_HELP = "ACCOUNTING_LINE_IMPORT_HELP";
+        public static final String DV_TAX_WORKGROUP = "TAX_GROUP"; 
+        public static final String DV_ADMIN_WORKGROUP = "ADMIN_GROUP"; 
+        public static final String DV_FOREIGNDRAFT_WORKGROUP = "FOREIGN_DRAFT_GROUP"; 
+        public static final String DV_WIRETRANSFER_WORKGROUP = "WIRE_TRANSFER_GROUP"; 
+        public static final String DV_TRAVEL_WORKGROUP = "TRAVEL_GROUP"; 
+        public static final String ACCOUNTING_LINE_IMPORT_HELP = "ACCOUNTING_LINE_IMPORT";
     }
     
-    public static class ParameterGroups {
-        public static final String SYSTEM = "SYSTEM";
-        public static final String FP_GLOBAL_PARAMETERS = "Kuali.FinancialTransactionProcessing.GlobalRules";
-        public static final String GENERAL_LEDGER_CORRECTION_PROCESS = "Kuali.FinancialTransactionProcessing.GeneralLedgerCorrectionProcessDocument";
-        public static final String BATCH_UPLOAD_SECURITY_GROUP_NAME = "Kuali.Batch.BatchInputFileUpload";
-        public static final String COLLECTOR_SECURITY_GROUP_NAME = "Kuali.GeneralLedger.Collector";
-        public static final String ENTERPRSISE_FEEDER_SECURITY_GROUP_NAME = "Kuali.GeneralLedger.EnterpriseFeeder";
-        public static final String CHART_FISCAL_YEAR_MAKER = "Chart.FiscalYearMaker";
-    }
+//    public static class ParameterGroups {
+//        public static final String SYSTEM = "SYSTEM";
+//        public static final String FP_GLOBAL_PARAMETERS = "Kuali.FinancialTransactionProcessing.GlobalRules";
+//        public static final String GENERAL_LEDGER_CORRECTION_PROCESS = "Kuali.FinancialTransactionProcessing.GeneralLedgerCorrectionProcessDocument";
+//        public static final String BATCH_UPLOAD_SECURITY_GROUP_NAME = "Kuali.Batch.BatchInputFileUpload";
+//        public static final String COLLECTOR_SECURITY_GROUP_NAME = "Kuali.GeneralLedger.Collector";
+//        public static final String ENTERPRSISE_FEEDER_SECURITY_GROUP_NAME = "Kuali.GeneralLedger.EnterpriseFeeder";
+//        public static final String CHART_FISCAL_YEAR_MAKER = "Chart.FiscalYearMaker";
+//    }
 
     public static class SystemGroupParameterNames {
-        public static final String FLEXIBLE_OFFSET_ENABLED_FLAG = "FLEXIBLE_OFFSET_ENABLED_FLAG";
-        public static final String FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG = "FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG";
-        public static final String ICR_ENCUMBRANCE_ENABLED_FLAG = "ICR_ENCUMBRANCE_ENABLED_FLAG";
-        public static final String PURGE_GL_ACCT_BALANCES_T_BEFORE_YEAR = "PURGE_GL_ACCT_BALANCES_T_BEFORE_YEAR";
-        public static final String PURGE_GL_ENCUMBRANCE_T_BEFORE_YEAR = "PURGE_GL_ENCUMBRANCE_T_BEFORE_YEAR";
-        public static final String PURGE_GL_SF_BALANCES_T_BEFORE_YEAR = "PURGE_GL_SF_BALANCES_T_BEFORE_YEAR";
-        public static final String PURGE_GL_BALANCE_T_BEFORE_YEAR = "PURGE_GL_BALANCE_T_BEFORE_YEAR";
-        public static final String PURGE_GL_ENTRY_T_BEFORE_YEAR = "PURGE_GL_ENTRY_T_BEFORE_YEAR";
-        public static final String PURGE_GL_ID_BILL_T_BEFORE_YEAR = "PURGE_GL_ID_BILL_T_BEFORE_YEAR";
+        
+        public static final String FLEXIBLE_OFFSET_ENABLED_FLAG = "USE_FLEXIBLE_OFFSET_IND";
+        public static final String FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG = "USE_FLEXIBLE_CLAIM_ON_CASH_IND";
+        public static final String ICR_ENCUMBRANCE_ENABLED_FLAG = "USE_ICR_ENCUMBRANCE_IND";
+        public static final String PURGE_GL_ACCT_BALANCES_T_BEFORE_YEAR = "PRIOR_TO_YEAR";
+        public static final String PURGE_GL_ENCUMBRANCE_T_BEFORE_YEAR = "PRIOR_TO_YEAR";
+        public static final String PURGE_GL_SF_BALANCES_T_BEFORE_YEAR = "PRIOR_TO_YEAR";
+        public static final String PURGE_GL_BALANCE_T_BEFORE_YEAR = "PRIOR_TO_YEAR";
+        public static final String PURGE_GL_ENTRY_T_BEFORE_YEAR = "PRIOR_TO_YEAR";
+        public static final String PURGE_GL_ID_BILL_T_BEFORE_YEAR = "PRIOR_TO_YEAR";
         public static final String SUFFICIENT_FINDS_EXPENSE_OBJECT_TYPES = "SufficientFundsExpenseObjectTypes";
         public static final String GL_ACCOUNT_BALANCE_SERVICE = "GL.ACCOUNT_BALANCE_SERVICE";
 
         public static final String GL_ACLO = "GLACLO";
-        public static final String GL_ANNAL_CLOSING_DOC_TYPE = "GLACLO";
-        public static final String GL_CLOSING_OF_NOMINAL_ACTIVITY_OBJECT_TYPE_CODE = "GLClosingOfNominalActivityObjectTypeCode";
-        public static final String GL_INDIRECT_COST_RECOVERY = "GLIndirectCostRecovery";
-        public static final String GL_NET_EXPENSE_OBJECT_TYPE_CODE = "GLNetExpenseObjectTypeCode";
-        public static final String GL_ORIGINATION_CODE = "GLOriginationCode";
-        public static final String GL_SCRUBBER_VALIDATION_DAYS_OFFSET = "GL_SCRUBBER_VALIDATION_DAYS_OFFSET";
+        public static final String GL_ANNUAL_CLOSING_DOC_TYPE = "ANNUAL_CLOSING_DOCUMENT_TYPE";
+        public static final String GL_CLOSING_OF_NOMINAL_ACTIVITY_OBJECT_TYPE_CODE = "GL_CLOSING_OF_NOMINAL_ACTIVITY_OBJECT_TYPE_CODE";
+        public static final String GL_INDIRECT_COST_RECOVERY = "INDIRECT_COST_RECOVERY_DOCUMENT_TYPE";
+        public static final String GL_NET_EXPENSE_OBJECT_TYPE_CODE = "NET_EXPENSE_OBJECT_TYPE_CODE";
+        public static final String GL_ORIGINATION_CODE = "MANUAL_FEED_ORIGINATION";
+        public static final String GL_SCRUBBER_VALIDATION_DAYS_OFFSET = "CG_ACCOUNT_EXPIRATION_EXTENSION_DAYS";
         
         public static final String LOOKUP_RESULTS_LIMIT = "lookup.results.limit";
-        public static final String MULTIPLE_VALUE_LOOKUP_RESULTS_PER_PAGE = "multipleValueLookupResultsPerPage";
-        public static final String MULTIPLE_VALUE_LOOKUP_RESULTS_EXPIRATION_AGE = "multipleValueLookupResultsExpirationAge";
+        public static final String MULTIPLE_VALUE_LOOKUP_RESULTS_PER_PAGE = "MULTIPLE_VALUE_RESULTS_PER_PAGE";
+        public static final String MULTIPLE_VALUE_LOOKUP_RESULTS_EXPIRATION_AGE = "MULTIPLE_VALUE_RESULTS_EXPIRATION_SECONDS";
       
-        public static final String ACTIVE_INPUT_TYPES_PARAMETER_NAME = "ACTIVE_INPUT_TYPES";
-        public static final String PCDO_FILE_TYPE_WORKGROUP_PARAMAETER_NAME = PCDO_FILE_TYPE_INDENTIFIER + ".WORKGROUP";
-        public static final String COLLECTOR_FILE_TYPE_WORKGROUP_PARAMAETER_NAME = COLLECTOR_FILE_TYPE_INDENTIFIER + ".WORKGROUP";
-        public static final String ENTERPRISE_FEEDER_FILE_SET_TYPE_WORKGROUP_PARAMAETER_NAME = ENTERPRISE_FEEDER_FILE_SET_TYPE_INDENTIFIER + ".WORKGROUP";
+        public static final String ACTIVE_INPUT_TYPES_PARAMETER_NAME = "ACTIVE_FILE_TYPES";
+        public static final String PCDO_FILE_TYPE_PARAMETER_NAMESPACE = FINANCIAL_NAMESPACE;
+        public static final String PCDO_FILE_TYPE_PARAMETER_COMPONENT = "ProcurementCardLoadStep";
+        public static final String FILE_TYPE_WORKGROUP_PARAMETER_NAME = "UPLOAD_GROUP";
+        public static final String FILE_SET_TYPE_WORKGROUP_PARAMETER_NAME = "FILE_SET_TYPE_GROUP";
+        public static final String COLLECTOR_FILE_TYPE_PARAMETER_NAMESPACE = GL_NAMESPACE;
+        public static final String COLLECTOR_FILE_TYPE_PARAMETER_COMPONENT = "CollectorStep";
+        public static final String ENTERPRISE_FEEDER_FILE_SET_TYPE_PARAMETER_NAMESPACE = GL_NAMESPACE;
+        public static final String ENTERPRISE_FEEDER_FILE_SET_TYPE_PARAMETER_COMPONENT = "EnterpriseFeedStep";
         
-        public static final String COLLECTOR_VALIDATOR_EMAIL_SUBJECT_PARAMETER_NAME = "ValidationEmailSubjectLine";
-        public static final String COLLECTOR_DEMERGER_EMAIL_SUBJECT_PARAMETER_NAME = "DemergerEmailSubjectLine";
-        public static final String COLLECTOR_EQUAL_DC_TOTAL_DOCUMENT_TYPES = "EqualDebitCreditTotalDocumentTypes";
-        public static final String COLLECTOR_PERFORM_DUPLICATE_HEADER_CHECK = "PerformDuplicateHeaderCheck";
+        public static final String COLLECTOR_VALIDATOR_EMAIL_SUBJECT_PARAMETER_NAME = "VALIDATION_EMAIL_SUBJECT_LINE";
+        public static final String COLLECTOR_DEMERGER_EMAIL_SUBJECT_PARAMETER_NAME = "ERROR_EMAIL_SUBJECT_LINE";
+        public static final String COLLECTOR_EQUAL_DC_TOTAL_DOCUMENT_TYPES = "EQUAL_DEBIT_CREDIT_TOTAL_DOCUMENT_TYPES";
+        public static final String COLLECTOR_PERFORM_DUPLICATE_HEADER_CHECK = "PERFORM_DUPLICATE_HEADER_CHECK";
         
-        public static final String BATCH_SCHEDULE_CUTOFF_TIME = "scheduleStep_CUTOFF_TIME";
-        public static final String BATCH_SCHEDULE_CUTOFF_TIME_IS_NEXT_DAY = "scheduleStep_IS_CUTOFF_TIME_NEXT_DAY";
-        public static final String BATCH_SCHEDULE_STATUS_CHECK_INTERVAL = "scheduleStep_STATUS_CHECK_INTERVAL";
+        public static final String BATCH_SCHEDULE_CUTOFF_TIME = "CUTOFF_TIME";
+        public static final String BATCH_SCHEDULE_CUTOFF_TIME_IS_NEXT_DAY = "CUTOFF_TIME_NEXT_DAY_IND";
+        public static final String BATCH_SCHEDULE_STATUS_CHECK_INTERVAL = "STATUS_CHECK_INTERVAL";
         
         /**
          * Used by PurgePendingAttachmentsJob to compute the maximum amount of time a pending attachment is allowed to
          * persist on the file system before being deleted.
          */
-        public static final String PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE = "purgePendingAttachmentsStepMaxAge";
+        public static final String PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE = "MAX_AGE";
         
-        public static final String JOB_ADMIN_WORKGROUP = "Job.Admin.Workgroup";
+        public static final String JOB_ADMIN_WORKGROUP = "JOB_ADMIN_GROUP";
         
     }
 
@@ -814,7 +1031,7 @@ public class KFSConstants {
     }
 
     public static class EnterpriseFeederApplicationParameterKeys {
-        public static final String TO_ADDRESS = "ToAddress";
+        public static final String TO_ADDRESS = "INVALID_FILE_TO_ADDRESS";
     }
 
     public static class ParameterValues {
@@ -852,8 +1069,6 @@ public class KFSConstants {
     public static final String REQUEST_SEARCH_RESULTS = "reqSearchResults";
     public static final String REQUEST_SEARCH_RESULTS_SIZE = "reqSearchResultsSize";
     public static final String GL_COLLECTOR_STAGING_DIRECTORY = "collector.staging.directory";
-
-    public static final String SHEBANG = "#!";
 
     public static final String DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE_PROPERTY_NAME = "disbursementVoucherDocumentationLocationCode";
     public static final String FUND_GROUP_CODE_PROPERTY_NAME = "code";

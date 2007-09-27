@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.XMLConstants;
@@ -45,7 +44,6 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSConstants.ParameterGroups;
 import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.batch.BatchInputFileType;
 import org.kuali.kfs.context.SpringContext;
@@ -383,7 +381,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         File doneFile = new File(doneFileName);
         return doneFile;
     }
-    
+      
     /**
      * @see org.kuali.kfs.service.BatchInputFileService#isBatchInputTypeActive(org.kuali.kfs.batch.BatchInputFileType)
      */
@@ -393,10 +391,10 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
 
-        String[] activeInputTypes = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValues(ParameterGroups.BATCH_UPLOAD_SECURITY_GROUP_NAME, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME);
+        List<String> activeInputTypes = SpringContext.getBean(KualiConfigurationService.class).getParameterValuesAsList(KFSConstants.CORE_NAMESPACE, KFSConstants.Components.BATCH, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME);
 
         boolean activeBatchType = false;
-        if (activeInputTypes.length > 0 && (Arrays.asList(activeInputTypes)).contains(batchInputFileType.getFileTypeIdentifer())) {
+        if (activeInputTypes.size() > 0 && activeInputTypes.contains(batchInputFileType.getFileTypeIdentifer() ) ) {
             activeBatchType = true;
         }
 
@@ -413,8 +411,10 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
 
+        String workgroupParameterNamespace = batchInputFileType.getWorkgroupParameterNamespace();
+        String workgroupParameterComponent = batchInputFileType.getWorkgroupParameterComponent();
         String workgroupParameterName = batchInputFileType.getWorkgroupParameterName();
-        String authorizedWorkgroupName = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(ParameterGroups.BATCH_UPLOAD_SECURITY_GROUP_NAME, workgroupParameterName);
+        String authorizedWorkgroupName = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(workgroupParameterNamespace, workgroupParameterComponent , workgroupParameterName);
  
         return user.isMember(authorizedWorkgroupName);
     }
@@ -454,13 +454,15 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         File[] filesInBatchDirectory = listFilesInBatchTypeDirectory(batchInputFileType);
 
         List<File> userFileList = new ArrayList<File>();
-        for (int i = 0; i < filesInBatchDirectory.length; i++) {
-            File batchFile = filesInBatchDirectory[i];
-            String fileExtension = StringUtils.substringAfterLast(batchFile.getName(), ".");
-            if (batchInputFileType.getFileExtension().equals(fileExtension)) {
-                boolean userAuthorizedForFile = batchInputFileType.checkAuthorization(user, batchFile);
-                if (userAuthorizedForFile) {
-                    userFileList.add(batchFile);
+        if ( filesInBatchDirectory != null ) {
+            for (int i = 0; i < filesInBatchDirectory.length; i++) {
+                File batchFile = filesInBatchDirectory[i];
+                String fileExtension = StringUtils.substringAfterLast(batchFile.getName(), ".");
+                if (batchInputFileType.getFileExtension().equals(fileExtension)) {
+                    boolean userAuthorizedForFile = batchInputFileType.checkAuthorization(user, batchFile);
+                    if (userAuthorizedForFile) {
+                        userFileList.add(batchFile);
+                    }
                 }
             }
         }

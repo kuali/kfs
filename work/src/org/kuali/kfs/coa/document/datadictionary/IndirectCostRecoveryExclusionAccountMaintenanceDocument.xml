@@ -39,7 +39,7 @@
         <shortLabel>ICRExclusionAccountMaintenanceDoc</shortLabel>
         <summary>Indirect Cost Recovery Exclusion Account Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Indirect Cost Recovery Exclusion Accounts, or modify existing Indirect Cost Recovery Exclusion Accounts.</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_INDIRECT_COST_RECOVERY_EXCLUSION_BY_ACCOUNT" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="IndirectCostRecoveryExclusionByAccount" parameterName="INDIRECT_COST_RECOVERY_EXCLUSION_BY_ACCOUNT" />
 
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />

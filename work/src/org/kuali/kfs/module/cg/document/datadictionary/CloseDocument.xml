@@ -41,7 +41,7 @@
             <![CDATA[&nbsp;]]>
         </summary>
         <description>FILL ME IN.</description>
-        <help securityGroupName="Kuali.ContractsAndGrants.CloseDocument" parameterName="CG_HELP_CLOSE_DOCUMENT" />
+        <help parameterNamespace="Kuali.ContractsAndGrants.CloseDocument" parameterName="CG_HELP_CLOSE_DOCUMENT" />
   
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>

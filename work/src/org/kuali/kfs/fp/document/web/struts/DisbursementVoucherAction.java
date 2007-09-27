@@ -487,7 +487,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
 
         /* user should not have generate button if not in tax group, but check just to make sure */
-        if (!GlobalVariables.getUserSession().getUniversalUser().isMember( SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP ) ) ) {
+        if (!GlobalVariables.getUserSession().getUniversalUser().isMember( SpringContext.getBean(KualiConfigurationService.class).getParameterValue( KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DISBURSEMENT_VOUCHER_DOC, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP ) ) ) {
             LOG.info("User requested generateNonResidentAlienTaxLines who is not in the kuali tax group.");
             GlobalVariables.getErrorMap().putError(KFSConstants.DV_NRATAX_TAB_ERRORS, KFSKeyConstants.ERROR_DV_NRA_PERMISSIONS_GENERATE);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -518,7 +518,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
 
         /* user should not have generate button if not in tax group, but check just to make sure */
-        if (!GlobalVariables.getUserSession().getUniversalUser().isMember( SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP ) )) {
+        if (!GlobalVariables.getUserSession().getUniversalUser().isMember( SpringContext.getBean(KualiConfigurationService.class).getParameterValue( KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DISBURSEMENT_VOUCHER_DOC, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP ) )) {
             LOG.info("User requested generateNonResidentAlienTaxLines who is not in the kuali tax group.");
             GlobalVariables.getErrorMap().putError(KFSConstants.DV_NRATAX_TAB_ERRORS, KFSKeyConstants.ERROR_DV_NRA_PERMISSIONS_GENERATE);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);

@@ -127,7 +127,7 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
             // Check the Org Type of the Org business object to see if it is the root (reports to self) 
             
             if ( ObjectUtils.isNotNull(tempOrg)){
-                if (applyApcRule(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode())) {
+                if (applyApcRule(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ORGANIZATION, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode())) {
                     orgMustReportToSelf = true;
                 }
             }

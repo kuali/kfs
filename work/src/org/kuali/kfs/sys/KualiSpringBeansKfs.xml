@@ -89,6 +89,7 @@
 	<bean id="step" abstract="true">
 		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="dateTimeService" ref="dateTimeService" />
+        <property name="namespace" value="KR-NS" />
 	</bean>
 
 	<bean id="scheduleJob" parent="scheduledJobDescriptor">
@@ -270,4 +271,15 @@
 			<ref bean="moduleLookupableHelperService" />
 		</property>
 	</bean>
+
+    <bean id="parameterDetailTypeLookupable" class="org.kuali.core.lookup.KualiLookupableImpl">
+        <property name="lookupableHelperService">
+            <bean id="parameterDetailTypeLookupableHelperService" class="org.kuali.kfs.lookup.ParameterDetailTypeLookupableHelperServiceImpl"
+                parent="lookupableHelperService">
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="kualiInquirable" class="org.kuali.kfs.inquiry.KfsInquirableImpl" singleton="false" />
+    
 </beans>

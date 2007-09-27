@@ -26,6 +26,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
@@ -120,7 +121,7 @@ public class BudgetAuditRule {
 
     private boolean runNonpersonnelAuditErrors(List<BudgetNonpersonnel> nonpersonnelItems) {
         List<AuditError> nonpersonnelAuditErrors = new ArrayList<AuditError>();
-        List first25kSubcategoryCodes = Arrays.asList(SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValues("KraDevelopmentGroup", "first25kSubcategoryCodes"));
+        List<String> first25kSubcategoryCodes = SpringContext.getBean(KualiConfigurationService.class).getParameterValuesAsList(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, KraConstants.FIRST25K_SUBCATEGORY_CODES);
         
         HashMap<String, BudgetNonpersonnel> hashMap = new HashMap();
         

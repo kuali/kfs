@@ -40,7 +40,7 @@
 
 <c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['fullEntry']}" />
 
-<kul:tabTop tabTitle="Salary Setting by Position" defaultOpen="true" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_POSITION_SALARY_SETTING_TAB_ERRORS}">
+<kul:tabTop tabTitle="Salary Setting by Position" defaultOpen="true" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_POSITION_SALARY_SETTING_TAB_ERRORS}">
 <div class="tab-container" align=center>
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
         <bc:subheadingWithDetailToggleRow
@@ -331,7 +331,7 @@
 
 <%-- TODO format name to break into separate lines at comma to save horizontal screen realestate --%>
             <c:choose>
-            <c:when test="${KualiForm.newBCAFLine.emplid ne Constants.BudgetConstructionConstants.VACANT_EMPLID}">
+            <c:when test="${KualiForm.newBCAFLine.emplid ne KFSConstants.BudgetConstructionConstants.VACANT_EMPLID}">
                 <bc:pbglLineDataCell dataCellCssClass="infoline"
                     cellProperty="newBCAFLine.budgetConstructionIntendedIncumbent.personName"
                     field="personName"
@@ -357,7 +357,7 @@
                     field="personName"
                     attributes="${intincAttributes}"
                     readOnly="true"
-                    formattedNumberValue="${Constants.BudgetConstructionConstants.VACANT_EMPLID}"
+                    formattedNumberValue="${KFSConstants.BudgetConstructionConstants.VACANT_EMPLID}"
                     displayHidden="false"
                     colSpan="2" />
                 <td class="infoline">&nbsp;</td>
@@ -564,7 +564,7 @@
                accountingLineValuesMap="${item.valuesMap}" />
            
            <c:set var="doAccountLookupOrInquiry" value="false"/>
-           <c:if test="${item.subAccountNumber ne Constants.DASHES_SUB_ACCOUNT_NUMBER}">
+           <c:if test="${item.subAccountNumber ne '-----'}"><%-- FIXME: need to get current "default" value from constants --%>
                <c:set var="doAccountLookupOrInquiry" value="true"/>
            </c:if>
            <bc:pbglLineDataCell dataCellCssClass="datacell"
@@ -592,7 +592,7 @@
                inquiryExtraKeyValues="universityFiscalYear=${item.universityFiscalYear}" />
 
            <c:set var="doLookupOrInquiry" value="false"/>
-           <c:if test="${item.financialSubObjectCode ne Constants.DASHES_SUB_OBJECT_CODE}">
+           <c:if test="${item.financialSubObjectCode ne '---'}"><%-- FIXME: need to get current "default" value from constants --%>
                <c:set var="doLookupOrInquiry" value="true"/>
            </c:if>
            <bc:pbglLineDataCell dataCellCssClass="datacell"
@@ -609,7 +609,7 @@
                inquiryExtraKeyValues="universityFiscalYear=${item.universityFiscalYear}" />
 
            <c:set var="doLookupOrInquiry" value="false"/>
-           <c:if test="${item.emplid ne Constants.BudgetConstructionConstants.VACANT_EMPLID}">
+           <c:if test="${item.emplid ne KFSConstants.BudgetConstructionConstants.VACANT_EMPLID}">
                <c:set var="doLookupOrInquiry" value="true"/>
            </c:if>
            <bc:pbglLineDataCell dataCellCssClass="datacell"
@@ -624,7 +624,7 @@
 
 <%-- TODO format name to break into separate lines at comma to save horizontal screen realestate --%>
             <c:choose>
-            <c:when test="${item.emplid ne Constants.BudgetConstructionConstants.VACANT_EMPLID}">
+            <c:when test="${item.emplid ne KFSConstants.BudgetConstructionConstants.VACANT_EMPLID}">
                 <bc:pbglLineDataCell dataCellCssClass="datacell"
                     cellProperty="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].budgetConstructionIntendedIncumbent.personName"
                     field="personName"
@@ -650,7 +650,7 @@
                     field="personName"
                     attributes="${intincAttributes}"
                     readOnly="true"
-                    formattedNumberValue="${Constants.BudgetConstructionConstants.VACANT_EMPLID}"
+                    formattedNumberValue="${KFSConstants.BudgetConstructionConstants.VACANT_EMPLID}"
                     displayHidden="false"
                     colSpan="2" />
                 <td>&nbsp;</td>
@@ -820,7 +820,7 @@
                 <div align="center"><span class=nobord">
                   <html:image property="methodToCall.performReasonAnnotation.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-reason.gif" title="Reason Annotation for Salary Setting Line ${status.index}" alt="Reason Annotation for Salary Setting Line ${status.index}" styleClass="tinybutton" />
                   <br>
-                  <c:if test="${item.emplid ne Constants.BudgetConstructionConstants.VACANT_EMPLID}">
+                  <c:if test="${item.emplid ne KFSConstants.BudgetConstructionConstants.VACANT_EMPLID}">
                     <c:if test="${!readOnly}">
                         <html:image property="methodToCall.performVacateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-vacate.gif" title="Vacate Salary Setting Line ${status.index}" alt="Vacate Salary Setting Line ${status.index}" styleClass="tinybutton" />
                         <br>

@@ -40,7 +40,7 @@
 
         <summary>Responsibility Center maintenance document</summary>
         <description>Document used to create or update Responsibility Center objects</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_RESPONSIBILITY_CENTER" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="ResponsibilityCenter" parameterName="RESPONSIBILITY_CENTER" />
 
         <lockingKeys>
             <field attributeName="responsibilityCenterCode" />

@@ -40,6 +40,7 @@ import org.kuali.RiceConstants;
 import org.kuali.core.UserSession;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.bo.PdpUser;
@@ -162,7 +163,7 @@ public abstract class BaseAction extends Action {
     protected Timestamp getLastGoodDisbursementActionDate() {
         LOG.debug("getLastGoodDisbursementActionDate() started");
 
-        String daysStr = kualiConfigurationService.getApplicationParameterValue(PdpConstants.PDP_APPLICATION, PdpConstants.ApplicationParameterKeys.DISBURSEMENT_ACTION_EXPIRATION_DAYS);
+        String daysStr = kualiConfigurationService.getParameterValue(KFSConstants.PDP_NAMESPACE, KFSConstants.Components.ALL, PdpConstants.ApplicationParameterKeys.DISBURSEMENT_ACTION_EXPIRATION_DAYS);
         int days = Integer.valueOf(daysStr);
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DATE, (days * -1));

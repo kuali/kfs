@@ -39,7 +39,7 @@
 
         <summary>Sub-Fund Group Type Maintenance Document</summary>
         <description>Document used to create or update Sub Fund Group Type objects</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_SUB_FUND_GROUP_TYPE" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="SubFundGroupType" parameterName="SUB_FUND_GROUP_TYPE" />
 
         <lockingKeys>
             <field attributeName="subFundGroupTypeCode" />

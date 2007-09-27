@@ -50,6 +50,7 @@ public class PcdoLoadStepTest extends KualiTestBase {
         String doneFileName = SpringContext.getBean(ProcurementCardInputFileType.class).getDirectoryPath() + "/transactions1.done";
         File doneFile = new File(doneFileName);
         if (!doneFile.exists()) {
+            LOG.info( "Creating done file: " + doneFile.getAbsolutePath() );
             doneFile.createNewFile();
         }
     }

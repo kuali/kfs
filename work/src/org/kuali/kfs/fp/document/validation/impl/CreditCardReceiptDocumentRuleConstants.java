@@ -28,7 +28,7 @@ public class CreditCardReceiptDocumentRuleConstants {
     public static final String KUALI_TRANSACTION_PROCESSING_CREDIT_CARD_RECEIPT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.CreditCardReceiptDocument";
 
     // Application parameter lookup constants to be used in conjunction with the grouping constants above
-    public static final String CASH_OFFSET_BANK_ACCOUNT = "CashOffsetBankAccount";
+    public static final String CASH_OFFSET_BANK_ACCOUNT = "CASH_OFFSET_BANK_ACCOUNT";
     
     public static final String CREDIT_CARD_RECEIPT_PREFIX = DOCUMENT_ERROR_PREFIX + "creditCardReceipt" + DELIMITER;
 }

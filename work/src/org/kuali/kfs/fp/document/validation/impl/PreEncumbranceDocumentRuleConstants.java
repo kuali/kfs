@@ -22,5 +22,5 @@ package org.kuali.module.financial.rules;
  */
 public class PreEncumbranceDocumentRuleConstants {
     public static final String PRE_ENCUMBRANCE_DOCUMENT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.PreEncumbranceDocument";
-    public static final String RESTRICTED_OBJECT_TYPE_CODES = "RestrictedObjectTypeCodes";
+    public static final String RESTRICTED_OBJECT_TYPE_CODES = "OBJECT_TYPES";
 }

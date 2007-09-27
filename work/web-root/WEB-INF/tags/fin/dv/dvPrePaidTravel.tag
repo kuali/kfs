@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<kul:tab tabTitle="Pre-Paid Travel Expenses" defaultOpen="false" tabErrorKey="${Constants.DV_PREPAID_TAB_ERRORS}">
+<kul:tab tabTitle="Pre-Paid Travel Expenses" defaultOpen="false" tabErrorKey="${KFSConstants.DV_PREPAID_TAB_ERRORS}">
 	<c:set var="prePaidConfAttributes" value="${DataDictionary.DisbursementVoucherPreConferenceDetail.attributes}" />
 	<c:set var="prePaidRegistrantAttributes" value="${DataDictionary.DisbursementVoucherPreConferenceRegistrant.attributes}" />
     <html:hidden property="document.finDocNextRegistrantLineNbr"/>

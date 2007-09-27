@@ -28,9 +28,9 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.exceptions.InfrastructureException;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.DocumentAuthorizationService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
@@ -618,7 +618,7 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
      * @return String
      */
     public String getAccountingLineImportInstructionsUrl() {
-        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(KFSConstants.ParameterGroups.FP_GLOBAL_PARAMETERS, KFSConstants.FinancialApcParms.ACCOUNTING_LINE_IMPORT_HELP);
+        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.ACCOUNTING_LINE, KFSConstants.FinancialApcParms.ACCOUNTING_LINE_IMPORT_HELP);
     }
 
     /**

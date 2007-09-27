@@ -41,7 +41,7 @@
         <description>The Year End version of the General Error Correction Document (GEC) document. &lt;br&gt; &lt;br&gt; See FIS documentation here: &lt;a 
             target="_blank" href="http://www.fms.indiana.edu/fis/documentation/gec.pdf"&gt; 
             http://www.fms.indiana.edu/fis/documentation/gec.pdf &lt;/a&gt;</description>
-        <help securityGroupName="Kuali.FinancialTransactionProcessing.YearEndGeneralErrorCorrectionDocument" parameterName="FINANCIAL_HELP_YEAR_END_GENERAL_ERROR_CORRECTION_DOCUMENT" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="YearEndGeneralErrorCorrection" parameterName="YEAR_END_GENERAL_ERROR_CORRECTION" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
     </transactionalDocument>

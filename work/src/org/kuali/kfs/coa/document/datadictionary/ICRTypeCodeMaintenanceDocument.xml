@@ -39,7 +39,7 @@
         <shortLabel>ICRTypeCodeMaintDoc</shortLabel>
         <summary>ICR Type Code Maintenance Document</summary>
         <description>Maintenance document which allows you to create new ICR Type Codes, or modify existing ICR Type Codes.</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_INDIRECT_COST_RECOVERY_TYPE_CODE" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="IndirectCostRecoveryType" parameterName="INDIRECT_COST_RECOVERY_TYPE" />
 
         <lockingKeys>
             <field attributeName="code" />

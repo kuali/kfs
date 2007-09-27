@@ -27,5 +27,5 @@ public interface SufficientFundsServiceConstants {
 
     // Application parameter lookup constants to be used in conjunction with the grouping constants above
     public static final String SUFFICIENT_FUNDS_OBJECT_CODE_CASH_IN_BANK = "SufficientFundsServiceFinancialObjectCodeForCashInBank";
-    public static final String SUFFICIENT_FUNDS_OBJECT_CODE_SPECIALS = "SufficientFundsServiceSpecialFinancialObjectCodes";
+    public static final String SUFFICIENT_FUNDS_OBJECT_CODE_SPECIALS = "CURRENT_LIABILITIES_OBJECT_CODES";
 }

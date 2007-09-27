@@ -16,6 +16,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.bo.AchAccountNumber;
 import org.kuali.module.pdp.bo.Bank;
@@ -132,11 +133,11 @@ public class FormatServiceImpl implements FormatService {
     }
 
     private int getMaxNoteLines() {
-        return GeneralUtilities.getParameterInteger(PdpConstants.ApplicationParameterKeys.MAX_NOTE_LINES, appSettingService);
+        return GeneralUtilities.getParameterInteger(KFSConstants.Components.ALL, PdpConstants.ApplicationParameterKeys.MAX_NOTE_LINES, appSettingService);
     }
 
     private int getFormatSummaryListSize() {
-        return GeneralUtilities.getParameterInteger(PdpConstants.ApplicationParameterKeys.FORMAT_SUMMARY_ROWS, appSettingService,40);
+        return GeneralUtilities.getParameterInteger(KFSConstants.Components.LOOKUP, PdpConstants.ApplicationParameterKeys.FORMAT_SUMMARY_ROWS,appSettingService, 40);
     }
 
     public List performFormat(Integer procId) {

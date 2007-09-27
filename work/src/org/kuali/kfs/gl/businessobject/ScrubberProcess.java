@@ -21,22 +21,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.StringTokenizer;
 
 import org.kuali.core.bo.DocumentType;
-import org.kuali.core.bo.FinancialSystemParameter;
-import org.kuali.core.rule.KualiParameterRule;
+import org.kuali.core.bo.Parameter;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -54,28 +49,26 @@ import org.kuali.module.financial.exceptions.InvalidFlexibleOffsetException;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.collector.CollectorBatch;
-import org.kuali.module.gl.bo.CollectorDetail;
-import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.module.gl.bo.OriginEntryLite;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.bo.OriginEntryLite;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.OriginEntryLiteService;
+import org.kuali.module.gl.service.OriginEntryLookupService;
+import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.RunDateService;
 import org.kuali.module.gl.service.ScrubberProcessObjectCodeOverride;
 import org.kuali.module.gl.service.ScrubberValidator;
-import org.kuali.module.gl.service.OriginEntryLookupService;
 import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
 import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
 import org.kuali.module.gl.util.CachingLookup;
 import org.kuali.module.gl.util.CollectorReportData;
-import org.kuali.module.gl.util.DocumentGroupData;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.gl.util.OriginEntryStatistics;
@@ -128,8 +121,7 @@ public class ScrubberProcess {
     private RunDateService runDateService;
     private ThreadLocal<OriginEntryLookupService> referenceLookup = new ThreadLocal<OriginEntryLookupService>();
 
-    private Map<String, FinancialSystemParameter> parameters;
-    private Map<String, KualiParameterRule> rules;
+    private Map<String, Parameter> parameters;
 
     // this will only be populated when in collector mode, otherwise the memory requirements will be huge
     private Map<OriginEntry, OriginEntry> unscrubbedToUnscrubbedEntries;
@@ -191,8 +183,7 @@ public class ScrubberProcess {
         this.scrubberProcessObjectCodeOverride = scrubberProcessObjectCodeOverride;
         this.runDateService = runDateService;
 
-        parameters = kualiConfigurationService.getParametersByGroup(GLConstants.GL_SCRUBBER_GROUP);
-        rules = kualiConfigurationService.getRulesByGroup(GLConstants.GL_SCRUBBER_GROUP);
+        parameters = kualiConfigurationService.getParametersByDetailTypeAsMap(KFSConstants.GL_NAMESPACE, GLConstants.Components.SCRUBBER_STEP );
         
         collectorMode = false;
     }
@@ -646,10 +637,10 @@ public class ScrubberProcess {
     
                     KualiDecimal transactionAmount = scrubbedEntry.getTransactionLedgerEntryAmount();
     
-                    KualiParameterRule offsetFiscalPeriods = getRule(GLConstants.GlScrubberGroupRules.OFFSET_FISCAL_PERIOD_CODES);
+                    Parameter offsetFiscalPeriods = getParameter(GLConstants.GlScrubberGroupRules.OFFSET_FISCAL_PERIOD_CODES);
     
                     BalanceTyp scrubbedEntryBalanceType = referenceLookup.get().getBalanceType(scrubbedEntry);
-                    if (scrubbedEntryBalanceType.isFinancialOffsetGenerationIndicator() && offsetFiscalPeriods.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode())) {
+                    if (scrubbedEntryBalanceType.isFinancialOffsetGenerationIndicator() && kualiConfigurationService.succeedsRule( offsetFiscalPeriods,scrubbedEntry.getUniversityFiscalPeriodCode())) {
                         if (scrubbedEntry.isDebit()) {
                             unitOfWork.offsetAmount = unitOfWork.offsetAmount.add(transactionAmount);
                         }
@@ -668,18 +659,18 @@ public class ScrubberProcess {
 
                     }
 
-                    KualiParameterRule costShareObjectTypeCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_OBJ_TYPE_CODES);
-                    KualiParameterRule costShareEncBalanceTypeCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_BAL_TYP_CODES);
-                    KualiParameterRule costShareEncFiscalPeriodCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_FISCAL_PERIOD_CODES);
-                    KualiParameterRule costShareEncDocTypeCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_DOC_TYPE_CODES);
-                    KualiParameterRule costShareFiscalPeriodCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES);
+                    Parameter costShareObjectTypeCodes = getParameter(GLConstants.GlScrubberGroupRules.COST_SHARE_OBJ_TYPE_CODES);
+                    Parameter costShareEncBalanceTypeCodes = getParameter(GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_BAL_TYP_CODES);
+                    Parameter costShareEncFiscalPeriodCodes = getParameter(GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_FISCAL_PERIOD_CODES);
+                    Parameter costShareEncDocTypeCodes = getParameter(GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_DOC_TYPE_CODES);
+                    Parameter costShareFiscalPeriodCodes = getParameter(GLConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES);
     
                     Account scrubbedEntryAccount = referenceLookup.get().getAccount(scrubbedEntry);
-                    if (costShareObjectTypeCodes.succeedsRule(scrubbedEntry.getFinancialObjectTypeCode()) && 
-                            costShareEncBalanceTypeCodes.succeedsRule(scrubbedEntry.getFinancialBalanceTypeCode()) && 
+                    if (kualiConfigurationService.succeedsRule( costShareObjectTypeCodes,scrubbedEntry.getFinancialObjectTypeCode()) && 
+                            kualiConfigurationService.succeedsRule( costShareEncBalanceTypeCodes,scrubbedEntry.getFinancialBalanceTypeCode()) && 
                             scrubbedEntryAccount.isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && 
-                            costShareEncFiscalPeriodCodes.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode()) && 
-                            costShareEncDocTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
+                            kualiConfigurationService.succeedsRule( costShareEncFiscalPeriodCodes,scrubbedEntry.getUniversityFiscalPeriodCode()) && 
+                            kualiConfigurationService.succeedsRule( costShareEncDocTypeCodes,scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
                         TransactionError te1 = generateCostShareEncumbranceEntries(scrubbedEntry);
                         if (te1 != null) {
                             List errors = new ArrayList();
@@ -692,12 +683,12 @@ public class ScrubberProcess {
                     }
     
                     Options scrubbedEntryOption = referenceLookup.get().getOption(scrubbedEntry);
-                    if (costShareObjectTypeCodes.succeedsRule(scrubbedEntry.getFinancialObjectTypeCode()) && 
+                    if (kualiConfigurationService.succeedsRule( costShareObjectTypeCodes,scrubbedEntry.getFinancialObjectTypeCode()) && 
                             scrubbedEntryOption.getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && 
                             scrubbedEntryAccount.isForContractsAndGrants() && 
                             KFSConstants.COST_SHARE.equals(subAccountTypeCode) && 
-                            costShareFiscalPeriodCodes.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode()) && 
-                            costShareEncDocTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
+                            kualiConfigurationService.succeedsRule( costShareFiscalPeriodCodes,scrubbedEntry.getUniversityFiscalPeriodCode()) && 
+                            kualiConfigurationService.succeedsRule( costShareEncDocTypeCodes,scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
                         if (scrubbedEntry.isDebit()) {
                             scrubCostShareAmount = scrubCostShareAmount.subtract(transactionAmount);
                         }
@@ -706,9 +697,9 @@ public class ScrubberProcess {
                         }
                     }
     
-                    KualiParameterRule otherDocTypeCodes = getRule(GLConstants.GlScrubberGroupRules.CAP_LIAB_PLANT_DOC_TYPE_CODES);
+                    Parameter otherDocTypeCodes = getParameter(GLConstants.GlScrubberGroupRules.CAP_LIAB_PLANT_DOC_TYPE_CODES);
     
-                    if (otherDocTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode())) {
+                    if (kualiConfigurationService.succeedsRule( otherDocTypeCodes,scrubbedEntry.getFinancialDocumentTypeCode())) {
                         String m = processCapitalization(scrubbedEntry);
                         if (m != null) {
                             saveValidTransaction = false;
@@ -806,18 +797,10 @@ public class ScrubberProcess {
         return false;
     }
 
-    private KualiParameterRule getRule(String rule) {
-        KualiParameterRule r = rules.get(rule);
-        if (r == null) {
-            throw new IllegalArgumentException("Business Rule: " + GLConstants.GL_SCRUBBER_GROUP + "/" + rule + " does not exist");
-        }
-        return r;
-    }
-
-    private FinancialSystemParameter getParameter(String param) {
-        FinancialSystemParameter p = parameters.get(param);
+    private Parameter getParameter(String param) {
+        Parameter p = parameters.get(param);
         if (p == null) {
-            throw new IllegalArgumentException("Financial System Parameter: " + GLConstants.GL_SCRUBBER_GROUP + "/" + param + " does not exist");
+            throw new IllegalArgumentException("Parameter: " + KFSConstants.GL_NAMESPACE+"/"+GLConstants.Components.SCRUBBER_STEP + "/" + param + " does not exist");
         }
         return p;
     }
@@ -837,7 +820,7 @@ public class ScrubberProcess {
         Options scrubbedEntryOption = referenceLookup.get().getOption(scrubbedEntry);
         A21SubAccount scrubbedEntryA21SubAccount = referenceLookup.get().getA21SubAccount(scrubbedEntry);
 
-        costShareEntry.setFinancialObjectCode((getParameter(GLConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE)).getFinancialSystemParameterText());
+        costShareEntry.setFinancialObjectCode(getParameter(GLConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_PARM_NM).getParameterValue());
         costShareEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         costShareEntry.setFinancialObjectTypeCode(scrubbedEntryOption.getFinancialObjectTypeTransferExpenseCd());
         costShareEntry.setTransactionLedgerEntrySequenceNumber(new Integer(0));
@@ -1087,30 +1070,31 @@ public class ScrubberProcess {
      * @return null if no error, message if error
      */
     private String processCapitalization(OriginEntry scrubbedEntry) {
-        if (!KFSConstants.ACTIVE_INDICATOR.equals((getParameter(GLConstants.GlScrubberGroupParameters.CAPITALIZATION_IND)).getFinancialSystemParameterText())) {
+        if (!KFSConstants.ACTIVE_INDICATOR.equals((getParameter(GLConstants.GlScrubberGroupParameters.CAPITALIZATION_IND)).getParameterValue())) {
             return null;
         }
 
         OriginEntryFull capitalizationEntry = OriginEntryFull.copyFromOriginEntryable(scrubbedEntry);
 
-        KualiParameterRule documentTypeCodes = getRule(GLConstants.GlScrubberGroupRules.CAPITALIZATION_DOC_TYPE_CODES);
-        KualiParameterRule fiscalPeriodCodes = getRule(GLConstants.GlScrubberGroupRules.CAPITALIZATION_FISCAL_PERIOD_CODES);
-        KualiParameterRule objectSubTypeCodes = getRule(GLConstants.GlScrubberGroupRules.CAPITALIZATION_OBJ_SUB_TYPE_CODES);
-        KualiParameterRule subFundGroupCodes = getRule(GLConstants.GlScrubberGroupRules.CAPITALIZATION_SUB_FUND_GROUP_CODES);
-        KualiParameterRule chartCodes = getRule(GLConstants.GlScrubberGroupRules.CAPITALIZATION_CHART_CODES);
+        Parameter documentTypeCodes = getParameter(GLConstants.GlScrubberGroupRules.CAPITALIZATION_DOC_TYPE_CODES);
+        Parameter fiscalPeriodCodes = getParameter(GLConstants.GlScrubberGroupRules.CAPITALIZATION_FISCAL_PERIOD_CODES);
+        Parameter objectSubTypeCodes = getParameter(GLConstants.GlScrubberGroupRules.CAPITALIZATION_OBJ_SUB_TYPE_CODES);
+        Parameter subFundGroupCodes = getParameter(GLConstants.GlScrubberGroupRules.CAPITALIZATION_SUB_FUND_GROUP_CODES);
+        Parameter chartCodes = getParameter(GLConstants.GlScrubberGroupRules.CAPITALIZATION_CHART_CODES);
         
         Options scrubbedEntryOption = referenceLookup.get().getOption(scrubbedEntry);
         ObjectCode scrubbedEntryObjectCode = referenceLookup.get().getFinancialObject(scrubbedEntry);
         Chart scrubbedEntryChart = referenceLookup.get().getChart(scrubbedEntry);
         Account scrubbedEntryAccount = referenceLookup.get().getAccount(scrubbedEntry);
 
-        if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntryOption.getActualFinancialBalanceTypeCd()) && scrubbedEntry.getUniversityFiscalYear().intValue() > 1995 && documentTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode()) && fiscalPeriodCodes.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode()) && objectSubTypeCodes.succeedsRule(scrubbedEntryObjectCode.getFinancialObjectSubTypeCode()) && subFundGroupCodes.succeedsRule(scrubbedEntryAccount.getSubFundGroupCode()) && chartCodes.succeedsRule(scrubbedEntry.getChartOfAccountsCode())) {
+        if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntryOption.getActualFinancialBalanceTypeCd()) && scrubbedEntry.getUniversityFiscalYear().intValue() > 1995 && kualiConfigurationService.succeedsRule( documentTypeCodes,scrubbedEntry.getFinancialDocumentTypeCode()) && kualiConfigurationService.succeedsRule( fiscalPeriodCodes,scrubbedEntry.getUniversityFiscalPeriodCode()) && kualiConfigurationService.succeedsRule( objectSubTypeCodes,scrubbedEntryObjectCode.getFinancialObjectSubTypeCode()) && kualiConfigurationService.succeedsRule( subFundGroupCodes,scrubbedEntryAccount.getSubFundGroupCode()) && kualiConfigurationService.succeedsRule( chartCodes,scrubbedEntry.getChartOfAccountsCode())) {
 
             String objectSubTypeCode = scrubbedEntryObjectCode.getFinancialObjectSubTypeCode();
 
-            FinancialSystemParameter objectParameter = parameters.get(GLConstants.GlScrubberGroupParameters.CAPITALIZATION_SUBTYPE_OBJECT_PREFIX + objectSubTypeCode);
-            if (objectParameter != null) {
-                capitalizationEntry.setFinancialObjectCode(objectParameter.getFinancialSystemParameterText());
+            Parameter objectParameter = parameters.get(GLConstants.GlScrubberGroupParameters.CAPITALIZATION_SUBTYPE_OBJECT );
+            List<String> objList = kualiConfigurationService.getConstrainedValues(objectParameter, objectSubTypeCode);
+            if (objList.size() > 0) {
+                capitalizationEntry.setFinancialObjectCode( objList.get(0) );
                 persistenceService.retrieveReferenceObject(capitalizationEntry, KFSPropertyConstants.FINANCIAL_OBJECT);
             }
 
@@ -1162,14 +1146,14 @@ public class ScrubberProcess {
      * @return null if no error, message if error
      */
     private String processPlantIndebtedness(OriginEntry scrubbedEntry) {
-        if (!KFSConstants.ACTIVE_INDICATOR.equals((getParameter(GLConstants.GlScrubberGroupParameters.PLANT_INDEBTEDNESS_IND)).getFinancialSystemParameterText())) {
+        if (!KFSConstants.ACTIVE_INDICATOR.equals((getParameter(GLConstants.GlScrubberGroupParameters.PLANT_INDEBTEDNESS_IND)).getParameterValue())) {
             return null;
         }
 
         OriginEntryFull plantIndebtednessEntry = OriginEntryFull.copyFromOriginEntryable(scrubbedEntry);
 
-        KualiParameterRule objectSubTypeCodes = getRule(GLConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_OBJ_SUB_TYPE_CODES);
-        KualiParameterRule subFundGroupCodes = getRule(GLConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_SUB_FUND_GROUP_CODES);
+        Parameter objectSubTypeCodes = getParameter(GLConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_OBJ_SUB_TYPE_CODES);
+        Parameter subFundGroupCodes = getParameter(GLConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_SUB_FUND_GROUP_CODES);
         
         Options scrubbedEntryOption = referenceLookup.get().getOption(scrubbedEntry);
         ObjectCode scrubbedEntryObjectCode = referenceLookup.get().getFinancialObject(scrubbedEntry);
@@ -1177,8 +1161,8 @@ public class ScrubberProcess {
         Chart scrubbedEntryChart = referenceLookup.get().getChart(scrubbedEntry);
 
         if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntryOption.getActualFinancialBalanceTypeCd()) && 
-                subFundGroupCodes.succeedsRule(scrubbedEntryAccount.getSubFundGroupCode()) && 
-                objectSubTypeCodes.succeedsRule(scrubbedEntryObjectCode.getFinancialObjectSubTypeCode())) {
+                kualiConfigurationService.succeedsRule( subFundGroupCodes,scrubbedEntryAccount.getSubFundGroupCode()) && 
+                kualiConfigurationService.succeedsRule( objectSubTypeCodes,scrubbedEntryObjectCode.getFinancialObjectSubTypeCode())) {
 
             plantIndebtednessEntry.setTransactionLedgerEntryDescription(KFSConstants.PLANT_INDEBTEDNESS_ENTRY_DESCRIPTION);
 
@@ -1289,26 +1273,32 @@ public class ScrubberProcess {
      * @return null if no error, message if error
      */
     private String processLiabilities(OriginEntry scrubbedEntry) {
-        if (!KFSConstants.ACTIVE_INDICATOR.equals((getParameter(GLConstants.GlScrubberGroupParameters.LIABILITY_IND)).getFinancialSystemParameterText())) {
+        if (!KFSConstants.ACTIVE_INDICATOR.equals((getParameter(GLConstants.GlScrubberGroupParameters.LIABILITY_IND)).getParameterValue())) {
             return null;
         }
 
         OriginEntryFull liabilityEntry = OriginEntryFull.copyFromOriginEntryable(scrubbedEntry);
 
-        KualiParameterRule chartCodes = getRule(GLConstants.GlScrubberGroupRules.LIABILITY_CHART_CODES);
-        KualiParameterRule docTypeCodes = getRule(GLConstants.GlScrubberGroupRules.LIABILITY_DOC_TYPE_CODES);
-        KualiParameterRule fiscalPeriods = getRule(GLConstants.GlScrubberGroupRules.LIABILITY_FISCAL_PERIOD_CODES);
-        KualiParameterRule objSubTypeCodes = getRule(GLConstants.GlScrubberGroupRules.LIABILITY_OBJ_SUB_TYPE_CODES);
-        KualiParameterRule subFundGroupCodes = getRule(GLConstants.GlScrubberGroupRules.LIABILITY_SUB_FUND_GROUP_CODES);
+        Parameter chartCodes = getParameter(GLConstants.GlScrubberGroupRules.LIABILITY_CHART_CODES);
+        Parameter docTypeCodes = getParameter(GLConstants.GlScrubberGroupRules.LIABILITY_DOC_TYPE_CODES);
+        Parameter fiscalPeriods = getParameter(GLConstants.GlScrubberGroupRules.LIABILITY_FISCAL_PERIOD_CODES);
+        Parameter objSubTypeCodes = getParameter(GLConstants.GlScrubberGroupRules.LIABILITY_OBJ_SUB_TYPE_CODES);
+        Parameter subFundGroupCodes = getParameter(GLConstants.GlScrubberGroupRules.LIABILITY_SUB_FUND_GROUP_CODES);
         
         Chart scrubbedEntryChart = referenceLookup.get().getChart(scrubbedEntry);
         Options scrubbedEntryOption = referenceLookup.get().getOption(scrubbedEntry);
         ObjectCode scrubbedEntryFinancialObject = referenceLookup.get().getFinancialObject(scrubbedEntry);
         Account scrubbedEntryAccount = referenceLookup.get().getAccount(scrubbedEntry);
 
-        if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntryOption.getActualFinancialBalanceTypeCd()) && scrubbedEntry.getUniversityFiscalYear().intValue() > 1995 && docTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode()) && fiscalPeriods.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode()) && objSubTypeCodes.succeedsRule(scrubbedEntryFinancialObject.getFinancialObjectSubTypeCode()) && subFundGroupCodes.succeedsRule(scrubbedEntryAccount.getSubFundGroupCode()) && chartCodes.succeedsRule(scrubbedEntry.getChartOfAccountsCode())) {
+        if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntryOption.getActualFinancialBalanceTypeCd()) 
+                && scrubbedEntry.getUniversityFiscalYear().intValue() > 1995 
+                && kualiConfigurationService.succeedsRule( docTypeCodes,scrubbedEntry.getFinancialDocumentTypeCode()) 
+                && kualiConfigurationService.succeedsRule( fiscalPeriods,scrubbedEntry.getUniversityFiscalPeriodCode()) 
+                && kualiConfigurationService.succeedsRule( objSubTypeCodes,scrubbedEntryFinancialObject.getFinancialObjectSubTypeCode()) 
+                && kualiConfigurationService.succeedsRule( subFundGroupCodes,scrubbedEntryAccount.getSubFundGroupCode()) 
+                && kualiConfigurationService.succeedsRule( chartCodes,scrubbedEntry.getChartOfAccountsCode())) {
 
-            liabilityEntry.setFinancialObjectCode((getParameter(GLConstants.GlScrubberGroupParameters.LIABILITY_OBJECT_CODE)).getFinancialSystemParameterText());
+            liabilityEntry.setFinancialObjectCode((getParameter(GLConstants.GlScrubberGroupParameters.LIABILITY_OBJECT_CODE)).getParameterValue());
             liabilityEntry.setFinancialObjectTypeCode(scrubbedEntryOption.getFinObjectTypeLiabilitiesCode());
 
             liabilityEntry.setTransactionDebitCreditCode(scrubbedEntry.getTransactionDebitCreditCode());
@@ -1355,8 +1345,8 @@ public class ScrubberProcess {
      */
     private void plantFundAccountLookup(OriginEntry scrubbedEntry, OriginEntryFull liabilityEntry) {
 
-        KualiParameterRule campusObjSubTypeCodes = getRule(GLConstants.GlScrubberGroupRules.PLANT_FUND_CAMPUS_OBJECT_SUB_TYPE_CODES);
-        KualiParameterRule orgObjSubTypeCodes = getRule(GLConstants.GlScrubberGroupRules.PLANT_FUND_ORG_OBJECT_SUB_TYPE_CODES);
+        Parameter campusObjSubTypeCodes = getParameter(GLConstants.GlScrubberGroupRules.PLANT_FUND_CAMPUS_OBJECT_SUB_TYPE_CODES);
+        Parameter orgObjSubTypeCodes = getParameter(GLConstants.GlScrubberGroupRules.PLANT_FUND_ORG_OBJECT_SUB_TYPE_CODES);
 
         liabilityEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         persistenceService.retrieveReferenceObject(liabilityEntry, KFSPropertyConstants.ACCOUNT);
@@ -1370,14 +1360,14 @@ public class ScrubberProcess {
 
             String objectSubTypeCode = scrubbedEntryObjectCode.getFinancialObjectSubTypeCode();
 
-            if (campusObjSubTypeCodes.succeedsRule(objectSubTypeCode)) {
+            if (kualiConfigurationService.succeedsRule( campusObjSubTypeCodes,objectSubTypeCode)) {
                 liabilityEntry.setAccountNumber(scrubbedEntryAccount.getOrganization().getCampusPlantAccountNumber());
                 liabilityEntry.setChartOfAccountsCode(scrubbedEntryAccount.getOrganization().getCampusPlantChartCode());
 
                 persistenceService.retrieveReferenceObject(liabilityEntry, KFSPropertyConstants.ACCOUNT);
                 persistenceService.retrieveReferenceObject(liabilityEntry, KFSPropertyConstants.CHART);
             }
-            else if (orgObjSubTypeCodes.succeedsRule(objectSubTypeCode)) {
+            else if (kualiConfigurationService.succeedsRule( orgObjSubTypeCodes,objectSubTypeCode)) {
                 liabilityEntry.setAccountNumber(scrubbedEntryAccount.getOrganization().getOrganizationPlantAccountNumber());
                 liabilityEntry.setChartOfAccountsCode(scrubbedEntryAccount.getOrganization().getOrganizationPlantChartCode());
 
@@ -1541,22 +1531,17 @@ public class ScrubberProcess {
 
         // General rules
         if ( originEntryObjectCode.equals(financialOriginEntryObjectCode) ) {
-            FinancialSystemParameter param = parameters.get(GLConstants.GlScrubberGroupParameters.COST_SHARE_LEVEL_OBJECT_PREFIX + originEntryObjectLevelCode);
-            if ( param == null ) {
-                param = getParameter(GLConstants.GlScrubberGroupParameters.COST_SHARE_LEVEL_OBJECT_DEFAULT);
-                if ( param == null ) {
-                    throw new IllegalArgumentException("Missing " + GLConstants.GL_SCRUBBER_GROUP + "/" + GLConstants.GlScrubberGroupParameters.COST_SHARE_LEVEL_OBJECT_DEFAULT + " parameter in system parameters table");
-                } else {
-                    originEntryObjectCode = param.getFinancialSystemParameterText();
+            Parameter param = parameters.get( GLConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM );
+            List<String> objectCodeArray = kualiConfigurationService.getConstrainedValues( param, originEntryObjectLevelCode );
+            if ( org.apache.commons.lang.StringUtils.isBlank( objectCodeArray.get(0) ) ) {
+                objectCodeArray = kualiConfigurationService.getConstrainedValues( param, "DEFAULT" );
+                if ( org.apache.commons.lang.StringUtils.isBlank( objectCodeArray.get(0) ) ) {
+                    throw new RuntimeException("Unable to determine cost sharing object code from object level.  Default entry missing.");
                 }
-            } else {
-                if ( param.getFinancialSystemParameterText() == null ) {
-                    // Don't do anything with the object code
-                } else {
-                    originEntryObjectCode = param.getFinancialSystemParameterText();                    
                 }
+            originEntryObjectCode = objectCodeArray.get(0);
+            originEntryObjectCode = objectCodeArray.get(0);
             }
-        }
 
         // Lookup the new object code
         ObjectCode objectCode = objectCodeService.getByPrimaryId(costShareEntry.getUniversityFiscalYear(), costShareEntry.getChartOfAccountsCode(), originEntryObjectCode);
@@ -1591,8 +1576,8 @@ public class ScrubberProcess {
             return true;
         }
 
-        KualiParameterRule docTypeRule = getRule(GLConstants.GlScrubberGroupRules.OFFSET_DOC_TYPE_CODES);
-        if (docTypeRule.failsRule(scrubbedEntry.getFinancialDocumentTypeCode())) {
+        Parameter docTypeRule = getParameter(GLConstants.GlScrubberGroupRules.OFFSET_DOC_TYPE_CODES);
+        if (kualiConfigurationService.failsRule( docTypeRule,scrubbedEntry.getFinancialDocumentTypeCode())) {
             return true;
         }
 

@@ -41,7 +41,7 @@
             <![CDATA[&nbsp;]]>
         </summary>
         <description><![CDATA[&nbsp;]]></description>
-        <help securityGroupName="Kuali.FinancialTransactionProcessing.IndirectCostAdjustmentDocument" parameterName="FINANCIAL_HELP_INDIRECT_COST_ADJUSTMENT_DOCUMENT" />
+                <help parameterNamespace="KFS-FP" parameterDetailType="IndirectCostAdjustment" parameterName="INDIRECT_COST_ADJUSTMENT" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
     </transactionalDocument>

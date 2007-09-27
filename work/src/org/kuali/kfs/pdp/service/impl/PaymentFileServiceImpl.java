@@ -12,6 +12,7 @@ import org.kuali.core.mail.InvalidAddressException;
 import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.MailService;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.bo.Batch;
@@ -76,7 +77,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
   }
 
   private int getMaxNoteLines() {
-      return GeneralUtilities.getParameterInteger(PdpConstants.ApplicationParameterKeys.MAX_NOTE_LINES, kualiConfigurationService);
+      return GeneralUtilities.getParameterInteger(KFSConstants.Components.ALL, PdpConstants.ApplicationParameterKeys.MAX_NOTE_LINES, kualiConfigurationService);
   }
 
   // NOTE: This only works on Unix right now.
@@ -183,8 +184,8 @@ public class PaymentFileServiceImpl implements PaymentFileService {
 
     // To send email or not send email
     boolean noEmail = false;
-    if ( kualiConfigurationService.hasApplicationParameter(PdpConstants.PDP_APPLICATION, PdpConstants.ApplicationParameterKeys.NO_PAYMENT_FILE_EMAIL) ) {
-        noEmail = kualiConfigurationService.getApplicationParameterIndicator(PdpConstants.PDP_APPLICATION,PdpConstants.ApplicationParameterKeys.NO_PAYMENT_FILE_EMAIL);
+    if ( kualiConfigurationService.parameterExists(KFSConstants.PDP_NAMESPACE, KFSConstants.Components.ALL,  PdpConstants.ApplicationParameterKeys.NO_PAYMENT_FILE_EMAIL) ) {
+        noEmail = kualiConfigurationService.getIndicatorParameter(KFSConstants.PDP_NAMESPACE,KFSConstants.Components.ALL,  PdpConstants.ApplicationParameterKeys.NO_PAYMENT_FILE_EMAIL);
     }
     if ( noEmail ) {
       LOG.debug("sendErrorEmail() sending payment file email is disabled");
@@ -202,7 +203,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
     }
     StringBuffer body = new StringBuffer();
 
-    String ccAddresses = kualiConfigurationService.getApplicationParameterValue(PdpConstants.PDP_APPLICATION,PdpConstants.ApplicationParameterKeys.HARD_EDIT_CC);
+    String ccAddresses = kualiConfigurationService.getParameterValue(KFSConstants.PDP_NAMESPACE,KFSConstants.Components.ALL, PdpConstants.ApplicationParameterKeys.HARD_EDIT_CC);
     String ccAddressList[] = ccAddresses.split(",");
 
     if (header == null) {
@@ -290,10 +291,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
     LOG.debug("sendLoadEmail() starting");
 
     //To send email or not send email
-    boolean noEmail = false;
-    if ( kualiConfigurationService.hasApplicationParameter(PdpConstants.PDP_APPLICATION, PdpConstants.ApplicationParameterKeys.NO_PAYMENT_FILE_EMAIL) ) {
-        noEmail = kualiConfigurationService.getApplicationParameterIndicator(PdpConstants.PDP_APPLICATION,PdpConstants.ApplicationParameterKeys.NO_PAYMENT_FILE_EMAIL);
-    }
+    boolean noEmail = kualiConfigurationService.getIndicatorParameter(KFSConstants.PDP_NAMESPACE, KFSConstants.Components.ALL, PdpConstants.ApplicationParameterKeys.NO_PAYMENT_FILE_EMAIL);
     if ( noEmail) {
       LOG.debug("sendLoadEmail() sending payment file email is disabled");
       return;
@@ -311,7 +309,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
 
     StringBuffer body = new StringBuffer();
 
-    String ccAddresses = kualiConfigurationService.getApplicationParameterValue(PdpConstants.PDP_APPLICATION, PdpConstants.ApplicationParameterKeys.SOFT_EDIT_CC);
+    String ccAddresses = kualiConfigurationService.getParameterValue(KFSConstants.PDP_NAMESPACE, KFSConstants.Components.ALL, PdpConstants.ApplicationParameterKeys.SOFT_EDIT_CC);
     String ccAddressList[] = ccAddresses.split(",");
 
     // Get customer
@@ -442,7 +440,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
 
     StringBuffer body = new StringBuffer();
 
-    String taxEmail = kualiConfigurationService.getApplicationParameterValue(PdpConstants.PDP_APPLICATION,PdpConstants.ApplicationParameterKeys.TAX_GROUP_EMAIL_ADDRESS);
+    String taxEmail = kualiConfigurationService.getParameterValue(KFSConstants.PDP_NAMESPACE,KFSConstants.Components.ALL, PdpConstants.ApplicationParameterKeys.TAX_GROUP_EMAIL_ADDRESS);
     if (GeneralUtilities.isStringEmpty(taxEmail)) {
       LOG.error("No Tax E-mail Application Setting found to send notification e-mail");
       return;

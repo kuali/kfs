@@ -51,7 +51,7 @@ public class CorrectionDocumentUtils {
     public static final int DEFAULT_RECORDS_PER_PAGE = 10;
     
     public static int getRecordCountFunctionalityLimit() {
-        String limitString = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(KFSConstants.ParameterGroups.GENERAL_LEDGER_CORRECTION_PROCESS,
+        String limitString = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.GENERAL_LEDGER_CORRECTION_PROCESS_DOC, 
                 KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORD_COUNT_FUNCTIONALITY_LIMIT);
         if (limitString != null) {
             return Integer.valueOf(limitString);
@@ -61,7 +61,8 @@ public class CorrectionDocumentUtils {
     }
     
     public static int getRecordsPerPage() {
-        String limitString = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(KFSConstants.ParameterGroups.GENERAL_LEDGER_CORRECTION_PROCESS,
+        String limitString = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.GL_NAMESPACE,
+                KFSConstants.Components.GENERAL_LEDGER_CORRECTION_PROCESS_DOC,
                 KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORDS_PER_PAGE);
         if (limitString != null) {
             return Integer.valueOf(limitString);

@@ -30,11 +30,11 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSConstants.ParameterGroups;
 import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.MockCollectorBatch;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.collector.CollectorInputFileType;
 import org.kuali.module.gl.bo.CollectorDetail;
 import org.kuali.module.gl.bo.OriginEntryFull;
@@ -69,10 +69,10 @@ public class CollectorServiceTest extends KualiTestBase {
      */
     @RelatesTo(RelatesTo.JiraIssue.KULUT31)
     public final void testEmailSystemParametersExist() throws Exception {
-        String subject = configurationService.getApplicationParameterValue(ParameterGroups.COLLECTOR_SECURITY_GROUP_NAME, SystemGroupParameterNames.COLLECTOR_VALIDATOR_EMAIL_SUBJECT_PARAMETER_NAME);
+        String subject = configurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.COLLECTOR_STEP, SystemGroupParameterNames.COLLECTOR_VALIDATOR_EMAIL_SUBJECT_PARAMETER_NAME);
         assertTrue("system parameter " + SystemGroupParameterNames.COLLECTOR_VALIDATOR_EMAIL_SUBJECT_PARAMETER_NAME + " is not setup or is empty", StringUtils.isNotBlank(subject));
         
-        String[] documentTypes = configurationService.getApplicationParameterValues(ParameterGroups.COLLECTOR_SECURITY_GROUP_NAME, SystemGroupParameterNames.COLLECTOR_EQUAL_DC_TOTAL_DOCUMENT_TYPES);
+        String[] documentTypes = configurationService.getParameterValues(KFSConstants.GL_NAMESPACE, GLConstants.Components.COLLECTOR_STEP, SystemGroupParameterNames.COLLECTOR_EQUAL_DC_TOTAL_DOCUMENT_TYPES);
         assertTrue("system parameter " + SystemGroupParameterNames.COLLECTOR_EQUAL_DC_TOTAL_DOCUMENT_TYPES + " is not setup or is empty", documentTypes.length > 0);
     }
 
@@ -190,22 +190,6 @@ public class CollectorServiceTest extends KualiTestBase {
             else {
                 // not sure if we need to take into account the blank debit/credit indicator for the object type
                 fail("Unrecognized ID Billing detail object code information " + collectorDetail);
-            }
-        }
-    }
-    
-    public void testPrintFiles() throws Exception {
-        File directory = new File("/opt/kuali/unt/staging/");
-        if (directory.exists() && directory.isDirectory()) {
-            File[] files = directory.listFiles();
-            for (File file : files) {
-                System.err.println("TESTING: " + file.getName());
-                if (file.isDirectory()) {
-                    File[] files2 = file.listFiles();
-                    for (File file2 : files2) {
-                        System.err.println("TESTING2: " + file2.getName());
-                    }
-                }
             }
         }
     }

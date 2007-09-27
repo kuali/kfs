@@ -32,6 +32,20 @@ public interface Step {
     public String getName();
     
     /**
+     * Return the namespace of this step for purposes of locating system parameters associated with step and job execution.
+     * 
+     * @return
+     */
+    public String getNamespace();
+
+    /**
+     * Return the component of this step for purposes of locating system parameters associated with step and job execution.
+     * 
+     * @return
+     */
+    public String getComponentName();
+    
+    /**
      * Call to attempt to interrupt a step in the middle of processing.  Note that this only has an 
      * effect if the step in question checks its interrupted status.
      * 

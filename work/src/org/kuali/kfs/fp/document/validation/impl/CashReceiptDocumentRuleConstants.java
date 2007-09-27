@@ -28,7 +28,7 @@ public interface CashReceiptDocumentRuleConstants extends AccountingDocumentRule
     public static final String KUALI_TRANSACTION_PROCESSING_CASH_RECEIPT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.CashReceiptDocument";
 
     // Application parameter lookup constants to be used in conjunction with the grouping constants above
-    public static final String RESTRICTED_OBJECT_TYPE_CODES = "RestrictedObjectTypeCodes";
-    public static final String RESTRICTED_OBJECT_SUB_TYPE_CODES = "RestrictedObjectSubTypeCodes";
-    public static final String RESTRICTED_CONSOLIDATED_OBJECT_CODES = "RestrictedConsolidatedObjectCodes";
+    public static final String RESTRICTED_OBJECT_TYPE_CODES = "OBJECT_TYPES";
+    public static final String RESTRICTED_OBJECT_SUB_TYPE_CODES = "OBJECT_SUB_TYPES";
+    public static final String RESTRICTED_CONSOLIDATED_OBJECT_CODES = "OBJECT_CONSOLIDATIONS";
 }

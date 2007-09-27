@@ -40,7 +40,7 @@
 
         <summary>Travel Mileage Rate Maintenance Document</summary>
         <description>Document used to create or update Travel Mileage Rate objects</description>
-        <help securityGroupName="Kuali.DisbursementVoucher.Help" parameterName="DISBURSEMENT_VOUCHER_HELP_TRAVEL_MILEAGE_RATE" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="TravelMileageRate" parameterName="TRAVEL_MILEAGE_RATE" />
 
         <lockingKeys>
             <field attributeName="disbursementVoucherMileageEffectiveDate" />

@@ -26,7 +26,6 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.datadictionary.AttributeDefinition;
 import org.kuali.core.datadictionary.AttributeReferenceDefinition;
 import org.kuali.core.datadictionary.DataDictionaryEntryBase;
-import org.kuali.core.inquiry.KualiInquirableImpl;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.DataDictionaryService;
@@ -36,6 +35,7 @@ import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.inquiry.KfsInquirableImpl;
 import org.kuali.module.chart.bo.KualiSystemCode;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
@@ -46,7 +46,7 @@ import org.kuali.module.gl.web.Constant;
  * 
  * 
  */
-public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
+public abstract class AbstractGLInquirableImpl extends KfsInquirableImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractGLInquirableImpl.class);
 
     /**

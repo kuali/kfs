@@ -30,6 +30,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.chart.service.ObjectTypeService;
 import org.kuali.module.chart.service.PriorYearAccountService;
@@ -102,14 +103,20 @@ public class YearEndServiceImpl implements YearEndService {
 
         Map jobParameters = new HashMap();
 
-        varFiscalYear = new Integer(kualiConfigurationService.getApplicationParameterValue(KFSConstants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR));
+        varFiscalYear = new Integer(kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
+        
+        
+        ObjectTypeService objectTypeService = (ObjectTypeService)SpringContext.getBean(ObjectTypeService.class);
+        List<String> objectTypes = objectTypeService.getBasicExpenseObjectTypes(varFiscalYear);
+        objectTypes.add( objectTypeService.getExpenseTransferObjectType(varFiscalYear));
+        String[] expenseObjectCodeTypes = objectTypes.toArray(new String[0]);
 
         // 680 003670 DISPLAY "TRANSACTION_DT" UPON ENVIRONMENT-NAME.
         // 681 003680 ACCEPT VAR-UNIV-DT FROM ENVIRONMENT-VALUE.
 
         try {
             DateFormat transactionDateFormat = new SimpleDateFormat(TRANSACTION_DATE_FORMAT_STRING);
-            varTransactionDate = new Date(transactionDateFormat.parse(kualiConfigurationService.getApplicationParameterValue(KFSConstants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.TRANSACTION_DT)).getTime());
+            varTransactionDate = new Date(transactionDateFormat.parse(kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM)).getTime());
         }
         catch (ParseException pe) {
             LOG.error("Failed to parse TRANSACTION_DT from kualiConfigurationService");
@@ -119,10 +126,10 @@ public class YearEndServiceImpl implements YearEndService {
         // 682 003690 DISPLAY "NET_EXP_OBJECT_CD" UPON ENVIRONMENT-NAME.
         // 683 003700 ACCEPT VAR-NET-EXP-OBJECT-CD FROM ENVIRONMENT-VALUE.
 
-        varNetExpenseObjectCode = kualiConfigurationService.getApplicationParameterValue(KFSConstants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.NET_EXP_OBJECT_CD);
-        varNetRevenueObjectCode = kualiConfigurationService.getApplicationParameterValue(KFSConstants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.NET_REV_OBJECT_CD);
-        varFundBalanceObjectCode = kualiConfigurationService.getApplicationParameterValue(KFSConstants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.FUND_BAL_OBJECT_CD);
-        varFundBalanceObjectTypeCode = kualiConfigurationService.getApplicationParameterValue(KFSConstants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.FUND_BAL_OBJ_TYP_CD);
+        varNetExpenseObjectCode = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.NOMINAL_ACTIVITY_CLOSING_STEP, "NET_EXPENSE_OBJECT_CODE");
+        varNetRevenueObjectCode = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.NOMINAL_ACTIVITY_CLOSING_STEP, "NET_REVENUE_OBJECT_CODE");
+        varFundBalanceObjectCode = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, "ANNUAL_CLOSING_FUND_BALANCE_OBJECT_CODE");
+        varFundBalanceObjectTypeCode = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, "ANNUAL_CLOSING_FUND_BALANCE_OBJECT_TYPE");
 
         jobParameters.put(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR, varFiscalYear);
         jobParameters.put(GLConstants.ColumnNames.UNIV_DT, varTransactionDate);
@@ -239,7 +246,7 @@ public class YearEndServiceImpl implements YearEndService {
                     // 860 005430 IF GLGLBL-FIN-OBJ-TYP-CD = 'ES' OR 'EX' OR 'EE'
                     // 861 005440 OR 'TE'
 
-                    if (ObjectHelper.isOneOf(balance.getObjectTypeCode(), kualiConfigurationService.getApplicationParameterValues(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_NET_EXPENSE_OBJECT_TYPE_CODE))) {
+                    if (ObjectHelper.isOneOf(balance.getObjectTypeCode(), expenseObjectCodeTypes ) ) {
 
                         // 862 005450 MOVE VAR-NET-EXP-OBJECT-CD
                         // 863 005460 TO FIN-OBJECT-CD OF GLEN-RECORD
@@ -276,12 +283,12 @@ public class YearEndServiceImpl implements YearEndService {
                     // 915 005960 MOVE 'ACLO'
                     // 916 005970 TO FDOC-TYP-CD OF GLEN-RECORD.
 
-                    activityEntry.setFinancialDocumentTypeCode(kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_ANNAL_CLOSING_DOC_TYPE));
+                    activityEntry.setFinancialDocumentTypeCode(kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE));
 
                     // 917 005980 MOVE 'MF'
                     // 918 005990 TO FS-ORIGIN-CD OF GLEN-RECORD.
 
-                    activityEntry.setFinancialSystemOriginationCode(kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
+                    activityEntry.setFinancialSystemOriginationCode(kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
 
                     // 919 006000 STRING 'AC'
                     // 920 006010 GLGLBL-ACCOUNT-NBR
@@ -299,7 +306,7 @@ public class YearEndServiceImpl implements YearEndService {
                     // 926 006070 IF GLGLBL-FIN-OBJ-TYP-CD = 'EX' OR 'ES' OR 'EE'
                     // 927 006080 OR 'TE'
 
-                    if (ObjectHelper.isOneOf(balance.getObjectTypeCode(), kualiConfigurationService.getApplicationParameterValues(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_NET_EXPENSE_OBJECT_TYPE_CODE))) {
+                    if (ObjectHelper.isOneOf(balance.getObjectTypeCode(), expenseObjectCodeTypes) ) {
 
                         // 928 006090 STRING 'CLS ENT TO NE FOR '
                         // 929 006100 GLGLBL-SUB-ACCT-NBR
@@ -703,12 +710,12 @@ public class YearEndServiceImpl implements YearEndService {
                     // 1088 007630 MOVE 'ACLO'
                     // 1089 007640 TO FDOC-TYP-CD OF GLEN-RECORD.
 
-                    offsetEntry.setFinancialDocumentTypeCode(kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_ANNAL_CLOSING_DOC_TYPE));
+                    offsetEntry.setFinancialDocumentTypeCode(kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE));
 
                     // 1090 007650 MOVE 'MF'
                     // 1091 007660 TO FS-ORIGIN-CD OF GLEN-RECORD.
 
-                    offsetEntry.setFinancialSystemOriginationCode(kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
+                    offsetEntry.setFinancialSystemOriginationCode(kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
 
                     // 1092 007670 STRING 'AC'
                     // 1093 007680 GLGLBL-ACCOUNT-NBR
@@ -944,7 +951,7 @@ public class YearEndServiceImpl implements YearEndService {
         // 812 004950 OR 'EE' OR 'CH' OR 'IC' OR 'IN')
 
         String actualFinancial = balance.getOption().getActualFinancialBalanceTypeCd();
-        if (actualFinancial.equals(balance.getBalanceTypeCode()) && ObjectHelper.isOneOf(balance.getObjectTypeCode(), kualiConfigurationService.getApplicationParameterValues(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_CLOSING_OF_NOMINAL_ACTIVITY_OBJECT_TYPE_CODE))) {
+        if (actualFinancial.equals(balance.getBalanceTypeCode()) && ObjectHelper.isOneOf(balance.getObjectTypeCode(), kualiConfigurationService.getParameterValues(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.GL_CLOSING_OF_NOMINAL_ACTIVITY_OBJECT_TYPE_CODE))) {
 
             // 813 004960 NEXT SENTENCE
 
@@ -1047,14 +1054,14 @@ public class YearEndServiceImpl implements YearEndService {
         Date varTransactionDate;
         try {
             DateFormat transactionDateFormat = new SimpleDateFormat(TRANSACTION_DATE_FORMAT_STRING);
-            varTransactionDate = new Date(transactionDateFormat.parse(kualiConfigurationService.getApplicationParameterValue(KFSConstants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.TRANSACTION_DT)).getTime());
+            varTransactionDate = new Date(transactionDateFormat.parse(kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM)).getTime());
         }
         catch (ParseException e) {
             LOG.error("forwardBalances() Unable to parse transaction date", e);
             throw new IllegalArgumentException("Unable to parse transaction date");
         }
 
-        Integer varFiscalYear = new Integer(kualiConfigurationService.getApplicationParameterValue(KFSConstants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR));
+        Integer varFiscalYear = new Integer(kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
 
         OriginEntryGroup unclosedPriorYearAccountGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_BEGINNING_BALANCE, true, false, true);
         OriginEntryGroup closedPriorYearAccountGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_BEGINNING_BALANCE_PRIOR_YEAR, true, false, true);
@@ -1128,12 +1135,12 @@ public class YearEndServiceImpl implements YearEndService {
         String FIELD_TRANSACTION_DATE = GLConstants.ColumnNames.TRANSACTION_DT;
 
         // Get the current fiscal year.
-        varFiscalYear = new Integer(kualiConfigurationService.getApplicationParameterValue(YEAR_END_SCRIPT_NAME, FIELD_FISCAL_YEAR));
+        varFiscalYear = new Integer(kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
 
         // Get the current date (transaction date).
         try {
             DateFormat transactionDateFormat = new SimpleDateFormat(TRANSACTION_DATE_FORMAT_STRING);
-            varTransactionDate = new Date(transactionDateFormat.parse(kualiConfigurationService.getApplicationParameterValue(YEAR_END_SCRIPT_NAME, FIELD_TRANSACTION_DATE)).getTime());
+            varTransactionDate = new Date(transactionDateFormat.parse(kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM)).getTime());
         }
         catch (ParseException pe) {
             LOG.error("Failed to parse TRANSACTION_DT from kualiConfigurationService");

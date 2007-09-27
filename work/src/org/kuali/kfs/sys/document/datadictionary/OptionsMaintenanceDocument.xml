@@ -40,7 +40,7 @@
 
         <summary>SystemOptionsMaintenanceDocument</summary>
         <description>Document used to create or update Options</description>
-        <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_SYSTEM_OPTIONS" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="Options" parameterName="OPTIONS" />
 
         <lockingKeys>
             <field attributeName="universityFiscalYear" />

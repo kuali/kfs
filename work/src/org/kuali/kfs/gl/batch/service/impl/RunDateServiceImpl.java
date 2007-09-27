@@ -15,15 +15,15 @@
  */
 package org.kuali.module.gl.service.impl;
 
-import java.util.Calendar;
 import java.util.Date;
+import java.util.Calendar;
 import java.util.StringTokenizer;
 
-import org.kuali.core.bo.FinancialSystemParameter;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.service.RunDateService;
-import org.springframework.util.StringUtils;
 
 public class RunDateServiceImpl implements RunDateService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RunDateServiceImpl.class);
@@ -95,10 +95,9 @@ public class RunDateServiceImpl implements RunDateService {
     }
     
     protected CutoffTime parseCutoffTime(String cutoffTime) {
-        if (!StringUtils.hasText(cutoffTime)) {
+        if (StringUtils.isBlank(cutoffTime)) {
             return new CutoffTime(0, 0, 0);
-        }
-        else {
+        } else {
             cutoffTime = cutoffTime.trim();
             LOG.debug("Cutoff time value found: " + cutoffTime);
             StringTokenizer st = new StringTokenizer(cutoffTime, ":", false);
@@ -129,15 +128,12 @@ public class RunDateServiceImpl implements RunDateService {
      * In particular, 0 <= hour <= 23, 0 <= minute <= 59, and 0 <= second <= 59
      */
     protected String retrieveCutoffTimeValue() {
-        if (kualiConfigurationService.hasApplicationParameter(GLConstants.GL_SCRUBBER_GROUP, GLConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME)) {
-            try {
-                return kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_SCRUBBER_GROUP, GLConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME);
-            }
-            catch (RuntimeException e) {
-                LOG.error("Exception occured trying to retrieve parameter for GL process cutoff date.  Defaulting to no cutoff time (i.e. midnight)", e);
-            }
+        String value = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.SCRUBBER_STEP, GLConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME);
+        if ( StringUtils.isBlank( value ) ) {
+            LOG.error("Unable to retrieve parameter for GL process cutoff date.  Defaulting to no cutoff time (i.e. midnight)" );
+            value = null;
         }
-        return null;
+        return value;
     }
 
     public KualiConfigurationService getKualiConfigurationService() {

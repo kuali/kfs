@@ -1214,7 +1214,11 @@
 		</property>
 	</bean>
 	
-	<bean id="purgeEntryStep" class="org.kuali.module.gl.batch.PurgeEntryStep" parent="step">
+    <bean id="glStep" parent="step" abstract="true">
+        <property name="namespace" value="KFS-GL" />
+    </bean> 
+
+	<bean id="purgeEntryStep" class="org.kuali.module.gl.batch.PurgeEntryStep" parent="glStep">
 		<property name="entryService">
 			<ref bean="glEntryService" />
 		</property>
@@ -1223,7 +1227,7 @@
 		</property>
 	</bean>
 
-	<bean id="purgeBalanceStep" class="org.kuali.module.gl.batch.PurgeBalanceStep" parent="step">
+	<bean id="purgeBalanceStep" class="org.kuali.module.gl.batch.PurgeBalanceStep" parent="glStep">
 		<property name="balanceService">
 			<ref bean="glBalanceService" />
 		</property>
@@ -1232,7 +1236,7 @@
 		</property>
 	</bean>
 
-	<bean id="purgeSufficientFundBalancesStep" class="org.kuali.module.gl.batch.PurgeSufficientFundBalancesStep" parent="step">
+	<bean id="purgeSufficientFundBalancesStep" class="org.kuali.module.gl.batch.PurgeSufficientFundBalancesStep" parent="glStep">
 		<property name="sufficientFundsService">
 			<ref bean="sufficientFundsService" />
 		</property>
@@ -1241,7 +1245,7 @@
 		</property>
 	</bean>
 
-	<bean id="purgeEncumbranceStep" class="org.kuali.module.gl.batch.PurgeEncumbranceStep" parent="step">
+	<bean id="purgeEncumbranceStep" class="org.kuali.module.gl.batch.PurgeEncumbranceStep" parent="glStep">
 		<property name="encumbranceService">
 			<ref bean="glEncumbranceService" />
 		</property>
@@ -1250,7 +1254,7 @@
 		</property>
 	</bean>
 
-	<bean id="purgeAccountBalancesStep" class="org.kuali.module.gl.batch.PurgeAccountBalancesStep" parent="step">
+	<bean id="purgeAccountBalancesStep" class="org.kuali.module.gl.batch.PurgeAccountBalancesStep" parent="glStep">
 		<property name="accountBalanceService">
 			<ref bean="glAccountBalanceService" />
 		</property>
@@ -1259,7 +1263,7 @@
 		</property>
 	</bean>
 
-	<bean id="purgeCollectorDetailStep" class="org.kuali.module.gl.batch.PurgeCollectorDetailStep" parent="step">
+	<bean id="purgeCollectorDetailStep" class="org.kuali.module.gl.batch.PurgeCollectorDetailStep" parent="glStep">
 		<property name="collectorDetailService">
 			<ref bean="glCollectorDetailService" />
 		</property>
@@ -1268,91 +1272,91 @@
 		</property>
 	</bean>
 
-	<bean id="sufficientFundsRebuilderStep" class="org.kuali.module.gl.batch.SufficientFundsRebuilderStep" parent="step">
+	<bean id="sufficientFundsRebuilderStep" class="org.kuali.module.gl.batch.SufficientFundsRebuilderStep" parent="glStep">
 		<property name="sufficientFundsRebuilderService">
 			<ref bean="glSufficientFundsRebuilderService" />
 		</property>
 	</bean>
 
-	<bean id="scrubberStep" class="org.kuali.module.gl.batch.ScrubberStep" parent="step">
+	<bean id="scrubberStep" class="org.kuali.module.gl.batch.ScrubberStep" parent="glStep">
 		<property name="scrubberService">
 			<ref bean="glScrubberService" />
 		</property>
 	</bean>
 
-	<bean id="posterEntriesStep" class="org.kuali.module.gl.batch.PosterEntriesStep" parent="step">
+	<bean id="posterEntriesStep" class="org.kuali.module.gl.batch.PosterEntriesStep" parent="glStep">
 		<property name="posterService">
 			<ref bean="glPosterService" />
 		</property>
 	</bean>
 
-	<bean id="posterIndirectCostRecoveryEntriesStep" class="org.kuali.module.gl.batch.PosterIcrEntriesStep" parent="step">
+	<bean id="posterIndirectCostRecoveryEntriesStep" class="org.kuali.module.gl.batch.PosterIcrEntriesStep" parent="glStep">
 		<property name="posterService">
 			<ref bean="glPosterService" />
 		</property>
 	</bean>
 
-	<bean id="posterReversalStep" class="org.kuali.module.gl.batch.PosterReversalStep" parent="step">
+	<bean id="posterReversalStep" class="org.kuali.module.gl.batch.PosterReversalStep" parent="glStep">
 		<property name="posterService">
 			<ref bean="glPosterService" />
 		</property>
 	</bean>
 
-	<bean id="posterIndirectCostRecoveryGenerationStep" class="org.kuali.module.gl.batch.PosterIcrGenerationStep" parent="step">
+	<bean id="posterIndirectCostRecoveryGenerationStep" class="org.kuali.module.gl.batch.PosterIcrGenerationStep" parent="glStep">
 		<property name="posterService">
 			<ref bean="glPosterService" />
 		</property>
 	</bean>
 
-	<bean id="nightlyOutStep" class="org.kuali.module.gl.batch.NightlyOutStep" parent="step">
+	<bean id="nightlyOutStep" class="org.kuali.module.gl.batch.NightlyOutStep" parent="glStep">
 		<property name="nightlyOutService">
 			<ref bean="glNightlyOutService" />
 		</property>
 	</bean>
 
-	<bean id="clearPendingEntriesStep" class="org.kuali.module.gl.batch.ClearPendingStep" parent="step">
+	<bean id="clearPendingEntriesStep" class="org.kuali.module.gl.batch.ClearPendingStep" parent="glStep">
 		<property name="nightlyOutService">
 			<ref bean="glNightlyOutService" />
 		</property>
 	</bean>
 
-	<bean id="textFileLoaderStep" class="org.kuali.module.gl.batch.TextFileLoaderStep" parent="step">
+	<bean id="textFileLoaderStep" class="org.kuali.module.gl.batch.TextFileLoaderStep" parent="glStep">
 		<property name="originEntryService">
 			<ref bean="originEntryService" />
 		</property>
 	</bean>
 
-	<bean id="textExportStep" class="org.kuali.module.gl.batch.TextExportStep" parent="step">
+	<bean id="textExportStep" class="org.kuali.module.gl.batch.TextExportStep" parent="glStep">
 		<property name="originEntryService">
 			<ref bean="originEntryService" />
 		</property>
 	</bean>
 
-	<bean id="sufficientFundsSyncStep" class="org.kuali.module.gl.batch.SufficientFundsSyncStep" parent="step">
+	<bean id="sufficientFundsSyncStep" class="org.kuali.module.gl.batch.SufficientFundsSyncStep" parent="glStep">
 		<property name="sufficientFundsSyncService">
 			<ref bean="glSufficientFundsSyncService" />
 		</property>
 	</bean>
 
-	<bean id="encumbranceForwardStep" class="org.kuali.module.gl.batch.EncumbranceForwardStep" parent="step">
+	<bean id="encumbranceForwardStep" class="org.kuali.module.gl.batch.EncumbranceForwardStep" parent="glStep">
 		<property name="yearEndService">
 			<ref bean="glYearEndService" />
 		</property>
 	</bean>
 
-	<bean id="balanceForwardStep" class="org.kuali.module.gl.batch.BalanceForwardStep" parent="step">
+	<bean id="balanceForwardStep" class="org.kuali.module.gl.batch.BalanceForwardStep" parent="glStep">
 		<property name="yearEndService">
 			<ref bean="glYearEndService" />
 		</property>
 	</bean>
 
-	<bean id="nominalActivityClosingStep" class="org.kuali.module.gl.batch.NominalActivityClosingStep" parent="step">
+	<bean id="nominalActivityClosingStep" class="org.kuali.module.gl.batch.NominalActivityClosingStep" parent="glStep">
 		<property name="yearEndService">
 			<ref bean="glYearEndService" />
 		</property>
 	</bean>
 	
-	<bean id="posterSummaryReportStep" class="org.kuali.module.gl.batch.GlSummaryReportStep" parent="step">
+	<bean id="posterSummaryReportStep" class="org.kuali.module.gl.batch.GlSummaryReportStep" parent="glStep">
 		<property name="reportService">
 			<ref bean="reportService" />
 		</property>
@@ -1364,31 +1368,31 @@
 		</property>
 	</bean>
 
-	<bean id="createBackupGroupStep" class="org.kuali.module.gl.batch.CreateBackupGroupStep" parent="step">
+	<bean id="createBackupGroupStep" class="org.kuali.module.gl.batch.CreateBackupGroupStep" parent="glStep">
 		<property name="originEntryGroupService">
 			<ref bean="originEntryGroupService" />
 		</property>
 	</bean>
 
-	<bean id="clearOldOriginEntryStep" class="org.kuali.module.gl.batch.ClearOldOriginEntryStep" parent="step">
+	<bean id="clearOldOriginEntryStep" class="org.kuali.module.gl.batch.ClearOldOriginEntryStep" parent="glStep">
 		<property name="originEntryGroupService">
 			<ref bean="originEntryGroupService" />
 		</property>
 	</bean>
 
-	<bean id="organizationReversionClosingStep" class="org.kuali.module.gl.batch.OrganizationReversionEndOfYearStep" parent="step">
+	<bean id="organizationReversionClosingStep" class="org.kuali.module.gl.batch.OrganizationReversionEndOfYearStep" parent="glStep">
 		<property name="organizationReversionProcessService">
 			<ref bean="glOrganizationReversionProcessService" />
 		</property>
 	</bean>
 
-	<bean id="organizationReversionOpeningStep" class="org.kuali.module.gl.batch.OrganizationReversionBeginningOfYearStep" parent="step">
+	<bean id="organizationReversionOpeningStep" class="org.kuali.module.gl.batch.OrganizationReversionBeginningOfYearStep" parent="glStep">
 		<property name="organizationReversionProcessService">
 			<ref bean="glOrganizationReversionProcessService" />
 		</property>
 	</bean>
 	
-	<bean id="collectorStep" class="org.kuali.module.gl.batch.collector.CollectorStep" parent="step">
+	<bean id="collectorStep" class="org.kuali.module.gl.batch.collector.CollectorStep" parent="glStep">
 		<property name="collectorService">
 			<ref bean="glCollectorService" />
 		</property>
@@ -1397,7 +1401,7 @@
 		</property>
 	</bean>
 
-	<bean id="purgeCorrectionProcessFilesStep" class="org.kuali.module.gl.batch.PurgeCorrectionProcessFilesStep" parent="step">
+	<bean id="purgeCorrectionProcessFilesStep" class="org.kuali.module.gl.batch.PurgeCorrectionProcessFilesStep" parent="glStep">
 		<property name="correctionDocumentDao">
 			<ref bean="glCorrectionDocumentDao" />
 		</property>
@@ -1540,7 +1544,7 @@
 		</property>
 	</bean>
 	
-	<bean id="enterpriseFeedStep" class="org.kuali.module.gl.batch.FeederStep" parent="step">
+	<bean id="enterpriseFeedStep" class="org.kuali.module.gl.batch.FeederStep" parent="glStep">
 		<property name="enterpriseFeederService">
 			<ref bean="glOriginEntryEnterpriseFeederService" />
 		</property>

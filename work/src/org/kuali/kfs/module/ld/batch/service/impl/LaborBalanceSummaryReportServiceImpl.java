@@ -15,7 +15,6 @@
  */
 package org.kuali.module.labor.service.impl;
 
-import static org.kuali.module.gl.GLConstants.GL_SUMMARY_REPORT_GROUP;
 import static org.kuali.module.gl.GLConstants.GlSummaryReport.CURRENT_AND_LAST_YEAR;
 import static org.kuali.module.gl.GLConstants.GlSummaryReport.CURRENT_YEAR_LOWER;
 import static org.kuali.module.gl.GLConstants.GlSummaryReport.CURRENT_YEAR_UPPER;
@@ -31,6 +30,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.service.OptionsService;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.labor.service.LaborBalanceSummaryReportService;
 import org.kuali.module.labor.service.LaborReportService;
 import org.kuali.module.labor.util.ReportRegistry;
@@ -64,9 +64,9 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
     public void generateBalanceSummaryReports(Date runDate) {
         LOG.info("generateBalanceSummaryReports(Date) started");
 
-        String yearEndPeriodLowerBound = kualiConfigurationService.getApplicationParameterValue(GL_SUMMARY_REPORT_GROUP, CURRENT_YEAR_LOWER);
-        String lastDayOfFiscalYear = kualiConfigurationService.getApplicationParameterValue(GL_SUMMARY_REPORT_GROUP, CURRENT_AND_LAST_YEAR);
-        String yearEndPeriodUpperBound = kualiConfigurationService.getApplicationParameterValue(GL_SUMMARY_REPORT_GROUP, CURRENT_YEAR_UPPER);
+        String yearEndPeriodLowerBound = kualiConfigurationService.getParameterValue(GLConstants.GL_NAMESPACE, GLConstants.Components.POSTER_SUMMARY_REPORT_STEP, CURRENT_YEAR_LOWER);
+        String lastDayOfFiscalYear = kualiConfigurationService.getParameterValue(GLConstants.GL_NAMESPACE, GLConstants.Components.POSTER_SUMMARY_REPORT_STEP, CURRENT_AND_LAST_YEAR);
+        String yearEndPeriodUpperBound = kualiConfigurationService.getParameterValue(GLConstants.GL_NAMESPACE, GLConstants.Components.POSTER_SUMMARY_REPORT_STEP,CURRENT_YEAR_UPPER);
 
         Integer currentYear = optionsService.getCurrentYearOptions().getUniversityFiscalYear();
         this.generateBalanceSummaryReports(currentYear, runDate);

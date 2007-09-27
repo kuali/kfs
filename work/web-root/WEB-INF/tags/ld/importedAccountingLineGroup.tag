@@ -132,7 +132,7 @@ It's followed by 0 or more rows for the accounting lines that have already been 
 
 <c:set var="displayHidden" value="false" />
 
-<c:set var="errorPattern" value="${isSource ? Constants.SOURCE_ACCOUNTING_LINE_ERROR_PATTERN : Constants.TARGET_ACCOUNTING_LINE_ERROR_PATTERN}"/>
+<c:set var="errorPattern" value="${isSource ? KFSConstants.SOURCE_ACCOUNTING_LINE_ERROR_PATTERN : KFSConstants.TARGET_ACCOUNTING_LINE_ERROR_PATTERN}"/>
 <%-- need var titleName because the EL + operator is arithmetic only, not String concat --%>
 <c:set var="titleName" value="${sourceOrTarget}AccountingLinesSectionTitle"/>
 <c:set var="sectionTitle" value="${KualiForm.document[titleName]}"/>

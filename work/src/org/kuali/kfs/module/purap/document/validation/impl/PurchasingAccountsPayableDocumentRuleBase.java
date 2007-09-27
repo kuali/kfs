@@ -22,14 +22,16 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.Parameter;
 import org.kuali.core.document.Document;
-import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
@@ -187,38 +189,37 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
 
     protected boolean valideBelowTheLineValues(String documentType, String fromSourceDocument, PurApItem item) {
         boolean valid = true;
-        String securityGroup = (String)PurapConstants.ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP.get(documentType);
-        if (!StringUtils.isEmpty(fromSourceDocument)) {
-            securityGroup += "." + fromSourceDocument;
-        }
-        KualiParameterRule allowsZeroRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_ZERO);
-        KualiParameterRule allowsPositiveRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_POSITIVE);
-        KualiParameterRule allowsNegativeRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_NEGATIVE);
-        KualiParameterRule requiresDescriptionRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(securityGroup, PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION);
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+        String parameterDetailTypeCode = (String)PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType);
+        Parameter allowsZeroRule = kualiConfigurationService.getParameter( KFSConstants.PURAP_NAMESPACE, parameterDetailTypeCode, PurapConstants.ITEM_ALLOWS_ZERO);
+        Parameter allowsPositiveRule = kualiConfigurationService.getParameter( KFSConstants.PURAP_NAMESPACE, parameterDetailTypeCode, PurapConstants.ITEM_ALLOWS_POSITIVE);
+        Parameter allowsNegativeRule = kualiConfigurationService.getParameter( KFSConstants.PURAP_NAMESPACE, parameterDetailTypeCode, PurapConstants.ITEM_ALLOWS_NEGATIVE);
+        Parameter requiresDescriptionRule = kualiConfigurationService.getParameter( KFSConstants.PURAP_NAMESPACE, parameterDetailTypeCode, PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION);
+
         if (ObjectUtils.isNotNull(item.getItemUnitPrice()) &&(new KualiDecimal(item.getItemUnitPrice())).isZero()) {
-            if (allowsZeroRule.getRuleActiveIndicator() &&
-                !allowsZeroRule.getParameterValueSet().contains(item.getItemTypeCode())) {
+                        if (kualiConfigurationService.isUsable( allowsZeroRule ) &&
+                                !kualiConfigurationService.getParameterValuesAsSet(allowsZeroRule).contains(item.getItemTypeCode())) {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "zero");
             }
         }
         else if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isPositive()) {
-            if (allowsPositiveRule.getRuleActiveIndicator() &&
-                !allowsPositiveRule.getParameterValueSet().contains(item.getItemTypeCode())) {
+                        if (kualiConfigurationService.isUsable( allowsPositiveRule ) &&
+                                !kualiConfigurationService.getParameterValuesAsSet(allowsPositiveRule).contains(item.getItemTypeCode())) {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "positive");
             }
         }
         else if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNegative()) {
-            if (allowsNegativeRule.getRuleActiveIndicator() &&
-                !allowsNegativeRule.getParameterValueSet().contains(item.getItemTypeCode())) {
+                        if (kualiConfigurationService.isUsable( allowsNegativeRule ) &&
+                                !kualiConfigurationService.getParameterValuesAsSet(allowsNegativeRule).contains(item.getItemTypeCode())) {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "negative");
             }
         }
         if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNonZero() && StringUtils.isEmpty(item.getItemDescription())) {
-            if (requiresDescriptionRule.getRuleActiveIndicator() &&
-                requiresDescriptionRule.getParameterValueSet().contains(item.getItemTypeCode())) {
+                        if (kualiConfigurationService.isUsable( requiresDescriptionRule ) &&
+                                kualiConfigurationService.getParameterValuesAsSet(requiresDescriptionRule).contains(item.getItemTypeCode())) {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, "The item description of " + item.getItemType().getItemTypeDescription(), " is empty");
             }

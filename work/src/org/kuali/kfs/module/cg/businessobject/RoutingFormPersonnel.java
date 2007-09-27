@@ -22,6 +22,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.PostalZipCode;
 import org.kuali.kfs.bo.State;
@@ -765,14 +766,14 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
 
     public boolean isProjectDirector() {
        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-       final String PERSON_ROLE_CODE_PD = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormPersonRoleCodeProjectDirector");
+       final String PERSON_ROLE_CODE_PD = kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.PERSON_ROLE_CODE_PROJECT_DIRECTOR);
         
        return PERSON_ROLE_CODE_PD.equals(this.getPersonRoleCode());
     }
     
     public boolean isContactPerson() {
         KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-        final String PERSON_ROLE_CODE_CP = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormPersonRoleCodeContactPerson");
+        final String PERSON_ROLE_CODE_CP = kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.PERSON_ROLE_CODE_CONTACT_PERSON);
          
         return PERSON_ROLE_CODE_CP.equals(this.getPersonRoleCode());
      }

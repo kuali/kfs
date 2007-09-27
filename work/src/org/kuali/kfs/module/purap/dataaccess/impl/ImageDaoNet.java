@@ -39,8 +39,8 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
     public String getPurchasingDirectorImage(String key,String campusCode,String location) {
         LOG.debug("getPurchasingDirectorImage() started");
 
-        String prefix = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.PURCHASING_DIRECTOR_IMAGE_PREFIX);
-        String extension = "." + kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.PURCHASING_DIRECTOR_IMAGE_EXTENSION);
+        String prefix = kualiConfigurationService.getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, PurapConstants.PURCHASING_DIRECTOR_IMAGE_PREFIX);
+        String extension = "." + kualiConfigurationService.getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, PurapConstants.PURCHASING_DIRECTOR_IMAGE_EXTENSION);
         return getFile (prefix, campusCode, key, extension, location );
     }
 
@@ -53,8 +53,9 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
         NumberFormat formatter = new DecimalFormat("00");
         String cm = formatter.format(contractManagerId);
 
-        String prefix = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.CONTRACT_MANAGER_IMAGE_PREFIX);
-        String extension = "." + kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.CONTRACT_MANAGER_IMAGE_EXTENSION);
+        String prefix = kualiConfigurationService.getParameterValue(KFSConstants.PURAP_NAMESPACE, PurapConstants.Components.ASSIGN_CONTRACT_MANGER, 
+                PurapConstants.CONTRACT_MANAGER_IMAGE_PREFIX);
+        String extension = "." + kualiConfigurationService.getParameterValue(KFSConstants.PURAP_NAMESPACE, PurapConstants.Components.ASSIGN_CONTRACT_MANGER, PurapConstants.CONTRACT_MANAGER_IMAGE_EXTENSION);
         return getFile (prefix, cm, key, extension, location );
     }
 
@@ -64,8 +65,8 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
     public String getLogo(String key,String campusCode,String location) {
         LOG.debug("getLogo() started. key is " + key + ". campusCode is " + campusCode);
 
-        String prefix = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.LOGO_IMAGE_PREFIX);
-        String extension = "." + kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.LOGO_IMAGE_EXTENSION);
+        String prefix = kualiConfigurationService.getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, PurapConstants.LOGO_IMAGE_PREFIX);
+        String extension = "." + kualiConfigurationService.getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, PurapConstants.LOGO_IMAGE_EXTENSION);
         return getFile (prefix, campusCode, key, extension, location );
     }
 

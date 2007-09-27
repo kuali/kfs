@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
@@ -139,7 +140,7 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
      * @return boolean
      */
     private boolean isFundGroupsBalanceValid(TransferOfFundsDocument tofDoc) {
-        String[] fundGroupCodes = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValues(KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING, APPLICATION_PARAMETER.FUND_GROUP_BALANCING_SET);
+        String[] fundGroupCodes = getKualiConfigurationService().getParameterValues(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.TRANSFER_OF_FUNDS_DOC, APPLICATION_PARAMETER.FUND_GROUP_BALANCING_SET);
         return isFundGroupSetBalanceValid(tofDoc, fundGroupCodes);
     }
 

@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.batch;
 
+import org.kuali.kfs.KFSConstants;
+
 
 /**
  * Base class for BatchInputFileType implementations.
@@ -90,5 +92,8 @@ public abstract class BatchInputFileTypeBase implements BatchInputFileType {
         this.schemaLocation = schemaLocation;
     }
 
+    public String getWorkgroupParameterName() {
+        return KFSConstants.SystemGroupParameterNames.FILE_TYPE_WORKGROUP_PARAMETER_NAME;
+    }
 
 }

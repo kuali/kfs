@@ -25,6 +25,7 @@ import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.format.PhoneNumberFormatter;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
@@ -264,10 +265,10 @@ public class RoutingForm extends ResearchDocumentFormBase {
             systemParametersMap = new HashMap();
             
             KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-            systemParametersMap.put(KraConstants.SUBMISSION_TYPE_CHANGE, kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.SUBMISSION_TYPE_CHANGE));
-            systemParametersMap.put(KraConstants.PROJECT_TYPE_OTHER, kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.PROJECT_TYPE_OTHER));
-            systemParametersMap.put(KraConstants.PURPOSE_RESEARCH, kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.PURPOSE_RESEARCH));
-            systemParametersMap.put(KraConstants.PURPOSE_OTHER, kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.PURPOSE_OTHER));
+            systemParametersMap.put(KraConstants.SUBMISSION_TYPE_CHANGE, kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.SUBMISSION_TYPE_CHANGE));
+            systemParametersMap.put(KraConstants.PROJECT_TYPE_OTHER, kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.PROJECT_TYPE_OTHER));
+            systemParametersMap.put(KraConstants.PURPOSE_RESEARCH, kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.PURPOSE_RESEARCH));
+            systemParametersMap.put(KraConstants.PURPOSE_OTHER, kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.PURPOSE_OTHER));
         }
         
         return systemParametersMap;

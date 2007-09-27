@@ -86,7 +86,7 @@
             <![CDATA[&nbsp;]]>
         </summary>
         <description>The Cash Receipts (CR) document is used to record cash and checks received by units, for subsequent deposit into bank accounts. Cash Receipts route for verification and preparation of bank deposits. Each unit that verifies cash receipts and/or prepares bank deposits will use a Cash Management (CM) document to consolidate those Cash Receipts into bank deposits. The actual verification of the Cash Receipt will be done on the Cash Receipt document itself. In essence, the Cash Management document is the means by which a unit manages its cash drawer.</description>
-        <help securityGroupName="Kuali.FinancialTransactionProcessing.CashReceiptDocument" parameterName="FINANCIAL_HELP_CASH_RECEIPT_DOCUMENT" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="CashReceipt" parameterName="CASH_RECEIPT" />
   
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>

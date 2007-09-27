@@ -40,7 +40,7 @@
 
         <summary>Postal Code maintenance document</summary>
         <description>Document used to create or update Postal Code objects</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_POSTAL_CODE" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="PostalCode" parameterName="POSTAL_CODE" />
 
         <lockingKeys>
             <field attributeName="postalZipCode" />

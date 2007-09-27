@@ -38,7 +38,7 @@
         <shortLabel>BalanceTypeMaintDoc</shortLabel>
         <summary>Balance Type Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Balance Types, or modify existing Balance Types.</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_BALANCE_TYPE" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="BalanceType" parameterName="BALANCE_TYPE" />
         
         <lockingKeys>
             <field attributeName="code" />

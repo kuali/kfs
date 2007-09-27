@@ -55,7 +55,7 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
         // DOCUMENT PROCESSED
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             //TODO remove this config (for testing only) hjs
-            if (SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterIndicator(PurapRuleConstants.PURAP_ADMIN_GROUP, "PURAP_GL_AMEND_PO")) {
+            if (SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE,PurapConstants.Components.PURCHASE_ORDER, "GL_AMEND_PO")) {
                 SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesApproveAmendPurchaseOrder(this);
             }
             

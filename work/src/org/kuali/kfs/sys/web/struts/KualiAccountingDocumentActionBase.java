@@ -38,8 +38,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.core.bo.Parameter;
 import org.kuali.core.document.AmountTotaling;
-import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.DocumentTypeService;
@@ -67,7 +67,6 @@ import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.rule.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.rule.event.UpdateAccountingLineEvent;
 import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER;
-import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER_SECURITY_GROUP;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.web.ui.AccountingLineDecorator;
 import org.kuali.module.financial.bo.SalesTax;
@@ -1020,22 +1019,23 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
         DocumentTypeService docTypeService = SpringContext.getBean(DocumentTypeService.class);
         String docType = docTypeService.getDocumentTypeCodeByClass(financialDocument.getClass());
         //first we need to check just the doctype to see if it needs the sales tax check
-        KualiParameterRule docTypeRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_SALES_TAX_COLLECTION_GROUPING, APPLICATION_PARAMETER.DOCTYPE_SALES_TAX_CHECK);
+        KualiConfigurationService configService = SpringContext.getBean(KualiConfigurationService.class);
+        Parameter docTypeRule = configService.getParameter( KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DOCUMENT, APPLICATION_PARAMETER.DOCTYPE_SALES_TAX_CHECK);
         
         // apply the rule, see if it fails
-        if (!docTypeRule.failsRule(docType)) {
+        if (!configService.failsRule(docTypeRule,docType)) {
             required = true;
         }
         
         //second we need to check the account and object code combination to see if it needs sales tax
         if(required) {
-            KualiParameterRule objCdAndAccountRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_SALES_TAX_COLLECTION_GROUPING, APPLICATION_PARAMETER.VALID_ACCOUNT_AND_OBJ_CD);
+            Parameter objCdAndAccountRule = configService.getParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DOCUMENT, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES);
             //get the object code and account
             String objCd = accountingLine.getFinancialObjectCode();
             String account = accountingLine.getAccountNumber();
             if(!StringUtils.isEmpty(objCd) && !StringUtils.isEmpty(account)) {
                 String compare = account + ":" + objCd;
-                if(objCdAndAccountRule.failsRule(compare)) {
+                if(configService.failsRule(objCdAndAccountRule,compare)) {
                    required = false; 
                 }
             } else {

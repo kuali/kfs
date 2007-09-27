@@ -252,11 +252,11 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
         
         KualiInteger personnelTotal = new KualiInteger(0);
         
-        List graduateAssistantAppointmentTypes =
-            Arrays.asList(kualiConfigurationService.getApplicationParameterValues(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.KRA_BUDGET_PERSONNEL_GRADUATE_RESEARCH_ASSISTANT_APPOINTMENT_TYPES));
+        List<String> graduateAssistantAppointmentTypes =
+            kualiConfigurationService.getParameterValuesAsList(KFSConstants.KRA_NAMESPACE,  KraConstants.Components.BUDGET, KraConstants.KRA_BUDGET_PERSONNEL_GRADUATE_RESEARCH_ASSISTANT_APPOINTMENT_TYPES);
         
-        String graduateAssistentNonpersonnelCategoryCode = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE);
-        String graduateAssistantNonpesonnelSubcategoryCode = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.GRADUATE_ASSISTANT_NONPERSONNEL_SUB_CATEGORY_CODE);
+        String graduateAssistentNonpersonnelCategoryCode = kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE,  KFSConstants.Components.DOCUMENT, KraConstants.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE);
+        String graduateAssistantNonpesonnelSubcategoryCode = kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, KraConstants.GRADUATE_ASSISTANT_NONPERSONNEL_SUB_CATEGORY_CODE);
         
 //      Loop over user appointments to get the total amount requested for this taskPeriod.
         for (Iterator userAppointmentTaskPeriodIterator = userAppointmentTaskPeriods.iterator(); userAppointmentTaskPeriodIterator.hasNext();) {
@@ -328,10 +328,10 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
         KualiInteger nonPersonnelTotal = new KualiInteger(0);
  
         if (budgetDocument.getBudget().getIndirectCost().getBudgetIndirectCostCostShareIndicator()) {
-            List graduateAssistantAppointmentTypes =
-                Arrays.asList(kualiConfigurationService.getApplicationParameterValues("KraDevelopmentGroup", KraConstants.KRA_BUDGET_PERSONNEL_GRADUATE_RESEARCH_ASSISTANT_APPOINTMENT_TYPES));
-            String graduateAssistentNonpersonnelCategoryCode = kualiConfigurationService.getApplicationParameterValue("KraDevelopmentGroup", KraConstants.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE);
-            String graduateAssistantNonpersonnelSubcategoryCode = kualiConfigurationService.getApplicationParameterValue("KraDevelopmentGroup", KraConstants.GRADUATE_ASSISTANT_NONPERSONNEL_SUB_CATEGORY_CODE);
+            List<String> graduateAssistantAppointmentTypes =
+                kualiConfigurationService.getParameterValuesAsList(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.KRA_BUDGET_PERSONNEL_GRADUATE_RESEARCH_ASSISTANT_APPOINTMENT_TYPES);
+            String graduateAssistentNonpersonnelCategoryCode = kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE,  KFSConstants.Components.DOCUMENT, KraConstants.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE);
+            String graduateAssistantNonpersonnelSubcategoryCode = kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT,  KraConstants.GRADUATE_ASSISTANT_NONPERSONNEL_SUB_CATEGORY_CODE);
 
             List<BudgetNonpersonnel> temporaryNonpersonnelItems = new ArrayList<BudgetNonpersonnel>();
 
@@ -489,9 +489,9 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
             calculateTaskPeriodIdcListValues(budgetDocument);
             
             if("N".equals(budgetIndirectCost.getBudgetManualRateIndicator())) {
-                budgetIndirectCost.setBudgetManualRateIndicatorDescription(kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.KRA_BUDGET_INDIRECT_COST_PROVIDED_SYSTEM));
+                budgetIndirectCost.setBudgetManualRateIndicatorDescription(kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.KRA_BUDGET_INDIRECT_COST_PROVIDED_SYSTEM));
             } else {
-                budgetIndirectCost.setBudgetManualRateIndicatorDescription(kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.KRA_BUDGET_INDIRECT_COST_PROVIDED_MANUALLY));
+                budgetIndirectCost.setBudgetManualRateIndicatorDescription(kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.KRA_BUDGET_INDIRECT_COST_PROVIDED_MANUALLY));
             }
         }
     }

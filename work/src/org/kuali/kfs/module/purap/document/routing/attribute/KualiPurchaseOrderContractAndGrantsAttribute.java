@@ -30,8 +30,8 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.core.bo.Parameter;
 import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.LookupService;
 import org.kuali.core.util.ObjectUtils;
@@ -45,6 +45,7 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.chart.service.ObjectCodeService;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapWorkflowConstants;
@@ -161,13 +162,14 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
         }
         ruleSubFundGroupCode = LookupUtils.forceUppercase(SubFundGroup.class, KFSPropertyConstants.SUB_FUND_GROUP_CODE, ruleSubFundGroupCode);
         Set<AccountContainer> accountContainers = populateFromDocContent(docContent);
-        Map<String,KualiParameterRule> parameterRulesByChart = SpringContext.getBean(KualiConfigurationService.class).getRulesByGroup(PurapParameterConstants.WorkflowParameters.PurchaseOrderDocument.CG_RESTRICTED_OBJECT_CODE_RULE_GROUP_NAME);
+                
+        Parameter parameterRulesByChart = SpringContext.getBean(KualiConfigurationService.class).getParameter( KFSConstants.PURAP_NAMESPACE, PurapConstants.Components.PURCHASE_ORDER, PurapParameterConstants.WorkflowParameters.PurchaseOrderDocument.CG_RESTRICTED_OBJECT_CODE_RULE_PARM_NM );
         for (AccountContainer accountContainer : accountContainers) {
             // check to see if account is a C&G account
             if (accountContainer.account.isForContractsAndGrants()) {
                 // check the restricted object code in rule table (object codes listed in the table should route via this attribute)
-                KualiParameterRule rule = parameterRulesByChart.get(accountContainer.account.getChartOfAccountsCode());
-                if ( (rule != null) && (rule.failsRule(accountContainer.objectCode.getFinancialObjectCode())) ) {
+                boolean ruleSucceeds = SpringContext.getBean(KualiConfigurationService.class).evaluateConstrainedParameter(parameterRulesByChart, accountContainer.account.getChartOfAccountsCode(), accountContainer.objectCode.getFinancialObjectCode() );
+                if ( !ruleSucceeds ) {
                     if (StringUtils.isBlank(accountContainer.account.getSubFundGroupCode())) {
                         // sub fund is blank
                         String errorMsg = "SubFund not found for account '" + accountContainer.account.getChartOfAccountsCode() + "-" + accountContainer.account.getAccountNumber() + "'";

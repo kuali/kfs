@@ -33,6 +33,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
@@ -319,10 +320,10 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         
         String humanSubjectsActiveCode = 
-            SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.RESEARCH_RISKS_HUMAN_SUBJECTS_ACTIVE_CODE);
+            SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, KraConstants.RESEARCH_RISKS_HUMAN_SUBJECTS_ACTIVE_CODE);
         
         String animalsActiveCode = 
-            SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.RESEARCH_RISKS_ANIMALS_ACTIVE_CODE);
+            SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, KraConstants.RESEARCH_RISKS_ANIMALS_ACTIVE_CODE);
         
         // Setup dates.
         Date createDate = routingFormDocument.getRoutingFormCreateDate();

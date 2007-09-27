@@ -15,13 +15,14 @@
  */
 package org.kuali.module.vendor.service.impl;
 
-import org.kuali.core.bo.BusinessRule;
+import org.kuali.core.bo.Parameter;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.FormatException;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.VendorConstants;
+import org.kuali.module.vendor.VendorParameterConstants;
 import org.kuali.module.vendor.VendorRuleConstants;
 import org.kuali.module.vendor.service.TaxNumberService;
 
@@ -39,16 +40,16 @@ public class TaxNumberServiceImpl implements TaxNumberService {
     }
    
     
-    public static BusinessRule taxNumberFormats;
-    public static BusinessRule feinNumberFormats;
-    public static BusinessRule notAllowedTaxNumbers;
+    public static Parameter taxNumberFormats;
+    public static Parameter feinNumberFormats;
+    public static Parameter notAllowedTaxNumbers;
     
         
     public  String formatToDefaultFormat(String taxNbr) throws FormatException {
         String digits = taxNbr.replaceAll("\\D", "");
         
         Integer defaultTaxNumberDigits = 
-            new Integer (SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue("PurapAdminGroup","PURAP.DEFAULT_TAX_NUM_DIGITS"));
+            new Integer (kualiConfigurationService.getParameterValue(KFSConstants.VENDOR_NAMESPACE,VendorParameterConstants.Components.VENDOR,"DEFAULT_TAX_NUMBER_DIGITS"));
 
         if (digits.length() < defaultTaxNumberDigits) {
             throw new FormatException("Tax number has fewer than " + defaultTaxNumberDigits + " digits.", KFSKeyConstants.ERROR_CUSTOM, taxNbr);
@@ -113,7 +114,7 @@ public class TaxNumberServiceImpl implements TaxNumberService {
         String[] ssnFormats = parseSSNFormats();
         String[] feinFormats = parseFEINFormats();
         Integer defaultTaxNumberDigits = 
-            new Integer (SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue("PurapAdminGroup","PURAP.DEFAULT_TAX_NUM_DIGITS"));
+            new Integer (kualiConfigurationService.getParameterValue(KFSConstants.VENDOR_NAMESPACE,VendorParameterConstants.Components.VENDOR,"DEFAULT_TAX_NUMBER_DIGITS"));
 
         if (taxNbr.length() != defaultTaxNumberDigits || 
                 !isStringAllNumbers(taxNbr)) {
@@ -169,11 +170,10 @@ public class TaxNumberServiceImpl implements TaxNumberService {
      */
     public  String[] parseSSNFormats() {
         if( ObjectUtils.isNull( taxNumberFormats ) ) {
-            taxNumberFormats = SpringContext.getBean(KualiConfigurationService.class).getApplicationRule(
-                    "PurapAdminGroup","PURAP.TAX_NUMBER_FORMATS");
+            taxNumberFormats = kualiConfigurationService.getParameter(
+                    KFSConstants.VENDOR_NAMESPACE, VendorParameterConstants.Components.VENDOR, "TAX_SSN_NUMBER_FORMATS");
         }
-        String taxFormats = taxNumberFormats.getRuleText();
-        return taxFormats.split(";");
+        return kualiConfigurationService.getParameterValues( taxNumberFormats );
     }
     
     /**
@@ -184,11 +184,10 @@ public class TaxNumberServiceImpl implements TaxNumberService {
      */
     public  String[] parseFEINFormats() {
         if( ObjectUtils.isNull( feinNumberFormats ) ) {
-            feinNumberFormats = SpringContext.getBean(KualiConfigurationService.class).getApplicationRule(
-                    "PurapAdminGroup","PURAP.TAX_FEIN_NUMBER_FORMATS");
+            feinNumberFormats = kualiConfigurationService.getParameter(
+                    KFSConstants.VENDOR_NAMESPACE,VendorParameterConstants.Components.VENDOR,"TAX_FEIN_NUMBER_FORMATS");
         }
-        String feinFormats = feinNumberFormats.getRuleText();
-        return feinFormats.split(";");
+        return kualiConfigurationService.getParameterValues( feinNumberFormats );
     }
 
     /**
@@ -199,10 +198,10 @@ public class TaxNumberServiceImpl implements TaxNumberService {
      */
     public String[] parseNotAllowedTaxNumbers() {
         if( ObjectUtils.isNull( notAllowedTaxNumbers ) ) {
-            notAllowedTaxNumbers = SpringContext.getBean(KualiConfigurationService.class).getApplicationRule(
-                    VendorRuleConstants.PURAP_ADMIN_GROUP,VendorRuleConstants.PURAP_NOT_ALLOWED_TAX_NUMBERS);
+            notAllowedTaxNumbers = kualiConfigurationService.getParameter(
+                    KFSConstants.PURAP_NAMESPACE, VendorParameterConstants.Components.VENDOR, VendorRuleConstants.PURAP_NOT_ALLOWED_TAX_NUMBERS);
         }
-        return notAllowedTaxNumbers.getRuleText().split(";");
+        return kualiConfigurationService.getParameterValues( notAllowedTaxNumbers );
     }
 
 }

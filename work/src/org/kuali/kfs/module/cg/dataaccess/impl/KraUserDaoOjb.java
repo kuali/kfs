@@ -18,9 +18,9 @@ package org.kuali.module.kra.budget.dao.ojb;
 import java.util.Arrays;
 
 import org.apache.ojb.broker.query.Criteria;
-import org.kuali.core.bo.BusinessRule;
 import org.kuali.core.dao.ojb.KualiModuleUserDaoOjb;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.kra.KraConstants;
 
 public class KraUserDaoOjb extends KualiModuleUserDaoOjb {
@@ -29,8 +29,7 @@ public class KraUserDaoOjb extends KualiModuleUserDaoOjb {
 	
 	@Override
 	public Object getActiveUserQueryCriteria(String moduleId) {
-        BusinessRule rule = getConfigService().getApplicationRule( KraConstants.KRA_ADMIN_GROUP_NAME, KraConstants.ALLOWED_EMPLOYEE_STATUS_RULE  );
-        String[] values = rule.getRuleText().split( ";" );
+        String[] values = getConfigService().getParameterValues( KFSConstants.KRA_NAMESPACE, KFSConstants.Components.ALL, KraConstants.ALLOWED_EMPLOYEE_STATUS_RULE  );
 
 		Criteria criteria = new Criteria();
 		criteria.addEqualTo("staff", "Y");

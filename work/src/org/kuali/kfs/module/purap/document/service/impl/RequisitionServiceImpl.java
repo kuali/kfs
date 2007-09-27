@@ -222,7 +222,7 @@ public class RequisitionServiceImpl implements RequisitionService {
         Date today = dateTimeService.getCurrentDate(); 
         Integer currentFY = universityDateService.getCurrentFiscalYear();
         Date closingDate = universityDateService.getLastDateOfFiscalYear(currentFY);
-        Integer allowApoDate = new Integer(kualiConfigurationService.getApplicationParameterValue(PurapRuleConstants.PURAP_ADMIN_GROUP, PurapRuleConstants.ALLOW_APO_NEXT_FY_DAYS));
+        Integer allowApoDate = new Integer(kualiConfigurationService.getParameterValue(KFSConstants.PURAP_NAMESPACE, PurapConstants.Components.REQUISITION, PurapRuleConstants.ALLOW_APO_NEXT_FY_DAYS));
         int diffTodayClosing = dateTimeService.dateDiff(today, closingDate, false);
         LOG.debug("isApo() req FY = " + requisition.getPostingYear() + " and currentFY = " + currentFY);
         LOG.debug("isApo() today = " + dateTimeService.toDateString(today) + ", allowApoDate = " + allowApoDate + " and diffTodayClosing = " + diffTodayClosing);

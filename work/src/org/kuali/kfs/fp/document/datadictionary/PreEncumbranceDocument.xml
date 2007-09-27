@@ -56,7 +56,7 @@
             <![CDATA[&nbsp;]]>
         </summary>
         <description>The Pre-Encumbrance (PE) document provides the capability to record encumbrances independently of purchase orders, travel, or Physical Plant work orders. These transactions are for the use of the account manager to earmark funds for which unofficial commitments have already been made.</description>
-        <help securityGroupName="Kuali.FinancialTransactionProcessing.PreEncumbranceDocument" parameterName="FINANCIAL_HELP_PRE_ENCUMBRANCE_DOCUMENT" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="PreEncumbrance" parameterName="PRE_ENCUMBRANCE" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
     </transactionalDocument>

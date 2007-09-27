@@ -39,7 +39,7 @@
 
         <summary>Credit Card Type Maintenance Document</summary>
         <description>Document used to create or update a credit card type.</description>
-        <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_CREDIT_CARD_TYPE" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="CreditCardType" parameterName="CREDIT_CARD_TYPE" />
 
         <lockingKeys>
             <field attributeName="financialDocumentCreditCardTypeCode" />

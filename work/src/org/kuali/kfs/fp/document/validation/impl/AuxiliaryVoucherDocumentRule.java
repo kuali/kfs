@@ -46,7 +46,6 @@ import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.REVERSAL_DATE;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD;
-import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_SECURITY_GROUPING;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.GENERAL_LEDGER_PENDING_ENTRY_OFFSET_CODE;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_COMBINED_CODES;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
@@ -67,6 +66,7 @@ import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
@@ -97,8 +97,13 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @return String
      */
     @Override
-    protected String getDefaultSecurityGrouping() {
-        return AUXILIARY_VOUCHER_SECURITY_GROUPING;
+    protected String getDefaultParameterNamespace() {
+        return KFSConstants.FINANCIAL_NAMESPACE;
+    }
+    
+    @Override
+    protected String getDefaultParameterDetailTypeCode() {
+        return KFSConstants.Components.AUXILIARY_VOUCHER;
     }
 
     /**
@@ -392,7 +397,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
         // now set the offset entry to the specific offset object code for the AV generated offset fund balance; only if it's an
         // accrual or adjustment
         if (auxDoc.isAccrualType() || auxDoc.isAdjustmentType()) {
-            String glpeOffsetObjectCode = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(getDefaultSecurityGrouping(), getGeneralLedgerPendingEntryOffsetObjectCode());
+            String glpeOffsetObjectCode = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(getDefaultParameterNamespace(), KFSConstants.Components.AUXILIARY_VOUCHER, getGeneralLedgerPendingEntryOffsetObjectCode());
             offsetEntry.setFinancialObjectCode(glpeOffsetObjectCode);
         }
 
@@ -721,9 +726,9 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
     private boolean isValidDocWithSubAndLevel(AccountingDocument document, AccountingLine accountingLine) {
         boolean retval = true;
 
-        StringBuffer combinedCodes = new StringBuffer("objectType=").append(accountingLine.getObjectType().getCode()).append(";objSubTyp=").append(accountingLine.getObjectCode().getFinancialObjectSubType().getCode()).append(";objLevel=").append(accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode());
+        StringBuffer combinedCodes = new StringBuffer(accountingLine.getObjectType().getCode()).append(',').append(accountingLine.getObjectCode().getFinancialObjectSubType().getCode()).append(',').append(accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode());
         
-        retval = !getParameterRule(RESTRICTED_COMBINED_CODES).getParameterText().equals(combinedCodes.toString());
+        retval = !getParameterRule(RESTRICTED_COMBINED_CODES).getParameterValue().equals(combinedCodes.toString());
 
         if (!retval) {
             String errorObjects[] = { accountingLine.getObjectCode().getFinancialObjectCode(), accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode(), accountingLine.getObjectCode().getFinancialObjectSubType().getCode(), accountingLine.getObjectType().getCode() };
@@ -819,7 +824,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
         int todayAsComparableDate = AuxiliaryVoucherDocumentRule.comparableDateForm(today);
         int periodClose = new Integer(AuxiliaryVoucherDocumentRule.comparableDateForm(periodToCheck.getUniversityFiscalPeriodEndDate()));
         int periodBegin = AuxiliaryVoucherDocumentRule.comparableDateForm(AuxiliaryVoucherDocumentRule.calculateFirstDayOfMonth(periodToCheck.getUniversityFiscalPeriodEndDate())); 
-        int gracePeriodClose = periodClose + new Integer(SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(AUXILIARY_VOUCHER_SECURITY_GROUPING, AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD)).intValue();
+        int gracePeriodClose = periodClose + new Integer(SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.AUXILIARY_VOUCHER, AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD)).intValue();
         return (todayAsComparableDate >= periodBegin && todayAsComparableDate <= gracePeriodClose);
     }
     

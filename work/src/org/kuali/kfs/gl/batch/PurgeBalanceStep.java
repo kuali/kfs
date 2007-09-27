@@ -18,10 +18,10 @@ package org.kuali.module.gl.batch;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.chart.service.ChartService;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.service.BalanceService;
 
 public class PurgeBalanceStep extends AbstractStep {
@@ -35,7 +35,7 @@ public class PurgeBalanceStep extends AbstractStep {
      * class should NOT be transactional.
      */
     public boolean execute(String jobName) {
-        String yearStr = getConfigurationService().getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.PURGE_GL_BALANCE_T_BEFORE_YEAR);
+        String yearStr = getConfigurationService().getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.PURGE_BALANCE_STEP, KFSConstants.SystemGroupParameterNames.PURGE_GL_BALANCE_T_BEFORE_YEAR);
         int year = Integer.parseInt(yearStr);
         List charts = chartService.getAllChartCodes();
         for (Iterator iter = charts.iterator(); iter.hasNext();) {

@@ -42,7 +42,7 @@
             <![CDATA[&nbsp;]]>
         </summary>
         <description>The "Non-Check Disbursement" document is used to record charges or credits directly assessed to university bank accounts. It is used primarily by the Tax and Treasury Accounting office to record wire transfers, foreign drafts, etc.</description>
-        <help securityGroupName="Kuali.FinancialTransactionProcessing.NonCheckDisbursementDocument" parameterName="FINANCIAL_HELP_NON_CHECK_DISBURSEMENT_DOCUMENT" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="NonCheckDisbursement" parameterName="NON_CHECK_DISBURSEMENT" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
     </transactionalDocument>

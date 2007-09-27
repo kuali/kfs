@@ -41,7 +41,7 @@
 
         <summary>Chart maintenance document</summary>
         <description>Document used to create or update Chart objects</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_CHART" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="Chart" parameterName="CHART" />
         
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />

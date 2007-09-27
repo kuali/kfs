@@ -15,6 +15,8 @@
  */
 package org.kuali.module.vendor;
 
+import org.kuali.module.vendor.bo.PaymentTermType;
+
 
 /**
  * Holds constants for Vendor.
@@ -22,9 +24,12 @@ package org.kuali.module.vendor;
  */
 public class VendorConstants {
 
+    public static class Components {
+        public static final String VENDOR = "Vendor";
+        public static final String PAYMENT_TERM_TYPE = PaymentTermType.class.getSimpleName();
+    }
     public static class Workgroups {
-        public static final String WORKGROUP_ACCOUNTS_PAYABLE = "PURAP.WORKGROUP.ACCOUNTS_PAYABLE"; 
-        public static final String WORKGROUP_PURCHASING = "PURAP.WORKGROUP.PURCHASING"; 
+        public static final String WORKGROUP_PURCHASING = "PURCHASING_GROUP"; 
         public static final String WORKGROUP_TAXNBR_ACCESSIBLE = "PURAP.WORKGROUP.TAXNBR_ACCESSIBLE"; 
     }
 

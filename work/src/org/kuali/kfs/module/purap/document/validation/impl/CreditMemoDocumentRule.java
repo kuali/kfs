@@ -523,19 +523,19 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
         String objectCodeLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(account.getClass(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
 
         // check object type restrictions
-        valid = executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_TYPE_PARM_NM, objectCode.getFinancialObjectTypeCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
+        valid = executeParameterRestriction(PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.CREDIT_MEMO_DOC, PurapRuleConstants.RESTRICTED_OBJECT_TYPE_PARM_NM, objectCode.getFinancialObjectTypeCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
 
         // check object consolidation restrictions
-        valid &= executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_CONSOLIDATION_PARM_NM, objectCode.getFinancialObjectLevel().getConsolidatedObjectCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
+        valid &= executeParameterRestriction(PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.CREDIT_MEMO_DOC, PurapRuleConstants.RESTRICTED_OBJECT_CONSOLIDATION_PARM_NM, objectCode.getFinancialObjectLevel().getConsolidatedObjectCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
 
         // check object level restrictions
-        valid &= executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_LEVEL_PARM_NM, objectCode.getFinancialObjectLevelCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
+        valid &= executeParameterRestriction(PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.CREDIT_MEMO_DOC, PurapRuleConstants.RESTRICTED_OBJECT_LEVEL_PARM_NM, objectCode.getFinancialObjectLevelCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
 
         // check object level by object type restrictions
-        valid &= executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_LEVEL_BY_TYPE_PARM_PREFIX + objectCode.getFinancialObjectTypeCode(), objectCode.getFinancialObjectLevelCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
+        valid &= executeConstrainedParameterRestriction(PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.CREDIT_MEMO_DOC, PurapRuleConstants.VALID_OBJECT_LEVELS_BY_OBJECT_TYPE_PARM_NM, PurapRuleConstants.INVALID_OBJECT_LEVELS_BY_OBJECT_TYPE_PARM_NM, objectCode.getFinancialObjectTypeCode(), objectCode.getFinancialObjectLevelCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
 
         // check object sub type restrictions
-        valid &= executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_PARM_NM, objectCode.getFinancialObjectSubTypeCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
+        valid &= executeParameterRestriction(PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.CREDIT_MEMO_DOC, PurapRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_PARM_NM, objectCode.getFinancialObjectSubTypeCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
         
         return valid;
     }

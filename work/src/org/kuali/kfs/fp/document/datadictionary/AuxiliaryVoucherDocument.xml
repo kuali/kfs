@@ -92,7 +92,7 @@
 
         <summary>Auxiliary Voucher document</summary>
         <description>blah blah Document blah Auxiliary Voucher blah blah</description>
-        <help securityGroupName="Kuali.FinancialTransactionProcessing.AuxiliaryVoucherDocument" parameterName="FINANCIAL_HELP_AUXILIARY_VOUCHER_DOCUMENT" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="AuxiliaryVoucher" parameterName="AUXILIARY_VOUCHER" />
   
         
         <allowsCopy>true</allowsCopy>

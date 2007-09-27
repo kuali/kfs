@@ -213,24 +213,18 @@ public class LaborOriginEntryTestBase extends KualiTestBase {
         return -1;
     }
 
-    protected static String BUDGET_YEAR_ENABLED_FLAG = "BUDGET_YEAR_ENABLED_FLAG";
-    protected static String ICR_ENCUMBRANCE_ENABLED_FLAG = "ICR_ENCUMBRANCE_ENABLED_FLAG";
-    protected static String FLEXIBLE_OFFSET_ENABLED_FLAG = "FLEXIBLE_OFFSET_ENABLED_FLAG";
-    protected static String FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG = "FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG";
+    protected static String[] ICR_ENCUMBRANCE_ENABLED_FLAG = { KFSConstants.GL_NAMESPACE, KFSConstants.Components.ENCUMBRANCE, KFSConstants.SystemGroupParameterNames.ICR_ENCUMBRANCE_ENABLED_FLAG };
+    protected static String[] FLEXIBLE_OFFSET_ENABLED_FLAG = { KFSConstants.CHART_NAMESPACE, KFSConstants.Components.OFFSET_DEFINITION, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG };
+    protected static String[] FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG = { KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.BANK, KFSConstants.SystemGroupParameterNames.FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG };
 
     protected void resetAllEnhancementFlags() throws Exception {
-        setApplicationConfigurationFlag(LaborOriginEntryTestBase.BUDGET_YEAR_ENABLED_FLAG, false);
-        setApplicationConfigurationFlag(LaborOriginEntryTestBase.ICR_ENCUMBRANCE_ENABLED_FLAG, false);
-        setApplicationConfigurationFlag(LaborOriginEntryTestBase.FLEXIBLE_OFFSET_ENABLED_FLAG, false);
-        setApplicationConfigurationFlag(LaborOriginEntryTestBase.FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG, false);
+        setApplicationConfigurationFlag(ICR_ENCUMBRANCE_ENABLED_FLAG[0], ICR_ENCUMBRANCE_ENABLED_FLAG[1], ICR_ENCUMBRANCE_ENABLED_FLAG[2], false);
+        setApplicationConfigurationFlag(FLEXIBLE_OFFSET_ENABLED_FLAG[0], FLEXIBLE_OFFSET_ENABLED_FLAG[1], FLEXIBLE_OFFSET_ENABLED_FLAG[2], false);
+        setApplicationConfigurationFlag(FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG[0], FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG[1], FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG[2], false);
     }
 
-    protected boolean getApplicationConfigurationFlag(String name) {
-        return kualiConfigurationService.getApplicationParameterIndicator("SYSTEM", name);
-    }
-
-    protected void setApplicationConfigurationFlag(String name, boolean value) throws Exception {
-        TestUtils.setSystemParameter(KFSConstants.ParameterGroups.SYSTEM, name, value ? "Y" : "N", true, false);
+    protected void setApplicationConfigurationFlag(String namespace, String component, String name, boolean value) throws Exception {
+        TestUtils.setSystemParameter(namespace, component, name, value ? "Y" : "N", true, false);
     }
 
 

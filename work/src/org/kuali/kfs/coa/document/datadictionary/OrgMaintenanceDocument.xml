@@ -45,7 +45,7 @@
 
         <summary>Organization maintenance document</summary>
         <description>Document used to create or update Organization objects</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_ORGANIZATION_CODE" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="Organization" parameterName="ORGANIZATION" />
 
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />

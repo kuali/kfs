@@ -236,13 +236,17 @@
 		</property>
 	</bean>
 
-	<bean id="disbursementVoucherPreDisbursementProcessorExtractStep" class="org.kuali.module.financial.batch.DvToPdpExtractStep" parent="step">
+    <bean id="financialStep" parent="step" abstract="true">
+        <property name="namespace" value="KFS-FP" />
+    </bean>
+
+	<bean id="disbursementVoucherPreDisbursementProcessorExtractStep" class="org.kuali.module.financial.batch.DvToPdpExtractStep" parent="financialStep">
 		<property name="disbursementVoucherExtractService">
 			<ref bean="disbursementVoucherExtractService" />
 		</property>
 	</bean>
 
-	<bean id="procurementCardLoadStep" class="org.kuali.module.financial.batch.pcard.PcdoLoadStep" parent="step">
+	<bean id="procurementCardLoadStep" class="org.kuali.module.financial.batch.pcard.PcdoLoadStep" parent="financialStep">
 		<property name="procurementCardLoadTransactionsService">
 			<ref bean="procurementCardLoadTransactionsService" />
 		</property>
@@ -254,19 +258,19 @@
 		</property>
 	</bean>
 
-	<bean id="procurementCardCreateDocumentsStep" class="org.kuali.module.financial.batch.pcard.CreateDocumentsStep" parent="step">
+	<bean id="procurementCardCreateDocumentsStep" class="org.kuali.module.financial.batch.pcard.CreateDocumentsStep" parent="financialStep">
 		<property name="procurementCardCreateDocumentService">
 			<ref bean="procurementCardCreateDocumentService" />
 		</property>
 	</bean>
 
-	<bean id="procurementCardRouteDocumentsStep" class="org.kuali.module.financial.batch.pcard.RouteDocumentsStep" parent="step">
+	<bean id="procurementCardRouteDocumentsStep" class="org.kuali.module.financial.batch.pcard.RouteDocumentsStep" parent="financialStep">
 		<property name="procurementCardCreateDocumentService">
 			<ref bean="procurementCardCreateDocumentService" />
 		</property>
 	</bean>
 
-	<bean id="procurementCardAutoApproveDocumentsStep" class="org.kuali.module.financial.batch.pcard.AutoApproveDocumentsStep" parent="step">
+	<bean id="procurementCardAutoApproveDocumentsStep" class="org.kuali.module.financial.batch.pcard.AutoApproveDocumentsStep" parent="financialStep">
 		<property name="procurementCardCreateDocumentService">
 			<ref bean="procurementCardCreateDocumentService" />
 		</property>

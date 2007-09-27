@@ -28,10 +28,10 @@ public interface GeneralErrorCorrectionDocumentRuleConstants extends AccountingD
     public static final String GENERAL_ERROR_CORRECTION_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.GeneralErrorCorrectionDocument";
 
     // Application parameter lookup constants to be used in conjunction with the grouping constants above
-    public static final String RESTRICTED_OBJECT_TYPE_CODES = "RestrictedObjectTypeCodes";
-    public static final String RESTRICTED_OBJECT_SUB_TYPE_CODES = "RestrictedObjectSubTypeCodes";
-    public static final String COMBINED_RESTRICTED_OBJECT_TYPE_CODES = "CombinedRestrictedObjectTypeCodes";
-    public static final String COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES = "CombinedRestrictedObjectSubTypeCodes";
+    public static final String RESTRICTED_OBJECT_TYPE_CODES = "OBJECT_TYPES";
+    public static final String RESTRICTED_OBJECT_SUB_TYPE_CODES = "OBJECT_SUB_TYPES";
+    public static final String COMBINED_RESTRICTED_OBJECT_TYPE_CODES = "INVALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE";
+    public static final String COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES = "VALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE";
 
     public static final String TRANSACTION_LEDGER_ENTRY_DESCRIPTION_DELIMITER = "+";
 }

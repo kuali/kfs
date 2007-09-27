@@ -253,8 +253,8 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
         
         List<Section> coreSections = getCoreSections(oldMaintainable);
         
-        String preAwardWorkgroupName = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(CGConstants.GROUP_CG_MAINT_EDOCS, "Kuali-Document.PreAward.Workgroup");
-        String postAwardWorkgroupName = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(CGConstants.GROUP_CG_MAINT_EDOCS, "Kuali-Document.PostAward.Workgroup");
+        String preAwardWorkgroupName = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.CONTRACTS_AND_GRANTS_NAMESPACE, KFSConstants.Components.DOCUMENT, CGConstants.PRE_AWARD_GROUP);
+        String postAwardWorkgroupName = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.CONTRACTS_AND_GRANTS_NAMESPACE, KFSConstants.Components.DOCUMENT, CGConstants.POST_AWARD_GROUP);
         
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         if(!user.isMember(preAwardWorkgroupName) && !user.isMember(postAwardWorkgroupName)) {

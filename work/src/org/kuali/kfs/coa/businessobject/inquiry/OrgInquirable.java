@@ -19,14 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.inquiry.KualiInquirableImpl;
-import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.core.web.ui.Section;
+import org.kuali.kfs.inquiry.KfsInquirableImpl;
 import org.kuali.module.chart.bo.Org;
 
-public class OrgInquirable extends KualiInquirableImpl {
+public class OrgInquirable extends KfsInquirableImpl {
 
     public void addAdditionalSections(List sections, BusinessObject bo) {
         if (bo instanceof Org) {

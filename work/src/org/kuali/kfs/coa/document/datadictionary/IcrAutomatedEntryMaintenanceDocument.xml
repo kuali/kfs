@@ -40,7 +40,7 @@
         <shortLabel>ICRAutotomatedEntryMaintenanceDoc</shortLabel>
         <summary>Indirect Cost Recovery Automated Entry Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Indirect Cost Recovery Automated Entries, or modify existing Indirect Cost Recovery Automated Entries.</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_INDIRECT_COST_RECOVERY_AUTOMATED_ENTRY" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="IndirectCostRecoveryAutomatedEntry" parameterName="INDIRECT_COST_RECOVERY_AUTOMATED_ENTRY" />
 
         <lockingKeys>
             <field attributeName="universityFiscalYear" />

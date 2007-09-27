@@ -80,6 +80,8 @@
         <property name="documentService">
             <ref bean="documentService" />
         </property>
+        <property name="configService" ref="kualiConfigurationService" />
+        <property name="universalUserService" ref="universalUserService" />
     </bean>
 
     <bean id="phoneNumberService" class="org.kuali.module.vendor.service.impl.PhoneNumberServiceImpl">

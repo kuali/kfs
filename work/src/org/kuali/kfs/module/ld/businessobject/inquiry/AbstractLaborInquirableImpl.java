@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.inquiry.KualiInquirableImpl;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.PersistenceStructureService;
@@ -31,6 +30,7 @@ import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.inquiry.KfsInquirableImpl;
 import org.kuali.module.chart.bo.KualiSystemCode;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
@@ -38,7 +38,7 @@ import org.kuali.module.gl.web.Constant;
 /**
  * This class is the template class for the customized inqurable implementations used to generate balance inquiry screens.
  */
-public abstract class AbstractLaborInquirableImpl extends KualiInquirableImpl {
+public abstract class AbstractLaborInquirableImpl extends KfsInquirableImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractLaborInquirableImpl.class);
 
     /**

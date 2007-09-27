@@ -36,19 +36,17 @@ public interface AccountingDocumentRuleBaseConstants {
 
     // Application parameter lookup constants to be used in conjunction with the grouping constants above
     public static final class APPLICATION_PARAMETER {
-        public static final String RESTRICTED_OBJECT_CODES = "RestrictedObjectCodes";
-        public static final String RESTRICTED_OBJECT_TYPE_CODES = "RestrictedObjectTypeCodes";
-        public static final String RESTRICTED_SUB_FUND_GROUP_CODES = "RestrictedSubFundGroupCodes";
-        public static final String INCOME_OBJECT_TYPE_CODES = "IncomeObjectTypeCodes";
-        public static final String EXPENSE_OBJECT_TYPE_CODES = "ExpenseObjectTypeCodes";
-        public static final String MANDATORY_TRANSFER_SUBTYPE_CODES = "MandatoryTransferSubTypeCodes";
-        public static final String NONMANDATORY_TRANSFER_SUBTYPE_CODES = "NonMandatoryTransferSubTypeCode";
-        public static final String FUND_GROUP_BALANCING_SET = "FundGroupBalancingSet";
+        public static final String RESTRICTED_OBJECT_CODES = "OBJECT_CODES";
+        public static final String RESTRICTED_OBJECT_TYPE_CODES = "OBJECT_TYPES";
+        public static final String RESTRICTED_SUB_FUND_GROUP_CODES = "SUB_FUND_GROUPS";
+        public static final String MANDATORY_TRANSFER_SUBTYPE_CODES = "MANDATORY_TRANSFER_OBJECT_SUB_TYPES";
+        public static final String NONMANDATORY_TRANSFER_SUBTYPE_CODES = "NON_MANDATORY_TRANSFER_OBJECT_SUB_TYPES";
+        public static final String FUND_GROUP_BALANCING_SET = "FUND_GROUP_BALANCING_SET";
         // doctype parameter
-        public static final String DOCTYPE_SALES_TAX_CHECK = "DocTypeSalesTaxCheck";
+        public static final String DOCTYPE_SALES_TAX_CHECK = "SALES_TAX_APPLICABLE_DOCUMENT_TYPES";
         
         // combination object code and account parameter
-        public static final String VALID_ACCOUNT_AND_OBJ_CD = "ValidAccountAndObjectCode";
+        public static final String SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES = "SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES";
     }
     /**
      * Constant to statically define reusable error paths

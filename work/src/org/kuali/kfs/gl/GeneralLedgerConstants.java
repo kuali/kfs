@@ -22,12 +22,29 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.AttributeDefinition;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.batch.PurgePendingAttachmentsStep;
 import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.gl.bo.OriginEntryFull;
+import org.kuali.module.gl.batch.BalanceForwardStep;
+import org.kuali.module.gl.batch.ClearOldOriginEntryStep;
+import org.kuali.module.gl.batch.EncumbranceForwardStep;
+import org.kuali.module.gl.batch.NominalActivityClosingStep;
+import org.kuali.module.gl.batch.PurgeAccountBalancesStep;
+import org.kuali.module.gl.batch.PurgeBalanceStep;
+import org.kuali.module.gl.batch.PurgeCollectorDetailStep;
+import org.kuali.module.gl.batch.PurgeEncumbranceStep;
+import org.kuali.module.gl.batch.PurgeEntryStep;
+import org.kuali.module.gl.batch.PurgeSufficientFundBalancesStep;
+import org.kuali.module.gl.batch.ScrubberStep;
+import org.kuali.module.gl.batch.collector.CollectorStep;
+import org.kuali.module.gl.bo.AccountBalance;
+import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.SufficientFundBalances;
 
 
 /**
@@ -37,12 +54,42 @@ import org.kuali.module.gl.bo.OriginEntryFull;
  */
 public class GLConstants {
 
+    public static final String GL_NAMESPACE = "KFS-GL";
+
     public static final String INSERT_CODE = "I";
     public static final String UPDATE_CODE = "U";
     public static final String DELETE_CODE = "D";
     public static final String SELECT_CODE = "S";
     public static final String EMPTY_CODE = "";
     public static final String ERROR_CODE = "E";
+    
+    public static final String RETAIN_DAYS = "RETAIN_DAYS";
+    
+    public static class Components {
+        //public final static String COLLECTOR_JOB = CollectorJob.class.getSimpleName();  //What value should we use for this component?
+        //public final static String ENTERPRISE_FEED_JOB = EnterpriseFeedJob.class.getSimpleName();
+        //public final static String POSTER = Poster.class.getSimpleName();
+        public final static String ACCOUNT_BALANCE = AccountBalance.class.getSimpleName();
+        public final static String BALANCE_FORWARD_STEP = BalanceForwardStep.class.getSimpleName();
+        public final static String ENCUMBRANCE_FORWARD_STEP = EncumbranceForwardStep.class.getSimpleName();
+        public final static String ORGANIZATION_REVERSION = OrganizationReversion.class.getSimpleName();
+        public final static String CLEAR_OLD_ORIGIN_ENTRY_STEP = ClearOldOriginEntryStep.class.getSimpleName();
+        public final static String COLLECTOR_STEP = CollectorStep.class.getSimpleName();
+        public final static String SCRUBBER_STEP = ScrubberStep.class.getSimpleName();
+        public final static String ENTERPRISE_FEED_STEP = "EnterpriseFeedStep";
+        public final static String NOMINAL_ACTIVITY_CLOSING_STEP = NominalActivityClosingStep.class.getSimpleName();
+        public final static String ORGNIAZATION_REVERSION_CLOSING_STEP = "OrganizationReversionClosingStep";
+        public final static String POSTER_INDIRECT_COST_RECOVERY_ENTRIES_STEP = "PosterIndirectCostRecoveryEntriesStep";
+        public final static String POSTER_SUMMARY_REPORT_STEP = "PosterSummaryReportStep";
+        public final static String PURGE_ACCOUNT_BALANCES_STEP = PurgeAccountBalancesStep.class.getSimpleName();
+        public final static String PURGE_BALANCE_STEP = PurgeBalanceStep.class.getSimpleName();
+        public final static String PURGE_COLLECTOR_DETAIL_STEP = PurgeCollectorDetailStep.class.getSimpleName();
+        public final static String PURGE_ENCUMBRANCE_STEP = PurgeEncumbranceStep.class.getSimpleName();
+        public final static String PURGE_ENTRY_STEP = PurgeEntryStep.class.getSimpleName();
+        public final static String PURGE_PENDING_ATTACHMENTS_STEP = PurgePendingAttachmentsStep.class.getSimpleName();
+        public final static String PURGE_SUFFICIENT_FUND_BALANCES_STEP = PurgeSufficientFundBalancesStep.class.getSimpleName();
+        public final static String SUFFICIENT_FUND_BALANCES = SufficientFundBalances.class.getSimpleName();
+    }
     
     public static class DummyBusinessObject {
         static final public String COST_SHARE_OPTION = "dummyBusinessObject.costShareOption";
@@ -102,14 +149,21 @@ public class GLConstants {
         public static final String SEGMENTED_LOOKUP_FLAG_NAME = "segmented";
     }
 
-    public static final String GL_ACCOUNT_BALANCE_SERVICE_GROUP = "GL.ACCOUNT_BALANCE_SERVICE";
-    public static final String GL_SCRUBBER_GROUP = "GL.SCRUBBER";
-    public static final String GL_SUMMARY_REPORT_GROUP = "GL.SUMMARY_REPORT";
-    public static final String GL_ORGANIZATION_REVERSION_PROCESS_GROUP = "GL.ORGANIZATION_REVERSION_PROCESS";
-    public static final String GL_ORGANIZATION_REVERSION_SELECTION_GROUP = "GL.ORGANIZATION_REVERSION_SELECTION";
-    public static final String GL_POSTER_OUTPUT_SUMMARY_ENTRY_GROUP = "GL.POSTER_OUTPUT_SUMMARY_ENTRY";
-    public static final String GL_BALANCE_FORWARD_PROCESS = "GL.BALANCE_FORWARD_PROCESS";
-    public static final String GL_ENCUMBRANCE_FORWARD_PROCESS = "GL.ENCUMBRANCE_FORWARD_PROCESS";
+    //public static final String GL_ACCOUNT_BALANCE_SERVICE_GROUP = "GL.ACCOUNT_BALANCE_SERVICE";
+    public static final String GL_SCRUBBER_GROUP = "ScrubberStep";
+    //public static final String GL_SUMMARY_REPORT_GROUP = "GL.SUMMARY_REPORT";
+    //public static final String GL_ORGANIZATION_REVERSION_PROCESS_GROUP = "GL.ORGANIZATION_REVERSION_PROCESS";
+    public static final String GL_ORGANIZATION_REVERSION_SELECTION_GROUP = "OrganizationReversion";
+    //public static final String GL_POSTER_OUTPUT_SUMMARY_ENTRY_GROUP = "GL.POSTER_OUTPUT_SUMMARY_ENTRY";
+    //public static final String GL_BALANCE_FORWARD_PROCESS = "GL.BALANCE_FORWARD_PROCESS";
+    //public static final String GL_ENCUMBRANCE_FORWARD_PROCESS = "GL.ENCUMBRANCE_FORWARD_PROCESS";
+    
+    public static final String ANNUAL_CLOSING_TRANSACTION_DATE_PARM = "ANNUAL_CLOSING_TRANSACTION_DATE";
+    public static final String ANNUAL_CLOSING_FISCAL_YEAR_PARM = "ANNUAL_CLOSING_FISCAL_YEAR";
+    public static final String ANNUAL_CLOSING_UNALLOC_OBJECT_CODE_PARM = "ANNUAL_CLOSING_UNALLOCATED_OBJECT_CODE";
+    public static final String ANNUAL_CLOSING_FUND_BALANCE_OBJECT_CODE_PARM = "ANNUAL_CLOSING_FUND_BALANCE_OBJECT_CODE";
+    public static final String ANNUAL_CLOSING_BEGIN_BUDGET_CASH_OBJECT_CODE_PARM = "ANNUAL_CLOSING_BEGIN_BUDGET_CASH_OBJECT_CODE";
+
     
     public static class GlAccountBalanceGroupParameters {
         static final public String EXPENSE_OBJECT_TYPE_CODES = "EXPENSE_OBJECT_TYPE_CODES";
@@ -119,56 +173,55 @@ public class GLConstants {
     }
 
     public static class GlScrubberGroupParameters {
-        static final public String CAPITALIZATION_IND = "CAPITALIZATION.IND";
-        static final public String CAPITALIZATION_SUBTYPE_OBJECT_PREFIX = "CAPITALIZATION.SUBTYPE_OBJECT_";
+        static final public String CAPITALIZATION_IND = "CAPITALIZATION_IND";
+        static final public String CAPITALIZATION_SUBTYPE_OBJECT = "CAPITALIZATION_OBJECT_CODE_BY_OBJECT_SUB_TYPE";
 
-        static final public String COST_SHARE_LEVEL_OBJECT_PREFIX = "COST_SHARE.LEVEL_OBJECT_";
-        static final public String COST_SHARE_LEVEL_OBJECT_DEFAULT = "COST_SHARE.LEVEL_OBJECT_DEFAULT";
-        static final public String COST_SHARE_OBJECT_CODE = "COST_SHARE.OBJECT_CODE";
+        static final public String COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM = "COST_SHARE_OBJECT_CODE_BY_LEVEL";
+        static final public String COST_SHARE_OBJECT_CODE_PARM_NM = "COST_SHARE_OBJECT_CODE";
 
-        static final public String LIABILITY_IND = "LIABILITY.IND";
-        static final public String LIABILITY_OBJECT_CODE = "LIABILITY.OBJECT_CODE";
+        static final public String LIABILITY_IND = "LIABILITY_IND";
+        static final public String LIABILITY_OBJECT_CODE = "LIABILITY_OBJECT_CODE";
 
-        static final public String PLANT_INDEBTEDNESS_IND = "PLANT_INDEBTEDNESS.IND";
+        static final public String PLANT_INDEBTEDNESS_IND = "PLANT_INDEBTEDNESS_IND";
         
-        static final public String SCRUBBER_CUTOFF_TIME = "SCRUBBER_CUTOFF_TIME";
+        static final public String SCRUBBER_CUTOFF_TIME = "CUTOFF_TIME";
     }
 
     public static class GlScrubberGroupRules {
-        static final public String CAPITALIZATION_DOC_TYPE_CODES = "CAPITALIZATION.DOC_TYPE_CODES";
-        static final public String CAPITALIZATION_FISCAL_PERIOD_CODES = "CAPITALIZATION.FISCAL_PERIOD_CODES";
-        static final public String CAPITALIZATION_OBJ_SUB_TYPE_CODES = "CAPITALIZATION.OBJ_SUB_TYPE_CODES";
-        static final public String CAPITALIZATION_SUB_FUND_GROUP_CODES = "CAPITALIZATION.SUB_FUND_GROUP_CODES";
-        static final public String CAPITALIZATION_CHART_CODES = "CAPITALIZATION.CHART_CODES";
+        static final public String CAPITALIZATION_DOC_TYPE_CODES = "CAPITALIZATION_DOCUMENT_TYPES";
+        static final public String CAPITALIZATION_FISCAL_PERIOD_CODES = "CAPITALIZATION_FISCAL_PERIODS";
+        static final public String CAPITALIZATION_OBJ_SUB_TYPE_CODES = "CAPITALIZATION_OBJECT_SUB_TYPES";
+        static final public String CAPITALIZATION_SUB_FUND_GROUP_CODES = "CAPITALIZATION_SUB_FUND_GROUPS";
+        static final public String CAPITALIZATION_CHART_CODES = "CAPITALIZATION_CHARTS";
 
-        static final public String CAP_LIAB_PLANT_DOC_TYPE_CODES = "CAP_LIAB_PLANT.DOC_TYPE_CODES";
+        static final public String CAP_LIAB_PLANT_DOC_TYPE_CODES = "CAP_LIAB_PLANT_DOC_TYPE_CODES";
 
-        static final public String COST_SHARE_BAL_TYP_CODES = "COST_SHARE.BAL_TYP_CODES";
-        static final public String COST_SHARE_OBJ_TYPE_CODES = "COST_SHARE.OBJ_TYPE_CODES";
-        static final public String COST_SHARE_FISCAL_PERIOD_CODES = "COST_SHARE.FISCAL_PERIOD_CODES";
+        static final public String COST_SHARE_BAL_TYP_CODES = "COST_SHARE_BAL_TYP_CODES";
+        static final public String COST_SHARE_OBJ_TYPE_CODES = "COST_SHARE_OBJ_TYPE_CODES";
+        static final public String COST_SHARE_FISCAL_PERIOD_CODES = "COST_SHARE_FISCAL_PERIOD_CODES";
 
-        static final public String COST_SHARE_ENC_BAL_TYP_CODES = "COST_SHARE_ENC.BAL_TYP_CODES";
-        static final public String COST_SHARE_ENC_DOC_TYPE_CODES = "COST_SHARE_ENC.DOC_TYPE_CODES";
-        static final public String COST_SHARE_ENC_FISCAL_PERIOD_CODES = "COST_SHARE_ENC.FISCAL_PERIOD_CODES";
+        static final public String COST_SHARE_ENC_BAL_TYP_CODES = "COST_SHARE_ENC_BAL_TYP_CODES";
+        static final public String COST_SHARE_ENC_DOC_TYPE_CODES = "COST_SHARE_ENC_DOC_TYPE_CODES";
+        static final public String COST_SHARE_ENC_FISCAL_PERIOD_CODES = "COST_SHARE_ENC_FISCAL_PERIOD_CODES";
 
-        static final public String LIABILITY_CHART_CODES = "LIABILITY.CHART_CODES";
-        static final public String LIABILITY_DOC_TYPE_CODES = "LIABILITY.DOC_TYPE_CODES";
-        static final public String LIABILITY_FISCAL_PERIOD_CODES = "LIABILITY.FISCAL_PERIOD_CODES";
-        static final public String LIABILITY_OBJ_SUB_TYPE_CODES = "LIABILITY.OBJ_SUB_TYPE_CODES";
-        static final public String LIABILITY_SUB_FUND_GROUP_CODES = "LIABILITY.SUB_FUND_GROUP_CODES";
+        static final public String LIABILITY_CHART_CODES = "LIABILITY_CHART_CODES";
+        static final public String LIABILITY_DOC_TYPE_CODES = "LIABILITY_DOC_TYPE_CODES";
+        static final public String LIABILITY_FISCAL_PERIOD_CODES = "LIABILITY_FISCAL_PERIOD_CODES";
+        static final public String LIABILITY_OBJ_SUB_TYPE_CODES = "LIABILITY_OBJ_SUB_TYPE_CODES";
+        static final public String LIABILITY_SUB_FUND_GROUP_CODES = "LIABILITY_SUB_FUND_GROUP_CODES";
 
-        static final public String OFFSET_DOC_TYPE_CODES = "OFFSET.DOC_TYPE_CODES";
-        static final public String OFFSET_FISCAL_PERIOD_CODES = "OFFSET.FISCAL_PERIOD_CODES";
+        static final public String OFFSET_DOC_TYPE_CODES = "OFFSET_GENERATION_DOCUMENT_TYPES";
+        static final public String OFFSET_FISCAL_PERIOD_CODES = "OFFSET_FISCAL_PERIOD_CODES";
 
-        static final public String PLANT_FUND_CAMPUS_OBJECT_SUB_TYPE_CODES = "PLANT_FUND.CAMPUS_OBJECT_SUB_TYPE_CODES";
-        static final public String PLANT_FUND_ORG_OBJECT_SUB_TYPE_CODES = "PLANT_FUND.ORG_OBJECT_SUB_TYPE_CODES";
+        static final public String PLANT_FUND_CAMPUS_OBJECT_SUB_TYPE_CODES = "PLANT_FUND_CAMPUS_OBJECT_SUB_TYPE_CODES";
+        static final public String PLANT_FUND_ORG_OBJECT_SUB_TYPE_CODES = "PLANT_FUND_ORG_OBJECT_SUB_TYPE_CODES";
 
-        static final public String PLANT_INDEBTEDNESS_OBJ_SUB_TYPE_CODES = "PLANT_INDEBTEDNESS.OBJ_SUB_TYPE_CODES";
-        static final public String PLANT_INDEBTEDNESS_SUB_FUND_GROUP_CODES = "PLANT_INDEBTEDNESS.SUB_FUND_GROUP_CODES";
+        static final public String PLANT_INDEBTEDNESS_OBJ_SUB_TYPE_CODES = "PLANT_INDEBTEDNESS_OBJ_SUB_TYPE_CODES";
+        static final public String PLANT_INDEBTEDNESS_SUB_FUND_GROUP_CODES = "PLANT_INDEBTEDNESS_SUB_FUND_GROUP_CODES";
 
-        static final public String CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES = "CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES";
+        static final public String CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES = "CONTINUATION_ACCOUNT_BYPASS_ORIGINATIONS";
         static final public String CONTINUATION_ACCOUNT_BYPASS_BALANCE_TYPE_CODES = "CONTINUATION_ACCOUNT_BYPASS_BALANCE_TYPE_CODES";
-        static final public String CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES = "CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES";
+        static final public String CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES = "CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPES";
     }
     
     public static class GlSummaryReport {
@@ -180,10 +233,10 @@ public class GLConstants {
     public static class OrganizationReversionProcess {
         static final public String ORGANIZATION_REVERSION_COA = "ORGANIZATION_REVERSION_COA";
         static final public String CARRY_FORWARD_OBJECT_CODE = "CARRY_FORWARD_OBJECT_CODE";
-        static final public String DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE = "DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE";
-        static final public String DEFAULT_FINANCIAL_SYSTEM_ORIGINATION_CODE = "DEFAULT_FINANCIAL_SYSTEM_ORIGINATION_CODE";
-        static final public String DEFAULT_FINANCIAL_BALANCE_TYPE_CODE = "DEFAULT_FINANCIAL_BALANCE_TYPE_CODE";
-        static final public String DEFAULT_FINANCIAL_BALANCE_TYPE_CODE_YEAR_END = "DEFAULT_FINANCIAL_BALANCE_TYPE_CODE_YEAR_END";
+        static final public String DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE = "DEFAULT_DOCUMENT_TYPE";
+        static final public String DEFAULT_FINANCIAL_SYSTEM_ORIGINATION_CODE = "MANUAL_FEED_ORIGINATION";
+        static final public String DEFAULT_FINANCIAL_BALANCE_TYPE_CODE = "CASH_REVERSION_DEFAULT_BALANCE_TYPE";
+        static final public String DEFAULT_FINANCIAL_BALANCE_TYPE_CODE_YEAR_END = "BUDGET_REVERSION_DEFAULT_BALANCE_TYPE";
         static final public String DEFAULT_DOCUMENT_NUMBER_PREFIX = "DEFAULT_DOCUMENT_NUMBER_PREFIX";
     }
     

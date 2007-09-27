@@ -67,7 +67,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.rule.KualiParameterRule;
+import org.kuali.core.bo.Parameter;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
@@ -106,6 +106,7 @@ import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.gl.service.SufficientFundsService;
+import org.kuali.rice.kns.config.KNSConfigurer;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -1211,9 +1212,9 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
         String objectCode = accountingLine.getFinancialObjectCode();
 
-        KualiParameterRule restrictedObjectCodes = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(KUALI_TRANSACTION_PROCESSING_GLOBAL_RULES_SECURITY_GROUPING, RESTRICTED_OBJECT_CODES);
+        //Parameter restrictedObjectCodes = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(KUALI_TRANSACTION_PROCESSING_GLOBAL_RULES_SECURITY_GROUPING, RESTRICTED_OBJECT_CODES);
 
-        if (restrictedObjectCodes.failsRule(objectCode)) {
+        if ( getKualiConfigurationService().failsRule(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DOCUMENT, RESTRICTED_OBJECT_CODES, objectCode) ) {
             String objectCodeInfo = objectCode + " - " + accountingLine.getObjectCode().getFinancialObjectCodeShortName();
             GlobalVariables.getErrorMap().putError(FINANCIAL_OBJECT_CODE_PROPERTY_NAME, ERROR_DOCUMENT_INCORRECT_OBJ_CODE, new String[] { objectCodeInfo });
 
@@ -1248,10 +1249,10 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * 
      * @return the global rule restricting object type codes.
      */
-    protected KualiParameterRule getGlobalObjectTypeRule() {
+    protected Parameter getGlobalObjectTypeRule() {
         LOG.debug("getGlobalObjectTypeRule() - start");
 
-        KualiParameterRule returnKualiParameterRule = getParameterRule(KUALI_TRANSACTION_PROCESSING_GLOBAL_RULES_SECURITY_GROUPING, RESTRICTED_OBJECT_TYPE_CODES);
+        Parameter returnKualiParameterRule = getParameterRule( KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DOCUMENT, RESTRICTED_OBJECT_TYPE_CODES);
         LOG.debug("getGlobalObjectTypeRule() - end");
         return returnKualiParameterRule;
     }
@@ -1261,10 +1262,10 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * 
      * @return the global rule restricting sub fund group codes.
      */
-    protected KualiParameterRule getGlobalSubFundGroupRule() {
+    protected Parameter getGlobalSubFundGroupRule() {
         LOG.debug("getGlobalSubFundGroupRule() - start");
 
-        KualiParameterRule returnKualiParameterRule = getParameterRule(KUALI_TRANSACTION_PROCESSING_GLOBAL_RULES_SECURITY_GROUPING, RESTRICTED_SUB_FUND_GROUP_CODES);
+        Parameter returnKualiParameterRule = getParameterRule( KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DOCUMENT, RESTRICTED_SUB_FUND_GROUP_CODES);
         LOG.debug("getGlobalSubFundGroupRule() - end");
         return returnKualiParameterRule;
     }
@@ -1537,11 +1538,11 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         if (objectSubTypeCode == null) {
             throw new IllegalArgumentException(EXCEPTIONS.NULL_OBJECT_SUBTYPE_MESSAGE);
         }
+        KualiConfigurationService configService = SpringContext.getBean(KualiConfigurationService.class);
+        Parameter restrictedSubTypes = configService.getParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DOCUMENT, parameterName);
 
-        KualiParameterRule restrictedSubTypes = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_GLOBAL_RULES_SECURITY_GROUPING, parameterName);
 
-
-        boolean returnboolean = (!restrictedSubTypes.failsRule(objectSubTypeCode));
+        boolean returnboolean = (!configService.failsRule(restrictedSubTypes,objectSubTypeCode));
         LOG.debug("checkMandatoryTransfersSubType(String, String) - end");
         return returnboolean;
     }
@@ -1686,15 +1687,15 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param indirect a dependent field that the rule checks (e.g., the object type of the object code)
      * @return whether the rule succeeds
      */
-    protected static boolean indirectRuleSucceeds(KualiParameterRule parameterRule, AttributeReference direct, AttributeReference indirect) {
+    protected static boolean indirectRuleSucceeds(Parameter parameterRule, AttributeReference direct, AttributeReference indirect) {
         LOG.debug("indirectRuleSucceeds(KualiParameterRule, AttributeReference, AttributeReference) - start");
-
-        if (parameterRule.succeedsRule(indirect.getValueString())) {
+        KualiConfigurationService configService = SpringContext.getBean(KualiConfigurationService.class);
+        if (configService.succeedsRule(parameterRule,indirect.getValueString())) {
             LOG.debug("indirectRuleSucceeds(KualiParameterRule, AttributeReference, AttributeReference) - end");
             return true;
         }
         else {
-            String[] errorParameters = { parameterRule.getName(), ExceptionUtils.describeStackLevel(1), direct.getLabel(), direct.getValueString(), indirect.getLabel(), indirect.getValueString(), parameterRule.getParameterText() };
+            String[] errorParameters = { parameterRule.getParameterName(), ExceptionUtils.describeStackLevel(1), direct.getLabel(), direct.getValueString(), indirect.getLabel(), indirect.getValueString(), parameterRule.getParameterValue() };
             GlobalVariables.getErrorMap().putError(direct.getPropertyName(), getIndirectErrorKey(parameterRule), errorParameters);
             LOG.debug("APC rule failure " + Arrays.asList(errorParameters));
             return false;
@@ -1707,10 +1708,10 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param parameterRule
      * @return error key
      */
-    private static String getIndirectErrorKey(KualiParameterRule parameterRule) {
+    private static String getIndirectErrorKey(Parameter parameterRule) {
         LOG.debug("getIndirectErrorKey(KualiParameterRule) - start");
 
-        String returnString = parameterRule.isAllowedRule() ? ERROR_APC_INDIRECT_ALLOWED_MULTIPLE : ERROR_APC_INDIRECT_DENIED_MULTIPLE;
+        String returnString = SpringContext.getBean(KualiConfigurationService.class).isAllowedRule(parameterRule) ? ERROR_APC_INDIRECT_ALLOWED_MULTIPLE : ERROR_APC_INDIRECT_DENIED_MULTIPLE;
         LOG.debug("getIndirectErrorKey(KualiParameterRule) - end");
         return returnString;
     }

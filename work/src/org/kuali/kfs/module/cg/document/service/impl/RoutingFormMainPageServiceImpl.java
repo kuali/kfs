@@ -128,7 +128,7 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
      * @see org.kuali.module.kra.routingform.service.RoutingFormMainPageService#checkCoPdExistance(java.util.List)
      */
     public boolean checkCoPdExistance(List<RoutingFormPersonnel> routingFormPersonnel) {
-        final String CO_PD_ROLE_CODE = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormPersonRoleCodeCoProjectDirector");
+        final String CO_PD_ROLE_CODE = kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.PERSON_ROLE_CODE_CO_PROJECT_DIRECTOR);
         
         for(RoutingFormPersonnel routingFormPerson : routingFormPersonnel) {
             if(routingFormPerson.getPersonRoleCode().equals(CO_PD_ROLE_CODE)) {

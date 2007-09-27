@@ -15,15 +15,18 @@
  */
 package org.kuali.module.vendor.service.impl;
 
-import org.kuali.core.bo.BusinessRule;
+import org.kuali.core.bo.Parameter;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.service.PhoneNumberService;
 
 public class PhoneNumberServiceImpl implements PhoneNumberService {
     
     public KualiConfigurationService kualiConfigurationService;
-    public BusinessRule phoneNumberFormats;
+    public Parameter phoneNumberFormats;
     
     /**
      * Sets the kualiConfigurationService attribute value.
@@ -56,7 +59,7 @@ public class PhoneNumberServiceImpl implements PhoneNumberService {
         }
         String formattedNumber = unformattedNumber.replaceAll("\\D", "");
         Integer defaultPhoneNumberDigits = 
-            new Integer(kualiConfigurationService.getApplicationParameterValue("PurapAdminGroup","PURAP.GENERIC_DEFAULT_PHONE_NUM_DIGITS"));
+            new Integer(kualiConfigurationService.getParameterValue(KFSConstants.VENDOR_NAMESPACE,VendorConstants.Components.VENDOR, PurapParameterConstants.DEFAULT_PHONE_NUMBER_DIGITS_PARM_NM));
         // Before moving to the parameter table:
         // if ( formattedNumber.length() != VendorConstants.GENERIC_DEFAULT_PHONE_NUM_DIGITS ) {
         if ( formattedNumber.length() != defaultPhoneNumberDigits ) {
@@ -93,11 +96,10 @@ public class PhoneNumberServiceImpl implements PhoneNumberService {
      */
     protected String[] parseFormats() {
         if( ObjectUtils.isNull( phoneNumberFormats ) ) {
-            phoneNumberFormats = kualiConfigurationService.getApplicationRule(
-                    "PurapAdminGroup","PURAP.GENERIC_PHONE_NUMBER_FORMATS");
+            phoneNumberFormats = kualiConfigurationService.getParameter(
+                    KFSConstants.VENDOR_NAMESPACE, VendorConstants.Components.VENDOR, PurapParameterConstants.PHONE_NUMBER_FORMATS_PARM_NM );
         }
-        String phoneFormats = phoneNumberFormats.getRuleText();
-        return phoneFormats.split(";");
+        return kualiConfigurationService.getParameterValues(phoneNumberFormats);
     }
     
     /**

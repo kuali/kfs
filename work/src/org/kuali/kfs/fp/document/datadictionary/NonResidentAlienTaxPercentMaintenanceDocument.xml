@@ -40,7 +40,7 @@
 
         <summary>Non resident alien tax percent</summary>
         <description>Document used to create or update Tax Percent objects</description>
-        <help securityGroupName="Kuali.DisbursementVoucher.Help" parameterName="DISBURSEMENT_VOUCHER_HELP_NON_RESIDENT_ALIEN_TAX_PERCENT" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="NonResidentAlienTaxPercent" parameterName="NON_RESIDENT_ALIEN_TAX_PERCENT" />
 
         <lockingKeys>
             <field attributeName="incomeClassCode" />

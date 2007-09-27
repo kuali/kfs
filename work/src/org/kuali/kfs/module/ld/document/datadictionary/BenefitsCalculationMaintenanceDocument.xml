@@ -41,7 +41,7 @@
 		
 		<summary>Labor Calculation Maintenance Document</summary>
 		<description>Document used to create or update Labor calculations.</description>
-        <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_LABOR_BENEFIT_CALCULATION" />
+        <help parameterNamespace="KFS-LD" parameterDetailType="LaborBenefitCalculation" parameterName="LABOR_BENEFIT_CALCULATION" />
 
         <lockingKeys>
 			<field attributeName="universityFiscalYear" />

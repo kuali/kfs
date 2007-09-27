@@ -59,8 +59,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountRule.class);
 
-    private static final String ACCT_PREFIX_RESTRICTION = "Account.PrefixRestriction";
-    private static final String ACCT_CAPITAL_SUBFUNDGROUP = "Account.CapitalSubFundGroup";
+    private static final String ACCT_PREFIX_RESTRICTION = "PREFIXES";
+    private static final String ACCT_CAPITAL_SUBFUNDGROUP = "CAPITAL_SUB_FUND_GROUP";
 
     private static final String GENERAL_FUND_CD = "GF";
     private static final String RESTRICTED_FUND_CD = "RF";
@@ -330,7 +330,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // (e.g. the account number cannot begin with a 3 or with 00.)
         // Only bother trying if there is an account string to test
         if (!StringUtils.isBlank(newAccount.getAccountNumber())) {
-            String[] illegalValues = getConfigService().getApplicationParameterValues(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_PREFIX_RESTRICTION);
+            String[] illegalValues = getConfigService().getParameterValues(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ACCOUNT, ACCT_PREFIX_RESTRICTION);
             // test the number
             success &= accountNumberStartsWithAllowedPrefix(newAccount.getAccountNumber(), illegalValues);
         }
@@ -518,13 +518,13 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         }
 
         // user must be of the allowable statuses (A - Active)
-        if (apcRuleFails(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.ACCOUNT_USER_EMP_STATUSES, user.getEmployeeStatusCode())) {
+        if (apcRuleFails(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_USER_EMP_STATUSES, user.getEmployeeStatusCode())) {
             success &= false;
             putFieldError(propertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE, getDdService().getAttributeLabel(Account.class, propertyName));
         }
 
         // user must be of the allowable types (P - Professional)
-        if (apcRuleFails(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.ACCOUNT_USER_EMP_TYPES, user.getEmployeeTypeCode())) {
+        if (apcRuleFails(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_USER_EMP_TYPES, user.getEmployeeTypeCode())) {
             success &= false;
             putFieldError(propertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE, getDdService().getAttributeLabel(Account.class, propertyName));
         }
@@ -1005,53 +1005,53 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                     //if all sub fund group, campus code, building code are all blank return true
                     return success;
                 }
-                
+
             } else if( !StringUtils.isBlank(subFundGroupCode) && !ObjectUtils.isNull(newAccount.getSubFundGroup()) ){
-                
-                // Attempt to get the right SubFundGroup code to check the following logic with. If the value isn't available, go ahead
-                // and die, as this indicates a misconfigured app, and important business rules wont be implemented without it.
-                String capitalSubFundGroup = getConfigService().getApplicationParameterValue(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_CAPITAL_SUBFUNDGROUP);
-    
-                if (capitalSubFundGroup.equalsIgnoreCase(subFundGroupCode.trim())) {
-    
-                    // if sub_fund_grp_cd is 'PFCMR' then campus_cd must be entered
-                    if (StringUtils.isBlank(campusCode)) {
-                        putFieldError("accountDescription.campusCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_CAMPUS_CD_FOR_BLDG);
-                        success &= false;
-                    }
-    
-                    // if sub_fund_grp_cd is 'PFCMR' then bldg_cd must be entered
-                    if (StringUtils.isBlank(buildingCode)) {
+
+        // Attempt to get the right SubFundGroup code to check the following logic with. If the value isn't available, go ahead
+        // and die, as this indicates a misconfigured app, and important business rules wont be implemented without it.
+        String capitalSubFundGroup = getConfigService().getParameterValue(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ACCOUNT, ACCT_CAPITAL_SUBFUNDGROUP);
+
+        if (capitalSubFundGroup.equalsIgnoreCase(subFundGroupCode.trim())) {
+
+            // if sub_fund_grp_cd is 'PFCMR' then campus_cd must be entered
+            if (StringUtils.isBlank(campusCode)) {
+                putFieldError("accountDescription.campusCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_CAMPUS_CD_FOR_BLDG);
+                success &= false;
+            }
+
+            // if sub_fund_grp_cd is 'PFCMR' then bldg_cd must be entered
+            if (StringUtils.isBlank(buildingCode)) {
                         putFieldError("accountDescription.buildingCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_BUILDING_CD);
-                        success &= false;
-                    }
-    
-                    // the building object (campusCode & buildingCode) must exist in the DB
-                    if (!StringUtils.isBlank(campusCode) && !StringUtils.isBlank(buildingCode)) {
-                                        
-                        //make sure that primary key fields are upper case
-                        DataDictionaryService dds = SpringContext.getBean(DataDictionaryService.class);
-                        Boolean buildingCodeForceUppercase = dds.getAttributeForceUppercase(AccountDescription.class, KFSPropertyConstants.BUILDING_CODE );
-                        if (StringUtils.isNotBlank(buildingCode) && buildingCodeForceUppercase != null && buildingCodeForceUppercase.booleanValue() == true ) {
-                            buildingCode = buildingCode.toUpperCase();
-                        }
-                        
-                        Boolean campusCodeForceUppercase = dds.getAttributeForceUppercase(AccountDescription.class, KFSPropertyConstants.CAMPUS_CODE );
-                        if (StringUtils.isNotBlank(campusCode) && campusCodeForceUppercase != null && campusCodeForceUppercase.booleanValue() == true ) {
-                            campusCode = campusCode.toUpperCase();
-                        }   
-                        
-                        Map pkMap = new HashMap();
-                        pkMap.put("campusCode", campusCode);
-                        pkMap.put("buildingCode", buildingCode);                
-    
-                        Building building = (Building) getBoService().findByPrimaryKey(Building.class, pkMap);
-                        if (building == null) {
-                            putFieldError("accountDescription.campusCode", KFSKeyConstants.ERROR_EXISTENCE, campusCode);
-                            putFieldError("accountDescription.buildingCode", KFSKeyConstants.ERROR_EXISTENCE, buildingCode);
-                            success &= false;
-                        }
-                    }
+                success &= false;
+            }
+
+            // the building object (campusCode & buildingCode) must exist in the DB
+            if (!StringUtils.isBlank(campusCode) && !StringUtils.isBlank(buildingCode)) {
+                                
+                //make sure that primary key fields are upper case
+                DataDictionaryService dds = SpringContext.getBean(DataDictionaryService.class);
+                Boolean buildingCodeForceUppercase = dds.getAttributeForceUppercase(AccountDescription.class, KFSPropertyConstants.BUILDING_CODE );
+                if (StringUtils.isNotBlank(buildingCode) && buildingCodeForceUppercase != null && buildingCodeForceUppercase.booleanValue() == true ) {
+                    buildingCode = buildingCode.toUpperCase();
+                }
+                
+                Boolean campusCodeForceUppercase = dds.getAttributeForceUppercase(AccountDescription.class, KFSPropertyConstants.CAMPUS_CODE );
+                if (StringUtils.isNotBlank(campusCode) && campusCodeForceUppercase != null && campusCodeForceUppercase.booleanValue() == true ) {
+                    campusCode = campusCode.toUpperCase();
+                }   
+                
+                Map pkMap = new HashMap();
+                pkMap.put("campusCode", campusCode);
+                pkMap.put("buildingCode", buildingCode);                
+
+                Building building = (Building) getBoService().findByPrimaryKey(Building.class, pkMap);
+                if (building == null) {
+                    putFieldError("accountDescription.campusCode", KFSKeyConstants.ERROR_EXISTENCE, campusCode);
+                    putFieldError("accountDescription.buildingCode", KFSKeyConstants.ERROR_EXISTENCE, buildingCode);
+                    success &= false;
+                }
+            }
                 } else {
                     
                     // if sub_fund_grp_cd is NOT 'PFCMR', campus code should NOT be entered

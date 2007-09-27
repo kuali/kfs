@@ -15,11 +15,15 @@
  */
 package org.kuali.module.gl.util;
 
+import java.util.List;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.chart.service.ObjectTypeService;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.GLConstants;
 
 public class PosterOutputSummaryEntry implements Comparable {
@@ -42,7 +46,13 @@ public class PosterOutputSummaryEntry implements Comparable {
         netAmount = KualiDecimal.ZERO;
 
         KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-        assetExpenseObjectTypeCodes = kualiConfigurationService.getApplicationParameterValues(GLConstants.GL_POSTER_OUTPUT_SUMMARY_ENTRY_GROUP, GLConstants.PosterOutputSummaryEntry.ASSET_EXPENSE_OBJECT_TYPE_CODES);
+        
+        ObjectTypeService objectTypeService = (ObjectTypeService)SpringContext.getBean(ObjectTypeService.class);
+        List<String> objectTypes = objectTypeService.getCurrentYearBasicExpenseObjectTypes();
+        objectTypes.add( objectTypeService.getCurrentYearExpenseTransferObjectType() );
+        objectTypes.add( objectTypeService.getCurrentYearAssetObjectType());        
+        
+        assetExpenseObjectTypeCodes =  objectTypes.toArray(new String[0]); 
     }
 
     public String getKey() {

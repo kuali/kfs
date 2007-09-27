@@ -158,7 +158,7 @@
         <objectLabel>Budget Institution Party Cost Share</objectLabel>
         <objectDescription>Budget Institution Party Cost Share is the institution party cost share for your Budget.</objectDescription>
         
-        <objectHelp securityGroupName="KraAdminGroup" parameterName="budgetInstitutionCostShareHelp" />
+        <objectHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="INSTITUTION_COST_SHARE" />
 
     </businessObject>
 </dictionaryEntry>

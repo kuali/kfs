@@ -40,7 +40,7 @@
 
         <summary>Message Of The Day maintenance document</summary>
         <description>Document used to create or update Message Of The Day objects</description>
-        <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_MESSAGE_OF_THE_DAY" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="MessageOfTheDay" parameterName="MESSAGE_OF_THE_DAY" />
 
         <lockingKeys>
             <field attributeName="financialSystemOriginationCode" />

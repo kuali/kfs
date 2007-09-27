@@ -39,7 +39,7 @@
         <shortLabel>FederalFundedCodeMaintDoc</shortLabel>
         <summary>Federal Funded Code Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Federal Funded Codes, or modify existing Federal Funded Codes.</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_FEDERAL_FUNDED_CODE" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="FederalFundedCode" parameterName="FEDERAL_FUNDED_CODE" />
 
         <lockingKeys>
             <field attributeName="code" />

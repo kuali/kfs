@@ -18,7 +18,7 @@
 <%@ attribute name="editingMode" required="true" description="used to decide if items may be edited" type="java.util.Map"%>
 <c:set var="readOnly" value="${not empty editingMode['viewOnly']}" />
 
-<kul:tab tabTitle="Items" defaultOpen="false" tabErrorKey="${Constants.ITEM_LINE_ERRORS}">
+<kul:tab tabTitle="Items" defaultOpen="false" tabErrorKey="${KFSConstants.ITEM_LINE_ERRORS}">
 <c:set var="itemAttributes" value="${DataDictionary.InternalBillingItem.attributes}" />
 
  <div class="tab-container" align=center>

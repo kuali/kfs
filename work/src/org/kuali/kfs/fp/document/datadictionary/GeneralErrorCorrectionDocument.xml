@@ -42,7 +42,7 @@
             <![CDATA[&nbsp;]]>
         </summary>
         <description>The General Error Correction document is used to correct inappropriate or incorrect account numbers or sub-account numbers, and/or object codes or sub-object codes, on general ledger entries generated from other financial transactions.</description>
-        <help securityGroupName="Kuali.FinancialTransactionProcessing.GeneralErrorCorrectionDocument" parameterName="FINANCIAL_HELP_GENERAL_ERROR_CORRECTION_DOCUMENT" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="GeneralErrorCorrection" parameterName="GENERAL_ERROR_CORRECTION" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
     </transactionalDocument>

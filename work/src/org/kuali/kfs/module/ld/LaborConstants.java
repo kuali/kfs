@@ -26,6 +26,9 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntryFull;
+import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.labor.batch.LaborPosterStep;
+import org.kuali.module.labor.batch.PayrollAccrualStep;
 
 import edu.iu.uis.eden.workgroup.web.WorkgroupForm.WorkgroupMember;
 
@@ -51,6 +54,18 @@ public class LaborConstants {
         public static final String EXPENSE_TRANSFER_SACH = "SACH";
         public static final String EXPENSE_TRANSFER_YEST = "YEST";
         public static final String EXPENSE_TRANSFER_YEBT = "YEBT";        
+    }
+    
+    public static final String LABOR_NAMESPACE = "KFS-LD";
+    
+    public static class Components {
+
+       public static final String LABOR_POSTER_STEP = LaborPosterStep.class.getSimpleName();
+       public static final String PAYROLL_ACCURAL_STEP = PayrollAccrualStep.class.getSimpleName();
+       public static final String SALARY_EXPENSE_TRANSFER = SalaryExpenseTransfer.class.getSimpleName();
+       public static final String YEAR_END_BALANCE_FORWARD_JOB = "YearEndBalanceForwardJob";
+        
+        
     }
 
     public static class DestinationNames {
@@ -101,10 +116,9 @@ public class LaborConstants {
 
     public static class SalaryExpenseTransfer {
         public static final String LABOR_LEDGER_SALARY_CODE = "S";
-        public static final String SET_ADMIN_WORKGROUP = "Workgroup.SET.Admin";
-        public static final String GROUP_SET_DOCUMENT = "Kuali.Labor.SalaryExpenseTransferDocument";
-        public static final String BENEFIT_CLEARING_CHART_PARM_NM = "Benefits.Clearing.ChartOfAccountsCode";
-        public static final String BENEFIT_CLEARING_ACCOUNT_PARM_NM = "Benefits.Clearing.AccountNumber";
+        public static final String SET_ADMIN_WORKGROUP_PARM_NM = "SET_GROUP";
+        public static final String BENEFIT_CLEARING_CHART_PARM_NM = "BENEFIT_CLEARING_CHART_OF_ACCOUNTS";
+        public static final String BENEFIT_CLEARING_ACCOUNT_PARM_NM = "BENEFIT_CLEARING_ACCOUNT_NUMBER";
     }
 
     public static class BenefitExpenseTransfer {
@@ -134,40 +148,40 @@ public class LaborConstants {
     }
     
     public static class PayrollAccrual {
-        public static final String ACCRUAL_DAYS = "input.accrualDays";
-        public static final String WORK_DAYS = "input.workDays";
-        public static final String FISCAL_YEAR = "input.fiscalYear";
-        public static final String FISCAL_PERIOD = "input.fiscalPeriod";
-        public static final String REVERSAL_FISCAL_YEAR = "input.reversalFiscalYear";
-        public static final String REVERSAL_FISCAL_PERIOD = "input.reversalFiscalPeriod";
-        public static final String DOCUMENT_NUMBER = "input.documentNumber";
-        public static final String EARN_CODES = "input.earnCodes";
-        public static final String RUN_ID = "input.runId";
-        public static final String EXCLUDED_SUB_FUND_GROUPS = "input.excludedSubFundGroups";
+        public static final String ACCRUAL_DAYS = "NUMBER_OF_DAYS_TO_ACCRUE";
+        public static final String WORK_DAYS = "PAY_PERIOD_WORK_DAYS";
+        public static final String FISCAL_YEAR = "FISCAL_YEAR_SELECTION";
+        public static final String FISCAL_PERIOD = "FISCAL_PERIOD_SELECTION";
+        public static final String REVERSAL_FISCAL_YEAR = "FISCAL_YEAR_REVERSAL";
+        public static final String REVERSAL_FISCAL_PERIOD = "FISCAL_PERIOD_REVERSAL";
+        public static final String DOCUMENT_NUMBER = "DOCUMENT_NUMBER";
+        public static final String EARN_CODES = "EARN_CODE_SELECTION";
+        public static final String RUN_ID = "DOCUMENT_NUMBER_SELECTION";
+        public static final String EXCLUDED_SUB_FUND_GROUPS = "SUB_FUND_GROUP_SELECTION";
         
-        public static final String ORIGINATION_CODE = "originationCode";
+        public static final String ORIGINATION_CODE = "ORIGINATION";
     }
     
     public static class Poster {
-        public static final String PERIOD_CODES_NOT_PROCESSED = "periodCodesNotProcessed";
-        public static final String OBJECT_CODES_NOT_PROCESSED = "objectsNotProcessed";
-        public static final String BALANCE_TYPES_NOT_PROCESSED = "balanceTypesNotProcessed";
+        public static final String PERIOD_CODES_NOT_PROCESSED = "SENT_TO_GL_PERIOD_CODES";
+        public static final String OBJECT_CODES_NOT_PROCESSED = "SENT_TO_GL_OBJECT_CODES";
+        public static final String BALANCE_TYPES_NOT_PROCESSED = "SENT_TO_GL_BALANCE_TYPES";
     }
     
     public static class Scrubber {
-        public static final String PARAMETER_GROUP = "Labor.Scrubber";
-        public static final String SUBFUND_WAGE_EXCLUSTION_PARAMETER = "LaborScrubberSubFundWageExclusionParameter";
-        public static final String ACCOUNT_FRINGE__EXCLUSTION_PARAMETER = "LaborScrubberAccountFringeExclusionParameter";
-        public static final String SUSPENSE_ACCOUNT_LOGIC_PARAMETER = "LaborSuspenseAccountLogicParameter";
-        public static final String CONTINUATION_ACCOUNT_LOGIC_PARAMETER = "LaborContinuationAccountLogicParameter";       
+        public static final String PARAMETER_GROUP = "LaborScrubberStep";
+        public static final String SUBFUND_WAGE_EXCLUSION_PARAMETER = "SUB_FUND_GROUPS_NOT_ACCEPTING_WAGES_IND";
+        public static final String ACCOUNT_FRINGE_EXCLUSION_PARAMETER = "ACCOUNTS_NOT_ACCEPTING_FRINGES_IND";
+        public static final String SUSPENSE_ACCOUNT_LOGIC_PARAMETER = "SUSPENSE_ACCOUNT_LOGIC_IND";
+        public static final String CONTINUATION_ACCOUNT_LOGIC_PARAMETER = "CONTINUATION_ACCOUNT_LOGIC_IND";       
     }
     
     public static class YearEnd {
-        public static final String FUND_GROUP_PROCESSED = "fundGroupProcessed";
-        public static final String SUB_FUND_GROUP_PROCESSED = "subFundGroupProcessed";
-        public static final String DOCUMENT_TYPE_CODE = "documentTypeCode";
-        public static final String ORIGINATION_CODE = "originationCode";
-        public static final String OLD_FISCAL_YEAR = "oldFiscalYear";
+        public static final String FUND_GROUP_PROCESSED = "FUND_GROUPS";
+        public static final String SUB_FUND_GROUP_PROCESSED = "SUB_FUND_GROUPS";
+        public static final String DOCUMENT_TYPE_CODE = "ANNUAL_CLOSING_DOCUMENT_TYPE";
+        public static final String ORIGINATION_CODE = "ORIGINATION";
+        public static final String OLD_FISCAL_YEAR = "FISCAL_YEAR_SELECTION";
     }
 
     public static final class LABOR_LEDGER_PENDING_ENTRY_CODE {

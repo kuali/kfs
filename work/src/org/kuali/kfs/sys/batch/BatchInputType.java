@@ -38,6 +38,16 @@ public interface BatchInputType {
     /**
      * Returns the system parameter name that specifies the workgroup for the input type.
      */
+    public String getWorkgroupParameterNamespace();
+
+    /**
+     * Returns the system parameter name that specifies the workgroup for the input type.
+     */
+    public String getWorkgroupParameterComponent();
+
+    /**
+     * Returns the system parameter name that specifies the workgroup for the input type.
+     */
     public String getWorkgroupParameterName();
     
     /**

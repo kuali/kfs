@@ -22,6 +22,7 @@ import java.util.Map;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
@@ -43,12 +44,14 @@ public class BudgetDocumentRuleTest extends KualiTestBase {
 
     private BudgetDocumentRule budgetDocumentRule;
     private String MINIMUM_NUMBER_OF_TASKS;
+    private String MAXIMUM_NUMBER_OF_TASKS;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         budgetDocumentRule = new BudgetDocumentRule();
-        MINIMUM_NUMBER_OF_TASKS = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue("KraDevelopmentGroup", "minimumNumberOfTasks");
+        MAXIMUM_NUMBER_OF_TASKS = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.MAXIMUM_NUMBER_OF_TASKS);
+        MINIMUM_NUMBER_OF_TASKS = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.MINIMUM_NUMBER_OF_TASKS);
     }
 
     public void testValidPeriods() throws Exception {
@@ -234,15 +237,15 @@ public class BudgetDocumentRuleTest extends KualiTestBase {
      * Test for a task list that is too big.
      */
     public void testTooManyTasks() throws Exception {
-        budgetDocumentRule.isTaskListValid(buildTaskList(KraConstants.maximumNumberOfTasks + 1));
+        budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MAXIMUM_NUMBER_OF_TASKS) + 1));
         Map errorMap1 = GlobalVariables.getErrorMap();
         assertTrue(errorMap1.size() == 1);
 
-        budgetDocumentRule.isTaskListValid(buildTaskList(KraConstants.maximumNumberOfTasks + 1));
+        budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MAXIMUM_NUMBER_OF_TASKS) + 1));
         Map errorMap2 = GlobalVariables.getErrorMap();
         assertTrue(errorMap2.size() == 1);
 
-        budgetDocumentRule.isTaskListValid(buildTaskList(KraConstants.maximumNumberOfTasks + 1));
+        budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MAXIMUM_NUMBER_OF_TASKS) + 1));
         Map errorMap3 = GlobalVariables.getErrorMap();
         assertTrue(errorMap3.size() == 1);
     }

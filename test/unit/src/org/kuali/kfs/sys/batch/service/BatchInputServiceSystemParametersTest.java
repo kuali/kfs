@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.KFSConstants.ParameterGroups;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.batch.BatchInputFileType;
 import org.kuali.kfs.context.KualiTestBase;
@@ -28,7 +28,6 @@ import org.kuali.kfs.context.TestUtils;
 import org.kuali.module.financial.batch.pcard.ProcurementCardInputFileType;
 import org.kuali.module.gl.batch.collector.CollectorInputFileType;
 import org.kuali.test.ConfigureContext;
-import org.kuali.test.KualiTestConstants.TestConstants.Data2;
 import org.kuali.test.KualiTestConstants.TestConstants.Data4;
 
 /**
@@ -65,14 +64,14 @@ public class BatchInputServiceSystemParametersTest extends KualiTestBase {
      * Verifies system parameters needed by the batch upload process exist in the db.
      */
     public final void testSystemParametersExist() throws Exception {
-        String[] activeFileTypes = configurationService.getApplicationParameterValues(ParameterGroups.BATCH_UPLOAD_SECURITY_GROUP_NAME, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME);
-        assertTrue("system parameter " + SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME + " is not setup or contains no file types", activeFileTypes != null && activeFileTypes.length > 0);
+        String[] activeFileTypes = configurationService.getParameterValues(KFSConstants.CORE_NAMESPACE, KFSConstants.Components.BATCH, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME);
+        assertTrue("system parameter " + SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME + " is not setup or contains no file types", activeFileTypes != null && activeFileTypes.length > 0 && StringUtils.isNotBlank( activeFileTypes[0] ) );
 
-        String pcdoUploadWorkgroup = configurationService.getApplicationParameterValue(ParameterGroups.BATCH_UPLOAD_SECURITY_GROUP_NAME, pcdoBatchInputFileType.getWorkgroupParameterName());
-        assertTrue("system parameter " + pcdoBatchInputFileType.getWorkgroupParameterName() + " does not exist or has empty value.", StringUtils.isNotBlank(pcdoUploadWorkgroup));
+        String pcdoUploadWorkgroup = configurationService.getParameterValue(pcdoBatchInputFileType.getWorkgroupParameterNamespace(), pcdoBatchInputFileType.getWorkgroupParameterComponent(), pcdoBatchInputFileType.getWorkgroupParameterName());
+        assertTrue("system parameter " + pcdoBatchInputFileType.getWorkgroupParameterNamespace()+"/"+pcdoBatchInputFileType.getWorkgroupParameterComponent()+"/"+pcdoBatchInputFileType.getWorkgroupParameterName() + " does not exist or has empty value.", StringUtils.isNotBlank(pcdoUploadWorkgroup));
 
-        String collectorUploadWorkgroup = configurationService.getApplicationParameterValue(ParameterGroups.BATCH_UPLOAD_SECURITY_GROUP_NAME, collectorBatchInputFileType.getWorkgroupParameterName());
-        assertTrue("system parameter " + collectorBatchInputFileType.getWorkgroupParameterName() + " does not exist or has empty value.", StringUtils.isNotBlank(collectorUploadWorkgroup));
+        String collectorUploadWorkgroup = configurationService.getParameterValue(collectorBatchInputFileType.getWorkgroupParameterNamespace(), collectorBatchInputFileType.getWorkgroupParameterComponent(), collectorBatchInputFileType.getWorkgroupParameterName());
+        assertTrue("system parameter " + collectorBatchInputFileType.getWorkgroupParameterNamespace()+"/"+collectorBatchInputFileType.getWorkgroupParameterComponent()+"/"+collectorBatchInputFileType.getWorkgroupParameterName() + " does not exist or has empty value.", StringUtils.isNotBlank(collectorUploadWorkgroup));
     }
 
 
@@ -119,45 +118,12 @@ public class BatchInputServiceSystemParametersTest extends KualiTestBase {
         assertFalse("collector isActive method is true when active param does not contain identifier", batchInputFileService.isBatchInputTypeActive(collectorBatchInputFileType));
     }
 
-    /**
-     * Sets an invalid workgroup on system parameters and verifies user is not authorized.
-     */
-    public final void testIsUserAuthorizedForBatchType_invalidWorkgroupParameter() throws Exception {
-        UniversalUser nonWorkgroupUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
-        UniversalUser workgroupUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
-
-        setWorkgroupSystemParameter(pcdoBatchInputFileType.getWorkgroupParameterName(), "foo");
-        assertFalse("user is authorized for pcdo batch type but workgroup parameter is invalid", batchInputFileService.isUserAuthorizedForBatchType(pcdoBatchInputFileType, workgroupUser));
-
-        setWorkgroupSystemParameter(collectorBatchInputFileType.getWorkgroupParameterName(), "foo");
-        assertFalse("user is authorized for collector batch type but workgroup parameter is invalid", batchInputFileService.isUserAuthorizedForBatchType(collectorBatchInputFileType, workgroupUser));
-    }
-
-    /**
-     * Sets an valid workgroup on system parameters and verifies user is authorized.
-     */
-    public final void testIsUserAuthorizedForBatchType_validWorkgroupParameter() throws Exception {
-        UniversalUser workgroupUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
-        String validWorkgroup = Data2.KUALI_FMSOPS;
-
-        setWorkgroupSystemParameter(pcdoBatchInputFileType.getWorkgroupParameterName(), validWorkgroup);
-        assertTrue("user is not authorized for pcdo batch type but workgroup parameter is valid", batchInputFileService.isUserAuthorizedForBatchType(pcdoBatchInputFileType, workgroupUser));
-
-        setWorkgroupSystemParameter(collectorBatchInputFileType.getWorkgroupParameterName(), validWorkgroup);
-        assertTrue("user is not authorized for collector batch type but workgroup parameter is valid", batchInputFileService.isUserAuthorizedForBatchType(pcdoBatchInputFileType, workgroupUser));
-    }
 
     /**
      * Changes the text for the batch input active system parameter, stores and clears cache.
      */
     private final void setActiveSystemParameter(String parameterText, boolean multiValue) throws Exception {
-        TestUtils.setSystemParameter(ParameterGroups.BATCH_UPLOAD_SECURITY_GROUP_NAME, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME, parameterText, false, multiValue);
+        TestUtils.setSystemParameter(KFSConstants.CORE_NAMESPACE, KFSConstants.Components.BATCH, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME, parameterText, false, multiValue);
     }
 
-    /**
-     * Changes the text for the given workgroup system parameter, stores and clears cache.
-     */
-    private final void setWorkgroupSystemParameter(String workgroupName, String parameterText) throws Exception {
-        TestUtils.setSystemParameter(ParameterGroups.BATCH_UPLOAD_SECURITY_GROUP_NAME, workgroupName, parameterText, false, false);
-    }
-}
+ }

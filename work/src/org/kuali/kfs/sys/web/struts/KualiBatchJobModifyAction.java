@@ -43,7 +43,7 @@ public class KualiBatchJobModifyAction extends KualiAction {
     private static final String END_STEP_PARAMETER = "endStep";
     private static final String START_TIME_PARAMETER = "startTime";
     private static final String EMAIL_PARAMETER = "emailAddress";
-    private static final String JOB_ADMIN_PARAMETER_SUFFIX = "_WORKGROUP";
+    private static final String JOB_ADMIN_PARAMETER = "WORKGROUP";
 
     private static SchedulerService schedulerService;
     private static KualiConfigurationService configService;
@@ -89,14 +89,15 @@ public class KualiBatchJobModifyAction extends KualiAction {
      * @throws AuthorizationException
      */
     protected void checkJobAuthorization( BatchJobStatus job, String actionType ) throws AuthorizationException {
-        if ( getConfigService().hasApplicationParameter(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP) ) {            
-            String adminWorkgroup = getConfigService().getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP);
+        if ( getConfigService().parameterExists(KFSConstants.CORE_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP) ) {            
+            String adminWorkgroup = getConfigService().getParameterValue(KFSConstants.CORE_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP);
             if ( !GlobalVariables.getUserSession().getUniversalUser().isMember(adminWorkgroup) ) {
                 throw new AuthorizationException( GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), actionType, job.getFullName() );
             }
         }
-        if ( getConfigService().hasApplicationParameter(KFSConstants.ParameterGroups.SYSTEM, job.getName() + JOB_ADMIN_PARAMETER_SUFFIX) ) {
-            String jobSpecificAdminWorkgroup = getConfigService().getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, job.getName() + JOB_ADMIN_PARAMETER_SUFFIX );
+        // TODO: put the namespace on the job instead of looking at the 1st step
+        String jobSpecificAdminWorkgroup = getConfigService().getParameterValue(job.getSteps().get(0).getNamespace(), job.getSteps().get(0).getComponentName(), JOB_ADMIN_PARAMETER );
+        if ( StringUtils.isNotBlank(jobSpecificAdminWorkgroup) ) {
             if ( !GlobalVariables.getUserSession().getUniversalUser().isMember(jobSpecificAdminWorkgroup) ) {
                 throw new AuthorizationException( GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), actionType, job.getFullName() );
             }

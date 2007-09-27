@@ -28,8 +28,8 @@ import org.kuali.core.bo.user.UuId;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 
 import edu.iu.uis.eden.WorkflowServiceError;
@@ -90,7 +90,7 @@ public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearc
     }
     
     public String getSpecialAccessSearchUserWorkgroupName() {
-        return SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.Workgroups.SEARCH_SPECIAL_ACCESS);
+        return SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, PurapParameterConstants.Workgroups.SEARCH_SPECIAL_ACCESS);
     }
 
     /**

@@ -40,7 +40,7 @@
 
         <summary>Travel Expense Type Code Maintenance Document</summary>
         <description>Document used to create or update Travel Expense Type objects</description>
-        <help securityGroupName="Kuali.DisbursementVoucher.Help" parameterName="DISBURSEMENT_VOUCHER_HELP_TRAVEL_EXPENSE_TYPE_CODE" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="TravelExpenseTypeCode" parameterName="TRAVEL_EXPENSE_TYPE_CODE" />
 
         <lockingKeys>
             <field attributeName="code" />

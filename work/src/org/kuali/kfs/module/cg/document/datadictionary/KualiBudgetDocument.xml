@@ -55,62 +55,62 @@
         	<headerNavigationTab>
         		<navigateTo>parameters</navigateTo>
         		<displayName>Parameters</displayName>
-        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetParametersHelp"/>
+        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="PARAMETERS"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>overview</navigateTo>
         		<displayName>Overview</displayName>
-        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetOverviewHelp"/>
+        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="OVERVIEW"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>personnel</navigateTo>
         		<displayName>Personnel</displayName>
-        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetPersonnelHelp"/>
+        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="PERSONNEL"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>nonpersonnel</navigateTo>
         		<displayName>Nonpersonnel</displayName>
-        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetNonpersonnelHelp"/>
+        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="NONPERSONNEL"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>costshare</navigateTo>
         		<displayName>Cost Share</displayName>
-        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetCostShareHelp"/>
+        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="COST_SHARE"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>modular</navigateTo>
         		<displayName>Modular</displayName>
-        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetModularHelp"/>
+        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="MODULAR"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>indirectcost</navigateTo>
         		<displayName>Indirect Cost</displayName>
-        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetIndirectCostHelp"/>
+        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="INDIRECT_COST"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>permissions</navigateTo>
         		<displayName>Permissions</displayName>
-        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetPermissionsHelp"/>
+        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="PERMISSIONS"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>output</navigateTo>
         		<displayName>Output</displayName>
-        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetOutputHelp"/>
+        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="OUTPUT"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>template</navigateTo>
         		<displayName>Template</displayName>
-        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetTemplateHelp"/>
+        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="TEMPLATE"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>auditmode</navigateTo>
         		<displayName>Audit Mode</displayName>
-        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetAuditModeHelp"/>
+        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="AUDIT_MODE"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>notes</navigateTo>
         		<displayName>Notes</displayName>
-        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetNotesHelp"/>
+        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="NOTES"/>
         	</headerNavigationTab>
         </headerNavigation>
         

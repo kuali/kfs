@@ -40,7 +40,7 @@
 		
 		<summary>Labor Object Code Maintenance Document</summary>
 		<description>Document used to create or update Labor objects</description>
-        <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_LABOR_OBJECT" />
+        <help parameterNamespace="KR" parameterName="OTHER_HELP_LABOR_OBJECT" />
 
         <lockingKeys>
 			<field attributeName="universityFiscalYear" />

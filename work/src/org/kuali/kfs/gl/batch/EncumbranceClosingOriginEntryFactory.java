@@ -54,8 +54,8 @@ public class EncumbranceClosingOriginEntryFactory {
     static final public OriginEntryOffsetPair createCostShareBeginningBalanceEntryOffsetPair(Encumbrance encumbrance, String debitCreditCode) {
 
         KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-        final String GL_ACLO = kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_ACLO);
-        final String GL_ORIGINATION_CODE = kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE);
+        final String GL_ACLO = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE);
+        final String GL_ORIGINATION_CODE = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE);
         
         OriginEntryOffsetPair pair = new OriginEntryOffsetPair();
 
@@ -113,7 +113,7 @@ public class EncumbranceClosingOriginEntryFactory {
         // And now the offset ...
 
         OriginEntryFull offset = new OriginEntryFull(GL_ACLO, GL_ORIGINATION_CODE);
-        final String GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_ENCUMBRANCE_FORWARD_PROCESS, GLConstants.EncumbranceClosingOriginEntry.GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
+        final String GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.ENCUMBRANCE_FORWARD_STEP, GLConstants.EncumbranceClosingOriginEntry.GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
         offset.setTransactionLedgerEntryDescription(GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
 
         // Lookup the offset definition for the explicit entry we just created.
@@ -191,8 +191,8 @@ public class EncumbranceClosingOriginEntryFactory {
     static final public OriginEntryOffsetPair createBeginningBalanceEntryOffsetPair(Encumbrance encumbrance, Integer closingFiscalYear, Date transactionDate) {
 
         KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-        final String GL_ACLO = kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_ACLO);
-        final String GL_ORIGINATION_CODE = kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE);
+        final String GL_ACLO = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE);
+        final String GL_ORIGINATION_CODE = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE);
         
         OriginEntryOffsetPair pair = new OriginEntryOffsetPair();
 
@@ -281,10 +281,10 @@ public class EncumbranceClosingOriginEntryFactory {
 
         pair.setEntry(entry);
 
-        final String OBJECT_CODE_FOR_BALANCE_TYPE_INTERNAL_ENCUMBRANCE = kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_ENCUMBRANCE_FORWARD_PROCESS, GLConstants.EncumbranceClosingOriginEntry.OFFSET_OBJECT_CODE_FOR_INTERNAL_ENCUMBRANCE);
-        final String OBJECT_CODE_FOR_BALANCE_TYPE_PRE_ENCUMBRANCE = kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_ENCUMBRANCE_FORWARD_PROCESS, GLConstants.EncumbranceClosingOriginEntry.OFFSET_OBJECT_CODE_FOR_PRE_ENCUMBRANCE);
-        final String OBJECT_CODE_FOR_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE = kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_ENCUMBRANCE_FORWARD_PROCESS, GLConstants.EncumbranceClosingOriginEntry.OFFSET_OBJECT_CODE_FOR_EXTERNAL_ENCUMBRANCE);
-        final String BEGINNING_FUND_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_ENCUMBRANCE_FORWARD_PROCESS, GLConstants.EncumbranceClosingOriginEntry.BEGINNING_FUND_BALANCE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
+        final String OBJECT_CODE_FOR_BALANCE_TYPE_INTERNAL_ENCUMBRANCE = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE,  GLConstants.Components.ENCUMBRANCE_FORWARD_STEP, GLConstants.EncumbranceClosingOriginEntry.OFFSET_OBJECT_CODE_FOR_INTERNAL_ENCUMBRANCE);
+        final String OBJECT_CODE_FOR_BALANCE_TYPE_PRE_ENCUMBRANCE = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.ENCUMBRANCE_FORWARD_STEP, GLConstants.EncumbranceClosingOriginEntry.OFFSET_OBJECT_CODE_FOR_PRE_ENCUMBRANCE);
+        final String OBJECT_CODE_FOR_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.ENCUMBRANCE_FORWARD_STEP, GLConstants.EncumbranceClosingOriginEntry.OFFSET_OBJECT_CODE_FOR_EXTERNAL_ENCUMBRANCE);
+        final String BEGINNING_FUND_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.ENCUMBRANCE_FORWARD_STEP, GLConstants.EncumbranceClosingOriginEntry.BEGINNING_FUND_BALANCE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
         
         // And now build the offset.
         OriginEntryFull offset = new OriginEntryFull(entry);

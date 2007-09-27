@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<kul:tab tabTitle="Non-Employee Travel Expense" defaultOpen="false" tabErrorKey="${Constants.DV_NON_EMPL_TRAVEL_TAB_ERRORS}">
+<kul:tab tabTitle="Non-Employee Travel Expense" defaultOpen="false" tabErrorKey="${KFSConstants.DV_NON_EMPL_TRAVEL_TAB_ERRORS}">
 	<c:set var="nonEmplTravelAttributes" value="${DataDictionary.DisbursementVoucherNonEmployeeTravel.attributes}" />
     <c:set var="travelExpenseAttributes" value="${DataDictionary.DisbursementVoucherNonEmployeeExpense.attributes}" />
     <html:hidden property="document.dvNonEmployeeTravel.financialDocumentNextLineNbr"/>
@@ -245,7 +245,7 @@
                     <th colspan="3" class="infoline" scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${nonEmplTravelAttributes.totalTravelAmount}"/></div></th>
                     <td valign="top" nowrap="nowrap" class="infoline">
                     	<div align="center"><strong>
-                    	<kul:checkErrors keyMatch="${Constants.DV_CHECK_TRAVEL_TOTAL_ERROR}"/>
+                    	<kul:checkErrors keyMatch="${KFSConstants.DV_CHECK_TRAVEL_TOTAL_ERROR}"/>
 						<c:if test="${hasErrors}">
 	                    	<font color="red">
 						</c:if>

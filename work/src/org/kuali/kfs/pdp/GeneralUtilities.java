@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.module.pdp.PdpConstants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.pdp.exception.ConfigurationError;
 
 
@@ -27,8 +27,8 @@ public class GeneralUtilities {
 
     // GENERAL UTILITIES SECTION
 
-    public static int getParameterInteger(String parm,KualiConfigurationService kcs) {
-        String srpp = kcs.getApplicationParameterValue(PdpConstants.PDP_APPLICATION, parm);
+    public static int getParameterInteger(String parameterDetailTypeCode,String parm, KualiConfigurationService kcs) {
+        String srpp = kcs.getParameterValue(KFSConstants.PDP_NAMESPACE, parameterDetailTypeCode, parm);
         if ( srpp != null ) {
             try {
                 return Integer.parseInt(srpp);
@@ -40,8 +40,8 @@ public class GeneralUtilities {
         }
     }
 
-    public static int getParameterInteger(String parm,KualiConfigurationService kcs,int defaultValue) {
-        String srpp = kcs.getApplicationParameterValue(PdpConstants.PDP_APPLICATION, parm);
+    public static int getParameterInteger(String parameterDetailTypeCode,String parm,KualiConfigurationService kcs, int defaultValue) {
+        String srpp = kcs.getParameterValue(KFSConstants.PDP_NAMESPACE, parameterDetailTypeCode, parm);
         if ( srpp != null ) {
             try {
                 return Integer.parseInt(srpp);

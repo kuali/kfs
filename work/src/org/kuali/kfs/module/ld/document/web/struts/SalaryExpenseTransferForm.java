@@ -170,13 +170,13 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         map.remove(KFSPropertyConstants.AMOUNT);
         
         // check if user is allowed to edit the object code.
-        String adminGroupName = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(LaborConstants.SalaryExpenseTransfer.GROUP_SET_DOCUMENT, LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP);
+        String adminGroupName = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(LaborConstants.LABOR_NAMESPACE, LaborConstants.Components.SALARY_EXPENSE_TRANSFER, LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP_PARM_NM);
         boolean isAdmin = false;
         try {
             isAdmin = GlobalVariables.getUserSession().getUniversalUser().isMember(adminGroupName);
         }
         catch (Exception e) {
-            throw new RuntimeException("Workgroup " + LaborConstants.SalaryExpenseTransfer.GROUP_SET_DOCUMENT + " not found", e);
+            throw new RuntimeException("Workgroup " + LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP_PARM_NM + " not found", e);
         }
         if (isAdmin) {
             map.remove(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);

@@ -40,7 +40,7 @@
 
         <summary>Travel Per Diem Maintenance Document</summary>
         <description>Document used to create or update Travel Per Diem objects</description>
-        <help securityGroupName="Kuali.DisbursementVoucher.Help" parameterName="DISBURSEMENT_VOUCHER_HELP_TRAVEL_PER_DIEM" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="TravelPerDiem" parameterName="TRAVEL_PER_DIEM" />
 
         <lockingKeys>
             <field attributeName="fiscalYear" />

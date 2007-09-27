@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<kul:tab tabTitle="Nonresident Alien Tax" defaultOpen="false" tabErrorKey="${Constants.DV_NRATAX_TAB_ERRORS}">
+<kul:tab tabTitle="Nonresident Alien Tax" defaultOpen="false" tabErrorKey="${KFSConstants.DV_NRATAX_TAB_ERRORS}">
     <html:hidden property="document.dvNonResidentAlienTax.financialDocumentAccountingLineText"/>
     
 	<c:set var="nraTaxAttributes" value="${DataDictionary.DisbursementVoucherNonResidentAlienTax.attributes}" />

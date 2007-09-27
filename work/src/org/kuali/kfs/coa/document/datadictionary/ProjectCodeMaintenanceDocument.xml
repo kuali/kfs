@@ -42,7 +42,7 @@
 
         <summary>Project Code maintenance document</summary>
         <description>Document used to create or update Project Code objects</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_PROJECT_CODE" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="Project" parameterName="PROJECT" />
 
         <lockingKeys>
             <field attributeName="code" />

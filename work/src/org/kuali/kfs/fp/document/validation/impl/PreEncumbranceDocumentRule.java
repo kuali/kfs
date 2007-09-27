@@ -24,9 +24,9 @@ import static org.kuali.module.financial.rules.PreEncumbranceDocumentRuleConstan
 import static org.kuali.module.financial.rules.PreEncumbranceDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.Parameter;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.document.Document;
-import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
@@ -102,7 +102,7 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
      */
     @Override
     public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
-        KualiParameterRule combinedRule = KualiParameterRule.and(getGlobalObjectTypeRule(), getParameterRule(PRE_ENCUMBRANCE_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_TYPE_CODES));
+        Parameter combinedRule = getKualiConfigurationService().mergeParameters(getGlobalObjectTypeRule(), getParameterRule( KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.PRE_ENCUMBRANCE_DOC, RESTRICTED_OBJECT_TYPE_CODES));
         AttributeReference direct = createObjectCodeAttributeReference(accountingLine);
         AttributeReference indirect = createObjectTypeAttributeReference(accountingLine);
         boolean allowed = indirectRuleSucceeds(combinedRule, direct, indirect);

@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
 import org.kuali.core.bo.AdHocRouteRecipient;
 import org.kuali.core.bo.Note;
 import org.kuali.core.document.DocumentBase;
@@ -218,7 +217,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 //        }
 //    }
     public void createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument) {
-        String newSessionUserId = RiceConstants.SYSTEM_USER;
+        String newSessionUserId = KFSConstants.SYSTEM_USER;
         try {
             LogicContainer logicToRun = new LogicContainer() {
                 public Object runLogic(Object[] objects) throws Exception {
@@ -427,7 +426,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         po.setOverrideWorkflowButtons(Boolean.FALSE);
         boolean performedAction = SpringContext.getBean(PurApWorkflowIntegrationService.class).takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission", NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getUniversalUser(), null);
         if (!performedAction) {
-            SpringContext.getBean(PurApWorkflowIntegrationService.class).takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getUniversalUser().getPersonName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), null, RiceConstants.SYSTEM_USER);
+            SpringContext.getBean(PurApWorkflowIntegrationService.class).takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getUniversalUser().getPersonName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), null, KFSConstants.SYSTEM_USER);
         }
 //        takeWorkflowActionsForDocumentTransmission(po, null);
         po.setOverrideWorkflowButtons(Boolean.TRUE);

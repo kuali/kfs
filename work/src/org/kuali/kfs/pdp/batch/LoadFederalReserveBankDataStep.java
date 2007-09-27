@@ -30,7 +30,7 @@ public class LoadFederalReserveBankDataStep extends AbstractStep {
     public boolean execute(String jobName) throws InterruptedException {
         LOG.debug("execute() started");
 
-        String filename = kualiConfigurationService.getApplicationParameterValue(PdpConstants.PDP_APPLICATION, PdpConstants.ApplicationParameterKeys.ACH_BANK_INPUT_FILE);
+        String filename = kualiConfigurationService.getParameterValue(PdpConstants.PDP_NAMESPACE, PdpConstants.Components.LOAD_FED_RESERVE_BANK_DATA_STEP, PdpConstants.ApplicationParameterKeys.ACH_BANK_INPUT_FILE);
 
         return achBankService.reloadTable(directoryName + filename);
     }

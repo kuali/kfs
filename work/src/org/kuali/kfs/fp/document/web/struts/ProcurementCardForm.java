@@ -92,7 +92,7 @@ public class ProcurementCardForm extends KualiAccountingDocumentFormBase {
      * @return The retreived APC string used for the dispute url.
      */
     public String getDisputeURL() {
-        return SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP, DISPUTE_URL_PARM_NM);
+        return SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.PROCUREMENT_CARD_DOC, DISPUTE_URL_PARM_NM);
     }
 
 

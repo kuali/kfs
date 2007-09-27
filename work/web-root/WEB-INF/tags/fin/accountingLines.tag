@@ -132,7 +132,7 @@
 <%@ include file="/WEB-INF/tags/fin/accountingLinesVariablesOverride.tag" %>
 
 <kul:tab tabTitle="Accounting Lines" defaultOpen="true"
-         tabErrorKey="${Constants.ACCOUNTING_LINE_ERRORS}">
+         tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
   <div class="tab-container" align="center">
   <c:if test="${empty inherit || inherit == true}">
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">

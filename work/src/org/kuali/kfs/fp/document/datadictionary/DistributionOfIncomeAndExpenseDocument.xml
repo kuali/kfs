@@ -41,7 +41,7 @@
             <![CDATA[&nbsp;]]>
         </summary>
         <description>The Distribution of Income and Expense (DI) document is used to distribute income or expense, or assets and liabilities. &lt;br&gt; Amounts being distributed are usually the result of an accumulation of transactions that need to be divided up between various accounts. &lt;br&gt; &lt;br&gt; See FIS documentation here: &lt;a target="_blank" href="http://www.fms.indiana.edu/fis/documentation/di.pdf"&gt; http://www.fms.indiana.edu/fis/documentation/di.pdf &lt;/a&gt;</description>
-        <help securityGroupName="Kuali.FinancialTransactionProcessing.DistributionOfIncomeAndExpenseDocument" parameterName="FINANCIAL_HELP_DISTRIBUTION_OF_INCOME_AND_EXPENSE_DOCUMENT" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="DistributionOfIncomeAndExpense" parameterName="DISTRIBUTION_OF_INCOME_AND_EXPENSE" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
     </transactionalDocument>

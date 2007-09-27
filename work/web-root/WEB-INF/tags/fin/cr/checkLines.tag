@@ -29,7 +29,7 @@
 </c:if>
 
 <c:if test="${checkDetailMode}">
-    <kul:tab tabTitle="Check Detail" defaultOpen="true" tabErrorKey="${Constants.EDIT_CASH_RECEIPT_CHECK_DETAIL_ERRORS}" >
+    <kul:tab tabTitle="Check Detail" defaultOpen="true" tabErrorKey="${KFSConstants.EDIT_CASH_RECEIPT_CHECK_DETAIL_ERRORS}" >
         <div class="tab-container" align=center>
         
 	        <div class="h2-container">

@@ -63,7 +63,7 @@ public class SubAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerB
         // get the group name that we need here - CGSACCT
         KualiConfigurationService configService;
         configService = SpringContext.getBean(KualiConfigurationService.class);
-        String groupName = configService.getApplicationParameterValue(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.SUBACCOUNT_CG_WORKGROUP_PARM_NAME);
+        String groupName = configService.getParameterValue(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.SUB_ACCOUNT, KFSConstants.ChartApcParms.SUBACCOUNT_CG_WORKGROUP_PARM_NAME);
 
         // create a new KualiGroup instance with that name
         KualiGroupService groupService = SpringContext.getBean(KualiGroupService.class);

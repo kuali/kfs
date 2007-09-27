@@ -27,6 +27,7 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
@@ -55,9 +56,9 @@ public class BudgetParametersRule {
     protected BudgetParametersRule() {
         KualiConfigurationService kcs = SpringContext.getBean(KualiConfigurationService.class);
 
-        MAXIMUM_PERIOD_LENGTH = kcs.getApplicationParameterValue("KraDevelopmentGroup", "maximumPeriodLength");
-        PERIOD_IDENTIFIER = kcs.getApplicationParameterValue("KraDevelopmentGroup", "periodIdentifier");
-        NEW_PERIOD_IDENTIFIER = kcs.getApplicationParameterValue("KraDevelopmentGroup", "newPeriodIdentifier");
+        MAXIMUM_PERIOD_LENGTH = kcs.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.MAXIMUM_PERIOD_LENGTH);
+        PERIOD_IDENTIFIER = kcs.getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, KraConstants.PERIOD_IDENTIFIER);
+        NEW_PERIOD_IDENTIFIER = kcs.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.NEW_PERIOD_IDENTIFIER);
         
         dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
@@ -110,7 +111,7 @@ public class BudgetParametersRule {
     protected boolean isInflationRatesValid(BudgetDocument budgetDocument) {
         boolean valid = true;
         KualiDecimal MAX_INFLATION_RATE = new KualiDecimal(
-                SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.BUDGET_MAX_INFLATION_RATE_PARAMETER_NAME));
+                SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.BUDGET_MAX_INFLATION_RATE_PARAMETER_NAME));
 
         if (budgetDocument.getBudget().getBudgetPersonnelInflationRate() != null && budgetDocument.getBudget().getBudgetPersonnelInflationRate().isGreaterThan(MAX_INFLATION_RATE)) {
             GlobalVariables.getErrorMap().putError("budget.budgetPersonnelInflationRate", KraKeyConstants.ERROR_INVALID_VALUE, new String[] { dataDictionaryService.getAttributeLabel(Budget.class, "budgetPersonnelInflationRate") });
@@ -195,7 +196,7 @@ public class BudgetParametersRule {
         boolean valid = true;
 
         if (budgetPeriod.getBudgetPeriodBeginDate() != null && budgetPeriod.getBudgetPeriodEndDate() != null) {
-            String MAXIMUM_PERIOD_LENGTH = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue("KraDevelopmentGroup", "maximumPeriodLength");
+            String MAXIMUM_PERIOD_LENGTH = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.MAXIMUM_PERIOD_LENGTH);
 
             valid &= isPeriodDatesOrderValid(budgetPeriod.getBudgetPeriodBeginDate(), budgetPeriod.getBudgetPeriodEndDate(), periodLabel, "budget.period.invalidOrder_" + periodNumber);
 
@@ -215,12 +216,12 @@ public class BudgetParametersRule {
      */
     protected boolean isNumPeriodsValid(List periods, boolean modularBudget) {
         KualiConfigurationService configurationService = SpringContext.getBean(KualiConfigurationService.class);
-        String MINIMUM_NUMBER_OF_PERIODS = configurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "minimumNumberOfPeriods");
-        String MAXIMUM_NUMBER_OF_PERIODS = configurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "maximumNumberOfPeriods");
-        String MAXIMUM_NUMBER_MODULAR_PERIODS = configurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "maximumNumberModularPeriods");
+        String MINIMUM_NUMBER_OF_PERIODS = configurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.MINIMUM_NUMBER_OF_PERIODS);
+        String MAXIMUM_NUMBER_OF_PERIODS = configurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.MAXIMUM_NUMBER_OF_PERIODS);
+        String MAXIMUM_NUMBER_MODULAR_PERIODS = configurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.MAXIMUM_NUMBER_MODULAR_PERIODS);
 
         if (periods.size() > Integer.parseInt(MAXIMUM_NUMBER_OF_PERIODS)) {
-            GlobalVariables.getErrorMap().putError("budget.period.tooMany", KraKeyConstants.ERROR_TOO_MANY, new String[] { Integer.toString(KraConstants.maximumNumberOfPeriods), "period" });
+            GlobalVariables.getErrorMap().putError("budget.period.tooMany", KraKeyConstants.ERROR_TOO_MANY, new String[] { MAXIMUM_NUMBER_OF_PERIODS, "period" });
             return false;
         }
         else if (modularBudget) {
@@ -325,8 +326,8 @@ public class BudgetParametersRule {
      */
     protected boolean isTaskListValid(List budgetTaskList) {
         KualiConfigurationService configurationService = SpringContext.getBean(KualiConfigurationService.class);
-        String MINIMUM_NUMBER_OF_TASKS = configurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "minimumNumberOfTasks");
-        String MAXIMUM_NUMBER_OF_TASKS = configurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "maximumNumberOfTasks");
+        String MINIMUM_NUMBER_OF_TASKS = configurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.MINIMUM_NUMBER_OF_TASKS);
+        String MAXIMUM_NUMBER_OF_TASKS = configurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.MAXIMUM_NUMBER_OF_TASKS);
 
         if (budgetTaskList.size() > Integer.parseInt(MAXIMUM_NUMBER_OF_TASKS)) {
             String[] tooManyTasksError = new String[] { MAXIMUM_NUMBER_OF_TASKS, "task" };
@@ -411,7 +412,7 @@ public class BudgetParametersRule {
     protected boolean isGraduateAssistantRateListValid(BudgetDocument budgetDocument) {
         KualiConfigurationService kcs = SpringContext.getBean(KualiConfigurationService.class);
         List graduateAssistantRateList = budgetDocument.getBudget().getGraduateAssistantRates();
-        int numberOfAcademicYearSubdivisions = Integer.parseInt(kcs.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraBudgetNumberOfAcademicYearSubdivisions"));
+        int numberOfAcademicYearSubdivisions = Integer.parseInt(kcs.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.KRA_BUDGET_NUMBER_OF_ACADEMIC_YEAR_SUBDIVISIONS));
         String[] academicYearSubdivisionNames = null;
         boolean rateChanged = false;
         boolean valid = true;
@@ -430,7 +431,7 @@ public class BudgetParametersRule {
                 if (rateForTesting != null) {
                     if (!SpringContext.getBean(BudgetGraduateAssistantRateService.class).isValidGraduateAssistantRate(rateForTesting)) {
                         if (academicYearSubdivisionNames == null) {
-                            academicYearSubdivisionNames = kcs.getApplicationParameterValues(KraConstants.KRA_DEVELOPMENT_GROUP, "KraBudgetAcademicYearSubdivisionNames");
+                            academicYearSubdivisionNames = kcs.getParameterValues(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.KRA_BUDGET_ACADEMIC_YEAR_SUBDIVISION_NAMES);
                         }
                         String[] graduateAssistantRateErrorMessage = { academicYearSubdivisionNames[anAcademicYearSubdivisionIndex - 1], budgetGraduateAssistantRate.getCampusCode() };
                         GlobalVariables.getErrorMap().putError("budget.graduateAssistantRate[" + i + "].campusMaximumPeriod" + anAcademicYearSubdivisionIndex + "Rate", KraKeyConstants.ERROR_GRAD_RATE_TOO_HIGH, graduateAssistantRateErrorMessage);
@@ -447,7 +448,7 @@ public class BudgetParametersRule {
                 }
                 else {
                     if (academicYearSubdivisionNames == null)
-                        academicYearSubdivisionNames = kcs.getApplicationParameterValues(KraConstants.KRA_DEVELOPMENT_GROUP, "KraBudgetAcademicYearSubdivisionNames");
+                        academicYearSubdivisionNames = kcs.getParameterValues(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.KRA_BUDGET_ACADEMIC_YEAR_SUBDIVISION_NAMES);
                     String[] graduateAssistantRateErrorMessage = { budgetGraduateAssistantRate.getCampusCode() + " " + academicYearSubdivisionNames[anAcademicYearSubdivisionIndex - 1] + " Current Rate" };
                     GlobalVariables.getErrorMap().putError("budget.graduateAssistantRate[" + i + "].campusMaximumPeriod" + anAcademicYearSubdivisionIndex + "Rate", KFSKeyConstants.ERROR_REQUIRED, graduateAssistantRateErrorMessage);
                     valid = false;

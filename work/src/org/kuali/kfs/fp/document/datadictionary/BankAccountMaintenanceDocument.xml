@@ -40,7 +40,7 @@
 
         <summary>Bank Account maintenance document</summary>
         <description>Document used to create or update Bank Account objects</description>
-        <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_BANK_ACCOUNT" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="BankAccount" parameterName="BANK_ACCOUNT" />
 
         <lockingKeys>
             <field attributeName="financialDocumentBankCode" />

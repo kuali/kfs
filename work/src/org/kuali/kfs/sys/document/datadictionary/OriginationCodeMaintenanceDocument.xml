@@ -40,7 +40,7 @@
 
         <summary>Origination Code maintenance document</summary>
         <description>Document used to create or update Origination Code objects</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_ORIGINATION_CODE" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="Origination" parameterName="ORIGINATION" />
 
         <lockingKeys>
             <field attributeName="financialSystemOriginationCode" />

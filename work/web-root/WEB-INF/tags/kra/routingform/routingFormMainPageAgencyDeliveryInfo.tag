@@ -68,7 +68,7 @@
                     <html:hidden property="document.agencyFederalPassThroughNotAvailableIndicator" />
                     <html:hidden property="document.federalPassThroughAgency.fullName" /> 
 			    	<c:choose>
-			    		<c:when test="${!viewOnly && KualiForm.document.routingFormAgency.agency.agencyTypeCode != Constants.AGENCY_TYPE_CODE_FEDERAL}">
+			    		<c:when test="${!viewOnly && KualiForm.document.routingFormAgency.agency.agencyTypeCode != KFSConstants.AGENCY_TYPE_CODE_FEDERAL}">
 			    			<c:if test="${empty KualiForm.document.agencyFederalPassThroughNumber && !KualiForm.document.agencyFederalPassThroughNotAvailableIndicator and !viewOnly and !budgetLinked}"></c:if>
 			    			<c:if test="${KualiForm.document.agencyFederalPassThroughNotAvailableIndicator}">Unknown</c:if>
 			    			<c:if test="${!viewOnly and !budgetLinked}">

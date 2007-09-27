@@ -39,7 +39,7 @@
         <shortLabel>MandTransferElimCodeMaintDoc</shortLabel>
         <summary>Mandatory Transfer EliminationCode Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Mandatory Transfer Elimination Codes, or modify existing Mandatory Transfer Elimination Codes.</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_MANDATORY_TRANSFER_ELIMINATION_CODE" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="ManditoryTransferElimination" parameterName="MANDATORY_TRANSFER_ELIMINATION" />
 
         <lockingKeys>
             <field attributeName="code" />

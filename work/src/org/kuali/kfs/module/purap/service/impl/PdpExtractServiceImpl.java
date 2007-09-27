@@ -103,7 +103,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         Date processRunDate = dateTimeService.getCurrentDate();
 
-        String userId = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_PDP_USER_ID);
+        String userId = kualiConfigurationService.getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.BATCH, PurapParameterConstants.PURAP_PDP_USER_ID);
         UniversalUser uuser;
         try {
             uuser = universalUserService.getUniversalUserByAuthenticationUserId(userId);
@@ -624,8 +624,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @return
      */
     private Batch createBatch(String campusCode,PdpUser puser,Date processRunDate) {
-        String orgCode = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
-        String subUnitCode = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
+        String orgCode = kualiConfigurationService.getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.BATCH, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
+        String subUnitCode = kualiConfigurationService.getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.BATCH, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
         CustomerProfile customer = customerProfileService.get(campusCode, orgCode, subUnitCode);
         if ( customer == null ) {
             throw new IllegalArgumentException("Unable to find customer profile for " + campusCode + "/" + orgCode + "/" + subUnitCode);

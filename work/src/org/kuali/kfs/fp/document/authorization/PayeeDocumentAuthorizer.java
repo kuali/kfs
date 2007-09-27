@@ -40,7 +40,7 @@ public class PayeeDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
     public Map getEditMode(Document document, UniversalUser user) {
         Map editMode = super.getEditMode(document, user);
 
-        if ( user.isMember( SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP ) ) ) {
+        if ( user.isMember( SpringContext.getBean(KualiConfigurationService.class).getParameterValue( KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DISBURSEMENT_VOUCHER_DOC, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP ) ) ) {
             editMode.put(AuthorizationConstants.DisbursementVoucherEditMode.TAX_ENTRY, "TRUE");
         }
 

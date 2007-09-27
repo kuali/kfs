@@ -19,9 +19,10 @@ import static org.kuali.module.financial.rules.ServiceBillingDocumentRuleConstan
 import static org.kuali.module.financial.rules.ServiceBillingDocumentRuleConstants.SERVICE_BILLING_DOCUMENT_SECURITY_GROUPING;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.rule.KualiParameterRule;
+import org.kuali.core.bo.Parameter;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
@@ -72,8 +73,8 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
      * @see org.kuali.module.financial.rules.InternalBillingDocumentRule#getObjectTypeRule()
      */
     @Override
-    protected KualiParameterRule getObjectTypeRule() {
-        return KualiParameterRule.and(super.getObjectTypeRule(), getParameterRule(SERVICE_BILLING_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_TYPE_CODES));
+    protected Parameter getObjectTypeRule() {
+        return getKualiConfigurationService().mergeParameters(super.getObjectTypeRule(), getParameterRule( KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.SERVICE_BILLING_DOC,RESTRICTED_OBJECT_TYPE_CODES));
     }
 
     /**

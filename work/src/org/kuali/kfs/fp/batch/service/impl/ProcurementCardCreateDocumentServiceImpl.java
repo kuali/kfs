@@ -23,7 +23,6 @@ import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConsta
 import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.DEFAULT_TRANS_OBJECT_CODE_PARM_NM;
 import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.ERROR_TRANS_ACCOUNT_PARM_NM;
 import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.ERROR_TRANS_CHART_CODE_PARM_NM;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.PCARD_DOCUMENT_PARAMETERS_SEC_GROUP;
 import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.SINGLE_TRANSACTION_IND_PARM_NM;
 
 import java.sql.Timestamp;
@@ -98,7 +97,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 //                documentService.saveDocumentWithoutRunningValidation(pcardDocument);
             }
             catch (Exception e) {
-                LOG.error("Error persisting document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
+                LOG.error("Error persisting document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(),e);
                 throw new RuntimeException("Error persisting document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
             }
         }
@@ -143,7 +142,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      */
     public boolean autoApproveProcurementCardDocuments() {
         // check if auto approve is turned on
-        boolean autoApproveOn = kualiConfigurationService.getApplicationParameterIndicator(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP, AUTO_APPROVE_DOCUMENTS_IND);
+        boolean autoApproveOn = kualiConfigurationService.getIndicatorParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.PROCUREMENT_CARD_AUTO_APPROVE_DOCUMENTS_STEP, AUTO_APPROVE_DOCUMENTS_IND);
 
         if (!autoApproveOn) {
             return true;
@@ -159,7 +158,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         }
 
         // get number of days and type for autoapprove
-        int autoApproveNumberDays = Integer.parseInt(kualiConfigurationService.getApplicationParameterValue(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP, AUTO_APPROVE_NUMBER_OF_DAYS));
+        int autoApproveNumberDays = Integer.parseInt(kualiConfigurationService.getParameterValue(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.PROCUREMENT_CARD_AUTO_APPROVE_DOCUMENTS_STEP, AUTO_APPROVE_NUMBER_OF_DAYS));
 
         Timestamp currentDate = dateTimeService.getCurrentTimestamp();
         for (Iterator iter = documentList.iterator(); iter.hasNext();) {
@@ -199,7 +198,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         List transactions = (List) businessObjectService.findMatchingOrderBy(ProcurementCardTransaction.class, new HashMap(), KFSPropertyConstants.TRANSACTION_CREDIT_CARD_NUMBER, true);
 
         // check apc for single transaction documents or multple by card
-        boolean singleTransaction = kualiConfigurationService.getApplicationParameterIndicator(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP, SINGLE_TRANSACTION_IND_PARM_NM);
+        boolean singleTransaction = kualiConfigurationService.getIndicatorParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.PROCUREMENT_CARD_CREATE_DOCUMENTS_STEP, SINGLE_TRANSACTION_IND_PARM_NM);
 
         List documentTransactions = new ArrayList();
         if (singleTransaction) {
@@ -543,35 +542,36 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @return error chart code defined in the apc
      */
     private String getErrorChartCode() {
-        return kualiConfigurationService.getApplicationParameterValue(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP, ERROR_TRANS_CHART_CODE_PARM_NM);
+        return kualiConfigurationService.getParameterValue(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.PROCUREMENT_CARD_CREATE_DOCUMENTS_STEP, ERROR_TRANS_CHART_CODE_PARM_NM);
     }
 
     /**
      * @return error account number defined in the apc
      */
     private String getErrorAccountNumber() {
-        return kualiConfigurationService.getApplicationParameterValue(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP, ERROR_TRANS_ACCOUNT_PARM_NM);
+        return kualiConfigurationService.getParameterValue(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.PROCUREMENT_CARD_CREATE_DOCUMENTS_STEP, ERROR_TRANS_ACCOUNT_PARM_NM);
     }
 
     /**
      * @return default chart code defined in the apc
      */
     private String getDefaultChartCode() {
-        return kualiConfigurationService.getApplicationParameterValue(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP, DEFAULT_TRANS_CHART_CODE_PARM_NM);
+        return kualiConfigurationService.getParameterValue(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.PROCUREMENT_CARD_LOAD_STEP, DEFAULT_TRANS_CHART_CODE_PARM_NM);
     }
 
     /**
      * @return default account number defined in the apc
      */
     private String getDefaultAccountNumber() {
-        return kualiConfigurationService.getApplicationParameterValue(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP, DEFAULT_TRANS_ACCOUNT_PARM_NM);
+        return kualiConfigurationService.getParameterValue(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.PROCUREMENT_CARD_LOAD_STEP, 
+                DEFAULT_TRANS_ACCOUNT_PARM_NM);
     }
 
     /**
      * @return default object code defined in the apc
      */
     private String getDefaultObjectCode() {
-        return kualiConfigurationService.getApplicationParameterValue(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP, DEFAULT_TRANS_OBJECT_CODE_PARM_NM);
+        return kualiConfigurationService.getParameterValue(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.PROCUREMENT_CARD_LOAD_STEP, DEFAULT_TRANS_OBJECT_CODE_PARM_NM);
     }
 
     /**

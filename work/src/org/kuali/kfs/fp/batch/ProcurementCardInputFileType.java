@@ -23,7 +23,6 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.batch.BatchInputFileTypeBase;
 
 /**
@@ -40,12 +39,13 @@ public class ProcurementCardInputFileType extends BatchInputFileTypeBase {
     public String getFileTypeIdentifer() {
         return KFSConstants.PCDO_FILE_TYPE_INDENTIFIER;
     }
+    
+    public String getWorkgroupParameterComponent() {
+        return KFSConstants.SystemGroupParameterNames.PCDO_FILE_TYPE_PARAMETER_COMPONENT;
+    }
 
-    /**
-     * @see org.kuali.kfs.batch.BatchInputFileType#getWorkgroupParameterName()
-     */
-    public String getWorkgroupParameterName() {
-        return SystemGroupParameterNames.PCDO_FILE_TYPE_WORKGROUP_PARAMAETER_NAME;
+    public String getWorkgroupParameterNamespace() {
+        return KFSConstants.SystemGroupParameterNames.PCDO_FILE_TYPE_PARAMETER_NAMESPACE;
     }
 
     /**

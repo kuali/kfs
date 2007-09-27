@@ -41,7 +41,7 @@
 
         <summary>Sub Object maintenance document</summary>
         <description>Document used to create or update Sub Objects</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_SUB_OBJECT_CODE" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="SubObjectCode" parameterName="SUB_OBJECT" />
 
         <lockingKeys>
             <field attributeName="universityFiscalYear" />

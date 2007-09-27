@@ -38,7 +38,7 @@
         <shortLabel>AccountTypeMaintDoc</shortLabel>
         <summary>Account Type Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Account Types, or modify existing Account Types.</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_ACCOUNT_TYPE" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="AccountType" parameterName="ACCOUNT_TYPE" />
 
         <lockingKeys>
             <field attributeName="accountTypeCode" />

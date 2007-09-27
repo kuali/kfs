@@ -40,7 +40,7 @@
 
         <summary>OffsetAccountMaintenanceDocument</summary>
         <description>Document used to create or update Offset Accounts</description>
-        <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_OFFSET_ACCOUNT" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="OffsetAccount" parameterName="OFFSET_ACCOUNT" />
 
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />

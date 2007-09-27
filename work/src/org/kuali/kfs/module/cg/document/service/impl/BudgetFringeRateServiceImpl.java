@@ -15,11 +15,9 @@
  */
 package org.kuali.module.kra.budget.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -29,15 +27,13 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.AppointmentType;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
 import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.service.BudgetFringeRateService;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class is the service implementation for the Account structure. This is the default, Kuali provided implementation.
@@ -75,7 +71,7 @@ public class BudgetFringeRateServiceImpl implements BudgetFringeRateService {
     public BudgetFringeRate getBudgetFringeRateForDefaultAppointmentType(String documentNumber) {
         
         AppointmentType appointmentType = (AppointmentType) businessObjectService.retrieve(
-                new AppointmentType(kualiConfigurationService.getApplicationParameterValue("KraDevelopmentGroup", "defaultAppointmentType")));
+                new AppointmentType(kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, KraConstants.DEFAULT_APPOINTMENT_TYPE)));
         
         BudgetFringeRate defaultFringeRate = (BudgetFringeRate) businessObjectService.retrieve(
                 new BudgetFringeRate(documentNumber, appointmentType.getAppointmentTypeCode()));

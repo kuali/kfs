@@ -130,6 +130,8 @@
 		<property name="organizationDao">
 			<ref bean="organizationDao" />
 		</property>
+        <property name="configService" ref="kualiConfigurationService" />
+        <property name="chartService" ref="chartService" />
 	</bean>
 
 	<bean id="priorYearAccountService" class="org.kuali.module.chart.service.impl.PriorYearAccountServiceImpl">
@@ -169,6 +171,12 @@
 		<property name="objectTypeDao">
 			<ref bean="objectTypeDao" />
 		</property>
+        <property name="optionsDao">
+            <ref bean="optionsDao" />
+        </property>
+        <property name="universityDateService">
+            <ref bean="universityDateService" />
+        </property>
 	</bean>
 
 	<bean id="a21SubAccountService" class="org.kuali.module.chart.service.impl.A21SubAccountServiceImpl">
@@ -368,7 +376,11 @@
 		</property>
 	</bean>
 	
-	<bean id="fiscalYearMakerStep" class="org.kuali.module.chart.batch.FiscalYearMakerStep" parent="step">
+    <bean id="chartStep" parent="step" abstract="true">
+        <property name="namespace" value="KFS-CA" />
+    </bean>
+
+	<bean id="fiscalYearMakerStep" class="org.kuali.module.chart.batch.FiscalYearMakerStep" parent="chartStep">
 		<property name="dateMakerService">
 			<ref bean="dateMakerService" />
 		</property>

@@ -50,9 +50,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     private static ObjectLevelService objectLevelService;
     private static ObjectCodeService objectCodeService;
     private static ObjectConsService  objectConsService;
-
-    private final static String OBJECT_CODE_ILLEGAL_VALUES = "ObjectCodeIllegalValues";
-
+    
     private static KualiConfigurationService configService;
     private static ChartService chartService;
     private Map reportsTo;
@@ -63,7 +61,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     	if ( objectConsService == null ) {
 	        configService = SpringContext.getBean(KualiConfigurationService.class);
 	
-	        illegalValues = retrieveParameterSet(OBJECT_CODE_ILLEGAL_VALUES);
+	        illegalValues = retrieveParameterSet(KFSConstants.ChartApcParms.OBJECT_CODE_ILLEGAL_VALUES);
 	
 	        objectLevelService = SpringContext.getBean(ObjectLevelService.class);
 	        objectCodeService = SpringContext.getBean(ObjectCodeService.class);
@@ -345,17 +343,8 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     	return verifyObjectCode(year, reportsToChartCode, reportsToObjectCode);
     }
 
-    private Set retrieveParameterSet(String parameterName) {
-
-        String[] elements = configService.getApplicationParameterValues(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, parameterName);
-
-        Set result = new HashSet();
-        if (elements != null) {
-            for (int i = 0; i < elements.length; i++) {
-                result.add(elements[i]);
-            }
-        }
-        return result;
+    private Set<String> retrieveParameterSet(String parameterName) {
+        return configService.getParameterValuesAsSet(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.OBJECT, parameterName);
     }
 
 }

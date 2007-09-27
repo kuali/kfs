@@ -40,7 +40,7 @@
 
         <summary>State maintenance document</summary>
         <description>Document used to create or update State objects</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_STATE" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="State" parameterName="STATE" />
 
         <lockingKeys>
             <field attributeName="postalStateCode" />

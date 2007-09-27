@@ -56,6 +56,9 @@ public class RoutingFormOutputAction extends RoutingFormAction {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetOutputAction.class);
     private static Logger fopLogger = null; // Needed for fop logging
+
+    private static final String XSL_PATH_PARM_NM = "OUTPUT_XSL_PATH";
+    private static final String STYLESHEET_URL_OR_PATH_PARM_NM = "OUTPUT_STYLESHEET_URL_OR_PATH";
     
     /**
      * Use for generation of PDF that is to be pushed to the browser.
@@ -184,18 +187,18 @@ public class RoutingFormOutputAction extends RoutingFormAction {
         String urlString = "";
         
         KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-        String STYLESHEET_URL_OR_PATH = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "outputRoutingFormStylesheetUrlOrPath");
+        String stylesheetUrlOrPath = kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, STYLESHEET_URL_OR_PATH_PARM_NM);
         
         // following checks if STYLESHEET_URL_OR_PATH is a URL already or path within the project
-        if (STYLESHEET_URL_OR_PATH.contains("://")) {
-            urlString = STYLESHEET_URL_OR_PATH;
+        if (stylesheetUrlOrPath.contains("://")) {
+            urlString = stylesheetUrlOrPath;
         }
         else {
-            String APPLICATION_BASE_URL_KEY = kualiConfigurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-            urlString = APPLICATION_BASE_URL_KEY + STYLESHEET_URL_OR_PATH;
+            String applicationBaseUrlKey = kualiConfigurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+            urlString = applicationBaseUrlKey + stylesheetUrlOrPath;
         }
 
-        urlString += kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "outputRoutingFormXslPath");
+        urlString += kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, XSL_PATH_PARM_NM);
 
         return new StreamSource(new URL(urlString).openConnection().getInputStream());
     }

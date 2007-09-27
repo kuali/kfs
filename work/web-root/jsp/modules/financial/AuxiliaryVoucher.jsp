@@ -31,7 +31,7 @@
 
         <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
 		<!-- AUXILIARY VOUCHER SPECIFIC FIELDS -->
-		<kul:tab tabTitle="Auxiliary Voucher Details" defaultOpen="true" tabErrorKey="${Constants.EDIT_AUXILIARY_VOUCHER_ERRORS}" >
+		<kul:tab tabTitle="Auxiliary Voucher Details" defaultOpen="true" tabErrorKey="${KFSConstants.EDIT_AUXILIARY_VOUCHER_ERRORS}" >
 	    	
 	    	<div class="tab-container" align="center">
 		<div class="h2-container">
@@ -87,12 +87,12 @@
                   </td>
               </tr>
               <c:choose>
-                  <c:when test="${empty KualiForm.document.typeCode || KualiForm.document.typeCode == Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE}">
+                  <c:when test="${empty KualiForm.document.typeCode || KualiForm.document.typeCode == KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE}">
                   </c:when>                  
                   <c:otherwise>
                       <c:set var="reversalReadOnly" value="${readOnly}"/>
                       <c:if test="${!reversalReadOnly}">  <!--  if we're already readOnly b/c of authz permissions, then we want to stay that way -->
-	                      <c:if test="${KualiForm.document.typeCode == Constants.AuxiliaryVoucher.RECODE_DOC_TYPE}">
+	                      <c:if test="${KualiForm.document.typeCode == KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE}">
 						      <c:set var="reversalReadOnly" value="true"/>
 	                      </c:if>
 	                  </c:if>

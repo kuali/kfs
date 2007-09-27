@@ -36,6 +36,7 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
@@ -175,11 +176,11 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
         if (flags.getCanRoute() || flags.getCanApprove()) {
             UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
             if (routingForm.getRoutingFormDocument().isUserProjectDirector(user.getPersonUniversalIdentifier())) {
-                routingForm.setApprovalsMessage(SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue("KraAdminGroup", "routingFormApprovalsProjectDirectorWording"));
+                routingForm.setApprovalsMessage(SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.APPROVALS_PROJECT_DIRECTOR_WORDING));
             } else if (routingFormDocument.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId().equalsIgnoreCase(user.getPersonUserIdentifier())) {
-                routingForm.setApprovalsMessage(SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue("KraAdminGroup", "routingFormApprovalsInitiatorWording"));
+                routingForm.setApprovalsMessage(SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.APPROVALS_INITIATOR_WORDING));
             } else {
-                routingForm.setApprovalsMessage(SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue("KraAdminGroup", "routingFormApprovalsDefaultWording"));
+                routingForm.setApprovalsMessage(SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.APPROVALS_DEFAULT_WORDING));
             }
         }
     }

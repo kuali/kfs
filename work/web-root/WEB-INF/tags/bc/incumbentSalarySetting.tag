@@ -45,7 +45,7 @@
                 attributeEntry="${intincAttributes.personName}"
 --%>
 
-<kul:tabTop tabTitle="Salary Setting by Incumbent" defaultOpen="true" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_INCUMBENT_SALARY_SETTING_TAB_ERRORS}">
+<kul:tabTop tabTitle="Salary Setting by Incumbent" defaultOpen="true" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_INCUMBENT_SALARY_SETTING_TAB_ERRORS}">
 <div class="tab-container" align=center>
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
         <bc:subheadingWithDetailToggleRow
@@ -449,7 +449,7 @@
                accountingLineValuesMap="${item.valuesMap}" />
            
            <c:set var="doAccountLookupOrInquiry" value="false"/>
-           <c:if test="${item.subAccountNumber ne Constants.DASHES_SUB_ACCOUNT_NUMBER}">
+           <c:if test="${item.subAccountNumber ne '-----'}"><%-- FIXME: need to get current "default" value from constants --%>
                <c:set var="doAccountLookupOrInquiry" value="true"/>
            </c:if>
            <bc:pbglLineDataCell dataCellCssClass="datacell"
@@ -477,7 +477,7 @@
                inquiryExtraKeyValues="universityFiscalYear=${item.universityFiscalYear}" />
 
            <c:set var="doLookupOrInquiry" value="false"/>
-           <c:if test="${item.financialSubObjectCode ne Constants.DASHES_SUB_OBJECT_CODE}">
+           <c:if test="${item.financialSubObjectCode ne '---'}"><%-- FIXME: need to get current "default" value from constants --%>
                <c:set var="doLookupOrInquiry" value="true"/>
            </c:if>
            <bc:pbglLineDataCell dataCellCssClass="datacell"

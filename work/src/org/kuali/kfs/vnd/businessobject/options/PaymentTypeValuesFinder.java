@@ -22,7 +22,9 @@ import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorParameterConstants;
 
 /**
@@ -36,8 +38,8 @@ public class PaymentTypeValuesFinder extends KeyValuesBase implements ValueFinde
      */
     public List getKeyValues() {
 
-        String[] descValues = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValues(
-                VendorParameterConstants.PURAP_ADMIN_GROUP, VendorParameterConstants.PAYMENT_TERMS_DUE_TYPE_DESC);
+        String[] descValues = SpringContext.getBean(KualiConfigurationService.class).getParameterValues(
+                KFSConstants.PURAP_NAMESPACE, VendorConstants.Components.PAYMENT_TERM_TYPE, VendorParameterConstants.PAYMENT_TERMS_DUE_TYPE_DESC);
         List keyValues = new ArrayList();
         for (String desc : descValues) {
             keyValues.add(new KeyLabelPair(desc, desc));

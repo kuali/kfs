@@ -22,17 +22,18 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.FinancialSystemParameter;
+import org.kuali.core.bo.Parameter;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel;
@@ -63,6 +64,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class DisbursementVoucherExtractServiceImpl implements DisbursementVoucherExtractService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherExtractServiceImpl.class);
 
+    private static final String CAMPUS_BY_PAYMENT_REASON_PARAM = "CAMPUS_BY_PAYMENT_REASON";
+    
     private KualiConfigurationService kualiConfigurationService;
     private DisbursementVoucherDao disbursementVoucherDao;
     private DateTimeService dateTimeService;
@@ -81,7 +84,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         Date processRunDate = dateTimeService.getCurrentDate();
 
-        String userId = kualiConfigurationService.getApplicationParameterValue(DisbursementVoucherRuleConstants.DV_PDP_EXTRACT_GROUP_NM, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_USER_ID);
+        String userId = kualiConfigurationService.getParameterValue(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DISBURSEMENT_VOUCHER_DOC, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_USER_ID);
         UniversalUser uuser;
         try {
             uuser = universalUserService.getUniversalUserByAuthenticationUserId(userId);
@@ -393,8 +396,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     private Batch createBatch(String campusCode,UniversalUser user,Date processRunDate) {
-        String orgCode = kualiConfigurationService.getApplicationParameterValue(DisbursementVoucherRuleConstants.DV_PDP_EXTRACT_GROUP_NM, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_ORG_CODE);
-        String subUnitCode = kualiConfigurationService.getApplicationParameterValue(DisbursementVoucherRuleConstants.DV_PDP_EXTRACT_GROUP_NM, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_SBUNT_CODE);
+        String orgCode = kualiConfigurationService.getParameterValue(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DISBURSEMENT_VOUCHER_DOC, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_ORG_CODE);
+        String subUnitCode = kualiConfigurationService.getParameterValue(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DISBURSEMENT_VOUCHER_DOC, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_SBUNT_CODE);
         CustomerProfile customer = customerProfileService.get(campusCode, orgCode, subUnitCode);
         if ( customer == null ) {
             throw new IllegalArgumentException("Unable to find customer profile for " + campusCode + "/" + orgCode + "/" + subUnitCode);
@@ -419,9 +422,9 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     private Set<String> getCampusListByDocumentStatusCode(String statusCode) {
         LOG.debug("getCampusListByDocumentStatusCode() started");
 
-        // Get the campus overide values
-        Map<String,FinancialSystemParameter> parms = kualiConfigurationService.getParametersByGroup(DisbursementVoucherRuleConstants.DV_PAYMENT_REASON_CAMPUS_OVERRIDE);
-
+        // Get the campus overide values        
+        Parameter campusByPaymentReasonConstraint = kualiConfigurationService.getParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DISBURSEMENT_VOUCHER_DOC, CAMPUS_BY_PAYMENT_REASON_PARAM);
+        
         Set<String> campusSet = new HashSet<String>();
 
         Collection docs = disbursementVoucherDao.getDocumentsByHeaderStatus(statusCode);
@@ -431,9 +434,9 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             String campusCode = element.getCampusCode();
             DisbursementVoucherPayeeDetail dvpd = element.getDvPayeeDetail();
             if ( dvpd != null ) {
-                FinancialSystemParameter param = parms.get(dvpd.getDisbVchrPaymentReasonCode());
-                if ( param != null ) {
-                    campusCode = param.getFinancialSystemParameterText();
+                List<String> campusCodes = kualiConfigurationService.getConstrainedValues(campusByPaymentReasonConstraint, dvpd.getDisbVchrPaymentReasonCode() );
+                if ( campusCodes.size() > 0 && StringUtils.isNotBlank( campusCodes.get(0) ) ) {
+                    campusCode = campusCodes.get(0);
                 }
                 campusSet.add(campusCode);
             }
@@ -444,9 +447,9 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     private Collection<DisbursementVoucherDocument> getListByDocumentStatusCodeCampus(String statusCode,String campusCode) {
         LOG.debug("getListByDocumentStatusCodeCampus() started");
 
-        // Get the campus overide values
-        Map<String,FinancialSystemParameter> parms = kualiConfigurationService.getParametersByGroup(DisbursementVoucherRuleConstants.DV_PAYMENT_REASON_CAMPUS_OVERRIDE);
-
+        // Get the campus overide values        
+        Parameter campusByPaymentReasonConstraint = kualiConfigurationService.getParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DISBURSEMENT_VOUCHER_DOC, CAMPUS_BY_PAYMENT_REASON_PARAM);
+            
         Collection<DisbursementVoucherDocument> list = new ArrayList<DisbursementVoucherDocument>();
 
         Collection docs = disbursementVoucherDao.getDocumentsByHeaderStatus(statusCode);
@@ -457,9 +460,9 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
             DisbursementVoucherPayeeDetail dvpd = element.getDvPayeeDetail();
             if ( dvpd != null ) {
-                FinancialSystemParameter param = parms.get(dvpd.getDisbVchrPaymentReasonCode());
-                if ( param != null ) {
-                    dvdCampusCode = param.getFinancialSystemParameterText();
+                List<String> campusCodes = kualiConfigurationService.getConstrainedValues(campusByPaymentReasonConstraint, dvpd.getDisbVchrPaymentReasonCode() );
+                if ( campusCodes.size() > 0 && StringUtils.isNotBlank( campusCodes.get(0) ) ) {
+                    dvdCampusCode = campusCodes.get(0);
                 }
             }
 

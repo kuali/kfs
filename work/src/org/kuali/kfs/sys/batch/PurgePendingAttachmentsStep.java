@@ -15,13 +15,11 @@
  */
 package org.kuali.kfs.batch;
 
-import java.io.File;
 import java.util.Calendar;
-import java.util.Date;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.AttachmentService;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.module.gl.GLConstants;
 
 
 /**
@@ -50,7 +48,8 @@ public class PurgePendingAttachmentsStep extends AbstractStep {
      */
     public boolean execute(String jobName) {
         Calendar calendar = getDateTimeService().getCurrentCalendar();
-        String maxAgeInSecondsStr = getConfigurationService().getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM,
+        String maxAgeInSecondsStr = getConfigurationService().getParameterValue(KFSConstants.GL_NAMESPACE,
+                GLConstants.Components.PURGE_PENDING_ATTACHMENTS_STEP,
                 KFSConstants.SystemGroupParameterNames.PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE);
         int maxAgeInSeconds = Integer.parseInt(maxAgeInSecondsStr);
         calendar.add(Calendar.SECOND, -maxAgeInSeconds);

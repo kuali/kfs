@@ -53,7 +53,7 @@
     </SCRIPT>
 	<html:hidden write="false" property="document.campusLocationCode" />
 	<kul:tab tabTitle="Cash Reconciliation" defaultOpen="true"
-		tabErrorKey="${Constants.EDIT_CASH_RECEIPT_CASH_RECONCILIATION_ERRORS}">
+		tabErrorKey="${KFSConstants.EDIT_CASH_RECEIPT_CASH_RECONCILIATION_ERRORS}">
 		<div class="tab-container" align=center>
 		<div class="h2-container">
 		<h2>Cash Reconciliation</h2>

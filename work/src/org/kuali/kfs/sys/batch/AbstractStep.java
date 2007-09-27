@@ -21,6 +21,8 @@ import org.springframework.beans.factory.BeanNameAware;
 
 public abstract class AbstractStep implements Step, BeanNameAware {
     private String name;
+    private String namespace;
+    private String componentName;
     private KualiConfigurationService configurationService;
     private DateTimeService dateTimeService;
     private boolean interrupted = false;
@@ -87,5 +89,20 @@ public abstract class AbstractStep implements Step, BeanNameAware {
     
     public void interrupt() {
         this.interrupted = true;
+    }
+
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+    
+    public String getComponentName() {
+        if ( componentName == null ) {
+            return getClass().getSimpleName();
+        }
+        return componentName;
     }
 }

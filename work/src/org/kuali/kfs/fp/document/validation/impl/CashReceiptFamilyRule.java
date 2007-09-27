@@ -18,9 +18,8 @@ package org.kuali.module.financial.rules;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.rule.KualiParameterRule;
+import org.kuali.core.bo.Parameter;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -131,14 +130,14 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
         valid &= super.isObjectTypeAllowed(accountingLine);
 
         if (valid) {
-            KualiParameterRule rule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(KUALI_TRANSACTION_PROCESSING_CASH_RECEIPT_SECURITY_GROUPING, RESTRICTED_OBJECT_TYPE_CODES);
+            Parameter rule = getKualiConfigurationService().getParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.CASH_RECEIPT_DOC, RESTRICTED_OBJECT_TYPE_CODES);
 
             ObjectCode objectCode = accountingLine.getObjectCode();
             if (ObjectUtils.isNull(objectCode)) {
                 accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
             }
 
-            if (rule.failsRule(objectCode.getFinancialObjectTypeCode())) {
+            if (getKualiConfigurationService().failsRule(rule,objectCode.getFinancialObjectTypeCode())) {
                 valid = false;
 
                 // add message
@@ -162,7 +161,7 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
         valid &= super.isObjectConsolidationAllowed(accountingLine);
 
         if (valid) {
-            KualiParameterRule rule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(KUALI_TRANSACTION_PROCESSING_CASH_RECEIPT_SECURITY_GROUPING, RESTRICTED_CONSOLIDATED_OBJECT_CODES);
+            Parameter rule = getKualiConfigurationService().getParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.CASH_RECEIPT_DOC, RESTRICTED_CONSOLIDATED_OBJECT_CODES);
 
             ObjectCode objectCode = accountingLine.getObjectCode();
             if (ObjectUtils.isNull(objectCode)) {
@@ -176,7 +175,7 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
 
             String consolidatedObjectCode = objectLevel.getConsolidatedObjectCode();
 
-            if (rule.failsRule(consolidatedObjectCode)) {
+            if (getKualiConfigurationService().failsRule(rule,consolidatedObjectCode)) {
                 valid = false;
 
                 // add message
@@ -200,14 +199,14 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
         valid &= super.isObjectSubTypeAllowed(accountingLine);
 
         if (valid) {
-            KualiParameterRule rule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(KUALI_TRANSACTION_PROCESSING_CASH_RECEIPT_SECURITY_GROUPING, RESTRICTED_OBJECT_SUB_TYPE_CODES);
+            Parameter rule = getKualiConfigurationService().getParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.CASH_RECEIPT_DOC, RESTRICTED_OBJECT_SUB_TYPE_CODES);
 
             ObjectCode objectCode = accountingLine.getObjectCode();
             if (ObjectUtils.isNull(objectCode)) {
                 accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
             }
 
-            if (rule.failsRule(objectCode.getFinancialObjectSubTypeCode())) {
+            if (getKualiConfigurationService().failsRule(rule,objectCode.getFinancialObjectSubTypeCode())) {
                 valid = false;
 
                 // add message

@@ -20,9 +20,11 @@ package org.kuali.module.vendor;
  */
 public class VendorParameterConstants {
 
-    // GROUP NAMES
-    public static final String PURAP_ADMIN_GROUP = "PurapAdminGroup";
-
     // PARAMETER NAMES
-    public static final String PAYMENT_TERMS_DUE_TYPE_DESC = "PURAP.PAYMENT_TERMS_DUE_TYPE_DESC";
+    public static final String PAYMENT_TERMS_DUE_TYPE_DESC = "PAYMENT_TERMS_DUE_TYPE_DESC";
+    
+    public static class Components {
+        public static final String VENDOR = "Vendor";        
+    }
+    
 }

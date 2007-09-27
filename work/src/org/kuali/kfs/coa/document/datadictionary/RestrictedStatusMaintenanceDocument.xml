@@ -40,7 +40,7 @@
 
         <summary>Restricted Status Maintenance Document</summary>
         <description>Document used to create or update RestrictedStatus objects</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_RESTRICTED_STATUS" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="RestrictedStatus" parameterName="RESTRICTED_STATUS" />
         
         <lockingKeys>
             <field attributeName="accountRestrictedStatusCode" />

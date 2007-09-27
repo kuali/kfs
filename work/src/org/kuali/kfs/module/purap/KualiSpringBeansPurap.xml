@@ -388,7 +388,11 @@
 	
 	<!--  Batch Jobs -->
 	
-    <bean id="autoApprovePaymentRequestsStep" class="org.kuali.module.purap.batch.AutoApprovePaymentRequestsStep" parent="step">
+    <bean id="purapStep" parent="step" abstract="true">
+        <property name="namespace" value="KFS-PA" />
+    </bean>
+
+    <bean id="autoApprovePaymentRequestsStep" class="org.kuali.module.purap.batch.AutoApprovePaymentRequestsStep" parent="purapStep">
         <property name="paymentRequestService">
             <ref bean="paymentRequestService" />
         </property>
@@ -406,7 +410,7 @@
 		</property>
 	</bean>
 
-	<bean id="purchasingPreDisbursementExtractStep" class="org.kuali.module.purap.batch.ExtractPdpStep" parent="step">
+	<bean id="purchasingPreDisbursementExtractStep" class="org.kuali.module.purap.batch.ExtractPdpStep" parent="purapStep">
 		<property name="pdpExtractService">
 			<ref bean="pdpExtractService"/>
 		</property>

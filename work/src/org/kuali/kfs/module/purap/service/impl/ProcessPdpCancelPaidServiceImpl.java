@@ -52,13 +52,13 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
 
         Date processDate = dateTimeService.getCurrentSqlDate();
 
-        String organization = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
-        String subUnit = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
+        String organization = kualiConfigurationService.getParameterValue( PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.PDP, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
+        String subUnit = kualiConfigurationService.getParameterValue( PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.PDP, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
    
-        String preqCancelNote = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_PDP_PREQ_CANCEL_NOTE);
-        String preqResetNote = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_PDP_PREQ_RESET_NOTE);
-        String cmCancelNote = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_PDP_CM_CANCEL_NOTE);
-        String cmResetNote = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_PDP_CM_RESET_NOTE);
+        String preqCancelNote = kualiConfigurationService.getParameterValue( PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.PAYMENT_REQUEST, PurapParameterConstants.PURAP_PDP_PREQ_CANCEL_NOTE);
+        String preqResetNote = kualiConfigurationService.getParameterValue( PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.PAYMENT_REQUEST, PurapParameterConstants.PURAP_PDP_PREQ_RESET_NOTE);
+        String cmCancelNote = kualiConfigurationService.getParameterValue( PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.CREDIT_MEMO_DOC, PurapParameterConstants.PURAP_PDP_CM_CANCEL_NOTE);
+        String cmResetNote = kualiConfigurationService.getParameterValue( PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.CREDIT_MEMO_DOC, PurapParameterConstants.PURAP_PDP_CM_RESET_NOTE);
 
         Iterator details = paymentDetailService.getUnprocessedCancelledDetails(organization, subUnit);
         while (details.hasNext()) {
@@ -117,8 +117,8 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
 
         Date processDate = dateTimeService.getCurrentSqlDate();
 
-        String organization = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
-        String subUnit = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
+        String organization = kualiConfigurationService.getParameterValue( PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.PDP, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
+        String subUnit = kualiConfigurationService.getParameterValue( PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.PDP, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
 
         Iterator details = paymentDetailService.getUnprocessedPaidDetails(organization, subUnit);
         while (details.hasNext()) {

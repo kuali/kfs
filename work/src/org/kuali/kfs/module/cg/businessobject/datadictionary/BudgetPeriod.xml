@@ -149,7 +149,7 @@
         <objectLabel>Budget Periods</objectLabel>
         <objectDescription>Budget Periods are the periods for your Budget.</objectDescription>
         
-        <objectHelp securityGroupName="KraAdminGroup" parameterName="budgetPeriodHelp" />
+        <objectHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="PERIOD" />
 
     </businessObject>
 </dictionaryEntry>

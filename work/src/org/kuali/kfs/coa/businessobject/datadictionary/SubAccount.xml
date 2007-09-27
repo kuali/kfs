@@ -217,7 +217,7 @@
             <attributeReference name="a21SubAccount.subAccountTypeCode" sourceClassName="org.kuali.module.chart.bo.A21SubAccount" sourceAttributeName="subAccountTypeCode">
                 <required>false</required>
                 <control>
-                    <apcSelect group="ChartMaintenanceEDoc" parameterName="SubAccount.ValidSubAccountTypeCodes" />
+                    <apcSelect parameterNamespace="KFS-CA" parameterDetailType="SubAccount" parameterName="SUB_ACCOUNT_TYPES" />
                 </control>
             </attributeReference>
 

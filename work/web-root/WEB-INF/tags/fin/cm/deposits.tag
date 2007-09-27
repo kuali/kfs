@@ -19,7 +19,7 @@
 
 <c:set var="allowAdditionalDeposits" value="${editingMode['allowAdditionalDeposits']}" />
 
-<kul:tab tabTitle="Deposits" defaultOpen="true" tabErrorKey="${Constants.CASH_MANAGEMENT_DEPOSIT_ERRORS}">    
+<kul:tab tabTitle="Deposits" defaultOpen="true" tabErrorKey="${KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS}">    
     <div class="tab-container" align=center>
         <c:if test="${allowAdditionalDeposits}">
             <div align=left style="padding-left: 10px">

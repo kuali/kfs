@@ -7,6 +7,8 @@ package org.kuali.module.pdp.service.impl;
 import java.util.List;
 
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.bo.BatchSearch;
 import org.kuali.module.pdp.dao.BatchSearchDao;
 import org.kuali.module.pdp.service.BatchSearchService;
@@ -42,6 +44,6 @@ public class BatchSearchServiceImpl implements BatchSearchService {
     }
 
     private int getMaxSearchTotal() {
-        return GeneralUtilities.getParameterInteger("SEARCH_RESULTS_TOTAL",kualiConfigurationService);
+        return GeneralUtilities.getParameterInteger(KFSConstants.Components.LOOKUP,PdpConstants.ApplicationParameterKeys.SEARCH_RESULTS_TOTAL, kualiConfigurationService);
     }
 }

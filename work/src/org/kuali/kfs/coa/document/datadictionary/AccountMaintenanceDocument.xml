@@ -44,7 +44,6 @@
 
         <summary>Account maintenance document</summary>
         <description>Document used to create or update Account objects</description>
-		<help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_ACCOUNT" />
 
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />

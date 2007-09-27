@@ -30,7 +30,7 @@ public class VendorConstants {
     }
     public static class Workgroups {
         public static final String WORKGROUP_PURCHASING = "PURCHASING_GROUP"; 
-        public static final String WORKGROUP_TAXNBR_ACCESSIBLE = "PURAP.WORKGROUP.TAXNBR_ACCESSIBLE"; 
+        public static final String WORKGROUP_TAXNBR_ACCESSIBLE = "TAXNBR_ACCESSIBLE_GROUP"; 
     }
 
     public static final String ACKNOWLEDGE_NEW_VENDOR_INFO_TEXT = "document.vendor.question.acknolwege.text";

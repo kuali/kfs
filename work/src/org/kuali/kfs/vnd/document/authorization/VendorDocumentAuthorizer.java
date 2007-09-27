@@ -94,7 +94,7 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
     public Map getEditMode(Document document, UniversalUser user) {
         Map editMode = super.getEditMode(document, user);
         VendorDetail vendor = (VendorDetail)((MaintenanceDocument)document).getNewMaintainableObject().getBusinessObject();
-        String taxNbrAccessibleWorkgroup = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, VendorConstants.Workgroups.WORKGROUP_TAXNBR_ACCESSIBLE );
+        String taxNbrAccessibleWorkgroup = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.VENDOR_NAMESPACE, VendorConstants.Components.VENDOR, VendorConstants.Workgroups.WORKGROUP_TAXNBR_ACCESSIBLE );
 
         if (user.isMember(taxNbrAccessibleWorkgroup)) {
             editMode.put(VendorAuthorizationConstants.VendorEditMode.TAX_ENTRY, "TRUE");

@@ -26,11 +26,8 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.labor.batch.LaborPosterStep;
 import org.kuali.module.labor.batch.PayrollAccrualStep;
-
-import edu.iu.uis.eden.workgroup.web.WorkgroupForm.WorkgroupMember;
 
 /**
  * This class contains the constants used by Labor Distribution.
@@ -53,26 +50,23 @@ public class LaborConstants {
         public static final String EXPENSE_TRANSFER_ET = "ET";
         public static final String EXPENSE_TRANSFER_SACH = "SACH";
         public static final String EXPENSE_TRANSFER_YEST = "YEST";
-        public static final String EXPENSE_TRANSFER_YEBT = "YEBT";        
+        public static final String EXPENSE_TRANSFER_YEBT = "YEBT";
     }
-    
-    public static final String LABOR_NAMESPACE = "KFS-LD";
-    
-    public static class Components {
 
-       public static final String LABOR_POSTER_STEP = LaborPosterStep.class.getSimpleName();
-       public static final String PAYROLL_ACCURAL_STEP = PayrollAccrualStep.class.getSimpleName();
-       public static final String SALARY_EXPENSE_TRANSFER = SalaryExpenseTransfer.class.getSimpleName();
-       public static final String YEAR_END_BALANCE_FORWARD_JOB = "YearEndBalanceForwardJob";
-        
-        
+    public static final String LABOR_NAMESPACE = "KFS-LD";
+
+    public static class Components {
+        public static final String LABOR_POSTER_STEP = LaborPosterStep.class.getSimpleName();
+        public static final String PAYROLL_ACCURAL_STEP = PayrollAccrualStep.class.getSimpleName();
+        public static final String SALARY_EXPENSE_TRANSFER = SalaryExpenseTransfer.class.getSimpleName();
+        public static final String YEAR_END_BALANCE_FORWARD_JOB = "YearEndBalanceForwardJob";
     }
 
     public static class DestinationNames {
-        public static final String LEDGER_BALANCE = "LD_LEDGER_BALANCE_T";
-        public static final String LEDGER_ENRTY = "LD_LEDGER_ENTRY_T";
-        public static final String LABOR_GL_ENTRY = "LD_LABOR_GL_ENTRY_T";
-        public static final String ORIGN_ENTRY = "LD_ORIGIN_ENTRY_T";
+        public static final String LEDGER_BALANCE = "LD_LDGR_BAL_T";
+        public static final String LEDGER_ENRTY = "LD_LDGR_ENTR_T";
+        public static final String LABOR_GL_ENTRY = "LD_LBR_GL_ENTRY_T";
+        public static final String ORIGN_ENTRY = "LD_LBR_ORIGIN_ENTRY_T";
     }
 
     public static class TransactionGeneratorNames {
@@ -146,7 +140,7 @@ public class LaborConstants {
         public static final String YEAR_END = "Labor.YearEnd";
         public static final String POSTER = "Labor.Poster";
     }
-    
+
     public static class PayrollAccrual {
         public static final String ACCRUAL_DAYS = "NUMBER_OF_DAYS_TO_ACCRUE";
         public static final String WORK_DAYS = "PAY_PERIOD_WORK_DAYS";
@@ -158,24 +152,24 @@ public class LaborConstants {
         public static final String EARN_CODES = "EARN_CODE_SELECTION";
         public static final String RUN_ID = "DOCUMENT_NUMBER_SELECTION";
         public static final String EXCLUDED_SUB_FUND_GROUPS = "SUB_FUND_GROUP_SELECTION";
-        
+
         public static final String ORIGINATION_CODE = "ORIGINATION";
     }
-    
+
     public static class Poster {
         public static final String PERIOD_CODES_NOT_PROCESSED = "SENT_TO_GL_PERIOD_CODES";
         public static final String OBJECT_CODES_NOT_PROCESSED = "SENT_TO_GL_OBJECT_CODES";
         public static final String BALANCE_TYPES_NOT_PROCESSED = "SENT_TO_GL_BALANCE_TYPES";
     }
-    
+
     public static class Scrubber {
         public static final String PARAMETER_GROUP = "LaborScrubberStep";
         public static final String SUBFUND_WAGE_EXCLUSION_PARAMETER = "SUB_FUND_GROUPS_NOT_ACCEPTING_WAGES_IND";
         public static final String ACCOUNT_FRINGE_EXCLUSION_PARAMETER = "ACCOUNTS_NOT_ACCEPTING_FRINGES_IND";
         public static final String SUSPENSE_ACCOUNT_LOGIC_PARAMETER = "SUSPENSE_ACCOUNT_LOGIC_IND";
-        public static final String CONTINUATION_ACCOUNT_LOGIC_PARAMETER = "CONTINUATION_ACCOUNT_LOGIC_IND";       
+        public static final String CONTINUATION_ACCOUNT_LOGIC_PARAMETER = "CONTINUATION_ACCOUNT_LOGIC_IND";
     }
-    
+
     public static class YearEnd {
         public static final String FUND_GROUP_PROCESSED = "FUND_GROUPS";
         public static final String SUB_FUND_GROUP_PROCESSED = "SUB_FUND_GROUPS";
@@ -197,31 +191,29 @@ public class LaborConstants {
         public static final String LL_PE_OFFSET_STRING = "TP Generated Offset";
         public static final int LLPE_DESCRIPTION_MAX_LENGTH = 40;
     }
+
     public static final String LABOR_LEDGER_CHART_OF_ACCOUNT_CODE = "UA";
     public static final int TRANSACTION_DESCRIPTION_MAX_LENGTH = 40;
-    
+
     public enum JournalVoucherOffsetType {
-        NO_OFFSET("LLJV", "No Offset", "LABOR LEDGER JOUNAL VOUCHER"),
-        ACCRUAL("LJVA", "Accrual", "LLJV ACCRUALS OFFSET"),
-        CASH("LJVC", "Cash", "LLJV CASH OFFSET"),
-        ENCUMBRANCE("LJVE", "Encumbrance", "LLJV ENCUMBRANCE OFFSET");
-        
+        NO_OFFSET("LLJV", "No Offset", "LABOR LEDGER JOUNAL VOUCHER"), ACCRUAL("LJVA", "Accrual", "LLJV ACCRUALS OFFSET"), CASH("LJVC", "Cash", "LLJV CASH OFFSET"), ENCUMBRANCE("LJVE", "Encumbrance", "LLJV ENCUMBRANCE OFFSET");
+
         public String typeCode;
         public String description;
         public String longDescription;
-        
-        private JournalVoucherOffsetType(String typeCode, String description, String longDescription){
+
+        private JournalVoucherOffsetType(String typeCode, String description, String longDescription) {
             this.typeCode = typeCode;
             this.description = description;
             this.longDescription = longDescription;
-        }        
+        }
     }
-    
+
     public static class LookupableBeanKeys {
         static final public String PENDING_ENTRY = "laborPendingEntryLookupable";
         static final public String CSF_TRACKER = "laborCalculatedSalaryFoundationTrackerLookupable";
     }
-    
+
     public static final Map<String, String> periodCodeMapping = new HashMap<String, String>();
     static {
         periodCodeMapping.put(KFSPropertyConstants.MONTH1_AMOUNT, KFSConstants.MONTH1);
@@ -238,7 +230,7 @@ public class LaborConstants {
         periodCodeMapping.put(KFSPropertyConstants.MONTH12_AMOUNT, KFSConstants.MONTH12);
         periodCodeMapping.put(KFSPropertyConstants.MONTH13_AMOUNT, KFSConstants.MONTH13);
     }
-    
+
     public static final String LONG_ROW_TABLE_INRUIRY_ACTION = "laborLongRowTableInquiry.do";
     public static final String LABOR_INQUIRY_OPTIONS_SERVICE = "laborInquiryOptionsService";
     public static final String BASE_FUNDS_LOOKUP_HELPER_SRVICE_NAME = "BaseFundsLookupableHelperService";
@@ -246,9 +238,9 @@ public class LaborConstants {
     public static final String CURRENT_FUNDS_LOOKUP_HELPER_SRVICE_NAME = "CurrentFundsLookupableHelperService";
     public static final String EXPENSE_TRANSFER_ACCOUNTING_LINE_SERVIOCE_NAME = "expenseTransferAccountingLineService";
     public static final String DASHES_DELETE_CODE = "-";
-    public static final int LLCP_MAX_LENGTH = 294;    
+    public static final int LLCP_MAX_LENGTH = 294;
     private static String SPACE_TRANSACTION_DATE = null;
-        
+
     public static String getSpaceTransactionDate() {
         if (SPACE_TRANSACTION_DATE == null) {
             SPACE_TRANSACTION_DATE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeSize(OriginEntryFull.class, KFSPropertyConstants.TRANSACTION_DATE), ' ');

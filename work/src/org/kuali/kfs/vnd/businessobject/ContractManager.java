@@ -31,7 +31,6 @@ public class ContractManager extends PersistableBusinessObjectBase {
 	private String contractManagerName;
 	private String contractManagerPhoneNumber;
 	private String contractManagerFaxNumber;
-	private String contractManagerLongDistanceAccessCode;
 	private KualiDecimal contractManagerDelegationDollarLimit;
 	private String contractManagerSignatureImageLocationDescription;
 
@@ -145,28 +144,6 @@ public class ContractManager extends PersistableBusinessObjectBase {
 	public void setContractManagerFaxNumber(String contractManagerFaxNumber) {
 		this.contractManagerFaxNumber = contractManagerFaxNumber;
 	}
-
-
-	/**
-	 * Gets the contractManagerLongDistanceAccessCode attribute.
-	 * 
-	 * @return Returns the contractManagerLongDistanceAccessCode
-	 * 
-	 */
-	public String getContractManagerLongDistanceAccessCode() { 
-		return contractManagerLongDistanceAccessCode;
-	}
-
-	/**
-	 * Sets the contractManagerLongDistanceAccessCode attribute.
-	 * 
-	 * @param contractManagerLongDistanceAccessCode The contractManagerLongDistanceAccessCode to set.
-	 * 
-	 */
-	public void setContractManagerLongDistanceAccessCode(String contractManagerLongDistanceAccessCode) {
-		this.contractManagerLongDistanceAccessCode = contractManagerLongDistanceAccessCode;
-	}
-
 
 	/**
 	 * Gets the contractManagerDelegationDollarLimit attribute.

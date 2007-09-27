@@ -30,7 +30,6 @@
                 <field attributeName="contractManagerName" />
                 <field attributeName="contractManagerPhoneNumber" />
                 <field attributeName="contractManagerFaxNumber" />
-                <field attributeName="contractManagerLongDistanceAccessCode" />
                 <field attributeName="contractManagerDelegationDollarLimit" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -52,7 +51,6 @@
                 <lookupField attributeName="contractManagerName" required="false" />
                 <lookupField attributeName="contractManagerPhoneNumber" required="false" />
                 <lookupField attributeName="contractManagerFaxNumber" required="false" />
-                <lookupField attributeName="contractManagerLongDistanceAccessCode" required="false" />
                 <lookupField attributeName="contractManagerDelegationDollarLimit" required="false" />
                 <lookupField attributeName="contractManagerSignatureImageLocationDescription" required="false" />
             </lookupFields>
@@ -63,7 +61,6 @@
                 <field attributeName="contractManagerName" />
                 <field attributeName="contractManagerPhoneNumber" />
                 <field attributeName="contractManagerFaxNumber" />
-                <field attributeName="contractManagerLongDistanceAccessCode" />
                 <field attributeName="contractManagerDelegationDollarLimit" />
                 <field attributeName="contractManagerSignatureImageLocationDescription" />
             </resultFields>
@@ -116,21 +113,6 @@
 
                 <summary>contractManagerFaxNumber</summary>
                 <description>contractManagerFaxNumber description...</description>
-			</attribute>
-
-            <attribute name="contractManagerLongDistanceAccessCode" forceUppercase="true">
-                <label>CM Long Distance Access Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>contractManagerLongDistanceAccessCode</summary>
-                <description>contractManagerLongDistanceAccessCode description...</description>
 			</attribute>
 
             <attribute name="contractManagerName" forceUppercase="true">

@@ -56,7 +56,6 @@
                 	<maintainableField name="contractManagerName" required="true" />
                 	<maintainableField name="contractManagerPhoneNumber" required="true" />
                 	<maintainableField name="contractManagerFaxNumber" required="true" />
-                	<maintainableField name="contractManagerLongDistanceAccessCode" required="false" />
                 	<maintainableField name="contractManagerDelegationDollarLimit" required="true" />
                 	<maintainableField name="contractManagerSignatureImageLocationDescription" required="true" />
                 	<maintainableField name="versionNumber" />

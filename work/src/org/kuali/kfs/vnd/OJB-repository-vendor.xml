@@ -513,7 +513,6 @@
     <field-descriptor name="contractManagerName" column="CONTR_MGR_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerPhoneNumber" column="CONTR_MGR_PHN_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerFaxNumber" column="CONTR_MGR_FAX_NBR" jdbc-type="VARCHAR"/>
-    <field-descriptor name="contractManagerLongDistanceAccessCode" column="CONTR_MGR_LONG_DIST_ACC_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerDelegationDollarLimit" column="CONTR_MGR_DLGN_DLR_LMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="contractManagerSignatureImageLocationDescription" column="CONTR_MGR_SIG_IMG_LOC_DESC" jdbc-type="VARCHAR"/>
 </class-descriptor>

@@ -92,8 +92,8 @@
 							</kul:inquiry>
 							&nbsp;
 						</td>
-					    <td class="datacell center"><c:out value="${document.summaryAccountsWithItemsKey[ctr].organizationReferenceId}"/>&nbsp;</td>
-					    <td class="datacell center"><c:out value="${document.documentHeader.organizationDocumentNumber}"/>&nbsp;</td>
+					    <td class="datacell center"><html:hidden property="summaryAccounts[${ctr}].account.organizationReferenceId" write="true"/>&nbsp;</td>
+					    <td class="datacell center"><html:hidden property="document.documentHeader.organizationDocumentNumber" write="true"/>&nbsp;</td>
 						<td class="datacell center"><div align="right"><html:hidden property="summaryAccounts[${ctr}].account.amount" write="true"/>&nbsp;</div></td> 
 					</tr>
 					

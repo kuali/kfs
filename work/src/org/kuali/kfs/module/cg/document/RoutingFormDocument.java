@@ -156,7 +156,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private List<RoutingFormPersonRole> routingFormPersonRoles;
     // for budget document number ajax
     private Budget budget;
-
+    
 	/**
 	 * Default constructor.
 	 */
@@ -202,20 +202,20 @@ public class RoutingFormDocument extends ResearchDocumentBase {
                 boolean createProposal = false;
                 KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
                 Parameter proposalCreateRule = kualiConfigurationService.getParameter(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.CREATE_PROPOSAL_PROJECT_TYPES);
-
+                
                 for (RoutingFormProjectType routingFormProjectType : this.getRoutingFormProjectTypes()) {
                     if (kualiConfigurationService.succeedsRule(proposalCreateRule, routingFormProjectType.getProjectTypeCode())) {
                         createProposal = true;
                         break;
-                    }
-                }
-
+            }
+        }
+                
                 if (createProposal) {
                     Long newProposalNumber = SpringContext.getBean(RoutingFormService.class).createAndRouteProposalMaintenanceDocument(this);
 
                     this.getContractGrantProposal().setProposalNumber(newProposalNumber);
                     SpringContext.getBean(BusinessObjectService.class).save(this.getContractGrantProposal());
-                }
+    }
 
             }
         }
@@ -1784,6 +1784,36 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.routingFormPersonRoles = routingFormPersonRoles;
     }
     
+    public List<RoutingFormPersonRole> getRoutingFormProjectDirectorRoles() {
+        List<RoutingFormPersonRole> projectDirectorRoles = new ArrayList();
+
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+        
+        for (RoutingFormPersonRole routingFormPersonRole : getRoutingFormPersonRoles()) {
+            if (routingFormPersonRole.getPersonRoleCode().equals(kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.CO_PROJECT_DIRECTOR_PARAM)) ||
+                    routingFormPersonRole.getPersonRoleCode().equals(kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.PROJECT_DIRECTOR_PARAM))) {
+                projectDirectorRoles.add(routingFormPersonRole);
+            }
+        }
+        
+        return projectDirectorRoles;
+    }
+
+    public List<RoutingFormPersonRole> getRoutingFormOtherPersonRoles() {
+        List<RoutingFormPersonRole> otherPersonRoles = new ArrayList();
+
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+        
+        for (RoutingFormPersonRole routingFormPersonRole : getRoutingFormPersonRoles()) {
+            if (!routingFormPersonRole.getPersonRoleCode().equals(kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.CO_PROJECT_DIRECTOR_PARAM)) &&
+                    !routingFormPersonRole.getPersonRoleCode().equals(kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.PROJECT_DIRECTOR_PARAM))) {
+                otherPersonRoles.add(routingFormPersonRole);
+            }
+        }
+        
+        return otherPersonRoles;
+    }
+    
     public boolean isUserProjectDirector(String personUniversalIdentifier) {
         for (RoutingFormPersonnel person : this.routingFormPersonnel) {
             if (person.isProjectDirector()) {
@@ -2040,8 +2070,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 
     public Budget getBudget() {
         return budget;
-    }
-
+}
     public void setBudget(Budget budget) {
         this.budget = budget;
     }

@@ -33,9 +33,9 @@ public class KraConstants extends JstlConstants {
     public static final String SHORT_TIMESTAMP_FORMAT = "MM/dd/yyyy";
     public static final String LONG_TIMESTAMP_FORMAT = "MM/dd/yyyy HH:mm:ss";
     
-    
     public static final int maximumPeriodLengthUnits = Calendar.YEAR;
     public static final int maximumNumberOfPeriods = 20; // used on budgetPeriods.tag
+
     public static final int maximumNumberOfTasks = 20; // used on budgetTasks.tag
     
     public static final int projectDirectorRouteLevel = 1;
@@ -91,7 +91,7 @@ public class KraConstants extends JstlConstants {
     public static final String NEW_PERIOD_IDENTIFIER = "NEW_PERIOD_IDENTIFIER";
     public static final String ALLOWED_EMPLOYEE_STATUS_RULE = "EMPLOYEE_STATUSES";    
     public static final String PERIOD_IDENTIFIER = "PERIOD_IDENTIFIER";
-    
+
     public static final String APPROVALS_DEFAULT_WORDING = "APPROVALS_DEFAULT_WORDING";
     public static final String APPROVALS_INITIATOR_WORDING = "APPROVALS_INITIATOR_WORDING";
     public static final String APPROVALS_PROJECT_DIRECTOR_WORDING = "APPROVALS_PROJECT_DIRECTOR_WORDING";
@@ -115,7 +115,7 @@ public class KraConstants extends JstlConstants {
     public static final String FULL_YEAR = "fullYear";
     public static final String ACADEMIC_SUMMER = "academicSummer";
     public static final String ACADEMIC_YEAR = "academicYear";
-    
+
     public static final String MAXIMUM_NUMBER_OF_PERIODS = "MAXIMUM_NUMBER_OF_PERIODS";
     public static final String MAXIMUM_NUMBER_OF_TASKS = "MAXIMUM_NUMBER_OF_TASKS";
     public static final String MAXIMUM_PERIOD_LENGTH = "MAXIMUM_PERIOD_LENGTH";
@@ -197,6 +197,10 @@ public class KraConstants extends JstlConstants {
     public static final String PURPOSE_RESEARCH = "PURPOSE_RESEARCH";
     public static final String PURPOSE_OTHER = "PURPOSE_OTHER";
     public static final String PROJECT_TYPE_TIME_EXTENTION = "PROJECT_TYPE_TIME_EXTENTION";
+    public static final String CONTACT_PERSON_PARAM = "PERSON_ROLE_CODE_CONTACT_PERSON";
+    public static final String CO_PROJECT_DIRECTOR_PARAM = "PERSON_ROLE_CODE_CO_PROJECT_DIRECTOR";
+    public static final String OTHER_PERSON_PARAM = "PERSON_ROLE_CODE_OTHER";
+    public static final String PROJECT_DIRECTOR_PARAM = "PERSON_ROLE_CODE_PROJECT_DIRECTOR";
     
     // Role Codes
     public static final String PROJECT_DIRECTOR_CODE = "P";

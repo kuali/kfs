@@ -292,6 +292,12 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                 valid = false;
                 errorMap.putError("personUniversalIdentifier", KraKeyConstants.ERROR_PERSON_NOT_NAMED);
             }
+            
+            if (person.getChartOfAccountsCode() == null || person.getOrganizationCode() == null) {
+                valid = false;
+                errorMap.putError("personUniversalIdentifier", KraKeyConstants.ERROR_MISSING, "Routing Form Personnel Chart and/or Org");
+            }
+            
             errorMap.removeFromErrorPath("routingFormPersonnel[" + i + "]");
             i++;
         }

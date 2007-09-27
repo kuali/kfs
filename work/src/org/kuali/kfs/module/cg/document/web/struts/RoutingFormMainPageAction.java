@@ -46,22 +46,40 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RoutingFormMainPageAction.class);
 
     /**
-     * When a person is added to the list.
+     * When a person other than PD/Co-PD/Contact is added to the list.
      * @param mapping
      * @param form
      * @param request
      * @param response
      * @return
      */
-    public ActionForward addPersonLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward addProjectDirectorPersonLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         RoutingForm routingForm = (RoutingForm) form;
 
-        routingForm.getRoutingFormDocument().addPerson(routingForm.getNewRoutingFormPerson());
-        routingForm.setNewRoutingFormPerson(new RoutingFormPersonnel());
+        routingForm.getRoutingFormDocument().addPerson(routingForm.getNewRoutingFormProjectDirector());
+        routingForm.setNewRoutingFormProjectDirector(new RoutingFormPersonnel());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * When a person other than PD/Co-PD/Contact is added to the list.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward addOtherPersonLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        RoutingForm routingForm = (RoutingForm) form;
+
+        routingForm.getRoutingFormDocument().addPerson(routingForm.getNewRoutingFormOtherPerson());
+        routingForm.setNewRoutingFormOtherPerson(new RoutingFormPersonnel());
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    
     /**
      * When a person is deleted from the list.
      * @param mapping
@@ -225,17 +243,29 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
                 routingFormDocument.setAgencyFederalPassThroughNumber(null);
                 routingFormDocument.refreshReferenceObject("federalPassThroughAgency");
             }
-            else if (request.getParameter("newRoutingFormPerson.personUniversalIdentifier") != null) {
-                RoutingFormPersonnel newRoutingFormPerson = routingForm.getNewRoutingFormPerson();
+            else if (request.getParameter("newRoutingFormProjectDirector.personUniversalIdentifier") != null) {
+                RoutingFormPersonnel newRoutingFormPerson = routingForm.getNewRoutingFormProjectDirector();
 
                 // coming back from new Person lookup - person selected. Unset TBN indicated and set chart / org.
                 newRoutingFormPerson.populateWithUserServiceFields();
                 newRoutingFormPerson.setPersonToBeNamedIndicator(false);
             }
-            else if ("true".equals(request.getParameter("newRoutingFormPerson.personToBeNamedIndicator"))) {
+            else if ("true".equals(request.getParameter("newRoutingFormProjectDirector.personToBeNamedIndicator"))) {
                 // coming back from new Person lookup - Name Later selected
-                routingForm.getNewRoutingFormPerson().setPersonUniversalIdentifier(null);
-                routingForm.getNewRoutingFormPerson().refresh();
+                routingForm.getNewRoutingFormProjectDirector().setPersonUniversalIdentifier(null);
+                routingForm.getNewRoutingFormProjectDirector().getUser();
+            } 
+            else if (request.getParameter("newRoutingFormOtherPerson.personUniversalIdentifier") != null) {
+                RoutingFormPersonnel newRoutingFormPerson = routingForm.getNewRoutingFormOtherPerson();
+
+                // coming back from new Person lookup - person selected. Unset TBN indicated and set chart / org.
+                newRoutingFormPerson.populateWithUserServiceFields();
+                newRoutingFormPerson.setPersonToBeNamedIndicator(false);
+            }
+            else if ("true".equals(request.getParameter("newRoutingFormOtherPerson.personToBeNamedIndicator"))) {
+                // coming back from new Person lookup - Name Later selected
+                routingForm.getNewRoutingFormOtherPerson().setPersonUniversalIdentifier(null);
+                routingForm.getNewRoutingFormOtherPerson().getUser();
             } else {
                 // Must be related to personnel lookup, first find which item this relates to.
                 int personIndex = determinePersonnelIndex(request);
@@ -252,7 +282,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
                 else if ("true".equals(request.getParameter("document.routingFormPersonnel[" + personIndex + "].personToBeNamedIndicator"))) {
                     // coming back from Person lookup - To Be Named selected
                     routingFormDocument.getRoutingFormPersonnel().get(personIndex).setPersonUniversalIdentifier(null);
-                    routingFormDocument.getRoutingFormPersonnel().get(personIndex).refresh();
+                    routingFormDocument.getRoutingFormPersonnel().get(personIndex).getUser();
                 } else {
                     LOG.warn("Personnel lookup TBN reset code wasn't able to find person: personIndexStr=" + personIndex);
                 }

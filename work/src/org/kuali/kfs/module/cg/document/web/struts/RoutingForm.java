@@ -45,7 +45,9 @@ public class RoutingForm extends ResearchDocumentFormBase {
     private int numAuditErrors;
     
     //Main Page
-    private RoutingFormPersonnel newRoutingFormPerson;
+    private RoutingFormPersonnel newRoutingFormProjectDirector;
+    private RoutingFormPersonnel newRoutingFormOtherPerson;
+    
     private RoutingFormOrganizationCreditPercent newRoutingFormOrganizationCreditPercent;
     
     //Project Details 
@@ -145,12 +147,20 @@ public class RoutingForm extends ResearchDocumentFormBase {
         this.newRoutingFormSubcontractor = newRoutingFormSubcontractor;
     }
 
-    public RoutingFormPersonnel getNewRoutingFormPerson() {
-        return newRoutingFormPerson;
+    public RoutingFormPersonnel getNewRoutingFormProjectDirector() {
+        return newRoutingFormProjectDirector;
     }
 
-    public void setNewRoutingFormPerson(RoutingFormPersonnel newRoutingFormPerson) {
-        this.newRoutingFormPerson = newRoutingFormPerson;
+    public void setNewRoutingFormProjectDirector(RoutingFormPersonnel newRoutingFormProjectDirector) {
+        this.newRoutingFormProjectDirector = newRoutingFormProjectDirector;
+    }
+
+    public RoutingFormPersonnel getNewRoutingFormOtherPerson() {
+        return newRoutingFormOtherPerson;
+    }
+
+    public void setNewRoutingFormOtherPerson(RoutingFormPersonnel newRoutingFormOtherPerson) {
+        this.newRoutingFormOtherPerson = newRoutingFormOtherPerson;
     }
 
     public RoutingFormOrganizationCreditPercent getNewRoutingFormOrganizationCreditPercent() {
@@ -269,6 +279,11 @@ public class RoutingForm extends ResearchDocumentFormBase {
             systemParametersMap.put(KraConstants.PROJECT_TYPE_OTHER, kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.PROJECT_TYPE_OTHER));
             systemParametersMap.put(KraConstants.PURPOSE_RESEARCH, kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.PURPOSE_RESEARCH));
             systemParametersMap.put(KraConstants.PURPOSE_OTHER, kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.PURPOSE_OTHER));
+
+            systemParametersMap.put(KraConstants.CO_PROJECT_DIRECTOR_PARAM, kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.CO_PROJECT_DIRECTOR_PARAM));
+            systemParametersMap.put(KraConstants.PROJECT_DIRECTOR_PARAM, kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.PROJECT_DIRECTOR_PARAM));
+            systemParametersMap.put(KraConstants.OTHER_PERSON_PARAM, kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.OTHER_PERSON_PARAM));
+            systemParametersMap.put(KraConstants.CONTACT_PERSON_PARAM, kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, KraConstants.CONTACT_PERSON_PARAM));
         }
         
         return systemParametersMap;

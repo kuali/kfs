@@ -62,7 +62,7 @@ public class ProposalInquirable extends KfsInquirableImpl {
 
             UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
             InquirySectionDefinition inquirySection = (InquirySectionDefinition) iter.next();
-            Section section = SectionBridge.toSection(inquirySection, bo);
+            Section section = SectionBridge.toSection(this, inquirySection, bo);
             if(inquirySection.getTitle().equals("Research Risks")) {
                 if ( user.isMember( centralPreAwardWorkgroupName ) || user.isMember( centralPostAwardWorkgroupName )) {
                     sections.add(section);

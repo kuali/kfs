@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Payment Term Type Inquiry</title>
+            <title>Payment Terms Type Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="vendorPaymentTermsCode" />
@@ -37,9 +37,9 @@
         </inquiry>
 
         <lookup>
-            <title>Payment Term Type Lookup</title>
+            <title>Payment Terms Type Lookup</title>
 
-            <instructions>Lookup a Payment Term Type</instructions>
+            <instructions>Lookup a Payment Terms Type</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>

@@ -35,18 +35,18 @@
         <documentTypeName>PaymentTermTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMPA</documentTypeCode>
 
-        <label>Payment Term Type Maintenance Document</label>
-        <shortLabel>Payment Term Type Maint Doc</shortLabel>
+        <label>Payment Terms Type Maintenance Document</label>
+        <shortLabel>Payment Terms Type Maint Doc</shortLabel>
 
-        <summary>Payment Term Type Maintenance Document</summary>
-        <description>Document used to create or update Payment Term Type objects</description>
+        <summary>Payment Terms Type Maintenance Document</summary>
+        <description>Document used to create or update Payment Terms Type objects</description>
 
         <lockingKeys>
             <field attributeName="vendorPaymentTermsCode" />
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit Payment Term Type">
+            <maintainableSection title="Edit Payment Terms Type">
                 <maintainableItems>
                     <maintainableField name="vendorPaymentTermsCode" required="true" />
                     <maintainableField name="vendorPaymentTermsDescription" required="true" />

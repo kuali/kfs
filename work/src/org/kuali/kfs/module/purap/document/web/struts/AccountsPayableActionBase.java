@@ -391,21 +391,25 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                 AccountsPayableDocumentSpecificService apDocumentSpecificService = document.getDocumentSpecificService();
                 // one way or another we will have to fake the user session so get the current one
                 UserSession originalUserSession = GlobalVariables.getUserSession();
+                
+                //FIXME: FOLOWING IS NOT BEING SUPPORTED UNTIL RELEASE 3 - see KULPURAP-1712
                 //try to get the user, if null assume we should cancel as super
-                UniversalUser user = apDocumentSpecificService.getUniversalUserForCancel(document);
-                if (ObjectUtils.isNotNull(user)) {
-    
-                    try {
-                        // need to run the disapprove as the user who requested the document be canceled
-                        GlobalVariables.setUserSession(new UserSession(user.getPersonUserIdentifier()));
-    
-                        documentService.disapproveDocument(document, noteText);
-                    }
-                    finally {
-                        GlobalVariables.setUserSession(originalUserSession);
-                    }
-    
-                } else if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(document)) {
+//                UniversalUser user = apDocumentSpecificService.getUniversalUserForCancel(document);
+//                if (ObjectUtils.isNotNull(user)) {
+//    
+//                    try {
+//                        // need to run the disapprove as the user who requested the document be canceled
+//                        GlobalVariables.setUserSession(new UserSession(user.getPersonUserIdentifier()));
+//    
+//                        documentService.disapproveDocument(document, noteText);
+//                    }
+//                    finally {
+//                        GlobalVariables.setUserSession(originalUserSession);
+//                    }
+//    
+//                } else 
+                    
+                if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(document)) {
                     //for now this works but if place of full entry changes it may need to be based on something else since may need disaprove
                     //if past full entry and workflow not in final state (should this be checking preq states?)
                     if(!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {    
@@ -421,7 +425,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                     } else {
                         //call gl method here (no reason for post processing since workflow done)
                         SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(document, "");
-                }
+                    }
                 }
                 else {
                     

@@ -69,7 +69,9 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
         PaymentRequestDocumentActionAuthorizer preqDocAuth  = new PaymentRequestDocumentActionAuthorizer(preq); 
         
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
-
+        
+        boolean fullDocumentEntryCompleted = SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((PaymentRequestDocument)document);
+        
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             if (hasInitiateAuthorization(document, user)) {
@@ -78,7 +80,8 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
         } else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
             List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
             //only allow full entry if status allows it
-            if(!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((PaymentRequestDocument)document)) {
+
+            if(!fullDocumentEntryCompleted) {
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
             }
             
@@ -86,7 +89,7 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
                 editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
                 //expense_entry was already added in super
                 //add amount edit mode
-                editMode = PurapAuthorizationConstants.PaymentRequestEditMode.ALLOW_ACCOUNT_AMOUNT_ENTRY;
+                editMode = PurapAuthorizationConstants.PaymentRequestEditMode.SHOW_AMOUNT_ONLY;
 
                 List lineList = new ArrayList();
                 for (Iterator iter = preq.getItems().iterator(); iter.hasNext();) {
@@ -103,6 +106,11 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
 
         editModeMap.put(editMode, "TRUE");
 
+        //always show amount after full entry
+        if(fullDocumentEntryCompleted) {
+            editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.SHOW_AMOUNT_ONLY, "TRUE");
+        }
+        
         //make sure ap user can edit certain fields 
         if (preqDocAuth.canEditPreExtractFields()) {
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.EDIT_PRE_EXTRACT, "TRUE");

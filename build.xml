@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="kuali" default="dist-local" basedir=".">
 	<!-- run the help target to view usage instructions for public targets -->
-	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
+	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,make-work" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
 	</target>
 
@@ -150,17 +150,25 @@
 			<fileset dir="${drivers.directory}" />
 		</copy>
 		<mkdir dir="${settings.directory}" />
-		<echo file="${log4j.settings.file}" message="${log4j}" />
 		<mkdir dir="${security.directory}" />
-		<echo file="${security.property.file}" message="${security}"  />
 		<mkdir dir="${logs.directory}" />
+		<mkdir dir="${external.work.directory}" />
+	</target>
+		
+	<target name="make-work" depends="init-properties">
+		<delete><fileset dir="${settings.directory}" includes="**/**" /></delete>
+		<echo file="${log4j.settings.file}" message="${log4j}" />
+		<delete><fileset dir="${security.directory}" includes="**/**" /></delete>
+		<echo file="${security.property.file}" message="${security}"  />
+		<delete><fileset dir="${logs.directory}" includes="**/**" /></delete>
 		<echo file="${logs.directory}/${ant.project.name}.log" message="" />
+		<delete><fileset dir="${external.work.directory}" includes="**/**" /></delete>
 		<copy todir="${external.work.directory}">
 			<fileset dir="${build.work.directory}" />
 		</copy>
 	</target>
 
-	<target name="make-source" depends="init-make-references,filter-project">
+	<target name="make-source" depends="init-make-references,filter-project,make-work">
 		<mkdir dir="${make-source.target.directory}" />
 		<javac destdir="${make-source.target.directory}" srcdir="${source.directory}" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
 			<classpath refid="compile.source.classpath" />
@@ -190,12 +198,6 @@
 				<patternset refid="non.java.resources" />
 			</fileset>
 		</copy>
-	</target>
-
-	<target name="make-zips" depends="filter-local">
-		<zip destfile="settings.zip" basedir="${settings.directory}" />
-		<zip destfile="security.zip" basedir="${security.directory}" />
-		<zip destfile="skel.zip" basedir="${external.work.directory}" />
 	</target>
 
 	<target name="init-batch-properties">

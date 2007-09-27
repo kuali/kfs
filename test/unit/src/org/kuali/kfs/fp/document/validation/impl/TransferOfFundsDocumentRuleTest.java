@@ -76,12 +76,12 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
 
     @AnnotationTestSuite(CrossSectionSuite.class)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseFlexibleOffset() throws Exception {
-        TestUtils.setSystemParameter(KFSConstants.KFS_SYSTEM_NAMESPACE, KFSConstants.Components.OFFSET_DEFINITION, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG, "Y", true, false);
+        TestUtils.setSystemParameter(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.OFFSET_DEFINITION, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG, "Y", true, false);
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), FLEXIBLE_EXPENSE_LINE.createTargetAccountingLine(), EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE2, EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY);
     }
 
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseMissingOffsetDefinition() throws Exception {
-        TestUtils.setSystemParameter(KFSConstants.KFS_SYSTEM_NAMESPACE, KFSConstants.Components.OFFSET_DEFINITION, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG, "Y", true, false);
+        TestUtils.setSystemParameter(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.OFFSET_DEFINITION, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG, "Y", true, false);
         TransferOfFundsDocument document = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), TransferOfFundsDocument.class);
         document.setPostingYear(2000); // because our test database has no offset definitions (GL_OFFSET_DEFN_T) for UNIV_FISCAL_YR=2000.
         document.setPostingPeriodCode("06"); // because this BO reveals no change when the year is set by itself.

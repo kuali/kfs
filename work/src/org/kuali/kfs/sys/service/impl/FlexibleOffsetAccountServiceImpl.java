@@ -68,7 +68,7 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
         LOG.debug("getEnabled() started");
 
         // KualiConfigurationService needs to be gotten dynamically here so TransferOfFundsDocumentRuleTest can mock it.
-        return SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(KFSConstants.KFS_SYSTEM_NAMESPACE, KFSConstants.Components.OFFSET_DEFINITION, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
+        return SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.OFFSET_DEFINITION, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
     }
 
     /**

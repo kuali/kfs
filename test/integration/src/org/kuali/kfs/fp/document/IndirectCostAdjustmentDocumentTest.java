@@ -33,6 +33,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.fixtures.AccountingLineFixture;
+import org.kuali.test.suite.RelatesTo;
 
 /**
  * This class is used to test the IndirectCostAdjustmentDocument.
@@ -83,19 +84,23 @@ public class IndirectCostAdjustmentDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), SpringContext.getBean(DataDictionaryService.class));
     }
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @RelatesTo(RelatesTo.JiraIssue.KULRNE5779)
     public final void testConvertIntoErrorCorrection() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @RelatesTo(RelatesTo.JiraIssue.KULRNE5779)
     public final void testRouteDocument() throws Exception {
         AccountingDocumentTestUtils.testRouteDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
     
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @RelatesTo(RelatesTo.JiraIssue.KULRNE5779)
     public final void testSaveDocument() throws Exception {
         AccountingDocumentTestUtils.testSaveDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @RelatesTo(RelatesTo.JiraIssue.KULRNE5779)
     public final void testConvertIntoCopy() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
     }

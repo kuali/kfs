@@ -36,36 +36,7 @@ import org.springframework.transaction.interceptor.TransactionAttributeSource;
 
 @ConfigureContext
 public class SpringAOPUsageTest extends KualiTestBase {
-
-    public void testCaching() throws Exception {
-        ClassOrMethodAnnotationFilter classOrMethodAnnotationFilter = new ClassOrMethodAnnotationFilter(Cached.class);
-        assertTrue(KualiConfigurationServiceImpl.class.isAnnotationPresent(Cached.class));
-        assertFalse(BalanceTypServiceImpl.class.isAnnotationPresent(Cached.class));
-        assertTrue(classOrMethodAnnotationFilter.matches(KualiConfigurationServiceImpl.class));
-        assertTrue(classOrMethodAnnotationFilter.matches(BalanceTypServiceImpl.class));
-        // should be cached cause of method annotation
-        SpringContext.getBean(BalanceTypService.class).getAllBalanceTyps();
-        assertTrue(TestUtils.methodIsCached(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {}));
-        // should not be cached cause no method annotation and no class annotation
-        SpringContext.getBean(BalanceTypService.class).getEncumbranceBalanceTypes();
-        assertFalse(TestUtils.methodIsCached(BalanceTypService.class.getMethod("getEncumbranceBalanceTypes", new Class[] {}), new Object[] {}));
-        // should not be cached, cause no annotations on the class or its methods
-        SpringContext.getBean(PriorYearAccountService.class).getByPrimaryKey("BL", "1031490");
-        assertFalse(TestUtils.methodIsCached(PriorYearAccountService.class.getMethod("getByPrimaryKey", new Class[] { String.class, String.class }), new Object[] { "BL", "1031490" }));
-    }
     
-    /**
-     * Assures the removeCacheKey method of methodCacheInterceptor is actually removing the method cache.
-     * Depends on method implementations for BalanceTypService.getAllBalanceTyps() and PersistenceStructureService.getPrimaryKeys(Class clazz) 
-     * having the @Cached annotation.
-     */
-    public void testClearMethodCache() throws Exception {
-        SpringContext.getBean(BalanceTypService.class).getAllBalanceTyps();
-        assertTrue(TestUtils.methodIsCached(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {}));
-        TestUtils.removeCachedMethod(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {});
-        assertFalse(TestUtils.methodIsCached(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {}));
-    }
-
     @Transactional
     public void testTransactions() throws Exception {
         ClassOrMethodAnnotationFilter classOrMethodAnnotationFilter = new ClassOrMethodAnnotationFilter(Transactional.class);

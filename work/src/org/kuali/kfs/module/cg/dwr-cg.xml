@@ -48,7 +48,7 @@
             <param name="beanName" value="cfdaService" />
             <include method="getByPrimaryId" />
         </create>
-	    <convert converter="bean" match="org.kuali.module.kra.budget.bo.budget">
+	    <convert converter="bean" match="org.kuali.module.kra.budget.bo.Budget">
             <param name="include" value="documentNumber,budgetName" />
         </convert>
         <create creator="spring" javascript="BudgetService">

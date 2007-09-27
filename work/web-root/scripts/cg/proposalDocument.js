@@ -157,33 +157,31 @@ function budgetNameLookup( documentNumberField ) {
 }
 
 function loadBudgetInfo( documentNumberField, budgetNameFieldName, budgetDocumentNumberFieldName ) {
-    // budgetservice return a 'budget' object if it is found, but for some reason
-    // the dwrreply always get data=null.  This is a temporary solution to get name only.
     var documentNumber = DWRUtil.getValue( documentNumberField ).trim();
 
     if (documentNumber == "") {
-        //alert(" document number is empty ")
         clearRecipients( budgetDocumentNumberFieldName );
         clearRecipients( budgetNameFieldName );
     } else {
-       //alert ("doc # is notempty")
         var dwrReply = {
             callback:function(data) {
-                if ( data != null && data != "" ) {
-                    setRecipientValue( budgetDocumentNumberFieldName, documentNumber);
-                    setRecipientValue( budgetNameFieldName, data );
+               // alert ("data "+data+" "+documentNumber+data.documentNumber+data.budgetName)
+                if ( data != null && typeof data == 'object' ) {
+                    setRecipientValue( budgetDocumentNumberFieldName, data.documentNumber );
+                    setRecipientValue( budgetNameFieldName, data.budgetName );
                 } else {
                     clearRecipients( budgetDocumentNumberFieldName );
-                    setRecipientValue( budgetNameFieldName, wrapError( "Budget document not found" ), true );
+                    setRecipientValue( budgetNameFieldName, wrapError( "budget document not found" ), true );
                 } },
             errorHandler:function( errorMessage ) {
                 clearRecipients( budgetDocumentNumberFieldName );
-                setRecipientValue( budgetNameFieldName, wrapError( "Budget document not found" ), true );
+                setRecipientValue( budgetNameFieldName, wrapError( "budget document not found" ), true );
             }
         };
         BudgetService.getByPrimaryId( documentNumber, dwrReply );
     }
 }
+
 
 // cfda
 function cfdaLookup( cfdaField ) {
@@ -279,7 +277,11 @@ function onblur_awardIndirectCostAmount( indirectAmountField ) {
 
 function accountNameLookup( anyFieldOnAwardAccount ) {
     var elPrefix = findElPrefix( anyFieldOnAwardAccount );
-    var chartOfAccountsCode = DWRUtil.getValue( elPrefix + ".chartOfAccountsCode" ).toUpperCase().trim();
+    var coaCodeField=kualiElements[elPrefix + ".chartOfAccountsCode"];
+    var chartOfAccountsCode=''
+    if (coaCodeField!=null) {
+        chartOfAccountsCode = DWRUtil.getValue( elPrefix + ".chartOfAccountsCode" ).toUpperCase().trim();
+    }
     var accountNumber = DWRUtil.getValue( elPrefix + ".accountNumber" ).toUpperCase().trim();
     var targetFieldName = elPrefix + ".account.accountName";
     if (accountNumber=='') {

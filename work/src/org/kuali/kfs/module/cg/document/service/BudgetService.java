@@ -38,6 +38,6 @@ public interface BudgetService {
      */
     public String buildCostShareRemovedCode(BudgetDocument budgetDocument);
     
-    public String getByPrimaryId(String documentNumber);
+    public Budget getByPrimaryId(String documentNumber);
 
 }

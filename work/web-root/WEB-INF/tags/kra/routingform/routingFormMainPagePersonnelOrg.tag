@@ -21,7 +21,7 @@
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
 <c:set var="budgetLinked" value="${KualiForm.editingMode['budgetLinked']}"/>
 
-<kul:tab tabTitle="Personnel and Units/Orgs" defaultOpen="true" tabErrorKey="newRoutingFormPerson*,document.routingFormPersonnel*,newRoutingFormOrganizationCreditPercent*,document.routingFormOrganizationCreditPercent*,document.routingFormFellowFullName" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormPersonnel*,document.routingFormOrganizationCreditPercent*">
+<kul:tab tabTitle="Personnel and Units/Orgs" defaultOpen="true" tabErrorKey="newRoutingFormProjectDirector*,newRoutingFormOtherPerson*,document.routingFormPersonnel*,newRoutingFormOrganizationCreditPercent*,document.routingFormOrganizationCreditPercent*,document.routingFormFellowFullName" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormPersonnel*,document.routingFormOrganizationCreditPercent*">
 	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="mainPageAuditErrors" keyMatch="document.routingFormPersonnel*,document.routingFormOrganizationCreditPercent*" isLink="false" includesTitle="true"/></div></div>
 
   <html:hidden property="document.personnelNextSequenceNumber" />
@@ -33,7 +33,7 @@
               </span> </div>
             <table cellpadding=0 cellspacing="0"  summary="">
               <tr>
-                <td colspan=9 class="tab-subhead"><span class="left">Add Proposal Personnel </span> </td>
+                <td colspan=9 class="tab-subhead"><span class="left">Add Proposal PD/Co-PD </span> </td>
               </tr>
               <tr>
                 <th>&nbsp;</th>
@@ -46,22 +46,24 @@
                 <th>Profile</th>
                 <th>Action</th>
               </tr>
+              
+              <!-- Add PD/Co-PD -->  
               <c:if test="${!viewOnly}">
               <tr>
                 <th scope="row">add:
                   <!-- Following fields are to keep track of personnel page data -->
-                  <html:hidden property="newRoutingFormPerson.personLine1Address" />
-                  <html:hidden property="newRoutingFormPerson.personPhoneNumber" />
-                  <html:hidden property="newRoutingFormPerson.personEmailAddress" />
+                  <html:hidden property="newRoutingFormProjectDirector.personLine1Address" />
+                  <html:hidden property="newRoutingFormProjectDirector.personPhoneNumber" />
+                  <html:hidden property="newRoutingFormProjectDirector.personEmailAddress" />
                 </th>
                 <td class="infoline">
-                  <html:hidden property="newRoutingFormPerson.personToBeNamedIndicator" />
-                  <html:hidden property="newRoutingFormPerson.personUniversalIdentifier" />
-                  <html:hidden write="true" property="newRoutingFormPerson.user.personName"/>
-                  <c:if test="${empty KualiForm.newRoutingFormPerson.personUniversalIdentifier && !KualiForm.newRoutingFormPerson.personToBeNamedIndicator}">&nbsp;</c:if>
-		    	  <c:if test="${KualiForm.newRoutingFormPerson.personToBeNamedIndicator}">TO BE NAMED</c:if>
+                  <html:hidden property="newRoutingFormProjectDirector.personToBeNamedIndicator" />
+                  <html:hidden property="newRoutingFormProjectDirector.personUniversalIdentifier" />
+                  <html:hidden write="true" property="newRoutingFormProjectDirector.user.personName"/>
+                  <c:if test="${empty KualiForm.newRoutingFormProjectDirector.personUniversalIdentifier && !KualiForm.newRoutingFormProjectDirector.personToBeNamedIndicator}">&nbsp;</c:if>
+		    	  <c:if test="${KualiForm.newRoutingFormProjectDirector.personToBeNamedIndicator}">TO BE NAMED</c:if>
                   <c:if test="${!viewOnly}">
-                    <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:newRoutingFormPerson.personUniversalIdentifier,personName:newRoutingFormPerson.user.personName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newRoutingFormPerson.personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
+                    <kul:lookup boClassName="org.kuali.module.cg.bo.ProjectDirector" fieldConversions="universalUser.personUniversalIdentifier:newRoutingFormProjectDirector.personUniversalIdentifier,universalUser.personName:newRoutingFormProjectDirector.user.personName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newRoutingFormProjectDirector.personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
                   </c:if>
                 </td>
                 <td class="infoline">
@@ -71,43 +73,46 @@
                     <html:hidden property="document.routingFormPersonRoles[${status.index}].versionNumber" /> 
                     <html:hidden property="document.routingFormPersonRoles[${status.index}].personRole.personRoleDescription" /> 
                   </c:forEach>
-                  <kul:checkErrors keyMatch="newRoutingFormPerson.personRoleCode" auditMatch="newRoutingFormPerson.personRoleCode"/>
+                  <kul:checkErrors keyMatch="newRoutingFormProjectDirector.personRoleCode" auditMatch="newRoutingFormProjectDirector.personRoleCode"/>
 				  <c:if test="${hasErrors==true}">
 				    <c:set var="newPersonRoleCodeTextStyle" value="background-color: red"/>
 				  </c:if>
-                  <html:select property="newRoutingFormPerson.personRoleCode" style="${newPersonRoleCodeTextStyle}" disabled="${viewOnly}"> 
-                    <html:option value="">&nbsp;</html:option> 
-                    <c:set var="routingFormPersonRoles" value="${KualiForm.document.routingFormPersonRoles}"/> 
-                    <html:options collection="routingFormPersonRoles" property="personRoleCode" labelProperty="personRole.personRoleDescription"/> 
+                  <html:select property="newRoutingFormProjectDirector.personRoleCode" style="${newPersonRoleCodeTextStyle}" disabled="${viewOnly}"> 
+                      <c:set var="routingFormPersonRoles" value="${KualiForm.document.routingFormProjectDirectorRoles}"/> 
+                      <html:options collection="routingFormPersonRoles" property="personRoleCode" labelProperty="personRole.personRoleDescription"/> 
                   </html:select>
                 </td>
-                <td class="infoline"><kul:htmlControlAttribute property="newRoutingFormPerson.personRoleText" attributeEntry="${routingFormPersonnel.personRoleText}" readOnly="${viewOnly}"/></td>
+                <td class="infoline"><kul:htmlControlAttribute property="newRoutingFormProjectDirector.personRoleText" attributeEntry="${routingFormPersonnel.personRoleText}" readOnly="${viewOnly}"/></td>
                 <td class="infoline">
-                  <html:hidden property="newRoutingFormPerson.chartOfAccountsCode"/>
-                  <html:hidden property="newRoutingFormPerson.organizationCode"/>
+                  <html:hidden property="newRoutingFormProjectDirector.chartOfAccountsCode"/>
+                  <html:hidden property="newRoutingFormProjectDirector.organizationCode"/>
                   <c:choose>
-                    <c:when test="${KualiForm.newRoutingFormPerson.chartOfAccountsCode ne null and KualiForm.newRoutingFormPerson.organizationCode ne null}">
-                      ${KualiForm.newRoutingFormPerson.chartOfAccountsCode} / ${KualiForm.newRoutingFormPerson.organizationCode}
+                    <c:when test="${KualiForm.newRoutingFormProjectDirector.chartOfAccountsCode ne null and KualiForm.newRoutingFormProjectDirector.organizationCode ne null}">
+                      ${KualiForm.newRoutingFormProjectDirector.chartOfAccountsCode} / ${KualiForm.newRoutingFormProjectDirector.organizationCode}
                     </c:when>
                     <c:otherwise>&nbsp;</c:otherwise>
                   </c:choose>
                   <c:if test="${!viewOnly}">
-                    <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormPerson.chartOfAccountsCode,organizationCode:newRoutingFormPerson.organizationCode" anchor="${currentTabIndex}" />
+                    <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormProjectDirector.chartOfAccountsCode,organizationCode:newRoutingFormProjectDirector.organizationCode" anchor="${currentTabIndex}" />
                   </c:if>
                 </td>
                 <td class="infoline"><div align="center">
-                  <kul:htmlControlAttribute property="newRoutingFormPerson.personFinancialAidPercent" attributeEntry="${routingFormPersonnel.personFinancialAidPercent}" readOnly="${viewOnly}"/>
+                  <kul:htmlControlAttribute property="newRoutingFormProjectDirector.personFinancialAidPercent" attributeEntry="${routingFormPersonnel.personFinancialAidPercent}" readOnly="${viewOnly}"/>
                 </div></td>
                 <td class="infoline"><div align="center">
-                  <kul:htmlControlAttribute property="newRoutingFormPerson.personCreditPercent" attributeEntry="${routingFormPersonnel.personCreditPercent}" readOnly="${viewOnly}"/>
+                  <kul:htmlControlAttribute property="newRoutingFormProjectDirector.personCreditPercent" attributeEntry="${routingFormPersonnel.personCreditPercent}" readOnly="${viewOnly}"/>
                 </div></td>
                 <td class="infoline">&nbsp;</td>
-                <td class="infoline"><div align=center><html:image property="methodToCall.addPersonLine.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="add person line"/></div></td>
+                <td class="infoline"><div align=center><html:image property="methodToCall.addProjectDirectorPersonLine.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="add person line"/></div></td>
               </tr>
               </c:if>
               
+              <!-- Individual PI Person -->
+              <c:set var="personIndex" value="0"/>
               <c:forEach items = "${KualiForm.document.routingFormPersonnel}" var="person" varStatus="status"  >
                 <c:set var="isProjectDirector" value="${person.projectDirector}" />
+                <c:if test="${isProjectDirector or person.personRoleCode eq KualiForm.systemParametersMap[KraConstants.CO_PROJECT_DIRECTOR_PARAM]}">
+                <c:set var="personIndex" value="${personIndex + 1}"/>
                 <tr>
    	              <html:hidden property="document.routingFormPersonnel[${status.index}].personUniversalIdentifier" />
    	              <html:hidden property="document.routingFormPersonnel[${status.index}].routingFormPersonSequenceNumber" />
@@ -130,7 +135,7 @@
                   <html:hidden property="document.routingFormPersonnel[${status.index}].personFaxNumber" />
                   <html:hidden property="document.routingFormPersonnel[${status.index}].personDivisionText" />
                   <html:hidden property="document.routingFormPersonnel[${status.index}].personEmailAddress" />
-                  <th scope="row"><div align="center">${status.index+1}</div></th>
+                  <th scope="row"><div align="center">${personIndex}</div></th>
                   <td>
                     <html:hidden write="true" property="document.routingFormPersonnel[${status.index}].user.personName" />
                     <c:if test="${empty person.personUniversalIdentifier && !person.personToBeNamedIndicator}">&nbsp;</c:if>
@@ -139,13 +144,13 @@
                       <c:choose>
                         <c:when test="${budgetLinked and isProjectDirector }" />
                         <c:otherwise>
-                          <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:document.routingFormPersonnel[${status.index}].personUniversalIdentifier,personName:document.routingFormPersonnel[${status.index}].user.personName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPersonnel[${status.index}].personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
+                          <kul:lookup boClassName="org.kuali.module.cg.bo.ProjectDirector" fieldConversions="universalUser.personUniversalIdentifier:document.routingFormPersonnel[${status.index}].personUniversalIdentifier,universalUser.personName:document.routingFormPersonnel[${status.index}].user.personName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPersonnel[${status.index}].personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
                         </c:otherwise>
                       </c:choose>
                     </c:if>
                   </td>
                   <td>
-                    <!-- Hidden variables for document.routingFormPersonRoles above under newRoutingFormPerson item -->
+                    <!-- Hidden variables for document.routingFormPersonRoles above under newRoutingFormProjectDirector item -->
 	                <kul:checkErrors keyMatch="document.routingFormPersonnel[${status.index}].personRoleCode" auditMatch="document.routingFormPersonnel[${status.index}].personRoleCode"/>
 					<c:if test="${hasErrors==true}">
 					  <c:set var="personRoleCodeTextStyle" value="background-color: red"/>
@@ -153,10 +158,9 @@
                     <c:choose>
                       <c:when test="${!viewOnly}">
     	                <html:select property="document.routingFormPersonnel[${status.index}].personRoleCode" style="${personRoleCodeTextStyle}" disabled="${viewOnly}"> 
-      	                  <html:option value="">&nbsp;</html:option> 
-      	                  <c:set var="routingFormPersonRoles" value="${KualiForm.document.routingFormPersonRoles}"/> 
-      	                  <html:options collection="routingFormPersonRoles" property="personRoleCode" labelProperty="personRole.personRoleDescription"/> 
-       	                </html:select>
+                        <c:set var="routingFormPersonRoles" value="${KualiForm.document.routingFormProjectDirectorRoles}"/> 
+                        <html:options collection="routingFormPersonRoles" property="personRoleCode" labelProperty="personRole.personRoleDescription"/> 
+     	                </html:select>
 	                  </c:when>
   		              <c:otherwise>
                         <html:hidden property="document.routingFormPersonnel[${status.index}].personRoleCode" />
@@ -191,8 +195,176 @@
                   <td><div align="center"><html:image property="methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.anchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" alt="view person line"/></div></td>
                   <td><div align=center>&nbsp;<c:if test="${!viewOnly}"><html:image property="methodToCall.deletePersonLine.line${status.index}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete person line"/></c:if></div></td>
                 </tr>
+                </c:if>
+              </c:forEach>
+              
+              <!-- Add Other Person -->
+              <tr>
+                <td colspan=9 class="tab-subhead"><span class="left">Add Other Proposal Personnel </span> </td>
+              </tr>
+              <tr>
+                <th>&nbsp;</th>
+                <th><div align=left>* Name</div></th>
+                <th><div align=left><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personRoleCode}" skipHelpUrl="true" noColon="true" /></div></th>
+                <th><div align="left"><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personRoleText}" skipHelpUrl="true" noColon="true" /></div></th>
+                <th><div align=center><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.chartOfAccountsCode}" skipHelpUrl="true" noColon="true" useShortLabel="true"/>/<kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.organizationCode}" skipHelpUrl="true" noColon="true" useShortLabel="true"/></div></th>
+                <th><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personFinancialAidPercent}" skipHelpUrl="true" noColon="true" /></th>
+                <th><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personCreditPercent}" skipHelpUrl="true" noColon="true" /></th>
+                <th>Profile</th>
+                <th>Action</th>
+              </tr>
+
+              <c:if test="${!viewOnly}">
+              <tr>
+                <th scope="row">add:
+                  <!-- Following fields are to keep track of personnel page data -->
+                  <html:hidden property="newRoutingFormOtherPerson.personLine1Address" />
+                  <html:hidden property="newRoutingFormOtherPerson.personPhoneNumber" />
+                  <html:hidden property="newRoutingFormOtherPerson.personEmailAddress" />
+                </th>
+                <td class="infoline">
+                  <html:hidden property="newRoutingFormOtherPerson.personToBeNamedIndicator" />
+                  <html:hidden property="newRoutingFormOtherPerson.personUniversalIdentifier" />
+                  <html:hidden write="true" property="newRoutingFormOtherPerson.user.personName"/>
+                  <c:if test="${empty KualiForm.newRoutingFormOtherPerson.personUniversalIdentifier && !KualiForm.newRoutingFormOtherPerson.personToBeNamedIndicator}">&nbsp;</c:if>
+            <c:if test="${KualiForm.newRoutingFormOtherPerson.personToBeNamedIndicator}">TO BE NAMED</c:if>
+                  <c:if test="${!viewOnly}">
+                    <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:newRoutingFormOtherPerson.personUniversalIdentifier,personName:newRoutingFormOtherPerson.user.personName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newRoutingFormOtherPerson.personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
+                  </c:if>
+                </td>
+                <td class="infoline">
+                  <c:forEach items="${KualiForm.document.routingFormPersonRoles}" var="routingFormPersonRole" varStatus="status"> 
+                    <html:hidden property="document.routingFormPersonRoles[${status.index}].documentNumber" /> 
+                    <html:hidden property="document.routingFormPersonRoles[${status.index}].personRoleCode" /> 
+                    <html:hidden property="document.routingFormPersonRoles[${status.index}].versionNumber" /> 
+                    <html:hidden property="document.routingFormPersonRoles[${status.index}].personRole.personRoleDescription" /> 
+                  </c:forEach>
+                  <kul:checkErrors keyMatch="newRoutingFormOtherPerson.personRoleCode" auditMatch="newRoutingFormOtherPerson.personRoleCode"/>
+          <c:if test="${hasErrors==true}">
+            <c:set var="newPersonRoleCodeTextStyle" value="background-color: red"/>
+          </c:if>
+                  <html:select property="newRoutingFormOtherPerson.personRoleCode" style="${newPersonRoleCodeTextStyle}" disabled="${viewOnly}"> 
+                    <c:set var="routingFormPersonRoles" value="${KualiForm.document.routingFormOtherPersonRoles}"/> 
+                    <html:options collection="routingFormPersonRoles" property="personRoleCode" labelProperty="personRole.personRoleDescription"/> 
+                  </html:select>
+                </td>
+                <td class="infoline"><kul:htmlControlAttribute property="newRoutingFormOtherPerson.personRoleText" attributeEntry="${routingFormPersonnel.personRoleText}" readOnly="${viewOnly}"/></td>
+                <td class="infoline">
+                  <html:hidden property="newRoutingFormOtherPerson.chartOfAccountsCode"/>
+                  <html:hidden property="newRoutingFormOtherPerson.organizationCode"/>
+                  <c:choose>
+                    <c:when test="${KualiForm.newRoutingFormOtherPerson.chartOfAccountsCode ne null and KualiForm.newRoutingFormOtherPerson.organizationCode ne null}">
+                      ${KualiForm.newRoutingFormOtherPerson.chartOfAccountsCode} / ${KualiForm.newRoutingFormOtherPerson.organizationCode}
+                    </c:when>
+                    <c:otherwise>&nbsp;</c:otherwise>
+                  </c:choose>
+                  <c:if test="${!viewOnly}">
+                    <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormOtherPerson.chartOfAccountsCode,organizationCode:newRoutingFormOtherPerson.organizationCode" anchor="${currentTabIndex}" />
+                  </c:if>
+                </td>
+                <td class="infoline"><div align="center">
+                  <kul:htmlControlAttribute property="newRoutingFormOtherPerson.personFinancialAidPercent" attributeEntry="${routingFormPersonnel.personFinancialAidPercent}" readOnly="${viewOnly}"/>
+                </div></td>
+                <td class="infoline"><div align="center">
+                  <kul:htmlControlAttribute property="newRoutingFormOtherPerson.personCreditPercent" attributeEntry="${routingFormPersonnel.personCreditPercent}" readOnly="${viewOnly}"/>
+                </div></td>
+                <td class="infoline">&nbsp;</td>
+                <td class="infoline"><div align=center><html:image property="methodToCall.addOtherPersonLine.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="add person line"/></div></td>
+              </tr>
+              </c:if>
+              
+              <!-- Individual Other Person -->
+              <c:set var="otherPersonIndex" value="0"/>
+              <c:forEach items = "${KualiForm.document.routingFormPersonnel}" var="person" varStatus="status"  >
+                <c:set var="isProjectDirector" value="${person.projectDirector}" />
+                <c:if test="${person.personRoleCode eq KualiForm.systemParametersMap[KraConstants.OTHER_PERSON_PARAM] or person.personRoleCode eq KualiForm.systemParametersMap[KraConstants.CONTACT_PERSON_PARAM]}">
+                <c:set var="otherPersonIndex" value="${otherPersonIndex + 1}"/>
+                <tr>
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].personUniversalIdentifier" />
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].routingFormPersonSequenceNumber" />
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].chartOfAccountsCode" />
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].organizationCode" />
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].personToBeNamedIndicator" />
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].versionNumber" />
+                  <!-- Following fields are to keep track of personnel page data -->
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].personLine1Address" />
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].personLine2Address" />
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].personCityName" />
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].personCountyName" />
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].personPrefixText" />
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].personStateCode" />
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].personSuffixText" />
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].personCountryCode" />
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].personPositionTitle" />
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].personZipCode" />
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].personPhoneNumber" />
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].personFaxNumber" />
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].personDivisionText" />
+                  <html:hidden property="document.routingFormPersonnel[${status.index}].personEmailAddress" />
+                  <th scope="row"><div align="center">${otherPersonIndex}</div></th>
+                  <td>
+                    <html:hidden write="true" property="document.routingFormPersonnel[${status.index}].user.personName" />
+                    <c:if test="${empty person.personUniversalIdentifier && !person.personToBeNamedIndicator}">&nbsp;</c:if>
+              <c:if test="${person.personToBeNamedIndicator}">TO BE NAMED</c:if>
+                    <c:if test="${!viewOnly}">
+                      <c:choose>
+                        <c:when test="${budgetLinked and isProjectDirector }" />
+                        <c:otherwise>
+                          <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:document.routingFormPersonnel[${status.index}].personUniversalIdentifier,personName:document.routingFormPersonnel[${status.index}].user.personName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPersonnel[${status.index}].personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
+                        </c:otherwise>
+                      </c:choose>
+                    </c:if>
+                  </td>
+                  <td>
+                    <!-- Hidden variables for document.routingFormPersonRoles above under newRoutingFormOtherPerson item -->
+                  <kul:checkErrors keyMatch="document.routingFormPersonnel[${status.index}].personRoleCode" auditMatch="document.routingFormPersonnel[${status.index}].personRoleCode"/>
+          <c:if test="${hasErrors==true}">
+            <c:set var="personRoleCodeTextStyle" value="background-color: red"/>
+          </c:if>
+                    <c:choose>
+                      <c:when test="${!viewOnly}">
+                      <html:select property="document.routingFormPersonnel[${status.index}].personRoleCode" style="${personRoleCodeTextStyle}" disabled="${viewOnly}"> 
+                          <c:set var="routingFormPersonRoles" value="${KualiForm.document.routingFormOtherPersonRoles}"/> 
+                          <html:options collection="routingFormPersonRoles" property="personRoleCode" labelProperty="personRole.personRoleDescription"/> 
+                        </html:select>
+                    </c:when>
+                    <c:otherwise>
+                        <html:hidden property="document.routingFormPersonnel[${status.index}].personRoleCode" />
+                        <html:hidden property="document.routingFormPersonnel[${status.index}].personRole.personRoleDescription" />
+                        ${person.personRole.personRoleDescription}
+                    </c:otherwise>
+                  </c:choose>
+                  </td>
+                  <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personRoleText" attributeEntry="${routingFormPersonnel.personRoleText}" readOnly="${viewOnly or (budgetLinked and isProjectDirector)}"/></td>
+                  <td>
+                    <c:choose>
+                      <c:when test="${person.chartOfAccountsCode ne null and person.organizationCode ne null}">
+                        ${person.chartOfAccountsCode} / ${person.organizationCode}
+                      </c:when>
+                      <c:otherwise>&nbsp;</c:otherwise>
+                    </c:choose>
+                    <c:if test="${!viewOnly}">
+                      <c:choose>
+                        <c:when test="${budgetLinked and isProjectDirector }" />
+                        <c:otherwise>
+                          <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormPersonnel[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormPersonnel[${status.index}].organizationCode" anchor="${currentTabIndex}" />
+                        </c:otherwise>
+                      </c:choose>
+                    </c:if>
+                  </td>
+                  <td><div align="center"><span class="infoline">
+                    <kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personFinancialAidPercent" attributeEntry="${routingFormPersonnel.personFinancialAidPercent}" readOnly="${viewOnly}"/>
+                  </span></div></td>
+                  <td><div align="center"><span class="infoline">
+                    <kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personCreditPercent" attributeEntry="${routingFormPersonnel.personCreditPercent}" readOnly="${viewOnly}"/>
+                  </span></div></td>
+                  <td><div align="center"><html:image property="methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.anchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" alt="view person line"/></div></td>
+                  <td><div align=center>&nbsp;<c:if test="${!viewOnly}"><html:image property="methodToCall.deletePersonLine.line${status.index}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete person line"/></c:if></div></td>
+                </tr>
+                </c:if>
               </c:forEach>
 
+              <!-- Add Orgs -->
               <tr>
                 <td colspan=9 class="tab-subhead"><span class="left">Add Proposal Units/Orgs </span> </td>
               </tr>
@@ -234,6 +406,8 @@
                 <td class="infoline"><div align=center><html:image property="methodToCall.addOrganizationCreditPercentLine.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="add org line"/></div></td>
               </tr>
               </c:if>
+              
+              <!--  Individual Orgs -->
               <c:forEach items = "${KualiForm.document.routingFormOrganizationCreditPercents}" var="org" varStatus="status"  >
                 <tr>
    	              <html:hidden property="document.routingFormOrganizationCreditPercents[${status.index}].chartOfAccountsCode" />
@@ -265,6 +439,7 @@
                 </tr>
               </c:forEach>
               
+              <!-- Fellow -->
               <tr>
                 <td colspan=9 class="tab-subhead"><span class="left"><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.routingFormFellowFullName}" skipHelpUrl="true" noColon="true" /></span></td>
               </tr>

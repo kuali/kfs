@@ -19,12 +19,12 @@
 
           <table cellpadding=0 cellspacing="0"  summary="">
             <tr>
-              <td colspan=3 class="subhead">
+              <td colspan=2 class="subhead">
                 <span class="subhead-left"> Select Report Type </span>
               </td>
             </tr>
             <tr align="center" valign="top">
-              <td width="40%" ><div class="floaters" > <strong>
+              <td width="50%" ><div class="floaters" > <strong>
                   <html:radio property="currentOutputReportType" styleId="currentOutputReportType.genericByTask" value="genericByTask"/><label for="currentOutputReportType.genericByTask">Generic by Task&nbsp&nbsp&nbsp</label>
                   <html:radio property="currentOutputReportType" styleId="currentOutputReportType.genericByPeriod" value="genericByPeriod"/><label for="currentOutputReportType.genericByPeriod">Generic by Period</label>
                   <br><br>
@@ -35,7 +35,7 @@
                     <html:option value="low">low</html:option>
                   </html:select>
                   </strong></div></td>
-              <td width="45%" ><label> </label>
+              <td width="50%" ><label> </label>
                 <div class="floaters"> <strong>
                   <html:radio property="currentOutputReportType" styleId="currentOutputReportType.agency" value="agency"/><label for="currentOutputReportType.agency">Agency</label>
                   <br><br>
@@ -57,9 +57,6 @@
                   (only for NIH Form 2590)<br>
                   <br>Note: When using budget periods of less than one year with the interim NIH PHS 398 and 2590 Forms, the requested salary amounts are correct but the person-months figure and base salary will need to be manually adjusted in Adobe Acrobat.<br>
                 </div></td>
-              <td width="15%" ><div class="floaters" > <strong>
-                  <html:radio property="currentOutputReportType" styleId="currentOutputReportType.SF424" value="SF424"/><label for="currentOutputReportType.SF424">SF424</label>
-                  </strong></div></td>
             </tr>
           </table>
           

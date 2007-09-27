@@ -30,8 +30,11 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.Balance;
@@ -43,6 +46,7 @@ import org.kuali.module.gl.util.OJBUtility;
 public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
     private KualiConfigurationService kualiConfigurationService;
+    private OptionsService optionsService;
 
     /**
      * @see org.kuali.module.gl.dao.BalanceDao#getGlSummary(int, java.util.List)
@@ -536,10 +540,59 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
     }
 
     /**
+     * @see org.kuali.module.gl.dao.BalanceDao#countBalancesForFiscalYear(java.lang.Integer)
+     */
+    public int countBalancesForFiscalYear(Integer year) {
+        LOG.debug("countBalancesForFiscalYear() started");
+
+        Criteria c = new Criteria();
+        c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
+        QueryByCriteria query = QueryFactory.newQuery(Balance.class, c);
+        
+        return getPersistenceBrokerTemplate().getCount(query);
+    }
+
+    /**
+     * @see org.kuali.module.gl.dao.BalanceDao#findNominalActivityBalancesForFiscalYear(java.lang.Integer)
+     */
+    public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year) {
+        LOG.debug("findBalancesForFiscalYear() started");
+        
+        Options currentYearOptions = optionsService.getCurrentYearOptions();
+        
+        // generate List of nominal activity object type codes
+        String[] objectTypeCodes = kualiConfigurationService.getParameterValues(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.GL_CLOSING_OF_NOMINAL_ACTIVITY_OBJECT_TYPE_CODE);
+        List<String> objectTypeCodeList = new ArrayList<String>();
+        for (String objectTypeCode: objectTypeCodes) {
+            objectTypeCodeList.add(objectTypeCode);
+        }
+
+        Criteria c = new Criteria();
+        c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
+        c.addEqualTo(KFSPropertyConstants.BALANCE_TYP, currentYearOptions.getActualFinancialBalanceTypeCd());
+        c.addIn(KFSPropertyConstants.OBJECT_TYPE_CODE, objectTypeCodeList);
+        c.addNotEqualTo("accountLineAnnualBalanceAmount", KualiDecimal.ZERO);
+
+        QueryByCriteria query = QueryFactory.newQuery(Balance.class, c);
+        query.addOrderByAscending(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.ACCOUNT_NUMBER);
+        query.addOrderByAscending(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        query.addOrderByAscending(KFSPropertyConstants.OBJECT_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.SUB_OBJECT_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.BALANCE_TYPE_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.OBJECT_TYPE_CODE);
+
+        return getPersistenceBrokerTemplate().getIteratorByQuery(query);
+    }
+
+    /**
      * @param kualiConfigurationService
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
+    }
 }

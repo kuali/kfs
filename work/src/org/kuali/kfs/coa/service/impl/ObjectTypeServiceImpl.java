@@ -119,4 +119,24 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     public String getCurrentYearIncomeTransferObjectType() {
         return getIncomeTransferObjectType(universityDateService.getCurrentFiscalYear());
     }
+    
+    /**
+     * Returns a list of the object types that the nominal balance selector uses to determine if it should
+     * process a balance or not
+     * @param fiscalYear
+     * @return
+     */
+    public List<String> getNominalActivityClosingAllowedObjectTypes(Integer fiscalYear) {
+        List<String> nominalClosingObjectTypes = new ArrayList<String>();
+        Options option = optionsDao.getByPrimaryId(fiscalYear);
+        nominalClosingObjectTypes.add(option.getFinObjTypeExpNotExpendCode());
+        nominalClosingObjectTypes.add(option.getFinObjTypeExpenditureexpCd());
+        nominalClosingObjectTypes.add(option.getFinancialObjectTypeTransferExpenseCd());
+        nominalClosingObjectTypes.add(option.getFinancialObjectTypeTransferIncomeCd());
+        nominalClosingObjectTypes.add(option.getFinObjTypeExpendNotExpCode());
+        nominalClosingObjectTypes.add(option.getFinObjTypeCshNotIncomeCd());
+        nominalClosingObjectTypes.add(option.getFinObjTypeIncomeNotCashCd());
+        nominalClosingObjectTypes.add(option.getFinObjectTypeIncomecashCode());
+        return nominalClosingObjectTypes;
+    }
 }

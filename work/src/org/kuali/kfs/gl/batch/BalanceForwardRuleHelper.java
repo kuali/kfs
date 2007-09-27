@@ -137,6 +137,9 @@ public class BalanceForwardRuleHelper {
     private SubFundGroupService subFundGroupService;
     private OriginEntryService originEntryService;
     private KualiConfigurationService kualiConfigurationService;
+    private Options currentYearOptions;
+    private String[] priorYearAccountObjectTypes;
+    private String[] generalSwObjectTypes;
 
     private BalanceForwardProcessState state;
 
@@ -161,6 +164,23 @@ public class BalanceForwardRuleHelper {
         setClosingFiscalYear(closingFiscalYear);
         setClosedPriorYearAccountGroup(closedPriorYearAccountGroup);
         setUnclosedPriorYearAccountGroup(unclosedPriorYearAccountGroup);
+        currentYearOptions = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
+        
+        generalSwObjectTypes = new String[3];
+        generalSwObjectTypes[0] = currentYearOptions.getFinancialObjectTypeAssetsCd();
+        generalSwObjectTypes[1] = currentYearOptions.getFinObjectTypeLiabilitiesCode();
+        generalSwObjectTypes[2] = currentYearOptions.getFinObjectTypeFundBalanceCd();
+        
+        // "EE", "ES", "EX", "IC", "TE", "TI", "IN", "CH"
+        priorYearAccountObjectTypes = new String[8];
+        priorYearAccountObjectTypes[0] = currentYearOptions.getFinObjTypeExpendNotExpCode();
+        priorYearAccountObjectTypes[1] = currentYearOptions.getFinObjTypeExpNotExpendCode();
+        priorYearAccountObjectTypes[2] = currentYearOptions.getFinObjTypeExpenditureexpCd();
+        priorYearAccountObjectTypes[3] = currentYearOptions.getFinObjTypeIncomeNotCashCd();
+        priorYearAccountObjectTypes[4] = currentYearOptions.getFinancialObjectTypeTransferExpenseCd();
+        priorYearAccountObjectTypes[5] = currentYearOptions.getFinancialObjectTypeTransferIncomeCd();
+        priorYearAccountObjectTypes[6] = currentYearOptions.getFinObjectTypeIncomecashCode();
+        priorYearAccountObjectTypes[7] = currentYearOptions.getFinObjTypeCshNotIncomeCd();
     }
 
     /**
@@ -202,13 +222,7 @@ public class BalanceForwardRuleHelper {
             // 969 004940**** 'NB' ADDED TO ABOVE 8/10/95 ARE
             // 970 004950**** 'EE' REMOVED FROM FOLLOWING LINE 7/18/95 ARE
             // 971 004960 (GLGLBL-FIN-OBJ-TYP-CD = 'AS' OR 'LI' OR 'FB')
-            // 972 004970 MOVE 'Y' TO WS-SELECT-GENERAL-SW.
-
-            Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
-            String[] generalSwObjectTypes = new String[3];
-            generalSwObjectTypes[0] = options.getFinancialObjectTypeAssetsCd();
-            generalSwObjectTypes[1] = options.getFinObjectTypeLiabilitiesCode();
-            generalSwObjectTypes[2] = options.getFinObjectTypeFundBalanceCd();
+            // 972 004970 MOVE 'Y' TO WS-SELECT-GENERAL-SW
             
             final String[] CONDITION_GENERAL_SW_FLAG = kualiConfigurationService.getParameterValues(KFSConstants.GL_NAMESPACE, GLConstants.Components.BALANCE_FORWARD_STEP, GLConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET);
             if (ObjectHelper.isOneOf(balance.getBalanceTypeCode(), CONDITION_GENERAL_SW_FLAG) && ObjectHelper.isOneOf(balance.getObjectTypeCode(), generalSwObjectTypes)) {
@@ -303,16 +317,7 @@ public class BalanceForwardRuleHelper {
 
             PriorYearAccount priorYearAccount = priorYearAccountService.getByPrimaryKey(balance.getChartOfAccountsCode(), balance.getAccountNumber());
 
-            // "EE", "ES", "EX", "IC", "TE", "TI", "IN", "CH"
-            String[] priorYearAccountObjectTypes = new String[8];
-            priorYearAccountObjectTypes[0] = options.getFinObjTypeExpendNotExpCode();
-            priorYearAccountObjectTypes[1] = options.getFinObjTypeExpNotExpendCode();
-            priorYearAccountObjectTypes[2] = options.getFinObjTypeExpenditureexpCd();
-            priorYearAccountObjectTypes[3] = options.getFinObjTypeIncomeNotCashCd();
-            priorYearAccountObjectTypes[4] = options.getFinancialObjectTypeTransferExpenseCd();
-            priorYearAccountObjectTypes[5] = options.getFinancialObjectTypeTransferIncomeCd();
-            priorYearAccountObjectTypes[6] = options.getFinObjectTypeIncomecashCode();
-            priorYearAccountObjectTypes[7] = options.getFinObjTypeCshNotIncomeCd();
+            
 
             final String[] CONDITION_PRIOR_YEAR_ACCOUNT = kualiConfigurationService.getParameterValues(KFSConstants.GL_NAMESPACE, GLConstants.Components.BALANCE_FORWARD_STEP, GLConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_INCOME_EXPENSE);
             if (ObjectHelper.isOneOf(balance.getBalanceTypeCode(), CONDITION_PRIOR_YEAR_ACCOUNT) && ObjectHelper.isOneOf(balance.getObjectTypeCode(), priorYearAccountObjectTypes)) {
@@ -751,12 +756,12 @@ public class BalanceForwardRuleHelper {
 
                     // 1241 007680 IF GLGLBL-FIN-OBJ-TYP-CD = 'EE'
 
-                    if (options.getFinObjTypeExpendNotExpCode().equals(balance.getObjectTypeCode())) {
+                    if (currentYearOptions.getFinObjTypeExpendNotExpCode().equals(balance.getObjectTypeCode())) {
 
                         // 1242 007690 MOVE 'AS'
                         // 1243 007700 TO FIN-OBJ-TYP-CD
 
-                        entry.setFinancialObjectTypeCode(options.getFinancialObjectTypeAssetsCd());
+                        entry.setFinancialObjectTypeCode(currentYearOptions.getFinancialObjectTypeAssetsCd());
 
                         // 1244 007710 ELSE
 

@@ -102,5 +102,13 @@ public interface ObjectTypeService {
      * @param universityFiscalYear
      * @return
      */
-    public String getCurrentYearIncomeTransferObjectType();    
+    public String getCurrentYearIncomeTransferObjectType(); 
+    
+    /**
+     * Returns a list of the object types that the nominal balance selector uses to determine if it should
+     * process a balance or not
+     * @param fiscalYear
+     * @return
+     */
+    public List<String> getNominalActivityClosingAllowedObjectTypes(Integer fiscalYear);
 }

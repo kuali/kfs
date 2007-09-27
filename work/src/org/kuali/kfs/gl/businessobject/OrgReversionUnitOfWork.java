@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
@@ -48,6 +49,10 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
         accountNumber = acct;
         subAccountNumber = subAcct;
     }
+    
+    public boolean isInitialized() {
+        return !StringUtils.isBlank(chartOfAccountsCode) && !StringUtils.isBlank(accountNumber);
+    }
 
     public void setFields(String chart, String acct, String subAcct) {
         chartOfAccountsCode = chart;
@@ -58,9 +63,8 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
     }
 
     public void setCategories(List<OrganizationReversionCategory> cats) {
-        for (Iterator<OrganizationReversionCategory> iter = cats.iterator(); iter.hasNext();) {
-            OrganizationReversionCategory element = iter.next();
-            OrgReversionUnitOfWorkCategoryAmount ca = new OrgReversionUnitOfWorkCategoryAmount(this.chartOfAccountsCode, this.accountNumber, this.subAccountNumber, element.getOrganizationReversionCategoryCode());
+        for (OrganizationReversionCategory element: cats) {
+            OrgReversionUnitOfWorkCategoryAmount ca = new OrgReversionUnitOfWorkCategoryAmount(element.getOrganizationReversionCategoryCode());
             amounts.put(element.getOrganizationReversionCategoryCode(), ca);
         }
     }
@@ -114,6 +118,10 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
 
     public boolean isSame(String chart, String acct, String subAcct) {
         return (chartOfAccountsCode.equals(chart) && accountNumber.equals(acct) && subAccountNumber.equals(subAcct));
+    }
+    
+    public boolean wouldHold(Balance balance) {
+        return StringUtils.equals(chartOfAccountsCode, balance.getChartOfAccountsCode()) && StringUtils.equals(accountNumber, balance.getAccountNumber()) && StringUtils.equals(subAccountNumber, balance.getSubAccountNumber());
     }
 
     public KualiDecimal getTotalAccountAvailable() {

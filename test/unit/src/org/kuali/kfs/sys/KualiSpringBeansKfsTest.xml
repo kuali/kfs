@@ -21,4 +21,13 @@
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="testMode" value="true" />
 	</bean>
+	
+	<bean id="glOrganizationReversionMockService" class="org.kuali.module.gl.service.impl.OrganizationReversionMockService">
+		<property name="organizationReversionDao">
+			<ref bean="organizationReversionDao" />
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+	</bean>
 </beans>

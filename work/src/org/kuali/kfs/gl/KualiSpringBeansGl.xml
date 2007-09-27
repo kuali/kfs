@@ -1015,6 +1015,9 @@
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
+		<property name="optionsService">
+			<ref bean="optionsService" />
+		</property>
 	</bean>
 
 	<bean id="glExpenditureTransactionDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.ExpenditureTransactionDaoOjb" />
@@ -1342,17 +1345,44 @@
 		<property name="yearEndService">
 			<ref bean="glYearEndService" />
 		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="originEntryGroupService">
+			<ref bean="originEntryGroupService" />
+		</property>
 	</bean>
 
 	<bean id="balanceForwardStep" class="org.kuali.module.gl.batch.BalanceForwardStep" parent="glStep">
 		<property name="yearEndService">
 			<ref bean="glYearEndService" />
 		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="originEntryGroupService">
+			<ref bean="originEntryGroupService" />
+		</property>
 	</bean>
 
 	<bean id="nominalActivityClosingStep" class="org.kuali.module.gl.batch.NominalActivityClosingStep" parent="glStep">
 		<property name="yearEndService">
 			<ref bean="glYearEndService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="originEntryGroupService">
+			<ref bean="originEntryGroupService" />
 		</property>
 	</bean>
 	

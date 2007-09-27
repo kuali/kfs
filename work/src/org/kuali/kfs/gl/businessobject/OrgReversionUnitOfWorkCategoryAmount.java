@@ -40,6 +40,10 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
     private SubAccount subAccount;
     private OrganizationReversionCategory organizationReversionCategory;
     private OrgReversionUnitOfWork organizationReversionUnitOfWork;
+    
+    public OrgReversionUnitOfWorkCategoryAmount(String cat) {
+        this.categoryCode = cat;
+    }
 
     public OrgReversionUnitOfWorkCategoryAmount(String chartOfAccountsCode, String accountNbr, String subAccountNbr, String cat) {
         this.chartOfAccountsCode = chartOfAccountsCode;

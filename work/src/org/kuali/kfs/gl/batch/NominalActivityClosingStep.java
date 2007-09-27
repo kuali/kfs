@@ -15,17 +15,60 @@
  */
 package org.kuali.module.gl.batch;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.AbstractStep;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.closing.year.service.YearEndService;
+import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.bo.OriginEntrySource;
+import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.module.gl.service.ReportService;
+import org.kuali.module.gl.util.Summary;
 
 public class NominalActivityClosingStep extends AbstractStep {
-    public YearEndService yearEndService;
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger( NominalActivityClosingStep.class);
+    private YearEndService yearEndService;
+    private DateTimeService dateTimeService;
+    private OriginEntryGroupService originEntryGroupService;
+    private KualiConfigurationService kualiConfigurationService;
 
+    public static final String TRANSACTION_DATE_FORMAT_STRING = "yyyy-MM-dd";
+    
     /**
      * @see org.kuali.kfs.batch.Step#performStep()
      */
     public boolean execute(String jobName) {
-        yearEndService.closeNominalActivity();
+        Date varTransactionDate;
+        try {
+            DateFormat transactionDateFormat = new SimpleDateFormat(TRANSACTION_DATE_FORMAT_STRING);
+            varTransactionDate = new Date(transactionDateFormat.parse(kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM)).getTime());
+        }
+        catch (ParseException e) {
+            LOG.error("forwardBalances() Unable to parse transaction date", e);
+            throw new IllegalArgumentException("Unable to parse transaction date");
+        }
+        Integer varFiscalYear = new Integer(kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
+        OriginEntryGroup nominalClosingOriginEntryGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_CLOSE_NOMINAL_BALANCES, true, false, true);
+        Map nominalClosingJobParameters = new HashMap();
+        nominalClosingJobParameters.put(GLConstants.ColumnNames.UNIV_DT, varTransactionDate);
+        nominalClosingJobParameters.put(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR, varFiscalYear);
+        Map<String, Integer> nominalActivityClosingCounts = new HashMap<String, Integer>();
+        
+        yearEndService.closeNominalActivity(nominalClosingOriginEntryGroup, nominalClosingJobParameters, nominalActivityClosingCounts);
+        
+        yearEndService.generateCloseNominalActivityReports(nominalClosingOriginEntryGroup, nominalClosingJobParameters, nominalActivityClosingCounts);
+        
         return true;
     }
 
@@ -34,5 +77,38 @@ public class NominalActivityClosingStep extends AbstractStep {
      */
     public void setYearEndService(YearEndService yearEndService) {
         this.yearEndService = yearEndService;
+    }
+    
+    /**
+     * 
+     * This method returns the YearEndService object associated with this step
+     * @return
+     */
+    public YearEndService getYearEndService() {
+        return yearEndService;
+    }
+
+    /**
+     * Sets the dateTimeService attribute value.
+     * @param dateTimeService The dateTimeService to set.
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    /**
+     * Sets the kualiConfigurationService attribute value.
+     * @param kualiConfigurationService The kualiConfigurationService to set.
+     */
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    /**
+     * Sets the originEntryGroupService attribute value.
+     * @param originEntryGroupService The originEntryGroupService to set.
+     */
+    public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
+        this.originEntryGroupService = originEntryGroupService;
     }
 }

@@ -137,4 +137,18 @@ public interface BalanceDao {
      * @return an iterator over all balances for a given fiscal year
      */
     public Iterator<Balance> findBalancesForFiscalYear(Integer year);
+    
+    /**
+     * This method returns the total count of balances for a fiscal year
+     * @param year fiscal year to check
+     * @return the count of balances
+     */
+    public int countBalancesForFiscalYear(Integer year);
+    
+    /**
+     * This method returns all of the balances specifically for the nominal activity closing job 
+     * @param year year to find balances for
+     * @return an Iterator of nominal activity balances
+     */
+    public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year);
 }

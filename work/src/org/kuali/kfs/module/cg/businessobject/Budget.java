@@ -24,6 +24,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
@@ -68,6 +69,7 @@ public class Budget extends PersistableBusinessObjectBase {
     private Agency budgetAgency;
     private Agency federalPassThroughAgency;
     private ProjectDirector projectDirector;
+    private UniversalUser universalUser;
     private BudgetModular modularBudget;
     private List tasks;
     private List periods;
@@ -938,5 +940,13 @@ public class Budget extends PersistableBusinessObjectBase {
             this.getBudgetIndirectCostLookups().add(new BudgetIndirectCostLookup());
         }
         return this.getBudgetIndirectCostLookups().get(index);
+    }
+
+    public UniversalUser getUniversalUser() {
+        return universalUser;
+    }
+
+    public void setUniversalUser(UniversalUser universalUser) {
+        this.universalUser = universalUser;
     }
 }

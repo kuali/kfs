@@ -42,7 +42,9 @@
                 <lookupField attributeName="documentNumber" required="false" />
                 <lookupField attributeName="budgetName" required="false" />
                 <lookupField attributeName="budgetProjectDirectorUniversalIdentifier" required="false" />
-                <lookupField attributeName="budgetAgency" required="false" />
+                <lookupField attributeName="universalUser.personUserIdentifier" required="false" />
+                <lookupField attributeName="universalUser.personName" required="false" />
+                <lookupField attributeName="budgetAgencyNumber" required="false" />
             </lookupFields>
 
             <resultFields>
@@ -51,7 +53,8 @@
                 <field attributeName="budgetParentTrackNumber" />
                 <field attributeName="electronicResearchAdministrationGrantNumber" />
                 <field attributeName="budgetTypeCodeText" />
-                <field attributeName="budgetProjectDirectorUniversalIdentifier" />
+                <field attributeName="universalUser.personUserIdentifier" />               
+                <field attributeName="universalUser.personName" forceInquiry="true" />
                 <field attributeName="budgetAgencyNumber" />
             </resultFields>
 		</lookup>
@@ -322,13 +325,45 @@
                 <description>Federal Pass Through Agency ...</description>
             </attributeReference>
 
-            <attributeReference name="budgetProjectDirectorUniversalIdentifier" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
+            <attributeReference name="budgetProjectDirectorUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
                 <label>Project Director</label>
                 <shortLabel>Project Director</shortLabel>
+                <displayLabelAttribute>universalUser.personUserIdentifier</displayLabelAttribute>
+                <required>true</required>
+                <control>
+                    <hidden />
+                </control>
 
                 <summary>Project Director ...</summary>
                 <description>Project Director ...</description>
             </attributeReference>
+
+            <attributeReference name="universalUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
+                <label>Project Director UserID</label>
+                <shortLabel>UserID</shortLabel>
+                <required>false</required>
+                <control>
+                    <kualiUser universalIdAttributeName="budgetProjectDirectorUniversalIdentifier" userIdAttributeName="universalUser.personUserIdentifier" personNameAttributeName="universalUser.personName" />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The username of the Project Director for the Budget. </description>
+            </attributeReference>
+
+            <attributeReference name="universalUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
+                <label>Project Director Name</label>
+                <shortLabel>Name</shortLabel>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The Name of the Project Director.</description>
+            </attributeReference>
+
 
         </attributes>
 
@@ -347,6 +382,14 @@
                 <description>Periods that occur during of the budget</description>
             </collection>
         </collections>
+
+        <relationships>
+            <relationship objectAttributeName="universalUser" >
+                <primitiveAttribute sourceName="budgetProjectDirectorUniversalIdentifier" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="universalUser.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+				<supportAttribute sourceName="universalUser.personName" targetName="personName" />
+            </relationship>
+		</relationships>
 
         <objectLabel>General Parameters</objectLabel>
         <objectDescription>Help description for budget parameters - general.</objectDescription>

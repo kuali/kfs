@@ -64,4 +64,23 @@ public class PurApItemUtils {
         return returnItems;
     }
     
+    /**
+     * 
+     * This method counts the below the line, currently it relies on below the line being at the bottom
+     * @return
+     */
+    public static int countBelowTheLineItems(List<PurApItem>items) {
+        int count = 0;
+        for (int i = items.size()-1; i > 0; i--) {
+            PurApItem item = items.get(i);
+            //will have to change if we stop putting below the line at bottom
+            if(item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                break;
+            } else {
+                count++;
+            }
+        }
+        return count;
+    }
+    
 }

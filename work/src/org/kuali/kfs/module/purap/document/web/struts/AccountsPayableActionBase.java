@@ -51,14 +51,12 @@ import org.kuali.module.purap.PurapConstants.AccountsPayableDocumentStrings;
 import org.kuali.module.purap.PurapConstants.CMDocumentsStrings;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.AccountsPayableDocumentBase;
-import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.rule.event.CancelAccountsPayableEvent;
 import org.kuali.module.purap.rule.event.PreCalculateAccountsPayableEvent;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.service.impl.AccountsPayableServiceImpl;
 import org.kuali.module.purap.util.PurQuestionCallback;
 import org.kuali.module.purap.web.struts.form.AccountsPayableFormBase;
 import org.kuali.module.vendor.VendorConstants;
@@ -107,7 +105,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
         AccountsPayableDocument document = (AccountsPayableDocument) kualiDocumentFormBase.getDocument();
-        
+        ((AccountsPayableFormBase)kualiDocumentFormBase).updateItemCounts();
         SpringContext.getBean(AccountsPayableService.class).generateExpiredOrClosedAccountWarning(document);
         SpringContext.getBean(AccountsPayableService.class).updateItemList(document);
     }

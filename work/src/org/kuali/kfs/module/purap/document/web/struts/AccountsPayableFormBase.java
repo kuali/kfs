@@ -15,8 +15,15 @@
  */
 package org.kuali.module.purap.web.struts.form;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.module.purap.document.AccountsPayableDocument;
+import org.kuali.module.purap.util.PurApItemUtils;
 
 /**
  * This class is the form class for the Purchasing documents.
@@ -26,9 +33,12 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     private PurApItem newPurchasingItemLine;
     private Boolean notOtherDeliveryBuilding;
     private boolean calculated;
+    private int countOfAboveTheLine=0;
+    private int countOfBelowTheLine=0;
     
+
     /**
-     * Constructs a RequisitionForm instance and sets up the appropriately casted document. 
+     * Constructs an AccountsPayableForm instance and sets up the appropriately casted document. 
      */
     public AccountsPayableFormBase() {
         super();
@@ -76,6 +86,34 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     public void setCalculated(boolean calculated) {
         this.calculated = calculated;
     }
+    /**
+     * Gets the countOfAboveTheLine attribute. 
+     * @return Returns the countOfAboveTheLine.
+     */
+    public int getCountOfAboveTheLine() {
+        return countOfAboveTheLine;
+    }
+    /**
+     * Sets the countOfAboveTheLine attribute value.
+     * @param countOfAboveTheLine The countOfAboveTheLine to set.
+     */
+    public void setCountOfAboveTheLine(int countOfAboveTheLine) {
+        this.countOfAboveTheLine = countOfAboveTheLine;
+    }
+    /**
+     * Gets the countOfBelowTheLine attribute. 
+     * @return Returns the countOfBelowTheLine.
+     */
+    public int getCountOfBelowTheLine() {
+        return countOfBelowTheLine;
+    }
+    /**
+     * Sets the countOfBelowTheLine attribute value.
+     * @param countOfBelowTheLine The countOfBelowTheLine to set.
+     */
+    public void setCountOfBelowTheLine(int countOfBelowTheLine) {
+        this.countOfBelowTheLine = countOfBelowTheLine;
+    }
     
     /**
      * This is a utility method to add a new button to the extra buttons
@@ -94,6 +132,23 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
         newButton.setExtraButtonAltText(altText);
         
         extraButtons.add(newButton);
+    }
+    /**
+     * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public void populate(HttpServletRequest request) {
+        super.populate(request);
+        //update counts after populate
+        updateItemCounts();
+    }
+    /**
+     * This method updates item counts for display
+     */
+    public void updateItemCounts() {
+        List<PurApItem> items = ((AccountsPayableDocument)this.getDocument()).getItems();
+        countOfBelowTheLine = PurApItemUtils.countBelowTheLineItems(items);
+        countOfAboveTheLine = items.size()-countOfBelowTheLine;
     }
        
 }

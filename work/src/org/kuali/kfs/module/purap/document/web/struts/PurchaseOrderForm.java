@@ -310,10 +310,14 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      */
     @Override
     public void populate(HttpServletRequest request) {
+        
         PurchaseOrderDocument  po = (PurchaseOrderDocument)this.getDocument();
-        if(ObjectUtils.isNull(po.getPurapDocumentIdentifier())) {
-            po.setPurapDocumentIdentifier(getPurchaseOrderIdentifier());
-        }
+        
+      //TODO - ctk can we remove this since we are refreshing at the bottom now
+//        if(ObjectUtils.isNull(po.getPurapDocumentIdentifier())) {
+//            po.setPurapDocumentIdentifier(getPurchaseOrderIdentifier());
+//        }
+        
         //call this to make sure it's refreshed from the database if need be since the populate setter doesn't do that
         po.getDocumentBusinessObject();
         super.populate(request);

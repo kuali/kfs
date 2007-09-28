@@ -789,10 +789,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 //retrieve doc notes in PersistableBusinessObjectBase but that is private)
 //                po.setBoNotes(SpringContext.getBean(NoteService.class).getByRemoteObjectId(po.getObjectId()));
                 if(ObjectUtils.isNotNull(documentBusinessObject)) {
-                    List<Note> dbNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(po.getObjectId());
-                    //need to set fields that are not ojb managed (i.e. the notes on the documentBusinessObject may have been modified independently of the ones in the db)
-                    fixDbNoteFields(documentBusinessObject, dbNotes);
-                    po.setBoNotes(dbNotes);
+                    if(ObjectUtils.isNotNull(po.getObjectId())) {
+                        List<Note> dbNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(po.getObjectId());
+                        //need to set fields that are not ojb managed (i.e. the notes on the documentBusinessObject may have been modified independently of the ones in the db)
+                        fixDbNoteFields(documentBusinessObject, dbNotes);
+                        po.setBoNotes(dbNotes);
+                    } else {
+                        po.setBoNotes(documentBusinessObject.getBoNotes());
+                    }
                 }
                 LOG.debug("exiting getOldestPO(PurchaseOrderDocument)");
                 return po;

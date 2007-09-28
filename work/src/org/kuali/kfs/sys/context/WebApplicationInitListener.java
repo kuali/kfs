@@ -23,6 +23,8 @@ import org.kuali.core.web.listener.JstlConstantsInitListener;
 
 public class WebApplicationInitListener extends JstlConstantsInitListener implements ServletContextListener {
     private static final String JSTL_CONSTANTS_CLASSNAMES_KEY = "jstl.constants.classnames";
+    private static final String JSTL_CONSTANTS_MAIN_CLASS = "jstl.constants.main.class";
+    private static final String JSTL_MAIN_CLASS_CONTEXT_NAME = "Constants";
     private Logger log;
     
     public void contextInitialized(ServletContextEvent sce) {
@@ -32,7 +34,11 @@ public class WebApplicationInitListener extends JstlConstantsInitListener implem
         for (String jstlConstantsClassname : SpringContext.getListConfigurationProperty(JSTL_CONSTANTS_CLASSNAMES_KEY)) {
             try {
                 Class jstlConstantsClass = Class.forName(jstlConstantsClassname);
-                sce.getServletContext().setAttribute(jstlConstantsClass.getSimpleName(), jstlConstantsClass.newInstance());
+                Object jstlConstantsObj = jstlConstantsClass.newInstance();
+                sce.getServletContext().setAttribute(jstlConstantsClass.getSimpleName(), jstlConstantsObj);
+                if ( jstlConstantsClassname.equals(JSTL_CONSTANTS_MAIN_CLASS)) {
+                    sce.getServletContext().setAttribute(JSTL_MAIN_CLASS_CONTEXT_NAME, jstlConstantsObj );
+                }
             }
             catch (Exception e) {
                 log.warn("Unable to load jstl constants class: " + jstlConstantsClassname, e);

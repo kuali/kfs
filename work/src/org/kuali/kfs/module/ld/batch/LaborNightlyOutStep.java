@@ -19,7 +19,7 @@ import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.labor.service.LaborNightlyOutService;
 
 /**
- * This class...
+ * Labor Batch Step.
  */
 public class LaborNightlyOutStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborNightlyOutStep.class);
@@ -27,6 +27,10 @@ public class LaborNightlyOutStep extends AbstractStep {
     private LaborNightlyOutService laborNightlyOutService;
 
     /**
+     * Invokes service that approve pending ledger entries
+     * 
+     * @param String jobName
+     * @return boolean
      * @see org.kuali.kfs.batch.Step#execute()
      */
     public boolean execute(String jobName) {
@@ -42,7 +46,7 @@ public class LaborNightlyOutStep extends AbstractStep {
 
     /**
      * Sets the laborNightlyOutService attribute value.
-     * @param laborNightlyOutService The laborNightlyOutService to set.
+     * @param laborNightlyOutService the laborNightlyOutService to set.
      */
     public void setLaborNightlyOutService(LaborNightlyOutService laborNightlyOutService) {
         this.laborNightlyOutService = laborNightlyOutService;

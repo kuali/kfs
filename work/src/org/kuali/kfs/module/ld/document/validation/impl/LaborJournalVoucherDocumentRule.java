@@ -31,7 +31,6 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.module.chart.bo.FundGroup;
 import org.kuali.module.financial.rules.JournalVoucherDocumentRule;
 import org.kuali.module.labor.bo.LaborJournalVoucherDetail;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
@@ -48,6 +47,11 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborJournalVoucherDocumentRule.class);
 
     /**
+     * Adds an accounting line to the labor journal voucher document
+     * 
+     * @param document Accounting document where a new accounting line is added
+     * @param accountingLine line that is going to be added
+     * @return boolean
      * @see org.kuali.module.financial.rules.JournalVoucherDocumentRule#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
      *      org.kuali.kfs.bo.AccountingLine)
      */
@@ -89,6 +93,12 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
     }
 
     /**
+     * Processes the G.L. pending entries
+     * 
+     * @param accountingDocument
+     * @param accountingLine 
+     * @param  sequenceHelper
+     * @return boolean
      * @see org.kuali.core.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.AccountingDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
@@ -98,8 +108,13 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
     }
 
     /**
-     * @see org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule#processGenerateLaborLedgerPendingEntries(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.kfs.bo.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     * 
+     * @param accountingDocument
+     * @param accountingLine
+     * @param sequenceHelper
+     * @return boolean
+     *  
+     * @see org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule#processGenerateLaborLedgerPendingEntries(org.kuali.module.labor.document.LaborLedgerPostingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean processGenerateLaborLedgerPendingEntries(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         LOG.debug("processGenerateLaborLedgerPendingEntries() started");
@@ -115,11 +130,11 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
             // apply the labor JV specific information
             customizeExplicitGeneralLedgerPendingEntry(laborJournalVoucherDocument, accountingLine, pendingLedgerEntry);
             pendingLedgerEntry.setFinancialDocumentTypeCode(laborJournalVoucherDocument.getOffsetTypeCode());
-            
-            if (StringUtils.isBlank(((LaborJournalVoucherDetail) accountingLine).getEmplid())){
+
+            if (StringUtils.isBlank(((LaborJournalVoucherDetail) accountingLine).getEmplid())) {
                 pendingLedgerEntry.setEmplid(KFSConstants.getDashEmplId());
             }
-            
+
             if (StringUtils.isBlank(((LaborJournalVoucherDetail) accountingLine).getPositionNumber())) {
                 pendingLedgerEntry.setPositionNumber(KFSConstants.getDashPositionNumber());
             }
@@ -131,8 +146,7 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
             LOG.error("Cannot add a Labor Ledger Pending Entry into the list");
             return false;
         }
-        
+
         return true;
     }
-
 }

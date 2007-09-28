@@ -117,7 +117,7 @@ public class AccountStatusBaseFunds extends LedgerBalance {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        
+
         final AccountStatusBaseFunds other = (AccountStatusBaseFunds) obj;
         if (getAccountNumber() == null) {
             if (other.getAccountNumber() != null)

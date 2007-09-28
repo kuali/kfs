@@ -16,18 +16,30 @@
 package org.kuali.module.labor.batch;
 
 import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.kfs.batch.Step;
 import org.kuali.module.labor.service.LaborScrubberService;
 
+/**
+ * Labor scrubber Batch Step.
+ */
 public class LaborScrubberStep extends AbstractStep {
-
     private LaborScrubberService laborScrubberService;
-    
+
+    /**
+     * 
+     * @param String jobName
+     * @return boolean when success
+     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     */
     public boolean execute(String jobName) {
         laborScrubberService.scrubEntries();
         return true;
     }
 
+    /**
+     * Sets the labor scrubber service
+     * 
+     * @param laborScrubberService
+     */
     public void setLaborScrubberService(LaborScrubberService laborScrubberService) {
         this.laborScrubberService = laborScrubberService;
     }

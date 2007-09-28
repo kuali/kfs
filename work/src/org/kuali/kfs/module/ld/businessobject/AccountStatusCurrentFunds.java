@@ -31,14 +31,11 @@ import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.dao.LaborDao;
 
 public class AccountStatusCurrentFunds extends LedgerBalance {
-
     private String personName;
-    //private KualiDecimal ytdActualAmount;
     private KualiDecimal outstandingEncum;
     private LaborDao laborDao;
     private KualiDecimal july1BudgetAmount;
     private KualiDecimal variance;
-    
 
     /**
      * Constructs an AccountStatusCurrentFunds.java.
@@ -52,45 +49,45 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
     }
 
     /**
+     * Gets the person name
      * 
-     * This method returns the person name
-     * @return
+     * @return the person name
      */
     public String getPersonName() {
         UserId empl = new PersonPayrollId(getEmplid());
         UniversalUser universalUser = null;
-        
-        try{
+
+        try {
             universalUser = SpringContext.getBean(UniversalUserService.class).getUniversalUser(empl);
-        }catch(UserNotFoundException e){
+        }
+        catch (UserNotFoundException e) {
             return LaborConstants.BalanceInquiries.UnknownPersonName;
         }
 
         return universalUser.getPersonName();
-    }        
-    
+    }
+
     /**
+     * Sets thes persons name
      * 
-     * This method set thes persons name
      * @param personName
      */
-    
     public void setPersonName(String personName) {
         this.personName = personName;
     }
 
     /**
+     * Gets returns an outstanding encumberance value
      * 
-     * This method returns an outstanding encumberance value 
-     * @return
+     * @return outstanding encumberance value
      */
     public KualiDecimal getOutstandingEncum() {
         return outstandingEncum;
     }
 
     /**
+     * Sets an outstanding encumberance value
      * 
-     * This method sets an outstanding encumberance value 
      * @param outstandingEncum
      */
     public void setOutstandingEncum(KualiDecimal outstandingEncum) {
@@ -98,8 +95,8 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
     }
 
     /**
+     * Gets the Jul1BudgerAmount
      * 
-     * This method...
      * @return July1st amount
      */
     public KualiDecimal getJuly1BudgetAmount() {
@@ -107,37 +104,53 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
     }
 
     /**
+     * Sets the july1BudgetAmount
      * 
-     * This method...
      * @param july1BudgetAmount
      */
     public void setJuly1BudgetAmount(KualiDecimal july1BudgetAmount) {
         this.july1BudgetAmount = july1BudgetAmount;
     }
 
+    /**
+     * Gets the variance which is calculated by substracting from July1BudgetAmount the YTD Actual, and outstanding encumbrance.
+     * 
+     * @return
+     */
     public KualiDecimal getVariance() {
-        return this.variance;        
+        return this.variance;
     }
 
+    /**
+     * Sets the variance which is calculated by substracting from July1BudgetAmount the YTD Actual, and outstanding encumbrance.
+     * 
+     * @param variance
+     */
     public void setVariance(KualiDecimal variance) {
         this.variance = variance;
     }
-    
-    public List<String> getKeyFieldList(boolean consolidated) {      
+
+    /**
+     * Returns a list of keys used to generate a query.
+     * 
+     * @param consolidated
+     * @return a list with the keys needed to generate a query
+     */
+    public List<String> getKeyFieldList(boolean consolidated) {
         List<String> primaryKeyList = new ArrayList<String>();
         primaryKeyList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         primaryKeyList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         primaryKeyList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
-        
-        if (!consolidated) {        
+
+        if (!consolidated) {
             primaryKeyList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
         }
-        
+
         primaryKeyList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-        
+
         if (!consolidated) {
             primaryKeyList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-        }                    
+        }
         primaryKeyList.add(KFSPropertyConstants.POSITION_NUMBER);
         primaryKeyList.add(KFSPropertyConstants.EMPLID);
         return primaryKeyList;

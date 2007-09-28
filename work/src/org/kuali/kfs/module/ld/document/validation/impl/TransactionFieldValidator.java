@@ -31,7 +31,7 @@ import org.kuali.module.labor.util.MessageBuilder;
 public class TransactionFieldValidator {
 
     /**
-     * Check if the given transaction contains valid university fiscal year
+     * Checks if the given transaction contains valid university fiscal year
      * 
      * @param transaction the given transaction
      * @return null if the university fiscal year is valid; otherwise, return error message
@@ -48,7 +48,7 @@ public class TransactionFieldValidator {
     }
 
     /**
-     * Check if the given transaction contains valid char of accounts code
+     * Checks if the given transaction contains valid char of accounts code
      * 
      * @param transaction the given transaction
      * @return null if the char of accounts code is valid; otherwise, return error message
@@ -66,7 +66,7 @@ public class TransactionFieldValidator {
     }
 
     /**
-     * Check if the given transaction contains valid account number
+     * Checks if the given transaction contains valid account number
      * 
      * @param transaction the given transaction
      * @return null if the account number is valid; otherwise, return error message
@@ -82,7 +82,7 @@ public class TransactionFieldValidator {
     }
 
     /**
-     * Check if the given transaction contains valid sub account number
+     * Checks if the given transaction contains valid sub account number
      * 
      * @param transaction the given transaction
      * @return null if the sub account number is valid; otherwise, return error message
@@ -110,7 +110,7 @@ public class TransactionFieldValidator {
     }
 
     /**
-     * Check if the given transaction contains valid account number
+     * Checks if the given transaction contains valid account number
      * 
      * @param transaction the given transaction
      * @return null if the account number is valid; otherwise, return error message
@@ -135,7 +135,7 @@ public class TransactionFieldValidator {
     }
 
     /**
-     * Check if the given transaction contains valid sub object code
+     * Checks if the given transaction contains valid sub object code
      * 
      * @param transaction the given transaction
      * @return null if the sub object code is valid; otherwise, return error message
@@ -160,7 +160,7 @@ public class TransactionFieldValidator {
     }
 
     /**
-     * Check if the given transaction contains valid balance type code
+     * Checks if the given transaction contains valid balance type code
      * 
      * @param transaction the given transaction
      * @return null if the balance type code is valid; otherwise, return error message
@@ -174,7 +174,7 @@ public class TransactionFieldValidator {
     }
 
     /**
-     * Check if the given transaction contains valid object type code
+     * Checks if the given transaction contains valid object type code
      * 
      * @param transaction the given transaction
      * @return null if the object type code is valid; otherwise, return error message
@@ -188,7 +188,7 @@ public class TransactionFieldValidator {
     }
 
     /**
-     * Check if the given transaction contains university fiscal period code
+     * Checks if the given transaction contains university fiscal period code
      * 
      * @param transaction the given transaction
      * @return null if the university fiscal period code is valid; otherwise, return error message
@@ -202,7 +202,7 @@ public class TransactionFieldValidator {
     }
 
     /**
-     * Check if the given transaction contains document type code
+     * Checks if the given transaction contains document type code
      * 
      * @param transaction the given transaction
      * @return null if the document type code is valid; otherwise, return error message
@@ -216,7 +216,7 @@ public class TransactionFieldValidator {
     }
 
     /**
-     * Check if the given transaction contains document number
+     * Checks if the given transaction contains document number
      * 
      * @param transaction the given transaction
      * @return null if the document number is valid; otherwise, return error message
@@ -230,7 +230,7 @@ public class TransactionFieldValidator {
     }
 
     /**
-     * Check if the given transaction contains transaction sequence number
+     * Checks if the given transaction contains transaction sequence number
      * 
      * @param transaction the given transaction
      * @return null if the transaction sequence number is valid; otherwise, return error message
@@ -244,7 +244,7 @@ public class TransactionFieldValidator {
     }
 
     /**
-     * Check if the given transaction contains debit credit code
+     * Checks if the given transaction contains debit credit code
      * 
      * @param transaction the given transaction
      * @return null if the debit credit code is valid; otherwise, return error message
@@ -259,7 +259,7 @@ public class TransactionFieldValidator {
     }
 
     /**
-     * Check if the given transaction contains system origination code
+     * Checks if the given transaction contains system origination code
      * 
      * @param transaction the given transaction
      * @return null if the system origination code is valid; otherwise, return error message
@@ -273,7 +273,7 @@ public class TransactionFieldValidator {
     }
 
     /**
-     * Check if the given transaction contains the posteable period code
+     * Checks if the given transaction contains the posteable period code
      * 
      * @param transaction the given transaction
      * @param unpostableperidCodes the list of unpostable period code
@@ -288,7 +288,7 @@ public class TransactionFieldValidator {
     }
 
     /**
-     * Check if the given transaction contains the posteable balance type code
+     * Checks if the given transaction contains the posteable balance type code
      * 
      * @param transaction the given transaction
      * @param unpostableBalanceTypeCodes the list of unpostable balance type codes
@@ -304,7 +304,7 @@ public class TransactionFieldValidator {
     }
 
     /**
-     * Check if the transaction amount of the given transaction is ZERO
+     * Checks if the transaction amount of the given transaction is ZERO
      * 
      * @param transaction the given transaction
      * @return null if the transaction amount is not ZERO or null; otherwise, return error message
@@ -318,7 +318,7 @@ public class TransactionFieldValidator {
     }
 
     /**
-     * Check if the given transaction contains the posteable object code
+     * Checks if the given transaction contains the posteable object code
      * 
      * @param transaction the given transaction
      * @param unpostableObjectCodes the list of unpostable object codes
@@ -331,9 +331,9 @@ public class TransactionFieldValidator {
         }
         return null;
     }
-    
+
     /**
-     * Check if the given transaction contains the valid employee id
+     * Checks if the given transaction contains the valid employee id
      * 
      * @param transaction the given transaction
      * @param unpostableObjectCodes the list of unpostable object codes

@@ -18,17 +18,12 @@ package org.kuali.module.labor.web.struts.form;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.OptionsService;
-import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.document.BenefitExpenseTransferDocument;
 
 /**
- * This class is the form class for the Benefit Expense Transfer document.
+ * Struts Action Form for the Benefit Expense Transfer Document.
  */
 public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     private String chartOfAccountsCode;
@@ -117,7 +112,7 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
         map.remove(KFSPropertyConstants.PROJECT_CODE);
         map.remove(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID);
         map.remove(KFSPropertyConstants.AMOUNT);
-        
+
         return map;
     }
 
@@ -125,14 +120,14 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
      * @see org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase#populateSearchFields()
      */
     @Override
-    public void populateSearchFields() {        
+    public void populateSearchFields() {
         List<SourceAccountingLine> sourceAccoutingLines = this.getBenefitExpenseTransferDocument().getSourceAccountingLines();
-        if(sourceAccoutingLines != null  && !sourceAccoutingLines.isEmpty()){
+        if (sourceAccoutingLines != null && !sourceAccoutingLines.isEmpty()) {
             SourceAccountingLine sourceAccountingLine = sourceAccoutingLines.get(0);
             this.setUniversityFiscalYear(sourceAccountingLine.getPostingYear());
             this.setChartOfAccountsCode(sourceAccountingLine.getChartOfAccountsCode());
             this.setAccountNumber(sourceAccountingLine.getAccountNumber());
             this.setSubAccountNumber(sourceAccountingLine.getSubAccountNumber());
-}
+        }
     }
 }

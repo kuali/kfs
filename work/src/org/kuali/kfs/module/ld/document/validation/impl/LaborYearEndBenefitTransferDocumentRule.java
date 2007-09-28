@@ -15,7 +15,9 @@
  */
 package org.kuali.module.labor.rules;
 
-
+/**
+ * Business rule(s) applicable to Labor Benefit Expense Transfer documents that extends BenefitExpenseTransferDocumentRule
+ */
 public class LaborYearEndBenefitTransferDocumentRule extends BenefitExpenseTransferDocumentRule {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborYearEndBenefitTransferDocumentRule.class);
 

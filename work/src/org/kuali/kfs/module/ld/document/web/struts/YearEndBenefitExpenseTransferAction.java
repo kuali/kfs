@@ -15,6 +15,9 @@
  */
 package org.kuali.module.labor.web.struts.action;
 
+/**
+ * Struts Action Form for the Year End Benefit Expense Transfer Document.
+ */
 public class YearEndBenefitExpenseTransferAction extends BenefitExpenseTransferAction {
 
     public YearEndBenefitExpenseTransferAction() {

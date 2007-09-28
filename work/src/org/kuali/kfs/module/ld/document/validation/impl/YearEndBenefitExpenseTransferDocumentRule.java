@@ -15,15 +15,9 @@
  */
 package org.kuali.module.labor.rules;
 
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.module.financial.document.YearEndDocumentUtil;
-
-
 /**
- * This class creates an instance of year end benefit expense transfer document rule.
+ *  Business rule(s) applicable to Year End Benefit Expense Transfer documents.
  */
 public class YearEndBenefitExpenseTransferDocumentRule extends BenefitExpenseTransferDocumentRule {
-  
+
 }

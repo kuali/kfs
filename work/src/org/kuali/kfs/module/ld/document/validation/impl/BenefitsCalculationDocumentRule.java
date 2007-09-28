@@ -22,18 +22,27 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.module.labor.bo.BenefitsCalculation;
 
-public class BenefitsCalculationDocumentRule extends MaintenanceDocumentRuleBase{
-    
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BenefitsCalculationDocumentRule.class);
+/**
+ * Business rule(s) applicable to Benefit Calculation Documents.
+ */
+public class BenefitsCalculationDocumentRule extends MaintenanceDocumentRuleBase {
 
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BenefitsCalculationDocumentRule.class);
     private BenefitsCalculation oldBenefitsCalculation;
     private BenefitsCalculation newBenefitsCalculation;
-
-    public BenefitsCalculationDocumentRule(){
+/**
+ * 
+ * Constructs a BenefitsCalculationDocumentRule.java.
+ */
+    public BenefitsCalculationDocumentRule() {
         super();
     }
-    
+
     /**
+     * Processes the rules
+     * 
+     * @param document MaintenanceDocument type of document to be processed.
+     * @return boolean true when success
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -48,6 +57,10 @@ public class BenefitsCalculationDocumentRule extends MaintenanceDocumentRuleBase
     }
 
     /**
+     * Processes the rules
+     * 
+     * @param document MaintenanceDocument type of document to be processed.
+     * @return boolean true when success
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -64,6 +77,10 @@ public class BenefitsCalculationDocumentRule extends MaintenanceDocumentRuleBase
     }
 
     /**
+     * Processes the rules
+     * 
+     * @param document MaintenanceDocument type of document to be processed.
+     * @return boolean true when success
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -78,32 +95,35 @@ public class BenefitsCalculationDocumentRule extends MaintenanceDocumentRuleBase
 
         return success;
     }
-    
+
+    /**
+     * Checks the fringe benefit percentage cannot be equal to or over 100% 
+     * 
+     * @param document MaintenanceDocument type
+     * @return boolean false when the fringe benefit percentage cannot be equal to or over 100%
+     */
     protected boolean checkRules(MaintenanceDocument document) {
 
         boolean success = true;
 
         /* The fringe benefit percentage cannot be equal to or over 100% */
-        if(ObjectUtils.isNotNull( newBenefitsCalculation.getPositionFringeBenefitPercent()) ) {
-            if(newBenefitsCalculation.getPositionFringeBenefitPercent().isGreaterEqual(new KualiDecimal(100))){
+        if (ObjectUtils.isNotNull(newBenefitsCalculation.getPositionFringeBenefitPercent())) {
+            if (newBenefitsCalculation.getPositionFringeBenefitPercent().isGreaterEqual(new KualiDecimal(100))) {
                 putFieldError("positionFringeBenefitPercent", KFSKeyConstants.Labor.ERROR_FRINGE_BENEFIT_PERCENTAGE_INVALID);
                 success = false;
             }
-        }        
-        
+        }
+
         return success;
     }
 
     /**
-     * 
      * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
-     * old objects contained in the maintenance document.
-     * 
-     * It also calls the BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys,
-     * if available.
+     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
+     * all sub-objects from the DB by their primary keys, if available.
      * 
      * @param document - the maintenanceDocument being evaluated
-     * 
+     * @return none
      */
     @Override
     public void setupConvenienceObjects() {

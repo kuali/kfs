@@ -18,8 +18,9 @@ package org.kuali.module.labor.web.struts.form;
 import org.kuali.module.labor.document.YearEndBenefitExpenseTransferDocument;
 
 /**
- * This class is the form class for the Labor Year End Benefit Expense Transfer document.
+ * Struts Action Form for the Year End Benefit Expense Transfer Document.
  */
+
 public class YearEndBenefitExpenseTransferForm extends BenefitExpenseTransferForm {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(YearEndBenefitExpenseTransferForm.class);
 
@@ -27,7 +28,6 @@ public class YearEndBenefitExpenseTransferForm extends BenefitExpenseTransferFor
      * Constructs a BenefitExpenseTransferForm instance and sets up the appropriately casted document.
      */
     public YearEndBenefitExpenseTransferForm() {
-        
         super();
         setDocument(new YearEndBenefitExpenseTransferDocument());
     }

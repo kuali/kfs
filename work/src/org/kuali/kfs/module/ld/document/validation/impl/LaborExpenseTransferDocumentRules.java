@@ -21,7 +21,6 @@ import static org.kuali.kfs.bo.AccountingLineOverride.CODE.NON_FRINGE_ACCOUNT_US
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -55,15 +54,20 @@ import org.kuali.module.labor.util.ObjectUtil;
  * Business rule(s) applicable to Labor Expense Transfer documents.
  */
 public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBase implements GenerateLaborLedgerPendingEntriesRule<LaborLedgerPostingDocument> {
-
     /**
-     * Constructor
+     * Constructs a LaborExpenseTransferDocumentRules.java.
      */
     public LaborExpenseTransferDocumentRules() {
         super();
     }
 
     /**
+     * Updates an accounting line
+     * 
+     * @param  accountingDocument document to be processed
+     * @param  originalAccountingLine accounting line with old data
+     * @param  updatedAccountingLine accounting line with the new data
+     * @return boolean 
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
      *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.AccountingLine)
      */
@@ -73,6 +77,12 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     }
 
     /**
+     * Adds an accounting line
+     * 
+     * @param  accountingDocument document to be processed
+     * @param  originalAccountingLine accounting line with old data
+     * @param  updatedAccountingLine accounting line with the new data
+     * @return boolean 
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
      *      org.kuali.kfs.bo.AccountingLine)
      */
@@ -107,6 +117,10 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     }
 
     /**
+     * Route a document
+     * 
+     * @param document the document to be routed
+     * @return boolean
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
@@ -382,7 +396,13 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         return actualBalanceAmount.add(effortBalanceAmount);
     }
 
-    // get the balance amount for the given period
+    /**
+     * Gets the balance amount of a given period
+     * 
+     * @param fieldValues
+     * @param periodCode
+     * @return
+     */
     private KualiDecimal getBalanceAmountOfGivenPeriod(Map<String, Object> fieldValues, String periodCode) {
         KualiDecimal balanceAmount = KualiDecimal.ZERO;
         List<LedgerBalance> ledgerBalances = (List<LedgerBalance>) SpringContext.getBean(BusinessObjectService.class).findMatching(LedgerBalance.class, fieldValues);
@@ -393,7 +413,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     }
 
     /**
-     * determine whether a negtive amount can be transferred from one account to another
+     * Determines whether a negtive amount can be transferred from one account to another
      * 
      * @param accountingDocument the given accounting document
      * @return true if a negtive amount can be transferred from one account to another; otherwise, false
@@ -415,7 +435,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     }
 
     /**
-     * group the accounting lines by the specified key fields
+     * Groups the accounting lines by the specified key fields
      * 
      * @param accountingLines the given accounting lines that are stored in a list
      * @param clazz the class type of given accounting lines
@@ -448,7 +468,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     }
 
     /**
-     * determine whether the account in the target line accepts fringe benefits.
+     * Determines whether the account in the target line accepts fringe benefits.
      * 
      * @param accountingLine the line to check
      * @return true if the accounts in the target accounting lines accept fringe benefits; otherwise, false
@@ -471,7 +491,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     }
 
     /**
-     * get the default key of ExpenseTransferAccountingLine
+     * Gets the default key of ExpenseTransferAccountingLine
      * 
      * @return the default key of ExpenseTransferAccountingLine
      */
@@ -700,5 +720,4 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
 
         return fieldValues;
     }
-
 }

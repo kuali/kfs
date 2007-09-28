@@ -26,6 +26,10 @@ public class LaborBalanceSummaryStep extends AbstractStep {
     private LaborBalanceSummaryReportService laborBalanceSummaryReportService;
 
     /**
+     * Invokes the method that generates the balance summary report.
+     * 
+     * @param String jobName
+     * @return boolean
      * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
      */
     public boolean execute(String jobName) throws InterruptedException {

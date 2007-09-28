@@ -51,21 +51,25 @@ import org.kuali.module.labor.util.LaborPendingEntryGenerator;
  * Business rule(s) applicable to Salary Expense Transfer documents.
  */
 public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocumentRules implements GenerateLaborLedgerBenefitClearingPendingEntriesRule<LaborLedgerPostingDocument> {
-
     /**
-     * Constructor
+     * Constructs a SalaryExpenseTransferDocumentRule.java.
      */
     public SalaryExpenseTransferDocumentRule() {
         super();
     }
 
     /**
+     * Checks if user is allowed to edit the object code and check the object code balances match when document was inititated, else
+     * check they balance
+     * 
+     * @param accountingDocument
+     * @return boolean
      * @see org.kuali.module.labor.rules.LaborExpenseTransferDocumentRules#isValidAmountTransferredByObjectCode(org.kuali.kfs.document.AccountingDocument)
      */
     @Override
     protected boolean isValidAmountTransferredByObjectCode(AccountingDocument accountingDocument) {
         LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
-        
+
         // check if user is allowed to edit the object code.
         String adminGroupName = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(LaborConstants.LABOR_NAMESPACE, LaborConstants.Components.SALARY_EXPENSE_TRANSFER, LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP_PARM_NM);
         boolean isAdmin = false;
@@ -99,6 +103,10 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
     }
 
     /**
+     * Saves document
+     * 
+     * @param document
+     * @return boolean
      * @see org.kuali.core.rules.SaveDocumentRule#processCustomSaveDocumentBusinessRules(Document)
      */
     @Override
@@ -121,6 +129,12 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
     }
 
     /**
+     * Adds an accounting line in the document and validates only salary labor object codes are allowed on the salary expense
+     * transfer document
+     * 
+     * @param accountingDocument
+     * @param accountingLine
+     * @return boolean
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
      *      org.kuali.kfs.bo.AccountingLine)
      */
@@ -138,6 +152,11 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
     }
 
     /**
+     * Process the routing of the document and validates that document must not have any pending labor ledger entries with same
+     * emplId, periodCode, accountNumber, objectCode
+     * 
+     * @param document
+     * @return boolean
      * @see org.kuali.module.labor.rules.LaborExpenseTransferDocumentRules#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
@@ -155,7 +174,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
     }
 
     /**
-     * Determine whether the object code of given accounting line is a salary labor object code
+     * Determines whether the object code of given accounting line is a salary labor object code
      * 
      * @param accountingLine the given accounting line
      * @return true if the object code of given accounting line is a salary; otherwise, false
@@ -322,8 +341,8 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
     public boolean processGenerateLaborLedgerBenefitClearingPendingEntries(LaborLedgerPostingDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         LOG.info("started processGenerateLaborLedgerBenefitClearingPendingEntries()");
 
-        String chartOfAccountsCode = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(LaborConstants.LABOR_NAMESPACE, LaborConstants.Components.SALARY_EXPENSE_TRANSFER, LaborConstants.SalaryExpenseTransfer.BENEFIT_CLEARING_CHART_PARM_NM); 
-        String accountNumber = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(LaborConstants.LABOR_NAMESPACE, LaborConstants.Components.SALARY_EXPENSE_TRANSFER, LaborConstants.SalaryExpenseTransfer.BENEFIT_CLEARING_ACCOUNT_PARM_NM); 
+        String chartOfAccountsCode = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(LaborConstants.LABOR_NAMESPACE, LaborConstants.Components.SALARY_EXPENSE_TRANSFER, LaborConstants.SalaryExpenseTransfer.BENEFIT_CLEARING_CHART_PARM_NM);
+        String accountNumber = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(LaborConstants.LABOR_NAMESPACE, LaborConstants.Components.SALARY_EXPENSE_TRANSFER, LaborConstants.SalaryExpenseTransfer.BENEFIT_CLEARING_ACCOUNT_PARM_NM);
 
         List<LaborLedgerPendingEntry> benefitClearingPendingEntries = LaborPendingEntryGenerator.generateBenefitClearingPendingEntries(document, sequenceHelper, accountNumber, chartOfAccountsCode);
         document.getLaborLedgerPendingEntries().addAll(benefitClearingPendingEntries);

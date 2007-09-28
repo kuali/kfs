@@ -28,6 +28,9 @@ public abstract class AbstractStep implements Step, BeanNameAware {
     private boolean interrupted = false;
 
     /**
+     * Sets the bean name
+     * 
+     * @param name String that contains the bean name
      * @see org.springframework.beans.factory.BeanNameAware#setBeanName(java.lang.String)
      */
     public void setBeanName(String name) {
@@ -79,28 +82,60 @@ public abstract class AbstractStep implements Step, BeanNameAware {
         this.dateTimeService = dateTimeService;
     }
 
+    /**
+     * Returns the boolean value of the interrupted flag
+     * 
+     * @return boolean
+     * @see org.kuali.kfs.batch.Step#isInterrupted()
+     */
     public boolean isInterrupted() {
         return interrupted;
     }
 
+    /**
+     * Sets the interruped flag
+     * 
+     * @param interrupted
+     * @see org.kuali.kfs.batch.Step#setInterrupted(boolean)
+     */
     public void setInterrupted(boolean interrupted) {
         this.interrupted = interrupted;
     }
-    
+
+    /**
+     * Initializes the interrupted flag
+     * 
+     * @see org.kuali.kfs.batch.Step#interrupt()
+     */
     public void interrupt() {
         this.interrupted = true;
     }
 
+    /**
+     * Gets the namespace
+     * 
+     * @see org.kuali.kfs.batch.Step#getNamespace()
+     */
     public String getNamespace() {
         return namespace;
     }
 
+    /**
+     * Sets the namespace
+     * 
+     * @param namespace
+     * @return String namespace
+     */
     public void setNamespace(String namespace) {
         this.namespace = namespace;
     }
-    
+
+    /**
+     * 
+     * @see org.kuali.kfs.batch.Step#getComponentName()
+     */
     public String getComponentName() {
-        if ( componentName == null ) {
+        if (componentName == null) {
             return getClass().getSimpleName();
         }
         return componentName;

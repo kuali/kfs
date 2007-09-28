@@ -49,18 +49,22 @@ import org.kuali.module.labor.web.inquirable.CurrentFundsInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * The CurrentFundsLookupableHelperServiceImpl class is the front-end for all current funds balance inquiry processing.
+ * Service implementation for the CurrentFundsLookupableHelperServiceImpl class is the front-end for all current funds balance
+ * inquiry processing.
  */
 @Transactional
 public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CurrentFundsLookupableHelperServiceImpl.class);
-
     private LaborDao laborDao;
     private LaborLedgerBalanceService balanceService;
     private LaborInquiryOptionsService laborInquiryOptionsService;
     private LookupService lookupService;
 
     /**
+     * Returns URL
+     * 
+     * @param bo 
+     * @param propertyName 
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
      */
     @Override
@@ -69,6 +73,9 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     }
 
     /**
+     * Gets a list with the fields that will be displayed on page
+     *  
+     * @param fieldValues list of fields that are used as a key to filter out data
      * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
@@ -103,8 +110,8 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         // update search results according to the selected pending entry option
         laborInquiryOptionsService.updateLedgerEntryByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption);
 
+        // gets the July1st budget amount column.
         Collection<July1PositionFunding> july1PositionFundings = laborDao.getJuly1(fieldValues);
-
         this.AddJuly1BalanceAmount(searchResultsCollection, july1PositionFundings, isConsolidated);
 
         // sort list if default sort column given
@@ -116,7 +123,13 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         return new CollectionIncomplete(searchResults, actualCountIfTruncated);
     }
 
-
+    /**
+     * Adds the july1 budget amount to each account found in the
+     * 
+     * @param searchResultsCollection collection with the list of current funds where the amount is added
+     * @param july1PositionFundings collection of current funds with july1st budget amounts
+     * @param isConsolidated
+     */
     private void AddJuly1BalanceAmount(Collection<AccountStatusCurrentFunds> searchResultsCollection, Collection<July1PositionFunding> july1PositionFundings, boolean isConsolidated) {
         for (July1PositionFunding july1PositionFunding : july1PositionFundings) {
             for (AccountStatusCurrentFunds accountStatus : searchResultsCollection) {
@@ -130,6 +143,8 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     }
 
     /**
+     * Returns a list with the current funds.
+     * 
      * @param iterator the iterator of search results of account status
      * @param isConsolidated determine if the consolidated result is desired
      * @param pendingEntryOption the given pending entry option that can be no, approved or all
@@ -148,7 +163,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     }
 
     /**
-     * This method builds the current funds collection with consolidation option from an iterator
+     * Builds the current funds collection with consolidation option from an iterator
      * 
      * @param iterator
      * @param pendingEntryOption the selected pending entry option
@@ -214,7 +229,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     }
 
     /**
-     * This method builds the current funds collection with detail option from an iterator
+     * Builds the current funds collection with detail option from an iterator
      * 
      * @param iterator the current funds iterator
      * @param pendingEntryOption the selected pending entry option
@@ -240,6 +255,8 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     }
 
     /**
+     * Gets the outstanding encumbrance amount
+     * 
      * @param AccountStatusCurrentFunds
      * @param Map fieldValues
      */
@@ -268,23 +285,6 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     }
 
     /**
-     * This method...
-     * 
-     * @param bo
-     * @return private KualiDecimal getJuly1BudgetAmount(Map fieldValues, AccountStatusCurrentFunds bo) { System.out.println("****
-     *         CurrentFundsLookupableHelperServiceImpl.getJuly1BudgetAmount()");
-     *         fieldValues.remove(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE); if
-     *         (!bo.getSubAccountNumber().equals(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER)) {
-     *         fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, bo.getSubAccountNumber()); }
-     *         //fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, bo.getFinancialObjectCode()); if
-     *         (!bo.getFinancialSubObjectCode().equals(Constant.CONSOLIDATED_SUB_OBJECT_CODE)) {
-     *         fieldValues.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, bo.getFinancialSubObjectCode()); }
-     *         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ENCUMBERENCE_CODE); //
-     *         Encumberance // Balance // Type fieldValues.put(KFSPropertyConstants.EMPLID, bo.getEmplid()); LOG.debug("using " +
-     *         fieldValues.values()); LOG.debug("using " + fieldValues.keySet()); return (KualiDecimal)
-     *         laborDao.getEncumbranceTotal(fieldValues); }
-     */
-    /**
      * Sets the balanceService attribute value.
      * 
      * @param balanceService The balanceService to set.
@@ -310,5 +310,4 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     public void setLaborInquiryOptionsService(LaborInquiryOptionsService laborInquiryOptionsService) {
         this.laborInquiryOptionsService = laborInquiryOptionsService;
     }
-
 }

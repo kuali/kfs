@@ -413,13 +413,23 @@ public class PurapServiceImpl implements PurapService {
             CreditMemoDocument creditMemo = (CreditMemoDocument)purapDocument;
             SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(creditMemo);
             // do GL entries for CM creation
-            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateCreditMemo( creditMemo );           
+            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateCreditMemo( creditMemo );
+            
+            //if reopen po indicator set then reopen po
+            if( creditMemo.isReopenPurchaseOrderIndicator() ){
+                performLogicForCloseReopenPO(creditMemo);
+            }
         }
         else {
             throw new RuntimeException("Attempted to perform full entry logic for unhandled document type '" + purapDocument.getClass().getName() + "'");
         }
     }
 
+    /**
+     * Main hook point for close/Reopen PO.
+     * 
+     * @see org.kuali.module.purap.service.PurapService#performLogicForCloseReopenPO(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     */
     public void performLogicForCloseReopenPO(PurchasingAccountsPayableDocument purapDocument){
         
         if (purapDocument instanceof PaymentRequestDocument) {
@@ -466,8 +476,7 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * This method should be called from child class from overridden processCloseReopenPo(), it will pass the action it will take,
-     * which is document specific.
+     * Actual method that will close or reopen a po.
      * 
      * @param docType
      */

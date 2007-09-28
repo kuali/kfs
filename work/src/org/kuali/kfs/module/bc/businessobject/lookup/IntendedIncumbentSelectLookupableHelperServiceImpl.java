@@ -140,7 +140,7 @@ public class IntendedIncumbentSelectLookupableHelperServiceImpl extends Abstract
                 Formatter formatter = col.getFormatter();
 
                 // pick off result column from result list, do formatting
-                String propValue = RiceConstants.EMPTY_STRING;
+                String propValue = "";
                 Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
                 
                 // set comparator and formatter based on property type

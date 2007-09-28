@@ -16,11 +16,9 @@
 package org.kuali.module.chart.maintenance;
 
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.service.DataDictionaryService;
@@ -97,7 +95,7 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
         StringBuilder lockRepresentation = new StringBuilder();
         
         lockRepresentation.append(Delegate.class.getName());
-        lockRepresentation.append(RiceConstants.Maintenance.AFTER_CLASS_DELIM);
+        lockRepresentation.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
         
         DataDictionaryService dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
         EncryptionService encryptionService = KNSServiceLocator.getEncryptionService();
@@ -105,10 +103,10 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
         int count = 0;
         for (String fieldName: fieldNames) {
             lockRepresentation.append(fieldName);
-            lockRepresentation.append(RiceConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+            lockRepresentation.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
             lockRepresentation.append(retrieveFieldValueForLock(fieldName, dataDictionaryService, encryptionService));
             if (count < (fieldNames.length - 1)) {
-                lockRepresentation.append(RiceConstants.Maintenance.AFTER_VALUE_DELIM);
+                lockRepresentation.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
             }
             count += 1;
         }

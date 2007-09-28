@@ -22,8 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceConstants;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
@@ -31,8 +29,6 @@ import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.web.struts.form.BenefitExpenseTransferForm;
 import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class is the action class for the Benefit Expense Transfer document.
@@ -65,8 +61,8 @@ public class BenefitExpenseTransferAction extends ExpenseTransferDocumentActionB
     public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
        
         // parse out the business object name from our methodToCall parameter
-        String fullParameter = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
-        String boClassName = StringUtils.substringBetween(fullParameter, RiceConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL, RiceConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
+        String fullParameter = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String boClassName = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL, KFSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
         
         if(!StringUtils.equals(boClassName, LaborLedgerPendingEntry.class.getName())){
             return super.performLookup(mapping, form, request, response);

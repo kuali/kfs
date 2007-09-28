@@ -36,7 +36,6 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceConstants;
 import org.kuali.core.UserSession;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
@@ -208,7 +207,7 @@ public abstract class BaseAction extends Action {
 
         HttpSession session = request.getSession();
 
-        UserSession userSession = (UserSession)request.getSession().getAttribute(RiceConstants.USER_SESSION_KEY);
+        UserSession userSession = (UserSession)request.getSession().getAttribute(KFSConstants.USER_SESSION_KEY);
 
         // This is needed for PDP. At some point, PDP should be refactored to use UserSession
         session.setAttribute("user",new PdpUser(userSession.getUniversalUser()));

@@ -15,8 +15,6 @@
  */
 package org.kuali.module.labor.web.struts.action;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,14 +22,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceConstants;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.bo.LaborJournalVoucherDetail;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
-import org.kuali.module.labor.document.LaborJournalVoucherDocument;
-import org.kuali.module.labor.web.struts.form.LaborJournalVoucherForm;
 
 /**
  * This class piggy backs on all of the functionality in the KualiTransactionalDocumentActionBase but is necessary for this document
@@ -48,8 +41,8 @@ public class JournalVoucherAction extends org.kuali.module.financial.web.struts.
     public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         // parse out the business object name from our methodToCall parameter
-        String fullParameter = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
-        String boClassName = StringUtils.substringBetween(fullParameter, RiceConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL, RiceConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
+        String fullParameter = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String boClassName = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL, KFSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
 
         if (!StringUtils.equals(boClassName, LaborLedgerPendingEntry.class.getName())) {
             return super.performLookup(mapping, form, request, response);

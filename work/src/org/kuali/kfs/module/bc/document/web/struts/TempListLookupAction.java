@@ -25,12 +25,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceConstants;
 import org.kuali.core.lookup.Lookupable;
 import org.kuali.core.web.struts.action.KualiLookupAction;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.budget.web.struts.form.TempListLookupForm;
 
 /**
@@ -81,6 +81,6 @@ public class TempListLookupAction extends KualiLookupAction {
                 }
             }
         }
-        return mapping.findForward(RiceConstants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

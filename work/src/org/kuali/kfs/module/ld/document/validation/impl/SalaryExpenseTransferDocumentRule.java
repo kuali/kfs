@@ -22,7 +22,6 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
@@ -287,7 +286,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
             fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
             fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
             fieldValues.put(KFSPropertyConstants.EMPLID, emplid);
-            fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, RiceConstants.NOT_LOGICAL_OPERATOR + documentNumber);
+            fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, KFSConstants.NOT_LOGICAL_OPERATOR + documentNumber);
 
             if (SpringContext.getBean(LaborLedgerPendingEntryService.class).hasPendingLaborLedgerEntry(fieldValues)) {
                 reportError(KFSConstants.EMPLOYEE_LOOKUP_ERRORS, KFSKeyConstants.Labor.PENDING_SALARY_TRANSFER_ERROR, emplid, payPeriodCode, accountNumber, objectCode);

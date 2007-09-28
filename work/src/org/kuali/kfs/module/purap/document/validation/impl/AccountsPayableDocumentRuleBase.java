@@ -15,10 +15,10 @@
  */
 package org.kuali.module.purap.rules;
 
-import org.kuali.RiceConstants;
 import org.kuali.RicePropertyConstants;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapConstants.ItemFields;
@@ -51,7 +51,7 @@ public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccounts
         if (apDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW)) {
             if(!apDocument.approvalAtAccountsPayableReviewAllowed()) {
                 valid &= false;
-                GlobalVariables.getErrorMap().putError(RiceConstants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_AP_REQUIRES_ATTACHMENT);
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_AP_REQUIRES_ATTACHMENT);
             }
         }
         GlobalVariables.getErrorMap().clearErrorPath();

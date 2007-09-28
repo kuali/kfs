@@ -17,10 +17,12 @@ package org.kuali.module.purap.web.struts.form;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -34,15 +36,17 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
-import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
-import org.kuali.module.purap.service.impl.PurchaseOrderServiceImpl;
 
 /**
  * This class is the form class for the PurchaseOrder document.
@@ -175,9 +179,14 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // TODO: Think about using a MAP with key of 'methodToCall' string and value of ExtraButton object so that button duplication never occurs
         //       Only problem would be if same 'methodToCall' string was used on two different button images... in which case an if-else could be fix
 
+        Map buttonsMap = createButtonsMap();
+        
         String documentType = this.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentType();
         PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
 
+        List<PaymentRequestDocument> pReqs = SpringContext.getBean(PaymentRequestService.class).getPaymentRequestsByPurchaseOrderId(purchaseOrder.getPurapDocumentIdentifier());
+        boolean hasPaymentRequest = ( (pReqs != null && pReqs.size() >  0) ? true : false);
+        
         String authorizedWorkgroup = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.PURAP_NAMESPACE, PurapConstants.Components.PURCHASE_ORDER, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_ACTIONS);
         boolean isUserAuthorized = false;
         try {
@@ -187,26 +196,20 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found",e);
         }
         
-        if (isUserAuthorized &&(purchaseOrder.isPurchaseOrderCurrentIndicator() && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN)) || 
-             (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT) &&
-              purchaseOrder.isPurchaseOrderCurrentIndicator() &&       
-              !this.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB) &&
-              (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) || purchaseOrder.getDocumentHeader().getWorkflowDocument().stateIsEnroute()))) {
+        if ( purchaseOrder.getPurchaseOrderLastTransmitDate() != null &&
+             purchaseOrder.isPurchaseOrderCurrentIndicator() && 
+             !purchaseOrder.isPendingActionIndicator() && 
+             purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) &&
+             ( isUserAuthorized || purchaseOrder.getPurchaseOrderAutomaticIndicator()) ) {
 
-            ExtraButton retransmitButton = new ExtraButton();
-            retransmitButton.setExtraButtonProperty("methodToCall.retransmitPo");
-            retransmitButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_retransmit.gif");
-            retransmitButton.setExtraButtonAltText("Retransmit");
-            this.getExtraButtons().add(retransmitButton);
+               ExtraButton retransmitButton = (ExtraButton)buttonsMap.get("methodToCall.retransmitPo");
+               this.getExtraButtons().add(retransmitButton);
         }
         
         //This is the button to print the pdf on a retransmit document. We're currently sharing the same button image as 
         //the button for creating a retransmit document but this may change someday.
         if (isUserAuthorized && this.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB)) {
-            ExtraButton printingRetransmitButton = new ExtraButton();
-            printingRetransmitButton.setExtraButtonProperty("methodToCall.printingRetransmitPo");
-            printingRetransmitButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_retransmit.gif");
-            printingRetransmitButton.setExtraButtonAltText("PrintingRetransmit");
+            ExtraButton printingRetransmitButton = (ExtraButton)buttonsMap.get("methodToCall.printingRetransmitPo");
             this.getExtraButtons().add(printingRetransmitButton);
         }
         
@@ -215,51 +218,138 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         boolean isDocumentTransmissionActionRequested = SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(purchaseOrder.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getUniversalUser());
         if ( PurapConstants.PurchaseOrderStatuses.PENDING_PRINT.equals(purchaseOrder.getStatusCode()) &&
                 (isUserAuthorized ||  isDocumentTransmissionActionRequested) ) {
-            ExtraButton printButton = new ExtraButton();
-            printButton.setExtraButtonProperty("methodToCall.firstTransmitPrintPo");
-            printButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_print.gif");
-            printButton.setExtraButtonAltText("Print");
+            ExtraButton printButton = (ExtraButton)buttonsMap.get("methodToCall.firstTransmitPrintPo");
             this.getExtraButtons().add(printButton);
         }
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
-            ExtraButton reopenButton = new ExtraButton();
-            reopenButton.setExtraButtonProperty("methodToCall.reopenPo");
-            reopenButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_openorder.gif");
-            reopenButton.setExtraButtonAltText("Reopen");
+            ExtraButton reopenButton = (ExtraButton)buttonsMap.get("methodToCall.reopenPo");
             this.getExtraButtons().add(reopenButton);
         }
-        if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
-            ExtraButton closeButton = new ExtraButton();
-            closeButton.setExtraButtonProperty("methodToCall.closePo");
-            closeButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_closeorder.gif");
-            closeButton.setExtraButtonAltText("Close PO");
-            this.getExtraButtons().add(closeButton);
-            ExtraButton voidButton = new ExtraButton();
-            voidButton.setExtraButtonProperty("methodToCall.voidPo");
-            voidButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_voidorder.gif");
-            voidButton.setExtraButtonAltText("Void PO");
-            this.getExtraButtons().add(voidButton);
-            ExtraButton paymentHoldButton = new ExtraButton();
-            paymentHoldButton.setExtraButtonProperty("methodToCall.paymentHoldPo");
-            paymentHoldButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_paymenthold.gif");
-            paymentHoldButton.setExtraButtonAltText("Payment Hold");
-            this.getExtraButtons().add(paymentHoldButton);
-            ExtraButton amendButton = new ExtraButton();
-            amendButton.setExtraButtonProperty("methodToCall.amendPo");
-            amendButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_amend.gif");
-            amendButton.setExtraButtonAltText("Amend");
-            this.getExtraButtons().add(amendButton);
+        if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator()) {
+            
+            //To display the close PO button, the PO must be in Open status, the PO must have at least 1 Payment Request in any other
+            //statuses than "In Process" status, and the PO cannot have any Payment Requests in "In Process" status. This button
+            //is available to all faculty/staff (everyone ?)
+            boolean validForDisplayingCloseButton = true;
+            
+            if (ObjectUtils.isNotNull(pReqs)) {
+                if (pReqs.size() == 0) {
+                    validForDisplayingCloseButton = false;
+                }
+                else {
+                    // None of the PREQs against this PO may be in 'In Process' status.
+                    for (PaymentRequestDocument pReq : pReqs) {
+                        if (StringUtils.equalsIgnoreCase(pReq.getStatusCode(), PaymentRequestStatuses.IN_PROCESS)) {
+                            validForDisplayingCloseButton = false;
+                        }
+                    }
+                }
+            }
+            if (validForDisplayingCloseButton) {
+                ExtraButton closeButton = (ExtraButton)buttonsMap.get("methodToCall.closePo");
+                this.getExtraButtons().add(closeButton);
+            }
+            
+            //These buttons are only available to members of kuali purap purchasing.
+            if (isUserAuthorized) {
+                ExtraButton paymentHoldButton = (ExtraButton)buttonsMap.get("methodToCall.paymentHoldPo");
+                this.getExtraButtons().add(paymentHoldButton);
+                ExtraButton amendButton = (ExtraButton)buttonsMap.get("methodToCall.amendPo");
+                this.getExtraButtons().add(amendButton);
+            }
         }
+        //Conditions for displaying Void button (in addition to the purchaseOrder current indicator is true and 
+        //pending indicator is false and the user is member of kuali purap purchasing):
+        //1. If the PO is in Pending Print status, or 
+        //2. If the PO is in Open status and has no PREQs against it.
+        if (purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
+            
+            if ( purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PENDING_PRINT) ||
+                 ( purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) &&
+                   hasPaymentRequest ) ) {
+                
+                ExtraButton voidButton = (ExtraButton)buttonsMap.get("methodToCall.voidPo");
+                this.getExtraButtons().add(voidButton);
+                
+            }
+        }
+        
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
-            ExtraButton removeHoldButton = new ExtraButton();
-            removeHoldButton.setExtraButtonProperty("methodToCall.removeHoldPo");
-            removeHoldButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_removehold.gif");
-            removeHoldButton.setExtraButtonAltText("Remove Hold");
+            ExtraButton removeHoldButton = (ExtraButton)buttonsMap.get("methodToCall.removeHoldPo");
             this.getExtraButtons().add(removeHoldButton);
         }
 
     }
 
+    private Map<String, ExtraButton> createButtonsMap() {
+        HashMap<String, ExtraButton> result = new HashMap();
+        //Retransmit button
+        ExtraButton retransmitButton = new ExtraButton();
+        retransmitButton.setExtraButtonProperty("methodToCall.retransmitPo");
+        retransmitButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_retransmit.gif");
+        retransmitButton.setExtraButtonAltText("Retransmit");
+        
+        //Printing Retransmit button
+        ExtraButton printingRetransmitButton = new ExtraButton();
+        printingRetransmitButton.setExtraButtonProperty("methodToCall.printingRetransmitPo");
+        printingRetransmitButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_retransmit.gif");
+        printingRetransmitButton.setExtraButtonAltText("PrintingRetransmit");
+        
+        //Print button
+        ExtraButton printButton = new ExtraButton();
+        printButton.setExtraButtonProperty("methodToCall.firstTransmitPrintPo");
+        printButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_print.gif");
+        printButton.setExtraButtonAltText("Print");
+        
+        //Reopen PO button
+        ExtraButton reopenButton = new ExtraButton();
+        reopenButton.setExtraButtonProperty("methodToCall.reopenPo");
+        reopenButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_openorder.gif");
+        reopenButton.setExtraButtonAltText("Reopen");
+        
+        //Close PO button
+        ExtraButton closeButton = new ExtraButton();
+        closeButton.setExtraButtonProperty("methodToCall.closePo");
+        closeButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_closeorder.gif");
+        closeButton.setExtraButtonAltText("Close PO");
+        
+        //Void PO button
+        ExtraButton voidButton = new ExtraButton();
+        voidButton.setExtraButtonProperty("methodToCall.voidPo");
+        voidButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_voidorder.gif");
+        voidButton.setExtraButtonAltText("Void PO");
+        
+        //Payment Hold PO button
+        ExtraButton paymentHoldButton = new ExtraButton();
+        paymentHoldButton.setExtraButtonProperty("methodToCall.paymentHoldPo");
+        paymentHoldButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_paymenthold.gif");
+        paymentHoldButton.setExtraButtonAltText("Payment Hold");
+        
+        //Amend button
+        ExtraButton amendButton = new ExtraButton();
+        amendButton.setExtraButtonProperty("methodToCall.amendPo");
+        amendButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_amend.gif");
+        amendButton.setExtraButtonAltText("Amend");
+        
+        //Remove Hold button
+        ExtraButton removeHoldButton = new ExtraButton();
+        removeHoldButton.setExtraButtonProperty("methodToCall.removeHoldPo");
+        removeHoldButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_removehold.gif");
+        removeHoldButton.setExtraButtonAltText("Remove Hold");
+        
+        result.put(retransmitButton.getExtraButtonProperty(), retransmitButton);
+        result.put(printingRetransmitButton.getExtraButtonProperty(), printingRetransmitButton);
+        result.put(printButton.getExtraButtonProperty(), printButton);
+        result.put(reopenButton.getExtraButtonProperty(), reopenButton);
+        result.put(closeButton.getExtraButtonProperty(), closeButton);
+        result.put(voidButton.getExtraButtonProperty(), voidButton);
+        result.put(paymentHoldButton.getExtraButtonProperty(), paymentHoldButton);
+        result.put(amendButton.getExtraButtonProperty(), amendButton);
+        result.put(removeHoldButton.getExtraButtonProperty(), removeHoldButton);
+        
+        return result;
+    }
+    
     /**
      * @return Returns the retransmitItemsSelected.
      */
@@ -304,8 +394,8 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     public void setPurchaseOrderIdentifier(Integer getPurchaseOrderIdentifier) {
         this.purchaseOrderIdentifier = getPurchaseOrderIdentifier;
     }
-
-    /**
+    
+        /**
      * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
@@ -326,6 +416,5 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             po.refreshDocumentBusinessObject();
         }
     }
-    
     
 }

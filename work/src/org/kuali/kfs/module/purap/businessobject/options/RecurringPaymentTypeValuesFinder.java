@@ -27,7 +27,6 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 
 /**
- * This class returns list containg A = Active or I = Inactive
  * 
  */
 public class RecurringPaymentTypeValuesFinder extends KeyValuesBase {

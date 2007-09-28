@@ -39,6 +39,7 @@ import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
@@ -74,7 +75,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestDocument.class);
 
-    private String purchaseOrderClassificationTypeDescription;
     private Date invoiceDate;
     private String invoiceNumber;
     private KualiDecimal vendorInvoiceAmount;
@@ -96,9 +96,9 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private Integer alternateVendorHeaderGeneratedIdentifier;
     private Integer alternateVendorDetailAssignedIdentifier;
     private String purchaseOrderNotes;
-
-    // NOT PERSISTED IN DB
     private String recurringPaymentTypeCode;
+
+    // NOT PERSISTED IN DB   
     private String vendorShippingTitleCode;
     private Date purchaseOrderEndDate;
     
@@ -152,22 +152,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void populateDocumentForRouting() {
         this.setRequisitionIdentifier(getPurchaseOrderDocument().getRequisitionIdentifier());
         super.populateDocumentForRouting();
-    }
-
-    /**
-     * Gets the purchaseOrderClassificationTypeDescription attribute. 
-     * @return Returns the purchaseOrderClassificationTypeDescription.
-     */
-    public String getPurchaseOrderClassificationTypeDescription() {
-        return purchaseOrderClassificationTypeDescription;
-    }
-
-    /**
-     * Sets the purchaseOrderClassificationTypeDescription attribute value.
-     * @param purchaseOrderClassificationTypeDescription The purchaseOrderClassificationTypeDescription to set.
-     */
-    public void setPurchaseOrderClassificationTypeDescription(String purchaseOrderClassificationTypeDescription) {
-        this.purchaseOrderClassificationTypeDescription = purchaseOrderClassificationTypeDescription;
     }
     
     /**
@@ -992,7 +976,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         if( PurapConstants.PaymentRequestStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(this.getStatusCode()) &&
             this.isClosePurchaseOrderIndicator() ){
             SpringContext.getBean(PurapService.class).performLogicForCloseReopenPO(this);
-        }
+    }
     }
 
     /**
@@ -1300,5 +1284,5 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public AccountsPayableDocumentSpecificService getDocumentSpecificService() {
         return (AccountsPayableDocumentSpecificService)SpringContext.getBean(PaymentRequestService.class);
     }
-   
+    
 }

@@ -36,6 +36,7 @@ import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.rule.event.CalculateAccountsPayableEvent;
 import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.util.PurQuestionCallback;
+import org.kuali.module.purap.web.struts.form.AccountsPayableFormBase;
 import org.kuali.module.purap.web.struts.form.CreditMemoForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -62,8 +63,8 @@ public class CreditMemoAction extends AccountsPayableActionBase {
      * vendor. Based on that, the credit memo is initially populated and the remaining tabs shown.
      */
     public ActionForward continueCreditMemo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CreditMemoForm preqForm = (CreditMemoForm) form;
-        CreditMemoDocument creditMemoDocument = (CreditMemoDocument) preqForm.getDocument();
+        CreditMemoForm cmForm = (CreditMemoForm) form;
+        CreditMemoDocument creditMemoDocument = (CreditMemoDocument) cmForm.getDocument();
 
         // preform duplicate check which will forward to a question prompt if one is found
         ActionForward forward = performDuplicateCreditMemoCheck(mapping, form, request, response, creditMemoDocument);
@@ -73,7 +74,10 @@ public class CreditMemoAction extends AccountsPayableActionBase {
 
         // perform validation of init tab
         SpringContext.getBean(CreditMemoService.class).populateAndSaveCreditMemo(creditMemoDocument);
-
+        
+        //update the counts on the form
+        cmForm.updateItemCounts();
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

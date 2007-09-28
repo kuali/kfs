@@ -98,6 +98,9 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         //force calculation
         preqForm.setCalculated(false);
 
+        //update the counts on the form
+        preqForm.updateItemCounts();
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
     }

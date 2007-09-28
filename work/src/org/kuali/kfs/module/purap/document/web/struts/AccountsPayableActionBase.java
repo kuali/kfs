@@ -105,9 +105,9 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
         AccountsPayableDocument document = (AccountsPayableDocument) kualiDocumentFormBase.getDocument();
-        ((AccountsPayableFormBase)kualiDocumentFormBase).updateItemCounts();
         SpringContext.getBean(AccountsPayableService.class).generateExpiredOrClosedAccountWarning(document);
         SpringContext.getBean(AccountsPayableService.class).updateItemList(document);
+        ((AccountsPayableFormBase)kualiDocumentFormBase).updateItemCounts();
     }
 
     /**

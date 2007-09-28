@@ -779,7 +779,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         return null;
     }
-    
+    //FIXME: - ctk this method really doesn't have to get the whole purchase order, it could instead by renamed and used to just update the notes
     public PurchaseOrderDocument getOldestPurchaseOrder(PurchaseOrderDocument po, PurchaseOrderDocument documentBusinessObject) {
         LOG.debug("entering getOldestPO(PurchaseOrderDocument)");
         if (ObjectUtils.isNotNull(po)) {
@@ -788,23 +788,35 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 //manually set bo notes - this is mainly done for performance reasons (preferably we could call
                 //retrieve doc notes in PersistableBusinessObjectBase but that is private)
 //                po.setBoNotes(SpringContext.getBean(NoteService.class).getByRemoteObjectId(po.getObjectId()));
-                if(ObjectUtils.isNotNull(documentBusinessObject)) {
-                    if(ObjectUtils.isNotNull(po.getObjectId())) {
-                        List<Note> dbNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(po.getObjectId());
-                        //need to set fields that are not ojb managed (i.e. the notes on the documentBusinessObject may have been modified independently of the ones in the db)
-                        fixDbNoteFields(documentBusinessObject, dbNotes);
-                        po.setBoNotes(dbNotes);
-                    } else {
-                        po.setBoNotes(documentBusinessObject.getBoNotes());
-                    }
-                }
+                updateNotes(po, documentBusinessObject);
                 LOG.debug("exiting getOldestPO(PurchaseOrderDocument)");
                 return po;
+            } else {
+                PurchaseOrderDocument oldestPurchaseOrder = getPurchaseOrderByDocumentNumber(oldestDocumentNumber);
+                updateNotes(oldestPurchaseOrder,documentBusinessObject);
+                LOG.debug("exiting getOldestPO(PurchaseOrderDocument)");
+                return oldestPurchaseOrder;
             }
-            LOG.debug("exiting getOldestPO(PurchaseOrderDocument)");
-            return getPurchaseOrderByDocumentNumber(oldestDocumentNumber);
         }
         return null;
+    }
+
+    /**
+     * This method...
+     * @param po
+     * @param documentBusinessObject
+     */
+    private void updateNotes(PurchaseOrderDocument po, PurchaseOrderDocument documentBusinessObject) {
+        if(ObjectUtils.isNotNull(documentBusinessObject)) {
+            if(ObjectUtils.isNotNull(po.getObjectId())) {
+                List<Note> dbNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(po.getObjectId());
+                //need to set fields that are not ojb managed (i.e. the notes on the documentBusinessObject may have been modified independently of the ones in the db)
+                fixDbNoteFields(documentBusinessObject, dbNotes);
+                po.setBoNotes(dbNotes);
+            } else {
+                po.setBoNotes(documentBusinessObject.getBoNotes());
+            }
+        }
     }
 
     /**

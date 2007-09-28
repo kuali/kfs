@@ -42,6 +42,7 @@ public class PaymentRequestDocumentActionAuthorizer {
     private boolean fullEntryCompleted;
     
     private boolean apUser;
+    private boolean apSupervisor;
     private boolean fiscalOfficerDelegateUser;
     private boolean approver;
         
@@ -84,7 +85,12 @@ public class PaymentRequestDocumentActionAuthorizer {
         if( user.isMember(apGroup) ){
             this.apUser = true;
         }
-        
+
+        String apSupGroup = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);        
+        if( user.isMember(apSupGroup) ){
+            this.apSupervisor = true;
+        }
+
         if( PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals( getDocStatus()) && isApprover() ){
             this.fiscalOfficerDelegateUser = true;
         }
@@ -125,7 +131,15 @@ public class PaymentRequestDocumentActionAuthorizer {
     private boolean isApUser(){
         return apUser;
     }
-    
+
+    public boolean isApSupervisor() {
+        return apSupervisor;
+    }
+
+    public void setApSupervisor(boolean apSupervisor) {
+        this.apSupervisor = apSupervisor;
+    }
+
     private boolean isFiscalOfficerDelegateUser(){
         return fiscalOfficerDelegateUser;
     }
@@ -240,15 +254,15 @@ public class PaymentRequestDocumentActionAuthorizer {
               PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals( getDocStatus() ) ||
               PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals( getDocStatus() ) ||
               PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals( getDocStatus() ) ) &&                                                
-             (isApUser() && isRequestCancelIndicator()) ) ||
+             ( (isApUser() && isRequestCancelIndicator()) || isApSupervisor() ) ) ||
             
             ((PaymentRequestStatuses.IN_PROCESS.equals( getDocStatus() ) ||
               PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals( getDocStatus() ) ) &&
-             (isApUser())) ||
+             (isApUser() || isApSupervisor()) ) ||
              
             ((PaymentRequestStatuses.DEPARTMENT_APPROVED.equals( getDocStatus() ) ||
               PaymentRequestStatuses.AUTO_APPROVED.equals( getDocStatus() ) ) &&               
-             (isApUser() && isRequestCancelIndicator() == false && isHoldIndicator() == false && isExtracted() == false)) ){
+             ( (isApUser() || isApSupervisor() ) && isRequestCancelIndicator() == false && isHoldIndicator() == false && isExtracted() == false)) ){
             
             hasPermission = true;
         }

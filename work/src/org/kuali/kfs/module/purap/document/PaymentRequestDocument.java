@@ -984,6 +984,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public void saveDocumentFromPostProcessing() {
         SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(this);
+
+        //if we've hit full entry completed then close/reopen po
+        if( PurapConstants.PaymentRequestStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(this.getStatusCode()) &&
+            this.isClosePurchaseOrderIndicator() ){
+            SpringContext.getBean(PurapService.class).performLogicForCloseReopenPO(this);
+        }
     }
 
     /**
@@ -1248,13 +1254,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public void setPaymentRequestCostSource(PurchaseOrderCostSource paymentRequestCostSource) {
         this.paymentRequestCostSource = paymentRequestCostSource;
-    }
-
-    /**
-     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getPoDocumentTypeForAccountsPayableDocumentApprove()
-     */
-    public String getPoDocumentTypeForAccountsPayableDocumentApprove() {
-        return PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
     }
 
     /**

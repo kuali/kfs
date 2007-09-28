@@ -249,6 +249,12 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      */
     public void saveDocumentFromPostProcessing() {
         SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(this);
+        
+        //if we've hit full entry completed then close/reopen po
+        if( PurapConstants.CreditMemoStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(this.getStatusCode()) &&
+            this.isReopenPurchaseOrderIndicator() ){
+            SpringContext.getBean(PurapService.class).performLogicForCloseReopenPO(this);
+        }
     }
 
     /**
@@ -531,13 +537,6 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      * @deprecated
      */
     public void setStatusDescription(String statusDescription) {
-    }
-
-    /**
-     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getPoDocumentTypeForAccountsPayableDocumentApprove()
-     */
-    public String getPoDocumentTypeForAccountsPayableDocumentApprove() {
-        return PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT;
     }
 
     /**

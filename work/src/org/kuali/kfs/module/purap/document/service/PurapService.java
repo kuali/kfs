@@ -121,7 +121,15 @@ public interface PurapService {
      * @param purapDocument
      */
     public void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument);
-    
+
+    /**
+     * 
+     * This method will create a close or reopen purchase order document.
+     * 
+     * @param purapDocument
+     */
+    public void performLogicForCloseReopenPO(PurchasingAccountsPayableDocument purapDocument);
+            
     public Object performLogicWithFakedUserSession(String requiredUniversalUserPersonUserId, LogicContainer logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception;
     
     /**

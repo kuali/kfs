@@ -76,8 +76,6 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     // BELOW USED BY ROUTING
     private String chartOfAccountsCode;
     private String organizationCode;
-
-    private boolean closeReopenPoIndicator;
     
     // NOT PERSISTED IN DB
     // BELOW USED BY GL ENTRY CREATION
@@ -144,84 +142,15 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         //copied from super because we can't call super for AP docs
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
 
-        //if routing and close/reopen checkbox selected, call close/reopen po method
-        if((event instanceof RouteDocumentEvent) && this.isCloseReopenPoIndicator() ){
-            processCloseReopenPo( getPoDocumentTypeForAccountsPayableDocumentApprove() );                        
-        }
-
         //DO NOT CALL SUPER HERE!!  Cannot call super because it will mess up the GL entry creation process (hjs)
         //super.prepareForSave(event);
     }
-
-    /**
-     * Helper method to be called from custom prepare for save and to be
-     * overriden by sub class.
-     */
-    public abstract String getPoDocumentTypeForAccountsPayableDocumentApprove();
     
     /**
      * Helper method to be called from custom prepare for save and to be
      * overriden by sub class.
      */
     public abstract String getPoDocumentTypeForAccountsPayableDocumentCancel();
-
-    /**
-     * This method should be called from child class from overridden processCloseReopenPo(), it will pass the action it will take,
-     * which is document specific.
-     * 
-     * @param docType
-     */
-    public void processCloseReopenPo(String docType) {
-        String action = null;
-        //setup text for note that will be created, will either be closed or reopened
-        if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT.equals(docType)) {
-            action = "closed";
-        }
-        else if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT.equals(docType)) {
-            action = "reopened";
-        }
-        else {
-            logAndThrowRuntimeException("Method processCloseReopenPo called using ID + '" + getPurapDocumentIdentifier() + "' and invalid doc type '" + docType + "'");
-        }
-//        SpringContext.getBean(PurchaseOrderService.class).updateFlagsAndRoute(this.getPurchaseOrderDocument().getDocumentNumber(), docType, assemblePurchaseOrderNote(docType, identifier, action, docName), new ArrayList());
-        SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(this.getPurchaseOrderDocument().getDocumentNumber(), docType, assemblePurchaseOrderNote(docType, action), new ArrayList());
-
-        /* if we made it here, route document has not errored out, so set appropriate indicator
-         * depending on what is being requested.
-         */
-        if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT.equals(docType)) {
-            this.setClosePurchaseOrderIndicator(true);
-        }else if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT.equals(docType)) {
-            this.setReopenPurchaseOrderIndicator(true);
-        }
-        
-    }
-
-    /**
-     * This method generates a note for the close/reopen po method.
-     * 
-     * @param docType
-     * @param preqId
-     * @return
-     */
-    private String assemblePurchaseOrderNote(String docType, String action) {
-        String documentLabel = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(getClass());
-        StringBuffer closeReopenNote = new StringBuffer("");
-        String userName = GlobalVariables.getUserSession().getUniversalUser().getPersonName();
-        closeReopenNote.append(SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(PurchaseOrderDocument.class));
-        closeReopenNote.append(" will be manually ");
-        closeReopenNote.append(action);
-        closeReopenNote.append(" by ");
-        closeReopenNote.append(userName);
-        closeReopenNote.append(" when approving ");
-        closeReopenNote.append(documentLabel);
-        closeReopenNote.append(" with ");
-        closeReopenNote.append(SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(getClass(), PurapPropertyConstants.PURAP_DOC_ID));
-        closeReopenNote.append(" ");
-        closeReopenNote.append(getPurapDocumentIdentifier());
-
-        return closeReopenNote.toString();
-    }
     
     /**
      * @see org.kuali.core.document.DocumentBase#handleRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
@@ -429,14 +358,6 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public void setReopenPurchaseOrderIndicator(boolean reopenPurchaseOrderIndicator) {
         this.reopenPurchaseOrderIndicator = reopenPurchaseOrderIndicator;
     }    
-
-    public boolean isCloseReopenPoIndicator() {
-        return closeReopenPoIndicator;
-    }
-
-    public void setCloseReopenPoIndicator(boolean closeReopenPoIndicator) {
-        this.closeReopenPoIndicator = closeReopenPoIndicator;
-    }
 
     //Helper methods
     public UniversalUser getLastActionPerformedByUser(){

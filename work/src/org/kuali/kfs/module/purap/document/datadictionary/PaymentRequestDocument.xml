@@ -393,7 +393,7 @@
 				<description>GrandTotal description...</description>
 			</attributeReference>
 
-			<attribute name="closeReopenPoIndicator" forceUppercase="true">
+			<attribute name="closePurchaseOrderIndicator" forceUppercase="true">
 			    <label>Close PO</label>
 			    <shortLabel>Close PO</shortLabel>
 			
@@ -403,8 +403,8 @@
 			        <checkbox />
 			    </control>
 			
-			    <summary>closePoIndicator</summary>
-			    <description>closePoIndicator description...</description>
+			    <summary>closePurchaseOrderIndicator</summary>
+			    <description>closePurchaseOrderIndicator description...</description>
 			</attribute>
         </attributes>
 		

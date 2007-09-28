@@ -20,7 +20,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.ExtraButton;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.util.PurApItemUtils;
@@ -36,7 +42,6 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     private int countOfAboveTheLine=0;
     private int countOfBelowTheLine=0;
     
-
     /**
      * Constructs an AccountsPayableForm instance and sets up the appropriately casted document. 
      */
@@ -114,7 +119,20 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     public void setCountOfBelowTheLine(int countOfBelowTheLine) {
         this.countOfBelowTheLine = countOfBelowTheLine;
     }
-    
+
+    public boolean isApUser(){
+        
+        boolean apUser = false;        
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        
+        String apGroup = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+        
+        if( user.isMember(apGroup) ){
+            apUser = true;
+        }
+        
+        return apUser;
+    }
     /**
      * This is a utility method to add a new button to the extra buttons
      * collection.

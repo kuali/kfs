@@ -28,11 +28,13 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.authorization.PaymentRequestDocumentActionAuthorizer;
+import org.kuali.module.purap.service.PurapService;
 
 /**
  * This class is the form class for the PaymentRequest document.
@@ -132,6 +134,26 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
         return StringUtils.equals(this.getPaymentRequestDocument().getStatusCode(),PurapConstants.PaymentRequestStatuses.INITIATE);
       } 
 
+    /** 
+     * This method determines if a user is able to close a purchase order.
+     * This is used by the checkbox "close PO" on the payment request form.
+     * 
+     * @return
+     */
+    public boolean isAbleToClosePurchaseOrder(){
+        boolean valid = false;
+        
+        PaymentRequestDocument preq = (PaymentRequestDocument)this.getDocument();
+        
+        if( SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq) == false &&
+            isApUser() &&
+            PurapConstants.PurchaseOrderStatuses.OPEN.equals(preq.getPurchaseOrderDocument().getStatusCode()) ){
+            
+            valid = true;
+        }
+                
+        return valid;
+    }
     
     /**
      * Build additional credit memo specific buttons and set extraButtons list.

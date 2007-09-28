@@ -27,7 +27,9 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.UserSession;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
@@ -39,14 +41,17 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.OrganizationParameter;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderView;
+import org.kuali.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.LogicContainer;
@@ -54,6 +59,7 @@ import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
+import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.vendor.service.VendorService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -272,7 +278,7 @@ public class PurapServiceImpl implements PurapService {
         }
         return belowTheLineItem;
     }
-    
+
     /**
      * @see org.kuali.module.purap.service.PurapService#isDateInPast(java.sql.Date)
      */
@@ -380,7 +386,7 @@ public class PurapServiceImpl implements PurapService {
         }
         return value;
     }
-    
+        
     public void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument) {
         //TODO: move logic from various parts of the app to here
         if (purapDocument instanceof RequisitionDocument) {
@@ -397,12 +403,8 @@ public class PurapServiceImpl implements PurapService {
             // change PREQ accounts from percents to dollars (FIXME ctk (look into) - this won't do anything if we are already considered full entry at this point)
             SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequest);
             // do GL entries for PREQ creation
-            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePaymentRequest((PaymentRequestDocument)purapDocument);
-            if (paymentRequest.isClosePurchaseOrderIndicator()) {
-                // TODO (KULPURAP-1576: dlemus/delyea) route the reopen purchase order here
-                // get the po id and get the current po
-                // check the current po: if status is not closed and there is no pending action... route close po as system user
-        	}
+            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePaymentRequest( paymentRequest );
+            
             //TODO ctk - David is this save ok here?!?! It seems like my updates don't happen without it
             SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(paymentRequest);
         }
@@ -411,13 +413,42 @@ public class PurapServiceImpl implements PurapService {
             CreditMemoDocument creditMemo = (CreditMemoDocument)purapDocument;
             SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(creditMemo);
             // do GL entries for CM creation
-            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateCreditMemo(creditMemo);
-            // get the po id and get the current PO
-            // route 'Re-Open PO Document' if PO criteria meets requirements from EPIC business rules
+            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateCreditMemo( creditMemo );           
         }
         else {
-        	throw new RuntimeException("Attempted to perform full entry logic for unhandled document type '" + purapDocument.getClass().getName() + "'");
+            throw new RuntimeException("Attempted to perform full entry logic for unhandled document type '" + purapDocument.getClass().getName() + "'");
         }
+    }
+
+    public void performLogicForCloseReopenPO(PurchasingAccountsPayableDocument purapDocument){
+        
+        if (purapDocument instanceof PaymentRequestDocument) {
+            PaymentRequestDocument paymentRequest = (PaymentRequestDocument)purapDocument;
+            
+            if (paymentRequest.isClosePurchaseOrderIndicator() && 
+                PurapConstants.PurchaseOrderStatuses.OPEN.equals(paymentRequest.getPurchaseOrderDocument().getStatusCode())) {
+                // TODO (KULPURAP-1576: dlemus/delyea) route the reopen purchase order here
+                // get the po id and get the current po
+                // check the current po: if status is not closed and there is no pending action... route close po as system user
+                processCloseReopenPo( (AccountsPayableDocumentBase)purapDocument, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT );                
+            }
+
+        }
+        else if (purapDocument instanceof CreditMemoDocument) {
+            CreditMemoDocument creditMemo = (CreditMemoDocument)purapDocument;
+            
+            if (creditMemo.isReopenPurchaseOrderIndicator() &&
+                PurapConstants.PurchaseOrderStatuses.CLOSED.equals(creditMemo.getPurchaseOrderDocument().getStatusCode())) {                
+                // get the po id and get the current PO
+                // route 'Re-Open PO Document' if PO criteria meets requirements from EPIC business rules
+                processCloseReopenPo( (AccountsPayableDocumentBase)purapDocument, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT );
+            }
+            
+        }
+        else {
+            throw new RuntimeException("Attempted to perform full entry logic for unhandled document type '" + purapDocument.getClass().getName() + "'");
+        }
+        
     }
 
     /**
@@ -434,6 +465,70 @@ public class PurapServiceImpl implements PurapService {
         paymentRequest.getItems().removeAll(deletionList);
     }
 
+    /**
+     * This method should be called from child class from overridden processCloseReopenPo(), it will pass the action it will take,
+     * which is document specific.
+     * 
+     * @param docType
+     */
+    public void processCloseReopenPo(AccountsPayableDocumentBase apDocument, String docType) {
+        String action = null;
+        //setup text for note that will be created, will either be closed or reopened
+        if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT.equals(docType)) {
+            action = "closed";
+        }
+        else if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT.equals(docType)) {
+            action = "reopened";
+        }
+        else {
+            String errorMessage = "Method processCloseReopenPo called using ID + '" + apDocument.getPurapDocumentIdentifier() + "' and invalid doc type '" + docType + "'"; 
+            LOG.error(errorMessage);
+            throw new RuntimeException(errorMessage);            
+        }
+        
+        SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(
+                apDocument.getPurchaseOrderDocument().getDocumentNumber(), 
+                docType, 
+                assemblePurchaseOrderNote(apDocument, docType, action), 
+                new ArrayList());
+        
+        /* if we made it here, route document has not errored out, so set appropriate indicator
+         * depending on what is being requested.
+         */
+        if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT.equals(docType)) {
+            apDocument.setClosePurchaseOrderIndicator(false);
+        }else if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT.equals(docType)) {
+            apDocument.setReopenPurchaseOrderIndicator(false);
+        }
+        
+    }
+
+    /**
+     * This method generates a note for the close/reopen po method.
+     * 
+     * @param docType
+     * @param preqId
+     * @return
+     */
+    private String assemblePurchaseOrderNote(AccountsPayableDocumentBase apDocument, String docType, String action) {
+        String documentLabel = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(getClass());
+        StringBuffer closeReopenNote = new StringBuffer("");
+        String userName = GlobalVariables.getUserSession().getUniversalUser().getPersonName();
+        closeReopenNote.append(SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(PurchaseOrderDocument.class));
+        closeReopenNote.append(" will be manually ");
+        closeReopenNote.append(action);
+        closeReopenNote.append(" by ");
+        closeReopenNote.append(userName);
+        closeReopenNote.append(" when approving ");
+        closeReopenNote.append(documentLabel);
+        closeReopenNote.append(" with ");
+        closeReopenNote.append(SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(getClass(), PurapPropertyConstants.PURAP_DOC_ID));
+        closeReopenNote.append(" ");
+        closeReopenNote.append(apDocument.getPurapDocumentIdentifier());
+
+        return closeReopenNote.toString();
+    }
+    
     public Object performLogicWithFakedUserSession(String requiredUniversalUserPersonUserId, LogicContainer logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception {
         if (StringUtils.isBlank(requiredUniversalUserPersonUserId)) {
             throw new RuntimeException("Attempted to perform logic with a fake user session with a blank user person id: '" + requiredUniversalUserPersonUserId + "'");

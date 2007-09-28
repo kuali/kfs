@@ -207,13 +207,13 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     public ActionForward addItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
         // TODO: should call add line event/rules here
-        PurApItem item = purchasingForm.getAndResetNewPurchasingItemLine();
+        PurApItem item = purchasingForm.getNewPurchasingItemLine();
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("", purDocument, item));
         // AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(itemIndex) + "]",
         // purchasingForm.getDocument(), (AccountingLine) line)
         if (rulePassed) {
-
+            item = purchasingForm.getAndResetNewPurchasingItemLine();
             purDocument.addItem(item);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

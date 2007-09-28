@@ -73,6 +73,8 @@ import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorPhoneNumber;
 import org.kuali.module.vendor.service.VendorService;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
 /**
  * This class handles specific Actions requests for the Requisition.
  */
@@ -1209,6 +1211,18 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * @see org.kuali.module.purap.web.struts.action.PurchasingAccountsPayableActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        // TODO Auto-generated method stub
+        super.loadDocument(kualiDocumentFormBase);
+        PurchaseOrderForm form = (PurchaseOrderForm)kualiDocumentFormBase;
+        PurchaseOrderDocument po = (PurchaseOrderDocument)form.getDocument();
+        form.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());
     }
 
 }

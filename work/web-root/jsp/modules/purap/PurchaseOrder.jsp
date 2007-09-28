@@ -31,6 +31,8 @@
     <kul:hiddenDocumentFields excludePostingYear="true" />
 
     <purap:hiddenPurapFields />
+    <!-- need this for persistence -->
+    <html:hidden property="purchaseOrderIdentifier" />
     <!-- TODO move this to where? -->
     <html:hidden property="document.requisitionIdentifier" />
     <html:hidden property="document.purchaseOrderCurrentIndicator" />

@@ -842,6 +842,10 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         documentBusinessObject = SpringContext.getBean(PurchaseOrderService.class).getOldestPurchaseOrder(this,(PurchaseOrderDocument)this.documentBusinessObject);
     }
 
+    public void setDocumentBusinessObject(PurchaseOrderDocument po) {
+        documentBusinessObject = po;
+    }
+    
     @Override
     public List<PurchaseOrderView> getRelatedPurchaseOrderViews() {
         return null;

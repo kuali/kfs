@@ -42,12 +42,13 @@ import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
+import org.kuali.module.purap.service.impl.PurchaseOrderServiceImpl;
 
 /**
  * This class is the form class for the PurchaseOrder document.
  */
 public class PurchaseOrderForm extends PurchasingFormBase {
-
+    private Integer purchaseOrderIdentifier;
     private PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine;
     private PurchaseOrderVendorQuote newPurchaseOrderVendorQuote;
     private Long awardedVendorNumber;
@@ -289,14 +290,37 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     }
 
     /**
+     * Gets the getPurchaseOrderIdentifier attribute. 
+     * @return Returns the getPurchaseOrderIdentifier.
+     */
+    public Integer getPurchaseOrderIdentifier() {
+        return purchaseOrderIdentifier;
+    }
+
+    /**
+     * Sets the getPurchaseOrderIdentifier attribute value.
+     * @param getPurchaseOrderIdentifier The getPurchaseOrderIdentifier to set.
+     */
+    public void setPurchaseOrderIdentifier(Integer getPurchaseOrderIdentifier) {
+        this.purchaseOrderIdentifier = getPurchaseOrderIdentifier;
+    }
+
+    /**
      * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
     public void populate(HttpServletRequest request) {
         PurchaseOrderDocument  po = (PurchaseOrderDocument)this.getDocument();
+        if(ObjectUtils.isNull(po.getPurapDocumentIdentifier())) {
+            po.setPurapDocumentIdentifier(getPurchaseOrderIdentifier());
+        }
         //call this to make sure it's refreshed from the database if need be since the populate setter doesn't do that
         po.getDocumentBusinessObject();
         super.populate(request);
+//        po.setDocumenBusinessObject(SpringContext.getBean(PurchaseOrderServiceImpl.class).getOldestPurchaseOrder(po, (PurchaseOrderDocument)po.getDocumentBusinessObject()));
+        if(ObjectUtils.isNotNull(po.getPurapDocumentIdentifier())) {
+            po.refreshDocumentBusinessObject();
+        }
     }
     
     

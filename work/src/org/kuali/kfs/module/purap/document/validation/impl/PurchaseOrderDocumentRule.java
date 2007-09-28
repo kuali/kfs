@@ -75,7 +75,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      */
     public boolean processAdditionalValidation(PurchasingDocument purDocument) {
         boolean valid = true;
-        valid &= validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(purDocument);
+
         return valid;
     }
 

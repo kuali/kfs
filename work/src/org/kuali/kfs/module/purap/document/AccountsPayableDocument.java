@@ -19,6 +19,8 @@ import java.sql.Date;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.purap.bo.AccountsPayableItem;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 
 
@@ -90,6 +92,8 @@ public interface AccountsPayableDocument extends PurchasingAccountsPayableDocume
     public void setContinuationAccountIndicator(boolean continuationAccountIndicator);
     
     public boolean isExtracted();
+    
+    public AccountsPayableItem getAPItemFromPOItem(PurchaseOrderItem poi);
     
     public abstract AccountsPayableDocumentSpecificService getDocumentSpecificService();
 

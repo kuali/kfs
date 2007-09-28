@@ -784,8 +784,11 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             this.setVendorPaymentTerms(po.getVendorPaymentTerms());
         }
         this.setPaymentRequestPayDate(SpringContext.getBean(PaymentRequestService.class).calculatePayDate(this.getInvoiceDate(), this.getVendorPaymentTerms()));
+        
+        AccountsPayableService accountsPayableService = SpringContext.getBean(AccountsPayableService.class);
         for (PurchaseOrderItem poi : (List<PurchaseOrderItem>)po.getItems()) {
-            if(poi.isItemActiveIndicator()) {
+            //check to make sure it's eligible for payment (i.e. active and has encumberance available
+            if(accountsPayableService.purchaseOrderItemEligibleForPayment(poi)) {
                 this.getItems().add(new PaymentRequestItem(poi,this, expiredOrClosedAccountList));                
               }
         }
@@ -1296,19 +1299,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     @Override
     public AccountsPayableDocumentSpecificService getDocumentSpecificService() {
         return (AccountsPayableDocumentSpecificService)SpringContext.getBean(PaymentRequestService.class);
-    }
-    
-    public PaymentRequestItem getPreqItemFromPOItem(PurchaseOrderItem poi) {
-        for (PaymentRequestItem preqItem : (List<PaymentRequestItem>)this.getItems()) {
-            if(preqItem.getItemType().isItemTypeAboveTheLineIndicator()) {
-                if(preqItem.getItemLineNumber().compareTo(poi.getItemLineNumber())==0) {
-                    return preqItem;
-                }
-            } else {
-                return (PaymentRequestItem)SpringContext.getBean(PurapService.class).getBelowTheLineByType(this, poi.getItemType());
-            }
-        }
-        return null;
     }
    
 }

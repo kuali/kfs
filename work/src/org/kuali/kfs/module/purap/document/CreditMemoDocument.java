@@ -42,6 +42,8 @@ import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.CreditMemoStatusHistory;
+import org.kuali.module.purap.bo.PaymentRequestItem;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.AccountsPayableService;
@@ -575,6 +577,19 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     @Override
     public AccountsPayableDocumentSpecificService getDocumentSpecificService() {
         return SpringContext.getBean(CreditMemoService.class);
+    }
+    //TODO: this is the exact same as the credit memo one, should use generics and move up
+    public CreditMemoItem getCMItemFromPOItem(PurchaseOrderItem poi) {
+        for (CreditMemoItem cmItem : (List<CreditMemoItem>)this.getItems()) {
+            if(cmItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+                if(cmItem.getItemLineNumber().compareTo(poi.getItemLineNumber())==0) {
+                    return cmItem;
+                }
+            } else {
+                return (CreditMemoItem)SpringContext.getBean(PurapService.class).getBelowTheLineByType(this, poi.getItemType());
+            }
+        }
+        return null;
     }
 
 }

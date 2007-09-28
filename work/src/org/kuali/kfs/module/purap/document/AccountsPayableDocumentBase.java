@@ -27,7 +27,6 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -35,9 +34,10 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.module.purap.bo.AccountsPayableItem;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapService;
@@ -435,4 +435,17 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
     
     public abstract AccountsPayableDocumentSpecificService getDocumentSpecificService();
+
+    public AccountsPayableItem getAPItemFromPOItem(PurchaseOrderItem poi) {
+        for (AccountsPayableItem preqItem : (List<AccountsPayableItem>)this.getItems()) {
+            if(preqItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+                if(preqItem.getItemLineNumber().compareTo(poi.getItemLineNumber())==0) {
+                    return preqItem;
+                }
+            } else {
+                return (AccountsPayableItem)SpringContext.getBean(PurapService.class).getBelowTheLineByType(this, poi.getItemType());
+            }
+        }
+        return null;
+    }
 }

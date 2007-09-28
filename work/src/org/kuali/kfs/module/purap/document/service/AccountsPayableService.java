@@ -18,6 +18,7 @@ package org.kuali.module.purap.service;
 import java.util.HashMap;
 
 import org.kuali.module.purap.bo.PurApAccountingLineBase;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
 
@@ -72,4 +73,12 @@ public interface AccountsPayableService {
      * @param apDocument
      */
     public void updateItemList(AccountsPayableDocument apDocument);
+    
+    /**
+     * 
+     * This method returns true if item is eligible to be payed on
+     * @param poi
+     * @return
+     */
+    public boolean purchaseOrderItemEligibleForPayment(PurchaseOrderItem poi);
 }

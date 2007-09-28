@@ -111,7 +111,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
                         req.setContractManagerCode(detail.getContractManagerCode());
                         SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(req, PurapConstants.RequisitionStatuses.CLOSED);
                         SpringContext.getBean(RequisitionService.class).saveDocumentWithoutValidation(req);
-                        SpringContext.getBean(PurchaseOrderService.class).createPurchaseOrderDocument(req);
+                        SpringContext.getBean(PurchaseOrderService.class).createPurchaseOrderDocument(req, this.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
 
                     }
                     else {

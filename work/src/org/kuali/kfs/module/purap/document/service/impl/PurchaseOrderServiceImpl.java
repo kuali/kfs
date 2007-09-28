@@ -255,15 +255,30 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param reqDocument - RequisitionDocument that the PO is being created from
      * @return PurchaseOrderDocument
      */
-    public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument) {
+    public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument, String newSessionUserId) {
         try {
-            PurchaseOrderDocument poDocument = generatePurchaseOrderFromRequisition(reqDocument);
-            saveDocumentNoValidation(poDocument);
-            return poDocument;
+            LogicContainer logicToRun = new LogicContainer() {
+                public Object runLogic(Object[] objects) throws Exception {
+                    RequisitionDocument doc = (RequisitionDocument)objects[0];
+                    PurchaseOrderDocument po = generatePurchaseOrderFromRequisition(doc);
+                    saveDocumentNoValidation(po);
+                    return po;
+                }
+            };
+            return (PurchaseOrderDocument)purapService.performLogicWithFakedUserSession(newSessionUserId, logicToRun, new Object[]{reqDocument});
         }
         catch (WorkflowException e) {
-            LOG.error("Error creating PO document: " + e.getMessage(),e);
-            throw new RuntimeException("Error creating PO document: " + e.getMessage(),e);
+            String errorMsg = "Workflow Exception caught: " + e.getLocalizedMessage();
+            LOG.error(errorMsg, e);
+            throw new RuntimeException(errorMsg, e);
+        }
+        catch (UserNotFoundException e) {
+            String errorMsg = "User not found for PersonUserIdentifier '" + newSessionUserId + "'";
+            LOG.error(errorMsg, e);
+            throw new RuntimeException(errorMsg, e);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
     

@@ -36,7 +36,7 @@ public interface PurchaseOrderService {
 
     public void createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument);
 
-    public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument);
+    public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument, String newSessionUserId);
 
     public PurchaseOrderDocument createAndSavePotentialChangeDocument(String documentNumber, String docType, String newDocumentStatusCode);
 

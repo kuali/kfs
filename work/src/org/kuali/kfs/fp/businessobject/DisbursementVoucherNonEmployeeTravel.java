@@ -25,6 +25,7 @@ import java.util.List;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -797,7 +798,9 @@ public class DisbursementVoucherNonEmployeeTravel extends PersistableBusinessObj
         if (dvPrePaidEmployeeExpenses != null) {
             for (Iterator iter = dvPrePaidEmployeeExpenses.iterator(); iter.hasNext();) {
                 DisbursementVoucherNonEmployeeExpense element = (DisbursementVoucherNonEmployeeExpense) iter.next();
-                totalPrePaidAmount = totalPrePaidAmount.add(element.getDisbVchrExpenseAmount());
+                if (ObjectUtils.isNotNull(element.getDisbVchrExpenseAmount())) {
+                    totalPrePaidAmount = totalPrePaidAmount.add(element.getDisbVchrExpenseAmount());
+                }
             }
         }
 
@@ -814,7 +817,9 @@ public class DisbursementVoucherNonEmployeeTravel extends PersistableBusinessObj
         if (dvNonEmployeeExpenses != null) {
             for (Iterator iter = dvNonEmployeeExpenses.iterator(); iter.hasNext();) {
                 DisbursementVoucherNonEmployeeExpense element = (DisbursementVoucherNonEmployeeExpense) iter.next();
-                totalExpenseAmount = totalExpenseAmount.add(element.getDisbVchrExpenseAmount());
+                if (ObjectUtils.isNotNull(element.getDisbVchrExpenseAmount())) {
+                    totalExpenseAmount = totalExpenseAmount.add(element.getDisbVchrExpenseAmount());
+                }
             }
         }
         return totalExpenseAmount;

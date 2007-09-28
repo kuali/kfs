@@ -73,8 +73,10 @@ public class EncumbranceForwardStep extends AbstractStep {
         jobParameters.put(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR, varFiscalYear);
         jobParameters.put(GLConstants.ColumnNames.UNIV_DT, varTransactionDate);
         
+        yearEndService.logAllMissingPriorYearAccounts(varFiscalYear);
+        yearEndService.logAllMissingSubFundGroups(varFiscalYear);
+        
         OriginEntryGroup originEntryGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_ENCUMBRANCE_CLOSING, true, false, true);
-;
         Map<String, Integer> forwardEncumbranceCounts = new HashMap<String, Integer>();
         
         yearEndService.forwardEncumbrances(originEntryGroup, jobParameters, forwardEncumbranceCounts);

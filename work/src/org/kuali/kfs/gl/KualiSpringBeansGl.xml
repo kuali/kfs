@@ -563,6 +563,9 @@
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
+		<property name="yearEndDao">
+			<bean class="org.kuali.module.gl.dao.jdbc.YearEndDaoJdbc" parent="platformAwareDaoJdbc" />
+		</property>
 	</bean>
 
 	<bean id="glScrubberService" class="org.kuali.module.gl.service.impl.ScrubberServiceImpl">

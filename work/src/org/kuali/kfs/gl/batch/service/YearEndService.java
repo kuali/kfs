@@ -78,4 +78,16 @@ public interface YearEndService {
      * @param nominalClosingCounts
      */
     public void generateCloseNominalActivityReports(OriginEntryGroup nominalClosingOriginEntryGroup, Map nominalClosingJobParameters, Map<String, Integer> nominalClosingCounts);
+    
+    /**
+     * Logs all of the missing prior year accounts that balances and encumbrances processed by year end jobs would attempt to call on
+     * @param balanceFiscalYear the fiscal year to find balances encumbrances for
+     */
+    public void logAllMissingPriorYearAccounts(Integer fiscalYear);
+    
+    /**
+     * Logs all of the missing sub fund groups that balances and encumbrances processed by the year end job would attempt to call on
+     * @param balanceFiscalYear the fiscal year to find balances and encumbrances for
+     */
+    public void logAllMissingSubFundGroups(Integer fiscalYear);
 }

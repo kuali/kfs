@@ -420,4 +420,19 @@ public class BalanceServiceImpl implements BalanceService {
         }
         return encumbranceBaseBudgetBalanceTypeCodes;
     }
+
+    /**
+     * @see org.kuali.module.gl.service.BalanceService#countBalancesForFiscalYear(java.lang.Integer)
+     */
+    public int countBalancesForFiscalYear(Integer year) {
+        return balanceDao.countBalancesForFiscalYear(year);
+    }
+
+    /**
+     * @see org.kuali.module.gl.service.BalanceService#findNominalActivityBalancesForFiscalYear(java.lang.Integer)
+     */
+    public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year) {
+        return balanceDao.findNominalActivityBalancesForFiscalYear(year);
+    }
+    
 }

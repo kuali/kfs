@@ -34,8 +34,10 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.service.ObjectTypeService;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.SufficientFundBalances;
@@ -561,16 +563,12 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         Options currentYearOptions = optionsService.getCurrentYearOptions();
         
         // generate List of nominal activity object type codes
-        String[] objectTypeCodes = kualiConfigurationService.getParameterValues(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.GL_CLOSING_OF_NOMINAL_ACTIVITY_OBJECT_TYPE_CODE);
-        List<String> objectTypeCodeList = new ArrayList<String>();
-        for (String objectTypeCode: objectTypeCodes) {
-            objectTypeCodeList.add(objectTypeCode);
-        }
+        ObjectTypeService objectTypeService = SpringContext.getBean(ObjectTypeService.class);
 
         Criteria c = new Criteria();
         c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
-        c.addEqualTo(KFSPropertyConstants.BALANCE_TYP, currentYearOptions.getActualFinancialBalanceTypeCd());
-        c.addIn(KFSPropertyConstants.OBJECT_TYPE_CODE, objectTypeCodeList);
+        c.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE, currentYearOptions.getActualFinancialBalanceTypeCd());
+        c.addIn(KFSPropertyConstants.OBJECT_TYPE_CODE, objectTypeService.getNominalActivityClosingAllowedObjectTypes(year));
         c.addNotEqualTo("accountLineAnnualBalanceAmount", KualiDecimal.ZERO);
 
         QueryByCriteria query = QueryFactory.newQuery(Balance.class, c);

@@ -57,6 +57,9 @@ public class BalanceForwardStep extends AbstractStep {
         }
 
         Integer varFiscalYear = new Integer(kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
+        
+        yearEndService.logAllMissingPriorYearAccounts(varFiscalYear);
+        yearEndService.logAllMissingSubFundGroups(varFiscalYear);
 
         OriginEntryGroup balanceForwardsUnclosedPriorYearAccountGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_BEGINNING_BALANCE, true, false, true);
         OriginEntryGroup balanceForwardsClosedPriorYearAccountGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_BEGINNING_BALANCE_PRIOR_YEAR, true, false, true);

@@ -91,11 +91,10 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         super();
     }
 
-    //TODO uncomment once WorkflowXmlRequisitionDocument is filled in with fields
-//    @Override
-//    protected Document getDocumentRepresentationForSerialization() {
-//        return SpringContext.getBean(ConciseXmlDocumentConversionService.class).getDocumentForSerialization(this);
-//    }
+    @Override
+    protected Document getDocumentRepresentationForSerialization() {
+        return SpringContext.getBean(ConciseXmlDocumentConversionService.class).getDocumentForSerialization(this);
+    }
 
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#isBoNotesSupport()

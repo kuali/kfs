@@ -73,21 +73,9 @@
         </lookup>
 
         <attributes>
-
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
+			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+			   <label>Chart Of Accounts Code</label>
+			</attributeReference>
 
             <attribute name="detailPositionRequiredIndicator" forceUppercase="true">
                 <label>Detail Position Required Indicator</label>
@@ -103,22 +91,12 @@
                 <description>detailPositionRequiredIndicator description...</description>
 			</attribute>
 
-            <attribute name="financialObjectCode" forceUppercase="true">
+			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
                 <label>Financial Object Code</label>
                 <shortLabel>Code</shortLabel>
+            </attributeReference>
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>financialObjectCode</summary>
-                <description>financialObjectCode description...</description>
-			</attribute>
-
-            <attribute name="financialObjectFringeOrSalaryCode" forceUppercase="true">
+			<attribute name="financialObjectFringeOrSalaryCode" forceUppercase="true">
                 <label>Financial Object Fringe Or Salary Code</label>
                 <shortLabel>Code</shortLabel>
 
@@ -162,38 +140,9 @@
                 <description>financialObjectPayTypeCode description...</description>
 			</attribute>
 
-            <attribute name="positionObjectGroupCode" forceUppercase="true">
-                <label>Labor Position Object Group Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>positionObjectGroupCode</summary>
-                <description>positionObjectGroupCode description...</description>
-			</attribute>
-
-            <attribute name="universityFiscalYear" forceUppercase="true">
-                <label>University Fiscal Year</label>
-                <shortLabel>Year</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>universityFiscalYear</summary>
-                <description>universityFiscalYear description...</description>
-			</attribute>
-            
+            <attributeReference name="positionObjectGroupCode" sourceClassName="org.kuali.module.labor.bo.PositionObjectGroup" sourceAttributeName="positionObjectGroupCode"/>			
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>									
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
         </attributes>
     </businessObject>
 </dictionaryEntry>

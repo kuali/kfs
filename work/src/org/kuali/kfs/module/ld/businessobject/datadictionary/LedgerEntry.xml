@@ -217,21 +217,8 @@
                 <description>earnCode description...</description>
 			</attribute>
 
-            <attribute name="emplid" forceUppercase="true">
-                <label>Empl ID</label>
-                <shortLabel>Emplid</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>emplid</summary>
-                <description>emplid description...</description>
-			</attribute>
-
+            <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
+						
             <attribute name="employeeRecord" forceUppercase="true">
                 <label>Employee Record</label>
                 <shortLabel>Record</shortLabel>
@@ -277,21 +264,8 @@
                 <description>financialDocumentReversalDate description...</description>
 			</attribute>
 
-            <attribute name="financialDocumentTypeCode" forceUppercase="true">
-                <label>Document Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>financialDocumentTypeCode</summary>
-                <description>financialDocumentTypeCode description...</description>
-			</attribute>
-
+			<attributeReference name="financialDocumentTypeCode" sourceClassName="org.kuali.core.bo.DocumentType" sourceAttributeName="financialDocumentTypeCode"/>
+			
             <attribute name="financialSystemOriginationCode" forceUppercase="false">
                 <label>Origin Code</label>
                 <shortLabel>Origin Code</shortLabel>
@@ -498,20 +472,7 @@
                 <description>payrollEndDateFiscalYear description...</description>
 			</attribute>
 
-            <attribute name="positionNumber" forceUppercase="true">
-                <label>Position Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>positionNumber</summary>
-                <description>positionNumber description...</description>
-			</attribute>
+            <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber" />
 
             <attribute name="projectCode" forceUppercase="true">
                 <label>Project Code</label>

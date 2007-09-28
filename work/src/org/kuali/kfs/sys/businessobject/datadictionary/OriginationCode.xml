@@ -90,7 +90,7 @@
 
             <attribute name="financialSystemOriginationCode" forceUppercase="true">
                 <label>Origination Code</label>
-                <shortLabel>Orig Code</shortLabel>
+                <shortLabel>Origin Code</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern>

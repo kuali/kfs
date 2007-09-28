@@ -157,7 +157,8 @@
             </attributeReference>
 
 
-            <attribute name="positionNumber" forceUppercase="true">
+            <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber"/>
+            <!--attribute name="positionNumber" forceUppercase="true">
                 <label>Position Number</label>
                 <shortLabel>Number</shortLabel>
 
@@ -170,13 +171,17 @@
 
                 <summary>positionNumber</summary>
                 <description>positionNumber description...</description>
-			</attribute>
+			</attribute-->
 
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.kfs.bo.Options" sourceAttributeName="universityFiscalYear">
+                <shortLabel>Fiscal Year</shortLabel>
+            </attributeReference>
+
+            <!--attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <label>Fiscal Year</label>
                 <shortLabel>Fiscal Year</shortLabel>
                 <description>Identifies the Fiscal Year to which the balances apply.</description>
-            </attributeReference>
+            </attributeReference-->
 
             <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" />          
 

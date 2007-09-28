@@ -76,7 +76,7 @@
         </lookup>
 
         <attributes>
-            <attribute name="positionNumber" forceUppercase="true">
+            <!--attribute name="positionNumber" forceUppercase="true">
                 <label>Position</label>
                 <shortLabel>Number</shortLabel>
 
@@ -89,8 +89,10 @@
 
                 <summary>positionNumber</summary>
                 <description>positionNumber description...</description>
-			</attribute>
+			</attribute-->
 
+            <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber"/>
+			
             <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <label>Fiscal Year</label>
                 <shortLabel>Fiscal Year</shortLabel>

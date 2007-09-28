@@ -101,7 +101,7 @@ public class BudgetOverviewFormHelper {
      */
     public BudgetOverviewFormHelper() {
         KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-        this.TO_BE_NAMED = kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.TO_BE_NAMED_LABEL);
+        this.TO_BE_NAMED = kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, KraConstants.TO_BE_NAMED_LABEL);
         this.HOURLY_APPOINTMENTS = kualiConfigurationService.getParameterValuesAsList(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.KRA_BUDGET_PERSONNEL_HOURLY_APPOINTMENT_TYPES);
         this.GRADUATE_RA_APPOINTMENTS = kualiConfigurationService.getParameterValuesAsList(KFSConstants.KRA_NAMESPACE,  KraConstants.Components.BUDGET, KraConstants.KRA_BUDGET_PERSONNEL_GRADUATE_RESEARCH_ASSISTANT_APPOINTMENT_TYPES);
         this.FULL_YEAR_APPOINTMENTS = kualiConfigurationService.getParameterValuesAsList(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.KRA_BUDGET_PERSONNEL_FULL_YEAR_APPOINTMENT_TYPES);

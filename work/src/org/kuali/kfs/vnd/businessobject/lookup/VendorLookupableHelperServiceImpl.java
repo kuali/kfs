@@ -256,7 +256,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         String vendorName = (String) fieldValues.get(VendorPropertyConstants.VENDOR_NAME);
         if (StringUtils.isNotBlank(vendorName)) {
             if (ObjectUtils.isNull(VNDR_LOOKUP_MIN_NAME_LENGTH)) {
-                VNDR_LOOKUP_MIN_NAME_LENGTH = kualiConfigurationService.getParameterValue(KFSConstants.VENDOR_NAMESPACE, KFSConstants.Components.LOOKUP,
+                VNDR_LOOKUP_MIN_NAME_LENGTH = kualiConfigurationService.getParameterValue(KFSConstants.VENDOR_NAMESPACE, VendorConstants.Components.VENDOR,
                         VendorRuleConstants.PURAP_VNDR_LOOKUP_MIN_NAME_LENGTH);
             }
             if (vendorName.length() < Integer.parseInt(VNDR_LOOKUP_MIN_NAME_LENGTH)) {

@@ -143,7 +143,7 @@
             </attributeReference>
             
             <attribute name="paymentRequestCostSourceCode" forceUppercase="true">
-                <label>Payment Request Cost Source Code</label>
+                <label>Payment Request Cost Source</label>
                 <shortLabel>PaymentRequestCostSourceCode</shortLabel>
 
                 <maxLength>5</maxLength>

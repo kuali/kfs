@@ -194,8 +194,6 @@ public class GLConstants {
         static final public String CAPITALIZATION_SUB_FUND_GROUP_CODES = "CAPITALIZATION_SUB_FUND_GROUPS";
         static final public String CAPITALIZATION_CHART_CODES = "CAPITALIZATION_CHARTS";
 
-        static final public String CAP_LIAB_PLANT_DOC_TYPE_CODES = "CAP_LIAB_PLANT_DOC_TYPE_CODES";
-
         static final public String COST_SHARE_BAL_TYP_CODES = "COST_SHARE_BAL_TYP_CODES";
         static final public String COST_SHARE_OBJ_TYPE_CODES = "COST_SHARE_OBJ_TYPE_CODES";
         static final public String COST_SHARE_FISCAL_PERIOD_CODES = "COST_SHARE_FISCAL_PERIOD_CODES";

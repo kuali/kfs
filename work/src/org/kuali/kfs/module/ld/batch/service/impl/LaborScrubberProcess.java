@@ -415,7 +415,7 @@ public class LaborScrubberProcess {
                     }
                 }
 
-                Parameter otherDocTypeCodes = getParameter(GLConstants.GlScrubberGroupRules.CAP_LIAB_PLANT_DOC_TYPE_CODES);
+                Parameter otherDocTypeCodes = getParameter(GLConstants.GlScrubberGroupRules.OFFSET_DOC_TYPE_CODES);
 
                 // TODO: Check
                 /*

@@ -697,7 +697,7 @@ public class ScrubberProcess {
                         }
                     }
     
-                    Parameter otherDocTypeCodes = getParameter(GLConstants.GlScrubberGroupRules.CAP_LIAB_PLANT_DOC_TYPE_CODES);
+                    Parameter otherDocTypeCodes = getParameter(GLConstants.GlScrubberGroupRules.OFFSET_DOC_TYPE_CODES);
     
                     if (kualiConfigurationService.succeedsRule( otherDocTypeCodes,scrubbedEntry.getFinancialDocumentTypeCode())) {
                         String m = processCapitalization(scrubbedEntry);

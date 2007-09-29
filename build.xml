@@ -354,7 +354,7 @@
 				<globmapper from="*.jar" to="*.zip" />
 			</chainedmapper>
 		</copy>
-		<!--<property name="${workflow.application}.workflow.environment" value="${build.environment}" />
+		<property name="${workflow.application}.workflow.environment" value="${build.environment}" />
 		<property name="${workflow.application}.tomcat5.home" value="${appserver.home}" />
 		<property name="${workflow.application}.plugin.dir" value="${basedir}" />
 		<property name="${workflow.application}.institution" value="${ant.project.name}" />
@@ -371,7 +371,7 @@
 		<ant dir="${workflow.project.directory}" target="javadoc" inheritall="false">
 			<propertyset refid="${workflow.application}-properties" />
 		</ant>
-		<zip destfile="${dependencies.project.directory}/${rice.name}-${workflow.name}-${workflow.version}-doc.zip" basedir="${workflow.project.directory}/dist/api" />-->
+		<zip destfile="${dependencies.project.directory}/${rice.name}-${workflow.name}-${workflow.version}-doc.zip" basedir="${workflow.project.directory}/dist/api" />
 	</target>
 
 	<target name="update-rice-licenses" depends="init-property-files">

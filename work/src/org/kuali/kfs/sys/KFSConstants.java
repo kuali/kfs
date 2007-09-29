@@ -416,8 +416,8 @@ public class KFSConstants extends JstlConstants {
     public static final String CHECKBOX_PRESENT_ON_FORM_ANNOTATION = "{CheckboxPresentOnFormAnnotation}";
 
     public static class OrgReversion {
-        public static final String VALID_PREFIX = "EXTENDED_DEFINITIONS-VALID_";
-        public static final String INVALID_PREFIX = "EXTENDED_DEFINITIONS-INVALID_";
+        public static final String VALID_PREFIX = "EXTENDED_DEFINITIONS_INCLUDE_";
+        public static final String INVALID_PREFIX = "EXTENDED_DEFINITIONS_EXCLUDE_";
         public static final String OBJECT_CONSOL_PARAM_SUFFIX = "OBJECT_CONSOLIDATIONS_BY_ORGANIZATION_REVERSION_CATEGORY";
         public static final String OBJECT_LEVEL_PARAM_SUFFIX = "OBJECT_LEVELS_BY_ORGANIZATION_REVERSION_CATEGORY";
         public static final String OBJECT_TYPE_PARAM_SUFFIX = "OBJECT_TYPES_BY_ORGANIZATION_REVERSION_CATEGORY";

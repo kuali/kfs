@@ -116,7 +116,7 @@ public class OrganizationReversionProcess {
         KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         this.ORGANIZATION_REVERSION_COA = kualiConfigurationService.getParameterValues(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ORGANIZATION_REVERSION, GLConstants.OrganizationReversionProcess.ORGANIZATION_REVERSION_COA);
         this.CARRY_FORWARD_OBJECT_CODE = kualiConfigurationService.getParameterValue(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ORGANIZATION_REVERSION, GLConstants.OrganizationReversionProcess.CARRY_FORWARD_OBJECT_CODE);
-        this.DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE = kualiConfigurationService.getParameterValue(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ORGANIZATION_REVERSION, GLConstants.OrganizationReversionProcess.DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE);
+        this.DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE = kualiConfigurationService.getParameterValue(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_DOCUMENT_TYPE);
         this.DEFAULT_FINANCIAL_SYSTEM_ORIGINATION_CODE = kualiConfigurationService.getParameterValue(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ORGANIZATION_REVERSION, GLConstants.OrganizationReversionProcess.DEFAULT_FINANCIAL_SYSTEM_ORIGINATION_CODE);
         this.DEFAULT_FINANCIAL_BALANCE_TYPE_CODE = kualiConfigurationService.getParameterValue(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ORGANIZATION_REVERSION, GLConstants.OrganizationReversionProcess.DEFAULT_FINANCIAL_BALANCE_TYPE_CODE);
         this.DEFAULT_FINANCIAL_BALANCE_TYPE_CODE_YEAR_END = kualiConfigurationService.getParameterValue(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ORGANIZATION_REVERSION, GLConstants.OrganizationReversionProcess.DEFAULT_FINANCIAL_BALANCE_TYPE_CODE_YEAR_END);
@@ -837,8 +837,8 @@ public class OrganizationReversionProcess {
     private void setParameters() {
         // Get job parameters
         String strTransactionDate = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM);
-        paramUnallocObjectCode = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.ORGNIAZATION_REVERSION_CLOSING_STEP, GLConstants.ANNUAL_CLOSING_UNALLOC_OBJECT_CODE_PARM);
-        paramBegBudgetCashObjectCode = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_BEGIN_BUDGET_CASH_OBJECT_CODE_PARM);
+        paramUnallocObjectCode = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.ORGANIZATION_REVERSION, GLConstants.OrganizationReversionProcess.UNALLOC_OBJECT_CODE_PARM);
+        paramBegBudgetCashObjectCode = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.ORGANIZATION_REVERSION, GLConstants.OrganizationReversionProcess.CARRY_FORWARD_OBJECT_CODE);
         paramFundBalanceObjectCode = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_CODE_PARM);
         String strUniversityFiscalYear = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM);
 

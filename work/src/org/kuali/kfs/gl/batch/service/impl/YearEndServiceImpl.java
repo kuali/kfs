@@ -116,8 +116,8 @@ public class YearEndServiceImpl implements YearEndService {
 
         varNetExpenseObjectCode = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.NOMINAL_ACTIVITY_CLOSING_STEP, "NET_EXPENSE_OBJECT_CODE");
         varNetRevenueObjectCode = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.NOMINAL_ACTIVITY_CLOSING_STEP, "NET_REVENUE_OBJECT_CODE");
-        varFundBalanceObjectCode = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, "ANNUAL_CLOSING_FUND_BALANCE_OBJECT_CODE");
-        varFundBalanceObjectTypeCode = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, "ANNUAL_CLOSING_FUND_BALANCE_OBJECT_TYPE");
+        varFundBalanceObjectCode = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_CODE_PARM);
+        varFundBalanceObjectTypeCode = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_TYPE_PARM);
 
         nominalClosingJobParameters.put(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR, varFiscalYear);
         nominalClosingJobParameters.put(GLConstants.ColumnNames.NET_EXP_OBJECT_CD, varNetExpenseObjectCode);

@@ -110,7 +110,7 @@ public class LaborConstants {
 
     public static class SalaryExpenseTransfer {
         public static final String LABOR_LEDGER_SALARY_CODE = "S";
-        public static final String SET_ADMIN_WORKGROUP_PARM_NM = "SET_GROUP";
+        public static final String SET_ADMIN_WORKGROUP_PARM_NM = "SALARY_EXPENSE_TRANSFER_ADMINISTRATORS_GROUP";
         public static final String BENEFIT_CLEARING_CHART_PARM_NM = "BENEFIT_CLEARING_CHART_OF_ACCOUNTS";
         public static final String BENEFIT_CLEARING_ACCOUNT_PARM_NM = "BENEFIT_CLEARING_ACCOUNT_NUMBER";
     }
@@ -173,7 +173,6 @@ public class LaborConstants {
     public static class YearEnd {
         public static final String FUND_GROUP_PROCESSED = "FUND_GROUPS";
         public static final String SUB_FUND_GROUP_PROCESSED = "SUB_FUND_GROUPS";
-        public static final String DOCUMENT_TYPE_CODE = "ANNUAL_CLOSING_DOCUMENT_TYPE";
         public static final String ORIGINATION_CODE = "ORIGINATION";
         public static final String OLD_FISCAL_YEAR = "FISCAL_YEAR_SELECTION";
     }

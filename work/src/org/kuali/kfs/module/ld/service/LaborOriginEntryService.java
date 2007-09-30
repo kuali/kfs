@@ -30,7 +30,7 @@ import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LaborTransaction;
 
 /**
- * This interface provides its clients with access to labor origin entries in the backend data store.  
+ * This interface provides its clients with access to labor origin entries in the backend data store.
  */
 public interface LaborOriginEntryService {
 
@@ -42,9 +42,13 @@ public interface LaborOriginEntryService {
     /**
      * Copy a set of entries into a new group
      */
-    public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid,boolean process,boolean scrub,Collection<LaborOriginEntry> entries);
-    
+    public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid, boolean process, boolean scrub, Collection<LaborOriginEntry> entries);
+
+    /**
+     * Copy a set of entries into a new group
+     */
     public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid, boolean process, boolean scrub, Iterator<LaborOriginEntry> entries);
+
     /**
      * Delete entry
      * 
@@ -75,7 +79,7 @@ public interface LaborOriginEntryService {
      * @return
      */
     public Iterator<LaborOriginEntry> getEntriesByGroupReportOrder(OriginEntryGroup oeg);
-    
+
     /**
      * Return all entries for a group sorted across the columns in report from left to right.
      * 
@@ -112,7 +116,7 @@ public interface LaborOriginEntryService {
     public void createEntry(LaborTransaction laborTran, OriginEntryGroup group);
 
     /**
-     * Save an origin entry
+     * Save an laborOrigin entry
      * 
      * @param entry
      */
@@ -145,13 +149,24 @@ public interface LaborOriginEntryService {
      */
     public void flatFile(Integer groupId, BufferedOutputStream bw);
 
+    /**
+     * Return all entries by searchCriteria
+     * 
+     * @param searchCriteria
+     */
     public Collection getMatchingEntriesByCollection(Map searchCriteria);
 
+    /**
+     * Return a matched entry with entryId
+     * 
+     * @param entryId
+     */
     public LaborOriginEntry getExactMatchingEntry(Integer entryId);
 
 
     /**
      * Get origin entries that belong to the given group
+     * 
      * @param group the given origin entry group
      * @return origin entries that belong to the given group
      */
@@ -159,6 +174,7 @@ public interface LaborOriginEntryService {
 
     /**
      * Get origin entries that belong to the given groups
+     * 
      * @param groups the given origin entry groups
      * @return origin entries that belong to the given groups
      */
@@ -166,44 +182,54 @@ public interface LaborOriginEntryService {
 
     /**
      * Get the origin entries that belong to the given group in either the consolidation manner or not
+     * 
      * @param group the given group
      * @param isConsolidated the flag that indicates if return origin entries in either the consolidation manner or not
      * @return the origin entries that belong to the given group in either the consolidation manner or not
      */
-    public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group, boolean isConsolidated);  
-    
+    public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group, boolean isConsolidated);
+
     /**
      * Get the origin entries that belong to the given group in either the consolidation manner or not
+     * 
      * @param group the given group
      * @param isConsolidated the flag that indicates if return origin entries in either the consolidation manner or not
      * @return the origin entries that belong to the given group in either the consolidation manner or not
      */
-    public Collection<LaborOriginEntry> getConsolidatedEntryCollectionByGroup(OriginEntryGroup group); 
-    
+    public Collection<LaborOriginEntry> getConsolidatedEntryCollectionByGroup(OriginEntryGroup group);
+
     /**
      * get the summarized information of the entries that belong to the given entry groups
+     * 
      * @param groups the origin entry groups
      * @return a set of summarized information of the entries within the specified groups
      */
     public LedgerEntryHolder getSummariedEntriesByGroups(Collection<OriginEntryGroup> groups);
-    
+
     /**
-     * get the summarized information of poster input entries that belong to the given entry groups 
+     * get the summarized information of poster input entries that belong to the given entry groups
+     * 
      * @param groups the origin entry groups
      * @return a map of summarized information of poster input entries within the specified groups
-     */    
-    public Map<String,PosterOutputSummaryEntry> getPosterOutputSummaryByGroups(Collection<OriginEntryGroup> groups);
-    
+     */
+    public Map<String, PosterOutputSummaryEntry> getPosterOutputSummaryByGroups(Collection<OriginEntryGroup> groups);
+
     /**
-     * get the count of the origin entry collection in the given groups 
+     * get the count of the origin entry collection in the given groups
+     * 
      * @param groups the given groups
      * @return the count of the origin entry collection in the given group
      */
     public int getCountOfEntriesInGroups(Collection<OriginEntryGroup> groups);
-    
+
+    /**
+     * get all entries with groupId
+     * 
+     * @param groupId
+     */
     public List<LaborOriginEntry> getEntriesByGroupId(Integer groupId);
-    
-    
+
+
     /**
      * get the summarized information of the entries that belong to the entry groups with the given group id list
      * 
@@ -214,9 +240,10 @@ public interface LaborOriginEntryService {
 
     /**
      * get the count of the origin entry collection in the given group
+     * 
      * @param group the given group
      * @return the count of the origin entry collection in the given group
      */
     public int getCountOfEntriesInSingleGroup(OriginEntryGroup group);
-    
+
 }

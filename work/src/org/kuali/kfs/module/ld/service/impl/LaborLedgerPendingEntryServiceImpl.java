@@ -38,7 +38,7 @@ import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * The LaborLedgerPendingEntryServiceImpl class is a service that supplies Pending Ledger related methods.
+ * Service implementation of LaborLedgerPendingEntryService.
  */
 @Transactional
 public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEntryService {

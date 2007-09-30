@@ -31,9 +31,7 @@ import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;
 
 /**
- * This interface defines basic methods that GeneralLedgerPendingEntry Dao's must provide
- * 
- * @see org.kuali.module.labor.bo.LaborLedgerPendingEntry
+ * OJB Implementation of LaborLedgerPendingEntryDao.
  */
 public class LaborLedgerPendingEntryDaoOjb extends GeneralLedgerPendingEntryDaoOjb implements LaborLedgerPendingEntryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerPendingEntryDaoOjb.class);

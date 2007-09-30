@@ -49,7 +49,7 @@ import org.kuali.module.labor.util.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Defines methods that must be implemented by classes providing a LaborOriginEntryService.
+ * Service implementation of LaborOriginEntryService.
  */
 @Transactional
 public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
@@ -251,8 +251,8 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborOriginEntryService#loadFlatFile(java.lang.String, java.lang.String, boolean, boolean,
-     *      boolean)
+     * @see org.kuali.module.labor.service.LaborOriginEntryService#loadFlatFile(java.lang.String, java.lang.String, boolean,
+     *      boolean, boolean)
      */
     public void loadFlatFile(String filename, String groupSourceCode, boolean isValid, boolean isProcessed, boolean isScrub) {
         LOG.debug("loadFlatFile() started");

@@ -24,18 +24,14 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
-import org.kuali.module.gl.util.OriginEntryFileIterator;
-
 import org.kuali.module.gl.exception.LoadException;
-
 import org.kuali.module.labor.bo.LaborOriginEntry;
 
 /**
- * This class lazy loads the origin entries in a flat file.  This implementation uses a
- * limited amount of memory because it does not pre-load all of the origin entries at once.
- * (Assuming that the Java garbage collector is working well).  However, if the code that
- * uses this iterator stores the contents of this iterator in a big list somewhere, then
- * a lot of memory may be consumed, depending on the size of the file.
+ * This class lazy loads the origin entries in a flat file. This implementation uses a limited amount of memory because it does not
+ * pre-load all of the origin entries at once. (Assuming that the Java garbage collector is working well). However, if the code that
+ * uses this iterator stores the contents of this iterator in a big list somewhere, then a lot of memory may be consumed, depending
+ * on the size of the file.
  */
 public class LaborOriginEntryFileIterator implements Iterator<LaborOriginEntry> {
     private static Logger LOG = Logger.getLogger(LaborOriginEntryFileIterator.class);
@@ -44,25 +40,27 @@ public class LaborOriginEntryFileIterator implements Iterator<LaborOriginEntry> 
     protected BufferedReader reader;
     protected int lineNumber;
     protected boolean autoCloseReader;
-    
+
     /**
      * Constructs a LaborOriginEntryFileIterator
+     * 
      * @param reader a reader representing flat-file origin entries
-     * @param autoCloseReader whether to automatically close the reader when the end of origin entries
-     * has been reached (i.e. when hasNext() returns false)
+     * @param autoCloseReader whether to automatically close the reader when the end of origin entries has been reached (i.e. when
+     *        hasNext() returns false)
      */
     public LaborOriginEntryFileIterator(BufferedReader reader) {
         this(reader, true);
     }
-    
+
     /**
      * Constructs a LaborOriginEntryFileIterator
+     * 
      * @param reader a reader representing flat-file origin entries
-     * @param autoCloseReader whether to automatically close the reader when the end of origin entries
-     * has been reached (i.e. when hasNext() returns false)
+     * @param autoCloseReader whether to automatically close the reader when the end of origin entries has been reached (i.e. when
+     *        hasNext() returns false)
      */
     public LaborOriginEntryFileIterator(BufferedReader reader, boolean autoCloseReader) {
-        
+
         if (reader == null) {
             LOG.error("reader is null in the LaborOriginEntryFileIterator!");
             throw new IllegalArgumentException("reader is null!");
@@ -72,12 +70,10 @@ public class LaborOriginEntryFileIterator implements Iterator<LaborOriginEntry> 
         lineNumber = 0;
         this.autoCloseReader = autoCloseReader;
     }
-    
+
     /**
-     * Constructs a LaborOriginEntryFileIterator
-     * 
-     * When constructed with this method, the file handle will be automatically closed when the end of origin entries
-     * has been reached (i.e. when hasNext() returns false)
+     * Constructs a LaborOriginEntryFileIterator When constructed with this method, the file handle will be automatically closed
+     * when the end of origin entries has been reached (i.e. when hasNext() returns false)
      * 
      * @param file the file
      */
@@ -97,7 +93,7 @@ public class LaborOriginEntryFileIterator implements Iterator<LaborOriginEntry> 
             throw new RuntimeException("File not found for LaborOriginEntryFileIterator! " + file.getAbsolutePath());
         }
     }
-    
+
     /**
      * @see java.util.Iterator#hasNext()
      */
@@ -123,13 +119,13 @@ public class LaborOriginEntryFileIterator implements Iterator<LaborOriginEntry> 
             return temp;
         }
         else {
-            // maybe next() is called repeatedly w/o calling hasNext.  This is a bad idea, but the
+            // maybe next() is called repeatedly w/o calling hasNext. This is a bad idea, but the
             // interface allows it
             fetchNextEntry();
             if (nextEntry == null) {
                 throw new NoSuchElementException();
             }
-            
+
             // clear out the nextEntry to signal that no record has been loaded
             LaborOriginEntry temp = nextEntry;
             nextEntry = null;
@@ -143,7 +139,7 @@ public class LaborOriginEntryFileIterator implements Iterator<LaborOriginEntry> 
     public void remove() {
         throw new UnsupportedOperationException("Cannot remove entry from collection");
     }
-    
+
     protected void fetchNextEntry() {
         try {
             lineNumber++;
@@ -162,7 +158,7 @@ public class LaborOriginEntryFileIterator implements Iterator<LaborOriginEntry> 
                 catch (LoadException e) {
                     // wipe out the next entry so that the next call to hasNext or next will force a new row to be fetched
                     nextEntry = null;
-                    
+
                     // if there's an LoadException, then we'll just let it propagate up the call stack
                     throw e;
                 }

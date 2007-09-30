@@ -55,7 +55,7 @@ public interface LaborOriginEntryDao extends OriginEntryDao {
     int getCountOfEntriesInGroups(Collection<OriginEntryGroup> groups);
 
     /**
-     * This method should only be used in unit tests. It loads all the gl_origin_entry_t rows in memory into a collection. This
+     * This method should only be used in unit tests. It loads all the ld_lbr_origin_entry_t rows in memory into a collection. This
      * won't scale for production.
      * 
      * @return a set of labor origin entries
@@ -71,7 +71,10 @@ public interface LaborOriginEntryDao extends OriginEntryDao {
     Iterator<LaborOriginEntry> getLaborEntriesByGroup(OriginEntryGroup oeg, int sort);
     
     /**
-     * @see org.kuali.module.gl.dao.OriginEntryDao#getMatchingEntriesByCollection(java.util.Map)
+     * Collection of entries that match criteria
+     * 
+     * @param searchCriteria Map of field, value pairs
+     * @return collection of entries
      */
     Collection getMatchingEntriesByCollection(Map searchCriteria); 
 }

@@ -34,16 +34,16 @@ import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 
 // @latex.ClassSignatureStart
 /**
- * Labor Distribution implementation of the <code>{@link org.kuali.module.financial.document.JournalVoucherDocument}</code>
+ * Document class for the Labor Ledger Journal Voucher.
  */
 public class LaborJournalVoucherDocument extends JournalVoucherDocument implements LaborLedgerPostingDocument, AmountTotaling {
-// @latex.ClassSignatureStop
+    // @latex.ClassSignatureStop
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborJournalVoucherDocument.class);
 
     private String offsetTypeCode = JournalVoucherOffsetType.NO_OFFSET.typeCode;
-    private List<LaborLedgerPendingEntry> laborLedgerPendingEntries;   
+    private List<LaborLedgerPendingEntry> laborLedgerPendingEntries;
     private DocumentType documentType;
-       
+
     /**
      * Constructs a LaborJournalVoucherDocument.java.
      */
@@ -56,7 +56,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
      * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
      */
     @Override
-    public Class getSourceAccountingLineClass() { 
+    public Class getSourceAccountingLineClass() {
         return LaborJournalVoucherDetail.class;
     }
 
@@ -81,7 +81,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
             throw new ValidationException("labor ledger LLPE generation failed");
         }
     }
-    
+
     /**
      * Gets the offsetTypeCode attribute.
      * 
@@ -119,7 +119,8 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     }
 
     /**
-     * Gets the documentType attribute. 
+     * Gets the documentType attribute.
+     * 
      * @return Returns the documentType.
      */
     public DocumentType getDocumentType() {
@@ -128,12 +129,13 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
 
     /**
      * Sets the documentType attribute value.
+     * 
      * @param documentType The documentType to set.
      */
     public void setDocumentType(DocumentType documentType) {
         this.documentType = documentType;
     }
-    
+
     /**
      * Used to get the appropriate <code>{@link AccountingLineParser}</code> for the <code>Document</code>
      * 
@@ -143,7 +145,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     public AccountingLineParser getAccountingLineParser() {
         return new LaborJournalVoucherAccountingLineParser(getBalanceTypeCode());
     }
-    
+
     /**
      * Override to call super and then iterate over all GLPEs and update the approved code appropriately.
      * 
@@ -154,7 +156,8 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
         super.handleRouteStatusChange();
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             changeLedgerPendingEntriesApprovedStatusCode();
-        } else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled() || getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+        }
+        else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled() || getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
             removeLedgerPendingEntries();
         }
     }
@@ -167,7 +170,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
             pendingEntry.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
         }
     }
-    
+
     /**
      * This method calls the service to remove all of the pending entries associated with this document
      */

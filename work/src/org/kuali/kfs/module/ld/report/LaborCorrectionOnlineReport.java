@@ -38,10 +38,21 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
+
+/**
+ * Online Report for Labor Ledger Correction Process.
+ */
 public class LaborCorrectionOnlineReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCorrectionOnlineReport.class);
     public static final String DATE_FORMAT_STRING = "yyyyMMdd_HHmmss";
 
+    /**
+     * Generate report
+     * 
+     * @param laborCorrectionDocument
+     * @param reportsDirectory
+     * @return runDate
+     */
     public void generateReport(LaborCorrectionDocument cDocument, String reportsDirectory, Date runDate) {
         LOG.debug("correctionOnlineReport() started");
 

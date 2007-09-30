@@ -36,14 +36,12 @@ import org.kuali.module.gl.exception.LoadException;
 import org.kuali.module.labor.LaborConstants;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * LaborOriginEntry Business Object.
  */
 public class LaborOriginEntry extends OriginEntryFull implements LaborTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntry.class);
     private static String SPACES = "                                                                                                              ";
     private static final String DATE_FORMAT = "yyyy-MM-dd";
-
-
     private String positionNumber;
     private Date transactionPostingDate;
     private Date payPeriodEndDate;
@@ -60,7 +58,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     private String salaryAdministrationPlan;
     private String grade;
     private String runIdentifier;
-
     private String laborLedgerOriginalChartOfAccountsCode;
     private String laborLedgerOriginalAccountNumber;
     private String laborLedgerOriginalSubAccountNumber;
@@ -69,7 +66,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     private String hrmsCompany;
     private String setid;
     private Date transactionDateTimeStamp;
-
     private DocumentHeader financialDocument;
     private DocumentType referenceFinancialDocumentType;
     private OriginationCode referenceFinancialSystemOrigination;
@@ -77,24 +73,39 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
 
 
     /**
-     * Default constructor.
+     * Constructor with generalLedgerPendingEntry
+     * 
+     * @param glpe
      */
     public LaborOriginEntry(GeneralLedgerPendingEntry glpe) {
         super();
     }
 
+    /**
+     * Constructor with financialDocumentTypeCode and financialSystemOriginationCode.
+     * 
+     * @param financialDocumentTypeCode
+     * @param financialSystemOriginationCode
+     */
     public LaborOriginEntry(String financialDocumentTypeCode, String financialSystemOriginationCode) {
         super(financialDocumentTypeCode, financialSystemOriginationCode);
     }
 
+    /**
+     * Default constructor.
+     */
     public LaborOriginEntry() {
         this(null, null);
     }
 
+    /**
+     * Constructor with laborTransaction
+     * 
+     * @param t
+     */
     public LaborOriginEntry(LaborTransaction t) {
         this();
         copyFieldsFromTransaction(t);
-
         setPositionNumber(t.getPositionNumber());
         setTransactionPostingDate(t.getTransactionPostingDate());
         setPayPeriodEndDate(t.getPayPeriodEndDate());
@@ -118,15 +129,17 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         setLaborLedgerOriginalFinancialSubObjectCode(t.getLaborLedgerOriginalFinancialSubObjectCode());
         setHrmsCompany(getHrmsCompany());
         setSetid(t.getSetid());
-        // public Date transactionDateTimeStamp;
-
         setFinancialDocument(t.getFinancialDocument());
         setReferenceFinancialDocumentType(t.getReferenceFinancialDocumentType());
         setReferenceFinancialSystemOrigination(t.getReferenceFinancialSystemOrigination());
         setPayrollEndDateFiscalPeriod(t.getPayrollEndDateFiscalPeriod());
-
     }
 
+    /**
+     * Constructor with string line
+     * 
+     * @param line
+     */
     public LaborOriginEntry(String line) {
         try {
             setFromTextFile(line, 0);
@@ -134,7 +147,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         catch (LoadException e) {
             LOG.error("OriginEntryFull() Error loading line", e);
         }
-
     }
 
     /**
@@ -155,13 +167,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         this.positionNumber = positionNumber;
     }
 
-
-    /**
-     * Gets the projectCode attribute.
-     * 
-     * @return Returns the projectCode
-     */
-
     /**
      * Gets the transactionPostingDate attribute.
      * 
@@ -179,7 +184,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     public void setTransactionPostingDate(Date transactionPostingDate) {
         this.transactionPostingDate = transactionPostingDate;
     }
-
 
     /**
      * Gets the payPeriodEndDate attribute.
@@ -199,7 +203,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         this.payPeriodEndDate = payPeriodEndDate;
     }
 
-
     /**
      * Gets the transactionTotalHours attribute.
      * 
@@ -217,7 +220,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     public void setTransactionTotalHours(BigDecimal transactionTotalHours) {
         this.transactionTotalHours = transactionTotalHours;
     }
-
 
     /**
      * Gets the payrollEndDateFiscalYear attribute.
@@ -237,7 +239,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         this.payrollEndDateFiscalYear = payrollEndDateFiscalYear;
     }
 
-
     /**
      * Gets the payrollEndDateFiscalPeriodCode attribute.
      * 
@@ -255,7 +256,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     public void setPayrollEndDateFiscalPeriodCode(String payrollEndDateFiscalPeriodCode) {
         this.payrollEndDateFiscalPeriodCode = payrollEndDateFiscalPeriodCode;
     }
-
 
     /**
      * Gets the financialDocumentApprovedCode attribute.
@@ -275,7 +275,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         this.financialDocumentApprovedCode = financialDocumentApprovedCode;
     }
 
-
     /**
      * Gets the transactionEntryOffsetCode attribute.
      * 
@@ -293,7 +292,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     public void setTransactionEntryOffsetCode(String transactionEntryOffsetCode) {
         this.transactionEntryOffsetCode = transactionEntryOffsetCode;
     }
-
 
     /**
      * Gets the transactionEntryProcessedTimestamp attribute.
@@ -332,7 +330,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         this.emplid = emplid;
     }
 
-
     /**
      * Gets the employeeRecord attribute.
      * 
@@ -350,7 +347,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     public void setEmployeeRecord(Integer employeeRecord) {
         this.employeeRecord = employeeRecord;
     }
-
 
     /**
      * Gets the earnCode attribute.
@@ -370,7 +366,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         this.earnCode = earnCode;
     }
 
-
     /**
      * Gets the payGroup attribute.
      * 
@@ -388,7 +383,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     public void setPayGroup(String payGroup) {
         this.payGroup = payGroup;
     }
-
 
     /**
      * Gets the salaryAdministrationPlan attribute.
@@ -408,7 +402,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         this.salaryAdministrationPlan = salaryAdministrationPlan;
     }
 
-
     /**
      * Gets the grade attribute.
      * 
@@ -426,7 +419,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     public void setGrade(String grade) {
         this.grade = grade;
     }
-
 
     /**
      * Gets the runIdentifier attribute.
@@ -464,7 +456,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         this.laborLedgerOriginalChartOfAccountsCode = laborLedgerOriginalChartOfAccountsCode;
     }
 
-
     /**
      * Gets the laborLedgerOriginalAccountNumber attribute.
      * 
@@ -482,7 +473,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     public void setLaborLedgerOriginalAccountNumber(String laborLedgerOriginalAccountNumber) {
         this.laborLedgerOriginalAccountNumber = laborLedgerOriginalAccountNumber;
     }
-
 
     /**
      * Gets the laborLedgerOriginalSubAccountNumber attribute.
@@ -502,7 +492,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         this.laborLedgerOriginalSubAccountNumber = laborLedgerOriginalSubAccountNumber;
     }
 
-
     /**
      * Gets the laborLedgerOriginalFinancialObjectCode attribute.
      * 
@@ -520,7 +509,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     public void setLaborLedgerOriginalFinancialObjectCode(String laborLedgerOriginalFinancialObjectCode) {
         this.laborLedgerOriginalFinancialObjectCode = laborLedgerOriginalFinancialObjectCode;
     }
-
 
     /**
      * Gets the laborLedgerOriginalFinancialSubObjectCode attribute.
@@ -540,7 +528,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         this.laborLedgerOriginalFinancialSubObjectCode = laborLedgerOriginalFinancialSubObjectCode;
     }
 
-
     /**
      * Gets the hrmsCompany attribute.
      * 
@@ -559,7 +546,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         this.hrmsCompany = hrmsCompany;
     }
 
-
     /**
      * Gets the setid attribute.
      * 
@@ -577,7 +563,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     public void setSetid(String setid) {
         this.setid = setid;
     }
-
 
     /**
      * Gets the transactionDateTimeStamp attribute.
@@ -611,7 +596,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
      * 
      * @param financialDocument The financialDocument to set.
      */
-    @Deprecated
     public void setFinancialDocument(DocumentHeader financialDocument) {
         this.financialDocument = financialDocument;
     }
@@ -630,7 +614,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
      * 
      * @param payrollEndDateFiscalPeriod The payrollEndDateFiscalPeriod to set.
      */
-    @Deprecated
     public void setPayrollEndDateFiscalPeriod(AccountingPeriod payrollEndDateFiscalPeriod) {
         this.payrollEndDateFiscalPeriod = payrollEndDateFiscalPeriod;
     }
@@ -649,7 +632,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
      * 
      * @param referenceFinancialDocumentType The referenceFinancialDocumentType to set.
      */
-    @Deprecated
     public void setReferenceFinancialDocumentType(DocumentType referenceFinancialDocumentType) {
         this.referenceFinancialDocumentType = referenceFinancialDocumentType;
     }
@@ -668,7 +650,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
      * 
      * @param referenceFinancialSystemOrigination The referenceFinancialSystemOrigination to set.
      */
-    @Deprecated
     public void setReferenceFinancialSystemOrigination(OriginationCode referenceFinancialSystemOrigination) {
         this.referenceFinancialSystemOrigination = referenceFinancialSystemOrigination;
     }
@@ -677,15 +658,9 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         this.transactionTotalHours = null;
     }
 
-
-    /*  *//**
-             * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-             */
-    /*
-     * protected LinkedHashMap toStringMapper() { LinkedHashMap m = new LinkedHashMap(); if (super.getEntryId() != null) {
-     * m.put("entryId", super.getEntryId().toString()); } return m; }
+    /**
+     * Get lines from string
      */
-
     public String getLine() {
         StringBuffer sb = new StringBuffer();
         if (universityFiscalYear == null) {
@@ -812,7 +787,9 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
 
     }
 
-
+    /**
+     * Sets the entries from text file.
+     */
     public void setFromTextFile(String line, int lineNumber) throws LoadException {
 
         // Just in case
@@ -912,7 +889,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         }
 
         if (getValue(line, 213, 222).equals("")) {
-            
+
         }
         else {
             try {
@@ -927,7 +904,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         }
 
         if (getValue(line, 222, 226).equals("")) {
-            
+
         }
         else {
             try {
@@ -945,7 +922,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         setEmplid(getValue(line, 228, 239));
 
         if (getValue(line, 239, 242).equals("")) {
-            
+
         }
         else {
             try {
@@ -975,6 +952,12 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
 
 
     }
+
+    /**
+     * Get fieldValue from fieldName.
+     * 
+     * @param fieldName
+     */
 
     public Object getFieldValue(String fieldName) {
         if ("universityFiscalYear".equals(fieldName)) {
@@ -1117,7 +1100,12 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         }
     }
 
-
+    /**
+     * Set fieldValue
+     * 
+     * @param fieldName
+     * @param fieldValue
+     */
     public void setFieldValue(String fieldName, String fieldValue) {
         if ("universityFiscalYear".equals(fieldName)) {
             if (StringUtils.isNotBlank(fieldValue)) {

@@ -25,32 +25,43 @@ import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.document.LaborCorrectionDocument;
 import org.kuali.module.labor.service.LaborCorrectionDocumentService;
 
+
+/**
+ * Struts Action Form for the Labor Ledger Correction Process.
+ */
 public class LaborCorrectionForm extends CorrectionForm {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCorrectionForm.class);
-    
+
     private LaborOriginEntry laborEntryForManualEdit;
-    
+
     private String laborEntryUniversityFiscalYear;
     private String laborEntryFinancialDocumentReversalDate;
     private String laborEntryTransactionDate;
     private String laborEntryTransactionLedgerEntrySequenceNumber;
     private String laborEntryTransactionLedgerEntryAmount;
-    
-    
-     public LaborCorrectionForm() {
+
+    /**
+     * Constructs a LaborCorrectionForm instance.
+     */
+    public LaborCorrectionForm() {
         super();
         laborEntryForManualEdit = new LaborOriginEntry();
         laborEntryForManualEdit.setEntryId(0);
         setDocument(new LaborCorrectionDocument());
-        
+
     }
+
+    /**
+     * @see org.kuali.module.gl.web.struts.form.CorrectionForm#clearForm()
+     */
     public void clearForm() {
         super.clearForm();
-        
+
     }
-    
-    
-    
+
+    /**
+     * This method is for clearing Labor Origin Entry for Manual Edit
+     */
     public void clearLaborEntryForManualEdit() {
         LaborOriginEntry loe = new LaborOriginEntry();
         loe.setEntryId(0);
@@ -64,62 +75,148 @@ public class LaborCorrectionForm extends CorrectionForm {
         setLaborEntryUniversityFiscalYear("");
         setLaborEntryForManualEdit(loe);
     }
-    
-    
-    public void setDocType(){
+
+    /**
+     * @see org.kuali.module.gl.web.struts.form.CorrectionForm#setDocType()
+     */
+    public void setDocType() {
         setDocumentType("LLCP");
         setDocTitle("Labor Ledger Correction Process");
         setHtmlFormAction("laborLedgerCorrection");
     }
+
+    /**
+     * Gets the laborEntryForManualEdit attribute.
+     * 
+     * @return Returns the laborEntryForManualEdit.
+     */
     public LaborOriginEntry getLaborEntryForManualEdit() {
         return laborEntryForManualEdit;
     }
+
+    /**
+     * Sets the laborEntryForManualEdit attribute value.
+     * 
+     * @param laborEntryForManualEdit The laborEntryForManualEdit to set.
+     */
     public void setLaborEntryForManualEdit(LaborOriginEntry laborEntryForManualEdit) {
         this.laborEntryForManualEdit = laborEntryForManualEdit;
     }
-    
-    
+
+
     public void updateLaborEntryForManualEdit() {
         laborEntryForManualEdit.setFieldValue("universityFiscalYear", getLaborEntryUniversityFiscalYear());
-        laborEntryForManualEdit.setFieldValue("transactionLedgerEntrySequenceNumber",getLaborEntryTransactionLedgerEntrySequenceNumber());
+        laborEntryForManualEdit.setFieldValue("transactionLedgerEntrySequenceNumber", getLaborEntryTransactionLedgerEntrySequenceNumber());
         laborEntryForManualEdit.setFieldValue("transactionLedgerEntryAmount", getLaborEntryTransactionLedgerEntryAmount());
         laborEntryForManualEdit.setFieldValue("transactionDate", getLaborEntryTransactionDate());
-        laborEntryForManualEdit.setFieldValue("financialDocumentReversalDate",getLaborEntryFinancialDocumentReversalDate());
+        laborEntryForManualEdit.setFieldValue("financialDocumentReversalDate", getLaborEntryFinancialDocumentReversalDate());
     }
+
+    /**
+     * Gets the laborEntryFinancialDocumentReversalDate attribute.
+     * 
+     * @return Returns the laborEntryFinancialDocumentReversalDate.
+     */
     public String getLaborEntryFinancialDocumentReversalDate() {
         return laborEntryFinancialDocumentReversalDate;
     }
+
+    /**
+     * Sets the laborEntryFinancialDocumentReversalDate attribute value.
+     * 
+     * @param laborEntryFinancialDocumentReversalDate The laborEntryFinancialDocumentReversalDate to set.
+     */
     public void setLaborEntryFinancialDocumentReversalDate(String laborEntryFinancialDocumentReversalDate) {
         this.laborEntryFinancialDocumentReversalDate = laborEntryFinancialDocumentReversalDate;
     }
+
+    /**
+     * Gets the laborEntryTransactionDate attribute.
+     * 
+     * @return Returns the laborEntryTransactionDate.
+     */
     public String getLaborEntryTransactionDate() {
         return laborEntryTransactionDate;
     }
+
+    /**
+     * Sets the laborEntryTransactionDate attribute value.
+     * 
+     * @param laborEntryTransactionDate The laborEntryTransactionDate to set.
+     */
     public void setLaborEntryTransactionDate(String laborEntryTransactionDate) {
         this.laborEntryTransactionDate = laborEntryTransactionDate;
     }
+
+    /**
+     * Gets the laborEntryTransactionLedgerEntryAmount attribute.
+     * 
+     * @return Returns the laborEntryTransactionLedgerEntryAmount.
+     */
     public String getLaborEntryTransactionLedgerEntryAmount() {
         return laborEntryTransactionLedgerEntryAmount;
     }
+
+    /**
+     * Sets the laborEntryTransactionLedgerEntryAmount attribute value.
+     * 
+     * @param laborEntryTransactionLedgerEntryAmount The laborEntryTransactionLedgerEntryAmount to set.
+     */
     public void setLaborEntryTransactionLedgerEntryAmount(String laborEntryTransactionLedgerEntryAmount) {
         this.laborEntryTransactionLedgerEntryAmount = laborEntryTransactionLedgerEntryAmount;
     }
+
+    /**
+     * Gets the laborEntryTransactionLedgerEntrySequenceNumber attribute.
+     * 
+     * @return Returns the laborEntryTransactionLedgerEntrySequenceNumber.
+     */
     public String getLaborEntryTransactionLedgerEntrySequenceNumber() {
         return laborEntryTransactionLedgerEntrySequenceNumber;
     }
+
+    /**
+     * Sets the laborEntryTransactionLedgerEntrySequenceNumber attribute value.
+     * 
+     * @param laborEntryTransactionLedgerEntrySequenceNumber The laborEntryTransactionLedgerEntrySequenceNumber to set.
+     */
     public void setLaborEntryTransactionLedgerEntrySequenceNumber(String laborEntryTransactionLedgerEntrySequenceNumber) {
         this.laborEntryTransactionLedgerEntrySequenceNumber = laborEntryTransactionLedgerEntrySequenceNumber;
     }
+
+    /**
+     * Gets the laborEntryUniversityFiscalYear attribute.
+     * 
+     * @return Returns the laborEntryUniversityFiscalYear.
+     */
     public String getLaborEntryUniversityFiscalYear() {
         return laborEntryUniversityFiscalYear;
     }
+
+    /**
+     * Sets the laborEntryUniversityFiscalYear attribute value.
+     * 
+     * @param laborEntryUniversityFiscalYear The laborEntryUniversityFiscalYear to set.
+     */
     public void setLaborEntryUniversityFiscalYear(String laborEntryUniversityFiscalYear) {
         this.laborEntryUniversityFiscalYear = laborEntryUniversityFiscalYear;
     }
+
+    /**
+     * Gets the LaborCorrectionDocument attribute.
+     * 
+     * @return Returns the LaborCorrectionDocument.
+     */
     public LaborCorrectionDocument getLaborCorrectionDocument() {
-        return (LaborCorrectionDocument)getDocument();
+        return (LaborCorrectionDocument) getDocument();
     }
+
+    /**
+     * Gets the TableRenderColumnMetadata attribute.
+     * 
+     * @return Returns the TableRenderColumnMetadata.
+     */
     public List<Column> getTableRenderColumnMetadata() {
         return SpringContext.getBean(LaborCorrectionDocumentService.class).getTableRenderColumnMetadata(getDocument().getDocumentNumber());
     }
- }
+}

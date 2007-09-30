@@ -26,7 +26,7 @@ public class ClearLaborPendingStep extends AbstractStep {
     private LaborNightlyOutService laborNightlyOutService;
 
     /**
-     * Deletes labor general ledger entries.
+     * Deletes copied labor general ledger entries from pending entry table.
      * 
      * @param jobName String that contains the job that will be executed.
      * @return boolean

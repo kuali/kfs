@@ -27,6 +27,10 @@ import org.kuali.module.gl.util.CorrectionDocumentUtils;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.document.LaborCorrectionDocument;
 
+
+/**
+ * Defines methods that must be implemented by classes providing a LaborCorrectionDocumentServiceImpl.
+ */
 public interface LaborCorrectionDocumentService {
     public final static String CORRECTION_TYPE_MANUAL = "M";
     public final static String CORRECTION_TYPE_CRITERIA = "C";

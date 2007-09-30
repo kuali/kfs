@@ -23,9 +23,7 @@ import org.kuali.kfs.dao.GeneralLedgerPendingEntryDao;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 
 /**
- * This interface defines basic methods that GeneralLedgerPendingEntry Dao's must provide
- * 
- * @see org.kuali.module.labor.bo.LaborLedgerPendingEntry
+ * LaborLedgerPendingEntryDao DAO Interface.
  */
 public interface LaborLedgerPendingEntryDao extends GeneralLedgerPendingEntryDao {
 

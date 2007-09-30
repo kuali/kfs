@@ -29,11 +29,11 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.web.optionfinder.OEGTypeComparator;
 
 /**
- * This class returns list of payment method key value pairs.
+ * This class returns list of key values of Labor Origin Entry Groups for LLCP.
  */
 public class CorrectionLaborGroupEntriesFinder extends KeyValuesBase {
 
-    /*
+    /**
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
@@ -48,17 +48,17 @@ public class CorrectionLaborGroupEntriesFinder extends KeyValuesBase {
         OEGTypeComparator oegTypeComparator = new OEGTypeComparator();
         Collections.sort(sortedGroupList, oegTypeComparator);
 
-        
-        String groupException ="";
-        for(int i=0;i<KFSConstants.LLCP_GROUP_FILTER_EXCEPTION.length;i++) {
-            groupException+=KFSConstants.LLCP_GROUP_FILTER_EXCEPTION[i] + " ";
+
+        String groupException = "";
+        for (int i = 0; i < KFSConstants.LLCP_GROUP_FILTER_EXCEPTION.length; i++) {
+            groupException += KFSConstants.LLCP_GROUP_FILTER_EXCEPTION[i] + " ";
         }
-        
+
         for (OriginEntryGroup oeg : sortedGroupList) {
-            if (oeg.getSourceCode().startsWith("L") && !groupException.contains(oeg.getSourceCode())){
+            if (oeg.getSourceCode().startsWith("L") && !groupException.contains(oeg.getSourceCode())) {
                 activeLabels.add(new KeyLabelPair(oeg.getId().toString(), oeg.getName()));
             }
-            
+
         }
 
         return activeLabels;

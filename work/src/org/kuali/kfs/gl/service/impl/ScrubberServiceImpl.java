@@ -28,8 +28,8 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryLiteService;
-import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.OriginEntryLookupService;
+import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.RunDateService;
 import org.kuali.module.gl.service.ScrubberProcessObjectCodeOverride;
@@ -105,62 +105,137 @@ public class ScrubberServiceImpl implements ScrubberService {
         return result;
     }
 
+    /**
+     * Sets the flexibleOffsetAccountService attribute value.
+     * 
+     * @param flexibleOffsetAccountService The flexibleOffsetAccountService to set.
+     */
     public void setFlexibleOffsetAccountService(FlexibleOffsetAccountService flexibleOffsetAccountService) {
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
     }
 
+    /**
+     * Sets the documentTypeService attribute value.
+     * 
+     * @param documentTypeService The documentTypeService to set.
+    */
     public void setDocumentTypeService(DocumentTypeService documentTypeService) {
         this.documentTypeService = documentTypeService;
     }
 
+    /**
+     * Sets the scrubberValidator attribute value.
+     * 
+     * @param sv The scrubberValidator to set.
+    */
     public void setScrubberValidator(ScrubberValidator sv) {
         scrubberValidator = sv;
     }
 
+    /**
+     * Sets the scrubberProcessObjectCodeOverride attribute value.
+     * 
+     * @param scrubberProcessObjectCodeOverride The scrubberProcessObjectCodeOverride to set.
+    */
     public void setScrubberProcessObjectCodeOverride(ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride) {
         this.scrubberProcessObjectCodeOverride = scrubberProcessObjectCodeOverride;
     }
     
+    /**
+     * Sets the originEntryService attribute value.
+     * 
+     * @param oes The OriginEntryService to set.
+    */
     public void setOriginEntryService(OriginEntryService oes) {
         this.originEntryService = oes;
     }
 
+    /**
+     * Sets the originEntryGroupService attribute value.
+     * 
+     * @param groupService The originEntryGroupService to set.
+    */
     public void setOriginEntryGroupService(OriginEntryGroupService groupService) {
         this.originEntryGroupService = groupService;
     }
 
+    /**
+     * Sets the dateTimeService attribute value.
+     * 
+     * @param dts The dateTimeService to set.
+    */
     public void setDateTimeService(DateTimeService dts) {
         this.dateTimeService = dts;
     }
 
+    /**
+     * Sets the universityDateDao attribute value.
+     * 
+     * @param universityDateDao The universityDateDao to set.
+    */
     public void setUniversityDateDao(UniversityDateDao universityDateDao) {
         this.universityDateDao = universityDateDao;
     }
 
+    /**
+     * Sets the persistenceService attribute value.
+     * 
+     * @param ps The persistenceService to set.
+    */
     public void setPersistenceService(PersistenceService ps) {
         persistenceService = ps;
     }
 
+    /**
+     * Sets the offsetDefinitionService attribute value.
+     * 
+     * @param offsetDefinitionService The offsetDefinitionService to set.
+    */
     public void setOffsetDefinitionService(OffsetDefinitionService offsetDefinitionService) {
         this.offsetDefinitionService = offsetDefinitionService;
     }
 
+    /**
+     * Sets the objectCodeService attribute value.
+     * 
+     * @param objectCodeService The objectCodeService to set.
+    */
     public void setObjectCodeService(ObjectCodeService objectCodeService) {
         this.objectCodeService = objectCodeService;
     }
 
+    /**
+     * Sets the kualiConfigurationService attribute value.
+     * 
+     * @param kualiConfigurationService The kualiConfigurationService to set.
+    */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
+    /**
+     * Sets the reportService attribute value.
+     * 
+     * @param reportService The reportService to set.
+    */
     public void setReportService(ReportService reportService) {
         this.reportService = reportService;
     }
 
+    /**
+     * Sets the runDateService attribute value.
+     * 
+     * @param runDateService The runDateService to set.
+    */
     public RunDateService getRunDateService() {
         return runDateService;
     }
 
+    /**
+     * Sets the runDateService attribute value.
+     * 
+     * @param runDateService The runDateService to set.
+    */
     public void setRunDateService(RunDateService runDateService) {
         this.runDateService = runDateService;
     }

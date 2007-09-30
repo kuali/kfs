@@ -16,6 +16,10 @@
 
 package org.kuali.module.labor.bo;
 
+/**
+ * Base class for parsing serialized AccountingLines for Labor LedgerJournal Voucher
+ */
+
 import static org.kuali.kfs.KFSKeyConstants.AccountingLineParser.ERROR_INVALID_PROPERTY_VALUE;
 import static org.kuali.kfs.KFSPropertyConstants.ACCOUNT_NUMBER;
 import static org.kuali.kfs.KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
@@ -60,7 +64,8 @@ import org.kuali.module.chart.service.BalanceTypService;
 
 public class LaborJournalVoucherAccountingLineParser extends AccountingLineParserBase {
     private String balanceTypeCode;
-    protected static final String[] LABOR_LINE_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, OBJECT_TYPE_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, POSITION_NUMBER, EMPLID, EMPLOYEE_RECORD, EARN_CODE, PAY_GROUP, SALARY_ADMINISTRATION_PLAN, GRADE, RUN_IDENTIFIER, PAY_PERIOD_END_DATE, PAYROLL_END_DATE_FISCAL_YEAR, PAYROLL_END_DATE_FISCAL_PERIOD_CODE, TRANSACTION_TOTAL_HOURS, LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE, LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER, LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER, LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE, LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE, HRMS_COMPANY, SET_ID, DEBIT, CREDIT};    
+    protected static final String[] LABOR_LINE_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, OBJECT_TYPE_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, POSITION_NUMBER, EMPLID, EMPLOYEE_RECORD, EARN_CODE, PAY_GROUP, SALARY_ADMINISTRATION_PLAN, GRADE, RUN_IDENTIFIER, PAY_PERIOD_END_DATE, PAYROLL_END_DATE_FISCAL_YEAR, PAYROLL_END_DATE_FISCAL_PERIOD_CODE, TRANSACTION_TOTAL_HOURS, LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE, LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER, LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER, LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE, LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE, HRMS_COMPANY, SET_ID, DEBIT, CREDIT };
+
     /**
      * Constructs a JournalVoucherAccountingLineParser.java.
      * 
@@ -77,8 +82,8 @@ public class LaborJournalVoucherAccountingLineParser extends AccountingLineParse
      */
     @Override
     protected void performCustomSourceAccountingLinePopulation(Map<String, String> attributeValueMap, SourceAccountingLine sourceAccountingLine, String accountingLineAsString) {
-        
-        //chose debit/credit
+
+        // chose debit/credit
         String debitValue = attributeValueMap.remove(DEBIT);
         String creditValue = attributeValueMap.remove(CREDIT);
         KualiDecimal debitAmount = null;
@@ -116,15 +121,15 @@ public class LaborJournalVoucherAccountingLineParser extends AccountingLineParse
 
         sourceAccountingLine.setAmount(amount);
         sourceAccountingLine.setDebitCreditCode(debitCreditCode);
-        
-        
-        
+
+
         boolean isFinancialOffsetGeneration = SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(balanceTypeCode).isFinancialOffsetGenerationIndicator();
         if (isFinancialOffsetGeneration || StringUtils.equals(balanceTypeCode, KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE)) {
             super.performCustomSourceAccountingLinePopulation(attributeValueMap, sourceAccountingLine, accountingLineAsString);
         }
         sourceAccountingLine.setBalanceTypeCode(balanceTypeCode);
     }
+
 
     /**
      * @see org.kuali.core.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
@@ -140,6 +145,6 @@ public class LaborJournalVoucherAccountingLineParser extends AccountingLineParse
      * @return String []
      */
     private String[] selectFormat() {
-            return LABOR_LINE_FORMAT;
+        return LABOR_LINE_FORMAT;
     }
 }

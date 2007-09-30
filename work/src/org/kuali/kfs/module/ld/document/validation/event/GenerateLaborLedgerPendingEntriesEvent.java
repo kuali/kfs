@@ -58,8 +58,10 @@ public final class GenerateLaborLedgerPendingEntriesEvent extends KualiDocumentE
     public GenerateLaborLedgerPendingEntriesEvent(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         this("", accountingDocument, accountingLine, sequenceHelper);
     }
-
+    
     /**
+     * Gets the transactionalDocument attribute.
+     * 
      * @return TransactionalDocument associated with this event
      */
     public TransactionalDocument getTransactionalDocument() {
@@ -67,6 +69,8 @@ public final class GenerateLaborLedgerPendingEntriesEvent extends KualiDocumentE
     }
 
     /**
+     * Gets the accountingLine attribute.
+     * 
      * @return accountingLine associated with this event
      */
     public AccountingLine getAccountingLine() {
@@ -74,6 +78,8 @@ public final class GenerateLaborLedgerPendingEntriesEvent extends KualiDocumentE
     }
 
     /**
+     * Gets the sequenceHelper.
+     * 
      * @return sequenceHelper associated with this event
      */
     public GeneralLedgerPendingEntrySequenceHelper getSequenceHelper() {
@@ -81,7 +87,7 @@ public final class GenerateLaborLedgerPendingEntriesEvent extends KualiDocumentE
     }
 
     /**
-     * This method sets the value of the sequenceHelper.
+     * Sets the value of the sequenceHelper.
      * 
      * @param sequenceHelper
      */
@@ -97,7 +103,9 @@ public final class GenerateLaborLedgerPendingEntriesEvent extends KualiDocumentE
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * Gets the GenerateLaborLedgerPendingEntriesRule.
+     * 
+     * @return GenerateLaborLedgerPendingEntriesRule class
      */
     public Class getRuleInterfaceClass() {
         return GenerateLaborLedgerPendingEntriesRule.class;

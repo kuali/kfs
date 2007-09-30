@@ -19,11 +19,9 @@ import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.module.financial.web.struts.form.JournalVoucherForm;
-import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.LaborConstants.JournalVoucherOffsetType;
 import org.kuali.module.labor.bo.PositionData;
 import org.kuali.module.labor.document.LaborJournalVoucherDocument;
@@ -93,7 +91,7 @@ public class LaborJournalVoucherForm extends JournalVoucherForm {
 
         lookupField = KFSPropertyConstants.PERSON_PAYROLL_IDENTIFIER;
         retval.put(KFSPropertyConstants.EMPLID, lookupField + ";" + UniversalUser.class.getName());
-        
+
         return retval;
     }
 }

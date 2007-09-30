@@ -25,7 +25,6 @@ public class LaborScrubberStep extends AbstractStep {
     private LaborScrubberService laborScrubberService;
 
     /**
-     * 
      * @param String jobName
      * @return boolean when success
      * @see org.kuali.kfs.batch.Step#execute(java.lang.String)

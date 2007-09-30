@@ -30,7 +30,7 @@ import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LaborTransaction;
 
 /**
- * This interface provides its clients with access to labor origin entries in the backend data store.
+ * Defines methods that must be implemented by classes providing a LaborOriginEntryServiceImpl.
  */
 public interface LaborOriginEntryService {
 

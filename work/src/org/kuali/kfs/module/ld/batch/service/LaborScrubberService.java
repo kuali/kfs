@@ -19,13 +19,12 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 
 /**
- * 
- * 
+ * Defines methods that must be implemented by classes providing a LaborScrubberServiceImpl.
  */
 public interface LaborScrubberService {
 
     /**
-     * Nightly process to scrub incoming GL transactions before posting to GL tables
+     * Nightly process to scrub incoming Labor transactions before posting to Labor tables
      */
     public void scrubEntries();
 
@@ -33,7 +32,12 @@ public interface LaborScrubberService {
      * This process will call the scrubber in a read only mode. It will scrub a single group, won't create any output in origin
      * entry. It will create a the scrubber report
      */
-    public void scrubGroupReportOnly(OriginEntryGroup group,String documentNumber);
-    
+    public void scrubGroupReportOnly(OriginEntryGroup group, String documentNumber);
+
+    /**
+     * Sets the dateTimeService attribute value.
+     * 
+     * @param dateTimeService The dateTimeService to set.
+     */
     public void setDateTimeService(DateTimeService dateTimeService);
 }

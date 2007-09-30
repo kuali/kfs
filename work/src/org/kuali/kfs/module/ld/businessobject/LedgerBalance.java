@@ -32,7 +32,7 @@ import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.labor.service.LaborUserService;
 
 /**
- * Represents a balance from labor ledger balance table.
+ * LedgerBalance Business Object.
  */
 public class LedgerBalance extends Balance {
 

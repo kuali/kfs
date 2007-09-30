@@ -34,9 +34,7 @@ import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.dao.LaborOriginEntryDao;
 
 /**
- * This is the data access object for labor origin entry.
- * 
- * @see org.kuali.module.labor.bo.LaborOriginEntry
+ * OJB Implementation of LaborOriginEntryDao.
  */
 public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOriginEntryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntryDaoOjb.class);
@@ -220,7 +218,7 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
     }
 
     /**
-     * @see org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb#getMatchingEntriesByCollection(java.util.Map)
+     * @see org.kuali.module.labor.dao.ojb.LaborOriginEntryDaoOjb#getMatchingEntriesByCollection(java.util.Map)
      */
     @Override
     public Collection getMatchingEntriesByCollection(Map searchCriteria) {
@@ -251,7 +249,7 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
     }
 
     /**
-     * @see org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb#getSummaryByGroupId(java.util.Collection)
+     * @see org.kuali.module.labor.dao.ojb.LaborOriginEntryDaoOjb#getSummaryByGroupId(java.util.Collection)
      */
     @Override
     public Iterator getSummaryByGroupId(Collection groupIdList) {

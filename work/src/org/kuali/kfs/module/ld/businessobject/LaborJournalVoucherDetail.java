@@ -8,44 +8,45 @@ import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.financial.bo.VoucherSourceAccountingLine;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * Labor Journal Voucher Detail Business Object.
  */
-public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
+public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborJournalVoucherDetail.class);
-    
-	private String positionNumber;
-	private Date payPeriodEndDate;
-	private BigDecimal transactionTotalHours;
-	private Integer payrollEndDateFiscalYear;
-	private String payrollEndDateFiscalPeriodCode;
-	private String emplid;
-	private Integer employeeRecord;
-	private String earnCode;
-	private String payGroup;
-	private String salaryAdministrationPlan;
-	private String grade;
-	private String runIdentifier;
-	private String laborLedgerOriginalChartOfAccountsCode;
-	private String laborLedgerOriginalAccountNumber;
-	private String laborLedgerOriginalSubAccountNumber;
-	private String laborLedgerOriginalFinancialObjectCode;
-	private String laborLedgerOriginalFinancialSubObjectCode;
-	private String hrmsCompany;
-	private String setid;
+
+    private String positionNumber;
+    private Date payPeriodEndDate;
+    private BigDecimal transactionTotalHours;
+    private Integer payrollEndDateFiscalYear;
+    private String payrollEndDateFiscalPeriodCode;
+    private String emplid;
+    private Integer employeeRecord;
+    private String earnCode;
+    private String payGroup;
+    private String salaryAdministrationPlan;
+    private String grade;
+    private String runIdentifier;
+    private String laborLedgerOriginalChartOfAccountsCode;
+    private String laborLedgerOriginalAccountNumber;
+    private String laborLedgerOriginalSubAccountNumber;
+    private String laborLedgerOriginalFinancialObjectCode;
+    private String laborLedgerOriginalFinancialSubObjectCode;
+    private String hrmsCompany;
+    private String setid;
 
     private Options payrollEndDateOptions;
-	private AccountingPeriod payrollEndDateFiscalPeriod;
+    private AccountingPeriod payrollEndDateFiscalPeriod;
     private Options options;
-   
-	/**
-	 * Default constructor.
-	 */
-	public LaborJournalVoucherDetail() {
-        super();
-	}
 
     /**
-     * Gets the earnCode attribute. 
+     * Default constructor.
+     */
+    public LaborJournalVoucherDetail() {
+        super();
+    }
+
+    /**
+     * Gets the earnCode attribute.
+     * 
      * @return Returns the earnCode.
      */
     public String getEarnCode() {
@@ -53,7 +54,8 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     }
 
     /**
-     * Gets the emplid attribute. 
+     * Gets the emplid attribute.
+     * 
      * @return Returns the emplid.
      */
     public String getEmplid() {
@@ -61,7 +63,8 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     }
 
     /**
-     * Gets the employeeRecord attribute. 
+     * Gets the employeeRecord attribute.
+     * 
      * @return Returns the employeeRecord.
      */
     public Integer getEmployeeRecord() {
@@ -69,7 +72,8 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     }
 
     /**
-     * Gets the grade attribute. 
+     * Gets the grade attribute.
+     * 
      * @return Returns the grade.
      */
     public String getGrade() {
@@ -77,7 +81,8 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     }
 
     /**
-     * Gets the hrmsCompany attribute. 
+     * Gets the hrmsCompany attribute.
+     * 
      * @return Returns the hrmsCompany.
      */
     public String getHrmsCompany() {
@@ -85,7 +90,8 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     }
 
     /**
-     * Gets the laborLedgerOriginalAccountNumber attribute. 
+     * Gets the laborLedgerOriginalAccountNumber attribute.
+     * 
      * @return Returns the laborLedgerOriginalAccountNumber.
      */
     public String getLaborLedgerOriginalAccountNumber() {
@@ -93,7 +99,8 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     }
 
     /**
-     * Gets the laborLedgerOriginalChartOfAccountsCode attribute. 
+     * Gets the laborLedgerOriginalChartOfAccountsCode attribute.
+     * 
      * @return Returns the laborLedgerOriginalChartOfAccountsCode.
      */
     public String getLaborLedgerOriginalChartOfAccountsCode() {
@@ -101,7 +108,8 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     }
 
     /**
-     * Gets the laborLedgerOriginalFinancialObjectCode attribute. 
+     * Gets the laborLedgerOriginalFinancialObjectCode attribute.
+     * 
      * @return Returns the laborLedgerOriginalFinancialObjectCode.
      */
     public String getLaborLedgerOriginalFinancialObjectCode() {
@@ -109,7 +117,8 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     }
 
     /**
-     * Gets the laborLedgerOriginalFinancialSubObjectCode attribute. 
+     * Gets the laborLedgerOriginalFinancialSubObjectCode attribute.
+     * 
      * @return Returns the laborLedgerOriginalFinancialSubObjectCode.
      */
     public String getLaborLedgerOriginalFinancialSubObjectCode() {
@@ -117,7 +126,8 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     }
 
     /**
-     * Gets the laborLedgerOriginalSubAccountNumber attribute. 
+     * Gets the laborLedgerOriginalSubAccountNumber attribute.
+     * 
      * @return Returns the laborLedgerOriginalSubAccountNumber.
      */
     public String getLaborLedgerOriginalSubAccountNumber() {
@@ -125,7 +135,8 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     }
 
     /**
-     * Gets the options attribute. 
+     * Gets the options attribute.
+     * 
      * @return Returns the options.
      */
     public Options getOptions() {
@@ -133,7 +144,8 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     }
 
     /**
-     * Gets the payGroup attribute. 
+     * Gets the payGroup attribute.
+     * 
      * @return Returns the payGroup.
      */
     public String getPayGroup() {
@@ -141,7 +153,8 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     }
 
     /**
-     * Gets the payPeriodEndDate attribute. 
+     * Gets the payPeriodEndDate attribute.
+     * 
      * @return Returns the payPeriodEndDate.
      */
     public Date getPayPeriodEndDate() {
@@ -149,7 +162,8 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     }
 
     /**
-     * Gets the payrollEndDateFiscalPeriod attribute. 
+     * Gets the payrollEndDateFiscalPeriod attribute.
+     * 
      * @return Returns the payrollEndDateFiscalPeriod.
      */
     public AccountingPeriod getPayrollEndDateFiscalPeriod() {
@@ -157,7 +171,8 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     }
 
     /**
-     * Gets the payrollEndDateOptions attribute. 
+     * Gets the payrollEndDateOptions attribute.
+     * 
      * @return Returns the payrollEndDateOptions.
      */
     public Options getPayrollEndDateOptions() {
@@ -165,7 +180,8 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     }
 
     /**
-     * Gets the positionNumber attribute. 
+     * Gets the positionNumber attribute.
+     * 
      * @return Returns the positionNumber.
      */
     public String getPositionNumber() {
@@ -173,7 +189,8 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     }
 
     /**
-     * Gets the runIdentifier attribute. 
+     * Gets the runIdentifier attribute.
+     * 
      * @return Returns the runIdentifier.
      */
     public String getRunIdentifier() {
@@ -181,7 +198,8 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     }
 
     /**
-     * Gets the salaryAdministrationPlan attribute. 
+     * Gets the salaryAdministrationPlan attribute.
+     * 
      * @return Returns the salaryAdministrationPlan.
      */
     public String getSalaryAdministrationPlan() {
@@ -189,7 +207,8 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     }
 
     /**
-     * Gets the setid attribute. 
+     * Gets the setid attribute.
+     * 
      * @return Returns the setid.
      */
     public String getSetid() {
@@ -197,7 +216,8 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     }
 
     /**
-     * Gets the transactionTotalHours attribute. 
+     * Gets the transactionTotalHours attribute.
+     * 
      * @return Returns the transactionTotalHours.
      */
     public BigDecimal getTransactionTotalHours() {
@@ -206,6 +226,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the earnCode attribute value.
+     * 
      * @param earnCode The earnCode to set.
      */
     public void setEarnCode(String earnCode) {
@@ -214,6 +235,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the emplid attribute value.
+     * 
      * @param emplid The emplid to set.
      */
     public void setEmplid(String emplid) {
@@ -222,6 +244,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the employeeRecord attribute value.
+     * 
      * @param employeeRecord The employeeRecord to set.
      */
     public void setEmployeeRecord(Integer employeeRecord) {
@@ -230,6 +253,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the grade attribute value.
+     * 
      * @param grade The grade to set.
      */
     public void setGrade(String grade) {
@@ -238,6 +262,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the hrmsCompany attribute value.
+     * 
      * @param hrmsCompany The hrmsCompany to set.
      */
     public void setHrmsCompany(String hrmsCompany) {
@@ -246,6 +271,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the laborLedgerOriginalAccountNumber attribute value.
+     * 
      * @param laborLedgerOriginalAccountNumber The laborLedgerOriginalAccountNumber to set.
      */
     public void setLaborLedgerOriginalAccountNumber(String laborLedgerOriginalAccountNumber) {
@@ -254,6 +280,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the laborLedgerOriginalChartOfAccountsCode attribute value.
+     * 
      * @param laborLedgerOriginalChartOfAccountsCode The laborLedgerOriginalChartOfAccountsCode to set.
      */
     public void setLaborLedgerOriginalChartOfAccountsCode(String laborLedgerOriginalChartOfAccountsCode) {
@@ -262,6 +289,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the laborLedgerOriginalFinancialObjectCode attribute value.
+     * 
      * @param laborLedgerOriginalFinancialObjectCode The laborLedgerOriginalFinancialObjectCode to set.
      */
     public void setLaborLedgerOriginalFinancialObjectCode(String laborLedgerOriginalFinancialObjectCode) {
@@ -270,6 +298,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the laborLedgerOriginalFinancialSubObjectCode attribute value.
+     * 
      * @param laborLedgerOriginalFinancialSubObjectCode The laborLedgerOriginalFinancialSubObjectCode to set.
      */
     public void setLaborLedgerOriginalFinancialSubObjectCode(String laborLedgerOriginalFinancialSubObjectCode) {
@@ -278,6 +307,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the laborLedgerOriginalSubAccountNumber attribute value.
+     * 
      * @param laborLedgerOriginalSubAccountNumber The laborLedgerOriginalSubAccountNumber to set.
      */
     public void setLaborLedgerOriginalSubAccountNumber(String laborLedgerOriginalSubAccountNumber) {
@@ -286,6 +316,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the options attribute value.
+     * 
      * @param options The options to set.
      */
     public void setOptions(Options options) {
@@ -294,6 +325,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the payGroup attribute value.
+     * 
      * @param payGroup The payGroup to set.
      */
     public void setPayGroup(String payGroup) {
@@ -302,6 +334,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the payPeriodEndDate attribute value.
+     * 
      * @param payPeriodEndDate The payPeriodEndDate to set.
      */
     public void setPayPeriodEndDate(Date payPeriodEndDate) {
@@ -310,6 +343,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the payrollEndDateFiscalPeriod attribute value.
+     * 
      * @param payrollEndDateFiscalPeriod The payrollEndDateFiscalPeriod to set.
      */
     public void setPayrollEndDateFiscalPeriod(AccountingPeriod payrollEndDateFiscalPeriod) {
@@ -318,6 +352,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the payrollEndDateOptions attribute value.
+     * 
      * @param payrollEndDateOptions The payrollEndDateOptions to set.
      */
     public void setPayrollEndDateOptions(Options payrollEndDateOptions) {
@@ -326,6 +361,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the positionNumber attribute value.
+     * 
      * @param positionNumber The positionNumber to set.
      */
     public void setPositionNumber(String positionNumber) {
@@ -334,6 +370,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the runIdentifier attribute value.
+     * 
      * @param runIdentifier The runIdentifier to set.
      */
     public void setRunIdentifier(String runIdentifier) {
@@ -342,6 +379,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the salaryAdministrationPlan attribute value.
+     * 
      * @param salaryAdministrationPlan The salaryAdministrationPlan to set.
      */
     public void setSalaryAdministrationPlan(String salaryAdministrationPlan) {
@@ -350,6 +388,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the setid attribute value.
+     * 
      * @param setid The setid to set.
      */
     public void setSetid(String setid) {
@@ -358,6 +397,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the transactionTotalHours attribute value.
+     * 
      * @param transactionTotalHours The transactionTotalHours to set.
      */
     public void setTransactionTotalHours(BigDecimal transactionTotalHours) {
@@ -365,7 +405,8 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     }
 
     /**
-     * Gets the payrollEndDateFiscalPeriodCode attribute. 
+     * Gets the payrollEndDateFiscalPeriodCode attribute.
+     * 
      * @return Returns the payrollEndDateFiscalPeriodCode.
      */
     public String getPayrollEndDateFiscalPeriodCode() {
@@ -374,22 +415,25 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the payrollEndDateFiscalPeriodCode attribute value.
+     * 
      * @param payrollEndDateFiscalPeriodCode The payrollEndDateFiscalPeriodCode to set.
      */
     public void setPayrollEndDateFiscalPeriodCode(String payrollEndDateFiscalPeriodCode) {
-        //KULLAB-480
+        // KULLAB-480
         try {
             Integer i = new Integer(payrollEndDateFiscalPeriodCode);
             if (i < 10 && payrollEndDateFiscalPeriodCode.length() == 1) {
                 payrollEndDateFiscalPeriodCode = "0" + payrollEndDateFiscalPeriodCode;
             }
         }
-        catch (NumberFormatException e) {}
+        catch (NumberFormatException e) {
+        }
         this.payrollEndDateFiscalPeriodCode = payrollEndDateFiscalPeriodCode;
     }
 
     /**
-     * Gets the payrollEndDateFiscalYear attribute. 
+     * Gets the payrollEndDateFiscalYear attribute.
+     * 
      * @return Returns the payrollEndDateFiscalYear.
      */
     public Integer getPayrollEndDateFiscalYear() {
@@ -398,6 +442,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
 
     /**
      * Sets the payrollEndDateFiscalYear attribute value.
+     * 
      * @param payrollEndDateFiscalYear The payrollEndDateFiscalYear to set.
      */
     public void setPayrollEndDateFiscalYear(Integer payrollEndDateFiscalYear) {

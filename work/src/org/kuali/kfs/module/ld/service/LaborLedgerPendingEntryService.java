@@ -24,7 +24,7 @@ import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 
 /**
- * This interface defines methods that the LaborLedgerPendingEntry Service provides
+ * Defines methods that must be implemented by classes providing a LaborLedgerPendingEntryServiceImpl.
  */
 public interface LaborLedgerPendingEntryService {
 

@@ -60,7 +60,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         purapForm.refreshAccountSummmary();
         
         //FIXME: temporary workaround see KULPURAP-1397
-        for (org.kuali.core.bo.Note note : (java.util.List<org.kuali.core.bo.Note>)document.getBoNotes()) {
+        for (org.kuali.core.bo.Note note : (java.util.List<org.kuali.core.bo.Note>)document.getDocumentBusinessObject().getBoNotes()) {
             note.refreshReferenceObject("attachment");
         }
         
@@ -261,6 +261,19 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         }
         String[] result = StringUtils.split(accountString, ":");
         return result;
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#downloadBOAttachment(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward downloadBOAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument)((PurchasingAccountsPayableFormBase)form).getDocument();
+        //FIXME: temporary workaround see KULPURAP-1397
+        for (org.kuali.core.bo.Note note : (java.util.List<org.kuali.core.bo.Note>)document.getDocumentBusinessObject().getBoNotes()) {
+            note.refreshReferenceObject("attachment");
+        }
+        return super.downloadBOAttachment(mapping, form, request, response);
     }
 
 }

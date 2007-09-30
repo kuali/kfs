@@ -20,7 +20,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.bo.Options;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
@@ -54,7 +53,7 @@ public interface LaborReportService {
      * @param runDate the datetime of the repor generation
      */
     public void generateInputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
-    
+
     /**
      * Generate error transaction listing as a report
      * 
@@ -105,7 +104,7 @@ public interface LaborReportService {
      * @param runDate the datetime of the repor generation
      */
     public void generateOutputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
-    
+
     /**
      * Generate the balance summary report with the given information in the monthly level
      * 
@@ -116,7 +115,7 @@ public interface LaborReportService {
      * @param runDate the datetime of the repor generation
      */
     public void generateMonthlyBalanceSummaryReport(Integer fiscalYear, List<String> balanceTypes, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
-    
+
     /**
      * Generate the balance summary report with the given information in a simple format
      * 
@@ -136,26 +135,79 @@ public interface LaborReportService {
      * @param reportsDirectory the directory in file system that is used to contain reports
      * @param runDate the datetime of the repor generation
      */
-    public void generateGLSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);    
-    
-    //LLCP reports
+    public void generateGLSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
+
+    /**
+     * LLCP document info report
+     * 
+     * @param cDocument
+     * @param runDate
+     */
     public void generateCorrectionOnlineReport(LaborCorrectionDocument cDocument, String reportsDirectory, Date runDate);
 
-    
-    //Scrubber reports
+    /**
+     * Scrubber General Ledger Transaction Summary report
+     * 
+     * @param runDate Run date of the report
+     * @param groups Groups to summarize for the report
+     */
     public void generateScrubberLedgerSummaryReportBatch(Collection groups, String reportsDirectory, Date runDate);
-    
+
+    /**
+     * Scrubber General Ledger Transaction Summary report
+     * 
+     * @param runDate Run date of the report
+     * @param groups Groups to summarize for the report
+     */
     public void generateScrubberLedgerSummaryReportOnline(OriginEntryGroup group, String documentNumber, String reportsDirectory, Date runDate);
-    
+
+    /**
+     * Scrubber Statistics report for batch reports
+     * 
+     * @param runDate Run date of the report
+     * @param scrubberReport Summary information
+     * @param scrubberReportErrors Map of transactions with errors or warnings
+     */
     public void generateBatchScrubberStatisticsReport(ScrubberReportData scrubberReport, Map<Transaction, List<Message>> scrubberReportErrors, String reportsDirectory, Date runDate);
-    
+
+    /**
+     * Scrubber Statistics report for online reports
+     * 
+     * @param runDate Run date of the report
+     * @param scrubberReport Summary information
+     * @param scrubberReportErrors Map of transactions with errors or warnings
+     */
     public void generateOnlineScrubberStatisticsReport(Integer groupId, ScrubberReportData scrubberReport, Map<Transaction, List<Message>> scrubberReportErrors, String documentNumber, String reportsDirectory, Date runDate);
-    
+
+    /**
+     * Scrubber Demerger Statistics report
+     * 
+     * @param runDate Run date of the report
+     * @param demergerReport Summary information
+     */
     public void generateScrubberDemergerStatisticsReports(DemergerReportData demergerReport, String reportsDirectory, Date runDate);
-    
+
+    /**
+     * Scrubber Bad Balance listing report
+     * 
+     * @param runDate Run date of the report
+     * @param groups Groups to summarize for the report
+     */
     public void generateScrubberBadBalanceTypeListingReport(Collection groups, String reportsDirectory, Date runDate);
-    
+
+    /**
+     * Scrubber Transaction Listing report
+     * 
+     * @param runDate Run date of the report
+     * @param validGroup Group with transactions
+     */
     public void generateScrubberTransactionsOnline(OriginEntryGroup validGroup, String documentNumber, String reportsDirectory, Date runDate);
-    
+
+    /**
+     * Scrubber Removed Transactions report
+     * 
+     * @param runDate Run date of the report
+     * @param errorGroup Group with error transactions
+     */
     public void generateScrubberRemovedTransactions(OriginEntryGroup errorGroup, String reportsDirectory, Date runDate);
 }

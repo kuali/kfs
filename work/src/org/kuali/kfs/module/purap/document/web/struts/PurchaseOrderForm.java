@@ -266,7 +266,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             
             if ( purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PENDING_PRINT) ||
                  ( purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) &&
-                   hasPaymentRequest ) ) {
+                   !hasPaymentRequest ) ) {
                 
                 ExtraButton voidButton = (ExtraButton)buttonsMap.get("methodToCall.voidPo");
                 this.getExtraButtons().add(voidButton);

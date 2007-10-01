@@ -125,18 +125,17 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
      */
     protected void populateItemLinesFromPreq(CreditMemoDocument cmDocument, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
         PaymentRequestDocument preqDocument = cmDocument.getPaymentRequestDocument();
-
-        List<PurchaseOrderItem> invoicedItems = creditMemoService.getPOInvoicedItems(cmDocument.getPurchaseOrderDocument());
-        for (PurchaseOrderItem poItem : invoicedItems) {
-            PaymentRequestItem preqItemToTemplate = (PaymentRequestItem) preqDocument.getItemByLineNumber(poItem.getItemLineNumber());
-
-            if (preqItemToTemplate != null && preqItemToTemplate.getItemType().isItemTypeAboveTheLineIndicator()) {
-                if (preqItemToTemplate.getExtendedPrice().isNonZero()) {
-                    cmDocument.getItems().add(new CreditMemoItem(cmDocument, preqItemToTemplate, poItem, expiredOrClosedAccountList));
-                }
-            }
+        //No need for all this since we are eliminating unused items from preq
+//        List<PurchaseOrderItem> invoicedItems = creditMemoService.getPOInvoicedItems(cmDocument.getPurchaseOrderDocument());
+//        for (PurchaseOrderItem poItem : invoicedItems) {
+//            PaymentRequestItem preqItemToTemplate = (PaymentRequestItem) preqDocument.getItemByLineNumber(poItem.getItemLineNumber());
+//
+//            if (preqItemToTemplate != null && preqItemToTemplate.getItemType().isItemTypeAboveTheLineIndicator()) {
+//                if (preqItemToTemplate.getExtendedPrice().isNonZero()) {
+        for (PaymentRequestItem preqItemToTemplate : (List<PaymentRequestItem>)preqDocument.getItems()) {
+            cmDocument.getItems().add(new CreditMemoItem(cmDocument, preqItemToTemplate, preqItemToTemplate.getPurchaseOrderItem(), expiredOrClosedAccountList));
         }
-
+        
         // add below the line items
         SpringContext.getBean(PurapService.class).addBelowLineItems(cmDocument);
     }

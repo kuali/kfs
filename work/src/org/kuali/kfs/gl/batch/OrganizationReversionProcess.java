@@ -29,6 +29,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -405,7 +406,7 @@ public class OrganizationReversionProcess {
         entry.setFinancialBalanceTypeCode(entry.getOption().getNominalFinancialBalanceTypeCd());
 
         persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
-        if (entry.getFinancialObject() == null) {
+        if (ObjectUtils.isNull(entry.getFinancialObject())) {
             throw new FatalErrorException("Object Code for Entry not found: "+entry);
             // TODO Error! Line 3426
         }
@@ -437,7 +438,7 @@ public class OrganizationReversionProcess {
         entry.setFinancialBalanceTypeCode(DEFAULT_FINANCIAL_BALANCE_TYPE_CODE);
 
         persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
-        if (entry.getFinancialObject() == null) {
+        if (ObjectUtils.isNull(entry.getFinancialObject())) {
             throw new FatalErrorException("Object Code for Entry not found: "+entry);
         }
 
@@ -467,7 +468,7 @@ public class OrganizationReversionProcess {
         entry.setFinancialBalanceTypeCode(DEFAULT_FINANCIAL_BALANCE_TYPE_CODE);
 
         persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
-        if (entry.getFinancialObject() == null) {
+        if (ObjectUtils.isNull(entry.getFinancialObject())) {
             throw new FatalErrorException("Object Code for Entry not found: "+entry);
         }
 
@@ -498,7 +499,7 @@ public class OrganizationReversionProcess {
         entry.setFinancialBalanceTypeCode(DEFAULT_FINANCIAL_BALANCE_TYPE_CODE);
 
         persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
-        if (entry.getFinancialObject() == null) {
+        if (ObjectUtils.isNull(entry.getFinancialObject())) {
             throw new FatalErrorException("Object Code for Entry not found: "+entry);
             // TODO Error! Line 3722
         }
@@ -549,7 +550,7 @@ public class OrganizationReversionProcess {
                 entry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_CURRENT_BUDGET);
 
                 persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
-                if (entry.getFinancialObject() == null) {
+                if (ObjectUtils.isNull(entry.getFinancialObject())) {
                     throw new FatalErrorException("Object Code for Entry not found: "+entry);
                     // TODO Error! Line 3224
                 }
@@ -578,7 +579,7 @@ public class OrganizationReversionProcess {
                 entry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_CURRENT_BUDGET);
 
                 persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
-                if (entry.getFinancialObject() == null) {
+                if (ObjectUtils.isNull(entry.getFinancialObject())) {
                     throw new FatalErrorException("Object Code for Entry not found: "+entry);
                     // TODO Error! Line 3304
                 }
@@ -618,7 +619,7 @@ public class OrganizationReversionProcess {
         entry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_CURRENT_BUDGET);
 
         persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
-        if (entry.getFinancialObject() == null) {
+        if (ObjectUtils.isNull(entry.getFinancialObject())) {
             throw new FatalErrorException("Object Code for Entry not found: "+entry);
             // TODO Error! Line 2960
         }
@@ -648,7 +649,7 @@ public class OrganizationReversionProcess {
         entry.setFinancialObjectCode(paramUnallocObjectCode);
 
         persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
-        if (entry.getFinancialObject() == null) {
+        if (ObjectUtils.isNull(entry.getFinancialObject())) {
             throw new FatalErrorException("Object Code for Entry not found: "+entry);
         }
 
@@ -681,7 +682,7 @@ public class OrganizationReversionProcess {
         entry.setFinancialBalanceTypeCode(DEFAULT_FINANCIAL_BALANCE_TYPE_CODE_YEAR_END);
 
         persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
-        if (entry.getFinancialObject() == null) {
+        if (ObjectUtils.isNull(entry.getFinancialObject())) {
             throw new FatalErrorException("Object Code for Entry not found: "+entry);
         }
 

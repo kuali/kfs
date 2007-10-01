@@ -26,8 +26,9 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 public interface PurapGeneralLedgerService {
 
-    public final static boolean CREATE_PAYMENT_REQUEST = false;
-    public final static boolean CANCEL_PAYMENT_REQUEST = !CREATE_PAYMENT_REQUEST;
+    public final static String CREATE_PAYMENT_REQUEST = "create";
+    public final static String CANCEL_PAYMENT_REQUEST = "cancel";
+    public final static String MODIFY_PAYMENT_REQUEST = "modify";
     public final static boolean CREATE_CREDIT_MEMO = false;
     public final static boolean CANCEL_CREDIT_MEMO = !CREATE_CREDIT_MEMO;
 

@@ -176,7 +176,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     }
         
     public void generateEntriesCreatePaymentRequest(PaymentRequestDocument preq) {
-        generateEntriesPaymentRequest(preq, CREATE_PAYMENT_REQUEST);
+        List encumbrances = relieveEncumbrance(preq);
+        List accountingLines = purapAccountingService.generateSummaryWithNoZeroTotals(preq.getItems());
+        generateEntriesPaymentRequest(preq, encumbrances, accountingLines, CREATE_PAYMENT_REQUEST);
     }
         
     /**
@@ -188,78 +190,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param preq PREQ to cancel
      */
     private void generateEntriesCancelPaymentRequest(PaymentRequestDocument preq) {
-        generateEntriesPaymentRequest(preq, CANCEL_PAYMENT_REQUEST);
-    }
-
-    private boolean generateEntriesPaymentRequest(PaymentRequestDocument preq, boolean isCancel) {
-
-        boolean success = false;
-        if (preq.getPurapDocumentIdentifier() != null) {
-            
-            /* Can't let generalLedgerPendingEntryService just create all the entries because we need the sequenceHelper to carry over
-             * from the encumbrances to the actuals and also because we need to tell the PaymentRequestDocumentRule customize entry
-             * method how to customize differently based on if creating an encumbrance or actual.
-             */
-            
-            generalLedgerPendingEntryService.delete(preq.getDocumentNumber());
-            
-            GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
-
-            List encumbrances = null;
-            if (!isCancel) {
-                //on create, relieve encumbrances on PO
-                encumbrances = relieveEncumbrance(preq);
-
-                //on create, use CREDIT code
-                preq.setDebitCreditCodeForGLEntries(GL_CREDIT_CODE);
-            }
-            else {
-                //on cancel, reencumber encumbrances on PO
-                encumbrances = reencumberEncumbrance(preq);
-
-                //on cancel, use DEBIT code
-                preq.setDebitCreditCodeForGLEntries(GL_DEBIT_CODE);
-            }
-                
-            if (encumbrances != null) {
-                preq.setGenerateEncumbranceEntries(true);
-                for (Iterator iter = encumbrances.iterator(); iter.hasNext();) {
-                    AccountingLine accountingLine = (AccountingLine) iter.next();
-                    GenerateGeneralLedgerPendingEntriesEvent glEvent = new GenerateGeneralLedgerPendingEntriesEvent(preq, accountingLine, sequenceHelper);
-                    success &= kualiRuleService.applyRules(glEvent);
-                    sequenceHelper.increment(); // increment for the next line
-                }
-            }
-
-            //now book the actuals from the PREQ
-            List accountingLines = purapAccountingService.generateSummaryWithNoZeroTotals(preq.getItems());
-            if (accountingLines != null) {
-                preq.setGenerateEncumbranceEntries(false);
-
-                if (!isCancel) {
-                    //on create, use DEBIT code
-                    preq.setDebitCreditCodeForGLEntries(GL_DEBIT_CODE);
-                }
-                else {
-                    //on cancel, use CREDIT code
-                    preq.setDebitCreditCodeForGLEntries(GL_CREDIT_CODE);
-                }
-
-                for (Iterator iter = accountingLines.iterator(); iter.hasNext();) {
-                    AccountingLine accountingLine = (AccountingLine) iter.next();
-                    GenerateGeneralLedgerPendingEntriesEvent glEvent = new GenerateGeneralLedgerPendingEntriesEvent(preq, accountingLine, sequenceHelper);
-                    success &= kualiRuleService.applyRules(glEvent);
-                    sequenceHelper.increment(); // increment for the next line
-                }
-
-                //Manually save summary accounts
-                savePaymentRequestSummaryAccounts(accountingLines, preq.getPurapDocumentIdentifier());
-            }
-
-            //Manually save GL entries for Payment Request and encumbrances
-            saveGLEntries(preq.getGeneralLedgerPendingEntries());
-        }
-        return success;
+        List encumbrances = reencumberEncumbrance(preq);
+        List accountingLines = purapAccountingService.generateSummaryWithNoZeroTotals(preq.getItems());
+        generateEntriesPaymentRequest(preq, encumbrances, accountingLines, CANCEL_PAYMENT_REQUEST);
     }
 
     /**
@@ -267,16 +200,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * changes them. It shouldn't generate any G/L entries if they don't change anything. It should only generate entries to move
      * the money from the old account(s) to the new account(s). 
      * 
-     * !!IMPORTANT!! Note that this must be called before the preq is stored to the database, since this needs to know the old and new values
-     * 
      * @param preq Preq check for G/L entries
      */
     public void generateEntriesModifyPaymentRequest(PaymentRequestDocument preq) {
-        LOG.debug("generateEntriesModifyPreq(preq) started");
-        generateEntriesModifyPaymentRequest(preq, false);
-    }
-
-    private void generateEntriesModifyPaymentRequest(PaymentRequestDocument preq, boolean oldPreqExcludeTaxItems) {
         LOG.debug("generateEntriesModifyPreq() started");
 
         Map actualsPositive = new HashMap();
@@ -324,15 +250,8 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
-        //save summary accounts
-        savePaymentRequestSummaryAccounts(newAccountingLines, preq.getPurapDocumentIdentifier());
-        
         LOG.debug("generateEntriesModifyPreq() Generate GL entries");
-        preq.setSourceAccountingLines(accounts);
-        preq.setGenerateEncumbranceEntries(false);
-        preq.setDebitCreditCodeForGLEntries(GL_DEBIT_CODE);
-        generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(preq);
-        saveGLEntries(preq.getGeneralLedgerPendingEntries());
+        generateEntriesPaymentRequest(preq, null, accounts, MODIFY_PAYMENT_REQUEST);
     }
 
     public void generateEntriesCreateCreditMemo(CreditMemoDocument cm) {
@@ -343,13 +262,84 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         generateEntriesCreditMemo(cm, CANCEL_CREDIT_MEMO);
     }
     
+    private int getNextAvailableSequence(String documentNumber) {
+        Map fieldValues = new HashMap();
+        fieldValues.put("financialSystemOriginationCode", PURAP_ORIGIN_CODE);
+        fieldValues.put("documentNumber", documentNumber);
+        int count = businessObjectService.countMatching(GeneralLedgerPendingEntry.class, fieldValues);
+        return count + 1;
+    }
+    
+    private boolean generateEntriesPaymentRequest(PaymentRequestDocument preq, List encumbrances, List accountingLines, String processType) {
+        boolean success = true;
+        preq.setGeneralLedgerPendingEntries(new ArrayList());
+
+        /* Can't let generalLedgerPendingEntryService just create all the entries because we need the sequenceHelper to carry over
+         * from the encumbrances to the actuals and also because we need to tell the PaymentRequestDocumentRule customize entry
+         * method how to customize differently based on if creating an encumbrance or actual.
+         */
+        GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(getNextAvailableSequence(preq.getDocumentNumber()));
+
+        if (CREATE_PAYMENT_REQUEST.equals(processType)) {
+            //on create, use CREDIT code for encumbrances
+            preq.setDebitCreditCodeForGLEntries(GL_CREDIT_CODE);
+        }
+        else if (CANCEL_PAYMENT_REQUEST.equals(processType)) {
+            //on cancel, use DEBIT code
+            preq.setDebitCreditCodeForGLEntries(GL_DEBIT_CODE);
+        }
+        else if (MODIFY_PAYMENT_REQUEST.equals(processType)) {
+            //no encumbrances for modify
+            preq.setGenerateEncumbranceEntries(false);
+        }
+            
+        if (encumbrances != null) {
+            preq.setGenerateEncumbranceEntries(true);
+            for (Iterator iter = encumbrances.iterator(); iter.hasNext();) {
+                AccountingLine accountingLine = (AccountingLine) iter.next();
+                GenerateGeneralLedgerPendingEntriesEvent glEvent = new GenerateGeneralLedgerPendingEntriesEvent(preq, accountingLine, sequenceHelper);
+                success &= kualiRuleService.applyRules(glEvent);
+                sequenceHelper.increment(); // increment for the next line
+            }
+        }
+
+        //now book the actuals from the PREQ
+        if (accountingLines != null) {
+            preq.setGenerateEncumbranceEntries(false);
+
+            if (CREATE_PAYMENT_REQUEST.equals(processType) || MODIFY_PAYMENT_REQUEST.equals(processType)) {
+                //on create and modify, use DEBIT code
+                preq.setDebitCreditCodeForGLEntries(GL_DEBIT_CODE);
+            }
+            else if (CANCEL_PAYMENT_REQUEST.equals(processType)) {
+                //on cancel, use CREDIT code
+                preq.setDebitCreditCodeForGLEntries(GL_CREDIT_CODE);
+            }
+
+            for (Iterator iter = accountingLines.iterator(); iter.hasNext();) {
+                AccountingLine accountingLine = (AccountingLine) iter.next();
+                GenerateGeneralLedgerPendingEntriesEvent glEvent = new GenerateGeneralLedgerPendingEntriesEvent(preq, accountingLine, sequenceHelper);
+                success &= kualiRuleService.applyRules(glEvent);
+                sequenceHelper.increment(); // increment for the next line
+            }
+
+            //Manually save summary accounts
+            savePaymentRequestSummaryAccounts(accountingLines, preq.getPurapDocumentIdentifier());
+        }
+
+        //Manually save GL entries for Payment Request and encumbrances
+        saveGLEntries(preq.getGeneralLedgerPendingEntries());
+
+        return success;
+    }
+
     private boolean generateEntriesCreditMemo(CreditMemoDocument cm, boolean isCancel) {
         LOG.debug("generateEntriesCreditMemo() started");
 
-        generalLedgerPendingEntryService.delete(cm.getDocumentNumber());
+        cm.setGeneralLedgerPendingEntries(new ArrayList());
 
         boolean success = true;
-        GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
+        GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(getNextAvailableSequence(cm.getDocumentNumber()));
 
         PurchaseOrderDocument po = null;
         if (cm.isSourceDocumentPurchaseOrder()) {
@@ -400,9 +390,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
-        if (success) {
-            saveGLEntries(cm.getGeneralLedgerPendingEntries());
-        }
+        saveGLEntries(cm.getGeneralLedgerPendingEntries());
 
         LOG.debug("generateEntriesCreditMemo() ended");
         return success;

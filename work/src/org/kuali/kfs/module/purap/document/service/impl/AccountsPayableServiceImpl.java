@@ -407,10 +407,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
 //        }
         
         if (purapService.isFullDocumentEntryCompleted(apDocument)) {
-            //TODO remove this config (for testing only) hjs
-            if (SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, "PURAP_GL_CANCEL_AP")) {
-                purapGeneralLedgerService.generateEntriesCancelAccountsPayableDocument(apDocument);
-            }
+            purapGeneralLedgerService.generateEntriesCancelAccountsPayableDocument(apDocument);
         }
         AccountsPayableDocumentSpecificService accountsPayableDocumentSpecificService = apDocument.getDocumentSpecificService();
         String cancelledStatusCode = accountsPayableDocumentSpecificService.updateStatusByNode(currentNodeName, apDocument);

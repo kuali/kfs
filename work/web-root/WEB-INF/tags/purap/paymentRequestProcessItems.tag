@@ -95,11 +95,11 @@
 			</td>
 			<td colspan=2 class="datacell">
               <c:if test="${empty isCreditMemo or !isCreditMemo}" >
-	              <c:if test="${empty KualiForm.document.recurringPaymentTypeCode }" >
+	              <c:if test="${empty KualiForm.document.recurringPaymentTypeCode and KualiForm.ableToClosePurchaseOrder}" >
 	              	<kul:htmlControlAttribute
 					    attributeEntry="${documentAttributes.closePurchaseOrderIndicator}"
 					    property="document.closePurchaseOrderIndicator"
-					    readOnly="${!KualiForm.ableToClosePurchaseOrder}" />
+					    readOnly="false" />
 					    <kul:htmlAttributeLabel attributeEntry="${documentAttributes.closePurchaseOrderIndicator}" skipHelpUrl="true" noColon="true" />
 	              </c:if>
 	              <c:if test="${not empty KualiForm.document.recurringPaymentTypeCode}">
@@ -107,11 +107,11 @@
 	              </c:if>
               </c:if>
               <c:if test="${isCreditMemo}" >
-	              <c:if test="${empty KualiForm.document.paymentRequestDocument.recurringPaymentTypeCode}">
+	              <c:if test="${empty KualiForm.document.paymentRequestDocument.recurringPaymentTypeCode and KualiForm.ableToReopenPurchaseOrder}">
 	                <kul:htmlControlAttribute
 					    attributeEntry="${documentAttributes.reopenPurchaseOrderIndicator}"
 					    property="document.reopenPurchaseOrderIndicator"
-					    readOnly="${!KualiForm.ableToReopenPurchaseOrder}" />
+					    readOnly="false" />
 					    <kul:htmlAttributeLabel attributeEntry="${documentAttributes.reopenPurchaseOrderIndicator}" skipHelpUrl="true" noColon="true" />
 	              </c:if>
 	              <c:if test="${not empty KualiForm.document.paymentRequestDocument.recurringPaymentTypeCode}">

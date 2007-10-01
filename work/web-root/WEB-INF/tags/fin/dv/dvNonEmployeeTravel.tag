@@ -198,7 +198,7 @@
               <th  scope="row"><div align="right">add:</div></th>
               <td valign=top class="infoline"><kul:htmlControlAttribute attributeEntry="${travelExpenseAttributes.disbVchrExpenseCode}" property="newNonEmployeeExpenseLine.disbVchrExpenseCode" readOnly="${!fullEntryMode&&!travelEntryMode}"/></td>
               <td valign=top class="infoline"><kul:htmlControlAttribute attributeEntry="${travelExpenseAttributes.disbVchrExpenseCompanyName}" property="newNonEmployeeExpenseLine.disbVchrExpenseCompanyName" readOnly="${!fullEntryMode&&!travelEntryMode}"/>
-                  <kul:lookup boClassName="org.kuali.module.financial.bo.TravelCompanyCode" fieldConversions="name:newNonEmployeeExpenseLine.disbVchrExpenseCompanyName" fieldLabel="${travelExpenseAttributes.disbVchrExpenseCompanyName.label}"/>
+                  <kul:lookup boClassName="org.kuali.module.financial.bo.TravelCompanyCode" fieldConversions="name:newNonEmployeeExpenseLine.disbVchrExpenseCompanyName,code:newNonEmployeeExpenseLine.disbVchrExpenseCode" fieldLabel="${travelExpenseAttributes.disbVchrExpenseCompanyName.label}" lookupParameters="'N':travelExpenseTypeCode.prepaidExpense"/>
               </td>
               <td valign=top nowrap class="infoline"><div align="center">
                   <kul:htmlControlAttribute attributeEntry="${travelExpenseAttributes.disbVchrExpenseAmount}" property="newNonEmployeeExpenseLine.disbVchrExpenseAmount" readOnly="${!fullEntryMode&&!travelEntryMode}"/>
@@ -216,7 +216,7 @@
                   <td valign=top><kul:htmlControlAttribute attributeEntry="${travelExpenseAttributes.disbVchrExpenseCode}" property="document.dvNonEmployeeTravel.dvNonEmployeeExpenses[${ctr}].disbVchrExpenseCode" readOnly="${!fullEntryMode&&!travelEntryMode}"/></td>
                   <td valign=top><kul:htmlControlAttribute attributeEntry="${travelExpenseAttributes.disbVchrExpenseCompanyName}" property="document.dvNonEmployeeTravel.dvNonEmployeeExpenses[${ctr}].disbVchrExpenseCompanyName" readOnly="${!fullEntryMode&&!travelEntryMode}"/>
                      <c:if test="${fullEntryMode||travelEntryMode}">
-                      <kul:lookup boClassName="org.kuali.module.financial.bo.TravelCompanyCode" fieldConversions="name:document.dvNonEmployeeTravel.dvNonEmployeeExpenses[${ctr}].disbVchrExpenseCompanyName" fieldLabel="${travelExpenseAttributes.disbVchrExpenseCompanyName.label}"/>
+                      <kul:lookup boClassName="org.kuali.module.financial.bo.TravelCompanyCode" fieldConversions="name:document.dvNonEmployeeTravel.dvNonEmployeeExpenses[${ctr}].disbVchrExpenseCompanyName,code:document.dvNonEmployeeTravel.dvNonEmployeeExpenses[${ctr}].disbVchrExpenseCode" fieldLabel="${travelExpenseAttributes.disbVchrExpenseCompanyName.label}" lookupParameters="'N':travelExpenseTypeCode.prepaidExpense"/>
                     </c:if>
                   </td>   
                   <td valign=top nowrap ><div align="center">
@@ -277,7 +277,7 @@
               <th scope="row"><div align="right">add:</div></th>
               <td valign=top class="infoline"><kul:htmlControlAttribute attributeEntry="${travelExpenseAttributes.disbVchrPrePaidExpenseCode}" property="newPrePaidNonEmployeeExpenseLine.disbVchrPrePaidExpenseCode" readOnly="${!fullEntryMode&&!travelEntryMode}"/></td>
               <td valign=top class="infoline"><kul:htmlControlAttribute attributeEntry="${travelExpenseAttributes.disbVchrPrePaidExpenseCompanyName}" property="newPrePaidNonEmployeeExpenseLine.disbVchrPrePaidExpenseCompanyName" readOnly="${!fullEntryMode&&!travelEntryMode}"/>
-                <kul:lookup boClassName="org.kuali.module.financial.bo.TravelCompanyCode" fieldConversions="name:newPrePaidNonEmployeeExpenseLine.disbVchrPrePaidExpenseCompanyName" fieldLabel="${travelExpenseAttributes.disbVchrPrePaidExpenseCompanyName.label}"/>
+                <kul:lookup boClassName="org.kuali.module.financial.bo.TravelCompanyCode" fieldConversions="name:newPrePaidNonEmployeeExpenseLine.disbVchrPrePaidExpenseCompanyName,code:newPrePaidNonEmployeeExpenseLine.disbVchrPrePaidExpenseCode" fieldLabel="${travelExpenseAttributes.disbVchrPrePaidExpenseCompanyName.label}" lookupParameters="'Y':travelExpenseTypeCode.prepaidExpense"/>
               </td> 
               <td valign=top nowrap class="infoline"><div align="center">
                 <kul:htmlControlAttribute attributeEntry="${travelExpenseAttributes.disbVchrExpenseAmount}" property="newPrePaidNonEmployeeExpenseLine.disbVchrExpenseAmount" readOnly="${!fullEntryMode&&!travelEntryMode}"/>
@@ -295,7 +295,7 @@
                   <td valign=top ><kul:htmlControlAttribute attributeEntry="${travelExpenseAttributes.disbVchrPrePaidExpenseCode}" property="document.dvNonEmployeeTravel.dvPrePaidEmployeeExpenses[${ctr2}].disbVchrExpenseCode" readOnly="${!fullEntryMode&&!travelEntryMode}"/></td>
                   <td valign=top ><kul:htmlControlAttribute attributeEntry="${travelExpenseAttributes.disbVchrPrePaidExpenseCompanyName}" property="document.dvNonEmployeeTravel.dvPrePaidEmployeeExpenses[${ctr2}].disbVchrExpenseCompanyName" readOnly="${!fullEntryMode&&!travelEntryMode}"/>
                     <c:if test="${fullEntryMode||travelEntryMode}">
-                      <kul:lookup boClassName="org.kuali.module.financial.bo.TravelCompanyCode" fieldConversions="name:document.dvNonEmployeeTravel.dvPrePaidEmployeeExpenses[${ctr2}].disbVchrExpenseCompanyName"/>
+                      <kul:lookup boClassName="org.kuali.module.financial.bo.TravelCompanyCode" fieldConversions="name:document.dvNonEmployeeTravel.dvPrePaidEmployeeExpenses[${ctr2}].disbVchrExpenseCompanyName,code:document.dvNonEmployeeTravel.dvPrePaidEmployeeExpenses[${ctr2}].disbVchrExpenseCode" lookupParameters="'Y':travelExpenseTypeCode.prepaidExpense"/>
                     </c:if>
                   </td> 
                   <td valign=top nowrap ><div align="center">

@@ -249,7 +249,12 @@
         <property name="purapAccountingService">
             <ref bean="purapAccountingService" />
         </property>	        
-    
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>	        
+        <property name="purapWorkflowIntegrationService">
+            <ref bean="purapWorkflowIntegrationService" />
+        </property>
     </bean>
 	
 	<bean id="creditMemoDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.CreditMemoDaoOjb" />

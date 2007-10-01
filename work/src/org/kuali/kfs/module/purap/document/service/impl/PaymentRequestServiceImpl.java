@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -31,6 +32,7 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
@@ -48,10 +50,12 @@ import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
+import org.kuali.module.purap.bo.AutoApproveExclude;
 import org.kuali.module.purap.bo.NegativePaymentRequestApprovalLimit;
 import org.kuali.module.purap.bo.PaymentRequestAccount;
 import org.kuali.module.purap.bo.PaymentRequestItem;
@@ -66,6 +70,7 @@ import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
 import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.NegativePaymentRequestApprovalLimitService;
 import org.kuali.module.purap.service.PaymentRequestService;
+import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -93,6 +98,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     private KualiConfigurationService kualiConfigurationService;
     private NegativePaymentRequestApprovalLimitService negativePaymentRequestApprovalLimitService;
     private PurapAccountingService purapAccountingService;
+    private BusinessObjectService businessObjectService;
+    private PurApWorkflowIntegrationService purapWorkflowIntegrationService;
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
@@ -130,6 +137,13 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         this.purapAccountingService = purapAccountingService;
     }
 
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public void setPurapWorkflowIntegrationService(PurApWorkflowIntegrationService purapWorkflowIntegrationService) {
+        this.purapWorkflowIntegrationService = purapWorkflowIntegrationService;
+    }
 
     /**
      * @see org.kuali.module.purap.server.PaymentRequestService.getPaymentRequestsToExtractByCM()
@@ -219,6 +233,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *        according the the accounts on the items
      */
     private boolean isEligibleForAutoApproval(PaymentRequestDocument document, KualiDecimal defaultMinimumLimit) {
+        // check to make sure the PREQ isnt scheduled  to stop in tax review.
+        if (purapWorkflowIntegrationService.willDocumentStopAtGivenFutureRouteNode(document, PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum.VENDOR_TAX_REVIEW)) {
+            return false;
+        }
+
         // This minimum will be set to the minimum limit derived from all
         // accounting lines on the document. If no limit is determined, the 
         // default will be used.
@@ -228,6 +247,15 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // minimum limit from each according to chart, chart and account, and 
         // chart and organization. 
         for (SourceAccountingLine line : purapAccountingService.generateSummary(document.getItems())) {
+            // check to make sure the account is in the auto approve exclusion list
+            Map<String, String> autoApproveMap = new HashMap<String, String>();
+            autoApproveMap.put("chartOfAccountsCode", line.getChartOfAccountsCode());
+            autoApproveMap.put("accountNumber", line.getAccountNumber());
+            AutoApproveExclude autoApproveExclude = (AutoApproveExclude) businessObjectService.findByPrimaryKey(AutoApproveExclude.class, autoApproveMap);
+            if (autoApproveExclude != null) {
+                return false;
+            }
+            
             minimumAmount = getMinimumLimitAmount(
                     negativePaymentRequestApprovalLimitService.findByChart(
                             line.getChartOfAccountsCode()), minimumAmount);

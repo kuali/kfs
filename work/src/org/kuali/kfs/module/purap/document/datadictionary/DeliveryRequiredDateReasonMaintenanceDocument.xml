@@ -46,7 +46,7 @@
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit Contact Type">
+            <maintainableSection title="Edit Delivery Required Date Reason">
                 <maintainableItems>
                     <maintainableField name="deliveryRequiredDateReasonCode" required="true" />
                     <maintainableField name="deliveryRequiredDateReasonDescription" required="true" />

@@ -221,7 +221,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
                         if (kualiConfigurationService.isUsable( requiresDescriptionRule ) &&
                                 kualiConfigurationService.getParameterValuesAsSet(requiresDescriptionRule).contains(item.getItemTypeCode())) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, "The item description of " + item.getItemType().getItemTypeDescription(), " is empty");
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, "The item description of " + item.getItemType().getItemTypeDescription(), "empty");
             }
         }
         return valid;

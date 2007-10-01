@@ -434,7 +434,9 @@ public class PurapConstants extends JstlConstants {
 
         public static final Set CANCELLED_STATUSES = new HashSet();
         public static final Set STATUSES_DISALLOWING_HOLD = new HashSet();
+        public static final Set STATUSES_DISALLOWING_REMOVE_HOLD = new HashSet();
         public static final Set STATUSES_DISALLOWING_REQUEST_CANCEL = new HashSet();
+        public static final Set STATUSES_DISALLOWING_REMOVE_REQUEST_CANCEL = new HashSet();
         static {
             CANCELLED_STATUSES.add(CANCELLED_IN_PROCESS);
             CANCELLED_STATUSES.add(CANCELLED_PRIOR_TO_AP_APPROVAL);
@@ -444,11 +446,15 @@ public class PurapConstants extends JstlConstants {
             STATUSES_DISALLOWING_HOLD.add(IN_PROCESS);
             STATUSES_DISALLOWING_HOLD.addAll(Arrays.asList(CANCELLED_STATUSES.toArray(new String[CANCELLED_STATUSES.size()])));
 
+            STATUSES_DISALLOWING_REMOVE_HOLD.addAll(Arrays.asList(CANCELLED_STATUSES.toArray(new String[CANCELLED_STATUSES.size()])));
+            
             STATUSES_DISALLOWING_REQUEST_CANCEL.add(INITIATE);
             STATUSES_DISALLOWING_REQUEST_CANCEL.add(IN_PROCESS);
             STATUSES_DISALLOWING_REQUEST_CANCEL.add(DEPARTMENT_APPROVED);
             STATUSES_DISALLOWING_REQUEST_CANCEL.add(AUTO_APPROVED);
             STATUSES_DISALLOWING_REQUEST_CANCEL.addAll(Arrays.asList(CANCELLED_STATUSES.toArray(new String[CANCELLED_STATUSES.size()])));
+            
+            STATUSES_DISALLOWING_REMOVE_REQUEST_CANCEL.addAll(Arrays.asList(CANCELLED_STATUSES.toArray(new String[CANCELLED_STATUSES.size()])));
         }
         /*
          * Modify as required: public static final String CANCELLED = "CANC"; public static final String CLOSED = "CLOS"; public static final String

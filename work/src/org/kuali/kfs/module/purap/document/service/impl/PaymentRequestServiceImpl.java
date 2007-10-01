@@ -737,34 +737,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         document.setLastActionPerformedByUniversalUserId(null);
     }   
 
-
-    /**
-     * This method determines if this document may be placed on hold
-     * 
-     * @see org.kuali.module.purap.service.PaymentRequestService#isPaymentRequestHoldable(org.kuali.module.purap.document.PaymentRequestDocument)
-     */
-    public boolean isPaymentRequestHoldable(PaymentRequestDocument document){
-        boolean holdable = false;
-        String statusCode = document.getStatusCode();
-        
-        /* The document is not already on hold,
-         * The document has not been extracted,
-         * The document is out for approval,
-         * The document is one of a set of specific PREQ status codes
-         */
-        if( document.isHoldIndicator() == false &&
-            document.getExtractedDate() == null &&
-            document.getDocumentHeader().hasWorkflowDocument() &&
-            ( document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && 
-              document.getDocumentHeader().getWorkflowDocument().isApprovalRequested() ) &&
-            ( !PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(statusCode) ) ){
-            
-            holdable = true;
-        }
-        
-        return holdable;
-    }
-    
     /**
      * This method determines if a user has permission to put a PREQ on hold
      * 
@@ -779,10 +751,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
          * The user is a member of the Accounts Payable group
          */
         if( document.isHoldIndicator() == false &&
-             (document.getDocumentHeader().hasWorkflowDocument() &&
-             ( document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && 
-               document.getDocumentHeader().getWorkflowDocument().isApprovalRequested() ) ) ||
-            ( user.isMember(accountsPayableGroup)) ){
+            document.getPaymentRequestedCancelIndicator() == false &&            
+            ((document.getDocumentHeader().hasWorkflowDocument() &&
+             (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && 
+              document.getDocumentHeader().getWorkflowDocument().isApprovalRequested())) ||
+             (user.isMember(accountsPayableGroup) && document.getExtractedDate() == null)) &&
+             ( !PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains( document.getStatusCode() )) ){
             
             canHold = true;
         }
@@ -804,8 +778,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
          * The user is a member of the AP Supervisor group
          */
         if( document.isHoldIndicator() &&
-            ( user.getPersonUniversalIdentifier().equals( document.getLastActionPerformedByUniversalUserId() ) ||
-             (user.isMember(accountsPayableSupervisorGroup)) ) ){
+            (user.getPersonUniversalIdentifier().equals( document.getLastActionPerformedByUniversalUserId() ) ||
+             user.isMember(accountsPayableSupervisorGroup)) &&
+            ( !PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REMOVE_HOLD.contains( document.getStatusCode() )) ){
             
             canRemoveHold = true;
         }
@@ -859,33 +834,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         document.setLastActionPerformedByUniversalUserId(null);
         document.setAccountsPayableRequestCancelIdentifier(null);
     }   
-
-    /**
-     * This method determines if this document may have a cancel requested
-     * 
-     * @see org.kuali.module.purap.service.PaymentRequestService#isPaymentRequestHoldable(org.kuali.module.purap.document.PaymentRequestDocument)
-     */
-    public boolean canRequestCancelOnPaymentRequest(PaymentRequestDocument document){
-        String statusCode = document.getStatusCode();
-        
-        /* The document is not already requested to be canceled,
-         * The document has not been extracted,
-         * The document is out for approval,
-         * The document is one of a set of specific PREQ status codes
-         */
-        if( document.getPaymentRequestedCancelIndicator() == false &&
-            document.getExtractedDate() == null &&
-            document.getDocumentHeader().hasWorkflowDocument() &&
-            ( document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && 
-              document.getDocumentHeader().getWorkflowDocument().isApprovalRequested() ) &&
-            ( PurapConstants.PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals(statusCode) ||
-              PurapConstants.PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(statusCode) ||
-              PurapConstants.PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals(statusCode) ||
-              PurapConstants.PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(statusCode)) ){
-            return true;
-        }
-        return false;
-    }
     
     /**
      * 
@@ -901,16 +849,16 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.module.purap.service.PaymentRequestService#canHoldPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument, org.kuali.core.bo.user.UniversalUser)
      */
     public boolean canUserRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user){
-        String accountsPayableGroup = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
         
         /* The user is an approver of the document,
-         * The user is a member of the Accounts Payable group
          */
-        if( (!document.getPaymentRequestedCancelIndicator()) &&
-             (document.getDocumentHeader().hasWorkflowDocument() &&
-             ( document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && 
-               document.getDocumentHeader().getWorkflowDocument().isApprovalRequested() ) ) ||
-            ( user.isMember(accountsPayableGroup)) ){
+        if( document.getPaymentRequestedCancelIndicator() == false &&
+            document.isHoldIndicator() == false &&
+            document.getExtractedDate() == null &&
+            (document.getDocumentHeader().hasWorkflowDocument() &&
+             (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && 
+              document.getDocumentHeader().getWorkflowDocument().isApprovalRequested() )) &&
+            ( !PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains( document.getStatusCode() )) ){
             return true;
         }
         return false;
@@ -929,7 +877,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
          */
         if( document.getPaymentRequestedCancelIndicator() &&
             ( user.getPersonUniversalIdentifier().equals( document.getLastActionPerformedByUniversalUserId() ) ||
-             (user.isMember(accountsPayableSupervisorGroup))) ){
+              user.isMember(accountsPayableSupervisorGroup)) &&
+            ( !PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains( document.getStatusCode() )) ){
             return true;
         }
         return false;

@@ -46,9 +46,7 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
     public Date calculatePayDate(Date invoiceDate,PaymentTermType terms);
         
     public void addHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
-    
-    public boolean isPaymentRequestHoldable(PaymentRequestDocument document);
-    
+        
     public boolean canHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user);
     
     public boolean canRemoveHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user);
@@ -58,8 +56,6 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
     public PaymentRequestDocument getPaymentRequestById(Integer poDocId);
     
     public void requestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
-    
-    public boolean canRequestCancelOnPaymentRequest(PaymentRequestDocument document);
     
     /**
      * 

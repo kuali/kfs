@@ -58,23 +58,19 @@ public class PaymentRequestDocumentActionAuthorizer {
         this.fullEntryCompleted = SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq); 
             
         //special indicators
-        if (SpringContext.getBean(PaymentRequestService.class).isPaymentRequestHoldable(preq) &&
-            SpringContext.getBean(PaymentRequestService.class).canHoldPaymentRequest(preq, user) ) {                        
+        if (SpringContext.getBean(PaymentRequestService.class).canHoldPaymentRequest(preq, user) ) {                        
             canHold = true;
         }
         
-        if (SpringContext.getBean(PaymentRequestService.class).canRequestCancelOnPaymentRequest(preq) &&
-            SpringContext.getBean(PaymentRequestService.class).canUserRequestCancelOnPaymentRequest(preq, user) ) {
+        if (SpringContext.getBean(PaymentRequestService.class).canUserRequestCancelOnPaymentRequest(preq, user) ) {
             canRequestCancel = true;
         }
         
-        if(SpringContext.getBean(PaymentRequestService.class).isPaymentRequestHoldable(preq) == false &&
-             SpringContext.getBean(PaymentRequestService.class).canRemoveHoldPaymentRequest(preq, user)){
+        if (SpringContext.getBean(PaymentRequestService.class).canRemoveHoldPaymentRequest(preq, user)){
             canRemoveHold = true;
         }
         
-        if( SpringContext.getBean(PaymentRequestService.class).canRequestCancelOnPaymentRequest(preq) == false && 
-            SpringContext.getBean(PaymentRequestService.class).canUserRemoveRequestCancelOnPaymentRequest(preq, user) ){
+        if (SpringContext.getBean(PaymentRequestService.class).canUserRemoveRequestCancelOnPaymentRequest(preq, user) ){
             canRemoveRequestCancel = true;
         }
         
@@ -196,23 +192,10 @@ public class PaymentRequestDocumentActionAuthorizer {
     public boolean canHold(){
         boolean hasPermission = false;
         
-        if(     isCanHold() && (
-                
-                ((PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals( getDocStatus() ) ||
-                 PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals( getDocStatus() ) ||
-                 PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals( getDocStatus() ) ||
-                 PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals( getDocStatus() ) ) &&                
-                (isApUser() && isRequestCancelIndicator() == false && isHoldIndicator() == false ) ) ||
-
+        if(     isCanHold() || (                
                 ((PaymentRequestStatuses.DEPARTMENT_APPROVED.equals( getDocStatus() ) ||
                   PaymentRequestStatuses.AUTO_APPROVED.equals( getDocStatus() ) ) &&               
-                 (isApUser() && isHoldIndicator() == false && isHoldIndicator() == false && isExtracted() == false)) ||
-
-                ((PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals( getDocStatus() ) ||
-                  PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals( getDocStatus() ) ||
-                  PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals( getDocStatus() ) ||
-                  PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals( getDocStatus() ) ) &&                
-                 (isApprover() && isRequestCancelIndicator() == false && isHoldIndicator() == false )) )){
+                 (isApUser() && isHoldIndicator() == false && isHoldIndicator() == false && isExtracted() == false))) ){
                          
                 hasPermission = true;
         }
@@ -223,23 +206,11 @@ public class PaymentRequestDocumentActionAuthorizer {
     public boolean canRemoveHold(){
         boolean hasPermission = false;
 
-        if(   isCanRemoveHold() && (
+        if(   isCanRemoveHold() || (
               
-              ((PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals( getDocStatus() ) ||
-                PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals( getDocStatus() ) ||
-                PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals( getDocStatus() ) ||
-                PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals( getDocStatus() ) ) &&                                
-               ( isApUser() && isHoldIndicator() == true ) ) || 
-
               ((PaymentRequestStatuses.DEPARTMENT_APPROVED.equals( getDocStatus() ) ||
                 PaymentRequestStatuses.AUTO_APPROVED.equals( getDocStatus() ) ) &&               
-               (isApUser() && isHoldIndicator() == true && isExtracted() == false)) ||
-                
-              ((PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals( getDocStatus() ) ||
-                PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals( getDocStatus() ) ||
-                PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals( getDocStatus() ) ||
-                PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals( getDocStatus() ) ) &&                                
-               ( isApprover() && isHoldIndicator() == true )) )){
+               (isApSupervisor() && isHoldIndicator() == true && isExtracted() == false)) ) ){
             
               hasPermission = true;
           }
@@ -273,13 +244,7 @@ public class PaymentRequestDocumentActionAuthorizer {
     public boolean canRequestCancel(){
         boolean hasPermission = false;
         
-        if( isCanRequestCancel() && (
-            ((PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals( getDocStatus() ) ||
-              PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals( getDocStatus() ) ||
-              PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals( getDocStatus() ) ||
-              PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals( getDocStatus() ) ) &&                        
-             (isApprover() &&isRequestCancelIndicator() == false && isHoldIndicator() == false) )) ){
-            
+        if( isCanRequestCancel()){            
             hasPermission = true;
         }
   

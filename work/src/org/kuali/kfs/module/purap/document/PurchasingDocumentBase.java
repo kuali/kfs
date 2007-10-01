@@ -130,22 +130,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     /**
-     * This method is to allow child PO classes to customize the prepareForSave method.  Most need to call the super to get the GL entry creation, 
-     * but they each need to do different things to prepare for those entries to be created.  This is only for PO since it has children classes
-     * that need different prep work for GL creation.
-     * 
-     * @param event
-     */
-    public void customPrepareForSave(KualiDocumentEvent event) {
-    }
-
-    @Override
-    public void prepareForSave(KualiDocumentEvent event) {
-        customPrepareForSave(event);
-        super.prepareForSave(event);
-    }
-
-    /**
      * @see org.kuali.module.purap.document.PurchasingDocument#templateVendorDetail(org.kuali.module.vendor.bo.VendorDetail)
      */
     public void templateVendorDetail(VendorDetail vendorDetail) {

@@ -111,16 +111,23 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             GeneralLedgerPendingEntry explicitEntry, Integer referenceDocumentNumber, String debitCreditCode,
             String docType, boolean isEncumbrance) {
 
+        // USE CURRENT; don't use FY on doc in case it's a prior year
         UniversityDate uDate = universityDateService.getCurrentUniversityDate();
+        explicitEntry.setUniversityFiscalYear(uDate.getUniversityFiscalYear());
+        explicitEntry.setUniversityFiscalPeriodCode(uDate.getUniversityFiscalAccountingPeriod());
 
+        explicitEntry.setDocumentNumber(purapDocument.getDocumentNumber());
+        explicitEntry.setTransactionLedgerEntryDescription(entryDescription(purapDocument.getVendorName()));
         explicitEntry.setFinancialSystemOriginationCode(PURAP_ORIGIN_CODE);
-        explicitEntry.setReferenceFinancialSystemOriginationCode(PURAP_ORIGIN_CODE);
-        explicitEntry.setReferenceFinancialDocumentTypeCode(PurapDocTypeCodes.PO_DOCUMENT);
+
         if (ObjectUtils.isNotNull(referenceDocumentNumber)) {
             explicitEntry.setReferenceFinancialDocumentNumber(referenceDocumentNumber.toString());
+            explicitEntry.setReferenceFinancialDocumentTypeCode(PurapDocTypeCodes.PO_DOCUMENT);
+            explicitEntry.setReferenceFinancialSystemOriginationCode(PURAP_ORIGIN_CODE);
         }
 
         // TODO should we be doing it like this or storing the FY in the acct table in which case we wouldn't need this at all we'd inherit it from the accountingdocument
+        // TODO do we need this for subobject code?
         ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(explicitEntry.getUniversityFiscalYear(), explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialObjectCode());
         if (ObjectUtils.isNotNull(objectCode)) {
             explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
@@ -153,117 +160,6 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         else {
             explicitEntry.setTransactionDebitCreditCode(debitCreditCode);
         }
-
-
-        if (PurapDocTypeCodes.PO_DOCUMENT.equals(docType)) {
-            explicitEntry.setTransactionLedgerEntryDescription(entryDescription(purapDocument.getVendorName()));
-
-            if (purapDocument.getPostingYear().compareTo(uDate.getUniversityFiscalYear()) > 0) {
-                // USE NEXT AS SET ON PO; POs can be forward dated to not encumber until next fiscal year
-                explicitEntry.setUniversityFiscalYear(purapDocument.getPostingYear());
-                explicitEntry.setUniversityFiscalPeriodCode(MONTH1);
-            }
-            else {
-                // USE CURRENT; don't use FY on PO in case it's a prior year
-                explicitEntry.setUniversityFiscalYear(uDate.getUniversityFiscalYear());
-                explicitEntry.setUniversityFiscalPeriodCode(uDate.getUniversityFiscalAccountingPeriod());
-                // TODO do we need to update the doc posting year?
-            }
-
-        }
-        else if (PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT.equals(docType)) {
-            PaymentRequestDocument preq = (PaymentRequestDocument) purapDocument;
-            explicitEntry.setDocumentNumber(preq.getDocumentNumber());
-
-            // PREQs created in the previous fiscal year get backdated if we're at the beginning of the new fiscal year (i.e. prior to first closing)
-            Integer allowBackpost = new Integer(kualiConfigurationService.getParameterValue(KFSConstants.PURAP_NAMESPACE, PurapConstants.Components.PAYMENT_REQUEST, PurapRuleConstants.ALLOW_BACKPOST_DAYS));
-            if (allowBackpost == null) {
-                throw new IllegalArgumentException("ALLOW_BACKPOST_DAYS needs to be defined in system parameters");
-            }
-
-            Calendar today = dateTimeService.getCurrentCalendar();
-            Integer currentFY = uDate.getUniversityFiscalYear();
-            Date priorClosingDateTemp = universityDateService.getLastDateOfFiscalYear(currentFY - 1);
-            Calendar priorClosingDate = Calendar.getInstance();
-            priorClosingDate.setTime(priorClosingDateTemp);
-
-            Calendar allowBackpostDate = Calendar.getInstance();
-            allowBackpostDate.setTime(priorClosingDate.getTime());
-            allowBackpostDate.add(Calendar.DATE, allowBackpost.intValue());
-
-            Calendar preqInvoiceDate = Calendar.getInstance();
-            preqInvoiceDate.setTime(preq.getInvoiceDate());
-
-            if (today.after(priorClosingDate) && today.before(allowBackpostDate) && (preqInvoiceDate.before(priorClosingDate) || preqInvoiceDate.equals(priorClosingDate))) {
-                LOG.debug("createGlPendingTransaction() within range to allow backpost; posting entry to period 12 of previous FY");
-                explicitEntry.setUniversityFiscalYear(currentFY - 1);
-                explicitEntry.setUniversityFiscalPeriodCode(KFSConstants.MONTH12);
-            }
-            else {
-                LOG.debug("createGlPendingTransaction() posting entry to current year and period");
-                explicitEntry.setUniversityFiscalYear(currentFY);
-                explicitEntry.setUniversityFiscalPeriodCode(uDate.getUniversityFiscalAccountingPeriod());
-            }
-
-            // if alternate payee is paid for escrow payment, send alternate vendor name in GL desc
-            if (preq.getAlternateVendorHeaderGeneratedIdentifier() != null && 
-                    preq.getAlternateVendorDetailAssignedIdentifier() != null && 
-                    preq.getVendorHeaderGeneratedIdentifier().compareTo(preq.getAlternateVendorHeaderGeneratedIdentifier()) == 0 && 
-                    preq.getVendorDetailAssignedIdentifier().compareTo(preq.getAlternateVendorDetailAssignedIdentifier()) == 0) {
-                // TODO PHASE 3 - once alternate payee functionality is added, name might be stored in preq insted of having to go to PO
-                explicitEntry.setTransactionLedgerEntryDescription(entryDescription(preq.getPurchaseOrderDocument().getAlternateVendorName()));
-            }
-            else {
-                explicitEntry.setTransactionLedgerEntryDescription(entryDescription(preq.getPurchaseOrderDocument().getVendorName()));
-            }
-
-        }
-        else if (PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(docType)) {
-            CreditMemoDocument cm = (CreditMemoDocument) purapDocument;
-
-            explicitEntry.setDocumentNumber(cm.getDocumentNumber());
-            explicitEntry.setUniversityFiscalYear(uDate.getUniversityFiscalYear());
-            explicitEntry.setUniversityFiscalPeriodCode(uDate.getUniversityFiscalAccountingPeriod());
-
-            // TODO do we need to blank this out? (hjs)
-            // gpt.setOrgDocNbr("");
-
-            // Always make the referring document the PO for CM's unless the CM is a vendor type.
-            // This is required for encumbrance entries. It's not required for actual/liability
-            // entries, but it makes things easier to deal with. If vendor, leave referring stuff blank.
-            if (cm.isSourceDocumentPaymentRequest()) {
-
-                // if CM is off of PREQ, use vendor name associated with PREQ (primary or alternate)
-                PaymentRequestDocument cmPR = cm.getPaymentRequestDocument();
-                PurchaseOrderDocument cmPO = cm.getPurchaseOrderDocument();
-                // if alternate payee is paid for escrow payment, send alternate vendor name in GL desc
-                if (cmPR.getAlternateVendorHeaderGeneratedIdentifier() != null && 
-                        cmPR.getAlternateVendorDetailAssignedIdentifier() != null && 
-                        cmPR.getVendorHeaderGeneratedIdentifier().compareTo(cmPR.getAlternateVendorHeaderGeneratedIdentifier()) == 0 && 
-                        cmPR.getVendorDetailAssignedIdentifier().compareTo(cmPR.getAlternateVendorDetailAssignedIdentifier()) == 0) {
-                    explicitEntry.setTransactionLedgerEntryDescription(entryDescription(cmPO.getAlternateVendorName()));
-                }
-                else {
-                    explicitEntry.setTransactionLedgerEntryDescription(entryDescription(cmPO.getVendorName()));
-                }
-
-            }
-            else if (cm.isSourceDocumentPurchaseOrder()) {
-                explicitEntry.setTransactionLedgerEntryDescription(entryDescription(cm.getVendorDetail().getVendorName()));
-            }
-            else {
-                // Vendor type
-                explicitEntry.setReferenceFinancialDocumentNumber(null);
-                explicitEntry.setReferenceFinancialDocumentTypeCode(null);
-                explicitEntry.setReferenceFinancialSystemOriginationCode(null);
-
-                explicitEntry.setTransactionLedgerEntryDescription(entryDescription(cm.getVendorDetail().getVendorName()));
-            }
-        }
-        else {
-            throw new IllegalArgumentException("purapDocument (doc #" + purapDocument.getDocumentNumber() + ") is invalid");
-        }
-
 
     }// end purapCustomizeGeneralLedgerPendingEntry()
 
@@ -360,10 +256,8 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 savePaymentRequestSummaryAccounts(accountingLines, preq.getPurapDocumentIdentifier());
             }
 
-            if (success) {
-                //Manually save GL entries for Payment Request and encumbrances
-                saveGLEntries(preq.getGeneralLedgerPendingEntries());
-            }
+            //Manually save GL entries for Payment Request and encumbrances
+            saveGLEntries(preq.getGeneralLedgerPendingEntries());
         }
         return success;
     }

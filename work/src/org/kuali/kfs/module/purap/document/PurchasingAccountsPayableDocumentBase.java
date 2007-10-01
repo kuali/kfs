@@ -116,9 +116,22 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         this.statusHistories = new ManageableArrayList();
     }
 
+    /**
+     * This method is to allow child PO classes to customize the prepareForSave method.  Most need to call the super to get the GL entry creation, 
+     * but they each need to do different things to prepare for those entries to be created.  This is only for PO since it has children classes
+     * that need different prep work for GL creation.
+     * 
+     * @param event
+     */
+    public void customPrepareForSave(KualiDocumentEvent event) {
+        //Need this here so that it happens before the GL work is done
+        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
+    }
+
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
+        customPrepareForSave(event);
+
         //These next 3 lines are temporary changes so that we can use PurApOjbCollectionHelper for release 2.
         //But these 3 lines will not be necessary anymore if the changes in PurApOjbCollectionHelper is
         //merge into Rice. KULPURAP-1370 is the related jira.

@@ -339,37 +339,6 @@ public class PurapServiceImpl implements PurapService {
         return purchaseOrderTotalLimit;
     }
 
-    private boolean allowEncumberNextFiscalYear() {
-        LOG.debug("allowEncumberNextFiscalYear() started");
-
-        java.util.Date today = dateTimeService.getCurrentDate();
-        java.util.Date closingDate = universityDateService.getLastDateOfFiscalYear(universityDateService.getCurrentFiscalYear());
-        Integer allowEncumberNext = new Integer(kualiConfigurationService.getParameterValue(KFSConstants.PURAP_NAMESPACE, PurapConstants.Components.REQUISITION, PurapRuleConstants.ALLOW_ENCUMBER_NEXT_YEAR_DAYS));
-        int diffTodayClosing = dateTimeService.dateDiff(today, closingDate, false);
-
-        if (ObjectUtils.isNotNull(closingDate) && ObjectUtils.isNotNull(today) && ObjectUtils.isNotNull(allowEncumberNext)) {
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            LOG.debug("allowEncumberNextFiscalYear() today = " + format.format(today.getTime()) + "; encumber next FY range = " + allowEncumberNext + " - " + format.format(closingDate.getTime()));
-
-            if (allowEncumberNext.intValue() >= diffTodayClosing && diffTodayClosing >= KualiDecimal.ZERO.intValue()) {
-                LOG.debug("allowEncumberNextFiscalYear() encumber next FY allowed; return true.");
-                return true;
-            }
-        }
-        LOG.debug("allowEncumberNextFiscalYear() encumber next FY not allowed; return false.");
-        return false;
-    }
-
-    public List<Integer> getAllowedFiscalYears() {
-        List allowedYears = new ArrayList();
-        Integer currentFY = universityDateService.getCurrentFiscalYear();
-        allowedYears.add(currentFY);
-        if (allowEncumberNextFiscalYear()) {
-            allowedYears.add(currentFY + 1);
-        }
-        return allowedYears;
-    }
-    
     /**
      * 
      * This method returns true if full entry mode has ended for this document
@@ -413,12 +382,12 @@ public class PurapServiceImpl implements PurapService {
             CreditMemoDocument creditMemo = (CreditMemoDocument)purapDocument;
             SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(creditMemo);
             // do GL entries for CM creation
-            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateCreditMemo( creditMemo );
+            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateCreditMemo( creditMemo );           
             
             //if reopen po indicator set then reopen po
             if( creditMemo.isReopenPurchaseOrderIndicator() ){
                 performLogicForCloseReopenPO(creditMemo);
-            }
+        }
         }
         else {
             throw new RuntimeException("Attempted to perform full entry logic for unhandled document type '" + purapDocument.getClass().getName() + "'");

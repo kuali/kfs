@@ -143,23 +143,6 @@ public class RequisitionServiceImpl implements RequisitionService {
             if (item.isItemRestrictedIndicator()) {
                 return "Requisition contains an item that is marked as restricted.";
             }
-//TODO PHASE 2B - Discounts and trade-ins
-//            if (EpicConstants.ITEM_TYPE_ORDER_DISCOUNT_CODE.equals(item.getItemType().getCode()) || EpicConstants.ITEM_TYPE_TRADE_IN_CODE.equals(item.getItemType().getCode())) {
-//                if ((item.getUnitPrice() != null) && ((zero.compareTo(item.getUnitPrice())) != 0)) {
-//                    // discount or trade-in item has unit price that is not empty or zero
-//                    return "Requisition contains a " + item.getItemType().getDescription() + " item, so it does not qualify as an APO.";
-//                }
-//            }
-//          TODO PHASE 2B - Capital Asset Codes
-//            if (!PurapConstants.RequisitionSources.B2B.equals(requisitionSource)) {
-//                for (Iterator iterator = item.getSourceAccountingLines().iterator(); iterator.hasNext();) {
-//                    RequisitionAccount account = (RequisitionAccount) iterator.next();
-//                    ObjectCode code =  objectCodeService.getByPrimaryId(requisition.getPostingYear(), account.getChartOfAccountsCode(), account.getFinancialObjectCode());
-//                    if (EpicConstants.FIS_CAPITAL_ASSET_OBJECT_LEVEL_CODE.equals(code.getFinancialObjectLevelCode())) {
-//                        return "Standard requisition with a capital asset object code.";
-//                    }
-//                }//endfor accounts
-//            }
         }//endfor items
 
         LOG.debug("isAPO() vendor #" + requisition.getVendorHeaderGeneratedIdentifier() + "-" + requisition.getVendorDetailAssignedIdentifier());
@@ -211,26 +194,6 @@ public class RequisitionServiceImpl implements RequisitionService {
                 StringUtils.isNotEmpty(requisition.getAlternate5VendorName())) {
             LOG.debug("isAPO() alternate vendor name exists; return false.");
             return "Requisition contains alternate vendor names.";
-        }
-
-        // TODO PHASE 2B - need to implement validateCapitalASsetNumbersForAPO
-//        if( !validateCapitalAssetNumbersForAPO( requisition ) ) {
-//            return "Requisition did not pass CAMS validation.";
-//        }
-
-// TODO test newly converting logic
-        Date today = dateTimeService.getCurrentDate(); 
-        Integer currentFY = universityDateService.getCurrentFiscalYear();
-        Date closingDate = universityDateService.getLastDateOfFiscalYear(currentFY);
-        Integer allowApoDate = new Integer(kualiConfigurationService.getParameterValue(KFSConstants.PURAP_NAMESPACE, PurapConstants.Components.REQUISITION, PurapRuleConstants.ALLOW_APO_NEXT_FY_DAYS));
-        int diffTodayClosing = dateTimeService.dateDiff(today, closingDate, false);
-        LOG.debug("isApo() req FY = " + requisition.getPostingYear() + " and currentFY = " + currentFY);
-        LOG.debug("isApo() today = " + dateTimeService.toDateString(today) + ", allowApoDate = " + allowApoDate + " and diffTodayClosing = " + diffTodayClosing);
-        
-        if (requisition.getPostingYear().compareTo(currentFY) > 0 &&
-                allowApoDate.intValue() >= diffTodayClosing &&
-                diffTodayClosing >= KFSConstants.ZERO.intValue()) {
-            return "Requisition is set to encumber next fiscal year and approval is not within APO allowed date range.";
         }
 
         return "";

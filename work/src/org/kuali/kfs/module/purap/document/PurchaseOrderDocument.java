@@ -157,6 +157,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 
     @Override
     public void customPrepareForSave(KualiDocumentEvent event) {
+        super.customPrepareForSave(event);
         if (ObjectUtils.isNull(getPurapDocumentIdentifier())) {
             //need retrieve the next available PO id to save in GL entries (only do if purap id is null which should be on first save)
             Long poSequenceNumber = SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("PO_ID");
@@ -177,36 +178,16 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
             // Set amount
             item.setItemOutstandingEncumberedAmount(item.getExtendedPrice() == null ? ZERO : item.getExtendedPrice());
 
-            //TODO check setting of outstanding amount in the accounts
             List accounts = (List)item.getSourceAccountingLines();
             Collections.sort(accounts);
 
-            KualiDecimal accountTotalAmount = new KualiDecimal(0);
-            PurchaseOrderAccount lastAccount = null;
-
             for (Iterator iterator = accounts.iterator(); iterator.hasNext();) {
                 PurchaseOrderAccount account = (PurchaseOrderAccount) iterator.next();
-
                 if (!account.isEmpty()) {
-                    KualiDecimal acctAmount = item.getExtendedPrice().multiply(new KualiDecimal(account.getAccountLinePercent().toString()));
-                    // acctAmount = acctAmount.divide(new KualiDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
-                    acctAmount = acctAmount.divide(new KualiDecimal(100));
-                    account.setAmount(acctAmount);
-                    account.setItemAccountOutstandingEncumbranceAmount(acctAmount);
-                    LOG.debug("getDisplayItems() account amount = " + account.getAmount());
-
-                    accountTotalAmount = accountTotalAmount.add(acctAmount);
-                    lastAccount = (PurchaseOrderAccount) ObjectUtils.deepCopy(account);
+                    account.setItemAccountOutstandingEncumbranceAmount(account.getAmount());
                 }
             }//endfor accounts
 
-            //FIXME finish coding rounding
-          // Rounding
-//          if (lastAccount != null && this.getAmount() != null) {
-//              KualiDecimal difference = this.getAmount().subtract(accountTotalAmount);
-//              KualiDecimal tempAmount = lastAccount.getAmount();
-//              lastAccount.setAmount(tempAmount.add(difference));
-//          }
         }//endfor items
 
         this.setSourceAccountingLines(SpringContext.getBean(PurapAccountingService.class).generateSummaryWithNoZeroTotals(this.getItems()));

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.Note;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
@@ -57,8 +58,17 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
         return this.vendorService;
     }
     
-    
-    
+    @Override
+    public void setGenerateDefaultValues(boolean generateDefaultValues) {
+        // TODO Auto-generated method stub
+        super.setGenerateDefaultValues(generateDefaultValues);
+        if (this.getBusinessObject().getBoNotes().isEmpty()) {
+            Note newBONote = new Note();
+            newBONote.setNoteText("Add vendor document ID " + this.documentNumber);
+            this.getBusinessObject().getBoNotes().add(newBONote);
+        }
+    }
+
     @Override
     public String getDocumentTitle(MaintenanceDocument document) {
         String documentTitle = "";
@@ -334,4 +344,5 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
         }
         return super.isRelationshipRefreshable(boClass, relationshipName);
     }
+
 }

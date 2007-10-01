@@ -33,6 +33,7 @@ import org.kuali.module.purap.bo.PurApSummaryItem;
 import org.kuali.module.purap.dao.PurApAccountingDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.util.PurApItemUtils;
@@ -262,7 +263,14 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 //        return returnList;
 //    }
     
-    public List<SummaryAccount> generateSummaryAccounts(List<PurApItem> items) {
+    
+    public List<SummaryAccount> generateSummaryAccounts(PurchasingAccountsPayableDocument document) {
+        //always update the amounts first
+        updateAccountAmounts(document);
+        return generateSummaryAccounts(document.getItems());
+    }
+    
+    private List<SummaryAccount> generateSummaryAccounts(List<PurApItem> items) {
         String methodName = "generateSummaryAccounts()";
         List<SummaryAccount> returnList = new ArrayList<SummaryAccount>();
         LOG.debug(methodName + " started");
@@ -275,8 +283,10 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 for (PurApAccountingLine purApAccountingLine : itemAccounts) {
                     if(purApAccountingLine.accountStringsAreEqual(summaryAccount.getAccount())) {
                         PurApSummaryItem summaryItem = item.getSummaryItem();
-                        //TODO: ctk do we need to make this amount based for PREQ's past full entry?
-                        summaryItem.setEstimatedEncumberanceAmount(new KualiDecimal(purApAccountingLine.getAccountLinePercent().divide(new BigDecimal("100")).multiply(item.getExtendedPrice().bigDecimalValue())));
+                        //Shouldn't need the following, as long as we run updateAccountAmounts before calling this method.
+//                        //TODO: ctk do we need to make this amount based for PREQ's past full entry?
+//                        summaryItem.setEstimatedEncumberanceAmount(new KualiDecimal(purApAccountingLine.getAccountLinePercent().divide(new BigDecimal("100")).multiply(item.getExtendedPrice().bigDecimalValue())));
+                        summaryItem.setEstimatedEncumberanceAmount(purApAccountingLine.getAmount());
                         summaryAccount.getItems().add(summaryItem);
                         break;
                     }

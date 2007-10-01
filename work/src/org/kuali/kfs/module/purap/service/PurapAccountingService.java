@@ -50,7 +50,11 @@ public interface PurapAccountingService {
 
     public List<SourceAccountingLine> generateSummary(List<PurApItem> items);
 //    public Map<SourceAccountingLine, List<PurchasingApItem>> generateSummaryWithItems(List<PurchasingApItem> items);
-    public List<SummaryAccount> generateSummaryAccounts(List<PurApItem> items);
+    
+    /**
+     * generates a list of summary accounts for a document
+     */
+    public List<SummaryAccount> generateSummaryAccounts(PurchasingAccountsPayableDocument document);
     
     public List<SourceAccountingLine> generateSummaryWithNoZeroTotals(List<PurApItem> items);
     public List<SourceAccountingLine> generateSummaryWithNoZeroTotalsUsingAlternateAmount(List<PurApItem> items);

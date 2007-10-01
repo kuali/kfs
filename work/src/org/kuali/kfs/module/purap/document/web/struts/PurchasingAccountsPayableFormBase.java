@@ -50,7 +50,8 @@ public class PurchasingAccountsPayableFormBase extends KualiAccountingDocumentFo
      */
     public void refreshAccountSummmary() {
         clearSummaryAccounts();
-        summaryAccounts.addAll(SpringContext.getBean(PurapAccountingService.class).generateSummaryAccounts(((PurchasingAccountsPayableDocument)this.getDocument()).getItems()));
+        PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument)getDocument();
+        summaryAccounts.addAll(SpringContext.getBean(PurapAccountingService.class).generateSummaryAccounts(purapDocument));
     }
 
     public void clearSummaryAccounts() {

@@ -51,6 +51,7 @@ public class PurchaseOrderDocumentSearchResultProcessor extends PurApDocumentSea
         searchableAttributeFieldNames.add("purchaseOrderDocumentVendorName");
         searchableAttributeFieldNames.add("purchaseOrderDocumentFiscalPostingYear");
         addSearchableAttributeColumnsBasedOnFields(columns, getSearchCriteria(), searchableAttributeFieldNames);
+        addColumnUsingKey(columns, DocumentSearchResult.PROPERTY_NAME_DOC_TYPE_LABEL);
         return columns;
     }
     

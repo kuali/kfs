@@ -37,11 +37,9 @@ Copyright 2005-2007  The Kuali Foundation.  All rights reserved.  Kuali is licen
 
 <h3><a name="Acknowledgements-ThirdPartyContributions"></a>Third Party Contributions</h3>
 
-<p>Portions of Kuali were developed by Indiana University, Cornell University, University of Hawaii, Michigan State University, University of Arizona, San Joaquin Delta Community College, University of California, and <a href="http://www.rsmart.com/">The rSmart Group.</a> (<span class="nobr"><a href="http://www.kuali.org/" title="kuali" rel="nofollow">http://www.kuali.org/</a></span>).</p>
+<p>Portions of Kuali were developed by Indiana University, Cornell University, University of Hawaii, Michigan State University, University of Arizona, San Joaquin Delta Community College, University of California, University of Southern California, and <a href="http://www.rsmart.com/">The rSmart Group.</a> (<span class="nobr"><a href="http://www.kuali.org/" title="kuali" rel="nofollow">http://www.kuali.org/</a></span>).</p>
 
 <p>This product includes software developed by the Apache Software Foundation (<span class="nobr"><a href="http://www.apache.org" title="apache" rel="nofollow">http://www.apache.org</a></span>).</p>
-
-<p>This product includes software developed by ANTLR (<span class="nobr"><a href="http://www.antlr.org/" title="antlr" rel="nofollow">http://www.antlr.org/</a></span>).</p>
 
 <p>This product includes software developed by the JAX-RPC Project part of Project GlassFish (<span class="nobr"><a href="https://jax-rpc.dev.java.net/" title="jax-rpc" rel="nofollow">https://jax-rpc.dev.java.net/</a></span>).</p>
 
@@ -57,17 +55,19 @@ Copyright 2005-2007  The Kuali Foundation.  All rights reserved.  Kuali is licen
 
 <p>This product includes software developed by the Indiana University Extreme&#33; Lab (<span class="nobr"><a href="http://www.extreme.indiana.edu/" title="extreme.indiana" rel="nofollow">http://www.extreme.indiana.edu/</a></span>).</p>
 
-<p>This product includes software developed by the JA-SIG Collaborative (<span class="nobr"><a href="http://www.ja-sig.org/" title="ja-sig" rel="nofollow">http://www.ja-sig.org/</a></span>).</p>
-
-<p>This product includes Cross-Browser XMLHttpRequest v1.1 by Andrew Gregory (<span class="nobr"><a href="http://www.scss.com.au/family/andrew/webdesign/xmlhttprequest/" title="xmlhttprequest" rel="nofollow">http://www.scss.com.au/family/andrew/webdesign/xmlhttprequest/</a></span>).</p>
+<p>This product includes software developed by the Working-Dogs.com (<span class="nobr"><a href="http://www.Working-Dogs.com/" title="Working-Dogs" rel="nofollow">http://www.Working-Dogs.com/</a></span>).</p>
 
 <p>This product includes software copyrighted under the Lesser General Public License (<span class="nobr"><a href="http://www.opensource.org/licenses/lgpl-license.php" title="LGPL" rel="nofollow">http://www.opensource.org/licenses/lgpl-license.php</a></span>).</p>
 
 <p>This product includes software copyrighted under the Common Public License (<span class="nobr"><a href="http://www.opensource.org/licenses/cpl1.0.php" title="CPL" rel="nofollow">http://www.opensource.org/licenses/cpl1.0.php</a></span>).</p>
 
-<p>The original concept and code base for P6Spy was conceived and developed by Andy Martin, Ph.D. who generously contributed the first complete release to the public under this license.&nbsp; This product was due to the pioneering work of Andy that began in December of 1995 developing applications that could seamlessly be deployed with minimal effort but with dramatic results.&nbsp; This code is maintained and extended by Jeff Goke and with the ideas and contributions of other P6Spy contributors. (<span class="nobr"><a href="http://www.p6spy.com" title="p6spy" rel="nofollow">http://www.p6spy.com</a></span>).</p>
+<p>This product includes software licensed under the Mozilla Public License (<span class="nobr"><a href="http://www.mozilla.org/MPL/" title="MPL" rel="nofollow">http://www.mozilla.org/MPL/</a></span>).</p>
 
-<p>Portions Copyright (c) 2000-2006 The Legion of the BouncyCastle. All Rights Reserved. (<span class="nobr"><a href="http://www.bouncycastle.org" title="bouncycastle" rel="nofollow">http://www.bouncycastle.org</a></span>).</p>
+<p>This product includes the Kuali Rice module licensed under the Kuali Foundation ECL (<span class="nobr"><a href="https://test.kuali.org/confluence/display/KULDOC/Rice+Acknowledgments" title="Rice Acknowledgments" rel="nofollow">https://test.kuali.org/confluence/display/KULDOC/Rice+Acknowledgments</a></span>).</p>
+
+<p>This product includes the Kuali Enterprise Workflow module licensed under the Kuali Foundation ECL (<span class="nobr"><a href="https://test.kuali.org/confluence/display/KULDOC/KEW+Acknowledgments" title="KEW Acknowledgments" rel="nofollow">https://test.kuali.org/confluence/display/KULDOC/KEW+Acknowledgments</a></span>).</p>
+
+<p>The original concept and code base for P6Spy was conceived and developed by Andy Martin, Ph.D. who generously contributed the first complete release to the public under this license.&nbsp; This product was due to the pioneering work of Andy that began in December of 1995 developing applications that could seamlessly be deployed with minimal effort but with dramatic results.&nbsp; This code is maintained and extended by Jeff Goke and with the ideas and contributions of other P6Spy contributors. (<span class="nobr"><a href="http://www.p6spy.com" title="p6spy" rel="nofollow">http://www.p6spy.com</a></span>).</p>
 
 <p>Portions Copyright (c) 2000-2005 INRIA, France Telecom. All Rights Reserved.</p>
 
@@ -75,13 +75,11 @@ Copyright 2005-2007  The Kuali Foundation.  All rights reserved.  Kuali is licen
 
 <p>Portions Copyright (c) 2002, 2003 Mihai Bazon. All Rights Reserved.  Licensed under GNU Lesser General Public License (<span class="nobr"><a href="http://www.opensource.org/licenses/lgpl-license.php" title="LGPL" rel="nofollow">http://www.opensource.org/licenses/lgpl-license.php</a></span>).</p>
 
-<p>Portions Copyright (c) 2002 JSON.org. All Rights Reserved. (<span class="nobr"><a href="http://www.JSON.org" title="JSON" rel="nofollow">http://www.JSON.org</a></span>).</p>
+<p>Portions Copyright (c) 2005 Envoi Solutions LLC. All Rights Reserved. (<span class="nobr"><a href="http://xfire.codehaus.org" title="xfire" rel="nofollow">http://xfire.codehaus.org</a></span>).</p>
 
-<p>Portions Copyright (c) 2000-2006 Russel Gold. All Rights Reserved.<p>
+<p>Portions Copyright (c) 199, 2004 Bull S. A. All Rights Reserved.<p>
 
 <p>Portions Copyright (c) 2003-2005 Joe Walnes. All Rights Reserved. (<span class="nobr"><a href="http://xstream.codehaus.org/" title="xstream" rel="nofollow">http://xstream.codehaus.org/</a></span>).</p>
-
-<p>Portions Copyright (c) 1998-2003 World Wide Web Consortium (Massachusetts Institute of Technology, European Research Consortium for Informatics and Mathematics, Keio University).  All Rights Reserved.  This work is distributed under the W3C® Software License in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.<p>
                             </div>
 </td>
 </tr>

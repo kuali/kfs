@@ -310,7 +310,8 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
 
     public PurchaseOrderDocument getPurchaseOrderDocument() {
-        if ( (ObjectUtils.isNull(purchaseOrderDocument)) && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier())) ) {
+        if ( (ObjectUtils.isNull(purchaseOrderDocument) || ObjectUtils.isNull(purchaseOrderDocument.getPurapDocumentIdentifier())) 
+                && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier())) ) {
             setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier()));
         }
         return purchaseOrderDocument;

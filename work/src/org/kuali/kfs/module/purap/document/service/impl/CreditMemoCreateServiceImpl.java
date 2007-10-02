@@ -133,7 +133,9 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
 //            if (preqItemToTemplate != null && preqItemToTemplate.getItemType().isItemTypeAboveTheLineIndicator()) {
 //                if (preqItemToTemplate.getExtendedPrice().isNonZero()) {
         for (PaymentRequestItem preqItemToTemplate : (List<PaymentRequestItem>)preqDocument.getItems()) {
-            cmDocument.getItems().add(new CreditMemoItem(cmDocument, preqItemToTemplate, preqItemToTemplate.getPurchaseOrderItem(), expiredOrClosedAccountList));
+            if (preqItemToTemplate.getItemType().isItemTypeAboveTheLineIndicator()) {
+                cmDocument.getItems().add(new CreditMemoItem(cmDocument, preqItemToTemplate, preqItemToTemplate.getPurchaseOrderItem(), expiredOrClosedAccountList));
+            }
         }
         
         // add below the line items

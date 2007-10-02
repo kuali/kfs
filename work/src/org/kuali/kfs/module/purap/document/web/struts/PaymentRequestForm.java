@@ -28,10 +28,9 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
-import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.authorization.PaymentRequestDocumentActionAuthorizer;
 import org.kuali.module.purap.service.PurapService;
@@ -153,6 +152,11 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
         }
                 
         return valid;
+    }
+    
+    public boolean isFullDocumentEntryCompleted(){
+        PaymentRequestDocument preq = (PaymentRequestDocument)this.getDocument();
+        return SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq);        
     }
     
     /**

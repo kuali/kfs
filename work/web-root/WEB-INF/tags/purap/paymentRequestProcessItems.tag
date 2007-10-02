@@ -102,7 +102,7 @@
 					    readOnly="false" />
 					    <kul:htmlAttributeLabel attributeEntry="${documentAttributes.closePurchaseOrderIndicator}" skipHelpUrl="true" noColon="true" />
 	              </c:if>
-	              <c:if test="${not empty KualiForm.document.recurringPaymentTypeCode}">
+	              <c:if test="${not empty KualiForm.document.recurringPaymentTypeCode and KualiForm.fullDocumentEntryCompleted == false}">
 	                Recurring PO
 	              </c:if>
               </c:if>
@@ -114,7 +114,7 @@
 					    readOnly="false" />
 					    <kul:htmlAttributeLabel attributeEntry="${documentAttributes.reopenPurchaseOrderIndicator}" skipHelpUrl="true" noColon="true" />
 	              </c:if>
-	              <c:if test="${not empty KualiForm.document.paymentRequestDocument.recurringPaymentTypeCode}">
+	              <c:if test="${not empty KualiForm.document.paymentRequestDocument.recurringPaymentTypeCode and KualiForm.fullDocumentEntryCompleted == false}">
 	                Recurring PO
 	              </c:if>			
               </c:if>		

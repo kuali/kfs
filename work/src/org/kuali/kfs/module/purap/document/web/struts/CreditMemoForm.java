@@ -18,7 +18,6 @@ package org.kuali.module.purap.web.struts.form;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -28,7 +27,6 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PurapService;
@@ -93,7 +91,12 @@ public class CreditMemoForm extends AccountsPayableFormBase {
 
         return valid;        
     }
-    
+
+    public boolean isFullDocumentEntryCompleted(){
+        CreditMemoDocument creditMemo = (CreditMemoDocument)this.getDocument();
+        return SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(creditMemo);        
+    }
+
     /**
      * Build additional credit memo specific buttons and set extraButtons list.
      */

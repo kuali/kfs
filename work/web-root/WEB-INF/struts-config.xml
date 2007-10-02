@@ -135,7 +135,7 @@
         <action path="/Exception" type="org.kuali.core.web.struts.action.KualiExceptionAction">
             <forward name="basic" path="/kr/Exception.do" />
         </action>
-        <action path="/authorizationException" type="org.kuali.core.web.struts.action.KualiAuthorizationExceptionAction">
+        <action path="/authorizationException" name="KualiForm" type="org.kuali.core.web.struts.action.KualiAuthorizationExceptionAction">
             <forward name="basic" path="/kr/authorizationException.do" />
         </action> 
         <action path="/initiationAuthorizationException" type="org.kuali.core.web.struts.action.KualiDocumentInitiationAuthorizationExceptionAction">

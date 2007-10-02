@@ -127,6 +127,19 @@
 <c:set var="useXmlHttp" value="${(!readOnly) && (!empty detailFunction)}" />
 <%-- test to see if we are dealing with the extra JV fields here --%>
 <c:set var="specialRequiredField" value="${(field eq 'referenceOriginCode') || (field eq 'referenceNumber') || (field eq 'referenceTypeCode')}" />
+
+<c:choose>
+    <c:when test="${not empty boClassFullName}">
+        <c:set var="boClassName" value="${boClassFullName}"/>
+    </c:when>
+    <c:when test="${empty boPackageName}">
+        <c:set var="boClassName" value="org.kuali.module.chart.bo.${boClassSimpleName}"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="boClassName" value="${boPackageName}.${boClassSimpleName}"/>
+    </c:otherwise>
+</c:choose>
+        
 <td class="${dataCellCssClass}" valign="top" rowspan="${rowSpan}">
     <c:if test="${not empty anchor}">
     	<a name="${anchor}"></a>
@@ -180,19 +193,6 @@
 
     <%-- lookup control --%>
     <c:if test="${!readOnly && lookup}">
-        <c:choose>
-	      <c:when test="${not empty boClassFullName}">
-		    <c:set var="boClassName" value="${boClassFullName}"/>
-	      </c:when>
-          <c:when test="${empty boPackageName}">
-           <c:set var="boClassName" value="org.kuali.module.chart.bo.${boClassSimpleName}"/>
-          </c:when>
-          <c:otherwise>
-            <c:set var="boClassName" value="${boPackageName}.${boClassSimpleName}"/>
-          </c:otherwise>
-        </c:choose>
-        
-
             <c:set var="fieldConversions" value="${lookupUnkeyedFieldConversions}"/>
             <c:forTokens var="key" items="${lookupOrInquiryKeys}" delims=",">
                 <c:set var="withAccountingLine" value="${accountingLine}.${key}"/>

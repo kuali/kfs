@@ -17,25 +17,24 @@ package org.kuali.module.purap.service;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public interface PurapService {
 
     public boolean updateStatusAndStatusHistory( PurchasingAccountsPayableDocument document, String statusToSet);
-        
+
+    public boolean updateStatusAndStatusHistory( PurchasingAccountsPayableDocument document, String statusToSet, String userId);
+    
     public boolean updateStatus( PurchasingAccountsPayableDocument document, String statusToSet);
     
-    public boolean updateStatusHistory(PurchasingAccountsPayableDocument document, String statusToSet);
+    public boolean updateStatusHistory(PurchasingAccountsPayableDocument document, String statusToSet, String userId);
     
     public List getRelatedViews(Class clazz, Integer accountsPayablePurchasingDocumentLinkIdentifier);
 

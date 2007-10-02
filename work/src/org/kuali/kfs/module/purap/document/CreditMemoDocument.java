@@ -255,13 +255,13 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
 
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String,
-     *      java.lang.String)
+     *      java.lang.String, java.lang.String)
      */
-    public void addToStatusHistories(String oldStatus, String newStatus) {
-        CreditMemoStatusHistory cmsh = new CreditMemoStatusHistory(oldStatus, newStatus);
+    public void addToStatusHistories(String oldStatus, String newStatus, String userId) {
+        CreditMemoStatusHistory cmsh = new CreditMemoStatusHistory(oldStatus, newStatus, userId);
         getStatusHistories().add(cmsh);
     }
-
+    
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getItemClass()
      */

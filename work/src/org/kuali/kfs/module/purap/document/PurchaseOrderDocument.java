@@ -58,6 +58,7 @@ import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.RecurringPaymentFrequency;
 import org.kuali.module.purap.bo.RequisitionItem;
+import org.kuali.module.purap.bo.RequisitionStatusHistory;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -693,14 +694,14 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String, java.lang.String)
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String, java.lang.String, java.lang.String)
      */
-    public void addToStatusHistories( String oldStatus, String newStatus ) {
-        PurchaseOrderStatusHistory posh = new PurchaseOrderStatusHistory( oldStatus, newStatus );
+    public void addToStatusHistories( String oldStatus, String newStatus, String userId ) {
+        PurchaseOrderStatusHistory posh = new PurchaseOrderStatusHistory( oldStatus, newStatus, userId );
         posh.setDocumentHeaderIdentifier(this.documentHeader.getDocumentNumber());
         this.getStatusHistories().add( posh );
     }
-
+    
     /**
      * Gets the pendingActionIndicator attribute. 
      * @return Returns the pendingActionIndicator.

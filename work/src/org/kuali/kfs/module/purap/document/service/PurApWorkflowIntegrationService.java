@@ -20,6 +20,9 @@ import org.kuali.core.document.Document;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
+import edu.iu.uis.eden.exception.EdenUserNotFoundException;
+import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
+
 public interface PurApWorkflowIntegrationService {
 
     /**
@@ -49,4 +52,6 @@ public interface PurApWorkflowIntegrationService {
      * @return
      */
     public boolean willDocumentStopAtGivenFutureRouteNode(PurchasingAccountsPayableDocument document, NodeDetails givenNodeDetail);
+
+    public String getLastUserId(DocumentRouteHeaderValue routeHeader) throws EdenUserNotFoundException;
 }

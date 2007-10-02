@@ -17,7 +17,6 @@ package org.kuali.module.purap.service.impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -27,7 +26,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.UserSession;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
@@ -37,12 +35,10 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.OrganizationParameter;
 import org.kuali.module.purap.bo.PaymentRequestItem;
@@ -56,13 +52,17 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.LogicContainer;
 import org.kuali.module.purap.service.PaymentRequestService;
+import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.vendor.service.VendorService;
 
+import edu.iu.uis.eden.KEWServiceLocator;
 import edu.iu.uis.eden.exception.WorkflowException;
+import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
+import edu.iu.uis.eden.routeheader.RouteHeaderService;
 
 public class PurapServiceImpl implements PurapService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapServiceImpl.class);
@@ -71,6 +71,7 @@ public class PurapServiceImpl implements PurapService {
     private DateTimeService dateTimeService;
     private KualiConfigurationService kualiConfigurationService;
     private UniversityDateService universityDateService;
+    private PurApWorkflowIntegrationService purApWorkflowIntegrationService;
     
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;    
@@ -88,21 +89,29 @@ public class PurapServiceImpl implements PurapService {
         this.universityDateService = universityDateService;
     }
     
+    public void setPurApWorkflowIntegrationService(PurApWorkflowIntegrationService purApWorkflowIntegrationService) {
+        this.purApWorkflowIntegrationService = purApWorkflowIntegrationService;
+    }
+    
     /**
      * This method updates the status and status history for a purap document, passing in a note
      * for the status history.
      */
-    public boolean updateStatusAndStatusHistory(PurchasingAccountsPayableDocument document,String statusToSet) {
+    public boolean updateStatusAndStatusHistory(PurchasingAccountsPayableDocument document,String statusToSet, String userId) {
         LOG.debug("updateStatusAndStatusHistory(): entered method.");
         boolean success = true;
         if ( ObjectUtils.isNotNull(document) && ObjectUtils.isNotNull(statusToSet) ) {
-            success &= this.updateStatusHistory(document, statusToSet);
+            success &= this.updateStatusHistory(document, statusToSet, userId);
             success &= this.updateStatus(document, statusToSet);
             return success;
         }
         else {
             return false;
         }
+    }
+    
+    public boolean updateStatusAndStatusHistory(PurchasingAccountsPayableDocument document, String statusToSet) {
+        return updateStatusAndStatusHistory(document, statusToSet, null);
     }
 
     /**
@@ -129,11 +138,21 @@ public class PurapServiceImpl implements PurapService {
      * @param newStatus             The new status code in String form
      * @return                      True on success.
      */
-    public boolean updateStatusHistory( PurchasingAccountsPayableDocument document, String newStatus) {
+    public boolean updateStatusHistory( PurchasingAccountsPayableDocument document, String newStatus, String userId) {
         LOG.debug("updateStatusHistory(): entered method.");       
         if ( ObjectUtils.isNotNull(document) || ObjectUtils.isNotNull(newStatus) ) {
             String oldStatus = document.getStatusCode();       
-            document.addToStatusHistories( oldStatus, newStatus );      
+            try {
+                RouteHeaderService routeHeaderService = (RouteHeaderService) KEWServiceLocator.getService(KEWServiceLocator.DOC_ROUTE_HEADER_SRV);
+                DocumentRouteHeaderValue drhv = routeHeaderService.getRouteHeader(document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+                if (userId == null) {
+                    userId = purApWorkflowIntegrationService.getLastUserId(drhv);
+                }
+                document.addToStatusHistories( oldStatus, newStatus, userId ); 
+            }
+            catch (WorkflowException we) {
+                //do something
+            }
             LOG.debug("StatusHistory record for document #"+document.getDocumentNumber()+" has added to show change from "
                     +oldStatus+" to "+newStatus);
             return true;
@@ -142,7 +161,7 @@ public class PurapServiceImpl implements PurapService {
             return false;
         }
     }
-
+    
     public List getRelatedViews(Class clazz, Integer accountsPayablePurchasingDocumentLinkIdentifier) {
         Map criteria = new HashMap();
         criteria.put("accountsPayablePurchasingDocumentLinkIdentifier", accountsPayablePurchasingDocumentLinkIdentifier);

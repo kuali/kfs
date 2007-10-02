@@ -16,8 +16,10 @@
 package org.kuali.module.purap.service.impl;
 
 import java.security.InvalidParameterException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -40,11 +42,15 @@ import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.actiontaken.ActionTakenValue;
 import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
 import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
 import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
 import edu.iu.uis.eden.clientapp.vo.UserIdVO;
+import edu.iu.uis.eden.exception.EdenUserNotFoundException;
 import edu.iu.uis.eden.exception.WorkflowException;
+import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
+import edu.iu.uis.eden.user.WorkflowUser;
 
 /**
  * This class holds methods for Purchasing and Accounts Payable documents to integrate with workflow
@@ -293,5 +299,25 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         }
         return givenNodeDetail.getOrdinal() > currentNodeDetail.getOrdinal();
     }
+    
+    public String getLastUserId(DocumentRouteHeaderValue routeHeader) throws EdenUserNotFoundException {
+        WorkflowUser user = null;
+        Timestamp previousDate = null;
+        for (Iterator iter = routeHeader.getActionsTaken().iterator(); iter.hasNext();) {
+            ActionTakenValue actionTaken = (ActionTakenValue) iter.next();
+
+            if (previousDate != null) {
+                if (actionTaken.getActionDate().after(previousDate)) {
+                    user = actionTaken.getWorkflowUser();
+                    previousDate = actionTaken.getActionDate();
+                }
+            } else {
+                previousDate = actionTaken.getActionDate();
+                user = actionTaken.getWorkflowUser();
+            }
+        }
+        return user.getAuthenticationUserId().getAuthenticationId();
+    }
+    
     
 }

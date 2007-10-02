@@ -777,6 +777,10 @@
 		<foreignkey field-ref="reportsToChartOfAccountsCode" />
 		<foreignkey field-ref="reportsToOrganizationCode" />
 	</reference-descriptor>
+	<collection-descriptor name="budgetConstructionAccountOrganizationHierarchy" element-class-ref="org.kuali.module.budget.bo.BudgetConstructionAccountOrganizationHierarchy" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<inverse-foreignkey field-ref="chartOfAccountsCode" />
+		<inverse-foreignkey field-ref="accountNumber" />
+	</collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionOrganizationReports" table="LD_BCN_ORG_RPTS_T">

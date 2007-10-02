@@ -58,4 +58,12 @@ public interface BudgetOrganizationTreeService {
      * @param personUniversalIdentifier
      */
     public void resetPullFlag(String personUniversalIdentifier);
+
+    /**
+     * This method returns a list of selected BudgetConstructionPullup rows for the user.
+     * 
+     * @param personUniversalIdentifier
+     * @return
+     */
+    public List getSelectedOrgs(String personUniversalIdentifier);
 }

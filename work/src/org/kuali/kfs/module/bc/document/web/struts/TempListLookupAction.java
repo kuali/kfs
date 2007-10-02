@@ -30,6 +30,8 @@ import org.kuali.core.web.struts.action.KualiLookupAction;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.budget.service.OrganizationSalarySettingSearchService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.budget.web.struts.form.TempListLookupForm;
 
@@ -47,6 +49,10 @@ public class TempListLookupAction extends KualiLookupAction {
         
         ActionForward forward;
         TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
+        
+        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect")){
+            SpringContext.getBean(OrganizationSalarySettingSearchService.class).buildIntendedIncumbentSelect(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
+        }
 
         forward =  super.start(mapping, form, request, response);
         if (tempListLookupForm.isShowInitialResults()){
@@ -83,4 +89,20 @@ public class TempListLookupAction extends KualiLookupAction {
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiLookupAction#cancel(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
+
+        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect")){
+            SpringContext.getBean(OrganizationSalarySettingSearchService.class).cleanIntendedIncumbentSelect(tempListLookupForm.getPersonUniversalIdentifier());
+        }
+
+        return super.cancel(mapping, form, request, response);
+    }
+
 }

@@ -17,6 +17,7 @@
 package org.kuali.module.budget.bo;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.Account;
@@ -38,6 +39,8 @@ public class BudgetConstructionAccountReports extends PersistableBusinessObjectB
 	private Org reportsToOrganization;
 	private Chart reportsToChartOfAccounts;
     private BudgetConstructionOrganizationReports budgetConstructionOrganizationReports;
+    
+    private List budgetConstructionAccountOrganizationHierarchy;
 
 	/**
 	 * Default constructor.
@@ -225,6 +228,22 @@ public class BudgetConstructionAccountReports extends PersistableBusinessObjectB
      */
     public void setBudgetConstructionOrganizationReports(BudgetConstructionOrganizationReports budgetConstructionOrganizationReports) {
         this.budgetConstructionOrganizationReports = budgetConstructionOrganizationReports;
+    }
+
+    /**
+     * Gets the budgetConstructionAccountOrganizationHierarchy attribute. 
+     * @return Returns the budgetConstructionAccountOrganizationHierarchy.
+     */
+    public List<BudgetConstructionAccountOrganizationHierarchy> getBudgetConstructionAccountOrganizationHierarchy() {
+        return budgetConstructionAccountOrganizationHierarchy;
+    }
+
+    /**
+     * Sets the budgetConstructionAccountOrganizationHierarchy attribute value.
+     * @param budgetConstructionAccountOrganizationHierarchy The budgetConstructionAccountOrganizationHierarchy to set.
+     */
+    public void setBudgetConstructionAccountOrganizationHierarchy(List<BudgetConstructionAccountOrganizationHierarchy> budgetConstructionAccountOrganizationHierarchy) {
+        this.budgetConstructionAccountOrganizationHierarchy = budgetConstructionAccountOrganizationHierarchy;
     }
 
     /**

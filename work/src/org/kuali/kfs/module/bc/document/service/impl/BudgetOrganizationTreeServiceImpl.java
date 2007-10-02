@@ -137,6 +137,17 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     }
 
     /**
+     * @see org.kuali.module.budget.service.BudgetOrganizationTreeService#getSelectedOrgs(java.lang.String)
+     */
+    public List getSelectedOrgs(String personUniversalIdentifier) {
+
+        if (StringUtils.isBlank(personUniversalIdentifier)) {
+            throw new IllegalArgumentException("String parameter personUniversalIdentifier was null or blank.");
+        }
+        return budgetConstructionDao.getBudgetConstructionPullupFlagSetByUserId(personUniversalIdentifier);
+    }
+
+    /**
      * Gets the budgetConstructionOrganizationReportsService attribute. 
      * @return Returns the budgetConstructionOrganizationReportsService.
      */

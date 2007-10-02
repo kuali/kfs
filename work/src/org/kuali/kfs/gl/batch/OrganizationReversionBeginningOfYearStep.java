@@ -17,13 +17,20 @@ package org.kuali.module.gl.batch;
 
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.service.OrganizationReversionProcessService;
+import org.springframework.util.StopWatch;
 
 public class OrganizationReversionBeginningOfYearStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionEndOfYearStep.class);
     private OrganizationReversionProcessService organizationReversionProcessService;
 
     public boolean execute(String jobName) {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start(jobName);
+        
         organizationReversionProcessService.organizationReversionProcessBeginningOfYear();
+        
+        stopWatch.stop();
+        LOG.info(jobName+" took "+(stopWatch.getTotalTimeSeconds()/60.0)+" minutes to complete");
         return true;
     }
 

@@ -35,6 +35,7 @@ import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.util.Summary;
+import org.springframework.util.StopWatch;
 
 public class NominalActivityClosingStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger( NominalActivityClosingStep.class);
@@ -49,6 +50,9 @@ public class NominalActivityClosingStep extends AbstractStep {
      * @see org.kuali.kfs.batch.Step#performStep()
      */
     public boolean execute(String jobName) {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start(jobName);
+        
         Date varTransactionDate;
         try {
             DateFormat transactionDateFormat = new SimpleDateFormat(TRANSACTION_DATE_FORMAT_STRING);
@@ -68,6 +72,9 @@ public class NominalActivityClosingStep extends AbstractStep {
         yearEndService.closeNominalActivity(nominalClosingOriginEntryGroup, nominalClosingJobParameters, nominalActivityClosingCounts);
         
         yearEndService.generateCloseNominalActivityReports(nominalClosingOriginEntryGroup, nominalClosingJobParameters, nominalActivityClosingCounts);
+        
+        stopWatch.stop();
+        LOG.info(jobName+" took "+(stopWatch.getTotalTimeSeconds()/60.0)+" minutes to complete");
         
         return true;
     }

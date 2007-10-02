@@ -34,6 +34,7 @@ import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.util.Summary;
+import org.springframework.util.StopWatch;
 
 public class BalanceForwardStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceForwardStep.class);
@@ -46,6 +47,9 @@ public class BalanceForwardStep extends AbstractStep {
     public static final String TRANSACTION_DATE_FORMAT_STRING = "yyyy-MM-dd";
 
     public boolean execute(String jobName) {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start(jobName);
+        
         Date varTransactionDate;
         try {
             DateFormat transactionDateFormat = new SimpleDateFormat(TRANSACTION_DATE_FORMAT_STRING);
@@ -69,6 +73,9 @@ public class BalanceForwardStep extends AbstractStep {
         yearEndService.forwardBalances(balanceForwardsUnclosedPriorYearAccountGroup, balanceForwardsClosedPriorYearAccountGroup, balanceForwardRuleHelper);
         
         yearEndService.generateForwardBalanceReports(balanceForwardsUnclosedPriorYearAccountGroup, balanceForwardsClosedPriorYearAccountGroup, balanceForwardRuleHelper);
+        
+        stopWatch.stop();
+        LOG.info(jobName+" took "+(stopWatch.getTotalTimeSeconds()/60.0)+" minutes to complete");
 
         return true;
     }

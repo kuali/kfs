@@ -601,7 +601,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         KualiDecimal minimumOrderAmount = vendorDetail.getVendorMinimumOrderAmount();
         if (minimumOrderAmount != null) {
             if (ObjectUtils.isNull(VENDOR_MIN_ORDER_AMOUNT)) {
-                VENDOR_MIN_ORDER_AMOUNT = new KualiDecimal(getKualiConfigurationService().getParameterValue(KFSConstants.PURAP_NAMESPACE, VendorConstants.Components.VENDOR, PURAP_VENDOR_MIN_ORDER_AMOUNT));
+                VENDOR_MIN_ORDER_AMOUNT = new KualiDecimal(getKualiConfigurationService().getParameterValue(KFSConstants.VENDOR_NAMESPACE, VendorConstants.Components.VENDOR, PURAP_VENDOR_MIN_ORDER_AMOUNT));
             }
             if ((VENDOR_MIN_ORDER_AMOUNT.compareTo(minimumOrderAmount) < 1) || (minimumOrderAmount.isNegative())) {
                 putFieldError(VendorPropertyConstants.VENDOR_MIN_ORDER_AMOUNT, VendorKeyConstants.ERROR_VENDOR_MAX_MIN_ORDER_AMOUNT, VENDOR_MIN_ORDER_AMOUNT.toString());

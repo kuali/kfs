@@ -111,4 +111,18 @@ public interface ObjectTypeService {
      * @return
      */
     public List<String> getNominalActivityClosingAllowedObjectTypes(Integer fiscalYear);
+    
+    /**
+     * Returns a list of object types that the general balance forwards selector uses to determine if it should process a balance
+     * @param fiscalYear
+     * @return
+     */
+    public List<String> getGeneralForwardBalanceObjectTypes(Integer fiscalYear);
+    
+    /**
+     * Returns a list of object types that the cumulative balance forwards selector uses to determine if it should process a balance
+     * @param fiscalYear
+     * @return
+     */
+    public List<String> getCumulativeForwardBalanceObjectTypes(Integer fiscalYear);
 }

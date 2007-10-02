@@ -434,5 +434,19 @@ public class BalanceServiceImpl implements BalanceService {
     public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year) {
         return balanceDao.findNominalActivityBalancesForFiscalYear(year);
     }
+
+    /**
+     * @see org.kuali.module.gl.service.BalanceService#findCumulativeBalancesToForwardForFiscalYear(java.lang.Integer)
+     */
+    public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year) {
+        return balanceDao.findCumulativeBalancesToForwardForFiscalYear(year);
+    }
+
+    /**
+     * @see org.kuali.module.gl.service.BalanceService#findGeneralBalancesToForwardForFiscalYear(java.lang.Integer)
+     */
+    public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year) {
+        return balanceDao.findGeneralBalancesToForwardForFiscalYear(year);
+    }
     
 }

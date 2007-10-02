@@ -139,4 +139,33 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
         nominalClosingObjectTypes.add(option.getFinObjectTypeIncomecashCode());
         return nominalClosingObjectTypes;
     }
+
+    /**
+     * @see org.kuali.module.chart.service.ObjectTypeService#getGeneralForwardBalanceObjectTypes(java.lang.Integer)
+     */
+    public List<String> getGeneralForwardBalanceObjectTypes(Integer fiscalYear) {
+        Options option = optionsDao.getByPrimaryId(fiscalYear);
+        List<String> generalBalanceForwardObjectTypes = new ArrayList<String>();
+        generalBalanceForwardObjectTypes.add(option.getFinancialObjectTypeAssetsCd());
+        generalBalanceForwardObjectTypes.add(option.getFinObjectTypeLiabilitiesCode());
+        generalBalanceForwardObjectTypes.add(option.getFinObjectTypeFundBalanceCd());
+        return generalBalanceForwardObjectTypes;
+    }
+
+    /**
+     * @see org.kuali.module.chart.service.ObjectTypeService#getCumulativeForwardBalanceObjectTypes(java.lang.Integer)
+     */
+    public List<String> getCumulativeForwardBalanceObjectTypes(Integer fiscalYear) {
+        Options option = optionsDao.getByPrimaryId(fiscalYear);
+        List<String> cumulativeBalanceForwardsObjectTypes = new ArrayList<String>();
+        cumulativeBalanceForwardsObjectTypes.add(option.getFinObjTypeExpendNotExpCode());
+        cumulativeBalanceForwardsObjectTypes.add(option.getFinObjTypeExpNotExpendCode());
+        cumulativeBalanceForwardsObjectTypes.add(option.getFinObjTypeExpenditureexpCd());
+        cumulativeBalanceForwardsObjectTypes.add(option.getFinObjTypeIncomeNotCashCd());
+        cumulativeBalanceForwardsObjectTypes.add(option.getFinancialObjectTypeTransferExpenseCd());
+        cumulativeBalanceForwardsObjectTypes.add(option.getFinancialObjectTypeTransferIncomeCd());
+        cumulativeBalanceForwardsObjectTypes.add(option.getFinObjectTypeIncomecashCode());
+        cumulativeBalanceForwardsObjectTypes.add(option.getFinObjTypeCshNotIncomeCd());
+        return cumulativeBalanceForwardsObjectTypes;
+    }
 }

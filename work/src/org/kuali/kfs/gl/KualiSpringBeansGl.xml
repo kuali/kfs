@@ -1606,4 +1606,16 @@
 			<ref bean="kualiConfigurationService"/>
 		</property>
 	</bean>
+	
+	<bean id="glBalanceTotalNotZeroIterator" class="org.kuali.module.gl.batch.closing.year.service.impl.FilteringBalanceIteratorImpl" singleton="false">
+		<property name="balancePredicate">
+			<bean class="org.kuali.module.gl.batch.closing.year.service.impl.BalanceTotalNotZeroPredicate" />
+		</property>
+	</bean>
+	
+	<bean id="glBalanceAnnualAndCGTotalNotZeroIterator" class="org.kuali.module.gl.batch.closing.year.service.impl.FilteringBalanceIteratorImpl" singleton="false">
+		<property name="balancePredicate">
+			<bean class="org.kuali.module.gl.batch.closing.year.service.impl.BalanceAnnualAndCGTotalNotZeroPredicate" />
+		</property>
+	</bean>
 </beans>

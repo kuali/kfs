@@ -113,4 +113,18 @@ public interface BalanceService {
      * @return an Iterator of nominal activity balances
      */
     public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year);
+    
+    /**
+     * Returns all the balances specifically to be processed by the balance forwards job for the "general" rule
+     * @param year
+     * @return
+     */
+    public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year);
+    
+    /**
+     * Returns all the balances to be forwarded for the "cumulative" rule
+     * @param year
+     * @return
+     */
+    public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year);
 }

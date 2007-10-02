@@ -98,8 +98,8 @@ public class YearEndServiceImpl implements YearEndService {
         String varNetRevenueObjectCode = null;
         String varFundBalanceObjectCode = null;
         String varFundBalanceObjectTypeCode = null;
-        Integer varFiscalYear = null;
-        Date varTransactionDate = null;
+        Integer varFiscalYear = (Integer)nominalClosingJobParameters.get(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR);
+        Date varTransactionDate = (Date)nominalClosingJobParameters.get(GLConstants.ColumnNames.UNIV_DT);
 
         // 678 003650 DISPLAY "UNIV_FISCAL_YR" UPON ENVIRONMENT-NAME.
         // 679 003660 ACCEPT VAR-UNIV-FISCAL-YR FROM ENVIRONMENT-VALUE.
@@ -236,7 +236,7 @@ public class YearEndServiceImpl implements YearEndService {
                 activityEntry.setFinancialBalanceTypeCode(balance.getOption().getNominalFinancialBalanceTypeCd());
 
                 if (null == balance.getObjectTypeCode()) {
-                    throw new FatalErrorException(" ERROR ACCESSING OBJECT TABLE FOR ");
+                    throw new FatalErrorException(" BALANCE SELECTED FOR PROCESSING IS MISSING ITS OBJECT TYPE CODE ");
 
                 }
 
@@ -1022,28 +1022,37 @@ public class YearEndServiceImpl implements YearEndService {
     public void forwardBalances(OriginEntryGroup balanceForwardsUnclosedPriorYearAccountGroup, OriginEntryGroup balanceForwardsClosedPriorYearAccountGroup, BalanceForwardRuleHelper balanceForwardRuleHelper) {
         LOG.debug("forwardBalances() started");
 
+        // The rule helper maintains the state of the overall processing of the entire
+        // set of year end balances. This state is available via balanceForwardRuleHelper.getState().
+        // The helper and this class (YearEndServiceImpl) are heavily dependent upon one
+        // another in terms of expected behavior and shared responsibilities.
         balanceForwardRuleHelper.setPriorYearAccountService(priorYearAccountService);
         balanceForwardRuleHelper.setSubFundGroupService(subFundGroupService);
         balanceForwardRuleHelper.setOriginEntryService(originEntryService);
-
-        Iterator<Balance> balanceIterator = balanceService.findBalancesForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear());
-        int fakeCounter = 0;
-        while (balanceIterator.hasNext()) {
-
-            Balance balance = balanceIterator.next();
-
-            // The rule helper maintains the state of the overall processing of the entire
-            // set of year end balances. This state is available via balanceForwardRuleHelper.getState().
-            // The helper and this class (YearEndServiceImpl) are heavily dependent upon one
-            // another in terms of expected behavior and shared responsibilities.
-            balanceForwardRuleHelper.processBalance(balance);
-            
+        balanceForwardRuleHelper.getState().setGlobalReadCount(balanceService.countBalancesForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear()));
+        
+        Balance balance;
+        
+        // do the general forwards
+        Iterator<Balance> generalBalances = balanceService.findGeneralBalancesToForwardForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear());
+        while (generalBalances.hasNext()) {
+            balance = generalBalances.next();
+            balanceForwardRuleHelper.processGeneralForwardBalance(balance, balanceForwardsClosedPriorYearAccountGroup, balanceForwardsUnclosedPriorYearAccountGroup);
             if (balanceForwardRuleHelper.getState().getGlobalSelectCount() % 1000 == 0) {
                 persistenceService.clearCache();
             }
-
         }
-
+        
+        // do the cumulative forwards
+        Iterator<Balance> cumulativeBalances = balanceService.findCumulativeBalancesToForwardForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear());
+        while (cumulativeBalances.hasNext()) {
+            balance = cumulativeBalances.next();
+            balanceForwardRuleHelper.processCumulativeForwardBalance(balance, balanceForwardsClosedPriorYearAccountGroup, balanceForwardsUnclosedPriorYearAccountGroup);
+            if (balanceForwardRuleHelper.getState().getGlobalSelectCount() % 1000 == 0) {
+                persistenceService.clearCache();
+            }
+        }
+        
     }
     
     /**

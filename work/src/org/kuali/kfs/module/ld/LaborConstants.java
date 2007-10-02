@@ -27,6 +27,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.labor.batch.LaborPosterStep;
+import org.kuali.module.labor.batch.LaborYearEndBalanceForwardStep;
 import org.kuali.module.labor.batch.PayrollAccrualStep;
 
 /**
@@ -59,7 +60,7 @@ public class LaborConstants {
         public static final String LABOR_POSTER_STEP = LaborPosterStep.class.getSimpleName();
         public static final String PAYROLL_ACCURAL_STEP = PayrollAccrualStep.class.getSimpleName();
         public static final String SALARY_EXPENSE_TRANSFER = SalaryExpenseTransfer.class.getSimpleName();
-        public static final String YEAR_END_BALANCE_FORWARD_JOB = "YearEndBalanceForwardJob";
+        public static final String YEAR_END_BALANCE_FORWARD_STEP = LaborYearEndBalanceForwardStep.class.getSimpleName();
     }
 
     public static class DestinationNames {

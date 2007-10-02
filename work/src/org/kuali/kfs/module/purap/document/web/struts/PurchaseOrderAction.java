@@ -313,6 +313,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                     throw new ValidationException("errors occurred during new PO creation");
                 }
                 
+                String previousDocumentId = kualiDocumentFormBase.getDocId();
                 // assume at this point document was created properly and 'po' variable is new PurchaseOrderDocument created
                 kualiDocumentFormBase.setDocument(po);
                 kualiDocumentFormBase.setDocId(po.getDocumentNumber());
@@ -320,13 +321,15 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
                 Note newNote = new Note();
                 if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-                    noteText = noteText + " (Previous Document Id is " + kualiDocumentFormBase.getDocId() + ")";
+                    noteText = noteText + " (Previous Document Id is " + previousDocumentId + ")";
                 }
                 newNote.setNoteText(noteText);
                 newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
                 kualiDocumentFormBase.setNewNote(newNote);
                 insertBONote(mapping, kualiDocumentFormBase, request, response);
-                GlobalVariables.getMessageList().add(messageType);
+                if (StringUtils.isNotEmpty(messageType)) {
+                    GlobalVariables.getMessageList().add(messageType);
+                }
             }
             if (ObjectUtils.isNotNull(returnActionForward)) {
                 // TODO delyea - should this be a privatized method?
@@ -404,7 +407,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward amendPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Amend PO started");
         String operation = "Amend ";
-        return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.AMENDMENT_PO_QUESTION, PODocumentsStrings.CONFIRM_AMENDMENT_QUESTION, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PODocumentsStrings.AMENDMENT_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_AMEND_DOCUMENT, operation);
+        return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.AMENDMENT_PO_QUESTION, PODocumentsStrings.CONFIRM_AMENDMENT_QUESTION, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PODocumentsStrings.AMENDMENT_NOTE_PREFIX, null, operation);
     }
 
     public ActionForward voidPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

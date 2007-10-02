@@ -77,7 +77,7 @@ Copyright 2005-2007  The Kuali Foundation.  All rights reserved.  Kuali is licen
 
 <p>Portions Copyright (c) 2005 Envoi Solutions LLC. All Rights Reserved. (<span class="nobr"><a href="http://xfire.codehaus.org" title="xfire" rel="nofollow">http://xfire.codehaus.org</a></span>).</p>
 
-<p>Portions Copyright (c) 199, 2004 Bull S. A. All Rights Reserved.<p>
+<p>Portions Copyright (c) 1999, 2004 Bull S. A. All Rights Reserved.<p>
 
 <p>Portions Copyright (c) 2003-2005 Joe Walnes. All Rights Reserved. (<span class="nobr"><a href="http://xstream.codehaus.org/" title="xstream" rel="nofollow">http://xstream.codehaus.org/</a></span>).</p>
                             </div>

@@ -341,29 +341,31 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         boolean success = true;
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(getNextAvailableSequence(cm.getDocumentNumber()));
 
-        PurchaseOrderDocument po = null;
-        if (cm.isSourceDocumentPurchaseOrder()) {
-            LOG.debug("generateEntriesCreditMemo() PO type");
-            po = cm.getPurchaseOrderDocument();
-        }
-        else if (cm.isSourceDocumentPaymentRequest()) {
-            LOG.debug("generateEntriesCreditMemo() PREQ type");
-            po = cm.getPaymentRequestDocument().getPurchaseOrderDocument();
-        }
+        if (!cm.isSourceVendor()) {
+            PurchaseOrderDocument po = null;
+            if (cm.isSourceDocumentPurchaseOrder()) {
+                LOG.debug("generateEntriesCreditMemo() PO type");
+                po = cm.getPurchaseOrderDocument();
+            }
+            else if (cm.isSourceDocumentPaymentRequest()) {
+                LOG.debug("generateEntriesCreditMemo() PREQ type");
+                po = cm.getPaymentRequestDocument().getPurchaseOrderDocument();
+            }
 
-        List encumbrances = getCreditMemoEncumbrance(cm, po, isCancel);
-        if (encumbrances != null) {
-            cm.setGenerateEncumbranceEntries(true);
-          
-            //even if generating encumbrance entries on cancel, call is the same because the method gets negative amounts from the map so Debits on negatives = a credit
-            cm.setDebitCreditCodeForGLEntries(GL_DEBIT_CODE);
+            List encumbrances = getCreditMemoEncumbrance(cm, po, isCancel);
+            if (encumbrances != null) {
+                cm.setGenerateEncumbranceEntries(true);
+              
+                //even if generating encumbrance entries on cancel, call is the same because the method gets negative amounts from the map so Debits on negatives = a credit
+                cm.setDebitCreditCodeForGLEntries(GL_DEBIT_CODE);
 
-            for (Iterator iter = encumbrances.iterator(); iter.hasNext();) {
-                AccountingLine accountingLine = (AccountingLine) iter.next();
-                if (accountingLine.getAmount().compareTo(ZERO) != 0) {
-                    GenerateGeneralLedgerPendingEntriesEvent glEvent = new GenerateGeneralLedgerPendingEntriesEvent(cm, accountingLine, sequenceHelper);
-                    success &= kualiRuleService.applyRules(glEvent);
-                    sequenceHelper.increment(); // increment for the next line
+                for (Iterator iter = encumbrances.iterator(); iter.hasNext();) {
+                    AccountingLine accountingLine = (AccountingLine) iter.next();
+                    if (accountingLine.getAmount().compareTo(ZERO) != 0) {
+                        GenerateGeneralLedgerPendingEntriesEvent glEvent = new GenerateGeneralLedgerPendingEntriesEvent(cm, accountingLine, sequenceHelper);
+                        success &= kualiRuleService.applyRules(glEvent);
+                        sequenceHelper.increment(); // increment for the next line
+                    }
                 }
             }
         }

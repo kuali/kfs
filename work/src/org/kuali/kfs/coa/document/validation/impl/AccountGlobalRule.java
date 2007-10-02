@@ -434,16 +434,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
         }
 
         // a continuation account is required if the expiration date is completed.
-        if (ObjectUtils.isNotNull(newExpDate)) {
-            if (StringUtils.isBlank(newAccountGlobal.getContinuationAccountNumber())) {
-                putFieldError("continuationAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_ACCT_REQD_IF_EXP_DATE_COMPLETED);
-            }
-            if (StringUtils.isBlank(newAccountGlobal.getContinuationFinChrtOfAcctCd())) {
-                putFieldError("continuationFinChrtOfAcctCd", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_FINCODE_REQD_IF_EXP_DATE_COMPLETED);
-                // putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_ACCT_REQD_IF_EXP_DATE_COMPLETED);
-                success &= false;
-            }
-        }
+        success &= checkContinuationAccount(maintenanceDocument, newExpDate);
         
         for (AccountGlobalDetail detail : newAccountGlobal.getAccountGlobalDetails()) {
             success &= checkExpirationDate( maintenanceDocument, detail );
@@ -700,4 +691,56 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
         
         return success;
     }
+    
+    /**
+     * 
+     * This method validates that a continuation account is required and that the values provided exist
+     * @param document An instance of the maintenance document being validated.
+     * @param newExpDate The expiration date assigned to the account being validated for submission.
+     * @return True if the continuation account values are valid for the associated account, false otherwise.
+     */
+    protected boolean checkContinuationAccount(MaintenanceDocument document, Timestamp newExpDate) {
+        LOG.info("checkContinuationAccount called");
+
+        boolean result = true;
+        boolean continuationAccountIsValid = true;
+
+        // make sure both coaCode and accountNumber are filled out
+        if (ObjectUtils.isNotNull(newExpDate)) {
+            if (!checkEmptyValue(newAccountGlobal.getContinuationAccountNumber())) {
+                putFieldError("continuationAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_ACCT_REQD_IF_EXP_DATE_COMPLETED);
+                continuationAccountIsValid = false;
+            }
+            if (!checkEmptyValue(newAccountGlobal.getContinuationFinChrtOfAcctCd())) {
+                putFieldError("continuationFinChrtOfAcctCd", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_FINCODE_REQD_IF_EXP_DATE_COMPLETED);
+                continuationAccountIsValid = false;
+            }
+        }
+
+        // if both fields aren't present, then we're done
+        if (continuationAccountIsValid) {
+            // do an existence/active test
+            DictionaryValidationService dvService = super.getDictionaryValidationService();
+            boolean referenceExists = dvService.validateReferenceExists(newAccountGlobal, "continuationAccount");
+            if (!referenceExists) {
+                putFieldError("continuationAccountNumber", KFSKeyConstants.ERROR_EXISTENCE, "Continuation Account: " + newAccountGlobal.getContinuationFinChrtOfAcctCd() + "-" + newAccountGlobal.getContinuationAccountNumber());
+                continuationAccountIsValid = false;
+            }
+        }
+
+        if(continuationAccountIsValid) {
+            result = true;
+        } else {
+            List<AccountGlobalDetail> gAcctDetails = newAccountGlobal.getAccountGlobalDetails();
+            for(AccountGlobalDetail detail : gAcctDetails) {
+                if(null != detail.getAccountNumber() && null != newAccountGlobal.getContinuationAccountNumber()) {
+                    result &= detail.getAccountNumber().equals(newAccountGlobal.getContinuationAccountNumber());
+                    result &= detail.getChartOfAccountsCode().equals(newAccountGlobal.getContinuationFinChrtOfAcctCd());
+                }
+            }
+        }
+        
+        return result;
+    }
+
 }

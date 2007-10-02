@@ -26,9 +26,6 @@
 	   	<convert converter="bean" match="org.kuali.module.financial.bo.BankAccount">
 	   		<param name="include" value="financialDocumentBankCode,finDocumentBankAccountNumber,finDocumentBankAccountDesc" />
 	   	</convert>
-	   	<convert converter="bean" match="org.kuali.module.financial.bo.Payee">
-	   		<param name="include" value="payeeIdNumber, payeePersonName, payeeLine1Addr, payeeLine2Addr, payeeCityName, payeeStateCode, payeeZipCode, payeeCountryCode" />
-	   	</convert>
 	    <create creator="spring" javascript="BankService">
 	    	<param name="beanName" value="bankService" />
 	    	<include method="getByPrimaryId" />
@@ -36,10 +33,6 @@
 	    <create creator="spring" javascript="BankAccountService">
 	    	<param name="beanName" value="bankAccountService" />
 	    	<include method="getByPrimaryId" />
-	    </create>
-	    <create creator="spring" javascript="PayeeService">
-	    	<param name="beanName" value="payeeService" />
-	    	<include method="getByPayeeIdNumber" />
 	    </create>
 	</allow>
 </dwr>

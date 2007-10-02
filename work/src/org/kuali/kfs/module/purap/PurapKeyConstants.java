@@ -140,6 +140,8 @@ public class PurapKeyConstants {
     public static final String WARNING_ENCUMBER_NEXT_FY="warning.encumber.nextFY";
     public static final String WARNING_CANCEL_REOPEN_PO="warning.cancel.reOpenPO";
     public static final String WARNING_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS="warning.paymentRequest.payDate.over.threshold.days";
+    public static final String MESSAGE_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS="message.paymentRequest.payDate.over.threshold.days";
+    public static final String WARNING_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID="warning.paymentRequest.vendorInvoiceAmount.invalid";
     public static final String MESSAGE_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID="message.paymentRequest.vendorInvoiceAmount.invalid";
     
     //Item and Accounting line

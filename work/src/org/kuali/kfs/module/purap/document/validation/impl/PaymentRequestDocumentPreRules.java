@@ -44,59 +44,51 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
         boolean preRulesOK = true;
         
         PaymentRequestDocument preq = (PaymentRequestDocument)document;
-        if (StringUtils.isBlank(event.getQuestionContext()) || StringUtils.equals(question, PREQDocumentsStrings.THRESHOLD_DAYS_OVERRIDE_QUESTION)) {
-            preRulesOK &= confirmPayDayNotOverThresholdDaysAway( preq );
-        }
+        preRulesOK &= confirmMatchingTotals( preq );
+        preRulesOK &= confirmPayDayNotOverThresholdDaysAway( preq );
         
         preRulesOK &= super.doRules(document);
         return preRulesOK;
     }
     
-    public boolean confirmPayDayNotOverThresholdDaysAway( PaymentRequestDocument preq ) {
-        // If the pay date is more than the threshold number of days in the future, ask for confirmation.
-        if (!validatePayDateNotOverThresholdDaysAway(preq)) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(
-                    PurapKeyConstants.WARNING_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS);
+    private boolean askForConfirmation( String questionType, String messageConstant ) {
         
-            boolean confirmOverride = super.askOrAnalyzeYesNoQuestion(PREQDocumentsStrings.THRESHOLD_DAYS_OVERRIDE_QUESTION, questionText);
+        String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(messageConstant);
             
-            // Set a marker to record that this method has been used.
-            if (confirmOverride && StringUtils.isBlank(event.getQuestionContext())) {
-                event.setQuestionContext(PREQDocumentsStrings.THRESHOLD_DAYS_OVERRIDE_QUESTION);
-            }
-        
-            if (!confirmOverride) {
-                event.setActionForwardName(KFSConstants.MAPPING_BASIC);
-                return false;
-            }
+        boolean confirmOverride = super.askOrAnalyzeYesNoQuestion(questionType, questionText);
+                    
+        if (!confirmOverride) {
+            event.setActionForwardName(KFSConstants.MAPPING_BASIC);
+            return false;
         }
         return true;
     }
+    
+    public boolean confirmPayDayNotOverThresholdDaysAway( PaymentRequestDocument preq ) {
+        // If the pay date is more than the threshold number of days in the future, ask for confirmation.
+        PaymentRequestDocumentRule rule = new PaymentRequestDocumentRule();
+        if (!rule.validatePayDateNotOverThresholdDaysAway(preq)) {   
+            return askForConfirmation(PREQDocumentsStrings.THRESHOLD_DAYS_OVERRIDE_QUESTION,
+                    PurapKeyConstants.MESSAGE_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS);
+        }
+        return true;
+    }
+    
+    public boolean confirmMatchingTotals( PaymentRequestDocument preq ) {
+        // If the total of the extended prices does not match with the vendor invoice amount, ask for confirmation.
+        PaymentRequestDocumentRule rule = new PaymentRequestDocumentRule();
+        if ( !rule.validateTotals(preq) ) {
+            return askForConfirmation(PREQDocumentsStrings.INVOICE_AMOUNT_OVERRIDE_QUESTION,
+                    PurapKeyConstants.MESSAGE_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID);
+        }
+        return true;
+    }
+    
+
     
     public String getDocumentName(){
         return "Payment Request";
     }
     
-    /**
-     * This method side-effects a warning, and consequently should not be used in such
-     * a way as to cause validation to fail. Returns a boolean for ease of testing.  If the
-     * threshold days value is positive, the method will test future dates accurately.
-     * If the the threshold days value is negative, the method will test past dates.
-     * 
-     * @param document  The PaymentRequestDocument
-     * @return  True if the PREQ's pay date is not over the threshold number of days away. 
-     */
-    public boolean validatePayDateNotOverThresholdDaysAway(PaymentRequestDocument document) {
-        boolean valid = true;
-        int thresholdDays = PurapConstants.PREQ_PAY_DATE_DAYS_BEFORE_WARNING;
-        if (SpringContext.getBean(PurapService.class).isDateMoreThanANumberOfDaysAway(
-                document.getPaymentRequestPayDate(),thresholdDays)) {
-            if ( ObjectUtils.isNull(GlobalVariables.getMessageList())) {
-                GlobalVariables.setMessageList(new ArrayList());
-            }
-            GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS);
-            valid &= false;
-        }
-        return valid;
-    }
+
 }

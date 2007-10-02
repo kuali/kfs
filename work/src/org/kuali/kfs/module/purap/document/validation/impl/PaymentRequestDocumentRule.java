@@ -131,8 +131,9 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)apDocument;
-        // Give warnings if the sum of the totals on items doesn't match vendor invoice amount.
-        validateTotals(paymentRequestDocument);
+        // Give warnings for the following.  The boolean results of the calls are not to be used here.
+        boolean totalsMatch = validateTotals(paymentRequestDocument);
+        boolean payDateOk = validatePayDateNotOverThresholdDaysAway(paymentRequestDocument);
         // The Grand Total Amount must be greate than zero.
         if (paymentRequestDocument.getGrandTotal().compareTo(KualiDecimal.ZERO) <= 0) {            
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.GRAND_TOTAL,PurapKeyConstants.ERROR_PAYMENT_REQUEST_GRAND_TOTAL_NOT_POSITIVE);
@@ -322,20 +323,50 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     }
     
     /**
+     * This method side-effects a warning, and consequently should not be used in such
+     * a way as to cause validation to fail. Returns a boolean for ease of testing.  If the
+     * threshold days value is positive, the method will test future dates accurately.
+     * If the the threshold days value is negative, the method will test past dates.
      * 
+     * @param document  The PaymentRequestDocument
+     * @return  True if the PREQ's pay date is not over the threshold number of days away. 
+     */
+    public boolean validatePayDateNotOverThresholdDaysAway(PaymentRequestDocument document) {
+        boolean valid = true;
+        int thresholdDays = PurapConstants.PREQ_PAY_DATE_DAYS_BEFORE_WARNING;
+        if (SpringContext.getBean(PurapService.class).isDateMoreThanANumberOfDaysAway(
+                document.getPaymentRequestPayDate(),thresholdDays)) {
+            if ( ObjectUtils.isNull(GlobalVariables.getMessageList())) {
+                GlobalVariables.setMessageList(new ArrayList());
+            }
+            if (!GlobalVariables.getMessageList().contains(PurapKeyConstants.WARNING_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS)) {
+                GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS);
+            }
+            valid &= false;
+        }
+        return valid;
+    }
+    
+    /**
      * This method checks whether the total of the items' extended price, excluding the item types that can be
-     * negative match with the vendor invoice amount that the user entered at the beginning of the preq creation,
+     * negative, match with the vendor invoice amount that the user entered at the beginning of the preq creation,
      * and if they don't match, the app will just print a warning to the page that the amounts don't match.
      * 
      * @param document
      */
-    public void validateTotals(PaymentRequestDocument document) {
+    public boolean validateTotals(PaymentRequestDocument document) {
+        boolean valid = true;
         Set<String> allowsNegativeRule = SpringContext.getBean(KualiConfigurationService.class).getParameterValuesAsSet( KFSConstants.PURAP_NAMESPACE, PurapConstants.Components.PAYMENT_REQUEST, PurapConstants.ITEM_ALLOWS_NEGATIVE);
         if ((ObjectUtils.isNull(document.getVendorInvoiceAmount())) || 
             (this.getTotalExcludingItemTypes(document.getItems(), allowsNegativeRule).compareTo(document.getVendorInvoiceAmount()) != 0 && !document.isUnmatchedOverride())) {
-            GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID);
+            
+            if (!GlobalVariables.getMessageList().contains(PurapKeyConstants.WARNING_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID)) {
+                GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID);
+                valid = false;
+            }
         }
         flagLineItemTotals(document.getItems());
+        return valid;
     }
     
     private KualiDecimal getTotalExcludingItemTypes(List<PurApItem> itemList, Set excludedItemTypes) {

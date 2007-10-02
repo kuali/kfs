@@ -1432,7 +1432,7 @@
     <field-descriptor name="accountStateCode" column="ACCT_STATE_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="accountStreetAddress" column="ACCT_STREET_ADDR" jdbc-type="VARCHAR" />
     <field-descriptor name="accountZipCode" column="ACCT_ZIP_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="accountExpirationDate" column="ACCT_EXPIRATION_DT" jdbc-type="DATE" />
+    <field-descriptor name="accountExpirationDate" column="ACCT_EXPIRATION_DT" jdbc-type="TIMESTAMP" />
     <field-descriptor name="continuationFinChrtOfAcctCd" column="CONT_FIN_COA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="continuationAccountNumber" column="CONT_ACCOUNT_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="incomeStreamFinancialCoaCode" column="INCOME_FIN_COA_CD" jdbc-type="VARCHAR" />

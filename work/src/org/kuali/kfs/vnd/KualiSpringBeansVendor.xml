@@ -80,7 +80,7 @@
         <property name="documentService">
             <ref bean="documentService" />
         </property>
-        <property name="configService" ref="kualiConfigurationService" />
+        <property name="kualiConfigurationService" ref="kualiConfigurationService" />
         <property name="universalUserService" ref="universalUserService" />
     </bean>
 

@@ -56,7 +56,7 @@ public class VendorServiceImpl implements VendorService {
     private VendorDao vendorDao;
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
-    private KualiConfigurationService configService;
+    private KualiConfigurationService kualiConfigurationService;
     private UniversalUserService universalUserService;
     
     public UniversalUserService getUniversalUserService() {
@@ -307,7 +307,7 @@ public class VendorServiceImpl implements VendorService {
             if (StringUtils.isNotBlank(ssnTaxId)) {
                 try {
                     UniversalUser user = universalUserService.getUniversalUser(new PersonTaxId(ssnTaxId));
-                    return (user.isFaculty() || user.isStaff() || user.isAffiliate()) && !configService.failsRule(KFSConstants.CORE_NAMESPACE, KFSConstants.Components.KUALI_MODULE_USER, KFSConstants.ALLOWED_EMPLOYEE_STATUS_RULE,user.getEmployeeStatusCode());
+                    return (user.isFaculty() || user.isStaff() || user.isAffiliate()) && !kualiConfigurationService.failsRule(KFSConstants.CORE_NAMESPACE, KFSConstants.Components.KUALI_MODULE_USER, KFSConstants.ALLOWED_EMPLOYEE_STATUS_RULE,user.getEmployeeStatusCode());
                 }
                 catch (UserNotFoundException e) {
                     // user is not in the system... assume non-employee
@@ -331,11 +331,11 @@ public class VendorServiceImpl implements VendorService {
         return vendorToUse.getVendorHeader().getVendorForeignIndicator();
     }
 
-    public KualiConfigurationService getConfigService() {
-        return configService;
+    public KualiConfigurationService getKualiConfigurationService() {
+        return kualiConfigurationService;
     }
 
-    public void setConfigService(KualiConfigurationService configService) {
-        this.configService = configService;
+    public void setKualiConfigurationService(KualiConfigurationService configService) {
+        this.kualiConfigurationService = configService;
     }
 }

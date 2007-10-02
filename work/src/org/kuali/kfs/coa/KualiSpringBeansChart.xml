@@ -479,9 +479,10 @@
                 <value>org.kuali.kfs.bo.Options</value>
               </list>
             </entry>
-            <entry key="org.kuali.module.chart.bo.LaborObject">
+            <entry key="org.kuali.module.labor.bo.LaborObject">
               <list>
                 <value>org.kuali.kfs.bo.Options</value>
+                <value>org.kuali.module.chart.bo.ObjectCode</value>
               </list>
             </entry>
             <entry key="org.kuali.module.chart.bo.OffsetDefinition">

@@ -45,8 +45,9 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
         
         PaymentRequestDocument preq = (PaymentRequestDocument)document;
         preRulesOK &= confirmMatchingTotals( preq );
-        preRulesOK &= confirmPayDayNotOverThresholdDaysAway( preq );
-        
+        if (!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq)) {
+            preRulesOK &= confirmPayDayNotOverThresholdDaysAway( preq );
+        }
         preRulesOK &= super.doRules(document);
         return preRulesOK;
     }

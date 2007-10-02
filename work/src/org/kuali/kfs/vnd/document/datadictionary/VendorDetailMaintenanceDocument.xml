@@ -320,7 +320,6 @@
                         <maintainableField name="vendorContractBeginningDate" required="true" />
                         <maintainableField name="vendorContractEndDate" required="true" />
                         <maintainableField name="contractManagerCode" required="true" />
-                        <maintainableField name="vendorB2bIndicator" required="true" />
                         <maintainableField name="purchaseOrderCostSourceCode" required="true" />
                         <maintainableField name="vendorPaymentTermsCode" required="true" />
                         <maintainableField name="vendorShippingPaymentTermsCode" required="false" />

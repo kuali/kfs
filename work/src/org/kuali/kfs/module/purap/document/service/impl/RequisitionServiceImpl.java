@@ -162,20 +162,6 @@ public class RequisitionServiceImpl implements RequisitionService {
             if (requisition.getVendorRestrictedIndicator() != null && requisition.getVendorRestrictedIndicator()) {
                 return "Selected vendor is marked as restricted.";
             }
-
-            if ((!PurapConstants.RequisitionSources.B2B.equals(requisitionSource)) && (requisition.getVendorContractGeneratedIdentifier() == null)) {
-                UniversalUser initiator = null;
-                try {
-                    initiator = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(requisition.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
-                }
-                catch (UserNotFoundException e) {
-                    throw new RuntimeException("Document Initiator not found " + e.getMessage());
-                }
-                VendorContract b2bContract = vendorService.getVendorB2BContract(vendorDetail, initiator.getCampusCode());
-                if (b2bContract != null) {
-                    return "Standard requisition with no contract selected but a B2B contract exists for the selected vendor.";
-                }
-            }
         }
 
         if (StringUtils.isNotEmpty(requisition.getRecurringPaymentTypeCode())) {

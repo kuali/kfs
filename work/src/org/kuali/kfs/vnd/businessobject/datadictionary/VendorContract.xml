@@ -35,7 +35,6 @@
                 <field attributeName="vendorContractExtensionDate" />
                 <field attributeName="vendorShippingPaymentTermsCode" />
                 <field attributeName="vendorShippingTitleCode" />
-                <field attributeName="vendorB2bIndicator" />
                 <field attributeName="organizationAutomaticPurchaseOrderLimit" />
                 <field attributeName="purchaseOrderCostSourceCode" />
                 <field attributeName="vendorContractGeneratedIdentifier" />
@@ -62,7 +61,6 @@
                 <lookupField attributeName="contractManagerCode" required="false" />
                 <lookupField attributeName="organizationAutomaticPurchaseOrderLimit" required="false" />
                 <lookupField attributeName="purchaseOrderCostSourceCode" required="false" />
-                <lookupField attributeName="vendorB2bIndicator" required="false" />
                 <lookupField attributeName="vendorCampusCode" required="false" />
                 <lookupField attributeName="vendorContractBeginningDate" required="false" />
                 <lookupField attributeName="vendorContractDescription" required="false" />
@@ -83,7 +81,6 @@
             <resultFields>
                 <field attributeName="vendorDetail.vendorName" />
                 <field attributeName="vendorContractDescription" />
-                <field attributeName="vendorB2bIndicator" />
                 <field attributeName="organizationAutomaticPurchaseOrderLimit" />
                 <field attributeName="vendorDetail.vendorHeader.vendorSupplierDiversities" />
                 <field attributeName="purchaseOrderCostSourceCode" />
@@ -195,7 +192,7 @@
             <attributeReference name="vendorB2bIndicator" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="yesNoWithoutBlankIndicator">
                 <label>B2B Contract</label>
                 <shortLabel>B2B Contract</shortLabel>
-                <required>true</required>
+                <required>false</required>
                 <summary>vendorB2bIndicator</summary>
                 <description>vendorB2bIndicator description...</description>
 			</attributeReference>

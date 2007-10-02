@@ -211,7 +211,6 @@
                         	<field attributeName="vendorContractExtensionDate"/>
                         	<field attributeName="contractManagerCode"/>
                         	<field attributeName="organizationAutomaticPurchaseOrderLimit"/>
- 							<field attributeName="vendorB2bIndicator"/>
 							<field attributeName="active" />
                         	<inquiryCollection name="vendorContractOrganizations" businessObjectClass="org.kuali.module.vendor.bo.VendorContractOrganization" summaryTitle="Contract Organization" >
                         		<field attributeName="chartOfAccountsCode"/>

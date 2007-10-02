@@ -199,7 +199,7 @@ public class TaxNumberServiceImpl implements TaxNumberService {
     public String[] parseNotAllowedTaxNumbers() {
         if( ObjectUtils.isNull( notAllowedTaxNumbers ) ) {
             notAllowedTaxNumbers = kualiConfigurationService.getParameter(
-                    KFSConstants.PURAP_NAMESPACE, VendorParameterConstants.Components.VENDOR, VendorRuleConstants.PURAP_NOT_ALLOWED_TAX_NUMBERS);
+                    KFSConstants.VENDOR_NAMESPACE, VendorParameterConstants.Components.VENDOR, VendorRuleConstants.PURAP_NOT_ALLOWED_TAX_NUMBERS);
         }
         return kualiConfigurationService.getParameterValues( notAllowedTaxNumbers );
     }

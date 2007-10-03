@@ -928,61 +928,6 @@
 	<field-descriptor name="referenceFinancialDocumentNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentReversalDate" column="FDOC_REVERSAL_DT" jdbc-type="DATE"/>
 	<field-descriptor name="transactionEncumbranceUpdateCode" column="TRN_ENCUM_UPDT_CD" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="universityFiscalYear" />
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="financialObjectCode" />
-	</reference-descriptor>
-	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="accountNumber" />
-	</reference-descriptor>
-	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="chartOfAccountsCode" />
-	</reference-descriptor>
-    <reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="accountNumber" />
-        <foreignkey field-ref="subAccountNumber" />
-    </reference-descriptor>
-	<reference-descriptor name="financialSubObject" class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="universityFiscalYear" />
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="accountNumber" />
-		<foreignkey field-ref="financialObjectCode" />
-		<foreignkey field-ref="financialSubObjectCode" />
-	</reference-descriptor>
-    <reference-descriptor name="balanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="financialBalanceTypeCode" />
-    </reference-descriptor>
-    <reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="projectCode" />
-    </reference-descriptor>
-    <reference-descriptor name="financialObjectType" class-ref="org.kuali.module.chart.bo.ObjectType" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="financialObjectTypeCode" />
-    </reference-descriptor>
-    <reference-descriptor name="universityFiscalPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="universityFiscalYear" />
-        <foreignkey field-ref="universityFiscalPeriodCode" />
-    </reference-descriptor>
-    <reference-descriptor name="documentType" class-ref="org.kuali.core.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="financialDocumentTypeCode" />
-    </reference-descriptor>
-    <reference-descriptor name="referenceDocumentType" class-ref="org.kuali.core.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="referenceFinancialDocumentTypeCode" />
-    </reference-descriptor>
-    <reference-descriptor name="referenceOriginationCode" class-ref="org.kuali.kfs.bo.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="referenceFinancialSystemOriginationCode" />
-    </reference-descriptor>
-    <reference-descriptor name="financialSystemOrigination" class-ref="org.kuali.kfs.bo.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="financialSystemOriginationCode" />
-    </reference-descriptor>
-    <reference-descriptor name="financialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>
-    <reference-descriptor name="referenceFinancialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="referenceFinancialDocumentNumber" />
-    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.A21DetailBuild" table="LD_A21_DTL_BLD_T">

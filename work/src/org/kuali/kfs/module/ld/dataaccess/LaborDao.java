@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 
@@ -82,4 +83,11 @@ public interface LaborDao {
     Collection getJuly1PositionFunding(Map fieldValues);
     
     Collection getJuly1(Map fieldValues);
+    
+    /**
+     * Stores a business object without doing a update query.
+     * 
+     * @param businessObject - Business Object to Store.
+     */
+    public void insert(BusinessObject businessObject);
 }

@@ -17,12 +17,14 @@ package org.kuali.module.labor.service.impl;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
+import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.dao.LaborGeneralLedgerEntryDao;
 import org.kuali.module.labor.service.LaborGeneralLedgerEntryService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class implements LaborGeneralLedgerEntryService to provide the access to labor general ledger entries in data stores.
+ * 
  * @see org.kuali.module.labor.bo.LaborGeneralLedgerEntry
  */
 @Transactional
@@ -30,6 +32,7 @@ public class LaborGeneralLedgerEntryServiceImpl implements LaborGeneralLedgerEnt
 
     private BusinessObjectService businessObjectService;
     private LaborGeneralLedgerEntryDao laborGeneralLedgerEntryDao;
+    private LaborDao laborDao;
 
     /**
      * @see org.kuali.module.labor.service.LaborGeneralLedgerEntryService#getMaxSequenceNumber()
@@ -42,11 +45,12 @@ public class LaborGeneralLedgerEntryServiceImpl implements LaborGeneralLedgerEnt
      * @see org.kuali.module.labor.service.LaborGeneralLedgerEntryService#save(org.kuali.module.labor.bo.LaborGeneralLedgerEntry)
      */
     public void save(LaborGeneralLedgerEntry laborGeneralLedgerEntry) {
-        businessObjectService.save(laborGeneralLedgerEntry);
+        laborDao.insert(laborGeneralLedgerEntry);
     }
 
     /**
      * Sets the businessObjectService attribute value.
+     * 
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -55,9 +59,20 @@ public class LaborGeneralLedgerEntryServiceImpl implements LaborGeneralLedgerEnt
 
     /**
      * Sets the laborGeneralLedgerEntryDao attribute value.
+     * 
      * @param laborGeneralLedgerEntryDao The laborGeneralLedgerEntryDao to set.
      */
     public void setLaborGeneralLedgerEntryDao(LaborGeneralLedgerEntryDao laborGeneralLedgerEntryDao) {
         this.laborGeneralLedgerEntryDao = laborGeneralLedgerEntryDao;
     }
+
+    /**
+     * Sets the laborDao attribute value.
+     * 
+     * @param laborDao The laborDao to set.
+     */
+    public void setLaborDao(LaborDao laborDao) {
+        this.laborDao = laborDao;
+    }
+
 }

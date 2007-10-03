@@ -27,6 +27,8 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.apache.ojb.broker.util.ObjectModification;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -235,5 +237,12 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         QueryByCriteria query = QueryFactory.newQuery(July1PositionFunding.class, criteria);
         OJBUtility.limitResultSize(query);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
+
+    /**
+     * @see org.kuali.module.labor.dao.LaborDao#insert(org.kuali.core.bo.BusinessObject)
+     */
+    public void insert(BusinessObject businessObject) {
+        getPersistenceBroker(true).store(businessObject, ObjectModification.INSERT);
     }
 }

@@ -39,11 +39,12 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.bo.AccountsPayableItem;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.OrganizationParameter;
-import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderView;
+import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
@@ -388,7 +389,7 @@ public class PurapServiceImpl implements PurapService {
             PaymentRequestDocument paymentRequest = (PaymentRequestDocument)purapDocument;
             //eliminate unentered items
             deleteUnenteredItems(paymentRequest);
-            // change PREQ accounts from percents to dollars (FIXME ctk (look into) - this won't do anything if we are already considered full entry at this point)
+            // change PREQ accounts from percents to dollars
             SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequest);
             // do GL entries for PREQ creation
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePaymentRequest( paymentRequest );
@@ -399,6 +400,9 @@ public class PurapServiceImpl implements PurapService {
         // below code preferable to run in post processing
         else if (purapDocument instanceof CreditMemoDocument) {
             CreditMemoDocument creditMemo = (CreditMemoDocument)purapDocument;
+            //eliminate unentered items
+            deleteUnenteredItems(creditMemo);
+            //update amounts
             SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(creditMemo);
             // do GL entries for CM creation
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateCreditMemo( creditMemo );           
@@ -450,17 +454,18 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * This method...
+     * This method should be moved to 
      * @param paymentRequest
      */
-    private void deleteUnenteredItems(PaymentRequestDocument paymentRequest) {
-        List<PaymentRequestItem> deletionList = new ArrayList<PaymentRequestItem>();
-        for (PaymentRequestItem preqItem : (List<PaymentRequestItem>)paymentRequest.getItems()) {
-            if(!preqItem.isConsideredEntered()) {
-                deletionList.add(preqItem);
+    private void deleteUnenteredItems(AccountsPayableDocument apDocument) {
+        List<AccountsPayableItem> deletionList = new ArrayList<AccountsPayableItem>();
+        for (PurApItem item : (List<PurApItem>)apDocument.getItems()) {
+            AccountsPayableItem apItem = (AccountsPayableItem)item;
+            if(!apItem.isConsideredEntered()) {
+                deletionList.add(apItem);
             }
         }
-        paymentRequest.getItems().removeAll(deletionList);
+        apDocument.getItems().removeAll(deletionList);
     }
 
     /**

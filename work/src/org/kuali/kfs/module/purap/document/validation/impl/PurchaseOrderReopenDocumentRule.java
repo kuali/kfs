@@ -103,28 +103,11 @@ public class PurchaseOrderReopenDocumentRule extends PurchasingDocumentRuleBase 
     protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
         PurchaseOrderDocument po = (PurchaseOrderDocument)accountingDocument;
+
         SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(po, 
                 accountingLine, explicitEntry, po.getPurapDocumentIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.PO_DOCUMENT, true);
+
         explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_REOPEN_DOCUMENT);  //don't think i should have to override this, but default isn't getting the right PO doc
-
-
-//        purapCustomizeGeneralLedgerPendingEntry(po, accountingLine, explicitEntry, po.getPurapDocumentIdentifier(), GL_DEBIT_CODE, true);
-//        
-//        explicitEntry.setTransactionLedgerEntryDescription(entryDescription(po.getVendorName()));
-//        explicitEntry.setFinancialDocumentTypeCode(PO_REOPEN);  //don't think i should have to override this, but default isn't getting the right PO doc
-//        
-//        UniversityDate uDate = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
-//        if (po.getPostingYear().compareTo(uDate.getUniversityFiscalYear()) > 0) {
-//            //USE NEXT AS SET ON PO; POs can be forward dated to not encumber until next fiscal year
-//            explicitEntry.setUniversityFiscalYear(po.getPostingYear());
-//            explicitEntry.setUniversityFiscalPeriodCode(MONTH1);
-//        }
-//        else {
-//            //USE CURRENT; don't use FY on PO in case it's a prior year
-//            explicitEntry.setUniversityFiscalYear(uDate.getUniversityFiscalYear());
-//            explicitEntry.setUniversityFiscalPeriodCode(uDate.getUniversityFiscalAccountingPeriod());
-//            //TODO do we need to update the doc posting year?
-//        }
     }
 
 }

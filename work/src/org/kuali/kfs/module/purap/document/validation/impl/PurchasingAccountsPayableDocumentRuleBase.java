@@ -31,9 +31,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
@@ -55,17 +53,8 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) document;
         //TODO: Chris - look into this for KULPURAP-1191, this worked but caused unwanted errors about document.sourceAccountingLines
         //isValid &= super.processCustomRouteDocumentBusinessRules(purapDocument);
-        
         return isValid &= processValidation(purapDocument);
     }
-
-    //TODO should we call our validation here?
-//    @Override
-//    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-//        boolean isValid = true;
-//        PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) document;
-//        return isValid &= processValidation(purapDocument);
-//    }
 
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
@@ -116,7 +105,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      */
     public boolean processDocumentOverviewValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = true;
-        // TODO code validation
+        // currently, there is no validation to force at the PURAP level for this tab
         return valid;
     }
 
@@ -128,7 +117,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      */
     public boolean processVendorValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = true;
-        // TODO code validation
+        // currently, there is no validation to force at the PURAP level for this tab
         return valid;
     }
 
@@ -247,24 +236,14 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
     }
 
     public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine) {
-        // TODO Auto-generated method stub
         return false;
     }
-
-//    /**      
-//     * @see org.kuali.kfs.rules.GeneralLedgerPostingDocumentRuleBase#populateOffsetGeneralLedgerPendingEntry(java.lang.Integer, org.kuali.kfs.bo.GeneralLedgerPendingEntry, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper, org.kuali.kfs.bo.GeneralLedgerPendingEntry)      
-//     */     
-//    @Override     
-//    protected boolean populateOffsetGeneralLedgerPendingEntry(Integer universityFiscalYear, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry offsetEntry) {
-//        return true;     
-//    } 
     
     /**
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#isAmountValid(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
      */
     @Override
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
-        // TODO Auto-generated method stub
         return true;
     }
 
@@ -320,61 +299,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         }
         return valid;
     }
-
     
-    
-    // (hjs) this could probably be done in a more generic way with a better method name, but this works for now
-    public String entryDescription(String description) {
-        if (description != null && description.length() > 40) {
-            return description.toString().substring(0, 39);
-        }
-        else {
-            return description;
-        }
-    }
-
-
-    protected void purapCustomizeGeneralLedgerPendingEntry(PurchasingAccountsPayableDocument purapDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry,
-            Integer referenceDocumentNumber, String debitCreditCode, boolean isEncumbrance) {
-        
-//        explicitEntry.setFinancialSystemOriginationCode(PURAP_ORIGIN_CODE);
-//        explicitEntry.setReferenceFinancialSystemOriginationCode(PURAP_ORIGIN_CODE);
-//        explicitEntry.setReferenceFinancialDocumentTypeCode(PO);
-//        if (ObjectUtils.isNotNull(referenceDocumentNumber)) {
-//            explicitEntry.setReferenceFinancialDocumentNumber(referenceDocumentNumber.toString());
-//        }
-//
-//        //TODO should we be doing it like this or storing the FY in the acct table in which case we wouldn't need this at all we'd inherit it from the accountingdocument
-//        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(explicitEntry.getUniversityFiscalYear(), explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialObjectCode());
-//        if (ObjectUtils.isNotNull(objectCode)) {
-//            explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
-//        }
-//
-//        if (isEncumbrance) {
-//            explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_EXTERNAL_ENCUMBRANCE);
-//
-//            // D - means the encumbrance is based on the document number
-//            // R - means the encumbrance is based on the referring document number
-//            // Encumbrances are created on the PO. They are updated by PREQ's and CM's.
-//            // So PO encumbrances are D, PREQ & CM's are R.  
-//            // Default to PO and when entries are created by PREQ or CM this will be overrided.
-//            explicitEntry.setTransactionEncumbranceUpdateCode(ENCUMB_UPDT_DOCUMENT_CD);
-//        }
-//        
-//        // if the amount is negative, flip the D/C indicator
-//        if (accountingLine.getAmount().doubleValue() < 0) {
-//            if (GL_CREDIT_CODE.equals(debitCreditCode)) {
-//                explicitEntry.setTransactionDebitCreditCode(GL_DEBIT_CODE);
-//            }
-//            else {
-//                explicitEntry.setTransactionDebitCreditCode(GL_CREDIT_CODE);
-//            }
-//        } else {
-//            explicitEntry.setTransactionDebitCreditCode(debitCreditCode);
-//        }
-//
-    }//end purapCustomizeGeneralLedgerPendingEntry()
-
     /**
      * 
      * This method verifies that the accounting strings entered are unique for each item. 

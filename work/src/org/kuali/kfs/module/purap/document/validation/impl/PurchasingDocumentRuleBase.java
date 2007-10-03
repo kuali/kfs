@@ -276,7 +276,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      */
     public boolean processDeliveryValidation(PurchasingDocument purDocument) {
         boolean valid = true;
-        // TODO code validation
+        // currently, there is no validation to force at the PUR level for this tab
         return valid;
     }
 

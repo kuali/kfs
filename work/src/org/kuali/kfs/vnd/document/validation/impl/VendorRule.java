@@ -642,7 +642,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
      * This method calls the methods in TaxNumberService to validate the tax number for these business rules: 1. Tax number must be
      * 9 digits and cannot be all zeros (but can be blank). 2. First three digits of a SSN cannot be 000. 3. First three digits of a
      * SSN cannot be 666. 4. Middle two digits of a SSN cannot be 00. 5. Last four digits of a SSN cannot be 0000. 6. First two
-     * digits of a FEIN cannot be 00. 7. TODO: This tax number is not allowed: 356001673
+     * digits of a FEIN cannot be 00. 7. Check system parameters for not allowed tax numbers
      * 
      * @param vendorDetail The VendorDetail object to be validated
      * @return true if the tax number is a valid tax number and false otherwise.

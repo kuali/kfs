@@ -18,14 +18,14 @@ package org.kuali.module.labor.document;
 import org.kuali.module.financial.document.YearEndDocument;
 
 /**
- * Class representing the Year End Salary Expense Transfer Document.
+ * Document Class for the Year End Salary Expense Transfer Document.
  */
-public class YearEndSalaryExpenseTransferDocument extends SalaryExpenseTransferDocument implements YearEndDocument{
+public class YearEndSalaryExpenseTransferDocument extends SalaryExpenseTransferDocument implements YearEndDocument {
 
     /**
      * Class constructor that invokes <code>SalaryExpenseTransferDocument</code> constructor.
      */
     public YearEndSalaryExpenseTransferDocument() {
         super();
-    }     
+    }
 }

@@ -15,14 +15,16 @@
  */
 package org.kuali.module.labor.rules;
 
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.module.financial.document.YearEndDocumentUtil;
 
 /**
- * Class representing the Year End Salary Expense Transfer Document Rule.
+ * Business rule(s) applicable to Year End Salary Expense Transfer documents.
  */
 public class YearEndSalaryExpenseTransferDocumentRule extends SalaryExpenseTransferDocumentRule {
-    
+
+    /**
+     * Constructs a YearEndSalaryExpenseTransferDocumentRule.java.
+     */
+    public YearEndSalaryExpenseTransferDocumentRule() {
+        super();
+    }
 }

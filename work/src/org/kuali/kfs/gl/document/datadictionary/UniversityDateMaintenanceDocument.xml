@@ -45,7 +45,10 @@
         <lockingKeys>
             <field attributeName="universityDate" />
         </lockingKeys>
-
+		<defaultExistenceChecks>
+            <reference attributeName="accountingPeriod" attributeToHighlightOnFail="universityFiscalAccountingPeriod" />
+        
+        </defaultExistenceChecks>
         <maintainableSections>
             <maintainableSection title="Edit University Date">
                 <maintainableItems>

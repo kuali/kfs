@@ -16,6 +16,7 @@
 package org.kuali.module.purap.service;
 
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 
 /**
@@ -26,5 +27,5 @@ public interface AccountsPayableDocumentSpecificService {
     public void takePurchaseOrderCancelAction(AccountsPayableDocument apDoc);
     public UniversalUser getUniversalUserForCancel(AccountsPayableDocument apDoc);
     public String updateStatusByNode(String currentNodeName, AccountsPayableDocument apDoc);
-    
+    public boolean poItemEligibleForAp(AccountsPayableDocument apDoc, PurchaseOrderItem poi);
 }

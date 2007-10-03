@@ -430,7 +430,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                 List<PaymentRequestItem> items = cm.getPaymentRequestDocument().getItems();
                 for (PaymentRequestItem preqItem : items) {
                     PurchaseOrderItem poItem = preqItem.getPurchaseOrderItem();
-                    CreditMemoItem cmItem = cm.getCMItemFromPOItem(poItem);
+                    CreditMemoItem cmItem = (CreditMemoItem)cm.getAPItemFromPOItem(poItem);
                     // take invoiced quantities from the lower of the preq and po if different
                     updateEncumberances(preqItem, poItem, cmItem);
                 }
@@ -441,25 +441,29 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                 List<CreditMemoItem> cmItems = cm.getItems();
                 //iterate through the above the line poItems to find matching
                 for (PurchaseOrderItem purchaseOrderItem : poItems) {
-                    
+                    //skip inactive and below the line
                     if(!purchaseOrderItem.getItemType().isItemTypeAboveTheLineIndicator()) {
                         continue;
                     }
-                    CreditMemoItem cmItem = cm.getCMItemFromPOItem(purchaseOrderItem);
-                    if(ObjectUtils.isNull(cmItem)) {
-                        //must be a new item from amendment add to preqItems
-                        cmItems.add(new CreditMemoItem(cm, purchaseOrderItem));
-                        continue;
-                    }
-                    if(!cmItem.isConsideredEntered()) {
-                        //if the user didn't modify the preq item see if it is still eligible to be payed on
-                        if(!purchaseOrderItemEligibleForPayment(purchaseOrderItem)) {
+                    
+                    CreditMemoItem cmItem = (CreditMemoItem)cm.getAPItemFromPOItem(purchaseOrderItem);
+                    //check if any action needs to be taken on the items (i.e. add for new eligible items or remove for ineligible)
+                    if(apDocument.getDocumentSpecificService().poItemEligibleForAp(apDocument, purchaseOrderItem)) {
+                        //if eligible and not there - add
+                        if(ObjectUtils.isNull(cmItem)) {
+                            cmItems.add(new CreditMemoItem(cm, purchaseOrderItem));
+                        } else {
+                            //is eligible and on doc, update encumberances
+                            //(this is only qty and amount for now NOTE we should also update other key fields, like description etc in case ammendment modified a line
+                            updateEncumberance(purchaseOrderItem, cmItem);
+                        }
+                    } else { //if not eligible and there - remove
+                        if(ObjectUtils.isNotNull(cmItem)) {
                             cmItems.remove(cmItem);
+                            //don't update encumberance
                             continue;
                         }
                     }
-                  //update encumberance (this is only qty and amount for now NOTE we should also update other key fields, like description etc in case ammendment modified a line
-                  updateEncumberance(purchaseOrderItem, cmItem);
 
                 }
                 
@@ -479,22 +483,24 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
             List<PaymentRequestItem> preqItems = preq.getItems();
             //iterate through the above the line poItems to find matching
             for (PurchaseOrderItem purchaseOrderItem : poItems) {
+                //skip below the line
                 if(!purchaseOrderItem.getItemType().isItemTypeAboveTheLineIndicator()) {
                     continue;
                 }
+                
                 PaymentRequestItem preqItem = (PaymentRequestItem)preq.getAPItemFromPOItem(purchaseOrderItem);
-                if(ObjectUtils.isNull(preqItem)) {
-                    //must be a new item from amendment add to preqItems
-                    preqItems.add(new PaymentRequestItem(purchaseOrderItem, preq));
-                    continue;
-                }
-                if(!preqItem.isConsideredEntered()) {
-                    //if the user didn't modify the preq item see if it is still eligible to be payed on
-                    if(!purchaseOrderItemEligibleForPayment(purchaseOrderItem)) {
+                //check if any action needs to be taken on the items (i.e. add for new eligible items or remove for ineligible)
+                if(apDocument.getDocumentSpecificService().poItemEligibleForAp(apDocument, purchaseOrderItem)) {
+                    //if eligible and not there - add
+                    if(ObjectUtils.isNull(preqItem)) {
+                        preqItems.add(new PaymentRequestItem(purchaseOrderItem, preq));
+                    }
+                } else { //if not eligible and there - remove
+                    if(ObjectUtils.isNotNull(preqItem)) {
                         preqItems.remove(preqItem);
                     }
                 }
-
+                
             }
         }
         //TODO: ctk - call calculate here?

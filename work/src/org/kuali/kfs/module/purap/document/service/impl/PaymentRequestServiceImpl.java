@@ -56,6 +56,7 @@ import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.AutoApproveExclude;
+import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.NegativePaymentRequestApprovalLimit;
 import org.kuali.module.purap.bo.PaymentRequestAccount;
 import org.kuali.module.purap.bo.PaymentRequestItem;
@@ -1090,5 +1091,32 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
     public boolean hasDiscountItem(PaymentRequestDocument preq) {
         return ObjectUtils.isNotNull(findDiscountItem(preq));
+    }
+
+    public boolean poItemEligibleForAp(AccountsPayableDocument apDoc, PurchaseOrderItem poi) {
+        if(ObjectUtils.isNull(poi)) {
+//          LOG.debug("poi was null");
+            throw new RuntimeException("item null in purchaseOrderItemEligibleForPayment ... this should never happen");
+        }
+
+        //if the po item is not active... skip it
+        if(!poi.isItemActiveIndicator()) {
+//          LOG.debug("poi was not active: "+poi.toString());
+            return false;
+        }
+
+        ItemType poiType = poi.getItemType();
+
+        if(poiType.isQuantityBasedGeneralLedgerIndicator()) {
+            if(poi.getItemQuantity().isGreaterThan(poi.getItemInvoicedTotalQuantity())) {
+                return true;
+            } 
+            return false;
+        } else { //not quantity based
+            if(poi.getItemOutstandingEncumberedAmount().isGreaterThan(KualiDecimal.ZERO)) {
+                return true;
+            } 
+            return false;
+        }
     }
 }

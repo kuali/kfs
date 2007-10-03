@@ -602,4 +602,22 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         cm.setCreditMemoPaidTimestamp(new Timestamp(processDate.getTime()));
         saveDocumentWithoutValidation(cm);
     }
+
+    public boolean poItemEligibleForAp(AccountsPayableDocument apDoc, PurchaseOrderItem poItem) {
+        //if the po item is not active... skip it
+        if(!poItem.isItemActiveIndicator()) {
+            return false;
+        }
+
+        if (poItem.getItemType().isQuantityBasedGeneralLedgerIndicator() && poItem.getItemInvoicedTotalQuantity().isGreaterThan(KualiDecimal.ZERO)) {
+            return true;
+        }
+        else {
+            BigDecimal unitPrice = (poItem.getItemUnitPrice() == null ? new BigDecimal(0) : poItem.getItemUnitPrice());
+            if (unitPrice.doubleValue() > poItem.getItemOutstandingEncumberedAmount().doubleValue()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -572,18 +572,5 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     public AccountsPayableDocumentSpecificService getDocumentSpecificService() {
         return SpringContext.getBean(CreditMemoService.class);
     }
-    //TODO: this is the exact same as the credit memo one, should use generics and move up
-    public CreditMemoItem getCMItemFromPOItem(PurchaseOrderItem poi) {
-        for (CreditMemoItem cmItem : (List<CreditMemoItem>)this.getItems()) {
-            if(cmItem.getItemType().isItemTypeAboveTheLineIndicator()) {
-                if(cmItem.getItemLineNumber().compareTo(poi.getItemLineNumber())==0) {
-                    return cmItem;
-                }
-            } else {
-                return (CreditMemoItem)SpringContext.getBean(PurapService.class).getBelowTheLineByType(this, poi.getItemType());
-            }
-        }
-        return null;
-    }
 
 }

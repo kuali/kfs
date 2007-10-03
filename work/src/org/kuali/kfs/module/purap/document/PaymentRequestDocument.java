@@ -772,7 +772,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         AccountsPayableService accountsPayableService = SpringContext.getBean(AccountsPayableService.class);
         for (PurchaseOrderItem poi : (List<PurchaseOrderItem>)po.getItems()) {
             //check to make sure it's eligible for payment (i.e. active and has encumberance available
-            if(accountsPayableService.purchaseOrderItemEligibleForPayment(poi)) {
+            if(getDocumentSpecificService().poItemEligibleForAp(this, poi)) {
                 this.getItems().add(new PaymentRequestItem(poi,this, expiredOrClosedAccountList));                
               }
         }

@@ -28,7 +28,7 @@ import org.kuali.module.labor.bo.LaborOriginEntry;
 /**
  * This class is used to define global constants.
  */
-public class KFSConstants extends JstlConstants {
+public class KFSConstants extends JstlConstants implements ParameterKeyConstants {
     private static final long serialVersionUID = 2882277719647128949L;
 
     // special user used in the post-processor

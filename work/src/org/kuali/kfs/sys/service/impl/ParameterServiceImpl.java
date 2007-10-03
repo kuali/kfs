@@ -198,7 +198,7 @@ public class ParameterServiceImpl implements ParameterService {
             return documentOrStepClass.getSimpleName();
         }
         else if (Step.class.isAssignableFrom(documentOrStepClass)) {
-            return documentOrStepClass.getClass().getSimpleName();
+            return documentOrStepClass.getSimpleName();
         }
         throw new IllegalArgumentException("The getDetailedType method of ParameterUtils requires TransactionalDocument, BusinessObject, or Step class");
     }

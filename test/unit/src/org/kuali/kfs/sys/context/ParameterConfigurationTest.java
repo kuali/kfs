@@ -15,9 +15,10 @@
  */
 package org.kuali.core.rule;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.bo.ParameterDetailType;
@@ -44,14 +45,13 @@ public class ParameterConfigurationTest extends KualiTestBase {
         }
         badComponents.insert(0, "The following " + failCount + " parameters have invalid components:");
         if (failCount > 0) {
-            ArrayList<String> components = new ArrayList<String>();
+            Set<String> components = new TreeSet<String>();
             for (ParameterDetailType pdt : SpringContext.getBean(ParameterService.class).getNonDatabaseDetailTypes()) {
                 components.add(pdt.getParameterNamespaceCode() + "/" + pdt.getParameterDetailTypeCode());
             }
             for (ParameterDetailType pdt : (Collection<ParameterDetailType>) SpringContext.getBean(BusinessObjectService.class).findAll(ParameterDetailType.class)) {
                 components.add(pdt.getParameterNamespaceCode() + "/" + pdt.getParameterDetailTypeCode());
             }
-            Collections.sort(components);
             System.out.println("Valid Components: ");
             for (String component : components) {
                 System.out.println(component);

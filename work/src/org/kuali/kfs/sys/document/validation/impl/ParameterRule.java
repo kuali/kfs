@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.rules;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,9 +27,6 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 
 public class ParameterRule extends org.kuali.core.rules.ParameterRule {
-
-    private static ArrayList<String> ddComponentNames = new ArrayList<String>();
-    private static ArrayList<String[]> stepNames = new ArrayList<String[]>();
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {

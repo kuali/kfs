@@ -16,6 +16,8 @@
 package org.kuali.module.gl.batch.closing.year.service.impl.helper;
 
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
@@ -27,6 +29,7 @@ import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.PriorYearAccount;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.chart.service.PriorYearAccountService;
 import org.kuali.module.chart.service.SubFundGroupService;
 import org.kuali.module.financial.exceptions.InvalidFlexibleOffsetException;
@@ -158,6 +161,7 @@ public class BalanceForwardRuleHelper {
     private String[] generalSwObjectTypes;
     private String annualClosingDocType;
     private String glOriginationCode;
+    private Map<String, Boolean> balanceTypeEncumbranceIndicators;
 
     private BalanceForwardProcessState state;
 
@@ -209,6 +213,12 @@ public class BalanceForwardRuleHelper {
         setClosedPriorYearAccountGroup(closedPriorYearAccountGroup);
         setUnclosedPriorYearAccountGroup(unclosedPriorYearAccountGroup);
         currentYearOptions = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
+        
+        balanceTypeEncumbranceIndicators = new HashMap<String, Boolean>();
+        for (Object balanceTypAsObj: SpringContext.getBean(BalanceTypService.class).getAllBalanceTyps()) {
+            BalanceTyp balanceType = (BalanceTyp)balanceTypAsObj;
+            balanceTypeEncumbranceIndicators.put(balanceType.getCode(), (balanceType.isFinBalanceTypeEncumIndicator() ? Boolean.TRUE : Boolean.FALSE));
+        }
     }
 
     /**
@@ -808,8 +818,6 @@ public class BalanceForwardRuleHelper {
      */
     private String getTransactionEncumbranceUpdateCode(Balance balance) throws NonFatalErrorException {
         String updateCode = null;
-        
-        BalanceTyp balanceType = balance.getBalanceType();
 
         // 1142 006690 IF CABTYP-FBEC-I < ZERO
         // 1143 006700 MOVE SPACE TO CABTYP-FIN-BALTYP-ENC-CD
@@ -817,41 +825,13 @@ public class BalanceForwardRuleHelper {
 
         // 1145 006720 EVALUATE SQLCODE
         // 1146 006730 WHEN 0
-
-        if (ObjectUtils.isNotNull(balanceType)) {
-
-            // 1147 006740 IF CABTYP-FIN-BALTYP-ENC-CD = 'Y'
-
-            if (balanceType.isFinBalanceTypeEncumIndicator()) {
-
-                // 1148 006750 MOVE 'N' TO TRN-ENCUM-UPDT-CD
-                // 1149 006760 WS-TRN-ENCUM-UPDT-CD
-
-                updateCode = KFSConstants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD;
-
-                // 1150 006770 ELSE
-
-            }
-
-        }
-        else {
-            
-            // 1162 006890 MOVE ' ERROR ' TO PRINT-DATA
-            // 1163 006900 MOVE CABTYP-FIN-BALANCE-TYP-CD TO PRINT-DATA (8:4)
-            // 1164 006910 MOVE ' NOT ON TABLE ' TO PRINT-DATA (13:14)
-            // 1165 006920 WRITE PRINT-DATA
-
+        Boolean encumIndicator = this.balanceTypeEncumbranceIndicators.get(balance.getBalanceTypeCode());
+        if (encumIndicator == null) {
             throw new NonFatalErrorException(new StringBuffer(" ERROR ").append(balance.getBalanceTypeCode()).append(" NOT ON TABLE ").toString());
-
-            // 1166 006930 PERFORM CK-PRINT-STATUS THRU CK-PRINT-STATUS-EXIT
-            // 1167 006940 ADD +1 TO LINE-COUNT
-            // 1168 006950 WHEN OTHER
-            // 1169 006960 DISPLAY ' ERROR ACCESSING BALANCE TYPE TABLE FOR '
-            // 1170 006970 CABTYP-FIN-BALANCE-TYP-CD
-            // 1171 006980 MOVE 'Y' TO WS-FATAL-ERROR-FLAG
-            // 1172 006990 GO TO 4000-WRITE-OUTPUT-EXIT
-
+        } else if (encumIndicator.booleanValue()) {
+            updateCode = KFSConstants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD;
         }
+
         return updateCode;
     }
 
@@ -1180,6 +1160,16 @@ public class BalanceForwardRuleHelper {
             // 1438 009550 ADD +1 TO SEQ-CLOSE-COUNT.
 
             state.incrementSequenceClosedCount();
+            
+            if (0 == state.getSequenceWriteCount() % 1000) {
+
+                // 1424 DISPLAY ' SEQUENTIAL RECORDS WRITTEN = ' SEQ-CHECK-CNT
+
+                LOG.info("  SEQUENTIAL RECORDS WRITTEN = " + state.getSequenceWriteCount());
+
+                // 1425 END-IF
+
+            }
 
         }
     }

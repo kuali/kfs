@@ -63,6 +63,7 @@ import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.PosterService;
 import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.RunDateService;
+import org.kuali.module.gl.util.Message;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -356,7 +357,7 @@ public class PosterServiceImpl implements PosterService {
 
         OriginEntryGroup group = originEntryGroupService.createGroup(runDate, OriginEntrySource.ICR_TRANSACTIONS, true, true, false);
 
-        Map reportErrors = new HashMap();
+        Map<ExpenditureTransaction, List<Message>> reportErrors = new HashMap();
 
         int reportExpendTranRetrieved = 0;
         int reportExpendTranDeleted = 0;
@@ -383,15 +384,12 @@ public class PosterServiceImpl implements PosterService {
                         generatedTransactionAmount = distributionAmount;
 
                         // Log differences that are over WARNING_MAX_DIFFERENCE
-                        // if(getPercentage(transactionAmount,
-                        // icrEntry.getAwardIndrCostRcvyRatePct().bigDecimalValue()).compareTo(distributionAmount) >=
-                        // WARNING_MAX_DIFFERENCE) {
-                        // List warnings = new ArrayList();
-                        // warnings.add("ADJUSTMENT GREATER THAN .03");
-                        // reportErrors.put(originEntry, warnings);
-                        // }
-                    }
-                    else if (icrEntry.getTransactionDebitIndicator().equals(KFSConstants.GL_DEBIT_CODE)) {
+                        if(getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct()).subtract(distributionAmount).abs().isGreaterThan(WARNING_MAX_DIFFERENCE)) {
+                            List warnings = new ArrayList();
+                            warnings.add("ADJUSTMENT GREATER THAN " + WARNING_MAX_DIFFERENCE);
+                            reportErrors.put(et, warnings);
+                        }
+                    } else if (icrEntry.getTransactionDebitIndicator().equals(KFSConstants.GL_DEBIT_CODE)) {
                         generatedTransactionAmount = getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct());
                         distributionAmount = distributionAmount.add(generatedTransactionAmount);
                     }
@@ -401,9 +399,9 @@ public class PosterServiceImpl implements PosterService {
                     }
                     else {
                         // Log if D / C code not found
-                        // List warnings = new ArrayList();
-                        // warnings.add("DEBIT OR CREDIT CODE NOT FOUND");
-                        // reportErrors.put(originEntry, warnings);
+                        List warnings = new ArrayList();
+                        warnings.add("DEBIT OR CREDIT CODE NOT FOUND");
+                        reportErrors.put(et, warnings);
                     }
 
                     generateTransactions(et, icrEntry, generatedTransactionAmount, runDate, group, reportErrors);

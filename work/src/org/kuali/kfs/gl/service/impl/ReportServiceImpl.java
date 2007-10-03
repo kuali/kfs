@@ -38,6 +38,7 @@ import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.CorrectionChange;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.CorrectionCriteria;
+import org.kuali.module.gl.bo.ExpenditureTransaction;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 import org.kuali.module.gl.bo.Transaction;
@@ -53,15 +54,16 @@ import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
 import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
 import org.kuali.module.gl.util.BalanceEncumbranceReport;
 import org.kuali.module.gl.util.BalanceReport;
+import org.kuali.module.gl.util.ExpenditureTransactionReport;
 import org.kuali.module.gl.util.GeneralLedgerPendingEntryReport;
 import org.kuali.module.gl.util.LedgerEntryHolder;
 import org.kuali.module.gl.util.LedgerReport;
 import org.kuali.module.gl.util.Message;
-import org.kuali.module.gl.util.YearEndTransactionReport;
 import org.kuali.module.gl.util.PosterOutputSummaryReport;
 import org.kuali.module.gl.util.Summary;
 import org.kuali.module.gl.util.TransactionListingReport;
 import org.kuali.module.gl.util.TransactionReport;
+import org.kuali.module.gl.util.YearEndTransactionReport;
 import org.kuali.module.gl.web.optionfinder.SearchOperatorsFinder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -329,18 +331,18 @@ public class ReportServiceImpl implements ReportService {
     /**
      * @see org.kuali.module.gl.service.ReportService#generatePosterIcrStatisticsReport(java.util.Date, java.util.Date, java.util.Map, int, int, int, int)
      */
-    public void generatePosterIcrStatisticsReport(Date executionDate, Date runDate, Map<Transaction, List<Message>> reportErrors, int reportExpendTranRetrieved, int reportExpendTranDeleted, int reportExpendTranKept, int reportOriginEntryGenerated) {
+    public void generatePosterIcrStatisticsReport(Date executionDate, Date runDate, Map<ExpenditureTransaction, List<Message>> reportErrors, int reportExpendTranRetrieved, int reportExpendTranDeleted, int reportExpendTranKept, int reportOriginEntryGenerated) {
         LOG.debug("generatePosterIcrStatisticsReport() started");
 
-        List summary = new ArrayList();
+        List<Summary> summary = new ArrayList();
         summary.add(new Summary(1, "Number of GL_EXPEND_TRAN_T records retrieved:", reportExpendTranRetrieved));
         summary.add(new Summary(2, "Number of GL_EXPEND_TRAN_T records deleted:", reportExpendTranDeleted));
         summary.add(new Summary(3, "Number of GL_EXPEND_TRAN_T records kept due to errors:", reportExpendTranKept));
         summary.add(new Summary(4, "", 0));
         summary.add(new Summary(3, "Number of GL_ORIGIN_ENTRY_T records generated:", reportOriginEntryGenerated));
 
-        TransactionReport tr = new TransactionReport();
-        tr.generateReport(reportErrors, summary, executionDate, "ICR Generation Report", "icr_generation", reportsDirectory);
+        ExpenditureTransactionReport etr = new ExpenditureTransactionReport();
+        etr.generateReport(reportErrors, summary, executionDate, "ICR Generation Report", "icr_generation", reportsDirectory);
     }
 
     /**

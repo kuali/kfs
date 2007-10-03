@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.kuali.kfs.bo.Options;
 import org.kuali.module.gl.batch.poster.PostTransaction;
+import org.kuali.module.gl.bo.ExpenditureTransaction;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.document.CorrectionDocument;
@@ -163,7 +164,7 @@ public interface ReportService {
      * @param reportExpendTranKept
      * @param reportOriginEntryGenerated
      */
-    public void generatePosterIcrStatisticsReport(Date executionDate, Date runDate, Map<Transaction, List<Message>> reportErrors, int reportExpendTranRetrieved, int reportExpendTranDeleted, int reportExpendTranKept, int reportOriginEntryGenerated);
+    public void generatePosterIcrStatisticsReport(Date executionDate, Date runDate, Map<ExpenditureTransaction, List<Message>> reportErrors, int reportExpendTranRetrieved, int reportExpendTranDeleted, int reportExpendTranKept, int reportOriginEntryGenerated);
 
     /**
      * ICR Encumbrance Statistics report

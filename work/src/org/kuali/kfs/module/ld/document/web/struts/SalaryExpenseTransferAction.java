@@ -21,19 +21,18 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.util.ObjectUtil;
-import org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm;
 import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
+import org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm;
 
 /**
- * This class extends the parent KualiTransactionalDocumentActionBase class, which contains all common action methods. Since the SEP
- * follows the basic transactional document pattern, there are no specific actions that it has to implement; however, this empty
- * class is necessary for integrating into the framework.
+ * Struts action class for Salary Expense Transfer Document. 
+ * This class extends the parent KualiTransactionalDocumentActionBase
+ * class, which contains all common action methods. Since the SEP follows the basic transactional document pattern, there are no
+ * specific actions that it has to implement; however, this empty class is necessary for integrating into the framework.
  */
 public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBase {
     /**
@@ -47,19 +46,20 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.docHandler(mapping, form, request, response);
-        
-        // if user is approving the document, capture the object code balances for comparision in business rules on route 
+
+        // if user is approving the document, capture the object code balances for comparision in business rules on route
         SalaryExpenseTransferDocument salaryExpenseDocument = (SalaryExpenseTransferDocument) ((KualiDocumentFormBase) form).getDocument();
         if (salaryExpenseDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
             salaryExpenseDocument.setApprovalObjectCodeBalances(salaryExpenseDocument.getUnbalancedObjectCodes());
         }
-        
+
         return forward;
     }
-    
+
 }

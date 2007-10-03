@@ -38,14 +38,13 @@ import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.service.LaborUserService;
 
 /**
- * This class is the form class for the Salary Expense Transfer document. This method extends the parent
- * KualiTransactionalDocumentFormBase class which contains all of the common form methods and form attributes needed by the Salary
+ * Struts Action Form for the Salary Expense Transfer document.
+ * This method extends the parent ExpenseTransferDocumentFormBase class which contains all of the common form methods and form attributes needed by the Salary
  * Expense Transfer document. It adds a new method which is a convenience method for getting at the Salary Expense Transfer document
  * easier.
  */
 public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     private static Log LOG = LogFactory.getLog(SalaryExpenseTransferForm.class);
-
     private LaborUser user;
     private String balanceTypeCode;
     private String emplid;
@@ -55,7 +54,6 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
      */
     public SalaryExpenseTransferForm() {
         super();
-        
         setDocument(new SalaryExpenseTransferDocument());
         setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
         setLookupResultsBOClassName(LedgerBalance.class.getName());
@@ -90,7 +88,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     }
 
     /**
-     * This method returns a refernce to the Salary Expense Transfer Document
+     * This method returns a reference to the Salary Expense Transfer Document
      * 
      * @return SalaryExpenseTransferDocument
      */
@@ -117,45 +115,43 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     }
 
     /**
-     * This method sets the employee ID retrieved from the universal user service
+     * Sets the employee ID retrieved from the universal user service
      * 
      * @param emplid
      * @throws UserNotFoundException because a lookup at the database discovers user data from the personPayrollIdentifier
      */
     public void setEmplid(String id) {
         getSalaryExpenseTransferDocument().setEmplid(id);
-
         if (id != null) {
             try {
                 setUser(SpringContext.getBean(LaborUserService.class).getLaborUserByPersonPayrollIdentifier(id));
             }
             catch (UserNotFoundException e) {
             }
-
         }
     }
 
     /**
-     * This method returns the employee ID from the UniversalUser table.
+     * Returns the employee ID from the UniversalUser table.
      * 
      * @return String of the personPayrollIdentifier
      * @throws UserNotFoundException because a lookup at the database discovers user data from the personPayrollIdentifier
      */
     public String getEmplid() throws UserNotFoundException {
         if (user == null) {
-
             try {
                 setUser(SpringContext.getBean(LaborUserService.class).getLaborUserByPersonPayrollIdentifier(getSalaryExpenseTransferDocument().getEmplid()));
-
             }
             catch (UserNotFoundException e) {
             }
-
         }
+
         return getSalaryExpenseTransferDocument().getEmplid();
     }
 
     /**
+     * Removes fields from map if users is allowed to edit.
+     * 
      * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
      */
     @Override
@@ -168,7 +164,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         map.remove(KFSPropertyConstants.PROJECT_CODE);
         map.remove(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID);
         map.remove(KFSPropertyConstants.AMOUNT);
-        
+
         // check if user is allowed to edit the object code.
         String adminGroupName = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(LaborConstants.LABOR_NAMESPACE, LaborConstants.Components.SALARY_EXPENSE_TRANSFER, LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP_PARM_NM);
         boolean isAdmin = false;
@@ -181,7 +177,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         if (isAdmin) {
             map.remove(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         }
-        
+
         return map;
     }
 

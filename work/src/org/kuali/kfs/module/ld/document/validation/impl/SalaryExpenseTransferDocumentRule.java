@@ -51,6 +51,7 @@ import org.kuali.module.labor.util.LaborPendingEntryGenerator;
  * Business rule(s) applicable to Salary Expense Transfer documents.
  */
 public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocumentRules implements GenerateLaborLedgerBenefitClearingPendingEntriesRule<LaborLedgerPostingDocument> {
+
     /**
      * Constructs a SalaryExpenseTransferDocumentRule.java.
      */
@@ -84,7 +85,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
             return true;
         }
 
-        // if approving document, check the object code balances match when document was inititated, else check they balance
+        // if approving document, check the object code balances match when document was inititated, else check the balance
         boolean isValid = true;
         if (accountingDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
             if (!isObjectCodeBalancesUnchanged(accountingDocument)) {
@@ -162,7 +163,6 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
-
         SalaryExpenseTransferDocument expenseTransferDocument = (SalaryExpenseTransferDocument) document;
 
         // must not have any pending labor ledger entries with same emplId, periodCode, accountNumber, objectCode
@@ -225,14 +225,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
      * determine whether the employees in the source accouting lines are same
      * 
      * @param accountingDocument the given accouting document
-     * @return true if the employees in the source accouting lines are same; otherwise, false private boolean
-     *         hasSameEmployee(AccountingDocument accountingDocument) { LOG.debug("started hasSameEmployee");
-     *         LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
-     *         List<ExpenseTransferSourceAccountingLine> sourceAccountingLines =
-     *         expenseTransferDocument.getSourceAccountingLines(); // expenseTransferDocument.getEmplid() String cachedEmplid =
-     *         null; for (ExpenseTransferSourceAccountingLine sourceAccountingLine : sourceAccountingLines) { String emplid =
-     *         sourceAccountingLine.getEmplid(); if (emplid == null) { return false; } cachedEmplid = cachedEmplid == null ? emplid :
-     *         cachedEmplid; if (!emplid.equals(cachedEmplid)) { return false; } } return true; }
+     * @return true if the employees in the source accouting lines are same; otherwise, false 
      */
     private boolean hasAccountingLinesSameEmployee(AccountingDocument accountingDocument) {
         LOG.debug("stared hasDocumentsSameEmployee");
@@ -312,10 +305,13 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
                 return true;
             }
         }
+        
         return false;
     }
 
     /**
+     * @param LaborLedgerPostingDocument the given labor ledger accounting document
+     * @return true after creating a list of Expense Pending entries and Benefit pending Entries
      * @see org.kuali.module.labor.rules.LaborExpenseTransferDocumentRules#processGenerateLaborLedgerPendingEntries(org.kuali.module.labor.document.LaborLedgerPostingDocument,
      *      org.kuali.module.labor.bo.ExpenseTransferAccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
@@ -335,6 +331,8 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
     }
 
     /**
+     * @param LaborLedgerPostingDocument the given labor ledger accounting document
+     * @return true after generate Benefit Clearing Pending Entries for the document
      * @see org.kuali.module.labor.rule.GenerateLaborLedgerBenefitClearingPendingEntriesRule#processGenerateLaborLedgerBenefitClearingPendingEntries(org.kuali.kfs.document.AccountingDocument,
      *      org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */

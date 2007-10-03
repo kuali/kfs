@@ -51,6 +51,12 @@
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectCode" />
     </reference-descriptor>
+    <reference-descriptor name="subObjectCode" class-ref="org.kuali.module.chart.bo.SubObjCdCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="accountNumber" />
+        <foreignkey field-ref="financialObjectCode" />
+        <foreignkey field-ref="financialSubObjectCode" />
+    </reference-descriptor>
     <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
@@ -2430,6 +2436,12 @@
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectCode" />
     </reference-descriptor>
+    <reference-descriptor name="subObjectCode" class-ref="org.kuali.module.chart.bo.SubObjCdCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="accountNumber" />
+        <foreignkey field-ref="financialObjectCode" />
+        <foreignkey field-ref="financialSubObjectCode" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.PaymentRequestItem" table="AP_PMT_RQST_ITM_T">
@@ -2509,7 +2521,14 @@
     <reference-descriptor name="objectCode" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectCode" />
+    </reference-descriptor>     
+    <reference-descriptor name="subObjectCode" class-ref="org.kuali.module.chart.bo.SubObjCdCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="accountNumber" />
+        <foreignkey field-ref="financialObjectCode" />
+        <foreignkey field-ref="financialSubObjectCode" />
     </reference-descriptor>
+    
     <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
@@ -3189,6 +3208,12 @@
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectCode" />
     </reference-descriptor>
+    <reference-descriptor name="subObjectCode" class-ref="org.kuali.module.chart.bo.SubObjCdCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="accountNumber" />
+        <foreignkey field-ref="financialObjectCode" />
+        <foreignkey field-ref="financialSubObjectCode" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.CreditMemoView" table="AP_CRDT_MEMO_V">
@@ -3336,6 +3361,12 @@
     <reference-descriptor name="objectCode" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectCode" />
+    </reference-descriptor>
+    <reference-descriptor name="subObjectCode" class-ref="org.kuali.module.chart.bo.SubObjCdCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="accountNumber" />
+        <foreignkey field-ref="financialObjectCode" />
+        <foreignkey field-ref="financialSubObjectCode" />
     </reference-descriptor>
 </class-descriptor>
 

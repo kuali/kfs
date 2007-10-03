@@ -313,7 +313,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         super.handleRouteStatusChange();
 
         //child classes need to call super, but we don't want to inherit the post-processing done by this PO class
-        //FIXME there is probably a better way to do this (hjs)
         if ( PurchaseOrderDocument.class.getName().equals(this.getClass().getName()) ) {
             
             KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();

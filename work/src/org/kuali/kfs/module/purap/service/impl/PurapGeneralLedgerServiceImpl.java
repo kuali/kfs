@@ -126,7 +126,6 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             explicitEntry.setReferenceFinancialSystemOriginationCode(PURAP_ORIGIN_CODE);
         }
 
-        // TODO should we be doing it like this or storing the FY in the acct table in which case we wouldn't need this at all we'd inherit it from the accountingdocument
         // TODO do we need this for subobject code?
         ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(explicitEntry.getUniversityFiscalYear(), explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialObjectCode());
         if (ObjectUtils.isNotNull(objectCode)) {
@@ -1029,7 +1028,6 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     private PurchaseOrderItem getPoItem(PurchaseOrderDocument po, Integer nbr) {
         for (Iterator iter = po.getItems().iterator(); iter.hasNext();) {
             PurchaseOrderItem element = (PurchaseOrderItem) iter.next();
-            //FIXME don't think these #s should ever be null; is that right? (hjs)
             if (ObjectUtils.isNotNull(nbr) && ObjectUtils.isNotNull(element.getItemLineNumber()) && 
                     (nbr.compareTo(element.getItemLineNumber()) == 0)) {
                 return element;
@@ -1039,7 +1037,6 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     }
 
     
-    //TODO (hjs) this could probably be done in a more generic way with a better method name, but this works for now
     private String entryDescription(String description) {
         if (description != null && description.length() > 40) {
             return description.toString().substring(0, 39);

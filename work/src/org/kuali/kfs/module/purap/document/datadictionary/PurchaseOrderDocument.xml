@@ -376,8 +376,7 @@
                 <description>recurringPaymentFrequencyCode description...</description>
 			</attributeReference>  
             
-            <!-- TODO something is wrong with this; is it supposed to be the source or status?  check purapDocumentDetail.tag  -->
-            <attributeReference name="requisitionSource" sourceClassName="org.kuali.module.purap.bo.RequisitionStatus" sourceAttributeName="statusDescription">
+            <attributeReference name="requisitionSource" sourceClassName="org.kuali.module.purap.bo.RequisitionSource" sourceAttributeName="requisitionSourceDescription">
             	<label>Requisition Source</label>
             	<shortLabel>Req. Source</shortLabel>        	
             </attributeReference>

@@ -60,7 +60,6 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     
     @Override
     public void setGenerateDefaultValues(boolean generateDefaultValues) {
-        // TODO Auto-generated method stub
         super.setGenerateDefaultValues(generateDefaultValues);
         if (this.getBusinessObject().getBoNotes().isEmpty()) {
             Note newBONote = new Note();

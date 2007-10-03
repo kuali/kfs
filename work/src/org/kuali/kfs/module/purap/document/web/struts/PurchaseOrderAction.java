@@ -854,7 +854,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
 
-        // TODO: should this be calling the Rule class?
         if (StringUtils.isBlank(poForm.getNewPurchaseOrderVendorStipulationLine().getVendorStipulationDescription())) {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_STIPULATION, PurapKeyConstants.ERROR_STIPULATION_DESCRIPTION);
         }
@@ -1221,7 +1220,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      */
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        // TODO Auto-generated method stub
         super.loadDocument(kualiDocumentFormBase);
         PurchaseOrderForm form = (PurchaseOrderForm)kualiDocumentFormBase;
         PurchaseOrderDocument po = (PurchaseOrderDocument)form.getDocument();

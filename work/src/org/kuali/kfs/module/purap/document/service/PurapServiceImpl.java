@@ -377,7 +377,6 @@ public class PurapServiceImpl implements PurapService {
     }
         
     public void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument) {
-        //TODO: move logic from various parts of the app to here
         if (purapDocument instanceof RequisitionDocument) {
             /* not sure if this can be used or not?  The fact that the REQ is editable by anyone while it's In Process
              * but only Content Approvers can edit the doc in Content Level does that leave this method as holding too many
@@ -429,7 +428,6 @@ public class PurapServiceImpl implements PurapService {
             
             if (paymentRequest.isClosePurchaseOrderIndicator() && 
                 PurapConstants.PurchaseOrderStatuses.OPEN.equals(paymentRequest.getPurchaseOrderDocument().getStatusCode())) {
-                // TODO (KULPURAP-1576: dlemus/delyea) route the reopen purchase order here
                 // get the po id and get the current po
                 // check the current po: if status is not closed and there is no pending action... route close po as system user
                 processCloseReopenPo( (AccountsPayableDocumentBase)purapDocument, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT );                

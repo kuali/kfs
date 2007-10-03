@@ -92,7 +92,7 @@
 				<shortLabel>Invoice Number</shortLabel>
 				
 				<maxLength>20</maxLength>
-				<validationPattern><anyCharacter /></validationPattern>
+				<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 				<required>true</required>
 				
 				<control>

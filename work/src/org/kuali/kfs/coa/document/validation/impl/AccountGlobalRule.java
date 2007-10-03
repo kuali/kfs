@@ -718,7 +718,8 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
         }
 
         // if both fields aren't present, then we're done
-        if (continuationAccountIsValid) {
+        if (continuationAccountIsValid && 
+            ObjectUtils.isNotNull(newAccountGlobal.getContinuationAccountNumber()) && ObjectUtils.isNotNull(newAccountGlobal.getContinuationFinChrtOfAcctCd())) {
             // do an existence/active test
             DictionaryValidationService dvService = super.getDictionaryValidationService();
             boolean referenceExists = dvService.validateReferenceExists(newAccountGlobal, "continuationAccount");

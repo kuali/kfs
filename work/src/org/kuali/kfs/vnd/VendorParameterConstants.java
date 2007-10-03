@@ -15,11 +15,18 @@
  */
 package org.kuali.module.vendor;
 
+import org.kuali.kfs.ParameterKeyConstants;
+
 /**
  * Holds constants for Vendor business parameters.
  */
-public class VendorParameterConstants {
-
-    // PARAMETER NAMES
+public class VendorParameterConstants implements ParameterKeyConstants {
+    public static final String DEFAULT_TAX_NUMBER_DIGITS = "DEFAULT_TAX_NUMBER_DIGITS";
     public static final String PAYMENT_TERMS_DUE_TYPE_DESC = "PAYMENT_TERMS_DUE_TYPE_DESC";
+    public static String PURAP_VENDOR_MIN_ORDER_AMOUNT = "MIN_ORDER_AMOUNT";
+    public static String PURAP_NOT_ALLOWED_TAX_NUMBERS = "TAX_NUMBERS";
+    public static String PURAP_VNDR_MIN_NUM_LOOKUP_CRITERIA = "LOOKUP_MINIMUM_NUMBER_OF_CRITERIA";
+    public static String PURAP_VNDR_LOOKUP_MIN_NAME_LENGTH = "LOOKUP_MINIMUM_NAME_LENGTH";
+    public static String PURAP_SSN_ALLOWED_OWNERSHIP_TYPES = "SSN_OWNERSHIP_TYPES";
+    public static String PURAP_FEIN_ALLOWED_OWNERSHIP_TYPES = "FEIN_OWNERSHIP_TYPES";
 }

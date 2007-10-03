@@ -55,8 +55,8 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorKeyConstants;
+import org.kuali.module.vendor.VendorParameterConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
-import org.kuali.module.vendor.VendorRuleConstants;
 import org.kuali.module.vendor.bo.AddressType;
 import org.kuali.module.vendor.bo.OwnershipType;
 import org.kuali.module.vendor.bo.VendorAddress;
@@ -71,7 +71,7 @@ import org.kuali.module.vendor.service.TaxNumberService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRuleConstants {
+public class VendorRule extends MaintenanceDocumentRuleBase {
 
     private VendorDetail oldVendor;
     private VendorDetail newVendor;
@@ -416,15 +416,15 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         }
         return true;
     }
-    
+
     /**
      * This method validates that, if the vendor is set to be restricted, the restricted reason is required.
      * 
-     * @param vendorDetail      The VendorDetail object to be validated
-     * @return  False if the vendor is restricted and the restricted reason is empty
+     * @param vendorDetail The VendorDetail object to be validated
+     * @return False if the vendor is restricted and the restricted reason is empty
      */
     boolean validateRestrictedReasonRequiredness(VendorDetail vendorDetail) {
-        if (ObjectUtils.isNotNull(vendorDetail.getVendorRestrictedIndicator()) && vendorDetail.getVendorRestrictedIndicator() && StringUtils.isEmpty(vendorDetail.getVendorRestrictedReasonText() )) {
+        if (ObjectUtils.isNotNull(vendorDetail.getVendorRestrictedIndicator()) && vendorDetail.getVendorRestrictedIndicator() && StringUtils.isEmpty(vendorDetail.getVendorRestrictedReasonText())) {
             putFieldError(VendorPropertyConstants.VENDOR_RESTRICTED_REASON_TEXT, VendorKeyConstants.ERROR_RESTRICTED_REASON_REQUIRED);
             return false;
         }
@@ -565,12 +565,12 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         String taxTypeCode = vendorDetail.getVendorHeader().getVendorTaxTypeCode();
         if (StringUtils.isNotEmpty(ownershipTypeCode) && StringUtils.isNotEmpty(taxTypeCode)) {
             if (VendorConstants.TAX_TYPE_FEIN.equals(taxTypeCode)) {
-                if (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(VendorDetail.class, PURAP_FEIN_ALLOWED_OWNERSHIP_TYPES, ownershipTypeCode ) ) {
+                if (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(VendorDetail.class, VendorParameterConstants.PURAP_FEIN_ALLOWED_OWNERSHIP_TYPES, ownershipTypeCode)) {
                     valid &= false;
                 }
             }
             else if (VendorConstants.TAX_TYPE_SSN.equals(taxTypeCode)) {
-                if (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(VendorDetail.class, PURAP_SSN_ALLOWED_OWNERSHIP_TYPES, ownershipTypeCode ) ) {
+                if (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(VendorDetail.class, VendorParameterConstants.PURAP_SSN_ALLOWED_OWNERSHIP_TYPES, ownershipTypeCode)) {
                     valid &= false;
                 }
             }
@@ -599,7 +599,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         KualiDecimal minimumOrderAmount = vendorDetail.getVendorMinimumOrderAmount();
         if (minimumOrderAmount != null) {
             if (ObjectUtils.isNull(VENDOR_MIN_ORDER_AMOUNT)) {
-                VENDOR_MIN_ORDER_AMOUNT = new KualiDecimal(SpringContext.getBean(ParameterService.class).getParameterValue(VendorDetail.class, PURAP_VENDOR_MIN_ORDER_AMOUNT));
+                VENDOR_MIN_ORDER_AMOUNT = new KualiDecimal(SpringContext.getBean(ParameterService.class).getParameterValue(VendorDetail.class, VendorParameterConstants.PURAP_VENDOR_MIN_ORDER_AMOUNT));
             }
             if ((VENDOR_MIN_ORDER_AMOUNT.compareTo(minimumOrderAmount) < 1) || (minimumOrderAmount.isNegative())) {
                 putFieldError(VendorPropertyConstants.VENDOR_MIN_ORDER_AMOUNT, VendorKeyConstants.ERROR_VENDOR_MAX_MIN_ORDER_AMOUNT, VENDOR_MIN_ORDER_AMOUNT.toString());
@@ -695,7 +695,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
 
         if (!StringUtils.isBlank(vendorTypeCode) && !StringUtils.isBlank(vendorAddressTypeRequiredCode) && !validAddressType) {
             String[] parameters = new String[] { vendorTypeCode, vendorAddressTypeRequiredCode };
-            String vendorAddressTabPrefix = KFSConstants.ADD_PREFIX + "." + VendorPropertyConstants.VENDOR_ADDRESS + "." ;
+            String vendorAddressTabPrefix = KFSConstants.ADD_PREFIX + "." + VendorPropertyConstants.VENDOR_ADDRESS + ".";
             putFieldError(vendorAddressTabPrefix + VendorPropertyConstants.VENDOR_ADDRESS_TYPE_CODE, VendorKeyConstants.ERROR_ADDRESS_TYPE, parameters);
             putFieldError(vendorAddressTabPrefix + VendorPropertyConstants.VENDOR_ADDRESS_LINE_1, KFSKeyConstants.ERROR_REQUIRED, KFSPropertyConstants.ADDRESS_LINE1);
             putFieldError(vendorAddressTabPrefix + VendorPropertyConstants.VENDOR_ADDRESS_CITY, KFSKeyConstants.ERROR_REQUIRED, KFSPropertyConstants.CITY);
@@ -712,7 +712,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         fieldValues.put(VendorPropertyConstants.VENDOR_HEADER_GENERATED_ID, newVendor.getVendorHeaderGeneratedIdentifier());
         // Find all the addresses for this vendor and its divisions:
         List<VendorAddress> vendorDivisionAddresses = new ArrayList(SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(VendorAddress.class, fieldValues, VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, true));
-        
+
         // This set stores the vendorDetailedAssignedIds for the vendor divisions which is
         // bascically the division numbers 0, 1, 2, ...
         HashSet<Integer> vendorDetailedIds = new HashSet();
@@ -720,7 +720,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         HashSet<Integer> vendorDivisionsIdsWithDesiredAddressType = new HashSet();
 
         for (VendorAddress vendorDivisionAddress : vendorDivisionAddresses) {
-            // We need to exclude the first one  Since we already checked for this in valid AddressType above.
+            // We need to exclude the first one Since we already checked for this in valid AddressType above.
             if (vendorDivisionAddress.getVendorDetailAssignedIdentifier() != 0) {
                 vendorDetailedIds.add(vendorDivisionAddress.getVendorDetailAssignedIdentifier());
                 if (vendorDivisionAddress.getVendorAddressTypeCode().equalsIgnoreCase(vendorAddressTypeRequiredCode)) {
@@ -1006,16 +1006,16 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
             return valid;
         }
 
-        //If the vendorContractAllowedIndicator is false, it cannot have vendor contracts, return false;
+        // If the vendorContractAllowedIndicator is false, it cannot have vendor contracts, return false;
         if (contracts.size() > 0 && !newVendor.getVendorHeader().getVendorType().isVendorContractAllowedIndicator()) {
             valid = false;
             String errorPath = MAINTAINABLE_ERROR_PREFIX + VendorPropertyConstants.VENDOR_CONTRACT + "[0]";
             GlobalVariables.getErrorMap().addToErrorPath(errorPath);
-            GlobalVariables.getErrorMap().putError( VendorPropertyConstants.VENDOR_CONTRACT_NAME, VendorKeyConstants.ERROR_VENDOR_CONTRACT_NOT_ALLOWED );
+            GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_NAME, VendorKeyConstants.ERROR_VENDOR_CONTRACT_NOT_ALLOWED);
             GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
             return valid;
         }
-        
+
         for (int i = 0; i < contracts.size(); i++) {
             VendorContract contract = contracts.get(i);
 
@@ -1179,10 +1179,10 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
 
         return success;
     }
-    
+
     /**
-     * This method is the implementation of the rule that if a document has a federal witholding tax begin date and end date, the begin
-     * date should come before the end date. 
+     * This method is the implementation of the rule that if a document has a federal witholding tax begin date and end date, the
+     * begin date should come before the end date.
      * 
      * @param vdDocument
      * @return
@@ -1194,17 +1194,17 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         Date beginDate = vdDocument.getVendorHeader().getVendorFederalWithholdingTaxBeginningDate();
         Date endDate = vdDocument.getVendorHeader().getVendorFederalWithholdingTaxEndDate();
         if (ObjectUtils.isNotNull(beginDate) && ObjectUtils.isNotNull(endDate)) {
-            if (dateTimeService.dateDiff( beginDate, endDate, false ) <= 0 ) {
-               putFieldError(VendorPropertyConstants.VENDOR_FEDERAL_WITHOLDING_TAX_BEGINNING_DATE, VendorKeyConstants.ERROR_VENDOR_TAX_BEGIN_DATE_AFTER_END);
-               valid &= false;
+            if (dateTimeService.dateDiff(beginDate, endDate, false) <= 0) {
+                putFieldError(VendorPropertyConstants.VENDOR_FEDERAL_WITHOLDING_TAX_BEGINNING_DATE, VendorKeyConstants.ERROR_VENDOR_TAX_BEGIN_DATE_AFTER_END);
+                valid &= false;
             }
         }
         return valid;
 
     }
-    
+
     /**
-     * This method is the implementation of the rule that both w9 received and w-8ben  cannot be set to yes
+     * This method is the implementation of the rule that both w9 received and w-8ben cannot be set to yes
      * 
      * @param vdDocument
      * @return

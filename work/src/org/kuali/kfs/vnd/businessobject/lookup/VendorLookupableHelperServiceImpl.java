@@ -38,7 +38,7 @@ import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorKeyConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
-import org.kuali.module.vendor.VendorRuleConstants;
+import org.kuali.module.vendor.VendorParameterConstants;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.VendorService;
@@ -249,7 +249,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         String vendorName = (String) fieldValues.get(VendorPropertyConstants.VENDOR_NAME);
         if (StringUtils.isNotBlank(vendorName)) {
             if (ObjectUtils.isNull(VNDR_LOOKUP_MIN_NAME_LENGTH)) {
-                VNDR_LOOKUP_MIN_NAME_LENGTH = parameterService.getParameterValue(VendorDetail.class, VendorRuleConstants.PURAP_VNDR_LOOKUP_MIN_NAME_LENGTH);
+                VNDR_LOOKUP_MIN_NAME_LENGTH = parameterService.getParameterValue(VendorDetail.class, VendorParameterConstants.PURAP_VNDR_LOOKUP_MIN_NAME_LENGTH);
             }
             if (vendorName.length() < Integer.parseInt(VNDR_LOOKUP_MIN_NAME_LENGTH)) {
                 GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NAME, VendorKeyConstants.ERROR_VENDOR_LOOKUP_NAME_TOO_SHORT, VNDR_LOOKUP_MIN_NAME_LENGTH);

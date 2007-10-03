@@ -22,7 +22,8 @@ import org.kuali.core.web.format.FormatException;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.vendor.VendorConstants;
-import org.kuali.module.vendor.VendorRuleConstants;
+import org.kuali.module.vendor.VendorParameterConstants;
+import org.kuali.module.vendor.VendorParameterConstants;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.TaxNumberService;
 
@@ -44,7 +45,7 @@ public class TaxNumberServiceImpl implements TaxNumberService {
     public String formatToDefaultFormat(String taxNbr) throws FormatException {
         String digits = taxNbr.replaceAll("\\D", "");
 
-        Integer defaultTaxNumberDigits = new Integer(parameterService.getParameterValue(VendorDetail.class, "DEFAULT_TAX_NUMBER_DIGITS"));
+        Integer defaultTaxNumberDigits = new Integer(parameterService.getParameterValue(VendorDetail.class, VendorParameterConstants.DEFAULT_TAX_NUMBER_DIGITS));
 
         if (digits.length() < defaultTaxNumberDigits) {
             throw new FormatException("Tax number has fewer than " + defaultTaxNumberDigits + " digits.", KFSKeyConstants.ERROR_CUSTOM, taxNbr);
@@ -184,7 +185,7 @@ public class TaxNumberServiceImpl implements TaxNumberService {
      */
     public String[] parseNotAllowedTaxNumbers() {
         if (ObjectUtils.isNull(notAllowedTaxNumbers)) {
-            notAllowedTaxNumbers = parameterService.getParameterValues(VendorDetail.class, VendorRuleConstants.PURAP_NOT_ALLOWED_TAX_NUMBERS);
+            notAllowedTaxNumbers = parameterService.getParameterValues(VendorDetail.class, VendorParameterConstants.PURAP_NOT_ALLOWED_TAX_NUMBERS);
         }
         return notAllowedTaxNumbers.toArray(new String[] {});
     }

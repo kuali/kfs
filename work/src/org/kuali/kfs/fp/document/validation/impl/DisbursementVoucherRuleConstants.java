@@ -15,13 +15,15 @@
  */
 package org.kuali.module.financial.rules;
 
+import org.kuali.kfs.ParameterKeyConstants;
+
 
 /**
  * Holds constants for disbursement voucher and payee documents.
  * 
  * 
  */
-public interface DisbursementVoucherRuleConstants {
+public interface DisbursementVoucherRuleConstants extends ParameterKeyConstants {
     
     // payment methods
     public static String PAYMENT_METHOD_CHECK = "P";
@@ -114,7 +116,7 @@ public interface DisbursementVoucherRuleConstants {
     public static final String ALIEN_PAYMENT_REASONS_PARM_NM = "ALIEN_PAYMENT_REASONS";
     public static final String TRAVEL_PER_DIEM_MESSAGE_PARM_NM = "TRAVEL_PER_DIEM_LINK_PAGE_MESSAGE";
     public static final String DEFAULT_DOC_LOCATION_PARM_NM = "DEFAULT_DOCUMENTATION_LOCATION";
-    public static final String ALLOW_OBJECT_CODE_EDITS = "ALLOW_ROUTE_OBJECT_CODE_EDITS";
+    public static final String ALLOW_OBJECT_CODE_EDITS = "ALLOW_ENROUTE_EDIT_OBJECT_CODES_IND";
     public static final String TAX_DOCUMENTATION_LOCATION_CODE_PARM_NM = "TAX_DOCUMENTATION_LOCATION_CODE";
     public static final String W9_OWNERSHIP_TYPES_PARM_NM = "W9_OWNERSHIP_TYPES";
     public static final String NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM = "NONEMPLOYEE_TRAVEL_PAYMENT_REASONS";

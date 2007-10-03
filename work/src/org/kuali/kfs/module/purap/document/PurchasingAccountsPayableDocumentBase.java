@@ -126,12 +126,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public void customPrepareForSave(KualiDocumentEvent event) {
         //Need this here so that it happens before the GL work is done
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
-    }
-
-    @Override
-    public void prepareForSave(KualiDocumentEvent event) {
-        customPrepareForSave(event);
-
+        
         //These next 3 lines are temporary changes so that we can use PurApOjbCollectionHelper for release 2.
         //But these 3 lines will not be necessary anymore if the changes in PurApOjbCollectionHelper is
         //merge into Rice. KULPURAP-1370 is the related jira.
@@ -139,6 +134,12 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         PurchasingAccountsPayableDocumentBase retrievedDocument = (PurchasingAccountsPayableDocumentBase)docDao.findByDocumentHeaderId(this.getClass(), this.getDocumentNumber());
         SpringContext.getBean(PurApOjbCollectionHelper.class).processCollections(docDao, this, retrievedDocument);
         
+    }
+
+    @Override
+    public void prepareForSave(KualiDocumentEvent event) {
+        customPrepareForSave(event);
+
         super.prepareForSave(event);
     }
 

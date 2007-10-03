@@ -140,7 +140,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public void prepareForSave(KualiDocumentEvent event) {
 
         //copied from super because we can't call super for AP docs
-        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
+        customPrepareForSave(event);
 
         //DO NOT CALL SUPER HERE!!  Cannot call super because it will mess up the GL entry creation process (hjs)
         //super.prepareForSave(event);

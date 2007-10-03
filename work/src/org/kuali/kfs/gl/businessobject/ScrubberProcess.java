@@ -595,9 +595,9 @@ public class ScrubberProcess {
             scrubbedEntry.setTransactionDebitCreditCode(unscrubbedEntry.getTransactionDebitCreditCode());
 
             //For Labor Scrubber
-            boolean validateAccountIndicator = true;
+            boolean laborIndicator = false;
             
-            List<Message> tmperrors = scrubberValidator.validateTransaction(unscrubbedEntry, scrubbedEntry, universityRunDate, validateAccountIndicator);
+            List<Message> tmperrors = scrubberValidator.validateTransaction(unscrubbedEntry, scrubbedEntry, universityRunDate, laborIndicator);
             transactionErrors.addAll(tmperrors);
 
             // Expired account?

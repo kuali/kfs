@@ -29,6 +29,7 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.OriginEntry;
@@ -53,7 +54,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private PersistenceService persistenceService;
     private ScrubberValidator scrubberValidator;
     private PersistenceStructureService persistenceStructureService;
-    private OriginEntryLookupService referenceLookup;
+    private ThreadLocal<OriginEntryLookupService> referenceLookup = new ThreadLocal<OriginEntryLookupService>();
+    
 
     // TODO: those arrays should go to FS_PARAM_T
     private String[] continuationAccountBypassOriginationCodes = new String[] { "EU", "PL" };
@@ -66,7 +68,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @see org.kuali.module.labor.service.LaborScrubberValidator#validateTransaction(owrg.kuali.module.labor.bo.LaborOriginEntry,
      *      org.kuali.module.labor.bo.LaborOriginEntry, org.kuali.module.gl.bo.UniversityDate)
      */
-    public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate, boolean validateAccountIndicator) {
+    public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate, boolean laborIndicator) {
         LOG.debug("validateTransaction() started");
         List<Message> errors = new ArrayList<Message>();
 
@@ -74,9 +76,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         LaborOriginEntry laborScrubbedEntry = (LaborOriginEntry) scrubbedEntry;
 
         // For labor scrubber.
-
-        scrubberValidator.setReferenceLookup(this.referenceLookup);
-        errors = scrubberValidator.validateTransaction(laborOriginEntry, laborScrubbedEntry, universityRunDate, validateAccountIndicator);
+        
+        errors = scrubberValidator.validateTransaction(laborOriginEntry, laborScrubbedEntry, universityRunDate, laborIndicator);
         refreshOriginEntryReferences(laborOriginEntry);
         refreshOriginEntryReferences(laborScrubbedEntry);
 
@@ -101,7 +102,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         if (err != null) {
             errors.add(err);
         }
-
+      
         return errors;
     }
 
@@ -603,15 +604,14 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         return null;
     }
-
-
+    
     /**
      * Sets the referenceLookup attribute value.
      * 
      * @param referenceLookup The referenceLookup to set.
      */
     public void setReferenceLookup(OriginEntryLookupService originEntryLookupService) {
-        this.referenceLookup = originEntryLookupService;
+        this.referenceLookup.set(originEntryLookupService);
     }
 
     public void validateForInquiry(GeneralLedgerPendingEntry entry) {

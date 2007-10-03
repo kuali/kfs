@@ -343,9 +343,9 @@ public class LaborScrubberProcess {
             buildScrubbedEntry(unscrubbedEntry, scrubbedEntry);
 
             // For Labor Scrubber
-            boolean validateAccountIndicator = false;
+            boolean laborIndicator = true;
 
-            List<Message> tmperrors = scrubberValidator.validateTransaction(unscrubbedEntry, scrubbedEntry, universityRunDate, validateAccountIndicator);
+            List<Message> tmperrors = scrubberValidator.validateTransaction(unscrubbedEntry, scrubbedEntry, universityRunDate, laborIndicator);
             transactionErrors.addAll(tmperrors);
 
             // Expired account?

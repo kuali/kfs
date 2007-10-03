@@ -104,6 +104,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
         doc.setVendorCustomerNumber(this.vendorCustomerNumber);
         doc.setAccountsPayablePurchasingDocumentLinkIdentifier(this.accountsPayablePurchasingDocumentLinkIdentifier);
         
+        
         //TODO f2f: (chris) add items and accounts
         
         return doc;

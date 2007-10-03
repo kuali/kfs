@@ -68,8 +68,6 @@ public enum RequisitionDocumentFixture {
         doc.setAlternate5VendorName(this.alternate5VendorName);
         doc.setOrganizationAutomaticPurchaseOrderLimit(this.organizationAutomaticPurchaseOrderLimit);
 
-        //need to call refresh here to update all references
-        doc.refresh();
         return doc;
     }
     

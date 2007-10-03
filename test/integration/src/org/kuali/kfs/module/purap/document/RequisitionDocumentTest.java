@@ -35,6 +35,9 @@ import org.kuali.module.financial.document.AccountingDocumentTestUtils;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PurchasingItem;
 import org.kuali.module.purap.bo.RequisitionItem;
+import org.kuali.module.purap.fixtures.PurchasingAccountsPayableDocumentFixture;
+import org.kuali.module.purap.fixtures.PurchasingDocumentFixture;
+import org.kuali.module.purap.fixtures.RequisitionDocumentFixture;
 import org.kuali.module.purap.fixtures.RequisitionItemAccountsFixture;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
@@ -50,7 +53,9 @@ public class RequisitionDocumentTest extends KualiTestBase {
     public static final Class<RequisitionDocument> DOCUMENT_CLASS = RequisitionDocument.class;
 
     private Document getDocumentParameterFixture() throws Exception {
-        return DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), RequisitionDocument.class);
+    	RequisitionDocumentFixture reqDocFixture = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS;
+    	return reqDocFixture.createRequisitionDocument(PurchasingAccountsPayableDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS);
+//        return DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), RequisitionDocument.class);
     }
 
     private List<RequisitionItemAccountsFixture> getItemParametersFromFixtures() {

@@ -316,7 +316,12 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
                 user = actionTaken.getWorkflowUser();
             }
         }
-        return user.getAuthenticationUserId().getAuthenticationId();
+        if (user!= null && user.getAuthenticationUserId() != null) {
+        	return user.getAuthenticationUserId().getAuthenticationId();
+        }
+        else {
+        	return null;
+        }
     }
     
     

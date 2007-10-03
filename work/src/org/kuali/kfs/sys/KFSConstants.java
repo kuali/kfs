@@ -392,6 +392,7 @@ public class KFSConstants extends JstlConstants {
     public static final String LABOR_DISTRIBUTION_ORIGIN_CODE = "LD";
     public static final String STAND_IN_BUSINESS_OBJECT_FOR_ATTRIBUTES = "KFSAttributeReferenceDummy";
     public static final String LABOR_MODIFIED_INQUIRY_ACTION = "laborModifiedInquiry.do";
+    public static final String LABOR_A2_BALANCE_TYPE = "A2";
     public static final String EMPLOYEE_FUNDING_INQUIRY_ACTION = "employeeFundingInquiry.do";    
     public static final String OVERRIDE_KEYS = "overrideKeys";
     public static final String[] LLCP_GROUP_FILTER_EXCEPTION = new String[]{ "LLGL" };

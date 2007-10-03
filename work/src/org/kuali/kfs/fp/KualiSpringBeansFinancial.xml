@@ -79,8 +79,8 @@
 	</bean>
 
 	<bean id="disbursementVoucherTaxService" class="org.kuali.module.financial.service.impl.DisbursementVoucherTaxServiceImpl">
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
+		<property name="parameterService">
+			<ref bean="parameterService" />
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -94,8 +94,8 @@
 	</bean>
 
 	<bean id="disbursementVoucherCoverSheetService" class="org.kuali.module.financial.service.impl.DisbursementVoucherCoverSheetServiceImpl">
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
+		<property name="parameterService">
+			<ref bean="parameterService" />
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -157,6 +157,7 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
+		<property name="parameterService" ref="parameterService" />
 	</bean>
 
 	<bean id="serviceBillingControlService" class="org.kuali.module.financial.service.impl.ServiceBillingControlServiceImpl">
@@ -172,8 +173,8 @@
 	</bean>
 
 	<bean id="procurementCardCreateDocumentService" class="org.kuali.module.financial.service.impl.ProcurementCardCreateDocumentServiceImpl">
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
+		<property name="parameterService">
+			<ref bean="parameterService" />
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -230,17 +231,13 @@
 		</property>
 	</bean>
 
-    <bean id="financialStep" parent="step" abstract="true">
-        <property name="namespace" value="KFS-FP" />
-    </bean>
-
-	<bean id="disbursementVoucherPreDisbursementProcessorExtractStep" class="org.kuali.module.financial.batch.DvToPdpExtractStep" parent="financialStep">
+	<bean id="disbursementVoucherPreDisbursementProcessorExtractStep" class="org.kuali.module.financial.batch.DvToPdpExtractStep" parent="step">
 		<property name="disbursementVoucherExtractService">
 			<ref bean="disbursementVoucherExtractService" />
 		</property>
 	</bean>
 
-	<bean id="procurementCardLoadStep" class="org.kuali.module.financial.batch.pcard.PcdoLoadStep" parent="financialStep">
+	<bean id="procurementCardLoadStep" class="org.kuali.module.financial.batch.pcard.ProcurementCardLoadStep" parent="step">
 		<property name="procurementCardLoadTransactionsService">
 			<ref bean="procurementCardLoadTransactionsService" />
 		</property>
@@ -252,27 +249,27 @@
 		</property>
 	</bean>
 
-	<bean id="procurementCardCreateDocumentsStep" class="org.kuali.module.financial.batch.pcard.CreateDocumentsStep" parent="financialStep">
+	<bean id="procurementCardCreateDocumentsStep" class="org.kuali.module.financial.batch.pcard.ProcurementCardCreateDocumentsStep" parent="step">
 		<property name="procurementCardCreateDocumentService">
 			<ref bean="procurementCardCreateDocumentService" />
 		</property>
 	</bean>
 
-	<bean id="procurementCardRouteDocumentsStep" class="org.kuali.module.financial.batch.pcard.RouteDocumentsStep" parent="financialStep">
+	<bean id="procurementCardRouteDocumentsStep" class="org.kuali.module.financial.batch.pcard.ProcurementCardRouteDocumentsStep" parent="step">
 		<property name="procurementCardCreateDocumentService">
 			<ref bean="procurementCardCreateDocumentService" />
 		</property>
 	</bean>
 
-	<bean id="procurementCardAutoApproveDocumentsStep" class="org.kuali.module.financial.batch.pcard.AutoApproveDocumentsStep" parent="financialStep">
+	<bean id="procurementCardAutoApproveDocumentsStep" class="org.kuali.module.financial.batch.pcard.ProcurementCardAutoApproveDocumentsStep" parent="step">
 		<property name="procurementCardCreateDocumentService">
 			<ref bean="procurementCardCreateDocumentService" />
 		</property>
 	</bean>
 
 	<bean id="disbursementVoucherExtractService" class="org.kuali.module.financial.service.impl.DisbursementVoucherExtractServiceImpl">
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService"/>
+		<property name="parameterService">
+			<ref bean="parameterService"/>
 		</property>
 		<property name="disbursementVoucherDao">
 			<ref bean="disbursementVoucherDao"/>

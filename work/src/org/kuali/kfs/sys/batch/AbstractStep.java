@@ -16,14 +16,12 @@
 package org.kuali.kfs.batch;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.service.ParameterService;
 import org.springframework.beans.factory.BeanNameAware;
 
 public abstract class AbstractStep implements Step, BeanNameAware {
     private String name;
-    private String namespace;
-    private String componentName;
-    private KualiConfigurationService configurationService;
+    private ParameterService parameterService;
     private DateTimeService dateTimeService;
     private boolean interrupted = false;
 
@@ -46,22 +44,12 @@ public abstract class AbstractStep implements Step, BeanNameAware {
         return name;
     }
 
-    /**
-     * Gets the configurationService attribute.
-     * 
-     * @return Returns the configurationService.
-     */
-    protected KualiConfigurationService getConfigurationService() {
-        return configurationService;
+    protected ParameterService getParameterService() {
+        return parameterService;
     }
 
-    /**
-     * Sets the configurationService attribute value.
-     * 
-     * @param configurationService The configurationService to set.
-     */
-    public void setConfigurationService(KualiConfigurationService configurationService) {
-        this.configurationService = configurationService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     /**
@@ -109,35 +97,5 @@ public abstract class AbstractStep implements Step, BeanNameAware {
      */
     public void interrupt() {
         this.interrupted = true;
-    }
-
-    /**
-     * Gets the namespace
-     * 
-     * @see org.kuali.kfs.batch.Step#getNamespace()
-     */
-    public String getNamespace() {
-        return namespace;
-    }
-
-    /**
-     * Sets the namespace
-     * 
-     * @param namespace
-     * @return String namespace
-     */
-    public void setNamespace(String namespace) {
-        this.namespace = namespace;
-    }
-
-    /**
-     * 
-     * @see org.kuali.kfs.batch.Step#getComponentName()
-     */
-    public String getComponentName() {
-        if (componentName == null) {
-            return getClass().getSimpleName();
-        }
-        return componentName;
     }
 }

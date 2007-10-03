@@ -16,31 +16,26 @@
 package org.kuali.module.chart.rules;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Parameter;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.OffsetDefinition;
 
 public class OffsetDefinitionRule extends MaintenanceDocumentRuleBase {
     private OffsetDefinition oldDefinition;
     private OffsetDefinition newDefinition;
 
-    
-    
 
     /**
-     * 
      * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
-     * old objects contained in the maintenance document.
-     * 
-     * It also calls the BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys,
-     * if available.
+     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
+     * all sub-objects from the DB by their primary keys, if available.
      * 
      * @param document - the maintenanceDocument being evaluated
-     * 
      */
     public void setupConvenienceObjects() {
 
@@ -64,7 +59,6 @@ public class OffsetDefinitionRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method should be overridden to provide custom rules for processing document routing
      * 
      * @param document
@@ -79,12 +73,11 @@ public class OffsetDefinitionRule extends MaintenanceDocumentRuleBase {
 
     private boolean checkDocTypeAndFinancialObjCode(MaintenanceDocument document) {
         boolean success = true;
-        Parameter parmRule = getConfigService().getParameter(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.OFFSET_DEFINITION, KFSConstants.ChartApcParms.VALID_DOCUMENT_TYPES_BY_OBJECT_SUB_TYPE);
         // we need to check to see if the values are in the right range and then
         // see if the ObjectCode is the right value
         if ((ObjectUtils.isNotNull(newDefinition.getFinancialObject()) && StringUtils.isNotEmpty(newDefinition.getFinancialObject().getFinancialObjectSubTypeCode()) && !newDefinition.getFinancialObject().getFinancialObjectSubTypeCode().equalsIgnoreCase("AR")) || StringUtils.isEmpty(newDefinition.getFinancialObjectCode())) {
-            if( getConfigService().evaluateConstrainedParameter(parmRule, newDefinition.getFinancialObject().getFinancialObjectSubTypeCode(), newDefinition.getFinancialDocumentTypeCode()) ){
-                putFieldError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_OFFSETDEFMAINT_INVALID_OBJ_CODE_FOR_DOCTYPE, new String[] { newDefinition.getFinancialObjectCode(), parmRule.getParameterValue() });
+            if (SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(OffsetDefinition.class, KFSConstants.ChartApcParms.VALID_DOCUMENT_TYPES_BY_OBJECT_SUB_TYPE, newDefinition.getFinancialObject().getFinancialObjectSubTypeCode(), newDefinition.getFinancialDocumentTypeCode())) {
+                putFieldError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_OFFSETDEFMAINT_INVALID_OBJ_CODE_FOR_DOCTYPE, new String[] { newDefinition.getFinancialObjectCode(), SpringContext.getBean(ParameterService.class).getConstrainedValuesString(OffsetDefinition.class, KFSConstants.ChartApcParms.VALID_DOCUMENT_TYPES_BY_OBJECT_SUB_TYPE, newDefinition.getFinancialObject().getFinancialObjectSubTypeCode()) });
                 success &= false;
             }
         }
@@ -94,11 +87,9 @@ public class OffsetDefinitionRule extends MaintenanceDocumentRuleBase {
 
     private boolean checkDocTypeActiveFinancialObjCode(MaintenanceDocument document) {
         boolean success = true;
-        Parameter parmRule = getConfigService().getParameter(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.OFFSET_DEFINITION, KFSConstants.ChartApcParms.DOCTYPE_AND_OBJ_CODE_ACTIVE);
-        if (getConfigService().succeedsRule(parmRule, newDefinition.getFinancialDocumentTypeCode())) {
+        if (SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(OffsetDefinition.class, KFSConstants.ChartApcParms.DOCTYPE_AND_OBJ_CODE_ACTIVE, newDefinition.getFinancialDocumentTypeCode())) {
             if ((ObjectUtils.isNotNull(newDefinition.getFinancialObject()) && !newDefinition.getFinancialObject().isFinancialObjectActiveCode()) || ObjectUtils.isNull(newDefinition.getFinancialObject())) {
-
-                putFieldError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_OFFSETDEFMAINT_INACTIVE_OBJ_CODE_FOR_DOCTYPE, new String[] { newDefinition.getFinancialObjectCode(), parmRule.getParameterValue() });
+                putFieldError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_OFFSETDEFMAINT_INACTIVE_OBJ_CODE_FOR_DOCTYPE, new String[] { newDefinition.getFinancialObjectCode(), SpringContext.getBean(ParameterService.class).getConstrainedValuesString(OffsetDefinition.class, KFSConstants.ChartApcParms.DOCTYPE_AND_OBJ_CODE_ACTIVE, newDefinition.getFinancialDocumentTypeCode()) });
                 success &= false;
             }
 

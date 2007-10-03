@@ -80,19 +80,20 @@
         <property name="documentService">
             <ref bean="documentService" />
         </property>
-        <property name="kualiConfigurationService" ref="kualiConfigurationService" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="persistenceService" ref="persistenceService" />
         <property name="universalUserService" ref="universalUserService" />
     </bean>
 
     <bean id="phoneNumberService" class="org.kuali.module.vendor.service.impl.PhoneNumberServiceImpl">
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService"/>
+        <property name="parameterService">
+            <ref bean="parameterService"/>
         </property>
     </bean>
     
     <bean id="taxNumberService" class="org.kuali.module.vendor.service.impl.TaxNumberServiceImpl">
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService"/>
+        <property name="parameterService">
+            <ref bean="parameterService"/>
         </property>
     </bean>
     
@@ -118,8 +119,8 @@
         <property name="vendorService">
             <ref bean="vendorService" />
         </property>
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService" />
+        <property name="parameterService">
+            <ref bean="parameterService" />
         </property>
     </bean>
 

@@ -41,12 +41,12 @@ import org.kuali.core.service.NoteService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
@@ -96,7 +96,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     private PurapService purapService;
     private PaymentRequestDao paymentRequestDao;
     private PurchaseOrderService purchaseOrderService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
+    private KualiConfigurationService configurationService;
     private NegativePaymentRequestApprovalLimitService negativePaymentRequestApprovalLimitService;
     private PurapAccountingService purapAccountingService;
     private BusinessObjectService businessObjectService;
@@ -106,8 +107,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         this.dateTimeService = dateTimeService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public void setConfigurationService(KualiConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 
     public void setDocumentService(DocumentService documentService) {
@@ -129,11 +134,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
     }
-    
+
     public void setNegativePaymentRequestApprovalLimitService(NegativePaymentRequestApprovalLimitService negativePaymentRequestApprovalLimitService) {
         this.negativePaymentRequestApprovalLimitService = negativePaymentRequestApprovalLimitService;
     }
-    
+
     public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
         this.purapAccountingService = purapAccountingService;
     }
@@ -149,10 +154,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.module.purap.server.PaymentRequestService.getPaymentRequestsToExtractByCM()
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractByCM(String campusCode,CreditMemoDocument cmd) {
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractByCM(String campusCode, CreditMemoDocument cmd) {
         LOG.debug("getPaymentRequestsByCM() started");
 
-        return paymentRequestDao.getPaymentRequestsToExtract(campusCode,cmd.getPaymentRequestIdentifier(),cmd.getPurchaseOrderIdentifier(),cmd.getVendorHeaderGeneratedIdentifier(),cmd.getVendorDetailAssignedIdentifier());
+        return paymentRequestDao.getPaymentRequestsToExtract(campusCode, cmd.getPaymentRequestIdentifier(), cmd.getPurchaseOrderIdentifier(), cmd.getVendorHeaderGeneratedIdentifier(), cmd.getVendorDetailAssignedIdentifier());
     }
 
     /**
@@ -161,7 +166,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract() {
         LOG.debug("getPaymentRequestsToExtract() started");
 
-        return paymentRequestDao.getPaymentRequestsToExtract(false,null);
+        return paymentRequestDao.getPaymentRequestsToExtract(false, null);
     }
 
     /**
@@ -170,7 +175,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractSpecialPayments(String chartCode) {
         LOG.debug("getPaymentRequestsToExtractSpecialPayments() started");
 
-        return paymentRequestDao.getPaymentRequestsToExtract(true,chartCode);
+        return paymentRequestDao.getPaymentRequestsToExtract(true, chartCode);
     }
 
     /**
@@ -188,7 +193,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public Iterator<PaymentRequestDocument> getPaymentRequestToExtractByChart(String chartCode) {
         LOG.debug("getPaymentRequestToExtractByChart() started");
 
-        return paymentRequestDao.getPaymentRequestsToExtract(false,chartCode);
+        return paymentRequestDao.getPaymentRequestsToExtract(false, chartCode);
     }
 
     /**
@@ -199,10 +204,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // should objects from existing user session be copied over
         List<PaymentRequestDocument> docs = paymentRequestDao.getEligibleForAutoApproval();
         if (docs != null) {
-            String samt = kualiConfigurationService.getParameterValue(
-                    KFSConstants.PURAP_NAMESPACE,
-                    PurapConstants.Components.PAYMENT_REQUEST,
-                    PurapParameterConstants.PURAP_DEFAULT_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT);            
+            String samt = parameterService.getParameterValue(PaymentRequestDocument.class, PurapParameterConstants.PURAP_DEFAULT_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT);
             KualiDecimal defaultMinimumLimit = new KualiDecimal(samt);
             for (PaymentRequestDocument paymentRequestDocument : docs) {
                 hadErrorAtLeastOneError |= !autoApprovePaymentRequest(paymentRequestDocument, defaultMinimumLimit);
@@ -224,29 +226,26 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
         return true;
     }
-    
+
     /**
-     * This method determines whether or not a payment request document can be
-     * automatically approved.
-     * 
-     *  FYI - If fiscal reviewers are allowed to save account changes without the full account validation running then this
-     *        method must call full account validation to make sure auto approver is not blanket approving an invalid document
-     *        according the the accounts on the items
+     * This method determines whether or not a payment request document can be automatically approved. FYI - If fiscal reviewers are
+     * allowed to save account changes without the full account validation running then this method must call full account
+     * validation to make sure auto approver is not blanket approving an invalid document according the the accounts on the items
      */
     private boolean isEligibleForAutoApproval(PaymentRequestDocument document, KualiDecimal defaultMinimumLimit) {
-        // check to make sure the PREQ isnt scheduled  to stop in tax review.
+        // check to make sure the PREQ isnt scheduled to stop in tax review.
         if (purapWorkflowIntegrationService.willDocumentStopAtGivenFutureRouteNode(document, PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum.VENDOR_TAX_REVIEW)) {
             return false;
         }
 
         // This minimum will be set to the minimum limit derived from all
-        // accounting lines on the document. If no limit is determined, the 
+        // accounting lines on the document. If no limit is determined, the
         // default will be used.
         KualiDecimal minimumAmount = null;
-        
-        // Iterate all source accounting lines on the document, deriving a 
-        // minimum limit from each according to chart, chart and account, and 
-        // chart and organization. 
+
+        // Iterate all source accounting lines on the document, deriving a
+        // minimum limit from each according to chart, chart and account, and
+        // chart and organization.
         for (SourceAccountingLine line : purapAccountingService.generateSummary(document.getItems())) {
             // check to make sure the account is in the auto approve exclusion list
             Map<String, String> autoApproveMap = new HashMap<String, String>();
@@ -256,35 +255,28 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             if (autoApproveExclude != null) {
                 return false;
             }
-            
-            minimumAmount = getMinimumLimitAmount(
-                    negativePaymentRequestApprovalLimitService.findByChart(
-                            line.getChartOfAccountsCode()), minimumAmount);
-            minimumAmount = getMinimumLimitAmount(
-                    negativePaymentRequestApprovalLimitService.findByChartAndAccount(
-                            line.getChartOfAccountsCode(), line.getAccountNumber()), minimumAmount);
-            minimumAmount = getMinimumLimitAmount(
-                    negativePaymentRequestApprovalLimitService.findByChartAndOrganization(
-                            line.getChartOfAccountsCode(), line.getOrganizationReferenceId()), minimumAmount);
+
+            minimumAmount = getMinimumLimitAmount(negativePaymentRequestApprovalLimitService.findByChart(line.getChartOfAccountsCode()), minimumAmount);
+            minimumAmount = getMinimumLimitAmount(negativePaymentRequestApprovalLimitService.findByChartAndAccount(line.getChartOfAccountsCode(), line.getAccountNumber()), minimumAmount);
+            minimumAmount = getMinimumLimitAmount(negativePaymentRequestApprovalLimitService.findByChartAndOrganization(line.getChartOfAccountsCode(), line.getOrganizationReferenceId()), minimumAmount);
         }
-        
+
         // If no limit was found, the default limit is used.
-        if(null == minimumAmount) {
+        if (null == minimumAmount) {
             minimumAmount = defaultMinimumLimit;
         }
-        
-        // The document is eligible for auto-approval if the document total is below the limit. 
-        if(document.getDocumentHeader().getFinancialDocumentTotalAmount().isLessThan(minimumAmount)) {
+
+        // The document is eligible for auto-approval if the document total is below the limit.
+        if (document.getDocumentHeader().getFinancialDocumentTotalAmount().isLessThan(minimumAmount)) {
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
-     * This method iterates a collection of negative payment request approval 
-     * limits and returns the minimum of a given minimum amount and the least
-     * among the limits in the collection.
+     * This method iterates a collection of negative payment request approval limits and returns the minimum of a given minimum
+     * amount and the least among the limits in the collection.
      * 
      * @param limits
      * @param minimumAmount
@@ -302,13 +294,13 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
         return minimumAmount;
     }
-    
+
     /**
      * Retreives a list of Pay Reqs with the given vendor id and invoice number.
      * 
-     * @param vendorHeaderGeneratedId  header id of the vendor id
-     * @param vendorDetailAssignedId   detail id of the vendor id
-     * @param invoiceNumber            invoice number as entered by AP
+     * @param vendorHeaderGeneratedId header id of the vendor id
+     * @param vendorDetailAssignedId detail id of the vendor id
+     * @param invoiceNumber invoice number as entered by AP
      * @return List of Pay Reqs.
      */
     public List getPaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId, String invoiceNumber) {
@@ -324,10 +316,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         msgs = new HashMap<String, String>();
 
         Integer purchaseOrderId = document.getPurchaseOrderIdentifier();
-        
-        if (ObjectUtils.isNotNull(document.getInvoiceDate())){
+
+        if (ObjectUtils.isNotNull(document.getInvoiceDate())) {
             if (purapService.isDateAYearBeforeToday(document.getInvoiceDate())) {
-                msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_INVOICE_DATE_A_YEAR_OR_MORE_PAST));
+                msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyString(PurapKeyConstants.MESSAGE_INVOICE_DATE_A_YEAR_OR_MORE_PAST));
             }
         }
         PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderId);
@@ -341,8 +333,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
             if (preqs.size() > 0) {
                 boolean addedMessage = false;
-                boolean foundCanceledPostApprove = false;  // cancelled
-                boolean foundCanceledPreApprove = false;  // voided
+                boolean foundCanceledPostApprove = false; // cancelled
+                boolean foundCanceledPreApprove = false; // voided
                 for (PaymentRequestDocument testPREQ : preqs) {
                     if (StringUtils.equals(testPREQ.getStatusCode(), PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE)) {
                         foundCanceledPostApprove |= true;
@@ -351,7 +343,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                         foundCanceledPreApprove |= true;
                     }
                     else {
-                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE));
+                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE));
                         addedMessage = true;
                         break;
                     }
@@ -359,14 +351,14 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 // Custom error message for duplicates related to cancelled/voided PREQs
                 if (!addedMessage) {
                     if (foundCanceledPostApprove && foundCanceledPreApprove) {
-                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_CANCELLEDORVOIDED));
+                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_CANCELLEDORVOIDED));
                     }
                     else if (foundCanceledPreApprove) {
-                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_VOIDED));
+                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_VOIDED));
                     }
                     else if (foundCanceledPostApprove) {
                         // messages.add("errors.duplicate.vendor.invoice.cancelled");
-                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_CANCELLED));
+                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_CANCELLED));
                     }
                 }
             }
@@ -375,9 +367,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             preqs = getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(purchaseOrderId, document.getVendorInvoiceAmount(), document.getInvoiceDate());
             if (preqs.size() > 0) {
                 boolean addedMessage = false;
-                boolean foundCanceledPostApprove = false;  // cancelled
-                boolean foundCanceledPreApprove = false;  // voided
-                msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
+                boolean foundCanceledPostApprove = false; // cancelled
+                boolean foundCanceledPreApprove = false; // voided
+                msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
                 for (PaymentRequestDocument testPREQ : preqs) {
                     if (StringUtils.equalsIgnoreCase(testPREQ.getStatusCode(), PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE)) {
                         foundCanceledPostApprove |= true;
@@ -386,7 +378,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                         foundCanceledPreApprove |= true;
                     }
                     else {
-                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
+                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
                         addedMessage = true;
                         break;
                     }
@@ -395,14 +387,14 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 // Custom error message for duplicates related to cancelled/voided PREQs
                 if (!addedMessage) {
                     if (foundCanceledPostApprove && foundCanceledPreApprove) {
-                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED));
+                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED));
                     }
                     else if (foundCanceledPreApprove) {
-                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_VOIDED));
+                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_VOIDED));
                         addedMessage = true;
                     }
                     else if (foundCanceledPostApprove) {
-                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLED));
+                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLED));
                         addedMessage = true;
                     }
 
@@ -411,23 +403,23 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
         return msgs;
     }
-    
+
     private PaymentRequestDocument getPaymentRequestByDocumentNumber(String documentNumber) {
         if (ObjectUtils.isNotNull(documentNumber)) {
             try {
-                PaymentRequestDocument doc = (PaymentRequestDocument)documentService.getByDocumentHeaderId(documentNumber);
+                PaymentRequestDocument doc = (PaymentRequestDocument) documentService.getByDocumentHeaderId(documentNumber);
                 return doc;
             }
             catch (WorkflowException e) {
                 String errorMessage = "Error getting payment request document from document service";
-                LOG.error("getPaymentRequestByDocumentNumber() " + errorMessage,e);
-                throw new RuntimeException(errorMessage,e);
+                LOG.error("getPaymentRequestByDocumentNumber() " + errorMessage, e);
+                throw new RuntimeException(errorMessage, e);
             }
         }
         return null;
     }
-    
-    public PaymentRequestDocument getPaymentRequestById(Integer poDocId){
+
+    public PaymentRequestDocument getPaymentRequestById(Integer poDocId) {
         return getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(poDocId));
     }
 
@@ -451,7 +443,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
         }
         catch (WorkflowException we) {
-            String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
+            String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
         }
@@ -460,9 +452,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * Retreives a list of Pay Reqs with the given PO Id, invoice amount, and invoice date.
      * 
-     * @param poId           purchase order ID
-     * @param invoiceAmount  amount of the invoice as entered by AP
-     * @param invoiceDate    date of the invoice as entered by AP
+     * @param poId purchase order ID
+     * @param invoiceAmount amount of the invoice as entered by AP
+     * @param invoiceDate date of the invoice as entered by AP
      * @return List of Pay Reqs.
      */
     public List getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal invoiceAmount, Date invoiceDate) {
@@ -489,31 +481,31 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         Timestamp invoiceDateTime = new Timestamp(invoiceDateC.getTimeInMillis());
         return ((invoiceDateTime.compareTo(nowTime)) > 0);
     }
-    
+
     /*
-     * Calculate based on the terms and calculate a date 10 days from today.  Pick the
-     * one that is the farthest out.  We always calculate the discount date, if there is one.
+     * Calculate based on the terms and calculate a date 10 days from today. Pick the one that is the farthest out. We always
+     * calculate the discount date, if there is one.
      */
-    public Date calculatePayDate(Date invoiceDate,PaymentTermType terms) {
+    public Date calculatePayDate(Date invoiceDate, PaymentTermType terms) {
         LOG.debug("calculatePayDate() started");
-        //calculate the invoice + processed calendar
+        // calculate the invoice + processed calendar
         Calendar invoicedDateCalendar = dateTimeService.getCalendar(invoiceDate);
         Calendar processedDateCalendar = dateTimeService.getCurrentCalendar();
-        //add default number of days to processed
-        processedDateCalendar.add(Calendar.DAY_OF_MONTH,PurapConstants.PREQ_PAY_DATE_DEFAULT_NUMBER_OF_DAYS);
+        // add default number of days to processed
+        processedDateCalendar.add(Calendar.DAY_OF_MONTH, PurapConstants.PREQ_PAY_DATE_DEFAULT_NUMBER_OF_DAYS);
 
-        if(ObjectUtils.isNull(terms) || StringUtils.isEmpty(terms.getVendorPaymentTermsCode())) {
+        if (ObjectUtils.isNull(terms) || StringUtils.isEmpty(terms.getVendorPaymentTermsCode())) {
             invoicedDateCalendar.add(Calendar.DAY_OF_MONTH, PurapConstants.PREQ_PAY_DATE_EMPTY_TERMS_DEFAULT_DAYS);
             return returnLaterDate(invoicedDateCalendar, processedDateCalendar);
         }
-        
+
         Integer discountDueNumber = terms.getVendorDiscountDueNumber();
         Integer netDueNumber = terms.getVendorNetDueNumber();
-        if(ObjectUtils.isNotNull(discountDueNumber)) {
+        if (ObjectUtils.isNotNull(discountDueNumber)) {
             String discountDueTypeDescription = terms.getVendorDiscountDueTypeDescription();
             paymentTermsDateCalculation(discountDueTypeDescription, invoicedDateCalendar, discountDueNumber);
         }
-        else if(ObjectUtils.isNotNull(netDueNumber)) {
+        else if (ObjectUtils.isNotNull(netDueNumber)) {
             String netDueTypeDescription = terms.getVendorNetDueTypeDescription();
             paymentTermsDateCalculation(netDueTypeDescription, invoicedDateCalendar, netDueNumber);
         }
@@ -521,347 +513,336 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             throw new RuntimeException("Neither discount or net number were specified for this payment terms type");
         }
 
-        //return the later date
+        // return the later date
         return returnLaterDate(invoicedDateCalendar, processedDateCalendar);
     }
 
     /**
      * This method...
+     * 
      * @param invoicedDateCalendar
      * @param processedDateCalendar
      * @return
      */
     private Date returnLaterDate(Calendar invoicedDateCalendar, Calendar processedDateCalendar) {
-        if(invoicedDateCalendar.after(processedDateCalendar)) {
+        if (invoicedDateCalendar.after(processedDateCalendar)) {
             return new Date(invoicedDateCalendar.getTimeInMillis());
-        } else {
+        }
+        else {
             return new Date(processedDateCalendar.getTimeInMillis());
         }
     }
 
     /**
      * This method...
+     * 
      * @param terms
      * @param invoicedDateCalendar
      * @param discountDueNumber
      */
     private void paymentTermsDateCalculation(String dueTypeDescription, Calendar invoicedDateCalendar, Integer dueNumber) {
-        
-          if(StringUtils.equals(dueTypeDescription,PurapConstants.PREQ_PAY_DATE_DATE)) {
-            //date specified set to date in next month
-              invoicedDateCalendar.add(Calendar.MONTH, 1);
-              invoicedDateCalendar.set(Calendar.DAY_OF_MONTH,dueNumber.intValue());
-          } else if(StringUtils.equals(PurapConstants.PREQ_PAY_DATE_DAYS, dueTypeDescription)) {
-            //days specified go forward that number
-              invoicedDateCalendar.add(Calendar.DAY_OF_MONTH,dueNumber.intValue());   
-          } else {
-              //improper string
-              throw new RuntimeException("missing payment terms description or not properly enterred on payment term maintenance doc");
-          }
+
+        if (StringUtils.equals(dueTypeDescription, PurapConstants.PREQ_PAY_DATE_DATE)) {
+            // date specified set to date in next month
+            invoicedDateCalendar.add(Calendar.MONTH, 1);
+            invoicedDateCalendar.set(Calendar.DAY_OF_MONTH, dueNumber.intValue());
+        }
+        else if (StringUtils.equals(PurapConstants.PREQ_PAY_DATE_DAYS, dueTypeDescription)) {
+            // days specified go forward that number
+            invoicedDateCalendar.add(Calendar.DAY_OF_MONTH, dueNumber.intValue());
+        }
+        else {
+            // improper string
+            throw new RuntimeException("missing payment terms description or not properly enterred on payment term maintenance doc");
+        }
     }
 
 
-    
-    public void calculatePaymentRequest(PaymentRequestDocument paymentRequest,boolean updateDiscount) {
+    public void calculatePaymentRequest(PaymentRequestDocument paymentRequest, boolean updateDiscount) {
         LOG.debug("calculatePaymentRequest() started");
-        
-        if(ObjectUtils.isNull(paymentRequest.getPaymentRequestPayDate())) {
-            paymentRequest.setPaymentRequestPayDate(calculatePayDate(paymentRequest.getInvoiceDate(),paymentRequest.getVendorPaymentTerms()));
+
+        if (ObjectUtils.isNull(paymentRequest.getPaymentRequestPayDate())) {
+            paymentRequest.setPaymentRequestPayDate(calculatePayDate(paymentRequest.getInvoiceDate(), paymentRequest.getVendorPaymentTerms()));
         }
-        
-        for (PaymentRequestItem item : (List<PaymentRequestItem>)paymentRequest.getItems()) {
-            if(item.getItemType().isItemTypeAboveTheLineIndicator() &&
-                !item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
-                PurchaseOrderItem poi = (PurchaseOrderItem)paymentRequest.getPurchaseOrderDocument().getItem(item.getItemLineNumber().intValue());
-                if(ObjectUtils.isNotNull(item.getExtendedPrice()) &&
-                   !(KualiDecimal.ZERO.compareTo(item.getExtendedPrice())==0)) {
+
+        for (PaymentRequestItem item : (List<PaymentRequestItem>) paymentRequest.getItems()) {
+            if (item.getItemType().isItemTypeAboveTheLineIndicator() && !item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                PurchaseOrderItem poi = (PurchaseOrderItem) paymentRequest.getPurchaseOrderDocument().getItem(item.getItemLineNumber().intValue());
+                if (ObjectUtils.isNotNull(item.getExtendedPrice()) && !(KualiDecimal.ZERO.compareTo(item.getExtendedPrice()) == 0)) {
                     item.setItemUnitPrice(new BigDecimal(item.getExtendedPrice().toString()));
                 }
             }
         }
-        
-        if(updateDiscount) {
+
+        if (updateDiscount) {
             calculateDiscount(paymentRequest);
         }
-        
+
         distributeAccounting(paymentRequest);
     }
-    
-    
+
+
     /**
      * This method calculates the discount item for this paymentRequest
      */
     private void calculateDiscount(PaymentRequestDocument paymentRequestDocument) {
         PaymentRequestItem discountItem = findDiscountItem(paymentRequestDocument);
-        //find out if we really need the discount item
-        PaymentTermType pt = paymentRequestDocument.getVendorPaymentTerms(); 
-        if((pt!=null)&&(pt.getVendorPaymentTermsPercent()!=null) && (BigDecimal.ZERO.compareTo(pt.getVendorPaymentTermsPercent())!=0)) {
-            if(discountItem==null) {
-                //set discountItem and add to items
-                //this is probably not the best way of doing it but should work for now if we start excluding discount from below we will need to manually add
+        // find out if we really need the discount item
+        PaymentTermType pt = paymentRequestDocument.getVendorPaymentTerms();
+        if ((pt != null) && (pt.getVendorPaymentTermsPercent() != null) && (BigDecimal.ZERO.compareTo(pt.getVendorPaymentTermsPercent()) != 0)) {
+            if (discountItem == null) {
+                // set discountItem and add to items
+                // this is probably not the best way of doing it but should work for now if we start excluding discount from below
+                // we will need to manually add
                 SpringContext.getBean(PurapService.class).addBelowLineItems(paymentRequestDocument);
                 discountItem = findDiscountItem(paymentRequestDocument);
             }
-            //discount item should no longer be null, update if necessary
-            if(discountItem.getExtendedPrice().isZero()) {
+            // discount item should no longer be null, update if necessary
+            if (discountItem.getExtendedPrice().isZero()) {
                 KualiDecimal totalCost = paymentRequestDocument.getTotalDollarAmountAboveLineItems();
                 BigDecimal discountAmount = pt.getVendorPaymentTermsPercent().multiply(totalCost.bigDecimalValue()).multiply(new BigDecimal(PurapConstants.PREQ_DISCOUNT_MULT));
-                //do we really need to set both, not positive, but probably won't hurt
-                discountItem.setItemUnitPrice(discountAmount.setScale(2,KualiDecimal.ROUND_BEHAVIOR));
+                // do we really need to set both, not positive, but probably won't hurt
+                discountItem.setItemUnitPrice(discountAmount.setScale(2, KualiDecimal.ROUND_BEHAVIOR));
                 discountItem.setExtendedPrice(new KualiDecimal(discountAmount));
-            }         
-        } else { //no discount
-            if(discountItem!=null) {
+            }
+        }
+        else { // no discount
+            if (discountItem != null) {
                 paymentRequestDocument.getItems().remove(discountItem);
             }
         }
-        
+
     }
 
     /**
      * This method finds the discount item
+     * 
      * @param paymentRequestDocument the payment request document
      * @return the discount item if it exists
      */
     private PaymentRequestItem findDiscountItem(PaymentRequestDocument paymentRequestDocument) {
         PaymentRequestItem discountItem = null;
-        for (PaymentRequestItem preqItem : (List<PaymentRequestItem>)paymentRequestDocument.getItems()) {
-            if(StringUtils.equals(preqItem.getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE)) {
-                discountItem=preqItem;
+        for (PaymentRequestItem preqItem : (List<PaymentRequestItem>) paymentRequestDocument.getItems()) {
+            if (StringUtils.equals(preqItem.getItemTypeCode(), PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE)) {
+                discountItem = preqItem;
                 break;
             }
         }
         return discountItem;
     }
-    
+
     /**
-     * 
      * This method distributes accounts for a payment request document
+     * 
      * @param paymentRequestDocument
      */
     private void distributeAccounting(PaymentRequestDocument paymentRequestDocument) {
-        //update the account amounts before doing any distribution
+        // update the account amounts before doing any distribution
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequestDocument);
-        
-        for (PaymentRequestItem item : (List<PaymentRequestItem>)paymentRequestDocument.getItems()) {
+
+        for (PaymentRequestItem item : (List<PaymentRequestItem>) paymentRequestDocument.getItems()) {
             KualiDecimal totalAmount = KualiDecimal.ZERO;
             List<PurApAccountingLine> distributedAccounts = null;
             List<SourceAccountingLine> summaryAccounts = null;
-            
-            //skip above the line
-            if(item.getItemType().isItemTypeAboveTheLineIndicator()) {
+
+            // skip above the line
+            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 continue;
             }
-            
-            if((item.getSourceAccountingLines().isEmpty()) && (ObjectUtils.isNotNull(item.getExtendedPrice())) &&
-               (KualiDecimal.ZERO.compareTo(item.getExtendedPrice())!=0)) {
-                //TODO: add tax stuff here in 2B
-                if ((StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE,item.getItemType().getItemTypeCode())) &&
-                        (paymentRequestDocument.getGrandTotal() != null) && 
-                        ((KualiDecimal.ZERO.compareTo(paymentRequestDocument.getGrandTotal()) != 0))) {
+
+            if ((item.getSourceAccountingLines().isEmpty()) && (ObjectUtils.isNotNull(item.getExtendedPrice())) && (KualiDecimal.ZERO.compareTo(item.getExtendedPrice()) != 0)) {
+                // TODO: add tax stuff here in 2B
+                if ((StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE, item.getItemType().getItemTypeCode())) && (paymentRequestDocument.getGrandTotal() != null) && ((KualiDecimal.ZERO.compareTo(paymentRequestDocument.getGrandTotal()) != 0))) {
 
                     totalAmount = paymentRequestDocument.getGrandTotal();
-                    
+
                     summaryAccounts = SpringContext.getBean(PurapAccountingService.class).generateSummary(paymentRequestDocument.getItems());
-                    
-                    distributedAccounts = SpringContext.getBean(PurapAccountingService.class).generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class);
-                    
+
+                    distributedAccounts = SpringContext.getBean(PurapAccountingService.class).generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, PaymentRequestAccount.class);
+
                 }
                 else {
 
 
                     PurchaseOrderItem poi = item.getPurchaseOrderItem();
-                    if ((poi != null) && (poi.getSourceAccountingLines() != null) && 
-                            (!(poi.getSourceAccountingLines().isEmpty())) && 
-                            (poi.getExtendedPrice() != null) && 
-                            ((KualiDecimal.ZERO.compareTo(poi.getExtendedPrice())) != 0)) {
+                    if ((poi != null) && (poi.getSourceAccountingLines() != null) && (!(poi.getSourceAccountingLines().isEmpty())) && (poi.getExtendedPrice() != null) && ((KualiDecimal.ZERO.compareTo(poi.getExtendedPrice())) != 0)) {
                         // use accounts from purchase order item matching this item
                         // account list of current item is already empty
                         item.generateAccountListFromPoItemAccounts(poi.getSourceAccountingLines());
-                    }else { 
-                         totalAmount = paymentRequestDocument.getPurchaseOrderDocument().getTotalDollarAmountAboveLineItems();
-                         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequestDocument.getPurchaseOrderDocument());
-                         summaryAccounts = SpringContext.getBean(PurapAccountingService.class).generateSummary(PurApItemUtils.getAboveTheLineOnly(paymentRequestDocument.getPurchaseOrderDocument().getItems()));
-                         distributedAccounts = SpringContext.getBean(PurapAccountingService.class).generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"),PaymentRequestAccount.class); 
                     }
-                         
+                    else {
+                        totalAmount = paymentRequestDocument.getPurchaseOrderDocument().getTotalDollarAmountAboveLineItems();
+                        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequestDocument.getPurchaseOrderDocument());
+                        summaryAccounts = SpringContext.getBean(PurapAccountingService.class).generateSummary(PurApItemUtils.getAboveTheLineOnly(paymentRequestDocument.getPurchaseOrderDocument().getItems()));
+                        distributedAccounts = SpringContext.getBean(PurapAccountingService.class).generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"), PaymentRequestAccount.class);
+                    }
+
                 }
-                if(CollectionUtils.isNotEmpty(distributedAccounts)&&
-                   CollectionUtils.isEmpty(item.getSourceAccountingLines())) {
+                if (CollectionUtils.isNotEmpty(distributedAccounts) && CollectionUtils.isEmpty(item.getSourceAccountingLines())) {
                     item.setSourceAccountingLines(distributedAccounts);
                 }
             }
         }
-        //update again now that distribute is finished. 
+        // update again now that distribute is finished.
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequestDocument);
     }
-              
+
     /**
      * This method marks a payment request on hold.
      * 
-     * @see org.kuali.module.purap.service.PaymentRequestService#addHoldOnPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument, java.lang.String)
+     * @see org.kuali.module.purap.service.PaymentRequestService#addHoldOnPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument,
+     *      java.lang.String)
      */
-    public void addHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception{        
-        //save the note
+    public void addHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
+        // save the note
         Note noteObj = documentService.createNoteFromDocument(document, note);
         documentService.addNoteToDocument(document, noteObj);
         noteService.save(noteObj);
-        
+
         // retrieve and save with hold indicator set to true
-        PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));        
+        PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));
         preqDoc.setHoldIndicator(true);
-        preqDoc.setLastActionPerformedByUniversalUserId( GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier() );
+        preqDoc.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         saveDocumentWithoutValidation(preqDoc);
-        
+
         // must also save it on the incoming document
         document.setHoldIndicator(true);
-        document.setLastActionPerformedByUniversalUserId( GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier() );
+        document.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
     }
-    
+
     /**
      * This method removes a hold on a payment request.
      * 
      * @see org.kuali.module.purap.service.PaymentRequestService#removeHoldOnPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument)
      */
-    public void removeHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception{
-        //save the note
+    public void removeHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
+        // save the note
         Note noteObj = documentService.createNoteFromDocument(document, note);
         documentService.addNoteToDocument(document, noteObj);
         noteService.save(noteObj);
 
-        //retrieve and save with hold indicator set to false
-        PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));        
+        // retrieve and save with hold indicator set to false
+        PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));
         preqDoc.setHoldIndicator(false);
         preqDoc.setLastActionPerformedByUniversalUserId(null);
         saveDocumentWithoutValidation(preqDoc);
 
-        //must also save it on the incoming document
+        // must also save it on the incoming document
         document.setHoldIndicator(false);
         document.setLastActionPerformedByUniversalUserId(null);
-    }   
+    }
 
     /**
      * This method determines if a user has permission to put a PREQ on hold
      * 
-     * @see org.kuali.module.purap.service.PaymentRequestService#canHoldPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.module.purap.service.PaymentRequestService#canHoldPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
-    public boolean canHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user){
+    public boolean canHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user) {
         boolean canHold = false;
-        
-        String accountsPayableGroup = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-        
-        /* The user is an approver of the document,
-         * The user is a member of the Accounts Payable group
+
+        String accountsPayableGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+
+        /*
+         * The user is an approver of the document, The user is a member of the Accounts Payable group
          */
-        if( document.isHoldIndicator() == false &&
-            document.getPaymentRequestedCancelIndicator() == false &&            
-            ((document.getDocumentHeader().hasWorkflowDocument() &&
-             (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && 
-              document.getDocumentHeader().getWorkflowDocument().isApprovalRequested())) ||
-             (user.isMember(accountsPayableGroup) && document.getExtractedDate() == null)) &&
-             ( !PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains( document.getStatusCode() )) ){
-            
+        if (document.isHoldIndicator() == false && document.getPaymentRequestedCancelIndicator() == false && ((document.getDocumentHeader().hasWorkflowDocument() && (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested())) || (user.isMember(accountsPayableGroup) && document.getExtractedDate() == null)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(document.getStatusCode()))) {
+
             canHold = true;
         }
-        
+
         return canHold;
     }
-    
+
     /**
      * This method determines if a user has permission to remove a hold on a PREQ
      * 
-     * @see org.kuali.module.purap.service.PaymentRequestService#canRemoveHoldPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.module.purap.service.PaymentRequestService#canRemoveHoldPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
-    public boolean canRemoveHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user){
+    public boolean canRemoveHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user) {
         boolean canRemoveHold = false;
-        
-        String accountsPayableSupervisorGroup = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
-        
-        /* The user is the person who put the preq on hold
-         * The user is a member of the AP Supervisor group
+
+        String accountsPayableSupervisorGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
+
+        /*
+         * The user is the person who put the preq on hold The user is a member of the AP Supervisor group
          */
-        if( document.isHoldIndicator() &&
-            (user.getPersonUniversalIdentifier().equals( document.getLastActionPerformedByUniversalUserId() ) ||
-             user.isMember(accountsPayableSupervisorGroup)) &&
-            ( !PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REMOVE_HOLD.contains( document.getStatusCode() )) ){
-            
+        if (document.isHoldIndicator() && (user.getPersonUniversalIdentifier().equals(document.getLastActionPerformedByUniversalUserId()) || user.isMember(accountsPayableSupervisorGroup)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REMOVE_HOLD.contains(document.getStatusCode()))) {
+
             canRemoveHold = true;
         }
         return canRemoveHold;
     }
-    
+
     /**
      * This method marks a payment request as requested to be cancelled.
      * 
-     * @see org.kuali.module.purap.service.PaymentRequestService#addHoldOnPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument, java.lang.String)
+     * @see org.kuali.module.purap.service.PaymentRequestService#addHoldOnPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument,
+     *      java.lang.String)
      */
-    public void requestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception{    
-        //save the note
+    public void requestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
+        // save the note
         Note noteObj = documentService.createNoteFromDocument(document, note);
         documentService.addNoteToDocument(document, noteObj);
         noteService.save(noteObj);
-        
-        //retrieve and save with hold indicator set to true
-        PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));        
+
+        // retrieve and save with hold indicator set to true
+        PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));
         preqDoc.setPaymentRequestedCancelIndicator(true);
-        preqDoc.setLastActionPerformedByUniversalUserId( GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier() );
-        preqDoc.setAccountsPayableRequestCancelIdentifier( GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier() );
+        preqDoc.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        preqDoc.setAccountsPayableRequestCancelIdentifier(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         saveDocumentWithoutValidation(preqDoc);
-        
-        //must also save it on the incoming document
+
+        // must also save it on the incoming document
         document.setPaymentRequestedCancelIndicator(true);
-        document.setLastActionPerformedByUniversalUserId( GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier() );
-        document.setAccountsPayableRequestCancelIdentifier( GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier() );
+        document.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        document.setAccountsPayableRequestCancelIdentifier(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
     }
-    
+
     /**
      * This method removes a cancel on a payment request.
      * 
      * @see org.kuali.module.purap.service.PaymentRequestService#removeHoldOnPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument)
      */
-    public void removeRequestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception{
-        //save the note
+    public void removeRequestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
+        // save the note
         Note noteObj = documentService.createNoteFromDocument(document, note);
         documentService.addNoteToDocument(document, noteObj);
         noteService.save(noteObj);
 
-        //retrieve and save with hold indicator set to false
-        PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));        
+        // retrieve and save with hold indicator set to false
+        PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));
         preqDoc.setPaymentRequestedCancelIndicator(false);
         preqDoc.setLastActionPerformedByUniversalUserId(null);
         preqDoc.setAccountsPayableRequestCancelIdentifier(null);
         saveDocumentWithoutValidation(preqDoc);
 
-        //must also save it on the incoming document
+        // must also save it on the incoming document
         document.setPaymentRequestedCancelIndicator(false);
         document.setLastActionPerformedByUniversalUserId(null);
         document.setAccountsPayableRequestCancelIdentifier(null);
-    }   
-    
+    }
+
     /**
-     * 
      * @see org.kuali.module.purap.service.PaymentRequestService#isExtracted(org.kuali.module.purap.document.PaymentRequestDocument)
      */
     public boolean isExtracted(PaymentRequestDocument document) {
-        return (ObjectUtils.isNull(document.getExtractedDate())?false:true);
+        return (ObjectUtils.isNull(document.getExtractedDate()) ? false : true);
     }
-    
+
     /**
      * This method determines if a user has permission to request cancel on a PREQ
      * 
-     * @see org.kuali.module.purap.service.PaymentRequestService#canHoldPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.module.purap.service.PaymentRequestService#canHoldPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
-    public boolean canUserRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user){
-        
-        /* The user is an approver of the document,
+    public boolean canUserRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user) {
+
+        /*
+         * The user is an approver of the document,
          */
-        if( document.getPaymentRequestedCancelIndicator() == false &&
-            document.isHoldIndicator() == false &&
-            document.getExtractedDate() == null &&
-            (document.getDocumentHeader().hasWorkflowDocument() &&
-             (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && 
-              document.getDocumentHeader().getWorkflowDocument().isApprovalRequested() )) &&
-            ( !PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains( document.getStatusCode() )) ){
+        if (document.getPaymentRequestedCancelIndicator() == false && document.isHoldIndicator() == false && document.getExtractedDate() == null && (document.getDocumentHeader().hasWorkflowDocument() && (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested())) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(document.getStatusCode()))) {
             return true;
         }
         return false;
@@ -870,18 +851,16 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * This method determines if a user has permission to remove a request for cancel on a PREQ
      * 
-     * @see org.kuali.module.purap.service.PaymentRequestService#canRemoveHoldPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.module.purap.service.PaymentRequestService#canRemoveHoldPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
-    public boolean canUserRemoveRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user){
-        String accountsPayableSupervisorGroup = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
-        
-        /* The user is the person who requested a cancel on the preq
-         * The user is a member of the AP Supervisor group
+    public boolean canUserRemoveRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user) {
+        String accountsPayableSupervisorGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
+
+        /*
+         * The user is the person who requested a cancel on the preq The user is a member of the AP Supervisor group
          */
-        if( document.getPaymentRequestedCancelIndicator() &&
-            ( user.getPersonUniversalIdentifier().equals( document.getLastActionPerformedByUniversalUserId() ) ||
-              user.isMember(accountsPayableSupervisorGroup)) &&
-            ( !PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains( document.getStatusCode() )) ){
+        if (document.getPaymentRequestedCancelIndicator() && (user.getPersonUniversalIdentifier().equals(document.getLastActionPerformedByUniversalUserId()) || user.isMember(accountsPayableSupervisorGroup)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(document.getStatusCode()))) {
             return true;
         }
         return false;
@@ -901,21 +880,21 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             return;
         }
 
-        //FIXME (KULPURAP-1580: hjs) add call to new method once added
-        //        generalLedgerService.generateEntriesCancelPreq(paymentRequest);
+        // FIXME (KULPURAP-1580: hjs) add call to new method once added
+        // generalLedgerService.generateEntriesCancelPreq(paymentRequest);
         try {
-            Note cancelNote = documentService.createNoteFromDocument(paymentRequest,note);
-            documentService.addNoteToDocument(paymentRequest,cancelNote);
+            Note cancelNote = documentService.createNoteFromDocument(paymentRequest, note);
+            documentService.addNoteToDocument(paymentRequest, cancelNote);
         }
         catch (Exception e) {
-            throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE+" "+e);
+            throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE + " " + e);
         }
         purapService.updateStatusAndStatusHistory(paymentRequest, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE);
         this.saveDocumentWithoutValidation(paymentRequest);
         LOG.debug("cancelExtractedPaymentRequest() PREQ " + paymentRequest.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
         LOG.debug("cancelExtractedPaymentRequest() ended");
     }
-    
+
     /**
      * Reset a Payment Request that had an associated Payment Request or Credit Memo cancelled externally.
      * 
@@ -933,11 +912,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         paymentRequest.setPaymentPaidDate(null);
         String noteText = "This Payment Request is being reset for extraction by PDP " + note;
         try {
-            Note resetNote = documentService.createNoteFromDocument(paymentRequest,noteText);
-            documentService.addNoteToDocument(paymentRequest,resetNote);
+            Note resetNote = documentService.createNoteFromDocument(paymentRequest, noteText);
+            documentService.addNoteToDocument(paymentRequest, resetNote);
         }
         catch (Exception e) {
-            throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE+" "+e);
+            throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE + " " + e);
         }
         this.saveDocumentWithoutValidation(paymentRequest);
         LOG.debug("resetExtractedPaymentRequest() PREQ " + paymentRequest.getPurapDocumentIdentifier() + " Reset from Extracted status");
@@ -950,37 +929,38 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         PurchaseOrderDocument purchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
 
-        //make a call to search for expired/closed accounts
-        HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList = SpringContext.getBean(AccountsPayableService.class).getExpiredOrClosedAccountList( paymentRequestDocument );
+        // make a call to search for expired/closed accounts
+        HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList = SpringContext.getBean(AccountsPayableService.class).getExpiredOrClosedAccountList(paymentRequestDocument);
 
         paymentRequestDocument.populatePaymentRequestFromPurchaseOrder(purchaseOrderDocument, expiredOrClosedAccountList);
 
-        paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription( createPreqDocumentDescription(paymentRequestDocument.getPurchaseOrderIdentifier(), paymentRequestDocument.getVendorName() ) );
-        
-        //write a note for expired/closed accounts if any exist and add a message stating there were expired/closed accounts at the top of the document
+        paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription(createPreqDocumentDescription(paymentRequestDocument.getPurchaseOrderIdentifier(), paymentRequestDocument.getVendorName()));
+
+        // write a note for expired/closed accounts if any exist and add a message stating there were expired/closed accounts at the
+        // top of the document
         SpringContext.getBean(AccountsPayableService.class).generateExpiredOrClosedAccountNote(paymentRequestDocument, expiredOrClosedAccountList);
-        
-        //set indicator so a message is displayed for accounts that were replaced due to expired/closed status
-        if(!expiredOrClosedAccountList.isEmpty()){
+
+        // set indicator so a message is displayed for accounts that were replaced due to expired/closed status
+        if (!expiredOrClosedAccountList.isEmpty()) {
             paymentRequestDocument.setContinuationAccountIndicator(true);
         }
-        
-        //add discount item
+
+        // add discount item
         calculateDiscount(paymentRequestDocument);
-        //distribute accounts (i.e. proration)
+        // distribute accounts (i.e. proration)
         distributeAccounting(paymentRequestDocument);
-        
+
     }
 
-    private String createPreqDocumentDescription(Integer purchaseOrderIdentifier, String vendorName){
+    private String createPreqDocumentDescription(Integer purchaseOrderIdentifier, String vendorName) {
         StringBuffer descr = new StringBuffer("");
         descr.append("PO: ");
         descr.append(purchaseOrderIdentifier);
         descr.append(" Vendor: ");
-        descr.append( StringUtils.trimToEmpty(vendorName) );
+        descr.append(StringUtils.trimToEmpty(vendorName));
 
         int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_DESCRIPTION).intValue();
-        if(noteTextMaxLength >= descr.length()) {
+        if (noteTextMaxLength >= descr.length()) {
             return descr.toString();
         }
         else {
@@ -989,90 +969,95 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
 
     /**
-     * 
      * @see org.kuali.module.purap.service.PaymentRequestService#populateAndSavePaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument)
      */
     public void populateAndSavePaymentRequest(PaymentRequestDocument preq) throws WorkflowException {
         try {
-            preq.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);            
+            preq.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);
             documentService.saveDocument(preq, ContinueAccountsPayableEvent.class);
         }
-        catch(ValidationException ve){
+        catch (ValidationException ve) {
             preq.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
         }
         catch (WorkflowException we) {
             preq.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
-            String errorMsg = "Error saving document # " + preq.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
+            String errorMsg = "Error saving document # " + preq.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
-        }        
+        }
     }
-    
+
     public void deleteSummaryAccounts(Integer purapDocumentIdentifier) {
         paymentRequestDao.deleteSummaryAccounts(purapDocumentIdentifier);
     }
 
     public boolean shouldPurchaseOrderBeReversed(AccountsPayableDocument apDoc) {
-       PurchaseOrderDocument po = apDoc.getPurchaseOrderDocument();
-       if(ObjectUtils.isNull(po)) {
-           throw new RuntimeException("po should never be null on PREQ");
-       }
-       //if past full entry and already closed return true
-       if(purapService.isFullDocumentEntryCompleted(apDoc) &&
-               StringUtils.equalsIgnoreCase(PurapConstants.PurchaseOrderStatuses.CLOSED,po.getStatusCode())) {
-           return true;
-       }
-       return false;
+        PurchaseOrderDocument po = apDoc.getPurchaseOrderDocument();
+        if (ObjectUtils.isNull(po)) {
+            throw new RuntimeException("po should never be null on PREQ");
+        }
+        // if past full entry and already closed return true
+        if (purapService.isFullDocumentEntryCompleted(apDoc) && StringUtils.equalsIgnoreCase(PurapConstants.PurchaseOrderStatuses.CLOSED, po.getStatusCode())) {
+            return true;
+        }
+        return false;
     }
-    
-    public UniversalUser getUniversalUserForCancel(AccountsPayableDocument apDoc) { 
-        PaymentRequestDocument preqDoc = (PaymentRequestDocument)apDoc;
+
+    public UniversalUser getUniversalUserForCancel(AccountsPayableDocument apDoc) {
+        PaymentRequestDocument preqDoc = (PaymentRequestDocument) apDoc;
         UniversalUser user = null;
-        if (preqDoc.isPaymentRequestedCancelIndicator()) {            
+        if (preqDoc.isPaymentRequestedCancelIndicator()) {
             user = preqDoc.getLastActionPerformedByUser();
         }
         return user;
     }
 
     public void takePurchaseOrderCancelAction(AccountsPayableDocument apDoc) {
-        PaymentRequestDocument preqDocument = (PaymentRequestDocument)apDoc;
-        if(preqDocument.isReopenPurchaseOrderIndicator()) {
+        PaymentRequestDocument preqDocument = (PaymentRequestDocument) apDoc;
+        if (preqDocument.isReopenPurchaseOrderIndicator()) {
             String docType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT;
-            SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(preqDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Credit Memo "+apDoc.getPurapDocumentIdentifier()+ "cancel", new ArrayList());
+            SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(preqDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Credit Memo " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList());
         }
     }
+
     /**
      * delegate method
-     * @see org.kuali.module.purap.service.AccountsPayableDocumentSpecificService#updateStatusByNode(java.lang.String, org.kuali.module.purap.document.AccountsPayableDocument)
+     * 
+     * @see org.kuali.module.purap.service.AccountsPayableDocumentSpecificService#updateStatusByNode(java.lang.String,
+     *      org.kuali.module.purap.document.AccountsPayableDocument)
      */
     public String updateStatusByNode(String currentNodeName, AccountsPayableDocument apDoc) {
-        return updateStatusByNode(currentNodeName, (PaymentRequestDocument)apDoc);
+        return updateStatusByNode(currentNodeName, (PaymentRequestDocument) apDoc);
     }
+
     /**
      * This method updates the status of a cm document
+     * 
      * @param cmDocument
      * @param currentNodeName
      * @param cmDoc
      */
     private String updateStatusByNode(String currentNodeName, PaymentRequestDocument preqDoc) {
         // update the status on the document
-        
+
         String cancelledStatusCode = "";
-        if(StringUtils.isEmpty(currentNodeName)) {
-            //if empty probably not coming from workflow TODO - ckirschenman check status to be sure
+        if (StringUtils.isEmpty(currentNodeName)) {
+            // if empty probably not coming from workflow TODO - ckirschenman check status to be sure
             cancelledStatusCode = PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE;
-        } else {
+        }
+        else {
             NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(currentNodeName);
             if (ObjectUtils.isNotNull(currentNode)) {
                 cancelledStatusCode = currentNode.getDisapprovedStatusCode();
             }
         }
-        
+
         if (StringUtils.isNotBlank(cancelledStatusCode)) {
             purapService.updateStatusAndStatusHistory(preqDoc, cancelledStatusCode);
             saveDocumentWithoutValidation(preqDoc);
             return cancelledStatusCode;
-        } else {
+        }
+        else {
             // TODO (KULPURAP-1579: ckirshenman/hjs) delyea - what to do in a cancel where no status to set exists?
             LOG.warn("No status found to set for document being disapproved in node '" + currentNodeName + "'");
         }
@@ -1080,9 +1065,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PaymentRequestService#markPaid(org.kuali.module.purap.document.PaymentRequestDocument, java.sql.Date)
+     * @see org.kuali.module.purap.service.PaymentRequestService#markPaid(org.kuali.module.purap.document.PaymentRequestDocument,
+     *      java.sql.Date)
      */
-    public void markPaid(PaymentRequestDocument pr,Date processDate) {
+    public void markPaid(PaymentRequestDocument pr, Date processDate) {
         LOG.debug("markPaid() started");
 
         pr.setPaymentPaidDate(processDate);
@@ -1094,28 +1080,28 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
 
     public boolean poItemEligibleForAp(AccountsPayableDocument apDoc, PurchaseOrderItem poi) {
-        if(ObjectUtils.isNull(poi)) {
-//          LOG.debug("poi was null");
+        if (ObjectUtils.isNull(poi)) {
+            // LOG.debug("poi was null");
             throw new RuntimeException("item null in purchaseOrderItemEligibleForPayment ... this should never happen");
         }
-
-        //if the po item is not active... skip it
-        if(!poi.isItemActiveIndicator()) {
-//          LOG.debug("poi was not active: "+poi.toString());
+        // if the po item is not active... skip it
+        if (!poi.isItemActiveIndicator()) {
+            // LOG.debug("poi was not active: "+poi.toString());
             return false;
         }
 
         ItemType poiType = poi.getItemType();
 
-        if(poiType.isQuantityBasedGeneralLedgerIndicator()) {
-            if(poi.getItemQuantity().isGreaterThan(poi.getItemInvoicedTotalQuantity())) {
+        if (poiType.isQuantityBasedGeneralLedgerIndicator()) {
+            if (poi.getItemQuantity().isGreaterThan(poi.getItemInvoicedTotalQuantity())) {
                 return true;
-            } 
+            }
             return false;
-        } else { //not quantity based
-            if(poi.getItemOutstandingEncumberedAmount().isGreaterThan(KualiDecimal.ZERO)) {
+        }
+        else { // not quantity based
+            if (poi.getItemOutstandingEncumberedAmount().isGreaterThan(KualiDecimal.ZERO)) {
                 return true;
-            } 
+            }
             return false;
         }
     }

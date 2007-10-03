@@ -26,10 +26,10 @@ import java.util.Set;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.bo.user.UuId;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 
 import edu.iu.uis.eden.WorkflowServiceError;
@@ -43,9 +43,9 @@ import edu.iu.uis.eden.user.WorkflowUser;
  */
 public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearchGenerator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurApDocumentSearchGenerator.class);
-    
-    private Map<String,SearchAttributeCriteriaComponent> searchComponentsByFormKey;
-    
+
+    private Map<String, SearchAttributeCriteriaComponent> searchComponentsByFormKey;
+
     public Map<String, SearchAttributeCriteriaComponent> getSearchComponentsByFormKey() {
         if (searchComponentsByFormKey.isEmpty()) {
             this.generateSearchComponentsByFormKeyMap();
@@ -56,7 +56,7 @@ public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearc
     public void setSearchComponentsByFormKey(Map<String, SearchAttributeCriteriaComponent> searchComponentsByFormKey) {
         this.searchComponentsByFormKey = searchComponentsByFormKey;
     }
-    
+
     protected Map generateSearchComponentsByFormKeyMap() {
         Map criteriaMap = new HashMap();
         for (Iterator iter = getCriteria().getSearchableAttributes().iterator(); iter.hasNext();) {
@@ -66,13 +66,13 @@ public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearc
         this.searchComponentsByFormKey = criteriaMap;
         return criteriaMap;
     }
-    
+
     public abstract List<String> getSpecificSearchCriteriaFormFieldNames();
 
     public abstract List<String> getGeneralSearchUserRequiredFormFieldNames();
-    
+
     public abstract List<String> getSearchAttributeFormFieldNamesToIgnore();
-    
+
     public abstract String getErrorMessageForNonSpecialUserInvalidCriteria();
 
     public boolean isSpecialAccessSearchUser(WorkflowUser workflowUser) {
@@ -84,13 +84,13 @@ public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearc
         }
         catch (UserNotFoundException e) {
             String errorMessage = "Error attempting to find user with UUID '" + uuid + "'";
-            LOG.error(errorMessage,e);
-            throw new RuntimeException(errorMessage,e);
+            LOG.error(errorMessage, e);
+            throw new RuntimeException(errorMessage, e);
         }
     }
-    
+
     public String getSpecialAccessSearchUserWorkgroupName() {
-        return SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, PurapParameterConstants.Workgroups.SEARCH_SPECIAL_ACCESS);
+        return SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.SEARCH_SPECIAL_ACCESS);
     }
 
     /**
@@ -104,33 +104,30 @@ public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearc
     }
 
     /**
-     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#performPreSearchConditions(edu.iu.uis.eden.user.WorkflowUser, edu.iu.uis.eden.docsearch.DocSearchCriteriaVO)
+     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#performPreSearchConditions(edu.iu.uis.eden.user.WorkflowUser,
+     *      edu.iu.uis.eden.docsearch.DocSearchCriteriaVO)
      */
     @Override
     public List<WorkflowServiceError> performPreSearchConditions(WorkflowUser user, DocSearchCriteriaVO searchCriteria) {
         this.setCriteria(searchCriteria);
         this.generateSearchComponentsByFormKeyMap();
         List<WorkflowServiceError> errors = super.performPreSearchConditions(user, searchCriteria);
-        if ( isStandardCriteriaConsideredEmpty() && isSearchAttributeCriteriaConsideredEmpty()) {
+        if (isStandardCriteriaConsideredEmpty() && isSearchAttributeCriteriaConsideredEmpty()) {
             // error out for empty criteria
-            addErrorMessageToList(errors,"The search criteria entered is not sufficient to search for documents of this type.");
-        } 
-        /*   Error out if all of following are true:
-         *      1) standard search criteria are empty
-         *      2) search criteria does not contain at least one 'specific criteria element' (ie: doc id or purap id)
-         *      3) user is not special-access user as defined by each document
-         *      4) criteria is missing one or more required criteria elements of a non-special-access user search
+            addErrorMessageToList(errors, "The search criteria entered is not sufficient to search for documents of this type.");
+        }
+        /*
+         * Error out if all of following are true: 1) standard search criteria are empty 2) search criteria does not contain at
+         * least one 'specific criteria element' (ie: doc id or purap id) 3) user is not special-access user as defined by each
+         * document 4) criteria is missing one or more required criteria elements of a non-special-access user search
          */
-        else if ( (isStandardCriteriaConsideredEmpty()) && 
-                  (!isSpecialAccessSearchUser(user)) && 
-                  (!containsAllGeneralSearchUserRequiredFields()) &&
-                  (!containsOneOrMoreSpecificSearchCriteriaFields()) ) {
+        else if ((isStandardCriteriaConsideredEmpty()) && (!isSpecialAccessSearchUser(user)) && (!containsAllGeneralSearchUserRequiredFields()) && (!containsOneOrMoreSpecificSearchCriteriaFields())) {
             // error out for non special user with invalid criteria
-            addErrorMessageToList(errors,getErrorMessageForNonSpecialUserInvalidCriteria());
+            addErrorMessageToList(errors, getErrorMessageForNonSpecialUserInvalidCriteria());
         }
         return errors;
     }
-    
+
     protected boolean isSearchAttributeCriteriaConsideredEmpty() {
         Set<String> formFieldNamesToIgnore = new HashSet(getSearchAttributeFormFieldNamesToIgnore());
         List<String> formKeyFieldsToUse = new ArrayList<String>();
@@ -148,15 +145,15 @@ public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearc
     protected boolean isStandardCriteriaConsideredEmpty() {
         return getCriteria().isStandardCriteriaConsideredEmpty(true);
     }
-    
+
     protected boolean containsAllGeneralSearchUserRequiredFields() {
         return this.containsSearchCriteriaForListFormFieldNames(getGeneralSearchUserRequiredFormFieldNames(), true);
     }
-    
+
     public boolean containsOneOrMoreSpecificSearchCriteriaFields() {
         return this.containsSearchCriteriaForListFormFieldNames(getSpecificSearchCriteriaFormFieldNames(), false);
     }
-    
+
     private boolean containsSearchCriteriaForListFormFieldNames(List<String> listOfFormFieldNames, boolean checkForAllInList) {
         for (String formKey : listOfFormFieldNames) {
             SearchAttributeCriteriaComponent component = getSearchComponentsByFormKey().get(formKey);
@@ -168,7 +165,8 @@ public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearc
                     // checking for at least one element of list that is filled in and we found one
                     return true;
                 }
-            } else {
+            }
+            else {
                 if (checkForAllInList) {
                     // checking to make sure all list elements are filled in and at least one is not
                     return false;
@@ -178,10 +176,11 @@ public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearc
         if (checkForAllInList) {
             // checking to make sure all list elements are filled in and they are
             return true;
-        } else {
+        }
+        else {
             // checking for at least one element of list that is filled in and we found none
             return false;
         }
     }
-    
+
 }

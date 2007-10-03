@@ -20,37 +20,33 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.vendor.VendorConstants;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.vendor.VendorParameterConstants;
+import org.kuali.module.vendor.bo.PaymentTermType;
 
 /**
  * This class...
- * 
  */
-public class PaymentTypeValuesFinder extends KeyValuesBase implements ValueFinder{
+public class PaymentTypeValuesFinder extends KeyValuesBase implements ValueFinder {
 
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-
-        String[] descValues = SpringContext.getBean(KualiConfigurationService.class).getParameterValues(
-                KFSConstants.VENDOR_NAMESPACE, VendorConstants.Components.PAYMENT_TERM_TYPE, VendorParameterConstants.PAYMENT_TERMS_DUE_TYPE_DESC);
+        List<String> descValues = SpringContext.getBean(ParameterService.class).getParameterValues(PaymentTermType.class, VendorParameterConstants.PAYMENT_TERMS_DUE_TYPE_DESC);
         List keyValues = new ArrayList();
         for (String desc : descValues) {
             keyValues.add(new KeyLabelPair(desc, desc));
         }
         return keyValues;
     }
-    
+
     /**
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
-    public String getValue(){
+    public String getValue() {
         return "";
     }
 

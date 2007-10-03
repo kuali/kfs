@@ -34,6 +34,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.document.CashReceiptFamilyBase;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
@@ -70,21 +71,21 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
-        
+
         isValid &= isMinimumNumberOfCreditCardReceiptsMet(document);
-        
+
         if (isValid) {
             isValid &= validateAccountingLineTotal((CashReceiptFamilyBase) document);
             isValid &= !CreditCardReceiptDocumentRuleUtil.areCashTotalsInvalid((CreditCardReceiptDocument) document);
         }
-        
+
         if (isValid) {
             isValid &= validateCreditCardReceipts((CreditCardReceiptDocument) document);
         }
 
         return isValid;
     }
-    
+
     /**
      * This method is a helper that checks to make sure that at least one credit card receipt line exists for the document.
      * 
@@ -136,8 +137,9 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
             final BankAccount offsetBankAccount = getOffsetBankAccount();
             if (ObjectUtils.isNull(offsetBankAccount)) {
                 success = false;
-                GlobalVariables.getErrorMap().putError("newCreditCardReceipt.financialDocumentCreditCardTypeCode", KFSKeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_BANK_MUST_EXIST_WHEN_FLEXIBLE, new String[]{ KFSConstants.SystemGroupParameterNames.FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG, CreditCardReceiptDocumentRuleConstants.CASH_OFFSET_BANK_ACCOUNT});
-            } else {
+                GlobalVariables.getErrorMap().putError("newCreditCardReceipt.financialDocumentCreditCardTypeCode", KFSKeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_BANK_MUST_EXIST_WHEN_FLEXIBLE, new String[] { KFSConstants.SystemGroupParameterNames.FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG, CreditCardReceiptDocumentRuleConstants.CASH_OFFSET_BANK_ACCOUNT });
+            }
+            else {
                 success &= AccountingDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(offsetBankAccount, depositTotal, ccrDoc, ccrDoc.getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.CREDIT_CARD_RECEIPTS_LINE_ERRORS);
                 // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at all if not
                 // successful.
@@ -145,10 +147,11 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
                     bankOffsetEntry.setTransactionLedgerEntryDescription(AccountingDocumentRuleUtil.formatProperty(KFSKeyConstants.CreditCardReceipt.DESCRIPTION_GLPE_BANK_OFFSET));
                     ccrDoc.getGeneralLedgerPendingEntries().add(bankOffsetEntry);
                     sequenceHelper.increment();
-    
+
                     GeneralLedgerPendingEntry offsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(bankOffsetEntry);
                     success &= populateOffsetGeneralLedgerPendingEntry(ccrDoc.getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
-                    // unsuccessful offsets may be added, but that's consistent with the offsets for regular GLPEs (i.e., maybe neither
+                    // unsuccessful offsets may be added, but that's consistent with the offsets for regular GLPEs (i.e., maybe
+                    // neither
                     // should?)
                     ccrDoc.getGeneralLedgerPendingEntries().add(offsetEntry);
                     sequenceHelper.increment();
@@ -160,15 +163,12 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
 
     /**
      * @return the Credit Card Receipt's flexible offset bank account, as configured in the APC.
-     * 
      * @throws ApplicationParameterException if the CCR offset BankAccount is not defined in the APC.
      */
     private BankAccount getOffsetBankAccount() {
-        final String parameterNamespace = KFSConstants.FINANCIAL_NAMESPACE;
-        final String parameter = CreditCardReceiptDocumentRuleConstants.CASH_OFFSET_BANK_ACCOUNT;
-        final String[] parameterValues = getKualiConfigurationService().getParameterValues(parameterNamespace, KFSConstants.Components.CREDIT_CARD_RECEIPT_DOC, parameter);
+        final String[] parameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(CreditCardReceiptDocument.class, CreditCardReceiptDocumentRuleConstants.CASH_OFFSET_BANK_ACCOUNT).toArray(new String[] {});
         if (parameterValues.length != 2) {
-            throw new RuntimeException( parameterNamespace+"/"+parameter+": invalid parameter format: must be 'bankCode;bankAccountNumber'");
+            throw new RuntimeException(CreditCardReceiptDocument.class.getSimpleName() + "/" + CreditCardReceiptDocumentRuleConstants.CASH_OFFSET_BANK_ACCOUNT + ": invalid parameter format: must be 'bankCode;bankAccountNumber'");
         }
         final String bankCode = parameterValues[0];
         final String bankAccountNumber = parameterValues[1];

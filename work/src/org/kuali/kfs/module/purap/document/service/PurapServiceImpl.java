@@ -29,13 +29,12 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
@@ -70,38 +69,33 @@ public class PurapServiceImpl implements PurapService {
 
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
     private UniversityDateService universityDateService;
     private PurApWorkflowIntegrationService purApWorkflowIntegrationService;
-    
+
     public void setBusinessObjectService(BusinessObjectService boService) {
-        this.businessObjectService = boService;    
+        this.businessObjectService = boService;
     }
-    
+
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;    
-    }
-    
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
-    
+
     public void setPurApWorkflowIntegrationService(PurApWorkflowIntegrationService purApWorkflowIntegrationService) {
         this.purApWorkflowIntegrationService = purApWorkflowIntegrationService;
     }
     
     /**
-     * This method updates the status and status history for a purap document, passing in a note
-     * for the status history.
+     * This method updates the status and status history for a purap document, passing in a note for the status history.
      */
     public boolean updateStatusAndStatusHistory(PurchasingAccountsPayableDocument document,String statusToSet, String userId) {
         LOG.debug("updateStatusAndStatusHistory(): entered method.");
         boolean success = true;
-        if ( ObjectUtils.isNotNull(document) && ObjectUtils.isNotNull(statusToSet) ) {
+        if (ObjectUtils.isNotNull(document) && ObjectUtils.isNotNull(statusToSet)) {
             success &= this.updateStatusHistory(document, statusToSet, userId);
             success &= this.updateStatus(document, statusToSet);
             return success;
@@ -110,7 +104,7 @@ public class PurapServiceImpl implements PurapService {
             return false;
         }
     }
-    
+
     public boolean updateStatusAndStatusHistory(PurchasingAccountsPayableDocument document, String statusToSet) {
         return updateStatusAndStatusHistory(document, statusToSet, null);
     }
@@ -118,31 +112,30 @@ public class PurapServiceImpl implements PurapService {
     /**
      * This method updates the status for a purap document.
      */
-    public boolean updateStatus(PurchasingAccountsPayableDocument document,String newStatus) {
-        LOG.debug("updateStatus(): entered method.");       
-        if ( ObjectUtils.isNotNull(document) || ObjectUtils.isNotNull(newStatus) ) {
+    public boolean updateStatus(PurchasingAccountsPayableDocument document, String newStatus) {
+        LOG.debug("updateStatus(): entered method.");
+        if (ObjectUtils.isNotNull(document) || ObjectUtils.isNotNull(newStatus)) {
             String oldStatus = document.getStatusCode();
             document.setStatusCode(newStatus);
-            LOG.debug("Status of document #"+document.getDocumentNumber()+" has been changed from "+
-                        oldStatus+" to "+newStatus);
+            LOG.debug("Status of document #" + document.getDocumentNumber() + " has been changed from " + oldStatus + " to " + newStatus);
             return true;
         }
         else {
             return false;
         }
     }
-    
+
     /**
      * This method updates the status history for a purap document.
      * 
-     * @param document              The document whose status history needs to be updated.
-     * @param newStatus             The new status code in String form
-     * @return                      True on success.
+     * @param document The document whose status history needs to be updated.
+     * @param newStatus The new status code in String form
+     * @return True on success.
      */
     public boolean updateStatusHistory( PurchasingAccountsPayableDocument document, String newStatus, String userId) {
-        LOG.debug("updateStatusHistory(): entered method.");       
-        if ( ObjectUtils.isNotNull(document) || ObjectUtils.isNotNull(newStatus) ) {
-            String oldStatus = document.getStatusCode();       
+        LOG.debug("updateStatusHistory(): entered method.");
+        if (ObjectUtils.isNotNull(document) || ObjectUtils.isNotNull(newStatus)) {
+            String oldStatus = document.getStatusCode();
             try {
                 RouteHeaderService routeHeaderService = (RouteHeaderService) KEWServiceLocator.getService(KEWServiceLocator.DOC_ROUTE_HEADER_SRV);
                 DocumentRouteHeaderValue drhv = routeHeaderService.getRouteHeader(document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
@@ -162,7 +155,7 @@ public class PurapServiceImpl implements PurapService {
             return false;
         }
     }
-    
+
     public List getRelatedViews(Class clazz, Integer accountsPayablePurchasingDocumentLinkIdentifier) {
         Map criteria = new HashMap();
         criteria.put("accountsPayablePurchasingDocumentLinkIdentifier", accountsPayablePurchasingDocumentLinkIdentifier);
@@ -174,123 +167,125 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * 
-     * This method will add the below line items to the corresponding document based on
-     * the item types specified in the "BELOW_THE_LINE_ITEMS" system parameter of the 
-     * document.
+     * This method will add the below line items to the corresponding document based on the item types specified in the
+     * "BELOW_THE_LINE_ITEMS" system parameter of the document.
      * 
      * @param document
      */
     public void addBelowLineItems(PurchasingAccountsPayableDocument document) {
         String[] itemTypes = getBelowTheLineForDocument(document);
-        
+
         List<PurApItem> existingItems = document.getItems();
 
         List<PurApItem> belowTheLine = new ArrayList<PurApItem>();
-        //needed in case they get out  of sync below won't work
-        sortBelowTheLine(itemTypes, existingItems, belowTheLine);        
+        // needed in case they get out of sync below won't work
+        sortBelowTheLine(itemTypes, existingItems, belowTheLine);
 
         List<String> existingItemTypes = new ArrayList();
         for (PurApItem existingItem : existingItems) {
             existingItemTypes.add(existingItem.getItemTypeCode());
         }
-        
+
         Class itemClass = document.getItemClass();
-        
-        for (int i=0; i < itemTypes.length; i++) {
+
+        for (int i = 0; i < itemTypes.length; i++) {
             int lastFound;
             if (!existingItemTypes.contains(itemTypes[i])) {
                 try {
                     if (i > 0) {
-                        lastFound = existingItemTypes.lastIndexOf(itemTypes[i-1]) + 1;
+                        lastFound = existingItemTypes.lastIndexOf(itemTypes[i - 1]) + 1;
                     }
                     else {
                         lastFound = existingItemTypes.size();
                     }
-                    PurApItem newItem = (PurApItem)itemClass.newInstance();                    
+                    PurApItem newItem = (PurApItem) itemClass.newInstance();
                     newItem.setItemTypeCode(itemTypes[i]);
                     existingItems.add(lastFound, newItem);
                     existingItemTypes.add(itemTypes[i]);
                 }
                 catch (Exception e) {
-                    //do something
+                    // do something
                 }
             }
         }
     }
 
     /**
-     *
-     * This method sorts the below the line elements 
+     * This method sorts the below the line elements
+     * 
      * @param itemTypes
      * @param existingItems
      * @param belowTheLine
      */
     private void sortBelowTheLine(String[] itemTypes, List<PurApItem> existingItems, List<PurApItem> belowTheLine) {
-        //sort existing below the line if any
+        // sort existing below the line if any
         for (int i = 0; i < existingItems.size(); i++) {
             PurApItem purApItem = existingItems.get(i);
-            if(!purApItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (!purApItem.getItemType().isItemTypeAboveTheLineIndicator()) {
                 belowTheLine.add(existingItems.get(i));
             }
         }
         existingItems.removeAll(belowTheLine);
         for (int i = 0; i < itemTypes.length; i++) {
             for (PurApItem purApItem : belowTheLine) {
-                if(StringUtils.equalsIgnoreCase(purApItem.getItemTypeCode(),itemTypes[i])) {
+                if (StringUtils.equalsIgnoreCase(purApItem.getItemTypeCode(), itemTypes[i])) {
                     existingItems.add(purApItem);
                     break;
                 }
             }
         }
         belowTheLine.removeAll(existingItems);
-        if(belowTheLine.size()!=0) {
+        if (belowTheLine.size() != 0) {
             throw new RuntimeException("below the line item sort didn't work: trying to remove an item without adding it back");
         }
     }
 
     /**
-     * 
      * @see org.kuali.module.purap.service.PurapService#sortBelowTheLine(java.lang.String[], java.util.List, java.util.List)
      */
     public void sortBelowTheLine(PurchasingAccountsPayableDocument document) {
         String[] itemTypes = getBelowTheLineForDocument(document);
-        
+
         List<PurApItem> existingItems = document.getItems();
 
         List<PurApItem> belowTheLine = new ArrayList<PurApItem>();
-        //needed in case they get out  of sync below won't work
-        sortBelowTheLine(itemTypes, existingItems, belowTheLine);  
+        // needed in case they get out of sync below won't work
+        sortBelowTheLine(itemTypes, existingItems, belowTheLine);
     }
+
     /**
      * This method get the Below the line item type codes from the parameters table
+     * 
      * @param document
      * @return
      */
     public String[] getBelowTheLineForDocument(PurchasingAccountsPayableDocument document) {
-        //Obtain a list of below the line items from system parameter
+        // Obtain a list of below the line items from system parameter
         String documentTypeClassName = document.getClass().getName();
         String[] documentTypeArray = StringUtils.split(documentTypeClassName, ".");
         String documentType = documentTypeArray[documentTypeArray.length - 1];
-        //If it's a credit memo, we'll have to append the source of the credit memo
-        //whether it's created from a Vendor, a PO or a PREQ.
+        // If it's a credit memo, we'll have to append the source of the credit memo
+        // whether it's created from a Vendor, a PO or a PREQ.
         if (documentType.equals("CreditMemoDocument")) {
-           
+
         }
-        String parameterDetailTypeCode = (String)PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType);
-        String[] itemTypes = kualiConfigurationService.getParameterValues( KFSConstants.PURAP_NAMESPACE, parameterDetailTypeCode, PurapConstants.BELOW_THE_LINES_PARAMETER);
-        return itemTypes;
+        try {
+            return parameterService.getParameterValues(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.BELOW_THE_LINES_PARAMETER).toArray(new String[] {});
+        }
+        catch (ClassNotFoundException e) {
+            throw new RuntimeException("The getBelowTheLineForDocument method of PurapServiceImpl was unable to resolve the document class for type: " + PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType), e);
+        }
     }
-    
+
     /**
-     * 
-     * @see org.kuali.module.purap.service.PurapService#getBelowTheLineByType(org.kuali.module.purap.document.PurchasingAccountsPayableDocument, org.kuali.module.purap.bo.ItemType)
+     * @see org.kuali.module.purap.service.PurapService#getBelowTheLineByType(org.kuali.module.purap.document.PurchasingAccountsPayableDocument,
+     *      org.kuali.module.purap.bo.ItemType)
      */
     public PurApItem getBelowTheLineByType(PurchasingAccountsPayableDocument document, ItemType iT) {
         PurApItem belowTheLineItem = null;
-        for (PurApItem item : (List<PurApItem>)document.getItems()) {
-            if(!item.getItemType().isItemTypeAboveTheLineIndicator()) {
-                if(StringUtils.equals(iT.getItemTypeCode(), item.getItemType().getItemTypeCode())) {
+        for (PurApItem item : (List<PurApItem>) document.getItems()) {
+            if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                if (StringUtils.equals(iT.getItemTypeCode(), item.getItemType().getItemTypeCode())) {
                     belowTheLineItem = item;
                     break;
                 }
@@ -307,7 +302,7 @@ public class PurapServiceImpl implements PurapService {
         int diffFromToday = dateTimeService.dateDiff(today, compareDate, false);
         return (diffFromToday < 0);
     }
-    
+
     /**
      * @see org.kuali.module.purap.service.PurapService#isDateMoreThanANumberOfDaysAway(java.sql.Date, int)
      */
@@ -321,32 +316,30 @@ public class PurapServiceImpl implements PurapService {
         compareCalendar.set(Calendar.MINUTE, 0);
         compareCalendar.set(Calendar.SECOND, 0);
         compareCalendar.set(Calendar.MILLISECOND, 0);
-        compareCalendar.set(Calendar.AM_PM, Calendar.AM);        
+        compareCalendar.set(Calendar.AM_PM, Calendar.AM);
         Timestamp compareTime = new Timestamp(compareCalendar.getTime().getTime());
-        return (compareTime.compareTo(daysAwayTime) > 0 );
+        return (compareTime.compareTo(daysAwayTime) > 0);
     }
-    
+
     /**
      * @see org.kuali.module.purap.service.PurapService#isDateAYearAfterToday(java.sql.Date)
      */
     public boolean isDateAYearBeforeToday(Date compareDate) {
         Calendar calendar = dateTimeService.getCurrentCalendar();
-        calendar.add(Calendar.YEAR,-1);
-        Date yearAgo = new Date(calendar.getTimeInMillis());        
+        calendar.add(Calendar.YEAR, -1);
+        Date yearAgo = new Date(calendar.getTimeInMillis());
         int diffFromYearAgo = dateTimeService.dateDiff(compareDate, yearAgo, false);
         return (diffFromYearAgo > 0);
-    }    
-    
+    }
+
     /*
-     *    PURCHASING DOCUMENT METHODS
-     * 
+     * PURCHASING DOCUMENT METHODS
      */
     public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org) {
-        KualiDecimal purchaseOrderTotalLimit = SpringContext.getBean(VendorService.class).getApoLimitFromContract(
-                vendorContractGeneratedIdentifier, chart, org);
+        KualiDecimal purchaseOrderTotalLimit = SpringContext.getBean(VendorService.class).getApoLimitFromContract(vendorContractGeneratedIdentifier, chart, org);
         if (ObjectUtils.isNull(purchaseOrderTotalLimit)) {
             // We didn't find the limit on the vendor contract, get it from the org parameter table.
-            if ( ObjectUtils.isNull(chart) || ObjectUtils.isNull(org) ) {
+            if (ObjectUtils.isNull(chart) || ObjectUtils.isNull(org)) {
                 return null;
             }
             OrganizationParameter organizationParameter = new OrganizationParameter();
@@ -360,56 +353,57 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * 
      * This method returns true if full entry mode has ended for this document
+     * 
      * @param preqDocument
      * @return a boolean
      */
     public boolean isFullDocumentEntryCompleted(PurchasingAccountsPayableDocument purapDocument) {
-        //for now just return true if not in one of the first few states
+        // for now just return true if not in one of the first few states
         boolean value = false;
-        if(purapDocument instanceof PaymentRequestDocument) {
+        if (purapDocument instanceof PaymentRequestDocument) {
             value = PurapConstants.PaymentRequestStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(purapDocument.getStatusCode());
-        } else if(purapDocument instanceof CreditMemoDocument) {
+        }
+        else if (purapDocument instanceof CreditMemoDocument) {
             value = PurapConstants.CreditMemoStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(purapDocument.getStatusCode());
         }
         return value;
     }
-        
+
     public void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument) {
         if (purapDocument instanceof RequisitionDocument) {
-            /* not sure if this can be used or not?  The fact that the REQ is editable by anyone while it's In Process
-             * but only Content Approvers can edit the doc in Content Level does that leave this method as holding too many
-             * if-else cases?
+            /*
+             * not sure if this can be used or not? The fact that the REQ is editable by anyone while it's In Process but only
+             * Content Approvers can edit the doc in Content Level does that leave this method as holding too many if-else cases?
              */
         }
         // below code preferable to run in post processing
         else if (purapDocument instanceof PaymentRequestDocument) {
-            PaymentRequestDocument paymentRequest = (PaymentRequestDocument)purapDocument;
-            //eliminate unentered items
+            PaymentRequestDocument paymentRequest = (PaymentRequestDocument) purapDocument;
+            // eliminate unentered items
             deleteUnenteredItems(paymentRequest);
             // change PREQ accounts from percents to dollars
             SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequest);
             // do GL entries for PREQ creation
-            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePaymentRequest( paymentRequest );
-            
-            //TODO ctk - David is this save ok here?!?! It seems like my updates don't happen without it
+            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePaymentRequest(paymentRequest);
+
+            // TODO ctk - David is this save ok here?!?! It seems like my updates don't happen without it
             SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(paymentRequest);
         }
         // below code preferable to run in post processing
         else if (purapDocument instanceof CreditMemoDocument) {
-            CreditMemoDocument creditMemo = (CreditMemoDocument)purapDocument;
+            CreditMemoDocument creditMemo = (CreditMemoDocument) purapDocument;
             //eliminate unentered items
             deleteUnenteredItems(creditMemo);
             //update amounts
             SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(creditMemo);
             // do GL entries for CM creation
-            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateCreditMemo( creditMemo );           
-            
-            //if reopen po indicator set then reopen po
-            if( creditMemo.isReopenPurchaseOrderIndicator() ){
+            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateCreditMemo(creditMemo);
+
+            // if reopen po indicator set then reopen po
+            if (creditMemo.isReopenPurchaseOrderIndicator()) {
                 performLogicForCloseReopenPO(creditMemo);
-        }
+            }
         }
         else {
             throw new RuntimeException("Attempted to perform full entry logic for unhandled document type '" + purapDocument.getClass().getName() + "'");
@@ -421,34 +415,33 @@ public class PurapServiceImpl implements PurapService {
      * 
      * @see org.kuali.module.purap.service.PurapService#performLogicForCloseReopenPO(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
      */
-    public void performLogicForCloseReopenPO(PurchasingAccountsPayableDocument purapDocument){
-        
+    public void performLogicForCloseReopenPO(PurchasingAccountsPayableDocument purapDocument) {
+
         if (purapDocument instanceof PaymentRequestDocument) {
-            PaymentRequestDocument paymentRequest = (PaymentRequestDocument)purapDocument;
-            
+            PaymentRequestDocument paymentRequest = (PaymentRequestDocument) purapDocument;
+
             if (paymentRequest.isClosePurchaseOrderIndicator() && 
                 PurapConstants.PurchaseOrderStatuses.OPEN.equals(paymentRequest.getPurchaseOrderDocument().getStatusCode())) {
                 // get the po id and get the current po
                 // check the current po: if status is not closed and there is no pending action... route close po as system user
-                processCloseReopenPo( (AccountsPayableDocumentBase)purapDocument, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT );                
+                processCloseReopenPo((AccountsPayableDocumentBase) purapDocument, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT);
             }
 
         }
         else if (purapDocument instanceof CreditMemoDocument) {
-            CreditMemoDocument creditMemo = (CreditMemoDocument)purapDocument;
-            
-            if (creditMemo.isReopenPurchaseOrderIndicator() &&
-                PurapConstants.PurchaseOrderStatuses.CLOSED.equals(creditMemo.getPurchaseOrderDocument().getStatusCode())) {                
+            CreditMemoDocument creditMemo = (CreditMemoDocument) purapDocument;
+
+            if (creditMemo.isReopenPurchaseOrderIndicator() && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(creditMemo.getPurchaseOrderDocument().getStatusCode())) {
                 // get the po id and get the current PO
                 // route 'Re-Open PO Document' if PO criteria meets requirements from EPIC business rules
-                processCloseReopenPo( (AccountsPayableDocumentBase)purapDocument, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT );
+                processCloseReopenPo((AccountsPayableDocumentBase) purapDocument, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT);
             }
-            
+
         }
         else {
             throw new RuntimeException("Attempted to perform full entry logic for unhandled document type '" + purapDocument.getClass().getName() + "'");
         }
-        
+
     }
 
     /**
@@ -473,7 +466,7 @@ public class PurapServiceImpl implements PurapService {
      */
     public void processCloseReopenPo(AccountsPayableDocumentBase apDocument, String docType) {
         String action = null;
-        //setup text for note that will be created, will either be closed or reopened
+        // setup text for note that will be created, will either be closed or reopened
         if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT.equals(docType)) {
             action = "closed";
         }
@@ -481,26 +474,24 @@ public class PurapServiceImpl implements PurapService {
             action = "reopened";
         }
         else {
-            String errorMessage = "Method processCloseReopenPo called using ID + '" + apDocument.getPurapDocumentIdentifier() + "' and invalid doc type '" + docType + "'"; 
+            String errorMessage = "Method processCloseReopenPo called using ID + '" + apDocument.getPurapDocumentIdentifier() + "' and invalid doc type '" + docType + "'";
             LOG.error(errorMessage);
-            throw new RuntimeException(errorMessage);            
+            throw new RuntimeException(errorMessage);
         }
-        
-        SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(
-                apDocument.getPurchaseOrderDocument().getDocumentNumber(), 
-                docType, 
-                assemblePurchaseOrderNote(apDocument, docType, action), 
-                new ArrayList());
-        
-        /* if we made it here, route document has not errored out, so set appropriate indicator
-         * depending on what is being requested.
+
+        SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(apDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, assemblePurchaseOrderNote(apDocument, docType, action), new ArrayList());
+
+        /*
+         * if we made it here, route document has not errored out, so set appropriate indicator depending on what is being
+         * requested.
          */
         if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT.equals(docType)) {
             apDocument.setClosePurchaseOrderIndicator(false);
-        }else if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT.equals(docType)) {
+        }
+        else if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT.equals(docType)) {
             apDocument.setReopenPurchaseOrderIndicator(false);
         }
-        
+
     }
 
     /**
@@ -528,7 +519,7 @@ public class PurapServiceImpl implements PurapService {
 
         return closeReopenNote.toString();
     }
-    
+
     public Object performLogicWithFakedUserSession(String requiredUniversalUserPersonUserId, LogicContainer logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception {
         if (StringUtils.isBlank(requiredUniversalUserPersonUserId)) {
             throw new RuntimeException("Attempted to perform logic with a fake user session with a blank user person id: '" + requiredUniversalUserPersonUserId + "'");
@@ -544,5 +535,9 @@ public class PurapServiceImpl implements PurapService {
         finally {
             GlobalVariables.setUserSession(actualUserSession);
         }
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

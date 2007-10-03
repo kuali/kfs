@@ -32,6 +32,7 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -148,7 +149,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
      */
     public boolean processPreCalculateAccountsPayableBusinessRules(AccountsPayableDocument document) {
         boolean valid = true;
-        CreditMemoDocument cmDocument = (CreditMemoDocument) document;        
+        CreditMemoDocument cmDocument = (CreditMemoDocument) document;
 
         return valid;
     }
@@ -187,8 +188,8 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
      */
     protected boolean validateInitTabReferenceNumbers(CreditMemoDocument cmDocument) {
         boolean valid = true;
-//        GlobalVariables.getErrorMap().clearErrorPath();
-//        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
+        // GlobalVariables.getErrorMap().clearErrorPath();
+        // GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
 
         if (!(ObjectUtils.isNotNull(cmDocument.getPaymentRequestIdentifier()) ^ StringUtils.isNotEmpty(cmDocument.getVendorNumber()) ^ ObjectUtils.isNotNull(cmDocument.getPurchaseOrderIdentifier())) || (ObjectUtils.isNotNull(cmDocument.getPaymentRequestIdentifier()) && StringUtils.isNotEmpty(cmDocument.getVendorNumber()) && ObjectUtils.isNotNull(cmDocument.getPurchaseOrderIdentifier()))) {
             GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_CREDIT_MEMO_REQUIRED_FIELDS);
@@ -208,7 +209,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
                     valid = false;
                 }
             }
-    
+
             // Make sure PO # is valid if entered
             Integer purchaseOrderID = cmDocument.getPurchaseOrderIdentifier();
             if (ObjectUtils.isNotNull(purchaseOrderID)) {
@@ -226,7 +227,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
                     valid = false;
                 }
             }
-    
+
             // Make sure vendorNumber is valid if entered
             String vendorNumber = cmDocument.getVendorNumber();
             if (StringUtils.isNotEmpty(vendorNumber)) {
@@ -237,7 +238,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
                 }
             }
         }
-//        GlobalVariables.getErrorMap().clearErrorPath();
+        // GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
     }
 
@@ -259,13 +260,13 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
         for (int i = 0; i < itemList.size(); i++) {
             CreditMemoItem item = (CreditMemoItem) itemList.get(i);
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
-            if(item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 String errorKeyPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(i) + "].";
-    
+
                 valid &= validateItemQuantity(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.QUANTITY);
                 valid &= validateItemUnitPrice(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.ITEM_UNIT_PRICE);
                 valid &= validateItemExtendedPrice(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.EXTENDED_PRICE);
-    
+
                 if (item.getExtendedPrice() != null && item.getExtendedPrice().isNonZero()) {
                     valid &= processAccountValidation(purapDocument, item.getSourceAccountingLines(), errorKeyPrefix);
                 }
@@ -366,7 +367,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
                 GlobalVariables.getErrorMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_AMOUNT_NONPOSITIVE, label);
                 valid = false;
             }
-            if(!cmDocument.isSourceVendor()) {
+            if (!cmDocument.isSourceVendor()) {
                 // check cm extended price is not greater than total invoiced amount
                 KualiDecimal invoicedAmount = null;
                 if (cmDocument.isSourceDocumentPurchaseOrder()) {
@@ -468,7 +469,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
         boolean valid = true;
 
         if (cmDocument.getGrandTotal().compareTo(cmDocument.getCreditMemoAmount()) != 0 && !cmDocument.isUnmatchedOverride()) {
-            GlobalVariables.getMessageList().add(PurapKeyConstants.ERROR_CREDIT_MEMO_INVOICE_AMOUNT_NONMATCH);            
+            GlobalVariables.getMessageList().add(PurapKeyConstants.ERROR_CREDIT_MEMO_INVOICE_AMOUNT_NONMATCH);
             valid = false;
         }
 
@@ -523,20 +524,20 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
         String objectCodeLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(account.getClass(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
 
         // check object type restrictions
-        valid = executeParameterRestriction(PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.CREDIT_MEMO_DOC, PurapRuleConstants.RESTRICTED_OBJECT_TYPE_PARM_NM, objectCode.getFinancialObjectTypeCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
+        valid = executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(CreditMemoDocument.class, PurapRuleConstants.RESTRICTED_OBJECT_TYPE_PARM_NM), objectCode.getFinancialObjectTypeCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
 
         // check object consolidation restrictions
-        valid &= executeParameterRestriction(PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.CREDIT_MEMO_DOC, PurapRuleConstants.RESTRICTED_OBJECT_CONSOLIDATION_PARM_NM, objectCode.getFinancialObjectLevel().getConsolidatedObjectCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
+        valid &= executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(CreditMemoDocument.class, PurapRuleConstants.RESTRICTED_OBJECT_CONSOLIDATION_PARM_NM), objectCode.getFinancialObjectLevel().getConsolidatedObjectCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
 
         // check object level restrictions
-        valid &= executeParameterRestriction(PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.CREDIT_MEMO_DOC, PurapRuleConstants.RESTRICTED_OBJECT_LEVEL_PARM_NM, objectCode.getFinancialObjectLevelCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
+        valid &= executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(CreditMemoDocument.class, PurapRuleConstants.RESTRICTED_OBJECT_LEVEL_PARM_NM), objectCode.getFinancialObjectLevelCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
 
         // check object level by object type restrictions
-        valid &= executeConstrainedParameterRestriction(PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.CREDIT_MEMO_DOC, PurapRuleConstants.VALID_OBJECT_LEVELS_BY_OBJECT_TYPE_PARM_NM, PurapRuleConstants.INVALID_OBJECT_LEVELS_BY_OBJECT_TYPE_PARM_NM, objectCode.getFinancialObjectTypeCode(), objectCode.getFinancialObjectLevelCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
+        valid &= executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(CreditMemoDocument.class, PurapRuleConstants.VALID_OBJECT_LEVELS_BY_OBJECT_TYPE_PARM_NM), SpringContext.getBean(ParameterService.class).getParameter(CreditMemoDocument.class, PurapRuleConstants.INVALID_OBJECT_LEVELS_BY_OBJECT_TYPE_PARM_NM), objectCode.getFinancialObjectTypeCode(), objectCode.getFinancialObjectLevelCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
 
         // check object sub type restrictions
-        valid &= executeParameterRestriction(PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.CREDIT_MEMO_DOC, PurapRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_PARM_NM, objectCode.getFinancialObjectSubTypeCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
-        
+        valid &= executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(CreditMemoDocument.class, PurapRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_PARM_NM), objectCode.getFinancialObjectSubTypeCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
+
         return valid;
     }
 
@@ -629,19 +630,18 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
     protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
 
-        CreditMemoDocument cm = (CreditMemoDocument)accountingDocument;
-        
-        SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(cm, 
-                accountingLine, explicitEntry, cm.getPurchaseOrderIdentifier(), cm.getDebitCreditCodeForGLEntries(), 
-                PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT, cm.isGenerateEncumbranceEntries());
+        CreditMemoDocument cm = (CreditMemoDocument) accountingDocument;
 
-        //CMs do not wait for document final approval to post GL entries to the real table; here we are forcing them to be APPROVED
+        SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(cm, accountingLine, explicitEntry, cm.getPurchaseOrderIdentifier(), cm.getDebitCreditCodeForGLEntries(), PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT, cm.isGenerateEncumbranceEntries());
+
+        // CMs do not wait for document final approval to post GL entries to the real table; here we are forcing them to be APPROVED
         explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
 
     }
 
     /**
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.rules.AccountingDocumentRuleBase.AccountingLineAction)
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.rules.AccountingDocumentRuleBase.AccountingLineAction)
      */
     @Override
     protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLineAction action) {
@@ -650,10 +650,10 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
     }
 
     public boolean processCancelAccountsPayableBusinessRules(AccountsPayableDocument document) {
-        CreditMemoDocument creditMemoDocument = (CreditMemoDocument)document;
-        //TODO: ckirschenman - we are doing this differently than PREQ but it does basically the same thing - merge
+        CreditMemoDocument creditMemoDocument = (CreditMemoDocument) document;
+        // TODO: ckirschenman - we are doing this differently than PREQ but it does basically the same thing - merge
         return SpringContext.getBean(CreditMemoService.class).canCancelCreditMemo(creditMemoDocument, GlobalVariables.getUserSession().getUniversalUser());
     }
 
-    
+
 }

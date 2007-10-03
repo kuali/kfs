@@ -15,28 +15,22 @@
  */
 package org.kuali.module.vendor;
 
-import org.kuali.module.vendor.bo.PaymentTermType;
 
 
 /**
  * Holds constants for Vendor.
- * 
  */
 public class VendorConstants {
 
-    public static class Components {
-        public static final String VENDOR = "Vendor";
-        public static final String PAYMENT_TERM_TYPE = PaymentTermType.class.getSimpleName();
-    }
     public static class Workgroups {
-        public static final String WORKGROUP_PURCHASING = "PURCHASING_GROUP"; 
-        public static final String WORKGROUP_TAXNBR_ACCESSIBLE = "TAXNBR_ACCESSIBLE_GROUP"; 
+        public static final String WORKGROUP_PURCHASING = "PURCHASING_GROUP";
+        public static final String WORKGROUP_TAXNBR_ACCESSIBLE = "TAXNBR_ACCESSIBLE_GROUP";
     }
 
     public static final String ACKNOWLEDGE_NEW_VENDOR_INFO_TEXT = "document.vendor.question.acknolwege.text";
     public static final String ACKNOWLEDGE_NEW_VENDOR_INFO = "NewVendorAcknowledgeQuestion";
 
-    //Miscellaneous generic constants
+    // Miscellaneous generic constants
     public static final String NONE = "NONE";
     public static final String CREATE_NEW_DIVISION = "create division";
     public static final String NAME_DELIM = ", ";
@@ -45,12 +39,12 @@ public class VendorConstants {
     public static final String VENDOR_LOOKUPABLE_IMPL = "vendorLookupable";
     public static final String VENDOR_ADDRESS_LOOKUPABLE_IMPL = "vendorAddressLookupable";
     public static final String VENDOR_CONTRACT_LOOKUPABLE_IMPL = "vendorContractLookupable";
-    
-    //Vendor Tax Types
+
+    // Vendor Tax Types
     public static final String TAX_TYPE_FEIN = "FEIN";
     public static final String TAX_TYPE_SSN = "SSN";
 
-    //VENDOR PHONE TYPES
+    // VENDOR PHONE TYPES
     public static class PhoneTypes {
         public static final String TOLL_FREE = "TF";
         public static final String PHONE = "PH";
@@ -62,7 +56,7 @@ public class VendorConstants {
         public static final String PURCHASE_ORDER = "PO";
         public static final String REMIT = "RM";
     }
- 
+
     // Vendor Owner Types
     public static class OwnerTypes {
         public static final String NR = "NR";

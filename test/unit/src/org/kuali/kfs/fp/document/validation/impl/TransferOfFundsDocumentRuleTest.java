@@ -60,6 +60,7 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.context.TestUtils;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
@@ -76,14 +77,15 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
 
     @AnnotationTestSuite(CrossSectionSuite.class)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseFlexibleOffset() throws Exception {
-        TestUtils.setSystemParameter(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.OFFSET_DEFINITION, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG, "Y", true, false);
+        TestUtils.setSystemParameter(OffsetDefinition.class, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG, "Y", true, false);
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), FLEXIBLE_EXPENSE_LINE.createTargetAccountingLine(), EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE2, EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY);
     }
 
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseMissingOffsetDefinition() throws Exception {
-        TestUtils.setSystemParameter(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.OFFSET_DEFINITION, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG, "Y", true, false);
+        TestUtils.setSystemParameter(OffsetDefinition.class, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG, "Y", true, false);
         TransferOfFundsDocument document = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), TransferOfFundsDocument.class);
-        document.setPostingYear(2000); // because our test database has no offset definitions (GL_OFFSET_DEFN_T) for UNIV_FISCAL_YR=2000.
+        document.setPostingYear(2000); // because our test database has no offset definitions (GL_OFFSET_DEFN_T) for
+                                        // UNIV_FISCAL_YR=2000.
         document.setPostingPeriodCode("06"); // because this BO reveals no change when the year is set by itself.
         AccountingLine accountingLine = FLEXIBLE_EXPENSE_LINE.createSourceAccountingLine();
         GeneralLedgerPendingEntryFixture expectedExplicit = EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE;
@@ -458,7 +460,7 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
     public void testProcessGenerateGeneralLedgerPendingEntries_validTargetExpense() throws Exception {
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), EXPENSE_LINE.createTargetAccountingLine(), EXPECTED_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE, EXPECTED_OFFSET_TARGET_PENDING_ENTRY);
     }
-    
+
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() throws Exception {
 
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), EXPENSE_LINE.createSourceAccountingLine(), EXPECTED_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE, EXPECTED_OFFSET_SOURCE_PENDING_ENTRY);
@@ -485,7 +487,7 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
         targetLine.setAmount(balance);
         targetLine.refresh();
         List<TargetAccountingLine> targetLines = new ArrayList<TargetAccountingLine>();
-        targetLines.add(targetLine); 
+        targetLines.add(targetLine);
 
         doc.setSourceAccountingLines(sourceLines);
         doc.setTargetAccountingLines(targetLines);
@@ -572,10 +574,10 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
     }
 
     private SourceAccountingLine getValidObjectCodeSourceLine() throws Exception {
-        
+
         SourceAccountingLine line = LINE11.createSourceAccountingLine();
-        
-        //make sure that financial object type code is IN
+
+        // make sure that financial object type code is IN
         line.getObjectCode().setFinancialObjectTypeCode("IN");
         line.setObjectTypeCode("IN");
         return line;

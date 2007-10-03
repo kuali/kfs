@@ -50,11 +50,9 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorKeyConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
@@ -567,12 +565,12 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         String taxTypeCode = vendorDetail.getVendorHeader().getVendorTaxTypeCode();
         if (StringUtils.isNotEmpty(ownershipTypeCode) && StringUtils.isNotEmpty(taxTypeCode)) {
             if (VendorConstants.TAX_TYPE_FEIN.equals(taxTypeCode)) {
-                if ( getKualiConfigurationService().failsRule( KFSConstants.VENDOR_NAMESPACE, VendorConstants.Components.VENDOR, PURAP_FEIN_ALLOWED_OWNERSHIP_TYPES, ownershipTypeCode ) ) {
+                if (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(VendorDetail.class, PURAP_FEIN_ALLOWED_OWNERSHIP_TYPES, ownershipTypeCode ) ) {
                     valid &= false;
                 }
             }
             else if (VendorConstants.TAX_TYPE_SSN.equals(taxTypeCode)) {
-                if ( getKualiConfigurationService().failsRule( KFSConstants.VENDOR_NAMESPACE, VendorConstants.Components.VENDOR, PURAP_SSN_ALLOWED_OWNERSHIP_TYPES, ownershipTypeCode ) ) {
+                if (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(VendorDetail.class, PURAP_SSN_ALLOWED_OWNERSHIP_TYPES, ownershipTypeCode ) ) {
                     valid &= false;
                 }
             }
@@ -601,7 +599,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         KualiDecimal minimumOrderAmount = vendorDetail.getVendorMinimumOrderAmount();
         if (minimumOrderAmount != null) {
             if (ObjectUtils.isNull(VENDOR_MIN_ORDER_AMOUNT)) {
-                VENDOR_MIN_ORDER_AMOUNT = new KualiDecimal(getKualiConfigurationService().getParameterValue(KFSConstants.VENDOR_NAMESPACE, VendorConstants.Components.VENDOR, PURAP_VENDOR_MIN_ORDER_AMOUNT));
+                VENDOR_MIN_ORDER_AMOUNT = new KualiDecimal(SpringContext.getBean(ParameterService.class).getParameterValue(VendorDetail.class, PURAP_VENDOR_MIN_ORDER_AMOUNT));
             }
             if ((VENDOR_MIN_ORDER_AMOUNT.compareTo(minimumOrderAmount) < 1) || (minimumOrderAmount.isNegative())) {
                 putFieldError(VendorPropertyConstants.VENDOR_MIN_ORDER_AMOUNT, VendorKeyConstants.ERROR_VENDOR_MAX_MIN_ORDER_AMOUNT, VENDOR_MIN_ORDER_AMOUNT.toString());

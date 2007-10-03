@@ -21,20 +21,10 @@ package org.kuali.module.purap;
  */
 public class PurapParameterConstants {
 
-    // NAMESPACE NAME
-    public static final String PURAP_NAMESPACE = "KFS-PA";
-    public static final String VENDOR_NAMESPACE = "KFS-VN";
-    
-    // COMPONENTS
-    public static class Components {
-        public static final String VENDOR = "Vendor";
-        public static final String ASSIGN_CONTRACT_MANAGER = "AssignContractManager";
-    }
-    
     // PARAMETER NAMES
     public static final String PURAP_OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
     public static final String PURAP_OVERRIDE_PREQ_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
-    public static final String PURAP_OVERRIDE_REQ_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";    
+    public static final String PURAP_OVERRIDE_REQ_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
     public static final String PURAP_OVERRIDE_VENDOR_DOC_TITLE = "OVERRIDE_VENDOR_DOC_TITLE";
     public static final String PURAP_DEFAULT_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT = "DEFAULT_POS_APRVL_LMT";
     public static final String PURAP_PDP_EPIC_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
@@ -43,7 +33,7 @@ public class PurapParameterConstants {
     public static final String PURAP_DEFAULT_PO_TRANSMISSION_CODE = "DEFAULT_TRANSMISSION_CODE";
     public static final String PURAP_PREQ_REQUIRE_ATTACHMENT = "REQUIRE_ATTACHMENT";
     public static final String PURAP_CM_REQUIRE_ATTACHMENT = "REQUIRE_ATTACHMENT";
-    
+
     public static final String PURAP_PDP_PREQ_CANCEL_NOTE = "CANCEL_NOTE";
     public static final String PURAP_PDP_PREQ_RESET_NOTE = "RESET_NOTE";
     public static final String PURAP_PDP_CM_CANCEL_NOTE = "CANCEL_NOTE";
@@ -64,7 +54,7 @@ public class PurapParameterConstants {
         public static final String WORKGROUP_ACCOUNTS_PAYABLE = "ACCOUNTS_PAYABLE_GROUP";
         public static final String WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR = "ACCOUNTS_PAYABLE_SUPERVISOR_GROUP";
     }
-    
+
     public static class WorkflowParameters {
         public static class RequisitionDocument {
             // config parameters
@@ -72,6 +62,7 @@ public class PurapParameterConstants {
             // Workgroups
             public static final String SEPARATION_OF_DUTIES_WORKGROUP_NAME = "SEPARATION_OF_DUTIES_GROUP";
         }
+
         public static class PurchaseOrderDocument {
             // Config parameter group names
             public static final String CG_RESTRICTED_OBJECT_CODE_RULE_PARM_NM = "PurAp.CG_Restricted_Object_Codes";

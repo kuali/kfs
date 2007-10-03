@@ -22,8 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.bo.Bank;
 import org.kuali.module.pdp.bo.CustomerProfile;
@@ -40,7 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExtractPaymentServiceImpl.class);
 
-    public KualiConfigurationService kualiConfigurationService;
+    public ParameterService parameterService;
     public PaymentGroupService paymentGroupService;
     public String directoryName;
     public ProcessDao processDao;
@@ -54,7 +54,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         // Get the process ID
 
         // TODO This is broken
-        String pids = kualiConfigurationService.getParameterValue(KFSConstants.PDP_NAMESPACE, "",PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID);
+        String pids = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class,PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID);
         pids = pids.trim();
 
         Integer processId = null;
@@ -310,8 +310,8 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         writeCloseTag(os,indent,"payee");
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     public void setDirectoryName(String dn) {

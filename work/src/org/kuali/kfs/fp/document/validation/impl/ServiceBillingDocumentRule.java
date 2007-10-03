@@ -16,17 +16,18 @@
 package org.kuali.module.financial.rules;
 
 import static org.kuali.module.financial.rules.ServiceBillingDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
-import static org.kuali.module.financial.rules.ServiceBillingDocumentRuleConstants.SERVICE_BILLING_DOCUMENT_SECURITY_GROUPING;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.financial.document.ServiceBillingDocument;
 
 /**
  * Business rule(s) applicable to Service Billing documents. They differ from {@link InternalBillingDocumentRule} by not routing for
@@ -74,7 +75,7 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
      */
     @Override
     protected Parameter getObjectTypeRule() {
-        return getKualiConfigurationService().mergeParameters(super.getObjectTypeRule(), getParameterRule( KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.SERVICE_BILLING_DOC,RESTRICTED_OBJECT_TYPE_CODES));
+        return getKualiConfigurationService().mergeParameters(super.getObjectTypeRule(), SpringContext.getBean(ParameterService.class).getParameter(ServiceBillingDocument.class,RESTRICTED_OBJECT_TYPE_CODES));
     }
 
     /**

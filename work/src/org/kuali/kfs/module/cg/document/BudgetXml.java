@@ -63,7 +63,7 @@ public class BudgetXml {
 
     // The following field is hard coded as checks in nih-2590, nih-398, nih-modular, and NSFSummaryProposalBudget. Hence if
     // this field name is changed, the XLTs have to be updated. This also prevents us from using the more elegant:
-    // SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, KraConstants.TO_BE_NAMED_LABEL)
+    // SpringContext.getBean(KualiConfigurationService.class).getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.TO_BE_NAMED_LABEL)
     private static final String TO_BE_NAMED = "To Be Named";
     
     private static final String OUTPUT_PERCENT_SYMBOL = "%";

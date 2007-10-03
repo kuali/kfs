@@ -44,7 +44,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.WebUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.kra.KraConstants;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.kra.budget.web.struts.action.BudgetOutputAction;
 import org.kuali.module.kra.document.ResearchDocument;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
@@ -53,13 +53,13 @@ import org.kuali.module.kra.web.struts.form.ResearchDocumentFormBase;
 import org.w3c.dom.Document;
 
 public class RoutingFormOutputAction extends RoutingFormAction {
-    
+
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetOutputAction.class);
     private static Logger fopLogger = null; // Needed for fop logging
 
     private static final String XSL_PATH_PARM_NM = "OUTPUT_XSL_PATH";
     private static final String STYLESHEET_URL_OR_PATH_PARM_NM = "OUTPUT_STYLESHEET_URL_OR_PATH";
-    
+
     /**
      * Use for generation of PDF that is to be pushed to the browser.
      * 
@@ -113,7 +113,7 @@ public class RoutingFormOutputAction extends RoutingFormAction {
 
         return null; // because saveMimeOutputStreamAsFile commits the response
     }
-    
+
     /**
      * Used for generation of XML data that is to be pushed to the browser.
      * 
@@ -149,7 +149,7 @@ public class RoutingFormOutputAction extends RoutingFormAction {
         // Retrieve the environment we're in.
         KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         String env = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
-        
+
         WebUtils.saveMimeOutputStreamAsFile(response, "text/xml", baos, "kraRoutingForm-" + env + researchDocument.getDocumentNumber() + ".xml");
 
         return null; // because saveMimeOutputStreamAsFile commits the response
@@ -174,35 +174,35 @@ public class RoutingFormOutputAction extends RoutingFormAction {
         RoutingFormXml.makeXml((RoutingFormDocument) researchDocument, xmlDocument, baseUrl);
         return xmlDocument;
     }
-    
+
     /**
-     * Returns a file handle to the routing form style sheet. If STYLESHEET_URL_OR_PATH contains a complete url (method checks
-     * for "://") then STYLESHEET_URL_OR_PATH is used, otherwise baseUrl + STYLESHEET_URL_OR_PATH is used. This is to allow
-     * both internal and external URLs. The appropriate *_XSL_PATH is tagged to the end of that.
+     * Returns a file handle to the routing form style sheet. If STYLESHEET_URL_OR_PATH contains a complete url (method checks for
+     * "://") then STYLESHEET_URL_OR_PATH is used, otherwise baseUrl + STYLESHEET_URL_OR_PATH is used. This is to allow both
+     * internal and external URLs. The appropriate *_XSL_PATH is tagged to the end of that.
      * 
      * @return StreamSource to appropriate stylesheet
      * @throws IOException
      */
     private StreamSource pickStylesheet() throws IOException {
         String urlString = "";
-        
-        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-        String stylesheetUrlOrPath = kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, STYLESHEET_URL_OR_PATH_PARM_NM);
-        
+
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        String stylesheetUrlOrPath = parameterService.getParameterValue(RoutingFormDocument.class, STYLESHEET_URL_OR_PATH_PARM_NM);
+
         // following checks if STYLESHEET_URL_OR_PATH is a URL already or path within the project
         if (stylesheetUrlOrPath.contains("://")) {
             urlString = stylesheetUrlOrPath;
         }
         else {
-            String applicationBaseUrlKey = kualiConfigurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+            String applicationBaseUrlKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
             urlString = applicationBaseUrlKey + stylesheetUrlOrPath;
         }
 
-        urlString += kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.ROUTING_FORM, XSL_PATH_PARM_NM);
+        urlString += parameterService.getParameterValue(RoutingFormDocument.class, XSL_PATH_PARM_NM);
 
         return new StreamSource(new URL(urlString).openConnection().getInputStream());
     }
-    
+
     /**
      * Handle header navigation request.
      * 

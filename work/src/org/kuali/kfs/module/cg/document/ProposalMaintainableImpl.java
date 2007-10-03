@@ -29,12 +29,13 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.AssertionUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.cg.CGConstants;
 import org.kuali.module.cg.bo.ProjectDirector;
 import org.kuali.module.cg.bo.Proposal;
@@ -74,9 +75,8 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * This method is called for refreshing the {@link Agency} before display to
-     * show the full name in case the agency number was changed by hand before 
-     * any submit that causes a redisplay.
+     * This method is called for refreshing the {@link Agency} before display to show the full name in case the agency number was
+     * changed by hand before any submit that causes a redisplay.
      */
     @Override
     public void processAfterRetrieve() {
@@ -85,15 +85,12 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * <p>This method is called for refreshing the {@link Agency} before a save to 
-     * display the full name in case the agency number was changed by hand just 
-     * before the save.  Also, if there is only one {@link ProjectDirector}, 
-     * then this method defaults it to be primary. This method can change data, 
-     * unlike the rules.  It is run before the rules.<p/>
-     * 
-     * This default primary is limited to save actions (including route, etc) so 
-     * that when the user adds multiple {@link ProjectDirectors} the first one 
-     * added doesn't default to primary (so the user must choose).
+     * <p>
+     * This method is called for refreshing the {@link Agency} before a save to display the full name in case the agency number was
+     * changed by hand just before the save. Also, if there is only one {@link ProjectDirector}, then this method defaults it to be
+     * primary. This method can change data, unlike the rules. It is run before the rules.<p/> This default primary is limited to
+     * save actions (including route, etc) so that when the user adds multiple {@link ProjectDirectors} the first one added doesn't
+     * default to primary (so the user must choose).
      */
     @Override
     public void prepareForSave() {
@@ -106,8 +103,8 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * This method is called for refreshing the {@link Agency} and other related 
-     * BOs after a lookup, to display their full name & etc without AJAX.
+     * This method is called for refreshing the {@link Agency} and other related BOs after a lookup, to display their full name &
+     * etc without AJAX.
      * 
      * @param refreshCaller
      * @param fieldValues
@@ -120,9 +117,9 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * This is a hook for initializing the BO from the maintenance framework.
-     * It initializes the {@link ResearchRiskType}s collection.
-     *
+     * This is a hook for initializing the BO from the maintenance framework. It initializes the {@link ResearchRiskType}s
+     * collection.
+     * 
      * @param generateDefaultValues true for initialization
      */
     @Override
@@ -145,13 +142,12 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
         for (ResearchRiskType type : researchRiskTypes) {
             ProposalResearchRisk ppr = new ProposalResearchRisk();
             ppr.setResearchRiskTypeCode(type.getResearchRiskTypeCode());
-            ppr.setResearchRiskType(type);  // one less refresh
+            ppr.setResearchRiskType(type); // one less refresh
             risks.add(ppr);
         }
     }
 
     /**
-     * 
      * @param refreshFromLookup
      */
     private void refreshProposal(boolean refreshFromLookup) {
@@ -168,15 +164,15 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
 
     /**
      * Refreshes this maintainable's ProposalProjectDirectors.
-     *
-     * @param refreshFromLookup a lookup returns only the primary key, so ignore
-     * the secondary key when true
+     * 
+     * @param refreshFromLookup a lookup returns only the primary key, so ignore the secondary key when true
      */
     private void refreshProposalProjectDirectors(boolean refreshFromLookup) {
         if (refreshFromLookup) {
             getNewCollectionLine(PROPOSAL_PROJECT_DIRECTORS).refreshNonUpdateableReferences();
             refreshNonUpdateableReferences(getProposal().getProposalProjectDirectors());
-        } else {
+        }
+        else {
             refreshWithSecondaryKey((ProposalProjectDirector) getNewCollectionLine(PROPOSAL_PROJECT_DIRECTORS));
             for (ProposalProjectDirector ppd : getProposal().getProposalProjectDirectors()) {
                 refreshWithSecondaryKey(ppd);
@@ -185,7 +181,6 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * 
      * @param collection
      */
     private static void refreshNonUpdateableReferences(Collection<? extends PersistableBusinessObject> collection) {
@@ -195,15 +190,12 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * Refreshes the reference to ProjectDirector, giving priority to its 
-     * secondary key. Any secondary key that it has may be user input, so that 
-     * overrides the primary key, setting the primary key. If its primary key is 
-     * blank or nonexistent, then leave the current reference as it is, because 
-     * it may be a nonexistent instance which is holding the secondary key (the 
-     * username, i.e., personUserIdentifier) so we can redisplay it to the user 
-     * for correction.  If it only has a primary key then use that, because it 
-     * may be coming from the database, without any user input.
-     *
+     * Refreshes the reference to ProjectDirector, giving priority to its secondary key. Any secondary key that it has may be user
+     * input, so that overrides the primary key, setting the primary key. If its primary key is blank or nonexistent, then leave the
+     * current reference as it is, because it may be a nonexistent instance which is holding the secondary key (the username, i.e.,
+     * personUserIdentifier) so we can redisplay it to the user for correction. If it only has a primary key then use that, because
+     * it may be coming from the database, without any user input.
+     * 
      * @param ppd the ProposalProjectDirector to refresh
      */
     private static void refreshWithSecondaryKey(ProposalProjectDirector ppd) {
@@ -227,11 +219,10 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * called for refreshing the {@link Subcontractor} on 
-     * {@link ProposalSubcontractor} before adding to the {@link ProposalSubcontractor}s 
-     * collection on the proposal. this is to ensure that the summary fields are 
-     * shown correctly. i.e. {@link Subcontractor} name
-     *
+     * called for refreshing the {@link Subcontractor} on {@link ProposalSubcontractor} before adding to the
+     * {@link ProposalSubcontractor}s collection on the proposal. this is to ensure that the summary fields are shown correctly.
+     * i.e. {@link Subcontractor} name
+     * 
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
      */
     @Override
@@ -239,10 +230,9 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
         refreshProposal(false);
         super.addNewLineToCollection(collectionName);
     }
-    
+
     /**
-     * Allows customizing the maintenance document interface to hide research
-     * risks to unprivileged users.
+     * Allows customizing the maintenance document interface to hide research risks to unprivileged users.
      * 
      * @param oldMaintainable
      * @return
@@ -250,25 +240,27 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     @Override
     public List getSections(Maintainable oldMaintainable) {
         List<Section> sections = new ArrayList<Section>();
-        
+
         List<Section> coreSections = getCoreSections(oldMaintainable);
-        
-        String preAwardWorkgroupName = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.CONTRACTS_AND_GRANTS_NAMESPACE, KFSConstants.Components.DOCUMENT, CGConstants.PRE_AWARD_GROUP);
-        String postAwardWorkgroupName = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.CONTRACTS_AND_GRANTS_NAMESPACE, KFSConstants.Components.DOCUMENT, CGConstants.POST_AWARD_GROUP);
-        
+
+        String preAwardWorkgroupName = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.PRE_AWARD_GROUP);
+        String postAwardWorkgroupName = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.POST_AWARD_GROUP);
+
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
-        if(!user.isMember(preAwardWorkgroupName) && !user.isMember(postAwardWorkgroupName)) {
-            for(Section section : coreSections) {
-                if(!section.getSectionTitle().equalsIgnoreCase("Research Risks")) {
+        if (!user.isMember(preAwardWorkgroupName) && !user.isMember(postAwardWorkgroupName)) {
+            for (Section section : coreSections) {
+                if (!section.getSectionTitle().equalsIgnoreCase("Research Risks")) {
                     sections.add(section);
-                } else {
+                }
+                else {
                     // Do nothing
                 }
             }
-        } else {
+        }
+        else {
             sections.addAll(coreSections);
         }
         return sections;
     }
-    
+
 }

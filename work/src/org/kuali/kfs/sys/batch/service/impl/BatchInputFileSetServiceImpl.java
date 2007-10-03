@@ -30,7 +30,6 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
@@ -39,20 +38,22 @@ import org.kuali.kfs.batch.BatchInputFileSetType;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.exceptions.FileStorageException;
 import org.kuali.kfs.service.BatchInputFileSetService;
+import org.kuali.kfs.service.ParameterService;
 
 /**
  * Base implementation to manipulate batch input file sets from the batch upload screen
  */
 public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchInputFileSetServiceImpl.class);
-    
+
     /**
      * Generates the file name of a file (not the done file)
+     * 
      * @param user the user who uploaded or will upload the file
      * @param inputType the file set type
      * @param fileUserIdentifier the file identifier
      * @param fileType the file type
-     * @return the file name, starting with the directory path 
+     * @return the file name, starting with the directory path
      */
     protected String generateFileName(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifier, String fileType) {
         if (!isFileUserIdentifierProperlyFormatted(fileUserIdentifier)) {
@@ -60,7 +61,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
         }
         return inputType.getDirectoryPath(fileType) + File.separator + inputType.getFileName(fileType, user, fileUserIdentifier);
     }
-    
+
     /**
      * Generates the file name of the done file, if supported by the underlying input type
      * 
@@ -68,7 +69,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
      * @param inputType the file set type
      * @param fileUserIdentifier the file identifier
      * @param fileType the file type
-     * @return the file name, starting with the directory path 
+     * @return the file name, starting with the directory path
      */
     protected String generateDoneFileName(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifier) {
         if (!isFileUserIdentifierProperlyFormatted(fileUserIdentifier)) {
@@ -76,9 +77,10 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
         }
         return inputType.getDoneFileDirectoryPath() + File.separator + inputType.getDoneFileName(user, fileUserIdentifier);
     }
-    
+
     /**
-     * @see org.kuali.kfs.service.BatchInputFileSetService#delete(org.kuali.core.bo.user.UniversalUser, org.kuali.kfs.batch.BatchInputFileSetType, java.lang.String)
+     * @see org.kuali.kfs.service.BatchInputFileSetService#delete(org.kuali.core.bo.user.UniversalUser,
+     *      org.kuali.kfs.batch.BatchInputFileSetType, java.lang.String)
      */
     public boolean delete(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException {
         if (user == null || inputType == null || StringUtils.isBlank(fileUserIdentifier)) {
@@ -91,11 +93,11 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
             LOG.error("User " + user.getPersonUserIdentifier() + " is not authorized to delete a file of batch type " + inputType.getFileSetTypeIdentifer());
             throw new AuthorizationException(user.getPersonUserIdentifier(), "delete", inputType.getFileSetTypeIdentifer());
         }
-        
+
         if (!canDelete(user, inputType, fileUserIdentifier)) {
             return false;
         }
-        
+
         for (String fileType : inputType.getFileTypes()) {
             String fileName = generateFileName(user, inputType, fileUserIdentifier, fileType);
             File file = new File(fileName);
@@ -109,9 +111,11 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
         }
         return true;
     }
-    
+
     /**
-     * Determines whether a file set may be deleted, and if not, it will populate the GlobalVariable's error map with the reason why not
+     * Determines whether a file set may be deleted, and if not, it will populate the GlobalVariable's error map with the reason why
+     * not
+     * 
      * @param user
      * @param inputType
      * @param fileUserIdentifier
@@ -131,7 +135,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
                 }
             }
         }
-        
+
         // and the file hasn't been processed
         if (hasBeenProcessed(user, inputType, fileUserIdentifier)) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_DELETE_FAILED_FILE_SET_ALREADY_PROCESSED);
@@ -141,30 +145,32 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
     }
 
     /**
-     * @see org.kuali.kfs.service.BatchInputFileSetService#hasBeenProcessed(org.kuali.core.bo.user.UniversalUser, org.kuali.kfs.batch.BatchInputFileSetType, java.lang.String)
+     * @see org.kuali.kfs.service.BatchInputFileSetService#hasBeenProcessed(org.kuali.core.bo.user.UniversalUser,
+     *      org.kuali.kfs.batch.BatchInputFileSetType, java.lang.String)
      */
     public boolean hasBeenProcessed(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifier) {
-        // if the done file exists, then that means that the file set has not been processed 
+        // if the done file exists, then that means that the file set has not been processed
         File doneFile = new File(generateDoneFileName(user, inputType, fileUserIdentifier));
         return !doneFile.exists();
     }
-    
+
     /**
-     * @see org.kuali.kfs.service.BatchInputFileSetService#download(org.kuali.core.bo.user.UniversalUser, org.kuali.kfs.batch.BatchInputFileSetType, java.lang.String)
+     * @see org.kuali.kfs.service.BatchInputFileSetService#download(org.kuali.core.bo.user.UniversalUser,
+     *      org.kuali.kfs.batch.BatchInputFileSetType, java.lang.String)
      */
     public File download(UniversalUser user, BatchInputFileSetType inputType, String fileType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException {
         if (!this.isUserAuthorizedForBatchType(inputType, user)) {
             LOG.error("User " + user.getPersonUserIdentifier() + " is not authorized to download a file of batch type " + inputType.getFileSetTypeIdentifer());
             throw new AuthorizationException(user.getPersonUserIdentifier(), "download", inputType.getFileSetTypeIdentifer());
         }
-        
+
         String fileName = generateFileName(user, inputType, fileUserIdentifier, fileType);
         File file = new File(fileName);
         if (!inputType.checkAuthorization(user, file)) {
             LOG.error("User " + user.getPersonUserIdentifier() + " is not authorized to download the following file: " + file.getName());
             throw new AuthorizationException(user.getPersonUserIdentifier(), "download", inputType.getFileSetTypeIdentifer());
         }
-        
+
         if (!file.exists()) {
             LOG.error("unable to download file " + fileName + " because it doesn not exist.");
             throw new FileNotFoundException("Unable to download file " + fileName + ". File does not exist on server.");
@@ -181,7 +187,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
 
-        List<String> activeInputTypes = SpringContext.getBean(KualiConfigurationService.class).getParameterValuesAsList(KFSConstants.CORE_NAMESPACE, KFSConstants.Components.BATCH, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME);
+        List<String> activeInputTypes = SpringContext.getBean(ParameterService.class).getParameterValues(ParameterConstants.FINANCIAL_PROCESSING_BATCH.class, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME);
 
         boolean activeBatchType = false;
         if (activeInputTypes.size() > 0 && activeInputTypes.contains(batchInputFileSetType.getFileSetTypeIdentifer())) {
@@ -192,7 +198,8 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
     }
 
     /**
-     * @see org.kuali.kfs.service.BatchInputFileSetService#isUserAuthorizedForBatchType(org.kuali.kfs.batch.BatchInputFileSetType, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.kfs.service.BatchInputFileSetService#isUserAuthorizedForBatchType(org.kuali.kfs.batch.BatchInputFileSetType,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
     public boolean isUserAuthorizedForBatchType(BatchInputFileSetType batchInputFileSetType, UniversalUser user) {
         if (batchInputFileSetType == null || user == null) {
@@ -200,14 +207,14 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
 
-        String workgroupParameterName = batchInputFileSetType.getWorkgroupParameterName();
-        String authorizedWorkgroupName = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(batchInputFileSetType.getWorkgroupParameterNamespace(), batchInputFileSetType.getWorkgroupParameterComponent(), workgroupParameterName);
- 
+        String authorizedWorkgroupName = SpringContext.getBean(ParameterService.class).getParameterValue(batchInputFileSetType.getUploadWorkgroupParameterComponent(), KFSConstants.SystemGroupParameterNames.FILE_TYPE_WORKGROUP_PARAMETER_NAME);
+
         return user.isMember(authorizedWorkgroupName);
     }
 
     /**
-     * @see org.kuali.kfs.service.BatchInputFileSetService#listBatchTypeFilesForUser(org.kuali.kfs.batch.BatchInputFileSetType, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.kfs.service.BatchInputFileSetService#listBatchTypeFilesForUser(org.kuali.kfs.batch.BatchInputFileSetType,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
     public Set<String> listBatchTypeFileUserIdentifiersForUser(BatchInputFileSetType batchInputFileSetType, UniversalUser user) throws AuthorizationException {
         List<File> files = new ArrayList<File>();
@@ -220,16 +227,16 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
     }
 
     /**
-     * @see org.kuali.kfs.service.BatchInputFileSetService#save(org.kuali.core.bo.user.UniversalUser, org.kuali.kfs.batch.BatchInputFileSetType, java.lang.String, java.util.Map)
+     * @see org.kuali.kfs.service.BatchInputFileSetService#save(org.kuali.core.bo.user.UniversalUser,
+     *      org.kuali.kfs.batch.BatchInputFileSetType, java.lang.String, java.util.Map)
      */
-    public Map<String, String> save(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifer, 
-            Map<String, InputStream> typeToStreamMap, boolean suppressDoneFileCreation) throws AuthorizationException, FileStorageException {
+    public Map<String, String> save(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifer, Map<String, InputStream> typeToStreamMap, boolean suppressDoneFileCreation) throws AuthorizationException, FileStorageException {
         // check user is authorized to upload a file for the batch type
         if (!isUserAuthorizedForBatchType(inputType, user)) {
             LOG.error("User " + user.getPersonUserIdentifier() + " is not authorized to upload a file of batch type " + inputType.getFileSetTypeIdentifer());
             throw new AuthorizationException(user.getPersonUserIdentifier(), "upload", inputType.getFileSetTypeIdentifer());
         }
-        
+
         assertNoFilesInSetExist(user, inputType, fileUserIdentifer);
 
         Map<String, String> typeToFileNames = new LinkedHashMap<String, String>();
@@ -237,7 +244,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
             String saveFileName = inputType.getDirectoryPath(fileType) + File.separator + inputType.getFileName(fileType, user, fileUserIdentifer);
             try {
                 InputStream fileContents = typeToStreamMap.get(fileType);
-                
+
                 File fileToSave = new File(saveFileName);
                 fileToSave.createNewFile();
                 FileWriter fileWriter = new FileWriter(fileToSave);
@@ -246,7 +253,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
                 }
                 fileWriter.flush();
                 fileWriter.close();
-                
+
                 typeToFileNames.put(fileType, saveFileName);
             }
             catch (IOException e) {
@@ -254,7 +261,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
                 throw new RuntimeException("errors encountered while writing file " + saveFileName, e);
             }
         }
-        
+
         if (!suppressDoneFileCreation && inputType.isSupportsDoneFileCreation()) {
             String doneFileName = inputType.getDoneFileDirectoryPath() + File.separator + inputType.getDoneFileName(user, fileUserIdentifer);
             File doneFile = new File(doneFileName);
@@ -270,7 +277,8 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
     }
 
     /**
-     * Checks whether files associated with the set are already persisted on the file system or the done file.  If so, then an exception is thrown
+     * Checks whether files associated with the set are already persisted on the file system or the done file. If so, then an
+     * exception is thrown
      * 
      * @param user the user who uploaded or will upload the file
      * @param inputType the file set type
@@ -289,7 +297,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
         if (doneFile.exists()) {
             throw new FileStorageException("Cannot store file because the name " + doneFile.getName() + " already exists on the file system.");
         }
-        
+
     }
 
     /**

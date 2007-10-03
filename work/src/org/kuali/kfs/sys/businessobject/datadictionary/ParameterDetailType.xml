@@ -44,13 +44,11 @@
                 <lookupField attributeName="parameterDetailTypeCode" required="false"
                     noLookup="true"
                 />
-                <lookupField attributeName="parameterDetailTypeName" required="false" />
                 <lookupField attributeName="active" required="false">
                     <defaultValue>Y</defaultValue>
                 </lookupField>
             </lookupFields>
             <resultFields>
-                <field attributeName="parameterDetailTypeName" noInquiry="true" />
                 <field attributeName="parameterDetailTypeCode" noInquiry="true" />
                 <field attributeName="parameterNamespace.codeAndDescription" noInquiry="true" />
                 <field attributeName="active" />

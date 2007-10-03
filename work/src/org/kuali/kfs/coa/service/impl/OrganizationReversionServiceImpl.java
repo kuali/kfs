@@ -25,16 +25,14 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Parameter;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.chart.dao.OrganizationReversionDao;
 import org.kuali.module.chart.service.OrganizationReversionService;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 import org.kuali.module.gl.service.impl.orgreversion.GenericOrganizationReversionCategory;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -42,11 +40,10 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionServiceImpl.class);
 
     private OrganizationReversionDao organizationReversionDao;
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
     private static final String ORDERING_NUMBER_RULE_SEPERATOR = "_";
 
     /**
-     * 
      * @see org.kuali.module.chart.service.OrganizationReversionService#getByPrimaryId(java.lang.Integer, java.lang.String,
      *      java.lang.String)
      */
@@ -56,7 +53,6 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
     }
 
     /**
-     * 
      * @see org.kuali.module.chart.service.OrganizationReversionService#getCategories()
      */
     public Map<String, OrganizationReversionCategoryLogic> getCategories() {
@@ -73,9 +69,10 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
 
             Map<String, OrganizationReversionCategoryLogic> beanMap = SpringContext.getBeansOfType(OrganizationReversionCategoryLogic.class);
             if (beanMap.containsKey("gl" + categoryCode + "OrganizationReversionCategory")) {
-                LOG.info("Found Organization Reversion Category Logic for gl"+categoryCode+"OrganizationReversionCategory");
+                LOG.info("Found Organization Reversion Category Logic for gl" + categoryCode + "OrganizationReversionCategory");
                 categories.put(categoryCode, beanMap.get("gl" + categoryCode + "OrganizationReversionCategory"));
-            } else {
+            }
+            else {
                 LOG.info("No Organization Reversion Category Logic for gl" + categoryCode + "OrganizationReversionCategory; using generic");
                 GenericOrganizationReversionCategory cat = SpringContext.getBean(GenericOrganizationReversionCategory.class);
                 cat.setCategoryCode(categoryCode);
@@ -97,7 +94,7 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
      */
     public Map<Integer, Parameter> getBeginningOfYearSelectionRules() {
         Map<Integer, Parameter> rules = this.getEndOfYearSelectionRules();
-        for (Entry<Integer, Parameter> entry: rules.entrySet()) {
+        for (Entry<Integer, Parameter> entry : rules.entrySet()) {
             Parameter param = entry.getValue();
             param.setParameterValue(param.getParameterValue().replaceAll("account\\.", "priorYearAccount."));
         }
@@ -108,15 +105,11 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
      * @see org.kuali.module.chart.service.OrganizationReversionService#getEndOfYearSelectionRules()
      */
     public Map<Integer, Parameter> getEndOfYearSelectionRules() {
-        Map<String, Parameter> rules = kualiConfigurationService.getParametersByDetailTypeAsMap(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ORGANIZATION_REVERSION );
-                
         Map<Integer, Parameter> parsedRules = new TreeMap<Integer, Parameter>();
         // get the selection rule parameters
-        for(Entry<String, Parameter> entry : rules.entrySet()) {
-            if ( entry.getKey().startsWith("SELECTION") ) {
-                parsedRules.put(
-                        new Integer( StringUtils.substringAfter(entry.getKey(), ORDERING_NUMBER_RULE_SEPERATOR) ),
-                        entry.getValue());
+        for (Parameter parameter : parameterService.getParameters(OrganizationReversion.class)) {
+            if (parameter.getParameterName().startsWith("SELECTION")) {
+                parsedRules.put(new Integer(StringUtils.substringAfter(parameter.getParameterName(), ORDERING_NUMBER_RULE_SEPERATOR)), parameter);
             }
         }
         return parsedRules;
@@ -126,7 +119,8 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
         organizationReversionDao = orDao;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kcs) {
-        kualiConfigurationService = kcs;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
+
 }

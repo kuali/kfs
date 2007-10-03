@@ -19,7 +19,8 @@ import java.sql.Date;
 import java.util.Iterator;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.bo.PaymentDetail;
 import org.kuali.module.pdp.service.PaymentDetailService;
@@ -41,9 +42,9 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     private PaymentDetailService paymentDetailService;
     private PaymentRequestService paymentRequestService;
     private CreditMemoService creditMemoService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
     private DateTimeService dateTimeService;
- 
+
     /**
      * @see org.kuali.module.purap.service.ProcessPdpCancelPaidService#processPdpCancels()
      */
@@ -52,17 +53,17 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
 
         Date processDate = dateTimeService.getCurrentSqlDate();
 
-        String organization = kualiConfigurationService.getParameterValue( PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.PDP, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
-        String subUnit = kualiConfigurationService.getParameterValue( PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.PDP, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
-   
-        String preqCancelNote = kualiConfigurationService.getParameterValue( PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.PAYMENT_REQUEST, PurapParameterConstants.PURAP_PDP_PREQ_CANCEL_NOTE);
-        String preqResetNote = kualiConfigurationService.getParameterValue( PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.PAYMENT_REQUEST, PurapParameterConstants.PURAP_PDP_PREQ_RESET_NOTE);
-        String cmCancelNote = kualiConfigurationService.getParameterValue( PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.CREDIT_MEMO_DOC, PurapParameterConstants.PURAP_PDP_CM_CANCEL_NOTE);
-        String cmResetNote = kualiConfigurationService.getParameterValue( PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.CREDIT_MEMO_DOC, PurapParameterConstants.PURAP_PDP_CM_RESET_NOTE);
+        String organization = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
+        String subUnit = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
+
+        String preqCancelNote = parameterService.getParameterValue(PaymentRequestDocument.class, PurapParameterConstants.PURAP_PDP_PREQ_CANCEL_NOTE);
+        String preqResetNote = parameterService.getParameterValue(PaymentRequestDocument.class, PurapParameterConstants.PURAP_PDP_PREQ_RESET_NOTE);
+        String cmCancelNote = parameterService.getParameterValue(CreditMemoDocument.class, PurapParameterConstants.PURAP_PDP_CM_CANCEL_NOTE);
+        String cmResetNote = parameterService.getParameterValue(CreditMemoDocument.class, PurapParameterConstants.PURAP_PDP_CM_RESET_NOTE);
 
         Iterator details = paymentDetailService.getUnprocessedCancelledDetails(organization, subUnit);
         while (details.hasNext()) {
-            PaymentDetail paymentDetail = (PaymentDetail)details.next();
+            PaymentDetail paymentDetail = (PaymentDetail) details.next();
 
             String documentTypeCode = paymentDetail.getFinancialDocumentTypeCode();
             String documentNumber = paymentDetail.getCustPaymentDocNbr();
@@ -70,7 +71,8 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
             int documentNumberInt = -1;
             try {
                 documentNumberInt = Integer.parseInt(documentNumber);
-            } catch (NumberFormatException nfe) {
+            }
+            catch (NumberFormatException nfe) {
                 LOG.error("processPdpCancels() Document number " + documentNumber + " is not a number..skipping");
                 continue;
             }
@@ -78,29 +80,35 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
             boolean primaryCancel = paymentDetail.getPrimaryCancelledPayment();
             boolean disbursedPayment = PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT.equals(paymentDetail.getPaymentGroup().getPaymentStatusCode());
 
-            if ( PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT.equals(documentTypeCode) ) {
+            if (PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT.equals(documentTypeCode)) {
                 PaymentRequestDocument pr = paymentRequestService.getPaymentRequestById(documentNumberInt);
-                if ( pr != null ) {
-                    if ( disbursedPayment || primaryCancel ) {
+                if (pr != null) {
+                    if (disbursedPayment || primaryCancel) {
                         paymentRequestService.cancelExtractedPaymentRequest(pr, preqCancelNote);
-                    } else {
+                    }
+                    else {
                         paymentRequestService.resetExtractedPaymentRequest(pr, preqResetNote);
                     }
-                } else {
+                }
+                else {
                     LOG.error("processPdpCancels() DOES NOT EXIST, CANNOT PROCESS - Payment Request with doc type of " + documentTypeCode + " with id " + documentNumber);
                 }
-            } else if ( PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(documentTypeCode) ) {
+            }
+            else if (PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(documentTypeCode)) {
                 CreditMemoDocument cm = creditMemoService.getCreditMemoDocumentById(documentNumberInt);
-                if ( cm != null ) {
-                    if ( disbursedPayment || primaryCancel ) {
+                if (cm != null) {
+                    if (disbursedPayment || primaryCancel) {
                         creditMemoService.cancelExtractedCreditMemo(cm, cmCancelNote);
-                    } else {
+                    }
+                    else {
                         creditMemoService.resetExtractedCreditMemo(cm, cmResetNote);
                     }
-                } else {
-                    LOG.error("processPdpCancels() DOES NOT EXIST, CANNOT PROCESS - Credit Memo with doc type of " + documentTypeCode + " with id " + documentNumber);                        
                 }
-            } else {
+                else {
+                    LOG.error("processPdpCancels() DOES NOT EXIST, CANNOT PROCESS - Credit Memo with doc type of " + documentTypeCode + " with id " + documentNumber);
+                }
+            }
+            else {
                 LOG.error("processPdpCancels() Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
                 throw new IllegalArgumentException("Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
             }
@@ -117,12 +125,12 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
 
         Date processDate = dateTimeService.getCurrentSqlDate();
 
-        String organization = kualiConfigurationService.getParameterValue( PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.PDP, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
-        String subUnit = kualiConfigurationService.getParameterValue( PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.PDP, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
+        String organization = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
+        String subUnit = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
 
         Iterator details = paymentDetailService.getUnprocessedPaidDetails(organization, subUnit);
         while (details.hasNext()) {
-            PaymentDetail paymentDetail = (PaymentDetail)details.next();
+            PaymentDetail paymentDetail = (PaymentDetail) details.next();
 
             String documentTypeCode = paymentDetail.getFinancialDocumentTypeCode();
             String documentNumber = paymentDetail.getCustPaymentDocNbr();
@@ -130,31 +138,36 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
             int documentNumberInt = -1;
             try {
                 documentNumberInt = Integer.parseInt(documentNumber);
-            } catch (NumberFormatException nfe) {
+            }
+            catch (NumberFormatException nfe) {
                 LOG.error("processPdpCancels() Document number " + documentNumber + " is not a number..skipping");
                 continue;
             }
 
-            if ( PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT.equals(documentTypeCode) ) {
+            if (PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT.equals(documentTypeCode)) {
                 PaymentRequestDocument pr = paymentRequestService.getPaymentRequestById(documentNumberInt);
-                if ( pr != null ) {
-                    paymentRequestService.markPaid(pr,processDate);
-                } else {
+                if (pr != null) {
+                    paymentRequestService.markPaid(pr, processDate);
+                }
+                else {
                     LOG.error("processPdpPaids() DOES NOT EXIST, CANNOT MARK - Payment Request with doc type of " + documentTypeCode + " with id " + documentNumber);
                 }
-            } else if ( PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(documentTypeCode) ) {
+            }
+            else if (PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(documentTypeCode)) {
                 CreditMemoDocument cm = creditMemoService.getCreditMemoDocumentById(documentNumberInt);
-                if ( cm != null ) {
-                    creditMemoService.markPaid(cm,processDate);
-                } else {
-                    LOG.error("processPdpPaids() DOES NOT EXIST, CANNOT PROCESS - Credit Memo with doc type of " + documentTypeCode + " with id " + documentNumber);                        
+                if (cm != null) {
+                    creditMemoService.markPaid(cm, processDate);
                 }
-            } else {
+                else {
+                    LOG.error("processPdpPaids() DOES NOT EXIST, CANNOT PROCESS - Credit Memo with doc type of " + documentTypeCode + " with id " + documentNumber);
+                }
+            }
+            else {
                 LOG.error("processPdpPaids() Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
                 throw new IllegalArgumentException("Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
             }
 
-            paymentGroupService.processPaidGroup(paymentDetail.getPaymentGroup(), processDate);            
+            paymentGroupService.processPaidGroup(paymentDetail.getPaymentGroup(), processDate);
         }
     }
 
@@ -180,8 +193,8 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
         this.creditMemoService = creditMemoService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     public void setPaymentRequestService(PaymentRequestService paymentRequestService) {

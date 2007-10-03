@@ -30,11 +30,10 @@ import org.kuali.core.bo.Parameter;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
@@ -65,8 +64,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherExtractServiceImpl.class);
 
     private static final String CAMPUS_BY_PAYMENT_REASON_PARAM = "CAMPUS_BY_PAYMENT_REASON";
-    
-    private KualiConfigurationService kualiConfigurationService;
+
+    private ParameterService parameterService;
     private DisbursementVoucherDao disbursementVoucherDao;
     private DateTimeService dateTimeService;
     private UniversalUserService universalUserService;
@@ -75,7 +74,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     private PaymentGroupService paymentGroupService;
     private ReferenceService referenceService;
 
-    // This should only be set to true when testing this system.  Setting this to true will run the code but
+    // This should only be set to true when testing this system. Setting this to true will run the code but
     // won't set the doc status to extracted
     boolean testMode = false;
 
@@ -84,7 +83,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         Date processRunDate = dateTimeService.getCurrentDate();
 
-        String userId = kualiConfigurationService.getParameterValue(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DISBURSEMENT_VOUCHER_DOC, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_USER_ID);
+        String userId = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_USER_ID);
         UniversalUser uuser;
         try {
             uuser = universalUserService.getUniversalUserByAuthenticationUserId(userId);
@@ -105,16 +104,16 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         return true;
     }
 
-    private void extractPaymentsForCampus(String campusCode,UniversalUser user,Date processRunDate) {
+    private void extractPaymentsForCampus(String campusCode, UniversalUser user, Date processRunDate) {
         LOG.debug("extractPaymentsForCampus() started for campus: " + campusCode);
 
-        Batch batch = createBatch(campusCode,user,processRunDate);
+        Batch batch = createBatch(campusCode, user, processRunDate);
         Integer count = 0;
         BigDecimal totalAmount = new BigDecimal("0");
 
         Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus(DisbursementVoucherRuleConstants.DocumentStatusCodes.APPROVED, campusCode);
         for (DisbursementVoucherDocument document : dvd) {
-            addPayment(document,batch,processRunDate);
+            addPayment(document, batch, processRunDate);
             count++;
             totalAmount = totalAmount.add(document.getDisbVchrCheckTotalAmount().bigDecimalValue());
         }
@@ -124,23 +123,23 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         paymentFileService.saveBatch(batch);
     }
 
-    private void addPayment(DisbursementVoucherDocument document,Batch batch,Date processRunDate) {
+    private void addPayment(DisbursementVoucherDocument document, Batch batch, Date processRunDate) {
         LOG.debug("addPayment() started");
 
-        PaymentGroup pg = buildPaymentGroup(document,batch);
-        PaymentDetail pd = buildPaymentDetail(document,batch,processRunDate);
+        PaymentGroup pg = buildPaymentGroup(document, batch);
+        PaymentDetail pd = buildPaymentDetail(document, batch, processRunDate);
 
         pd.setPaymentGroup(pg);
         pg.addPaymentDetails(pd);
         paymentGroupService.save(pg);
 
-        if ( ! testMode ) {
+        if (!testMode) {
             document.getDocumentHeader().setFinancialDocumentStatusCode(DisbursementVoucherRuleConstants.DocumentStatusCodes.EXTRACTED);
             disbursementVoucherDao.save(document);
         }
     }
 
-    private PaymentGroup buildPaymentGroup(DisbursementVoucherDocument document,Batch batch) {
+    private PaymentGroup buildPaymentGroup(DisbursementVoucherDocument document, Batch batch) {
         LOG.debug("buildPaymentGroup() started");
 
         PaymentGroup pg = new PaymentGroup();
@@ -150,35 +149,35 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         DisbursementVoucherPayeeDetail pd = document.getDvPayeeDetail();
         String rc = pd.getDisbVchrPaymentReasonCode();
 
-        if ( pd.isVendor() ) {
+        if (pd.isVendor()) {
             // TODO Write this when Vendor support is added
 
             pg.setTaxablePayment(Boolean.FALSE);
-            
+
             // These are taxable
-            //    ((VH.vndr_ownr_cd IN ('NP', 'FC')
-            //            OR (VH.vndr_ownr_cd = 'CP' AND VH.vndr_ownr_ctgry_cd IS NULL))
-            //    AND PD.dv_pmt_reas_cd IN ('H', 'J')) 
-            //    OR 
-            //    ((VH.vndr_ownr_cd = 'CP' AND VH.vndr_ownr_ctgry_cd = 'H')
-            //    AND PD.dv_pmt_reas_cd IN ('C', 'E', 'H', 'L', 'J'))
-            //    OR
-            //    ((VH.vndr_ownr_cd IN ('NR', 'ID', 'PT')
-            //            OR (VH.vndr_ownr_cd = 'CP' AND VH.vndr_ownr_ctgry_cd = 'H'))
-            //    AND PD.dv_pmt_reas_cd IN ('A', 'C', 'E', 'H', 'R', 'T', 'X', 'Y', 'L', 'J')) 
-            //    OR 
-            //    ((VH.vndr_ownr_cd = 'CP' AND VH.vndr_ownr_ctgry_cd = 'L')
-            //    AND PD.dv_pmt_reas_cd IN ('A', 'E', 'H', 'R', 'T', 'X', 'L', 'J')))
+            // ((VH.vndr_ownr_cd IN ('NP', 'FC')
+            // OR (VH.vndr_ownr_cd = 'CP' AND VH.vndr_ownr_ctgry_cd IS NULL))
+            // AND PD.dv_pmt_reas_cd IN ('H', 'J'))
+            // OR
+            // ((VH.vndr_ownr_cd = 'CP' AND VH.vndr_ownr_ctgry_cd = 'H')
+            // AND PD.dv_pmt_reas_cd IN ('C', 'E', 'H', 'L', 'J'))
+            // OR
+            // ((VH.vndr_ownr_cd IN ('NR', 'ID', 'PT')
+            // OR (VH.vndr_ownr_cd = 'CP' AND VH.vndr_ownr_ctgry_cd = 'H'))
+            // AND PD.dv_pmt_reas_cd IN ('A', 'C', 'E', 'H', 'R', 'T', 'X', 'Y', 'L', 'J'))
+            // OR
+            // ((VH.vndr_ownr_cd = 'CP' AND VH.vndr_ownr_ctgry_cd = 'L')
+            // AND PD.dv_pmt_reas_cd IN ('A', 'E', 'H', 'R', 'T', 'X', 'L', 'J')))
             pg.setTaxablePayment(Boolean.FALSE);
-        } else if ( pd.isEmployee() ) {
+        }
+        else if (pd.isEmployee()) {
             pg.setIuEmployee(Boolean.TRUE);
             pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID);
 
             // All payments are taxable except research participant, rental & royalties
-            pg.setTaxablePayment( (! DisbursementVoucherRuleConstants.PaymentReasonCodes.RESEARCH_PARTICIPANT.equals(rc)) &&
-                    ( ! DisbursementVoucherRuleConstants.PaymentReasonCodes.RENTAL_PAYMENT.equals(rc)) &&
-                    ( ! DisbursementVoucherRuleConstants.PaymentReasonCodes.ROYALTIES.equals(rc)) );
-        } else if ( pd.isPayee() ) {
+            pg.setTaxablePayment((!DisbursementVoucherRuleConstants.PaymentReasonCodes.RESEARCH_PARTICIPANT.equals(rc)) && (!DisbursementVoucherRuleConstants.PaymentReasonCodes.RENTAL_PAYMENT.equals(rc)) && (!DisbursementVoucherRuleConstants.PaymentReasonCodes.ROYALTIES.equals(rc)));
+        }
+        else if (pd.isPayee()) {
             pg.setIuEmployee(Boolean.FALSE);
             pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.PAYEE_ID);
 
@@ -187,16 +186,16 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
             // These determine if it is taxable
             pg.setTaxablePayment(Boolean.FALSE);
-            if ( "C".equals(potc) && "HJ".indexOf(rc) >= 0 ) {
+            if ("C".equals(potc) && "HJ".indexOf(rc) >= 0) {
                 pg.setTaxablePayment(Boolean.TRUE);
             }
-            if ( "M".equals(potc) && "CEHLJ".indexOf(rc) >= 0 ) {
+            if ("M".equals(potc) && "CEHLJ".indexOf(rc) >= 0) {
                 pg.setTaxablePayment(Boolean.TRUE);
             }
-            if ( "IPSH".indexOf(potc) >= 0 && "ACEHRTXYLJ".indexOf(rc) >= 0 ) {
+            if ("IPSH".indexOf(potc) >= 0 && "ACEHRTXYLJ".indexOf(rc) >= 0) {
                 pg.setTaxablePayment(Boolean.TRUE);
             }
-            if ( "L".equals(potc) && "AEHRTXLJ".indexOf(rc) >= 0 ) {
+            if ("L".equals(potc) && "AEHRTXLJ".indexOf(rc) >= 0) {
                 pg.setTaxablePayment(Boolean.TRUE);
             }
         }
@@ -218,17 +217,17 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         pg.setPymtSpecialHandling(document.isDisbVchrSpecialHandlingCode());
         pg.setNraPayment(pd.isDisbVchrAlienPaymentCode());
 
-        PaymentStatus open = (PaymentStatus)referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
+        PaymentStatus open = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
         pg.setPaymentStatus(open);
 
         return pg;
     }
 
-    private PaymentDetail buildPaymentDetail(DisbursementVoucherDocument document,Batch batch,Date processRunDate) {
+    private PaymentDetail buildPaymentDetail(DisbursementVoucherDocument document, Batch batch, Date processRunDate) {
         LOG.debug("buildPaymentDetail() started");
 
         PaymentDetail pd = new PaymentDetail();
-        if ( StringUtils.isNotEmpty(document.getDocumentHeader().getOrganizationDocumentNumber()) ) {
+        if (StringUtils.isNotEmpty(document.getDocumentHeader().getOrganizationDocumentNumber())) {
             pd.setOrganizationDocNbr(document.getDocumentHeader().getOrganizationDocumentNumber());
         }
         pd.setCustPaymentDocNbr(document.getDocumentNumber());
@@ -241,32 +240,35 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         pd.setNetPaymentAmount(document.getDisbVchrCheckTotalAmount().bigDecimalValue());
 
         // Handle accounts
-        if ( document.getSourceAccountingLines().size() == 0 ) {
+        if (document.getSourceAccountingLines().size() == 0) {
             LOG.error("buildPaymentDetail() XXXXXXXXXXXXXXXXXXXXXXXXX No lines: " + document.getDocumentNumber());
         }
         for (Iterator iter = document.getSourceAccountingLines().iterator(); iter.hasNext();) {
-            SourceAccountingLine sal = (SourceAccountingLine)iter.next();
+            SourceAccountingLine sal = (SourceAccountingLine) iter.next();
 
             PaymentAccountDetail pad = new PaymentAccountDetail();
             pad.setFinChartCode(sal.getChartOfAccountsCode());
             pad.setAccountNbr(sal.getAccountNumber());
-            if ( StringUtils.isNotEmpty(sal.getSubAccountNumber()) ) {
+            if (StringUtils.isNotEmpty(sal.getSubAccountNumber())) {
                 pad.setSubAccountNbr(sal.getSubAccountNumber());
-            } else {
+            }
+            else {
                 pad.setSubAccountNbr("-----");
             }
             pad.setFinObjectCode(sal.getFinancialObjectCode());
-            if ( StringUtils.isNotEmpty(sal.getFinancialSubObjectCode()) ) {
+            if (StringUtils.isNotEmpty(sal.getFinancialSubObjectCode())) {
                 pad.setFinSubObjectCode(sal.getFinancialSubObjectCode());
-            } else {
+            }
+            else {
                 pad.setFinSubObjectCode("---");
             }
-            if ( StringUtils.isNotEmpty(sal.getOrganizationReferenceId()) ) {
+            if (StringUtils.isNotEmpty(sal.getOrganizationReferenceId())) {
                 pad.setOrgReferenceId(sal.getOrganizationReferenceId());
             }
-            if ( StringUtils.isNotEmpty(sal.getProjectCode()) ) {
+            if (StringUtils.isNotEmpty(sal.getProjectCode())) {
                 pad.setProjectCode(sal.getProjectCode());
-            } else {
+            }
+            else {
                 pad.setProjectCode("----------");
             }
             pad.setAccountNetAmount(sal.getAmount().bigDecimalValue());
@@ -288,8 +290,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         String dvRemitCity = null;
         String dvRemitState = null;
         String dvRemitZip = null;
-        
-        if ( dvpd.isPayee() ) {
+
+        if (dvpd.isPayee()) {
             Payee payee = disbursementVoucherDao.getPayee(dvpd.getDisbVchrPayeeIdNumber());
             dvRemitPersonName = payee.getPayeePersonName();
             dvRemitLine1Address = payee.getPayeeLine1Addr();
@@ -299,31 +301,31 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             dvRemitZip = payee.getPayeeZipCode();
         }
 
-        if ( StringUtils.isNotEmpty(dvRemitPersonName) ) {
+        if (StringUtils.isNotEmpty(dvRemitPersonName)) {
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(line++);
             pnt.setCustomerNoteText("Send Check To: " + dvRemitPersonName);
             pd.addNote(pnt);
         }
-        if ( StringUtils.isNotEmpty(dvRemitLine1Address) ) {
+        if (StringUtils.isNotEmpty(dvRemitLine1Address)) {
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(line++);
             pnt.setCustomerNoteText(dvRemitLine1Address);
             pd.addNote(pnt);
         }
-        if ( StringUtils.isNotEmpty(dvRemitLine2Address) ) {
+        if (StringUtils.isNotEmpty(dvRemitLine2Address)) {
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(line++);
             pnt.setCustomerNoteText(dvRemitLine2Address);
             pd.addNote(pnt);
         }
-        if ( StringUtils.isNotEmpty(dvRemitCity) ) {
+        if (StringUtils.isNotEmpty(dvRemitCity)) {
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(line++);
             pnt.setCustomerNoteText(dvRemitCity + ", " + dvRemitState + " " + dvRemitZip);
             pd.addNote(pnt);
         }
-        if ( document.isDisbVchrAttachmentCode() ) {
+        if (document.isDisbVchrAttachmentCode()) {
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(line++);
             pnt.setCustomerNoteText("Attachment Included");
@@ -331,7 +333,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         }
 
         String paymentReasonCode = dvpd.getDisbVchrPaymentReasonCode();
-        if ( DisbursementVoucherRuleConstants.PaymentReasonCodes.TRAVEL_NONEMPLOYEE.equals(paymentReasonCode) || DisbursementVoucherRuleConstants.PaymentReasonCodes.TRAVEL_HONORARIUM.equals(paymentReasonCode) ) {
+        if (DisbursementVoucherRuleConstants.PaymentReasonCodes.TRAVEL_NONEMPLOYEE.equals(paymentReasonCode) || DisbursementVoucherRuleConstants.PaymentReasonCodes.TRAVEL_HONORARIUM.equals(paymentReasonCode)) {
             DisbursementVoucherNonEmployeeTravel dvnet = document.getDvNonEmployeeTravel();
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(line++);
@@ -343,24 +345,25 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             pnt.setCustomerNoteText("The total per diem amount for your daily expenses is " + dvnet.getDisbVchrPerdiemCalculatedAmt());
             pd.addNote(pnt);
 
-            if ( dvnet.getDisbVchrPersonalCarAmount().compareTo(KualiDecimal.ZERO) != 0 ) {
+            if (dvnet.getDisbVchrPersonalCarAmount().compareTo(KualiDecimal.ZERO) != 0) {
                 pnt = new PaymentNoteText();
                 pnt.setCustomerNoteLineNbr(line++);
                 pnt.setCustomerNoteText("The total dollar amount for your vehicle mileage is " + dvnet.getDisbVchrPersonalCarAmount());
                 pd.addNote(pnt);
 
                 for (Iterator iter = dvnet.getDvNonEmployeeExpenses().iterator(); iter.hasNext();) {
-                    DisbursementVoucherNonEmployeeExpense exp = (DisbursementVoucherNonEmployeeExpense)iter.next();
+                    DisbursementVoucherNonEmployeeExpense exp = (DisbursementVoucherNonEmployeeExpense) iter.next();
 
-                    if ( line < 19 ) {
+                    if (line < 19) {
                         pnt = new PaymentNoteText();
                         pnt.setCustomerNoteLineNbr(line++);
                         pnt.setCustomerNoteText(exp.getDisbVchrExpenseCompanyName() + " " + exp.getDisbVchrExpenseAmount());
                         pd.addNote(pnt);
                     }
-               }
+                }
             }
-        } else if ( DisbursementVoucherRuleConstants.PaymentReasonCodes.TRAVEL_PREPAID.equals(paymentReasonCode) ) {
+        }
+        else if (DisbursementVoucherRuleConstants.PaymentReasonCodes.TRAVEL_PREPAID.equals(paymentReasonCode)) {
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(line++);
             pnt.setCustomerNoteText("Payment is for the following indviuals/charges:");
@@ -369,9 +372,9 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             DisbursementVoucherPreConferenceDetail dvpcd = document.getDvPreConferenceDetail();
 
             for (Iterator iter = dvpcd.getDvPreConferenceRegistrants().iterator(); iter.hasNext();) {
-                DisbursementVoucherPreConferenceRegistrant dvpcr = (DisbursementVoucherPreConferenceRegistrant)iter.next();
-                
-                if ( line < 19 ) {
+                DisbursementVoucherPreConferenceRegistrant dvpcr = (DisbursementVoucherPreConferenceRegistrant) iter.next();
+
+                if (line < 19) {
                     pnt = new PaymentNoteText();
                     pnt.setCustomerNoteLineNbr(line++);
                     pnt.setCustomerNoteText(dvpcr.getDvConferenceRegistrantName() + " " + dvpcr.getDisbVchrExpenseAmount());
@@ -381,10 +384,10 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         }
 
         String text = document.getDisbVchrCheckStubText();
-        if ( text.length() > 0 ) {
+        if (text.length() > 0) {
             String[] lines = text.split("\\n");
             for (int i = 0; i < lines.length; i++) {
-                if ( line < 24 ) {
+                if (line < 24) {
                     pnt = new PaymentNoteText();
                     pnt.setCustomerNoteLineNbr(line++);
                     pnt.setCustomerNoteText(lines[i]);
@@ -395,11 +398,11 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         return pd;
     }
 
-    private Batch createBatch(String campusCode,UniversalUser user,Date processRunDate) {
-        String orgCode = kualiConfigurationService.getParameterValue(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DISBURSEMENT_VOUCHER_DOC, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_ORG_CODE);
-        String subUnitCode = kualiConfigurationService.getParameterValue(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DISBURSEMENT_VOUCHER_DOC, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_SBUNT_CODE);
+    private Batch createBatch(String campusCode, UniversalUser user, Date processRunDate) {
+        String orgCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_ORG_CODE);
+        String subUnitCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_SBUNT_CODE);
         CustomerProfile customer = customerProfileService.get(campusCode, orgCode, subUnitCode);
-        if ( customer == null ) {
+        if (customer == null) {
             throw new IllegalArgumentException("Unable to find customer profile for " + campusCode + "/" + orgCode + "/" + subUnitCode);
         }
 
@@ -422,20 +425,20 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     private Set<String> getCampusListByDocumentStatusCode(String statusCode) {
         LOG.debug("getCampusListByDocumentStatusCode() started");
 
-        // Get the campus overide values        
-        Parameter campusByPaymentReasonConstraint = kualiConfigurationService.getParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DISBURSEMENT_VOUCHER_DOC, CAMPUS_BY_PAYMENT_REASON_PARAM);
-        
+        // Get the campus overide values
+        Parameter campusByPaymentReasonConstraint = parameterService.getParameter(DisbursementVoucherDocument.class, CAMPUS_BY_PAYMENT_REASON_PARAM);
+
         Set<String> campusSet = new HashSet<String>();
 
         Collection docs = disbursementVoucherDao.getDocumentsByHeaderStatus(statusCode);
         for (Iterator iter = docs.iterator(); iter.hasNext();) {
-            DisbursementVoucherDocument element = (DisbursementVoucherDocument)iter.next();
+            DisbursementVoucherDocument element = (DisbursementVoucherDocument) iter.next();
 
             String campusCode = element.getCampusCode();
             DisbursementVoucherPayeeDetail dvpd = element.getDvPayeeDetail();
-            if ( dvpd != null ) {
-                List<String> campusCodes = kualiConfigurationService.getConstrainedValues(campusByPaymentReasonConstraint, dvpd.getDisbVchrPaymentReasonCode() );
-                if ( campusCodes.size() > 0 && StringUtils.isNotBlank( campusCodes.get(0) ) ) {
+            if (dvpd != null) {
+                List<String> campusCodes = parameterService.deriveConstrainedValues(campusByPaymentReasonConstraint, dvpd.getDisbVchrPaymentReasonCode());
+                if (campusCodes.size() > 0 && StringUtils.isNotBlank(campusCodes.get(0))) {
                     campusCode = campusCodes.get(0);
                 }
                 campusSet.add(campusCode);
@@ -444,29 +447,29 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         return campusSet;
     }
 
-    private Collection<DisbursementVoucherDocument> getListByDocumentStatusCodeCampus(String statusCode,String campusCode) {
+    private Collection<DisbursementVoucherDocument> getListByDocumentStatusCodeCampus(String statusCode, String campusCode) {
         LOG.debug("getListByDocumentStatusCodeCampus() started");
 
-        // Get the campus overide values        
-        Parameter campusByPaymentReasonConstraint = kualiConfigurationService.getParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DISBURSEMENT_VOUCHER_DOC, CAMPUS_BY_PAYMENT_REASON_PARAM);
-            
+        // Get the campus overide values
+        Parameter campusByPaymentReasonConstraint = parameterService.getParameter(DisbursementVoucherDocument.class, CAMPUS_BY_PAYMENT_REASON_PARAM);
+
         Collection<DisbursementVoucherDocument> list = new ArrayList<DisbursementVoucherDocument>();
 
         Collection docs = disbursementVoucherDao.getDocumentsByHeaderStatus(statusCode);
         for (Iterator iter = docs.iterator(); iter.hasNext();) {
-            DisbursementVoucherDocument element = (DisbursementVoucherDocument)iter.next();
+            DisbursementVoucherDocument element = (DisbursementVoucherDocument) iter.next();
 
             String dvdCampusCode = element.getCampusCode();
 
             DisbursementVoucherPayeeDetail dvpd = element.getDvPayeeDetail();
-            if ( dvpd != null ) {
-                List<String> campusCodes = kualiConfigurationService.getConstrainedValues(campusByPaymentReasonConstraint, dvpd.getDisbVchrPaymentReasonCode() );
-                if ( campusCodes.size() > 0 && StringUtils.isNotBlank( campusCodes.get(0) ) ) {
+            if (dvpd != null) {
+                List<String> campusCodes = parameterService.deriveConstrainedValues(campusByPaymentReasonConstraint, dvpd.getDisbVchrPaymentReasonCode());
+                if (campusCodes.size() > 0 && StringUtils.isNotBlank(campusCodes.get(0))) {
                     dvdCampusCode = campusCodes.get(0);
                 }
             }
 
-            if ( dvdCampusCode.equals(campusCode) ) {
+            if (dvdCampusCode.equals(campusCode)) {
                 list.add(element);
             }
         }
@@ -477,8 +480,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         this.disbursementVoucherDao = disbursementVoucherDao;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     public void setDateTimeService(DateTimeService dateTimeService) {

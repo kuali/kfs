@@ -26,13 +26,13 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.NoteService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
@@ -42,8 +42,6 @@ import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.CreditMemoStatusHistory;
-import org.kuali.module.purap.bo.PaymentRequestItem;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.AccountsPayableService;
@@ -67,28 +65,28 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     private Timestamp creditMemoPaidTimestamp;
     private String itemMiscellaneousCreditDescription;
     private Date purchaseOrderEndDate;
-    
+
     private PaymentRequestDocument paymentRequestDocument;
 
     /**
      * Default constructor.
      */
     public CreditMemoDocument() {
-        super();        
+        super();
     }
 
     public boolean isSourceDocumentPaymentRequest() {
         return getPaymentRequestIdentifier() != null;
     }
-    
+
     public boolean isSourceDocumentPurchaseOrder() {
         return (!isSourceDocumentPaymentRequest()) && (getPurchaseOrderIdentifier() != null);
     }
-    
+
     public boolean isSourceVendor() {
         return (!isSourceDocumentPaymentRequest()) && (!isSourceDocumentPurchaseOrder());
     }
-    
+
     /**
      * Iniatilizes the values for a new document.
      */
@@ -164,16 +162,14 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * 
      * Performs extended price calculation and sets on item if extended price is empty.
      */
     public void updateExtendedPriceOnItems() {
-    //TODO (KULPURAP-1572: ckirschenman) - this method is the same as PaymentRequest, move up
+        // TODO (KULPURAP-1572: ckirschenman) - this method is the same as PaymentRequest, move up
         for (CreditMemoItem item : (List<CreditMemoItem>) getItems()) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
 
-            if ((ObjectUtils.isNull(item.getExtendedPrice())||(KualiDecimal.ZERO.compareTo(item.getExtendedPrice())==0)) &&
-                    item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+            if ((ObjectUtils.isNull(item.getExtendedPrice()) || (KualiDecimal.ZERO.compareTo(item.getExtendedPrice()) == 0)) && item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
                 KualiDecimal newExtendedPrice = item.calculateExtendedPrice();
                 item.setExtendedPrice(newExtendedPrice);
             }
@@ -201,13 +197,12 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
                 NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(nodeName);
                 if (ObjectUtils.isNotNull(currentNode)) {
                     String newStatusCode = currentNode.getDisapprovedStatusCode();
-                    if ( (StringUtils.isBlank(newStatusCode)) && 
-                         ( (StringUtils.isBlank(currentNode.getDisapprovedStatusCode())) && ( (CreditMemoStatuses.INITIATE.equals(getStatusCode())) || (CreditMemoStatuses.IN_PROCESS.equals(getStatusCode())) ) ) ) {
+                    if ((StringUtils.isBlank(newStatusCode)) && ((StringUtils.isBlank(currentNode.getDisapprovedStatusCode())) && ((CreditMemoStatuses.INITIATE.equals(getStatusCode())) || (CreditMemoStatuses.IN_PROCESS.equals(getStatusCode()))))) {
                         newStatusCode = CreditMemoStatuses.CANCELLED_IN_PROCESS;
                     }
                     if (StringUtils.isNotBlank(newStatusCode)) {
-//                        SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, newStatusCode);
-//                        SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(this);
+                        // SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, newStatusCode);
+                        // SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(this);
                         SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, nodeName);
                         return;
                     }
@@ -218,14 +213,14 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
             // DOCUMENT CANCELED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
                 String currentNodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
-                SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, currentNodeName); 
+                SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, currentNodeName);
             }
         }
         catch (WorkflowException e) {
             logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
         }
     }
-    
+
     /**
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#preProcessNodeChange(java.lang.String, java.lang.String)
      */
@@ -238,19 +233,19 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         }
         return true;
     }
-    
+
     /**
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getNodeDetailEnum(java.lang.String)
      */
     public NodeDetails getNodeDetailEnum(String nodeName) {
         return NodeDetailEnum.getNodeDetailEnumByName(nodeName);
     }
-    
+
     /**
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#saveDocumentFromPostProcessing()
      */
     public void saveDocumentFromPostProcessing() {
-        SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(this);        
+        SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(this);
     }
 
     /**
@@ -261,7 +256,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         CreditMemoStatusHistory cmsh = new CreditMemoStatusHistory(oldStatus, newStatus, userId);
         getStatusHistories().add(cmsh);
     }
-    
+
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getItemClass()
      */
@@ -278,7 +273,8 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         PurchasingAccountsPayableDocument sourceDocument = null;
         if (isSourceDocumentPaymentRequest()) {
             sourceDocument = getPaymentRequestDocument();
-        } else if (isSourceDocumentPurchaseOrder()) {
+        }
+        else if (isSourceDocumentPurchaseOrder()) {
             sourceDocument = getPurchaseOrderDocument();
         }
         return sourceDocument;
@@ -453,18 +449,19 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     public PaymentRequestDocument getPaymentRequestDocument() {
-        if ( (ObjectUtils.isNull(paymentRequestDocument)) && (ObjectUtils.isNotNull(getPaymentRequestIdentifier())) ) {
+        if ((ObjectUtils.isNull(paymentRequestDocument)) && (ObjectUtils.isNotNull(getPaymentRequestIdentifier()))) {
             setPaymentRequestDocument(SpringContext.getBean(PaymentRequestService.class).getPaymentRequestById(getPaymentRequestIdentifier()));
         }
         return this.paymentRequestDocument;
     }
-    
+
     public void setPaymentRequestDocument(PaymentRequestDocument paymentRequestDocument) {
         if (ObjectUtils.isNull(paymentRequestDocument)) {
-            //KULPURAP-1185 - do not blank out input, instead throw an error
-            //setPaymentRequestIdentifier(null);            
+            // KULPURAP-1185 - do not blank out input, instead throw an error
+            // setPaymentRequestIdentifier(null);
             this.paymentRequestDocument = null;
-        } else {
+        }
+        else {
             setPaymentRequestIdentifier(paymentRequestDocument.getPurapDocumentIdentifier());
             this.paymentRequestDocument = paymentRequestDocument;
         }
@@ -472,6 +469,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
 
     /**
      * AS A REPLACEMENT USE getPaymentRequestDocument()
+     * 
      * @deprecated
      */
     public PaymentRequestDocument getPaymentRequest() {
@@ -480,7 +478,8 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
 
     /**
      * AS A REPLACEMENT USE setPaymentRequestDocument(PaymentRequestDocument)
-     * @deprecated 
+     * 
+     * @deprecated
      */
     public void setPaymentRequest(PaymentRequestDocument paymentRequest) {
         setPaymentRequestDocument(paymentRequest);
@@ -488,6 +487,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
 
     /**
      * AS A REPLACEMENT USE getPurchaseOrderDocument()
+     * 
      * @deprecated
      */
     public PurchaseOrderDocument getPurchaseOrder() {
@@ -496,6 +496,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
 
     /**
      * AS A REPLACEMENT USE setPurchaseOrderDocument(PurchaseOrderDocument)
+     * 
      * @deprecated
      */
     public void setPurchaseOrder(PurchaseOrderDocument purchaseOrder) {
@@ -519,9 +520,10 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     public void setPurchaseOrderEndDate(Date purchaseOrderEndDate) {
         this.purchaseOrderEndDate = purchaseOrderEndDate;
     }
-    
+
     /**
      * USED FOR ROUTING ONLY
+     * 
      * @deprecated
      */
     public String getStatusDescription() {
@@ -530,6 +532,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
 
     /**
      * USED FOR ROUTING ONLY
+     * 
      * @deprecated
      */
     public void setStatusDescription(String statusDescription) {
@@ -543,29 +546,29 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * 
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getInitialAmount()
      */
-    public KualiDecimal getInitialAmount(){
+    public KualiDecimal getInitialAmount() {
         return this.getCreditMemoAmount();
     }
 
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-        
-        //first populate, then call super
-        if(event instanceof ContinueAccountsPayableEvent){
+
+        // first populate, then call super
+        if (event instanceof ContinueAccountsPayableEvent) {
             SpringContext.getBean(CreditMemoCreateService.class).populateDocumentAfterInit(this);
         }
-        
+
         super.prepareForSave(event);
     }
+
     /**
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#isAttachmentRequired()
      */
     @Override
     protected boolean isAttachmentRequired() {
-        return StringUtils.equalsIgnoreCase("Y", SpringContext.getBean(KualiConfigurationService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, PurapConstants.Components.CREDIT_MEMO_DOC, PurapParameterConstants.PURAP_CM_REQUIRE_ATTACHMENT));
+        return StringUtils.equalsIgnoreCase("Y", SpringContext.getBean(ParameterService.class).getParameterValue(CreditMemoDocument.class, PurapParameterConstants.PURAP_CM_REQUIRE_ATTACHMENT));
     }
 
     @Override

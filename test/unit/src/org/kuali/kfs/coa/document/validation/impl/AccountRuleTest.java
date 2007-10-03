@@ -20,7 +20,9 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEm
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapSize;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.bo.user.AuthenticationUserId;
@@ -51,7 +53,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
             private static final String GOOD2 = "UA";
             private static final String BAD1 = "ZZ";
         }
-        
+
         private class AccountNumber {
             private static final String GOOD1 = "1031400";
             private static final String CLOSED1 = "2231414";
@@ -374,26 +376,31 @@ public class AccountRuleTest extends ChartRuleTestBase {
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
 
         boolean result;
-        String[] illegalValues;
+        List<String> illegalValues = new ArrayList();
         String accountNumber;
 
         accountNumber = "0100000";
-        illegalValues = new String[] { "0" };
+        illegalValues.add("0");
         result = rule.accountNumberStartsWithAllowedPrefix(accountNumber, illegalValues);
         assertEquals(false, result);
 
         accountNumber = "9999990";
-        illegalValues = new String[] { "999999" };
+        illegalValues.clear();
+        illegalValues.add("999999");
         result = rule.accountNumberStartsWithAllowedPrefix(accountNumber, illegalValues);
         assertEquals(false, result);
 
         accountNumber = "1031400";
-        illegalValues = new String[] { "0" };
+        illegalValues.clear();
+        illegalValues.add("0");
         result = rule.accountNumberStartsWithAllowedPrefix(accountNumber, illegalValues);
         assertEquals(true, result);
 
         accountNumber = "1031400";
-        illegalValues = new String[] { "0", "9", "Z" };
+        illegalValues.clear();
+        illegalValues.add("0");
+        illegalValues.add("9");
+        illegalValues.add("Z");
         result = rule.accountNumberStartsWithAllowedPrefix(accountNumber, illegalValues);
         assertEquals(true, result);
 
@@ -1001,14 +1008,16 @@ public class AccountRuleTest extends ChartRuleTestBase {
         assertGlobalErrorMapSize(1);
 
     }
-private void disableBeginBalanceLoadInd(){
-    Options options=SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
-    options.setFinancialBeginBalanceLoadInd(true);
-    SpringContext.getBean(BusinessObjectService.class).save(options);
-}
+
+    private void disableBeginBalanceLoadInd() {
+        Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
+        options.setFinancialBeginBalanceLoadInd(true);
+        SpringContext.getBean(BusinessObjectService.class).save(options);
+    }
+
     public void testCheckCloseAccountContinuation_NullContinuationCoaCode() {
 
-        //set preconditions
+        // set preconditions
         disableBeginBalanceLoadInd();
         Account oldAccount = new Account();
 
@@ -1033,7 +1042,7 @@ private void disableBeginBalanceLoadInd(){
 
     public void testCheckCloseAccountContinuation_NullContinuationAccountNumber() {
 
-        //set preconditions
+        // set preconditions
         disableBeginBalanceLoadInd();
         Account oldAccount = new Account();
 
@@ -1152,14 +1161,11 @@ private void disableBeginBalanceLoadInd(){
         assertGlobalErrorMapEmpty();
         assertEquals("Rule should return true with no missing fields.", true, result);
     }
-    
+
     /**
-     * @RelatesTo KULRNE-4662
-     * 
-     * This test makes sure that if the account has a non-CG subfund group, no fields are allowed to be
-     * filled in.
-     * (The contrary test--that if we have an account with a CG fund group, all fields are now required--
-     *  should be tested by testCGFields_RequiredCGFields_AllPresent()).
+     * @RelatesTo KULRNE-4662 This test makes sure that if the account has a non-CG subfund group, no fields are allowed to be
+     *            filled in. (The contrary test--that if we have an account with a CG fund group, all fields are now required--
+     *            should be tested by testCGFields_RequiredCGFields_AllPresent()).
      */
     @SuppressWarnings("deprecation")
     public void testCGFields_NotCGSubFund_NoFieldsPresent() {
@@ -1192,14 +1198,12 @@ private void disableBeginBalanceLoadInd(){
         assertFieldErrorExists("financialIcrSeriesIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
         assertFieldErrorExists("indirectCostRcvyFinCoaCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
         assertFieldErrorExists("indirectCostRecoveryAcctNbr", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
-        assertFalse("We do not have a C&G sub fund group, but we have all the fields filled; the rule run result should be false",result);
+        assertFalse("We do not have a C&G sub fund group, but we have all the fields filled; the rule run result should be false", result);
     }
-    
+
     /**
      * @RelatesTo KULRNE-4662
-     * @RelatesTo KULCG-111
-     * 
-     * This method makes sure that the new account can act as its own contract control account.
+     * @RelatesTo KULCG-111 This method makes sure that the new account can act as its own contract control account.
      */
     @SuppressWarnings("deprecation")
     public void testCGFields_AccountCanBeCGAccount() {
@@ -1216,7 +1220,7 @@ private void disableBeginBalanceLoadInd(){
         // add the subFundGroup info to Account
         newAccount.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
         newAccount.setSubFundGroup(subFundGroup);
-        
+
         // set chart of accounts and account #, just for this test run
         String oldNewAccountChart = newAccount.getChartOfAccountsCode();
         String oldNewAccountsAcctNum = newAccount.getAccountNumber();
@@ -1236,15 +1240,13 @@ private void disableBeginBalanceLoadInd(){
         result = rule.checkCgRequiredFields(newAccount);
         assertGlobalErrorMapEmpty();
         assertTrue("Rule should allow new account to be the contract control account.", result);
-        
+
         newAccount.setChartOfAccountsCode(oldNewAccountChart);
         newAccount.setAccountNumber(oldNewAccountsAcctNum);
     }
-    
+
     /**
-     * @RelatesTo KULCG-111
-     * 
-     * This method makes sure that any account specified as the contract control account must actually exist.
+     * @RelatesTo KULCG-111 This method makes sure that any account specified as the contract control account must actually exist.
      */
     @SuppressWarnings("deprecation")
     public void testCGFields_AccountMustBeReal() {
@@ -1610,38 +1612,28 @@ private void disableBeginBalanceLoadInd(){
 
     @SuppressWarnings("deprecation")
     public void testDataDictionaryValidation_AccountPurpose_TooLong() {
-    	Account oldAccount = new Account();
-    	newAccount.setAccountGuideline( new AccountGuideline() );
-    	newAccount.getAccountGuideline().setAccountPurposeText( "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + 
-    			"01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + 
-    			"01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + 
-    			"01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + 
-    			"01324567890123456789012345678901324567890132456789012345678901234567890132456789" );
-    	assertTrue( "Purpose text should be more than 400 characters.  (was: " + newAccount.getAccountGuideline().getAccountPurposeText().length() +")",
-    			newAccount.getAccountGuideline().getAccountPurposeText().length() > 400 );
-    	MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
+        Account oldAccount = new Account();
+        newAccount.setAccountGuideline(new AccountGuideline());
+        newAccount.getAccountGuideline().setAccountPurposeText("01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789");
+        assertTrue("Purpose text should be more than 400 characters.  (was: " + newAccount.getAccountGuideline().getAccountPurposeText().length() + ")", newAccount.getAccountGuideline().getAccountPurposeText().length() > 400);
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
-        rule.processCustomRouteDocumentBusinessRules( maintDoc );
-        //System.out.println( GlobalVariables.getErrorMap().entrySet() );
-        assertFieldErrorExists( "accountGuideline.accountPurposeText", KFSKeyConstants.ERROR_MAX_LENGTH );
+        rule.processCustomRouteDocumentBusinessRules(maintDoc);
+        // System.out.println( GlobalVariables.getErrorMap().entrySet() );
+        assertFieldErrorExists("accountGuideline.accountPurposeText", KFSKeyConstants.ERROR_MAX_LENGTH);
     }
 
     @SuppressWarnings("deprecation")
     public void testDataDictionaryValidation_AccountPurpose_GoodLength() {
-    	Account oldAccount = new Account();
-    	newAccount.setAccountGuideline( new AccountGuideline() );
-    	newAccount.getAccountGuideline().setAccountPurposeText( "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + 
-    			"01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + 
-    			"01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + 
-    			"01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + 
-    			"013245678901234567890123456789013245678901324567890123456789012345678901324" );
-    	System.out.println( newAccount.getAccountGuideline().getAccountPurposeText().length() );
-    	assertTrue( "Purpose text should be <= 400 characters.  (was: " + newAccount.getAccountGuideline().getAccountPurposeText().length() +")",
-    			newAccount.getAccountGuideline().getAccountPurposeText().length() <= 400 );
-    	MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
+        Account oldAccount = new Account();
+        newAccount.setAccountGuideline(new AccountGuideline());
+        newAccount.getAccountGuideline().setAccountPurposeText("01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "013245678901234567890123456789013245678901324567890123456789012345678901324");
+        System.out.println(newAccount.getAccountGuideline().getAccountPurposeText().length());
+        assertTrue("Purpose text should be <= 400 characters.  (was: " + newAccount.getAccountGuideline().getAccountPurposeText().length() + ")", newAccount.getAccountGuideline().getAccountPurposeText().length() <= 400);
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
-        rule.processCustomRouteDocumentBusinessRules( maintDoc );
-        System.out.println( GlobalVariables.getErrorMap().entrySet() );
-        assertFieldErrorDoesNotExist( "accountGuideline.accountPurposeText", KFSKeyConstants.ERROR_MAX_LENGTH );
+        rule.processCustomRouteDocumentBusinessRules(maintDoc);
+        System.out.println(GlobalVariables.getErrorMap().entrySet());
+        assertFieldErrorDoesNotExist("accountGuideline.accountPurposeText", KFSKeyConstants.ERROR_MAX_LENGTH);
     }
 }

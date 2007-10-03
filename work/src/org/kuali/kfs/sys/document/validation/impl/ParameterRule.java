@@ -17,66 +17,55 @@ package org.kuali.kfs.rules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.bo.ParameterDetailType;
-import org.kuali.core.datadictionary.DataDictionary;
-import org.kuali.core.datadictionary.DocumentEntry;
-import org.kuali.core.datadictionary.TransactionalDocumentEntry;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.batch.Step;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.lookup.ParameterDetailTypeLookupableHelperServiceImpl;
-import org.kuali.kfs.util.ParameterDetailTypeUtils;
+import org.kuali.kfs.service.ParameterService;
 
 public class ParameterRule extends org.kuali.core.rules.ParameterRule {
 
     private static ArrayList<String> ddComponentNames = new ArrayList<String>();
     private static ArrayList<String[]> stepNames = new ArrayList<String[]>();
-    
+
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        boolean result = super.processCustomRouteDocumentBusinessRules( document );
+        boolean result = super.processCustomRouteDocumentBusinessRules(document);
 
-        result &= checkComponent( (Parameter)getNewBo() );
+        result &= checkComponent((Parameter) getNewBo());
 
         return result;
     }
-    
-    public boolean checkComponent( Parameter param ) {
+
+    public boolean checkComponent(Parameter param) {
         String component = param.getParameterDetailTypeCode();
         String namespace = param.getParameterNamespaceCode();
         boolean result = false;
-        
-        // check the DD        
-        List<ParameterDetailType> ddComponents = ParameterDetailTypeUtils.getDDComponents();
-        for ( ParameterDetailType pdt : ddComponents ) {
-            if ( pdt.getParameterNamespaceCode().equals(namespace)
-                    && pdt.getParameterDetailTypeCode().equals(component) ) {
+
+        List<ParameterDetailType> dataDictionaryAndSpringComponents = SpringContext.getBean(ParameterService.class).getNonDatabaseDetailTypes();
+        for (ParameterDetailType pdt : dataDictionaryAndSpringComponents) {
+            if (pdt.getParameterNamespaceCode().equals(namespace) && pdt.getParameterDetailTypeCode().equals(component)) {
                 result = true;
                 break;
             }
         }
-        
-        // check the table
-        if ( !result ) {
-            Map<String,String> primaryKeys = new HashMap<String, String>( 2 );
+
+        if (!result) {
+            Map<String, String> primaryKeys = new HashMap<String, String>(2);
             primaryKeys.put("parameterNamespaceCode", namespace);
             primaryKeys.put("parameterDetailTypeCode", component);
-            result = ObjectUtils.isNotNull( getBoService().findByPrimaryKey(ParameterDetailType.class, primaryKeys) );
+            result = ObjectUtils.isNotNull(getBoService().findByPrimaryKey(ParameterDetailType.class, primaryKeys));
         }
-        
-        if ( !result ) {
-            putFieldError( "parameterDetailTypeCode", "error.document.parameter.detailType.invalid", component );            
+
+        if (!result) {
+            putFieldError("parameterDetailTypeCode", "error.document.parameter.detailType.invalid", component);
         }
-        
+
         return result;
     }
-    
+
 }

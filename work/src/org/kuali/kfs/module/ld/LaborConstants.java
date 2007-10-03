@@ -26,9 +26,6 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.labor.batch.LaborPosterStep;
-import org.kuali.module.labor.batch.LaborYearEndBalanceForwardStep;
-import org.kuali.module.labor.batch.PayrollAccrualStep;
 
 /**
  * This class contains the constants used by Labor Distribution.
@@ -52,15 +49,6 @@ public class LaborConstants {
         public static final String EXPENSE_TRANSFER_SACH = "SACH";
         public static final String EXPENSE_TRANSFER_YEST = "YEST";
         public static final String EXPENSE_TRANSFER_YEBT = "YEBT";
-    }
-
-    public static final String LABOR_NAMESPACE = "KFS-LD";
-
-    public static class Components {
-        public static final String LABOR_POSTER_STEP = LaborPosterStep.class.getSimpleName();
-        public static final String PAYROLL_ACCURAL_STEP = PayrollAccrualStep.class.getSimpleName();
-        public static final String SALARY_EXPENSE_TRANSFER = SalaryExpenseTransfer.class.getSimpleName();
-        public static final String YEAR_END_BALANCE_FORWARD_STEP = LaborYearEndBalanceForwardStep.class.getSimpleName();
     }
 
     public static class DestinationNames {

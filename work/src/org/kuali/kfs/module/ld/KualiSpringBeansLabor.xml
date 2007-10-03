@@ -267,8 +267,8 @@
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService" />
+        <property name="parameterService">
+            <ref bean="parameterService" />
         </property>
 
         <property name="laborReportService">
@@ -293,8 +293,8 @@
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService" />
+        <property name="parameterService">
+            <ref bean="parameterService" />
         </property>
         <property name="optionsService">
 			<ref bean="optionsService" />
@@ -363,8 +363,8 @@
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService" />
+        <property name="parameterService">
+            <ref bean="parameterService" />
         </property>
 
         <property name="laborReportService">
@@ -372,59 +372,55 @@
         </property>
     </bean>
         	
-	<bean id="laborNightlyOutStep" class="org.kuali.module.labor.batch.LaborNightlyOutStep" parent="laborStep">
+	<bean id="laborNightlyOutStep" class="org.kuali.module.labor.batch.LaborNightlyOutStep" parent="step">
 		<property name="laborNightlyOutService">
 			<ref bean="laborNightlyOutService" />
 		</property>
 	</bean>  
 	
-	<bean id="clearLaborPendingStep" class="org.kuali.module.labor.batch.ClearLaborPendingStep" parent="laborStep">
+	<bean id="clearLaborPendingStep" class="org.kuali.module.labor.batch.ClearLaborPendingStep" parent="step">
 		<property name="laborNightlyOutService">
 			<ref bean="laborNightlyOutService" />
 		</property>
 	</bean>  
 		
-	<bean id="laborClearGLEntryStep" class="org.kuali.module.labor.batch.ClearLaborGLEntryStep" parent="laborStep">
+	<bean id="laborClearGLEntryStep" class="org.kuali.module.labor.batch.ClearLaborGLEntryStep" parent="step">
 		<property name="laborNightlyOutService">
 			<ref bean="laborNightlyOutService" />
 		</property>
 	</bean> 
 		
-	<bean id="laborFeedStep" class="org.kuali.module.labor.batch.LaborFeedStep" parent="laborStep">
+	<bean id="laborFeedStep" class="org.kuali.module.labor.batch.LaborFeedStep" parent="step">
 		<property name="laborNightlyOutService">
 			<ref bean="laborNightlyOutService" />
 		</property>
 	</bean> 
 
-    <bean id="laborStep" parent="step" abstract="true">
-        <property name="namespace" value="KFS-LD" />
-	</bean> 
-         
-	<bean id="createLaborBackupGroupStep" class="org.kuali.module.labor.batch.CreateLaborBackupGroupStep" parent="laborStep">
+	<bean id="createLaborBackupGroupStep" class="org.kuali.module.labor.batch.CreateLaborBackupGroupStep" parent="step">
 		<property name="originEntryGroupService">
             <ref bean="originEntryGroupService" />
         </property>
 	</bean>         
            
-	<bean id="laborScrubberStep" class="org.kuali.module.labor.batch.LaborScrubberStep" parent="laborStep">
+	<bean id="laborScrubberStep" class="org.kuali.module.labor.batch.LaborScrubberStep" parent="step">
 		<property name="laborScrubberService">
 			<ref bean="laborScrubberService" />
 		</property>
 	</bean>
 	
-	<bean id="laborPosterStep" class="org.kuali.module.labor.batch.LaborPosterStep" parent="laborStep">
+	<bean id="laborPosterStep" class="org.kuali.module.labor.batch.LaborPosterStep" parent="step">
 		<property name="laborPosterService">
 			<ref bean="laborPosterService" />
 		</property>
 	</bean>
 		           
-	<bean id="laborBalanceSummaryStep" class="org.kuali.module.labor.batch.LaborBalanceSummaryStep" parent="laborStep">
+	<bean id="laborBalanceSummaryStep" class="org.kuali.module.labor.batch.LaborBalanceSummaryStep" parent="step">
 		<property name="laborBalanceSummaryReportService">
 			<ref bean="laborBalanceSummaryReportService" />
 		</property>
 	</bean>
 	  
-    <bean id="laborYearEndBalanceForwardStep" class="org.kuali.module.labor.batch.LaborYearEndBalanceForwardStep" parent="laborStep">
+    <bean id="laborYearEndBalanceForwardStep" class="org.kuali.module.labor.batch.LaborYearEndBalanceForwardStep" parent="step">
 		<property name="laborYearEndBalanceForwardService">
 			<ref bean="laborYearEndBalanceForwardService" />
 		</property>
@@ -451,8 +447,8 @@
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService" />
+        <property name="parameterService">
+            <ref bean="parameterService" />
         </property>
 
         <property name="laborReportService">
@@ -471,7 +467,7 @@
         </property>
     </bean> 
     
-    <bean id="payrollAccrualStep" class="org.kuali.module.labor.batch.PayrollAccrualStep" parent="laborStep">
+    <bean id="payrollAccrualStep" class="org.kuali.module.labor.batch.PayrollAccrualStep" parent="step">
 		<property name="payrollAccrualService">
 			<ref bean="payrollAccrualService" />
 		</property>

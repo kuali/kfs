@@ -67,7 +67,7 @@
 		<property name="scheduler" ref="scheduler" />
 		<property name="jobListener" ref="jobListener" />
 		<property name="moduleService" ref="kualiModuleService" />
-		<property name="configurationService" ref="kualiConfigurationService" />
+		<property name="parameterService" ref="parameterService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="mailService" ref="mailService" />		
 	</bean>
@@ -87,9 +87,8 @@
 	</bean>
 
 	<bean id="step" abstract="true">
-		<property name="configurationService" ref="kualiConfigurationService" />
+		<property name="parameterService" ref="parameterService" />
 		<property name="dateTimeService" ref="dateTimeService" />
-        <property name="namespace" value="KR-NS" />
 	</bean>
 
 	<bean id="scheduleJob" parent="scheduledJobDescriptor">
@@ -120,7 +119,8 @@
 	
 	<bean id="batchJobStatusLookupableHelperService" class="org.kuali.kfs.lookup.BatchJobStatusLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
     	<property name="schedulerService" ref="schedulerService" />
-    	<property name="configService" ref="kualiConfigurationService" />
+    	<property name="parameterService" ref="parameterService" />
+    	<property name="configurationService" ref="kualiConfigurationService" />
     </bean>
 	
 	<bean id="batchJobStatusLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
@@ -169,6 +169,13 @@
 	</bean>
 	<!-- end core batch jobs -->
 	
+	<bean id="parameterService" class="org.kuali.kfs.service.impl.ParameterServiceImpl">
+		<property name="configurationService" ref="kualiConfigurationService" />
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="moduleService" ref="kualiModuleService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+
 	<bean id="kualiCodeService" class="org.kuali.kfs.service.impl.KualiCodeServiceImpl">
 		<property name="kualiCodeDao">
 			<ref bean="kualiCodeDao" />
@@ -194,8 +201,8 @@
 	<bean id="optionsDao" parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.OptionsDaoOjb" />
 	
 	<bean id="generalLedgerPendingEntryDao" parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.GeneralLedgerPendingEntryDaoOjb">
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
+		<property name="parameterService">
+			<ref bean="parameterService" />
 		</property>
 	</bean>
 
@@ -230,8 +237,8 @@
 		<property name="optionsService">
 			<ref bean="optionsService" />
 		</property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
+		<property name="parameterService">
+			<ref bean="parameterService" />
 		</property>
 		<property name="balanceTypeService">
 			<ref bean="balanceTypService" />
@@ -274,8 +281,8 @@
 
     <bean id="parameterDetailTypeLookupable" class="org.kuali.core.lookup.KualiLookupableImpl">
         <property name="lookupableHelperService">
-            <bean id="parameterDetailTypeLookupableHelperService" class="org.kuali.kfs.lookup.ParameterDetailTypeLookupableHelperServiceImpl"
-                parent="lookupableHelperService">
+            <bean id="parameterDetailTypeLookupableHelperService" class="org.kuali.kfs.lookup.ParameterDetailTypeLookupableHelperServiceImpl" parent="lookupableHelperService">
+				<property name="parameterService" ref="parameterService" />
             </bean>
         </property>
     </bean>

@@ -35,6 +35,8 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.context.TestUtils;
+import org.kuali.module.chart.bo.OffsetDefinition;
+import org.kuali.module.financial.bo.Bank;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
@@ -65,7 +67,7 @@ public class OriginEntryTestBase extends KualiTestBase {
 
         dateTimeService = SpringContext.getBean(ConfigurableDateService.class);
         date = dateTimeService.getCurrentDate();
-        
+
         // Other objects needed for the tests
         persistenceService = SpringContext.getBean(PersistenceService.class);
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
@@ -157,50 +159,52 @@ public class OriginEntryTestBase extends KualiTestBase {
 
         // now, sort the lines here to avoid any DB sorting issues
         Comparator<OriginEntryFull> originEntryComparator = new Comparator<OriginEntryFull>() {
-        	public int compare(OriginEntryFull o1, OriginEntryFull o2) {
-        		int groupCompareResult = o1.getEntryGroupId().compareTo( o2.getEntryGroupId() );
-        		if ( groupCompareResult == 0 ) {
-        			return o1.getLine().compareTo( o2.getLine() );
-        		} else {
-        			return groupCompareResult;        			
-        		}
-        	}
+            public int compare(OriginEntryFull o1, OriginEntryFull o2) {
+                int groupCompareResult = o1.getEntryGroupId().compareTo(o2.getEntryGroupId());
+                if (groupCompareResult == 0) {
+                    return o1.getLine().compareTo(o2.getLine());
+                }
+                else {
+                    return groupCompareResult;
+                }
+            }
         };
         Comparator<EntryHolder> entryHolderComparator = new Comparator<EntryHolder>() {
-        	public int compare(EntryHolder o1, EntryHolder o2) {
-        		int groupCompareResult = String.valueOf( getGroup( groups, o1.groupCode ) ).compareTo( String.valueOf( getGroup( groups, o2.groupCode ) ) );
-        		if ( groupCompareResult == 0 ) {
-        			return o1.transactionLine.compareTo( o2.transactionLine );
-        		} else {
-        			return groupCompareResult;        			
-        		}
-        	}
+            public int compare(EntryHolder o1, EntryHolder o2) {
+                int groupCompareResult = String.valueOf(getGroup(groups, o1.groupCode)).compareTo(String.valueOf(getGroup(groups, o2.groupCode)));
+                if (groupCompareResult == 0) {
+                    return o1.transactionLine.compareTo(o2.transactionLine);
+                }
+                else {
+                    return groupCompareResult;
+                }
+            }
         };
-        ArrayList<OriginEntryFull> sortedEntryTransactions = new ArrayList<OriginEntryFull>( c );
-        Collections.sort( sortedEntryTransactions, originEntryComparator );
-        Arrays.sort( requiredEntries, entryHolderComparator );
-        
+        ArrayList<OriginEntryFull> sortedEntryTransactions = new ArrayList<OriginEntryFull>(c);
+        Collections.sort(sortedEntryTransactions, originEntryComparator);
+        Arrays.sort(requiredEntries, entryHolderComparator);
+
         // This is for debugging purposes - change to true for output
         if (true) {
-        	System.err.println( "Groups:" );
+            System.err.println("Groups:");
             for (Iterator iter = groups.iterator(); iter.hasNext();) {
                 Map element = (Map) iter.next();
                 System.err.println("G:" + element.get("ORIGIN_ENTRY_GRP_ID") + " " + element.get("ORIGIN_ENTRY_GRP_SRC_CD"));
             }
 
-        	System.err.println( "Transactions:" );
-            for (OriginEntryFull element : sortedEntryTransactions ) {
+            System.err.println("Transactions:");
+            for (OriginEntryFull element : sortedEntryTransactions) {
                 System.err.println("L:" + element.getEntryGroupId() + " " + element.getLine());
             }
-        	System.err.println( "Expected Transactions:" );
-            for (EntryHolder element : requiredEntries ) {
-                System.err.println("L:" + getGroup(groups, element.groupCode ) + " " + element.transactionLine );
+            System.err.println("Expected Transactions:");
+            for (EntryHolder element : requiredEntries) {
+                System.err.println("L:" + getGroup(groups, element.groupCode) + " " + element.transactionLine);
             }
         }
 
         assertEquals("Wrong number of transactions in Origin Entry", requiredEntries.length, c.size());
 
-        
+
         int count = 0;
         for (Iterator iter = sortedEntryTransactions.iterator(); iter.hasNext();) {
             OriginEntryFull foundTransaction = (OriginEntryFull) iter.next();
@@ -239,18 +243,16 @@ public class OriginEntryTestBase extends KualiTestBase {
         return -1;
     }
 
-    protected static String[] ICR_ENCUMBRANCE_ENABLED_FLAG = { KFSConstants.GL_NAMESPACE, KFSConstants.Components.ENCUMBRANCE, KFSConstants.SystemGroupParameterNames.ICR_ENCUMBRANCE_ENABLED_FLAG };
-    protected static String[] FLEXIBLE_OFFSET_ENABLED_FLAG = { KFSConstants.CHART_NAMESPACE, KFSConstants.Components.OFFSET_DEFINITION, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG };
-    protected static String[] FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG = { KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.BANK, KFSConstants.SystemGroupParameterNames.FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG };
+    protected static Object[] FLEXIBLE_OFFSET_ENABLED_FLAG = { OffsetDefinition.class, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG };
+    protected static Object[] FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG = { Bank.class, KFSConstants.SystemGroupParameterNames.FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG };
 
     protected void resetAllEnhancementFlags() throws Exception {
-        setApplicationConfigurationFlag(ICR_ENCUMBRANCE_ENABLED_FLAG[0], ICR_ENCUMBRANCE_ENABLED_FLAG[1], ICR_ENCUMBRANCE_ENABLED_FLAG[2], false);
-        setApplicationConfigurationFlag(FLEXIBLE_OFFSET_ENABLED_FLAG[0], FLEXIBLE_OFFSET_ENABLED_FLAG[1], FLEXIBLE_OFFSET_ENABLED_FLAG[2], false);
-        setApplicationConfigurationFlag(FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG[0], FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG[1], FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG[2], false);
+        setApplicationConfigurationFlag((Class) FLEXIBLE_OFFSET_ENABLED_FLAG[0], (String) FLEXIBLE_OFFSET_ENABLED_FLAG[1], false);
+        setApplicationConfigurationFlag((Class) FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG[0], (String) FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG[1], false);
     }
 
-    protected void setApplicationConfigurationFlag(String namespace, String component, String name, boolean value) throws Exception {
-        TestUtils.setSystemParameter(namespace, component, name, value ? "Y" : "N", true, false);
+    protected void setApplicationConfigurationFlag(Class componentClass, String name, boolean value) throws Exception {
+        TestUtils.setSystemParameter(componentClass, name, value ? "Y" : "N", true, false);
     }
 
 

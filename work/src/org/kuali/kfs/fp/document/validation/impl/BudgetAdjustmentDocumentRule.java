@@ -18,7 +18,6 @@ package org.kuali.module.financial.rules;
 import static org.kuali.kfs.KFSConstants.SOURCE_ACCOUNTING_LINE_ERRORS;
 import static org.kuali.kfs.KFSConstants.TARGET_ACCOUNTING_LINE_ERRORS;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED;
-import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING;
 import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.GENERATE_TOF_GLPE_ENTRIES_PARM_NM;
 import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_10_PERIOD_CODE;
 import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_11_PERIOD_CODE;
@@ -46,7 +45,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.InfrastructureException;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
@@ -67,6 +65,7 @@ import org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.rules.AccountingLineRuleUtil;
 import org.kuali.kfs.service.OptionsService;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
@@ -167,7 +166,7 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
             }
 
             customizeExplicitGeneralLedgerPendingEntry(FinancialDocument, accountingLine, explicitEntry);
-            
+
             // add the new explicit entry to the document now
             FinancialDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
 
@@ -190,7 +189,7 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
             }
 
             customizeExplicitGeneralLedgerPendingEntry(FinancialDocument, accountingLine, explicitEntry);
-            
+
             // add the new explicit entry to the document now
             FinancialDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
 
@@ -268,7 +267,7 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
         explicitEntry.setUniversityFiscalPeriodCode(fiscalPeriod);
 
         customizeExplicitGeneralLedgerPendingEntry(FinancialDocument, accountingLine, explicitEntry);
-        
+
         // add the new explicit entry to the document now
         FinancialDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
     }
@@ -288,8 +287,8 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
         boolean success = true;
 
         // check on-off tof flag
-        boolean generateTransfer = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.BUDGET_ADJUSTMENT_DOC, GENERATE_TOF_GLPE_ENTRIES_PARM_NM);
-        String transferObjectCode = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.BUDGET_ADJUSTMENT_DOC, TRANSFER_OBJECT_CODE_PARM_NM);
+        boolean generateTransfer = SpringContext.getBean(ParameterService.class).getIndicatorParameter(BudgetAdjustmentDocument.class, GENERATE_TOF_GLPE_ENTRIES_PARM_NM);
+        String transferObjectCode = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetAdjustmentDocument.class, TRANSFER_OBJECT_CODE_PARM_NM);
         Integer currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
 
         if (generateTransfer) {
@@ -336,7 +335,7 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
                     }
 
                     customizeExplicitGeneralLedgerPendingEntry(FinancialDocument, accountingLine, explicitEntry);
-                    
+
                     // add the new explicit entry to the document now
                     FinancialDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
 
@@ -556,10 +555,10 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
         String errorKey = KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE;
 
         /* check object sub type global restrictions */
-        objectCodeAllowed = objectCodeAllowed && executeParameterRestriction(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.BUDGET_ADJUSTMENT_DOC, RESTRICTED_OBJECT_SUB_TYPE_CODES, accountingLine.getObjectCode().getFinancialObjectSubTypeCode(), errorKey, AccountingLineRuleUtil.getObjectSubTypeCodeLabel());
+        objectCodeAllowed = objectCodeAllowed && executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(BudgetAdjustmentDocument.class, RESTRICTED_OBJECT_SUB_TYPE_CODES), accountingLine.getObjectCode().getFinancialObjectSubTypeCode(), errorKey, AccountingLineRuleUtil.getObjectSubTypeCodeLabel());
 
         /* check object code is in permitted list for payment reason */
-        objectCodeAllowed = objectCodeAllowed && executeParameterRestriction(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.BUDGET_ADJUSTMENT_DOC, RESTRICTED_OBJECT_CODES, accountingLine.getFinancialObjectCode(), errorKey, AccountingLineRuleUtil.getObjectCodeLabel());
+        objectCodeAllowed = objectCodeAllowed && executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(BudgetAdjustmentDocument.class, RESTRICTED_OBJECT_CODES), accountingLine.getFinancialObjectCode(), errorKey, AccountingLineRuleUtil.getObjectCodeLabel());
 
         return objectCodeAllowed;
     }
@@ -632,11 +631,10 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
     }
 
     /**
-     * In order for the BA document to balance:
-     * 
-     * Total of Base Income Adjustments - Base Expense Adjustments on Descrease side must equal Total of Base Income Adjustments -
-     * Base Expense Adjustments on increase side Total of Current Income Adjustments - Base Current Adjustments on Descrease side
-     * must equal Total of Current Income Adjustments - Base Current Adjustments on increase side
+     * In order for the BA document to balance: Total of Base Income Adjustments - Base Expense Adjustments on Descrease side must
+     * equal Total of Base Income Adjustments - Base Expense Adjustments on increase side Total of Current Income Adjustments - Base
+     * Current Adjustments on Descrease side must equal Total of Current Income Adjustments - Base Current Adjustments on increase
+     * side
      * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.FinancialDocument)
      */

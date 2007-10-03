@@ -45,6 +45,8 @@ import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizer;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.kfs.web.ui.AccountingLineDecorator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ChartUser;
@@ -150,7 +152,7 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
         setAccountingLineEditableFields(financialDocumentAuthorizer.getAccountingLineEditableFields(financialDocument, kualiUser));
         setDocumentActionFlags(financialDocumentAuthorizer.getDocumentActionFlags(financialDocument, kualiUser));
 
-        setEditableAccounts(financialDocumentAuthorizer.getEditableAccounts(glomBaselineAccountingLines(), (ChartUser)kualiUser.getModuleUser( ChartUser.MODULE_ID )));
+        setEditableAccounts(financialDocumentAuthorizer.getEditableAccounts(glomBaselineAccountingLines(), (ChartUser) kualiUser.getModuleUser(ChartUser.MODULE_ID)));
     }
 
 
@@ -335,7 +337,6 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
 
 
     /**
-     * 
      * @return hideDetails attribute
      */
     public boolean isHideDetails() {
@@ -343,7 +344,6 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
     }
 
     /**
-     * 
      * @return hideDetails attribute
      * @see #isHideDetails()
      */
@@ -352,7 +352,6 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
     }
 
     /**
-     * 
      * @param hideDetails
      */
     public void setHideDetails(boolean hideDetails) {
@@ -450,7 +449,6 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
      * haven't been created will succeed rather than causing a NullPointerException.
      * 
      * @param index
-     * 
      * @return baseline TargetAccountingLine at the given index
      */
     public TargetAccountingLine getBaselineTargetAccountingLine(int index) {
@@ -512,7 +510,6 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
      * haven't been created will succeed rather than causing a NullPointerException.
      * 
      * @param index
-     * 
      * @return AccountingLineDecorators for sourceLine at the given index
      */
     public AccountingLineDecorator getSourceLineDecorator(int index) {
@@ -564,7 +561,6 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
      * haven't been created will succeed rather than causing a NullPointerException.
      * 
      * @param index
-     * 
      * @return AccountingLineDecorator for targetLine at the given index
      */
     public AccountingLineDecorator getTargetLineDecorator(int index) {
@@ -618,11 +614,10 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
      * @return String
      */
     public String getAccountingLineImportInstructionsUrl() {
-        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.ACCOUNTING_LINE, KFSConstants.FinancialApcParms.ACCOUNTING_LINE_IMPORT_HELP);
+        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, KFSConstants.FinancialApcParms.ACCOUNTING_LINE_IMPORT_HELP);
     }
 
     /**
-     * 
      * @param financialDocument
      * @return a new source accounting line for the document
      */
@@ -639,7 +634,6 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
     }
 
     /**
-     * 
      * @param financialDocument
      * @return a new target accounting line for the documet
      */
@@ -654,18 +648,19 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
             throw new InfrastructureException("unable to create a new target accounting line", e);
         }
     }
-    
+
     /**
-     * This method finds its appropriate document authorizer and uses that to reset
-     * the map of editable accounts, based on the current accounting lines.
+     * This method finds its appropriate document authorizer and uses that to reset the map of editable accounts, based on the
+     * current accounting lines.
      */
     public void refreshEditableAccounts() {
         AccountingDocumentAuthorizer authorizer = (AccountingDocumentAuthorizer) SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(this.getDocument());
-        this.setEditableAccounts(authorizer.getEditableAccounts(glomBaselineAccountingLines(), (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID )));
+        this.setEditableAccounts(authorizer.getEditableAccounts(glomBaselineAccountingLines(), (ChartUser) GlobalVariables.getUserSession().getUniversalUser().getModuleUser(ChartUser.MODULE_ID)));
     }
-    
-    /** 
+
+    /**
      * This method returns a list made up of accounting line from all baseline accounting line sources.
+     * 
      * @return a list of accounting lines, made up of all baseline source and baseline target lines.
      */
     private List<AccountingLine> glomBaselineAccountingLines() {
@@ -674,28 +669,26 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
         lines.addAll(harvestAccountingLines(this.getBaselineTargetAccountingLines()));
         return lines;
     }
-    
+
     /**
-     * 
-     * This method takes a generic list, hopefully with some AccountingLine objects in it, and returns a list of AccountingLine objects,
-     * because Java generics are just so wonderful.
+     * This method takes a generic list, hopefully with some AccountingLine objects in it, and returns a list of AccountingLine
+     * objects, because Java generics are just so wonderful.
      * 
      * @param lines a list of objects
      * @return a list of the accounting lines that were in the lines parameter
      */
     private List<AccountingLine> harvestAccountingLines(List lines) {
         List<AccountingLine> accountingLines = new ArrayList<AccountingLine>();
-        for (Object o: lines) {
+        for (Object o : lines) {
             if (o instanceof AccountingLine) {
-                accountingLines.add((AccountingLine)o);
+                accountingLines.add((AccountingLine) o);
             }
         }
         return accountingLines;
     }
 
     /**
-     * A <code>{@link Map}</code> of names of optional accounting line fields
-     * that require a quickfinder.
+     * A <code>{@link Map}</code> of names of optional accounting line fields that require a quickfinder.
      * 
      * @return a Map of fields
      */
@@ -704,8 +697,7 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
     }
 
     /**
-     * A <code>{@link Map}</code> of names of optional accounting line fields
-     * that require a quickfinder.
+     * A <code>{@link Map}</code> of names of optional accounting line fields that require a quickfinder.
      * 
      * @return a Map of fields
      */

@@ -24,12 +24,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LaborUser;
@@ -45,6 +45,7 @@ import org.kuali.module.labor.service.LaborUserService;
  */
 public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     private static Log LOG = LogFactory.getLog(SalaryExpenseTransferForm.class);
+
     private LaborUser user;
     private String balanceTypeCode;
     private String emplid;
@@ -54,6 +55,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
      */
     public SalaryExpenseTransferForm() {
         super();
+
         setDocument(new SalaryExpenseTransferDocument());
         setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
         setLookupResultsBOClassName(LedgerBalance.class.getName());
@@ -122,12 +124,14 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
      */
     public void setEmplid(String id) {
         getSalaryExpenseTransferDocument().setEmplid(id);
+
         if (id != null) {
             try {
                 setUser(SpringContext.getBean(LaborUserService.class).getLaborUserByPersonPayrollIdentifier(id));
             }
             catch (UserNotFoundException e) {
             }
+
         }
     }
 
@@ -139,8 +143,10 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
      */
     public String getEmplid() throws UserNotFoundException {
         if (user == null) {
+
             try {
                 setUser(SpringContext.getBean(LaborUserService.class).getLaborUserByPersonPayrollIdentifier(getSalaryExpenseTransferDocument().getEmplid()));
+
             }
             catch (UserNotFoundException e) {
             }
@@ -166,7 +172,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         map.remove(KFSPropertyConstants.AMOUNT);
 
         // check if user is allowed to edit the object code.
-        String adminGroupName = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(LaborConstants.LABOR_NAMESPACE, LaborConstants.Components.SALARY_EXPENSE_TRANSFER, LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP_PARM_NM);
+        String adminGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(SalaryExpenseTransferDocument.class, LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP_PARM_NM);
         boolean isAdmin = false;
         try {
             isAdmin = GlobalVariables.getUserSession().getUniversalUser().isMember(adminGroupName);

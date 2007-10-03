@@ -31,6 +31,8 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.document.CashReceiptFamilyBase;
@@ -61,10 +63,10 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
 
         return isValid;
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.kfs.bo.AccountingLine)
      */
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
@@ -149,9 +151,9 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
     }
 
     /**
+     * This method validates all the accounting lines for the right account/object code pairings, if the account is a sales tax
+     * account
      * 
-     * This method validates all the accounting lines for the right
-     * account/object code pairings, if the account is a sales tax account
      * @param document
      * @return
      */
@@ -160,61 +162,63 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
         List<AccountingLine> sourceLines = document.getSourceAccountingLines();
         List<AccountingLine> targetLines = document.getTargetAccountingLines();
         int index = 0;
-        for(AccountingLine accountingLine : sourceLines) {
+        for (AccountingLine accountingLine : sourceLines) {
             boolean source = false;
             source = accountingLine.isSourceAccountingLine();
             validateAccountAndObjectCode(accountingLine, source, false, index);
             index++;
         }
-        
+
         return isValid;
     }
-    
+
     /**
+     * This method processes the accounting line to make sure if a sales tax account is used the right object code is used with it
      * 
-     * This method processes the accounting line to make sure if a sales tax
-     * account is used the right object code is used with it
      * @param accountingLine
      * @return
      */
     private boolean validateAccountAndObjectCode(AccountingLine accountingLine, boolean source, boolean newLine, int index) {
         boolean isValid = true;
-        Parameter objCdAndAccountRule = getKualiConfigurationService().getParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DOCUMENT, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES);
-        //get the object code and account
+        Parameter objCdAndAccountRule = SpringContext.getBean(ParameterService.class).getParameter(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES);
+        // get the object code and account
         String objCd = accountingLine.getFinancialObjectCode();
         String account = accountingLine.getAccountNumber();
-        if(!StringUtils.isEmpty(objCd) && !StringUtils.isEmpty(account)) {
+        if (!StringUtils.isEmpty(objCd) && !StringUtils.isEmpty(account)) {
             String[] params = getKualiConfigurationService().getParameterValues(objCdAndAccountRule);
             boolean acctsMatched = false;
-            for(int i = 0; i < params.length; i++) {
+            for (int i = 0; i < params.length; i++) {
                 String paramAcct = params[i].split(":")[0];
-                if(account.equalsIgnoreCase(paramAcct)) {
+                if (account.equalsIgnoreCase(paramAcct)) {
                     acctsMatched = true;
                 }
             }
-            if(acctsMatched) {
+            if (acctsMatched) {
                 String compare = account + ":" + objCd;
-                if(getKualiConfigurationService().failsRule( objCdAndAccountRule, compare ) ) {
-                    isValid = false; 
-                } 
+                if (getKualiConfigurationService().failsRule(objCdAndAccountRule, compare)) {
+                    isValid = false;
+                }
             }
-            
+
         }
-        if(!isValid) {
+        if (!isValid) {
             String pathPrefix = "";
-            if(source && !newLine) {
+            if (source && !newLine) {
                 pathPrefix = "document." + KFSConstants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME + "[" + index + "]";
-            } else if(!source && !newLine){
+            }
+            else if (!source && !newLine) {
                 pathPrefix = "document." + KFSConstants.EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME + "[" + index + "]";
-            } else if(source && newLine) {
+            }
+            else if (source && newLine) {
                 pathPrefix = KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
-            } else if(!source && newLine) {
+            }
+            else if (!source && newLine) {
                 pathPrefix = KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME;
             }
             GlobalVariables.getErrorMap().addToErrorPath(pathPrefix);
-            
+
             GlobalVariables.getErrorMap().putError("accountNumber", ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_ACCT_OBJ_CD, account, objCd);
-            
+
             GlobalVariables.getErrorMap().removeFromErrorPath(pathPrefix);
         }
         return isValid;

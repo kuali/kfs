@@ -23,16 +23,15 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.exceptions.GroupNotFoundException;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.chart.bo.SubAccount;
 
 /**
  * This class...
- * 
- * 
  */
 public class SubAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
@@ -43,13 +42,11 @@ public class SubAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerB
     }
 
     /**
-     * 
      * This method returns the set of authorization restrictions (if any) that apply to this SubAccount in this context.
      * 
      * @param document
      * @param user
      * @return
-     * 
      */
     @Override
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
@@ -60,10 +57,7 @@ public class SubAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerB
             return new MaintenanceDocumentAuthorizations();
         }
 
-        // get the group name that we need here - CGSACCT
-        KualiConfigurationService configService;
-        configService = SpringContext.getBean(KualiConfigurationService.class);
-        String groupName = configService.getParameterValue(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.SUB_ACCOUNT, KFSConstants.ChartApcParms.SUBACCOUNT_CG_WORKGROUP_PARM_NAME);
+        String groupName = SpringContext.getBean(ParameterService.class).getParameterValue(SubAccount.class, KFSConstants.ChartApcParms.SUBACCOUNT_CG_WORKGROUP_PARM_NAME);
 
         // create a new KualiGroup instance with that name
         KualiGroupService groupService = SpringContext.getBean(KualiGroupService.class);
@@ -95,7 +89,8 @@ public class SubAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerB
     }
 
     /**
-     * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {

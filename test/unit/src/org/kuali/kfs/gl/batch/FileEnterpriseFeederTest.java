@@ -115,7 +115,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
-        FeederStep feederStep = SpringContext.getBean(FeederStep.class);
+        EnterpriseFeedStep feederStep = SpringContext.getBean(EnterpriseFeedStep.class);
         feederStep.execute(getClass().getName());
         
         assertDoneFilesDeleted(fileSets);
@@ -141,7 +141,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         initializeDatabaseForTest();
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
-        FeederStep feederStep = SpringContext.getBean(FeederStep.class);
+        EnterpriseFeedStep feederStep = SpringContext.getBean(EnterpriseFeedStep.class);
         assertTrue("Step should have returned true", feederStep.execute(getClass().getName()));
         
         assertDoneFilesDeleted(fileSets);
@@ -169,7 +169,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         initializeDatabaseForTest();
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
-        FeederStep feederStep = SpringContext.getBean(FeederStep.class);
+        EnterpriseFeedStep feederStep = SpringContext.getBean(EnterpriseFeedStep.class);
         assertTrue("Step should have returned true", feederStep.execute(getClass().getName()));
         
         assertDoneFilesDeleted(fileSets);
@@ -193,7 +193,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         initializeDatabaseForTest();
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
-        FeederStep feederStep = SpringContext.getBean(FeederStep.class);
+        EnterpriseFeedStep feederStep = SpringContext.getBean(EnterpriseFeedStep.class);
         assertTrue("Step should have returned true", feederStep.execute(getClass().getName()));
         
         assertDoneFilesDeleted(fileSets);
@@ -216,7 +216,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         initializeDatabaseForTest();
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
-        FeederStep feederStep = SpringContext.getBean(FeederStep.class);
+        EnterpriseFeedStep feederStep = SpringContext.getBean(EnterpriseFeedStep.class);
         assertTrue("Step should have returned true", feederStep.execute(getClass().getName()));
         
         assertDoneFilesDeleted(fileSets);

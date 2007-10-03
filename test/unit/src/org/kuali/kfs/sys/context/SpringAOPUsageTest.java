@@ -16,7 +16,6 @@
 package org.kuali.kfs.context;
 
 import org.kuali.core.document.Document;
-import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.impl.DocumentServiceImpl;
 import org.kuali.core.service.impl.KualiConfigurationServiceImpl;
@@ -54,18 +53,6 @@ public class SpringAOPUsageTest extends KualiTestBase {
         assertFalse(TestUtils.methodIsCached(PriorYearAccountService.class.getMethod("getByPrimaryKey", new Class[] { String.class, String.class }), new Object[] { "BL", "1031490" }));
     }
     
-    /**
-     * Assures the removeCacheKey method of methodCacheInterceptor is actually removing the method cache.
-     * Depends on method implementations for BalanceTypService.getAllBalanceTyps() and PersistenceStructureService.getPrimaryKeys(Class clazz) 
-     * having the @Cached annotation.
-     */
-    public void testClearMethodCache() throws Exception {
-        SpringContext.getBean(BalanceTypService.class).getAllBalanceTyps();
-        assertTrue(TestUtils.methodIsCached(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {}));
-        TestUtils.removeCachedMethod(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {});
-        assertFalse(TestUtils.methodIsCached(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {}));
-    }
-
     @Transactional
     public void testTransactions() throws Exception {
         ClassOrMethodAnnotationFilter classOrMethodAnnotationFilter = new ClassOrMethodAnnotationFilter(Transactional.class);

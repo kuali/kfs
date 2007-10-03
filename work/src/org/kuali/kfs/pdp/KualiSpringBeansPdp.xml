@@ -117,7 +117,6 @@
 
 	<bean id="pdpLoadFederalReserveBankDataStep" class="org.kuali.module.pdp.batch.LoadFederalReserveBankDataStep" parent="step">
 		<property name="achBankService" ref="pdpAchBankService"/>
-		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
 		<property name="directoryName" value="${staging.directory}/PDP/"/>
 	</bean>
 
@@ -138,7 +137,7 @@
 	</bean>
 
 	<bean id="pdpExtractPaymentService" class="org.kuali.module.pdp.service.impl.ExtractPaymentServiceImpl">
-		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+		<property name="parameterService" ref="parameterService"/>
 		<property name="directoryName" value="${staging.directory}/PDP/"/>
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 	</bean>
@@ -168,7 +167,7 @@
 	</bean>
 
 	<bean id="pdpBatchSearchService" class="org.kuali.module.pdp.service.impl.BatchSearchServiceImpl">
-		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+		<property name="parameterService" ref="parameterService" />
 		<property name="batchSearchDao" ref="pdpBatchSearchDao" />
 	</bean>
 
@@ -196,7 +195,7 @@
 		<property name="achService" ref="pdpAchService"/>
 		<property name="referenceService" ref="pdpReferenceService"/>
 		<property name="glPendingTransactionService" ref="pdpGlPendingTransactionService"/>
-		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+		<property name="parameterService" ref="parameterService" />
 		<property name="formatPaymentDao" ref="pdpFormatPaymentDao"/>
 		<property name="formatExtractDao" ref="pdpFormatExtractDao"/>
 	</bean>
@@ -208,7 +207,7 @@
 	</bean>
 
 	<bean id="pdpPaymentDetailSearchService" class="org.kuali.module.pdp.service.impl.PaymentDetailSearchServiceImpl">
-		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+		<property name="parameterService" ref="parameterService" />
 		<property name="paymentDetailSearchDao" ref="pdpPaymentDetailSearchDao"/>
 	</bean>
 
@@ -218,7 +217,7 @@
 
 	<bean id="pdpPaymentFileService" class="org.kuali.module.pdp.service.impl.PaymentFileServiceImpl">
 		<property name="mailService" ref="mailService"/>
-		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+		<property name="parameterService" ref="parameterService" />
 		<property name="environmentService" ref="pdpEnvironmentService"/>
 		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
 		<property name="paymentFileLoadDao" ref="pdpPaymentFileLoadDao"/>
@@ -237,7 +236,7 @@
 		<property name="glPendingTransactionService" ref="pdpGlPendingTransactionService"/>
 		<property name="environmentService" ref="pdpEnvironmentService"/>
 		<property name="mailService" ref="mailService"/>
-		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+		<property name="parameterService" ref="parameterService"/>
 	</bean>
 
 	<bean id="pdpPdpSecurityService" class="org.kuali.module.pdp.service.impl.PdpSecurityServiceImpl">

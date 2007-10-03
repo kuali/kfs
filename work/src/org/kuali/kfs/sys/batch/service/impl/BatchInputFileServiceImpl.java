@@ -40,7 +40,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.exception.InitException;
 import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
@@ -51,6 +50,7 @@ import org.kuali.kfs.exceptions.FileStorageException;
 import org.kuali.kfs.exceptions.XMLParseException;
 import org.kuali.kfs.exceptions.XmlErrorHandler;
 import org.kuali.kfs.service.BatchInputFileService;
+import org.kuali.kfs.service.ParameterService;
 import org.springframework.core.io.ClassPathResource;
 import org.xml.sax.SAXException;
 
@@ -259,7 +259,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         if (fileToDelete != null) {
             if (canDelete(user, batchInputFileType, fileToDelete)) {
                 fileToDelete.delete();
-    
+
                 // check for associated .done file and remove as well
                 File doneFile = generateDoneFileObject(fileToDelete);
                 if (doneFile.exists()) {
@@ -277,10 +277,10 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         }
     }
 
-    
+
     /**
-     * This method indicates whether a file can be deleted.  It will also place an error in the GlobalVariables error map
-     * to indicate to the UI the reason that the file could not be deleted.
+     * This method indicates whether a file can be deleted. It will also place an error in the GlobalVariables error map to indicate
+     * to the UI the reason that the file could not be deleted.
      * 
      * @param user
      * @param inputType
@@ -313,7 +313,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         }
         return true;
     }
-    
+
     /**
      * @see org.kuali.kfs.service.BatchInputFileService#download(org.kuali.core.bo.user.UniversalUser,
      *      org.kuali.kfs.batch.BatchInputFileType, java.lang.String)
@@ -340,24 +340,24 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     }
 
     /**
-     * This method will attempt to find the File object representing the file to download or delete.  USE EXTREME CAUTION when
+     * This method will attempt to find the File object representing the file to download or delete. USE EXTREME CAUTION when
      * overridding this method, as a badly implemented method may cause a security vulnerability.
      * 
      * @param batchInputFileType
      * @param user
      * @param fileName the file name, WITHOUT any path components
-     * @return the File object, if a file exists in the directory specified by the batchInputFileType.  null if no file can be found
-     * in the directory specified by batchInputFileType.
+     * @return the File object, if a file exists in the directory specified by the batchInputFileType. null if no file can be found
+     *         in the directory specified by batchInputFileType.
      */
     protected File retrieveFileToDownloadOrDelete(BatchInputFileType batchInputFileType, UniversalUser user, String fileName) {
         // retrieve a list of files from the appropriate directory for the batch input file type for the user
         List<File> userFileList = listBatchTypeFilesForUserAsFiles(batchInputFileType, user);
-        
+
         // make sure that we have the right file extension
         if (!fileName.toLowerCase().endsWith(batchInputFileType.getFileExtension().toLowerCase())) {
             throw new IllegalArgumentException("Filename " + fileName + " does not end with the proper extension: (" + batchInputFileType.getFileExtension() + ")");
         }
-        
+
         // the file must exist, and the file's name must match completely with the filesystem file
         File theFile = null;
         for (File userFile : userFileList) {
@@ -368,20 +368,21 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         }
         return theFile;
     }
-    
+
     /**
-     * This method is responsible for creating a File object that represents the done file.  The real file represented on disk may not
-     * exist
+     * This method is responsible for creating a File object that represents the done file. The real file represented on disk may
+     * not exist
      * 
      * @param batchInputFile
-     * @return a File object representing the done file.  The real file may not exist on disk, but the return value can be used to create that file.
+     * @return a File object representing the done file. The real file may not exist on disk, but the return value can be used to
+     *         create that file.
      */
     protected File generateDoneFileObject(File batchInputFile) {
         String doneFileName = StringUtils.substringBeforeLast(batchInputFile.getPath(), ".") + ".done";
         File doneFile = new File(doneFileName);
         return doneFile;
     }
-      
+
     /**
      * @see org.kuali.kfs.service.BatchInputFileService#isBatchInputTypeActive(org.kuali.kfs.batch.BatchInputFileType)
      */
@@ -391,10 +392,10 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
 
-        List<String> activeInputTypes = SpringContext.getBean(KualiConfigurationService.class).getParameterValuesAsList(KFSConstants.CORE_NAMESPACE, KFSConstants.Components.BATCH, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME);
+        List<String> activeInputTypes = SpringContext.getBean(ParameterService.class).getParameterValues(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME);
 
         boolean activeBatchType = false;
-        if (activeInputTypes.size() > 0 && activeInputTypes.contains(batchInputFileType.getFileTypeIdentifer() ) ) {
+        if (activeInputTypes.size() > 0 && activeInputTypes.contains(batchInputFileType.getFileTypeIdentifer())) {
             activeBatchType = true;
         }
 
@@ -410,12 +411,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
             LOG.error("an invalid(null) argument was given");
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
-
-        String workgroupParameterNamespace = batchInputFileType.getWorkgroupParameterNamespace();
-        String workgroupParameterComponent = batchInputFileType.getWorkgroupParameterComponent();
-        String workgroupParameterName = batchInputFileType.getWorkgroupParameterName();
-        String authorizedWorkgroupName = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(workgroupParameterNamespace, workgroupParameterComponent , workgroupParameterName);
- 
+        String authorizedWorkgroupName = SpringContext.getBean(ParameterService.class).getParameterValue(batchInputFileType.getUploadWorkgroupParameterComponent(), KFSConstants.SystemGroupParameterNames.FILE_TYPE_WORKGROUP_PARAMETER_NAME);
         return user.isMember(authorizedWorkgroupName);
     }
 
@@ -442,7 +438,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
 
         List<String> userFileNamesList = new ArrayList<String>();
         List<File> userFileList = listBatchTypeFilesForUserAsFiles(batchInputFileType, user);
-        
+
         for (File userFile : userFileList) {
             userFileNamesList.add(userFile.getName());
         }
@@ -454,7 +450,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         File[] filesInBatchDirectory = listFilesInBatchTypeDirectory(batchInputFileType);
 
         List<File> userFileList = new ArrayList<File>();
-        if ( filesInBatchDirectory != null ) {
+        if (filesInBatchDirectory != null) {
             for (int i = 0; i < filesInBatchDirectory.length; i++) {
                 File batchFile = filesInBatchDirectory[i];
                 String fileExtension = StringUtils.substringAfterLast(batchFile.getName(), ".");
@@ -468,7 +464,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         }
         return userFileList;
     }
-    
+
     /**
      * Returns List of filenames for existing files in the directory given by the batch input type.
      */

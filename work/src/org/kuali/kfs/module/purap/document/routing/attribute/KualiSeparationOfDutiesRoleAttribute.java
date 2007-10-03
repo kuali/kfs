@@ -23,13 +23,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.PurapConstants;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.workflow.KualiWorkflowUtils;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -50,19 +49,19 @@ import edu.iu.uis.eden.workgroup.GroupNameId;
  * <li>The document was not routed for Approval or Completion to more than the user who routed the document
  * </ol>
  * In Workflow the rule above means any of the following scenarios do not require Separation of Duties routing (assuming that the
- * routing of the document still applies as an Action Taken of COMPLETE):<br><br>
+ * routing of the document still applies as an Action Taken of COMPLETE):<br>
+ * <br>
  * <ol>
  * <li>The total number of unique people who have had an APPROVE or COMPLETE action on the document is more than 1 (keep in mind
  * that the 'Route' action on a document generates a COMPLETE action taken)
  * <li>The total amount of the document is less than or equal to the Separation of Duties application parameter amount
  * </ol>
- * EPIC RULE (these cases will route to separation of duties group):<br>
- *  - (totalCost > appSettingCost) && (0 approvals taken on the document)<br>
- *  - (totalCost > appSettingCost) && (one approval taken on the document) && (approval is by initiator user)
+ * EPIC RULE (these cases will route to separation of duties group):<br> - (totalCost > appSettingCost) && (0 approvals taken on
+ * the document)<br> - (totalCost > appSettingCost) && (one approval taken on the document) && (approval is by initiator user)
  */
 public class KualiSeparationOfDutiesRoleAttribute extends UnqualifiedRoleAttribute {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiSeparationOfDutiesRoleAttribute.class);    
-    
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiSeparationOfDutiesRoleAttribute.class);
+
     private static final String SEPARATION_OF_DUTIES_ROLE_KEY = "SEPARATION_OF_DUTIES";
     private static final String SEPARATION_OF_DUTIES_ROLE_LABEL = "Separation of Duties Reviewer";
 
@@ -98,8 +97,7 @@ public class KualiSeparationOfDutiesRoleAttribute extends UnqualifiedRoleAttribu
         // currently this will get the COMPLETE request that the router of the document
         for (Iterator iter = document.getActionsTaken().iterator(); iter.hasNext();) {
             ActionTakenValue actionTaken = (ActionTakenValue) iter.next();
-            if ( (actionTaken.getActionTaken().equals(EdenConstants.ACTION_TAKEN_APPROVED_CD)) || 
-                 (actionTaken.getActionTaken().equals(EdenConstants.ACTION_TAKEN_COMPLETED_CD)) ) {
+            if ((actionTaken.getActionTaken().equals(EdenConstants.ACTION_TAKEN_APPROVED_CD)) || (actionTaken.getActionTaken().equals(EdenConstants.ACTION_TAKEN_COMPLETED_CD))) {
                 documentReviewers.add(actionTaken.getWorkflowUser().getWorkflowUserId().getWorkflowId());
             }
         }
@@ -107,14 +105,14 @@ public class KualiSeparationOfDutiesRoleAttribute extends UnqualifiedRoleAttribu
         if (documentReviewers.size() > 1) {
             return null;
         }
-        KualiConfigurationService configService = SpringContext.getBean(KualiConfigurationService.class);
-        KualiDecimal maxAllowedAmount = new KualiDecimal(configService.getParameterValue(KFSConstants.PURAP_NAMESPACE,PurapConstants.Components.REQUISITION, PurapParameterConstants.WorkflowParameters.RequisitionDocument.SEPARATION_OF_DUTIES_DOLLAR_AMOUNT));
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        KualiDecimal maxAllowedAmount = new KualiDecimal(parameterService.getParameterValue(RequisitionDocument.class, PurapParameterConstants.WorkflowParameters.RequisitionDocument.SEPARATION_OF_DUTIES_DOLLAR_AMOUNT));
         // if app param amount is greater than or equal to documentTotalAmount... no need for separation of duties
         KualiDecimal totalAmount = KualiWorkflowUtils.getFinancialDocumentTotalAmount(routeContext);
-        if ( ObjectUtils.isNotNull(maxAllowedAmount) && ObjectUtils.isNotNull(totalAmount) && (maxAllowedAmount.compareTo(totalAmount) >= 0)) {
+        if (ObjectUtils.isNotNull(maxAllowedAmount) && ObjectUtils.isNotNull(totalAmount) && (maxAllowedAmount.compareTo(totalAmount) >= 0)) {
             return null;
         }
-        String workgroupName = configService.getParameterValue(KFSConstants.PURAP_NAMESPACE,PurapConstants.Components.REQUISITION, PurapParameterConstants.WorkflowParameters.RequisitionDocument.SEPARATION_OF_DUTIES_WORKGROUP_NAME);
-        return new ResolvedQualifiedRole(SEPARATION_OF_DUTIES_ROLE_LABEL, Arrays.asList(new Id[] {new GroupNameId(workgroupName)}));
+        String workgroupName = parameterService.getParameterValue(RequisitionDocument.class, PurapParameterConstants.WorkflowParameters.RequisitionDocument.SEPARATION_OF_DUTIES_WORKGROUP_NAME);
+        return new ResolvedQualifiedRole(SEPARATION_OF_DUTIES_ROLE_LABEL, Arrays.asList(new Id[] { new GroupNameId(workgroupName) }));
     }
 }

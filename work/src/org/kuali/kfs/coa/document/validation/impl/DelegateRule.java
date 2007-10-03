@@ -19,7 +19,6 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
@@ -31,27 +30,26 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Delegate;
 import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.chart.bo.Delegate;
 
 /**
- * Validates content of a <code>{@link AccountDelegate}</code> maintenance document upon triggering of a 
- * approve, save, or route event.
- * 
- * 
+ * Validates content of a <code>{@link AccountDelegate}</code> maintenance document upon triggering of a approve, save, or route
+ * event.
  */
 public class DelegateRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DelegateRule.class);
     private static final KualiDecimal ZERO = new KualiDecimal(0);
-    
+
     private Delegate oldDelegate;
     private Delegate newDelegate;
 
     /**
      * Constructs a DelegateRule.java.
-     * 
      */
     public DelegateRule() {
         super();
@@ -81,7 +79,6 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method should be overridden to provide custom rules for processing document routing
      * 
      * @param document
@@ -131,15 +128,11 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
-     * old objects contained in the maintenance document.
-     * 
-     * It also calls the BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys,
-     * if available.
+     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
+     * all sub-objects from the DB by their primary keys, if available.
      * 
      * @param document - the maintenanceDocument being evaluated
-     * 
      */
     protected void setupConvenienceObjects(MaintenanceDocument document) {
 
@@ -267,9 +260,9 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
             return success;
         }
 
-        // if a primary already exists for a document type (including ALL), throw an error.  However, current business rules
+        // if a primary already exists for a document type (including ALL), throw an error. However, current business rules
         // should allow a primary for other document types, even if a primary for ALL already exists.
-        
+
         Map whereMap = new HashMap();
         whereMap.put("chartOfAccountsCode", newDelegate.getChartOfAccountsCode());
         whereMap.put("accountNumber", newDelegate.getAccountNumber());
@@ -285,7 +278,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
             putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_DOCTYPE);
             success &= false;
         }
-        
+
         return success;
     }
 
@@ -300,19 +293,19 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         UniversalUser user = newDelegate.getAccountDelegate();
 
         // user must be an active kuali user
-        if (!user.isActiveForModule( ChartUser.MODULE_ID ) ) {
+        if (!user.isActiveForModule(ChartUser.MODULE_ID)) {
             success = false;
             putFieldError("accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE_KUALI_USER);
         }
-        
+
         // user must be of the allowable statuses (A - Active)
-        if (apcRuleFails(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ACCOUNT_DELEGATE, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_STATUSES, user.getEmployeeStatusCode())) {
+        if (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(Delegate.class, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_STATUSES, user.getEmployeeStatusCode())) {
             success = false;
             putFieldError("accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE);
         }
-        
+
         // user must be of the allowable types (P - Professional)
-        if (apcRuleFails(KFSConstants.CHART_NAMESPACE,KFSConstants.Components.ACCOUNT_DELEGATE, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_TYPES, user.getEmployeeTypeCode())) {
+        if (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(Delegate.class, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_TYPES, user.getEmployeeTypeCode())) {
             success = false;
             putFieldError("accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL);
         }

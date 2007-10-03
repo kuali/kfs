@@ -27,10 +27,10 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.service.OptionsService;
-import org.kuali.module.gl.GLConstants;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.gl.batch.PosterSummaryReportStep;
 import org.kuali.module.labor.service.LaborBalanceSummaryReportService;
 import org.kuali.module.labor.service.LaborReportService;
 import org.kuali.module.labor.util.ReportRegistry;
@@ -46,7 +46,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
     private LaborReportService laborReportService;
     private DateTimeService dateTimeService;
     private OptionsService optionsService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
 
     /**
      * @see org.kuali.module.labor.service.LaborBalanceSummaryReportService#generateBalanceSummaryReports()
@@ -64,9 +64,9 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
     public void generateBalanceSummaryReports(Date runDate) {
         LOG.info("generateBalanceSummaryReports(Date) started");
 
-        String yearEndPeriodLowerBound = kualiConfigurationService.getParameterValue(GLConstants.GL_NAMESPACE, GLConstants.Components.POSTER_SUMMARY_REPORT_STEP, CURRENT_YEAR_LOWER);
-        String lastDayOfFiscalYear = kualiConfigurationService.getParameterValue(GLConstants.GL_NAMESPACE, GLConstants.Components.POSTER_SUMMARY_REPORT_STEP, CURRENT_AND_LAST_YEAR);
-        String yearEndPeriodUpperBound = kualiConfigurationService.getParameterValue(GLConstants.GL_NAMESPACE, GLConstants.Components.POSTER_SUMMARY_REPORT_STEP,CURRENT_YEAR_UPPER);
+        String yearEndPeriodLowerBound = parameterService.getParameterValue(PosterSummaryReportStep.class, CURRENT_YEAR_LOWER);
+        String lastDayOfFiscalYear = parameterService.getParameterValue(PosterSummaryReportStep.class, CURRENT_AND_LAST_YEAR);
+        String yearEndPeriodUpperBound = parameterService.getParameterValue(PosterSummaryReportStep.class, CURRENT_YEAR_UPPER);
 
         Integer currentYear = optionsService.getCurrentYearOptions().getUniversityFiscalYear();
         this.generateBalanceSummaryReports(currentYear, runDate);
@@ -204,14 +204,6 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
         this.dateTimeService = dateTimeService;
     }
 
-    /**
-     * Sets the kualiConfigurationService attribute value.
-     * 
-     * @param kualiConfigurationService The kualiConfigurationService to set.
-     */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
 
     /**
      * Sets the laborReportService attribute value.
@@ -229,5 +221,9 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
      */
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

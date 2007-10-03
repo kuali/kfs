@@ -22,9 +22,4 @@ public class VendorParameterConstants {
 
     // PARAMETER NAMES
     public static final String PAYMENT_TERMS_DUE_TYPE_DESC = "PAYMENT_TERMS_DUE_TYPE_DESC";
-    
-    public static class Components {
-        public static final String VENDOR = "Vendor";        
-    }
-    
 }

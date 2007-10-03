@@ -31,6 +31,8 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.context.TestUtils;
+import org.kuali.module.chart.bo.OffsetDefinition;
+import org.kuali.module.financial.bo.Bank;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -184,18 +186,14 @@ public class LaborOriginEntryTestBase extends KualiTestBase {
 
             // Check transaction - this is done this way so that Anthill prints the two transactions to make
             // resolving the issue easier.
-            
-            //This test is not good for Labor because input and output is little different.  -- Amount data 
-            /*String expected = requiredEntries[count].transactionLine.substring(0, 294);// trim();
-            String found = foundTransaction.getLine().substring(0, 294);// trim();
 
-            if (!found.equals(expected)) {
-                System.err.println("Expected transaction: " + expected);
-                System.err.println("Found transaction:    " + found);
-
-                fail("Transaction " + foundTransaction.getEntryId() + " doesn't match expected output");
-            }
-            */            
+            // This test is not good for Labor because input and output is little different. -- Amount data
+            /*
+             * String expected = requiredEntries[count].transactionLine.substring(0, 294);// trim(); String found =
+             * foundTransaction.getLine().substring(0, 294);// trim(); if (!found.equals(expected)) { System.err.println("Expected
+             * transaction: " + expected); System.err.println("Found transaction: " + found); fail("Transaction " +
+             * foundTransaction.getEntryId() + " doesn't match expected output"); }
+             */
             count++;
         }
     }
@@ -213,18 +211,16 @@ public class LaborOriginEntryTestBase extends KualiTestBase {
         return -1;
     }
 
-    protected static String[] ICR_ENCUMBRANCE_ENABLED_FLAG = { KFSConstants.GL_NAMESPACE, KFSConstants.Components.ENCUMBRANCE, KFSConstants.SystemGroupParameterNames.ICR_ENCUMBRANCE_ENABLED_FLAG };
-    protected static String[] FLEXIBLE_OFFSET_ENABLED_FLAG = { KFSConstants.CHART_NAMESPACE, KFSConstants.Components.OFFSET_DEFINITION, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG };
-    protected static String[] FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG = { KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.BANK, KFSConstants.SystemGroupParameterNames.FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG };
+    protected static Object[] FLEXIBLE_OFFSET_ENABLED_FLAG = { OffsetDefinition.class, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG };
+    protected static Object[] FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG = { Bank.class, KFSConstants.SystemGroupParameterNames.FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG };
 
     protected void resetAllEnhancementFlags() throws Exception {
-        setApplicationConfigurationFlag(ICR_ENCUMBRANCE_ENABLED_FLAG[0], ICR_ENCUMBRANCE_ENABLED_FLAG[1], ICR_ENCUMBRANCE_ENABLED_FLAG[2], false);
-        setApplicationConfigurationFlag(FLEXIBLE_OFFSET_ENABLED_FLAG[0], FLEXIBLE_OFFSET_ENABLED_FLAG[1], FLEXIBLE_OFFSET_ENABLED_FLAG[2], false);
-        setApplicationConfigurationFlag(FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG[0], FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG[1], FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG[2], false);
+        setApplicationConfigurationFlag((Class) FLEXIBLE_OFFSET_ENABLED_FLAG[0], (String) FLEXIBLE_OFFSET_ENABLED_FLAG[1], false);
+        setApplicationConfigurationFlag((Class) FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG[0], (String) FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG[1], false);
     }
 
-    protected void setApplicationConfigurationFlag(String namespace, String component, String name, boolean value) throws Exception {
-        TestUtils.setSystemParameter(namespace, component, name, value ? "Y" : "N", true, false);
+    protected void setApplicationConfigurationFlag(Class componentClass, String name, boolean value) throws Exception {
+        TestUtils.setSystemParameter(componentClass, name, value ? "Y" : "N", true, false);
     }
 
 

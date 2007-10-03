@@ -24,13 +24,13 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.InquirySectionDefinition;
 import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.Section;
 import org.kuali.core.web.ui.SectionBridge;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.inquiry.KfsInquirableImpl;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.cg.CGConstants;
 
 /**
@@ -38,8 +38,7 @@ import org.kuali.module.cg.CGConstants;
  */
 public class ProposalInquirable extends KfsInquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalInquirable.class);
-    
-    private transient static KualiConfigurationService configService;
+
     private transient static String centralPreAwardWorkgroupName;
     private transient static String centralPostAwardWorkgroupName;
     private transient static String centralReviewWorkgroupName;
@@ -48,9 +47,9 @@ public class ProposalInquirable extends KfsInquirableImpl {
      * @see org.kuali.core.inquiry.KualiInquirableImpl#getSections(org.kuali.core.bo.BusinessObject)
      */
     public List<Section> getSections(BusinessObject bo) {
-        
+
         initStatics();
-        
+
         List<Section> sections = new ArrayList<Section>();
         if (getBusinessObjectClass() == null) {
             LOG.error("Business object class not set in inquirable.");
@@ -63,8 +62,8 @@ public class ProposalInquirable extends KfsInquirableImpl {
             UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
             InquirySectionDefinition inquirySection = (InquirySectionDefinition) iter.next();
             Section section = SectionBridge.toSection(this, inquirySection, bo);
-            if(inquirySection.getTitle().equals("Research Risks")) {
-                if ( user.isMember( centralPreAwardWorkgroupName ) || user.isMember( centralPostAwardWorkgroupName )) {
+            if (inquirySection.getTitle().equals("Research Risks")) {
+                if (user.isMember(centralPreAwardWorkgroupName) || user.isMember(centralPostAwardWorkgroupName)) {
                     sections.add(section);
                 }
             }
@@ -77,24 +76,17 @@ public class ProposalInquirable extends KfsInquirableImpl {
     }
 
     /**
-     * A non-static way to initialize the static attributes. Doing it statically
-     * would cause problems with the {@link SpringContext}. So doing it 
-     * non-statically helps by allowing the {@link SpringContext} time to load.
+     * A non-static way to initialize the static attributes. Doing it statically would cause problems with the {@link SpringContext}.
+     * So doing it non-statically helps by allowing the {@link SpringContext} time to load.
      */
     private void initStatics() {
-        if ( configService == null ) {
-            configService = SpringContext.getBean(KualiConfigurationService.class);
-        }
         // get the group name that we need here
-        if ( centralPreAwardWorkgroupName == null ) {
-            centralPreAwardWorkgroupName = configService.getParameterValue(KFSConstants.CONTRACTS_AND_GRANTS_NAMESPACE, KFSConstants.Components.DOCUMENT, CGConstants.PRE_AWARD_GROUP);
+        if (centralPreAwardWorkgroupName == null) {
+            centralPreAwardWorkgroupName = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.PRE_AWARD_GROUP);
         }
-        if ( centralPostAwardWorkgroupName == null ) {
-            centralPostAwardWorkgroupName = configService.getParameterValue(KFSConstants.CONTRACTS_AND_GRANTS_NAMESPACE, KFSConstants.Components.DOCUMENT, CGConstants.POST_AWARD_GROUP);
+        if (centralPostAwardWorkgroupName == null) {
+            centralPostAwardWorkgroupName = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.POST_AWARD_GROUP);
         }
-//        if ( centralReviewWorkgroupName == null ) {
-//            centralReviewWorkgroupName = configService.getParameterValue(KFSConstants.CONTRACTS_AND_GRANTS_NAMESPACE, "");
-//        }
     }
 
 

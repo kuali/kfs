@@ -25,16 +25,14 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.exceptions.GroupNotFoundException;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapAuthorizationConstants;
-import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
@@ -44,36 +42,32 @@ import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 
 /**
  * Document Authorizer for the PO document.
- * 
  */
 public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 
     @Override
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
-        String authorizedWorkgroup = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.PURAP_NAMESPACE, PurapConstants.Components.PURCHASE_ORDER, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_INITIATE_ACTION);
+        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_INITIATE_ACTION);
         try {
             return SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(user);
         }
         catch (GroupNotFoundException e) {
-            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found",e);
+            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found", e);
         }
     }
 
     /**
-     * This is essentially the same getEditMode as in DocumentAuthorizerBase.java.
-     * In AccountingDocumentAuthorizerBase.java, which is currently the superclass of this class,
-     * this method is being overriden. Unfortunately it will return view only edit mode if the
-     * initiator of the document is different than the current user.
-     * Currently the initiators of Purchase Order Document are all "Kuali System User" which is
-     * different than the users that we use to log in. Therefore here we have to re-override
-     * the getEditMode to prevent the problem where the fields appear as read-only.
+     * This is essentially the same getEditMode as in DocumentAuthorizerBase.java. In AccountingDocumentAuthorizerBase.java, which
+     * is currently the superclass of this class, this method is being overriden. Unfortunately it will return view only edit mode
+     * if the initiator of the document is different than the current user. Currently the initiators of Purchase Order Document are
+     * all "Kuali System User" which is different than the users that we use to log in. Therefore here we have to re-override the
+     * getEditMode to prevent the problem where the fields appear as read-only. There has been an addition to this method, which at
+     * this point I'm not sure whether there would be any cases where the Purchase Order Document would have status "RETR". If so,
+     * then when the status code is "RETR" (retransmit), the edit mode should be set to displayRetransmitTab because we want to hide
+     * the other tabs and display the retransmit tab when the user clicks on the Retransmit button (is that what we want ?)
      * 
-     * There has been an addition to this method, which at this point I'm not sure whether there would be any cases where the
-     * Purchase Order Document would have status "RETR". If so, then when the status code is "RETR" (retransmit), the edit mode 
-     * should be set to displayRetransmitTab because we want to hide the other tabs and display the retransmit tab when
-     * the user clicks on the Retransmit button (is that what we want ?)
-     * 
-     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getEditMode(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
     public Map getEditMode(Document d, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
@@ -81,14 +75,14 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
 
         KualiWorkflowDocument workflowDocument = d.getDocumentHeader().getWorkflowDocument();
- 
-        PurchaseOrderDocument poDocument = (PurchaseOrderDocument)d;
+
+        PurchaseOrderDocument poDocument = (PurchaseOrderDocument) d;
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved() || workflowDocument.stateIsEnroute()) {
             if (ObjectUtils.isNotNull(poDocument.getVendorHeaderGeneratedIdentifier())) {
                 editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.LOCK_VENDOR_ENTRY, "TRUE");
             }
         }
-        
+
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             if (hasInitiateAuthorization(d, user)) {
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
@@ -101,49 +95,50 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
             List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
 
             /**
-             * INTERNAL PURCHASING ROUTE LEVEL - Approvers can edit full detail on Purchase Order except they cannot change the CHART/ORG.
+             * INTERNAL PURCHASING ROUTE LEVEL - Approvers can edit full detail on Purchase Order except they cannot change the
+             * CHART/ORG.
              */
-            if (((PurchaseOrderDocument)d).isDocumentStoppedInRouteNode(PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum.INTERNAL_PURCHASING_REVIEW)) {
+            if (((PurchaseOrderDocument) d).isDocumentStoppedInRouteNode(PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum.INTERNAL_PURCHASING_REVIEW)) {
                 // FULL_ENTRY allowed; also set internal purchasing lock
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
                 editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.LOCK_INTERNAL_PURCHASING_ENTRY, "TRUE");
             }
 
             /**
-             * CONTRACTS & GRANTS ROUTE LEVEL - Approvers cannot edit any detail on PO.
-             * BUDGET OFFICE ROUTE LEVEL - Approvers cannot edit any detail on PO.
-             * VENDOR TAX ROUTE LEVEL - Approvers cannot edit any detail on PO.
-             * DOCUMENT TRANSMISSION ROUTE LEVEL - Approvers cannot edit any detail on PO.
+             * CONTRACTS & GRANTS ROUTE LEVEL - Approvers cannot edit any detail on PO. BUDGET OFFICE ROUTE LEVEL - Approvers cannot
+             * edit any detail on PO. VENDOR TAX ROUTE LEVEL - Approvers cannot edit any detail on PO. DOCUMENT TRANSMISSION ROUTE
+             * LEVEL - Approvers cannot edit any detail on PO.
              */
             else {
-                //VIEW_ENTRY that is already being set is sufficient. 
+                // VIEW_ENTRY that is already being set is sufficient.
             }
         }
         editModeMap.put(editMode, "TRUE");
-        
+
         return editModeMap;
     }
-    
+
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-        PurchaseOrderDocument po = (PurchaseOrderDocument)document;
+        PurchaseOrderDocument po = (PurchaseOrderDocument) document;
         String statusCode = po.getStatusCode();
-        
-        if ((StringUtils.equals(statusCode,PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT)) ||
-            (StringUtils.equals(statusCode,PurchaseOrderStatuses.WAITING_FOR_VENDOR))){
+
+        if ((StringUtils.equals(statusCode, PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT)) || (StringUtils.equals(statusCode, PurchaseOrderStatuses.WAITING_FOR_VENDOR))) {
             flags.setCanRoute(false);
         }
         else if (PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(statusCode)) {
             if (SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(po.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getUniversalUser())) {
-                /* code below for overriding workflow buttons has to do with hiding the workflow buttons but still allowing the 
+                /*
+                 * code below for overriding workflow buttons has to do with hiding the workflow buttons but still allowing the
                  * actions... this is needed because document service calls this method (getDocumentActionFlags) before it will
                  * allow a workflow action to be performed
                  */
-                if ( ObjectUtils.isNotNull(po.getOverrideWorkflowButtons()) && (po.getOverrideWorkflowButtons()) ) {
-                    /* if document is in pending transmission status and current user has document transmission action request
-                     * then assume that the transmit button/action whatever it might be will take associated workflow action
-                     * for user automatically
+                if (ObjectUtils.isNotNull(po.getOverrideWorkflowButtons()) && (po.getOverrideWorkflowButtons())) {
+                    /*
+                     * if document is in pending transmission status and current user has document transmission action request then
+                     * assume that the transmit button/action whatever it might be will take associated workflow action for user
+                     * automatically
                      */
                     flags.setCanApprove(false);
                     flags.setCanDisapprove(false);

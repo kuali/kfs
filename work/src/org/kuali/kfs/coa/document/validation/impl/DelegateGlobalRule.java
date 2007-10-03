@@ -15,12 +15,9 @@
  */
 package org.kuali.module.chart.rules;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
@@ -30,7 +27,10 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.AccountGlobalDetail;
+import org.kuali.module.chart.bo.Delegate;
 import org.kuali.module.chart.bo.DelegateGlobal;
 import org.kuali.module.chart.bo.DelegateGlobalDetail;
 
@@ -47,12 +47,9 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
-     * 
      * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
-     * old objects contained in the maintenance document.
-     * 
-     * It also calls the BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys,
-     * if available.
+     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
+     * all sub-objects from the DB by their primary keys, if available.
      */
     @Override
     public void setupConvenienceObjects() {
@@ -97,7 +94,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         // check simple rules
         success &= checkSimpleRulesAllLines();
 
-        success &= checkAccountDetails( newDelegateGlobal.getAccountGlobalDetails() );
+        success &= checkAccountDetails(newDelegateGlobal.getAccountGlobalDetails());
 
         // check for primary routing
         success &= checkForPrimaryDelegateAllLines();
@@ -120,47 +117,46 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         return true;
     }
 
-    public boolean checkAccountDetails( List<AccountGlobalDetail> details ) {
+    public boolean checkAccountDetails(List<AccountGlobalDetail> details) {
         boolean success = true;
-        
+
         // check if there are any accounts
-        if ( details.size() == 0 ) {
-            putFieldError( KFSConstants.MAINTENANCE_ADD_PREFIX + "accountGlobalDetails.accountNumber", 
-                    KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_NO_ACCOUNTS);
+        if (details.size() == 0) {
+            putFieldError(KFSConstants.MAINTENANCE_ADD_PREFIX + "accountGlobalDetails.accountNumber", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_NO_ACCOUNTS);
             success = false;
-        } else {
+        }
+        else {
             // check each account
             int index = 0;
             for (AccountGlobalDetail dtl : details) {
                 String errorPath = MAINTAINABLE_ERROR_PREFIX + "accountGlobalDetails[" + index + "]";
                 GlobalVariables.getErrorMap().addToErrorPath(errorPath);
-                success &= checkAccountDetails( dtl );
+                success &= checkAccountDetails(dtl);
                 GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
                 index++;
             }
-            success &= checkOnlyOneChartErrorWrapper( details );
+            success &= checkOnlyOneChartErrorWrapper(details);
         }
-        
+
         return success;
     }
-    
-    public boolean checkAccountDetails( AccountGlobalDetail dtl ) {
+
+    public boolean checkAccountDetails(AccountGlobalDetail dtl) {
         boolean success = true;
         int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
         getDictionaryValidationService().validateBusinessObject(dtl);
-        if ( StringUtils.isNotBlank( dtl.getAccountNumber() ) && StringUtils.isNotBlank( dtl.getChartOfAccountsCode() ) ) {
-            dtl.refreshReferenceObject( "account" );
-            if ( dtl.getAccount() == null ) {
-                GlobalVariables.getErrorMap().putError( "accountNumber", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[] { dtl.getChartOfAccountsCode(), dtl.getAccountNumber() } );
+        if (StringUtils.isNotBlank(dtl.getAccountNumber()) && StringUtils.isNotBlank(dtl.getChartOfAccountsCode())) {
+            dtl.refreshReferenceObject("account");
+            if (dtl.getAccount() == null) {
+                GlobalVariables.getErrorMap().putError("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[] { dtl.getChartOfAccountsCode(), dtl.getAccountNumber() });
             }
         }
         success &= GlobalVariables.getErrorMap().getErrorCount() == originalErrorCount;
-        
+
         return success;
     }
-    
+
     /**
-     * 
      * This method checks the simple rules for all lines at once and gets called on save, submit, etc. but not on add
      * 
      * @return
@@ -169,28 +165,28 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
 
         boolean success = true;
         // check if there are any accounts
-        if ( newDelegateGlobal.getDelegateGlobals().size() == 0 ) {
-            putFieldError( KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.DELEGATE_GLOBALS + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, 
-                    KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_DELEGATE);
+        if (newDelegateGlobal.getDelegateGlobals().size() == 0) {
+            putFieldError(KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.DELEGATE_GLOBALS + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_DELEGATE);
             success = false;
-        } else {
+        }
+        else {
             // check each delegate
             int i = 0;
             for (DelegateGlobalDetail newDelegateGlobalDetail : newDelegateGlobal.getDelegateGlobals()) {
                 KualiDecimal fromAmount = newDelegateGlobalDetail.getApprovalFromThisAmount();
                 KualiDecimal toAmount = newDelegateGlobalDetail.getApprovalToThisAmount();
-    
+
                 success &= checkDelegateUserRules(newDelegateGlobalDetail, i, false);
-    
+
                 // FROM amount must be >= 0 (may not be negative)
                 success &= checkDelegateFromAmtGreaterThanEqualZero(fromAmount, i, false);
-    
+
                 // to amount cannot be null if from amount is valid
                 success &= checkDelegateForNullToAmount(fromAmount, toAmount, i, false);
-    
+
                 // TO amount must be >= FROM amount or Zero
                 success &= checkDelegateToAmtGreaterThanFromAmt(fromAmount, toAmount, i, false);
-    
+
                 // increment counter for delegate changes list
                 i++;
             }
@@ -200,9 +196,8 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
 
 
     /**
-     * 
-     * This method will check through each delegate referenced in the DelegateGlobal to ensure that there is one and only
-     * primary for each account and doctype
+     * This method will check through each delegate referenced in the DelegateGlobal to ensure that there is one and only primary
+     * for each account and doctype
      * 
      * @return
      */
@@ -217,7 +212,6 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
-     * 
      * This method checks to see if the from amount is greater than zero
      * 
      * @param fromAmount
@@ -244,7 +238,6 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
-     * 
      * This method checks to see if the from amount is not null and the to amount is null
      * 
      * @param fromAmount
@@ -270,7 +263,6 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
-     * 
      * This method checks to see if the to Amount is greater than the from amount
      * 
      * @param fromAmount
@@ -299,7 +291,8 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
                 }
             }
             else {
-                // case if FROM amount is non-null and positive, disallow TO amount being less if it is not ZERO (another indicator of infinity)
+                // case if FROM amount is non-null and positive, disallow TO amount being less if it is not ZERO (another indicator
+                // of infinity)
                 if (!toAmount.equals(ZERO) && toAmount.isLessThan(fromAmount)) {
                     String errorPath = KFSConstants.EMPTY_STRING;
                     if (add) {
@@ -318,19 +311,16 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
-     * 
      * This method validates the rule that says there can be only one PrimaryRoute delegate on a Global Delegate document if the
      * docType is ALL. It checks the delegateGlobalToTest against the list, to determine whether adding this new
-     * delegateGlobalToTest would violate any PrimaryRoute business rule violations.
-     * 
-     * If any of the incoming variables is null or empty, the method will do nothing, and return Null. It will only process the
-     * business rules if there is sufficient data to do so.
+     * delegateGlobalToTest would violate any PrimaryRoute business rule violations. If any of the incoming variables is null or
+     * empty, the method will do nothing, and return Null. It will only process the business rules if there is sufficient data to do
+     * so.
      * 
      * @param delegateGlobalToTest A delegateGlobal line that you want to test agains the list.
      * @param delegateGlobals A List of delegateGlobal items that is being tested against.
      * @return Null if the business rule passes, or an Integer value greater than zero, representing the line that the new line is
      *         conflicting with
-     * 
      */
     protected Integer checkPrimaryRouteOnlyAllowOneAllDocType(DelegateGlobalDetail delegateGlobalToTest, List<DelegateGlobalDetail> delegateGlobals, Integer testLineNum) {
 
@@ -364,19 +354,15 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
-     * 
      * This method validates the rule that says there can be only one PrimaryRoute delegate for each given docType. It checks the
      * delegateGlobalToTest against the list, to determine whether adding this new delegateGlobalToTest would violate any
-     * PrimaryRoute business rule violations.
-     * 
-     * If any of the incoming variables is null or empty, the method will do nothing, and return Null. It will only process the
-     * business rules if there is sufficient data to do so.
+     * PrimaryRoute business rule violations. If any of the incoming variables is null or empty, the method will do nothing, and
+     * return Null. It will only process the business rules if there is sufficient data to do so.
      * 
      * @param delegateGlobalToTest A delegateGlobal line that you want to test against the list.
      * @param delegateGlobals A List of delegateGlobal items that is being tested against.
      * @return Null if the business rule passes, or an Integer value greater than zero, representing the line that the new line is
      *         conflicting with
-     * 
      */
     protected Integer checkPrimaryRoutePerDocType(DelegateGlobalDetail delegateGlobalToTest, List<DelegateGlobalDetail> delegateGlobals, Integer testLineNum) {
 
@@ -418,7 +404,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         String errorPath = "";
         Integer result = null;
         for (DelegateGlobalDetail delegateGlobal : delegateGlobals) {
-            
+
             result = checkPrimaryRoutePerDocType(delegateGlobalToTest, delegateGlobals, lineNum);
             if (result != null) {
                 if (add) {
@@ -456,7 +442,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         UniversalUser user = delegateGlobal.getAccountDelegate();
 
         // user must be of the allowable statuses (A - Active)
-        if (apcRuleFails(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ACCOUNT_DELEGATE, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_STATUSES, user.getEmployeeStatusCode())) {
+        if (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(Delegate.class, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_STATUSES, user.getEmployeeStatusCode())) {
             if (add) {
                 errorPath = KFSConstants.MAINTENANCE_ADD_PREFIX + DELEGATE_GLOBALS_PREFIX + "." + "accountDelegate.personUserIdentifier";
                 putFieldError(errorPath, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE);
@@ -469,7 +455,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         }
 
         // user must be of the allowable types (P - Professional)
-        if (apcRuleFails(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ACCOUNT_DELEGATE, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_TYPES, user.getEmployeeTypeCode())) {
+        if (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(Delegate.class, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_TYPES, user.getEmployeeTypeCode())) {
             if (add) {
                 errorPath = KFSConstants.MAINTENANCE_ADD_PREFIX + DELEGATE_GLOBALS_PREFIX + "." + "accountDelegate.personUserIdentifier";
                 putFieldError(errorPath, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL);
@@ -484,25 +470,26 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         return success;
     }
 
-    public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo ) {
+    public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
         boolean success = true;
-        if ( bo instanceof AccountGlobalDetail ) {
-            AccountGlobalDetail detail = (AccountGlobalDetail)bo;
+        if (bo instanceof AccountGlobalDetail) {
+            AccountGlobalDetail detail = (AccountGlobalDetail) bo;
             // make sure that both primary keys are available for this object
             if (!checkEmptyValue(detail.getAccountNumber())) {
                 // put an error about accountnumber
-                GlobalVariables.getErrorMap().putError( "accountNumber", KFSKeyConstants.ERROR_REQUIRED, "Account Number");
+                GlobalVariables.getErrorMap().putError("accountNumber", KFSKeyConstants.ERROR_REQUIRED, "Account Number");
                 success &= false;
             }
             if (!checkEmptyValue(detail.getChartOfAccountsCode())) {
                 // put an error about chart code
-                GlobalVariables.getErrorMap().putError( "chartOfAccountsCode", KFSKeyConstants.ERROR_REQUIRED, "Chart of Accounts Code");
+                GlobalVariables.getErrorMap().putError("chartOfAccountsCode", KFSKeyConstants.ERROR_REQUIRED, "Chart of Accounts Code");
                 success &= false;
             }
-            success &= checkAccountDetails( detail );
-        } else if ( bo instanceof DelegateGlobalDetail ) {
-            DelegateGlobalDetail detail = (DelegateGlobalDetail)bo;
-            detail.refreshNonUpdateableReferences();        
+            success &= checkAccountDetails(detail);
+        }
+        else if (bo instanceof DelegateGlobalDetail) {
+            DelegateGlobalDetail detail = (DelegateGlobalDetail) bo;
+            detail.refreshNonUpdateableReferences();
             KualiDecimal fromAmount = detail.getApprovalFromThisAmount();
             KualiDecimal toAmount = detail.getApprovalToThisAmount();
 
@@ -525,5 +512,5 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         }
         return success;
     }
-    
+
 }

@@ -20,11 +20,11 @@ import java.util.HashMap;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.financial.bo.OffsetAccount;
@@ -44,6 +44,7 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
     private AccountService accountService;
     private ObjectCodeService objectCodeService;
     private DateTimeService dateTimeService;
+    private ParameterService parameterService;
 
     /**
      * @see FlexibleOffsetAccountService#getByPrimaryIdIfEnabled
@@ -66,13 +67,10 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
      */
     public boolean getEnabled() {
         LOG.debug("getEnabled() started");
-
-        // KualiConfigurationService needs to be gotten dynamically here so TransferOfFundsDocumentRuleTest can mock it.
-        return SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.OFFSET_DEFINITION, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
+        return parameterService.getIndicatorParameter(OffsetDefinition.class, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
     }
 
     /**
-     * 
      * @see org.kuali.module.financial.service.FlexibleOffsetAccountService#updateOffset(org.kuali.module.gl.bo.OriginEntryFull)
      */
     public boolean updateOffset(OriginEntryFull originEntry) {
@@ -159,5 +157,9 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

@@ -28,15 +28,13 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.format.Formatter;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.service.CreditMemoCreateService;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorKeyConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
@@ -47,11 +45,11 @@ import org.kuali.module.vendor.service.VendorService;
 
 public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private VendorService vendorService;
-    private KualiConfigurationService kualiConfigurationService;
-    
+    private ParameterService parameterService;
+
     private static String VNDR_LOOKUP_MIN_NAME_LENGTH;
     private static String VNDR_MIN_NUM_LOOKUP_CRITERIA;
-    
+
     @Override
     public String getActionUrls(BusinessObject bo) {
         VendorDetail vendor = (VendorDetail) bo;
@@ -65,14 +63,13 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     }
 
     /**
-     * @see AbstractLookupableHelperServiceImpl#getMaintenanceUrl(BusinessObject, String) 
-     * 
-     * This method is used by getActionUrls to print the url on the Vendor Lookup page for the links to edit a Vendor or to create a
-     * new division. We won't provide a link to copy a vendor because we decided it wouldn't make sense to copy a vendor. We
-     * should display the link to create a new division only if the vendor is a parent vendor, and also remove the vendor
-     * detail assigned id from the query string in the link to create a new division. We'll add the vendor detail assigned id
-     * in the query string if the vendor is not a parent, or if the vendor is a parent and the link is not the create new
-     * division link (i.e. if the link is "edit"). We'll always add the vendor header id in the query string in all links.
+     * @see AbstractLookupableHelperServiceImpl#getMaintenanceUrl(BusinessObject, String) This method is used by getActionUrls to
+     *      print the url on the Vendor Lookup page for the links to edit a Vendor or to create a new division. We won't provide a
+     *      link to copy a vendor because we decided it wouldn't make sense to copy a vendor. We should display the link to create a
+     *      new division only if the vendor is a parent vendor, and also remove the vendor detail assigned id from the query string
+     *      in the link to create a new division. We'll add the vendor detail assigned id in the query string if the vendor is not a
+     *      parent, or if the vendor is a parent and the link is not the create new division link (i.e. if the link is "edit").
+     *      We'll always add the vendor header id in the query string in all links.
      */
     @Override
     public String getMaintenanceUrl(BusinessObject bo, String methodToCall) {
@@ -84,10 +81,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
             List pkNames = getPersistenceStructureService().listPrimaryKeyFieldNames(getBusinessObjectClass());
             for (Iterator<String> iter = pkNames.iterator(); iter.hasNext();) {
                 String fieldNm = iter.next();
-                if (!fieldNm.equals(VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID) || 
-                        !((VendorDetail) bo).isVendorParentIndicator() || 
-                        (((VendorDetail) bo).isVendorParentIndicator()) && 
-                        !methodToCall.equals(KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION)) {
+                if (!fieldNm.equals(VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID) || !((VendorDetail) bo).isVendorParentIndicator() || (((VendorDetail) bo).isVendorParentIndicator()) && !methodToCall.equals(KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION)) {
                     Object fieldVal = ObjectUtils.getPropertyValue(bo, fieldNm);
                     if (fieldVal == null) {
                         fieldVal = KFSConstants.EMPTY_STRING;
@@ -116,12 +110,10 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     }
 
     /**
-     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map) 
-     * 
-     * This method overrides the getSearchResults in the super class so that we can do some customization 
-     * in our vendor lookup. For example, for vendor name as the search criteria, we want to search both 
-     * the vendor detail table and the vendor alias table for the vendor name. Display the vendor's default
-     * address state in the search results.
+     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map) This method overrides the getSearchResults in the super
+     *      class so that we can do some customization in our vendor lookup. For example, for vendor name as the search criteria, we
+     *      want to search both the vendor detail table and the vendor alias table for the vendor name. Display the vendor's default
+     *      address state in the search results.
      */
     @Override
     public List<BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -141,27 +133,30 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
             fieldValues.put(VendorPropertyConstants.VENDOR_ALIAS_NAME_FULL_PATH, vendorName);
             // also make sure that we only use active aliases to match the query string
             fieldValues.put(VendorPropertyConstants.VENDOR_ALIAS_ACTIVE, "Y");
-            fieldValues.remove( VendorPropertyConstants.VENDOR_NAME );
+            fieldValues.remove(VendorPropertyConstants.VENDOR_NAME);
             List<BusinessObject> searchResults2 = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded);
-            
-            searchResults.addAll( searchResults2 );
-            if ( searchResults instanceof CollectionIncomplete && searchResults2 instanceof CollectionIncomplete ) {
-            	((CollectionIncomplete)searchResults).setActualSizeIfTruncated( ((CollectionIncomplete)searchResults).getActualSizeIfTruncated().longValue() + ((CollectionIncomplete)searchResults2 ).getActualSizeIfTruncated().longValue() );
+
+            searchResults.addAll(searchResults2);
+            if (searchResults instanceof CollectionIncomplete && searchResults2 instanceof CollectionIncomplete) {
+                ((CollectionIncomplete) searchResults).setActualSizeIfTruncated(((CollectionIncomplete) searchResults).getActualSizeIfTruncated().longValue() + ((CollectionIncomplete) searchResults2).getActualSizeIfTruncated().longValue());
             }
-        }        
-        
+        }
+
         List<BusinessObject> processedSearchResults = new ArrayList();
-        
+
         // loop through results
         for (BusinessObject bo : searchResults) {
             VendorDetail vendor = (VendorDetail) bo;
 
-            // if its a top level vendor, search for its divisions and add them to the appropriate list then add the vendor to the return results
-            // if its a division, see if we already have the parent and if not, retrieve it and its divisions then add the parent to the return results
+            // if its a top level vendor, search for its divisions and add them to the appropriate list then add the vendor to the
+            // return results
+            // if its a division, see if we already have the parent and if not, retrieve it and its divisions then add the parent to
+            // the return results
 
- 
-            //If this vendor is not already in the processedSearchResults, let's do further processing (e.g. setting the state for lookup from default address, etc)
-            //and then add it in the processedSearchResults.
+
+            // If this vendor is not already in the processedSearchResults, let's do further processing (e.g. setting the state for
+            // lookup from default address, etc)
+            // and then add it in the processedSearchResults.
             if (!processedSearchResults.contains(vendor)) {
                 Map<String, String> tmpValues = new HashMap<String, String>();
                 List<VendorDetail> relatedVendors = new ArrayList();
@@ -199,7 +194,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
 
         searchResults.clear();
         searchResults.addAll(processedSearchResults);
-        
+
         // sort list if default sort column given
         List<String> defaultSortColumns = getDefaultSortColumns();
         if (defaultSortColumns.size() > 0) {
@@ -207,11 +202,10 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         }
         return searchResults;
     }
-    
+
     // populate state from default address
-    private void updatedefaultVendorAddress(VendorDetail vendor) { 
-        VendorAddress defaultAddress = vendorService.getVendorDefaultAddress(vendor.getVendorAddresses(), 
-                vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
+    private void updatedefaultVendorAddress(VendorDetail vendor) {
+        VendorAddress defaultAddress = vendorService.getVendorDefaultAddress(vendor.getVendorAddresses(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
         if (defaultAddress != null && defaultAddress.getVendorState() != null) {
             vendor.setVendorStateForLookup(defaultAddress.getVendorState().getPostalStateName());
             vendor.setDefaultAddressLine1(defaultAddress.getVendorLine1Address());
@@ -222,50 +216,47 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
             vendor.setDefaultAddressCountryCode(defaultAddress.getVendorCountryCode());
         }
     }
-    
+
     /**
-     * This method overrides a method of the superclass and is now called instead of that one by the Search
-     * method of KualiLookupAction when the Lookupable is of this class.  This method first calls the method
-     * from the superclass, which should do all the required field checking, and then orchestrates all the
-     * specific validations which aren't done in at the JSP level.  Both the superclass method and the various
-     * validation methods side-effect the adding of errors to the global error map when the input is found
-     * to have an issue.
+     * This method overrides a method of the superclass and is now called instead of that one by the Search method of
+     * KualiLookupAction when the Lookupable is of this class. This method first calls the method from the superclass, which should
+     * do all the required field checking, and then orchestrates all the specific validations which aren't done in at the JSP level.
+     * Both the superclass method and the various validation methods side-effect the adding of errors to the global error map when
+     * the input is found to have an issue.
      * 
-     * @param fieldValues   A Map containing only those key-value pairs that have been filled in on the lookup
+     * @param fieldValues A Map containing only those key-value pairs that have been filled in on the lookup
      */
     @Override
     public void validateSearchParameters(Map fieldValues) {
         super.validateSearchParameters(fieldValues);
-        
+
         validateVendorNumber(fieldValues);
         validateVendorName(fieldValues);
         validateTaxNumber(fieldValues);
-        
+
         if (!GlobalVariables.getErrorMap().isEmpty()) {
             throw new ValidationException("Error(s) in search criteria");
         }
     }
-    
+
     /**
-     * This method ensures that, if a string is entered in the Vendor Name field, it is at least
-     * the minimum number of characters in length.
+     * This method ensures that, if a string is entered in the Vendor Name field, it is at least the minimum number of characters in
+     * length.
      * 
-     * @param fieldValues   A Map containing only those key-value pairs that have been filled in on the lookup
+     * @param fieldValues A Map containing only those key-value pairs that have been filled in on the lookup
      */
     private void validateVendorName(Map fieldValues) {
         String vendorName = (String) fieldValues.get(VendorPropertyConstants.VENDOR_NAME);
         if (StringUtils.isNotBlank(vendorName)) {
             if (ObjectUtils.isNull(VNDR_LOOKUP_MIN_NAME_LENGTH)) {
-                VNDR_LOOKUP_MIN_NAME_LENGTH = kualiConfigurationService.getParameterValue(KFSConstants.VENDOR_NAMESPACE, VendorConstants.Components.VENDOR,
-                        VendorRuleConstants.PURAP_VNDR_LOOKUP_MIN_NAME_LENGTH);
+                VNDR_LOOKUP_MIN_NAME_LENGTH = parameterService.getParameterValue(VendorDetail.class, VendorRuleConstants.PURAP_VNDR_LOOKUP_MIN_NAME_LENGTH);
             }
             if (vendorName.length() < Integer.parseInt(VNDR_LOOKUP_MIN_NAME_LENGTH)) {
-                GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NAME, 
-                        VendorKeyConstants.ERROR_VENDOR_LOOKUP_NAME_TOO_SHORT, VNDR_LOOKUP_MIN_NAME_LENGTH);
+                GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NAME, VendorKeyConstants.ERROR_VENDOR_LOOKUP_NAME_TOO_SHORT, VNDR_LOOKUP_MIN_NAME_LENGTH);
             }
         }
     }
-    
+
     /**
      * This method validates that the Vendor Number has no more than one dash in it, and does not consist solely of one dash. Then
      * it calls extractVendorNumberToVendorIds to obtain vendorHeaderGeneratedId and vendorDetailAssignedId and if either one of the
@@ -280,18 +271,16 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
             int dashPos1 = vendorNumber.indexOf(VendorConstants.DASH);
             if (dashPos1 > -1) { // There's a dash in the number.
                 if (vendorNumber.indexOf(VendorConstants.DASH, dashPos1 + 1) > -1) { // There can't be more than one.
-                    GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NUMBER, 
-                            VendorKeyConstants.ERROR_VENDOR_LOOKUP_VNDR_NUM_TOO_MANY_DASHES);
+                    GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NUMBER, VendorKeyConstants.ERROR_VENDOR_LOOKUP_VNDR_NUM_TOO_MANY_DASHES);
                 }
                 if (vendorNumber.matches("\\-*")) {
-                    GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NUMBER, 
-                            VendorKeyConstants.ERROR_VENDOR_LOOKUP_VNDR_NUM_DASHES_ONLY);
+                    GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NUMBER, VendorKeyConstants.ERROR_VENDOR_LOOKUP_VNDR_NUM_DASHES_ONLY);
                 }
             }
             extractVendorNumberToVendorIds(fieldValues, vendorNumber);
         }
     }
-    
+
     /**
      * This method parses the vendorNumber string into vendorHeaderGeneratedIdentifier and vendorDetailAssignedIdentifier, validates
      * that both fields would be able to be converted into integers, if so it will add both fields into the search criterias map in
@@ -325,11 +314,10 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
             fieldValues.put(VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, vendorDetailAssignedIdentifier);
         }
         catch (NumberFormatException headerExc) {
-            GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NUMBER, 
-                    VendorKeyConstants.ERROR_VENDOR_LOOKUP_VNDR_NUM_NUMERIC_DASH_SEPARATED);
+            GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NUMBER, VendorKeyConstants.ERROR_VENDOR_LOOKUP_VNDR_NUM_NUMERIC_DASH_SEPARATED);
         }
     }
-    
+
     /**
      * This method validates that the tax number is 9 digits long.
      * 
@@ -338,8 +326,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     private void validateTaxNumber(Map fieldValues) {
         String taxNumber = (String) fieldValues.get(VendorPropertyConstants.VENDOR_TAX_NUMBER);
         if (StringUtils.isNotBlank(taxNumber) && (!StringUtils.isNumeric(taxNumber) || taxNumber.length() != 9)) {
-            GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_TAX_NUMBER, 
-                    VendorKeyConstants.ERROR_VENDOR_LOOKUP_TAX_NUM_INVALID);
+            GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_TAX_NUMBER, VendorKeyConstants.ERROR_VENDOR_LOOKUP_TAX_NUM_INVALID);
         }
     }
 
@@ -347,8 +334,8 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         this.vendorService = vendorService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
-    
+
 }

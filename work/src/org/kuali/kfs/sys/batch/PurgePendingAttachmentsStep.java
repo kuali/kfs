@@ -19,20 +19,16 @@ import java.util.Calendar;
 
 import org.kuali.core.service.AttachmentService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.module.gl.GLConstants;
 
 
 /**
- * This class is the batch step used to delete pending attachments that have not yet been associated with a document.
- * When attachments are attached to docs in an "initiated" state, the attachment is not considered to be linked with the
- * doc in the persistence layer, and so it becomes a "pending" attachment (i.e. pending persistence).  When docs are 
- * saved (or submitted, etc.), pending attachments become permanently persisted to the document and are no longer pending. 
- * 
- * Pending attachments may have become orphaned from the document (because the doc has not been saved), and so these 
- * orphaned attachments must be deleted.
- * 
- * This job uses the file's last modified time to determine which pending attachments should be deleted.  If the
- * modified time is older than the SYSTEM parameter "pendingAssignmentMaxAge", then it will be deleted.
+ * This class is the batch step used to delete pending attachments that have not yet been associated with a document. When
+ * attachments are attached to docs in an "initiated" state, the attachment is not considered to be linked with the doc in the
+ * persistence layer, and so it becomes a "pending" attachment (i.e. pending persistence). When docs are saved (or submitted, etc.),
+ * pending attachments become permanently persisted to the document and are no longer pending. Pending attachments may have become
+ * orphaned from the document (because the doc has not been saved), and so these orphaned attachments must be deleted. This job uses
+ * the file's last modified time to determine which pending attachments should be deleted. If the modified time is older than the
+ * SYSTEM parameter "pendingAssignmentMaxAge", then it will be deleted.
  * 
  * @see org.kuali.core.service.impl.AttachmentServiceImpl
  * @see KFSConstants.SystemGroupParameterNames#PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE
@@ -40,7 +36,7 @@ import org.kuali.module.gl.GLConstants;
 public class PurgePendingAttachmentsStep extends AbstractStep {
 
     private AttachmentService attachmentService;
-    
+
     /**
      * Deletes all pending attachments that are older than a configured time (see class description)
      * 
@@ -48,9 +44,7 @@ public class PurgePendingAttachmentsStep extends AbstractStep {
      */
     public boolean execute(String jobName) {
         Calendar calendar = getDateTimeService().getCurrentCalendar();
-        String maxAgeInSecondsStr = getConfigurationService().getParameterValue(KFSConstants.GL_NAMESPACE,
-                GLConstants.Components.PURGE_PENDING_ATTACHMENTS_STEP,
-                KFSConstants.SystemGroupParameterNames.PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE);
+        String maxAgeInSecondsStr = getParameterService().getParameterValue(getClass(), KFSConstants.SystemGroupParameterNames.PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE);
         int maxAgeInSeconds = Integer.parseInt(maxAgeInSecondsStr);
         calendar.add(Calendar.SECOND, -maxAgeInSeconds);
         getAttachmentService().deletePendingAttachmentsModifiedBefore(calendar.getTimeInMillis());
@@ -58,7 +52,8 @@ public class PurgePendingAttachmentsStep extends AbstractStep {
     }
 
     /**
-     * Gets the attachmentService attribute. 
+     * Gets the attachmentService attribute.
+     * 
      * @return Returns the attachmentService.
      */
     public AttachmentService getAttachmentService() {
@@ -67,6 +62,7 @@ public class PurgePendingAttachmentsStep extends AbstractStep {
 
     /**
      * Sets the attachmentService attribute value.
+     * 
      * @param attachmentService The attachmentService to set.
      */
     public void setAttachmentService(AttachmentService attachmentService) {

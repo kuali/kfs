@@ -31,6 +31,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.service.OrganizationService;
@@ -39,7 +40,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrgRule.class);
 
-    
+
     private static OrganizationService orgService;
 
     private Org oldOrg;
@@ -55,8 +56,8 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         // to spring-managed with these services injected by Spring at some later date.
         // When this happens, just remove these calls to the setters with
         // SpringContext, and configure the bean defs for spring.
-        if ( orgService == null ) {
-        	orgService = SpringContext.getBean(OrganizationService.class);
+        if (orgService == null) {
+            orgService = SpringContext.getBean(OrganizationService.class);
         }
     }
 
@@ -157,48 +158,47 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         boolean success = true;
 
-        /* KULCOA-1132 - exit if the user is not a member of the
-           plant maintainer work group.  */
-        
-        //get user
+        /*
+         * KULCOA-1132 - exit if the user is not a member of the plant maintainer work group.
+         */
+
+        // get user
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
-        
-        //if not authroized to edit plant fields, exit with true
-        if( isPlantAuthorized(user) == false ){
+
+        // if not authroized to edit plant fields, exit with true
+        if (isPlantAuthorized(user) == false) {
             return true;
         }
-        
-        // relax this edit for 
-        if ( !getOrgMustReportToSelf( newOrg ) ) {
-	        // require Org Plant ChartCode
-	        success &= checkEmptyBOField("organizationPlantChartCode", newOrg.getOrganizationPlantChartCode(), "Organization Plant Chart of Accounts Code");
-	        
-	        // require Org Plant AccountNumber
-	        success &= checkEmptyBOField("organizationPlantAccountNumber", newOrg.getOrganizationPlantAccountNumber(), "Organization Plant Account Number");
-	        
-	        // require Campus Plant ChartCode
-	        success &= checkEmptyBOField("campusPlantChartCode", newOrg.getCampusPlantChartCode(), "Campus Plant Chart of Accounts Code");
-	        
-	        // require Org Plant ChartCode
-	        success &= checkEmptyBOField("campusPlantAccountNumber", newOrg.getCampusPlantAccountNumber(), "Campus Plant Account Number");
-	        
-	        // validate Org Plant Account
-	        success &= getDictionaryValidationService().validateReferenceExistsAndIsActive(newOrg, "organizationPlantAccount", "accountClosedIndicator", true, true, MAINTAINABLE_ERROR_PREFIX + "organizationPlantAccountNumber", "Organization Plant Account");
-	        
-	        // validate Campus Plant Account
-	        success &= getDictionaryValidationService().validateReferenceExistsAndIsActive(newOrg, "campusPlantAccount", "accountClosedIndicator", true, true, MAINTAINABLE_ERROR_PREFIX + "campusPlantAccountNumber", "Campus Plant Account");
+
+        // relax this edit for
+        if (!getOrgMustReportToSelf(newOrg)) {
+            // require Org Plant ChartCode
+            success &= checkEmptyBOField("organizationPlantChartCode", newOrg.getOrganizationPlantChartCode(), "Organization Plant Chart of Accounts Code");
+
+            // require Org Plant AccountNumber
+            success &= checkEmptyBOField("organizationPlantAccountNumber", newOrg.getOrganizationPlantAccountNumber(), "Organization Plant Account Number");
+
+            // require Campus Plant ChartCode
+            success &= checkEmptyBOField("campusPlantChartCode", newOrg.getCampusPlantChartCode(), "Campus Plant Chart of Accounts Code");
+
+            // require Org Plant ChartCode
+            success &= checkEmptyBOField("campusPlantAccountNumber", newOrg.getCampusPlantAccountNumber(), "Campus Plant Account Number");
+
+            // validate Org Plant Account
+            success &= getDictionaryValidationService().validateReferenceExistsAndIsActive(newOrg, "organizationPlantAccount", "accountClosedIndicator", true, true, MAINTAINABLE_ERROR_PREFIX + "organizationPlantAccountNumber", "Organization Plant Account");
+
+            // validate Campus Plant Account
+            success &= getDictionaryValidationService().validateReferenceExistsAndIsActive(newOrg, "campusPlantAccount", "accountClosedIndicator", true, true, MAINTAINABLE_ERROR_PREFIX + "campusPlantAccountNumber", "Campus Plant Account");
         }
-        
+
         return success;
     }
 
     /**
-     * 
      * This method enforces the business rules surrounding when an Org becomes closed/inactive.
      * 
      * @param document
      * @return
-     * 
      */
     protected boolean checkOrgClosureRules(MaintenanceDocument document) {
 
@@ -293,7 +293,6 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method implements the HRMS Org rules.
      * 
      * @param document
@@ -324,10 +323,10 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
-    private boolean getOrgMustReportToSelf( Org organization ) {
-    	return applyApcRule(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ORGANIZATION, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, organization.getOrganizationTypeCode());    	
+    private boolean getOrgMustReportToSelf(Org organization) {
+        return SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(Org.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, organization.getOrganizationTypeCode());
     }
-    
+
     protected boolean checkSimpleRules(MaintenanceDocument document) {
 
         boolean success = true;
@@ -359,50 +358,50 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
                 success &= false;
             }
         }
-        
+
         // Reports To Chart/Org should not be same as this Chart/Org
         // However, allow special case where organization type is listed in the business rules
-        if ( ObjectUtils.isNotNull(newOrg.getReportsToChartOfAccountsCode()) 
-                && ObjectUtils.isNotNull(newOrg.getReportsToOrganizationCode()) 
-                && ObjectUtils.isNotNull(newOrg.getChartOfAccountsCode())
-                && ObjectUtils.isNotNull(newOrg.getOrganizationCode()) ) {
-            if ( !getOrgMustReportToSelf( newOrg ) ) {
-                
-                if ((newOrg.getReportsToChartOfAccountsCode().equals(newOrg.getChartOfAccountsCode())) 
-                        && (newOrg.getReportsToOrganizationCode().equals(newOrg.getOrganizationCode()))) {
+        if (ObjectUtils.isNotNull(newOrg.getReportsToChartOfAccountsCode()) && ObjectUtils.isNotNull(newOrg.getReportsToOrganizationCode()) && ObjectUtils.isNotNull(newOrg.getChartOfAccountsCode()) && ObjectUtils.isNotNull(newOrg.getOrganizationCode())) {
+            if (!getOrgMustReportToSelf(newOrg)) {
+
+                if ((newOrg.getReportsToChartOfAccountsCode().equals(newOrg.getChartOfAccountsCode())) && (newOrg.getReportsToOrganizationCode().equals(newOrg.getOrganizationCode()))) {
                     putFieldError("reportsToOrganizationCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_CANNOT_BE_SAME_ORG);
                     success = false;
-                } else {
+                }
+                else {
                     // Don't allow a circular reference on Reports to Chart/Org
-                    // terminate the search when a top-level org is found                    
+                    // terminate the search when a top-level org is found
                     lastReportsToChartOfAccountsCode = newOrg.getReportsToChartOfAccountsCode();
                     lastReportsToOrganizationCode = newOrg.getReportsToOrganizationCode();
                     continueSearch = true;
                     loopCount = 0;
                     do {
                         tempOrg = orgService.getByPrimaryId(lastReportsToChartOfAccountsCode, lastReportsToOrganizationCode);
-                        loopCount++;;
+                        loopCount++;
+                        ;
                         if (ObjectUtils.isNull(tempOrg)) {
                             continueSearch = false;
                             // if a null is returned on the first iteration, then the reports-to org does not exist
                             // fail the validation
-                            if ( loopCount == 1 ) {
+                            if (loopCount == 1) {
                                 putFieldError("reportsToOrganizationCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_MUST_EXIST);
                                 success = false;
                             }
-                        } else {
+                        }
+                        else {
                             // on the first iteration, check whether the reports-to organization is active
-                            if ( loopCount == 1 && !tempOrg.isOrganizationActiveIndicator() ) {
+                            if (loopCount == 1 && !tempOrg.isOrganizationActiveIndicator()) {
                                 putFieldError("reportsToOrganizationCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_MUST_EXIST);
                                 success = false;
                                 continueSearch = false;
-                            } else {
-                                // LOG.info("Found Org = " + lastReportsToChartOfAccountsCode + "/" + lastReportsToOrganizationCode);
+                            }
+                            else {
+                                // LOG.info("Found Org = " + lastReportsToChartOfAccountsCode + "/" +
+                                // lastReportsToOrganizationCode);
                                 lastReportsToChartOfAccountsCode = tempOrg.getReportsToChartOfAccountsCode();
                                 lastReportsToOrganizationCode = tempOrg.getReportsToOrganizationCode();
-        
-                                if ((tempOrg.getReportsToChartOfAccountsCode().equals(newOrg.getChartOfAccountsCode())) 
-                                        && (tempOrg.getReportsToOrganizationCode().equals(newOrg.getOrganizationCode())) ) {
+
+                                if ((tempOrg.getReportsToChartOfAccountsCode().equals(newOrg.getChartOfAccountsCode())) && (tempOrg.getReportsToOrganizationCode().equals(newOrg.getOrganizationCode()))) {
                                     putFieldError("reportsToOrganizationCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_CANNOT_BE_CIRCULAR_REF_TO_SAME_ORG);
                                     success = false;
                                     continueSearch = false;
@@ -412,29 +411,27 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
                         if (loopCount > maxLoopCount) {
                             continueSearch = false;
                         }
-                        // stop the search if we reach an org that must report to itself 
-                        if ( continueSearch 
-                                && applyApcRule(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ORGANIZATION, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode()) ) {
+                        // stop the search if we reach an org that must report to itself
+                        if (continueSearch && SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(Org.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode())) {
                             continueSearch = false;
                         }
-    
+
                     } while (continueSearch == true);
                 } // end else (checking for circular ref)
-            } else { // org must report to self (university level organization)
-                if ( !(newOrg.getReportsToChartOfAccountsCode().equals(newOrg.getChartOfAccountsCode()) 
-                        && newOrg.getReportsToOrganizationCode().equals(newOrg.getOrganizationCode()) ) ) {
+            }
+            else { // org must report to self (university level organization)
+                if (!(newOrg.getReportsToChartOfAccountsCode().equals(newOrg.getChartOfAccountsCode()) && newOrg.getReportsToOrganizationCode().equals(newOrg.getOrganizationCode()))) {
                     putFieldError("reportsToOrganizationCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_MUST_BE_SAME_ORG);
                     success = false;
                 }
                 // org must be the only one of that type
-                String topLevelOrgTypeCode = configService.getParameterValue(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ORGANIZATION, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
-                List<Org> topLevelOrgs = orgService.getActiveOrgsByType( topLevelOrgTypeCode );
-                if ( !topLevelOrgs.isEmpty() ) {
-                    // is the new org in the topLevelOrgs list?  If not, then there's an error; if so, we're editing the top level org
+                String topLevelOrgTypeCode = SpringContext.getBean(ParameterService.class).getParameterValue(Org.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
+                List<Org> topLevelOrgs = orgService.getActiveOrgsByType(topLevelOrgTypeCode);
+                if (!topLevelOrgs.isEmpty()) {
+                    // is the new org in the topLevelOrgs list? If not, then there's an error; if so, we're editing the top level
+                    // org
                     if (!topLevelOrgs.contains(newOrg)) {
-                        putFieldError( "organizationTypeCode", 
-                                KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_ONLY_ONE_TOP_LEVEL_ORG,
-                                topLevelOrgs.get(0).getChartOfAccountsCode()+"-"+topLevelOrgs.get(0).getOrganizationCode() );
+                        putFieldError("organizationTypeCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_ONLY_ONE_TOP_LEVEL_ORG, topLevelOrgs.get(0).getChartOfAccountsCode() + "-" + topLevelOrgs.get(0).getOrganizationCode());
                         success = false;
                     }
                 }
@@ -459,7 +456,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         if (ObjectUtils.isNotNull(newOrg.getOrganizationTypeCode())) {
             organizationTypeCode = newOrg.getOrganizationTypeCode();
-            if (applyApcRule(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ORGANIZATION, KFSConstants.ChartApcParms.DEFAULT_ACCOUNT_NOT_REQUIRED_ORG_TYPES, newOrg.getOrganizationTypeCode())) {
+            if (SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(Org.class, KFSConstants.ChartApcParms.DEFAULT_ACCOUNT_NOT_REQUIRED_ORG_TYPES, newOrg.getOrganizationTypeCode())) {
                 exemptOrganizationTypeCode = true;
             }
         }
@@ -471,17 +468,14 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
-     * This method compares an old and new value, and determines if they've changed.
-     * 
-     * If the old was null/blank, and the new is not, return true. If the old had a value, and the new is null/blank, return true.
-     * If both old and new had a value, and the values are different (excluding trailing or leading whitespaces, and excluding case
-     * changes), return true. If none of the above, return false.
+     * This method compares an old and new value, and determines if they've changed. If the old was null/blank, and the new is not,
+     * return true. If the old had a value, and the new is null/blank, return true. If both old and new had a value, and the values
+     * are different (excluding trailing or leading whitespaces, and excluding case changes), return true. If none of the above,
+     * return false.
      * 
      * @param oldValue - Old value to test.
      * @param newValue - New value to test.
      * @return true or false, based on the algorithm described above.
-     * 
      */
     protected boolean fieldsHaveChanged(String oldValue, String newValue) {
 
@@ -508,26 +502,20 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method looks up in the APC system whether ther HRMS Org system is turned on.
      * 
      * @return true or false depending on the app configuration
-     * 
      */
     protected boolean isHrmsOrgActivated() {
-        return configService.getIndicatorParameter(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ORGANIZATION, KFSConstants.ChartApcParms.APC_HRMS_ACTIVE_KEY);
+        return SpringContext.getBean(ParameterService.class).getIndicatorParameter(Org.class, KFSConstants.ChartApcParms.APC_HRMS_ACTIVE_KEY);
     }
 
     /**
-     * 
      * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
-     * old objects contained in the maintenance document.
-     * 
-     * It also calls the BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys,
-     * if available.
+     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
+     * all sub-objects from the DB by their primary keys, if available.
      * 
      * @param document - the maintenanceDocument being evaluated
-     * 
      */
     public void setupConvenienceObjects() {
 
@@ -539,19 +527,17 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method tests whether the specified user is part of the group that grants authorization to the Plant fields.
      * 
      * @param user - the user to test
      * @return true if user is part of the group, false otherwise
-     * 
      */
     protected boolean isPlantAuthorized(UniversalUser user) {
 
         // attempt to get the group name that grants access to the Plant fields
-        String allowedPlantWorkgroup = getConfigService().getParameterValue(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ORGANIZATION, KFSConstants.ChartApcParms.ORG_PLANT_WORKGROUP_PARM_NAME);
+        String allowedPlantWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(Org.class, KFSConstants.ChartApcParms.ORG_PLANT_WORKGROUP_PARM_NAME);
 
-        if (user.isMember( allowedPlantWorkgroup )) {
+        if (user.isMember(allowedPlantWorkgroup)) {
             LOG.info("User '" + user.getPersonUserIdentifier() + "' is a member of the group '" + allowedPlantWorkgroup + "', which gives them access to the Plant fields.");
             return true;
         }

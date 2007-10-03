@@ -19,7 +19,6 @@ import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.dao.ExpenditureTransactionDao;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 public class DeleteAllExpenditureTransactionsStep extends AbstractStep {
     private ExpenditureTransactionDao expenditureTransactionDao;
     

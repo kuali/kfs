@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.kra.KraConstants;
+import org.kuali.module.kra.budget.document.BudgetDocument;
 
 public class BudgetManualRateIndicatorValuesFinder extends KeyValuesBase {
 
@@ -34,10 +34,10 @@ public class BudgetManualRateIndicatorValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
         List ret = new ArrayList();
 
-        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-        
-        ret.add(new KeyLabelPair("N", kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.KRA_BUDGET_INDIRECT_COST_PROVIDED_SYSTEM)));
-        ret.add(new KeyLabelPair("Y", kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.KRA_BUDGET_INDIRECT_COST_PROVIDED_MANUALLY)));
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+
+        ret.add(new KeyLabelPair("N", parameterService.getParameterValue(BudgetDocument.class, KraConstants.KRA_BUDGET_INDIRECT_COST_PROVIDED_SYSTEM)));
+        ret.add(new KeyLabelPair("Y", parameterService.getParameterValue(BudgetDocument.class, KraConstants.KRA_BUDGET_INDIRECT_COST_PROVIDED_MANUALLY)));
 
         return ret;
     }

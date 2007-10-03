@@ -33,8 +33,6 @@ import static org.kuali.kfs.KFSKeyConstants.ERROR_APC_INDIRECT_ALLOWED_MULTIPLE;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_APC_INDIRECT_DENIED_MULTIPLE;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_FORMAT;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_MAX_LENGTH;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_INVALID_ACCOUNT;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_REQUIRED;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_BALANCE;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_FUND_GROUP_SET_DOES_NOT_BALANCE;
@@ -53,7 +51,6 @@ import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER.RESTRICTED_OBJECT_CODES;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER.RESTRICTED_OBJECT_TYPE_CODES;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER.RESTRICTED_SUB_FUND_GROUP_CODES;
-import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_GLOBAL_RULES_SECURITY_GROUPING;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -64,13 +61,12 @@ import java.util.ListIterator;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.Parameter;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.bo.Parameter;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rule.event.BlanketApproveDocumentEvent;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DictionaryValidationService;
@@ -98,15 +94,14 @@ import org.kuali.kfs.rule.GenerateGeneralLedgerPendingEntriesRule;
 import org.kuali.kfs.rule.ReviewAccountingLineRule;
 import org.kuali.kfs.rule.SufficientFundsCheckingPreparationRule;
 import org.kuali.kfs.rule.UpdateAccountingLineRule;
-import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER;
-import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER_SECURITY_GROUP;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.HomeOriginationService;
 import org.kuali.kfs.service.OptionsService;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.gl.service.SufficientFundsService;
-import org.kuali.rice.kns.config.KNSConfigurer;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -128,6 +123,33 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         AccountingLineAction(String accessabilityErrorKey) {
             this.accessibilityErrorKey = accessabilityErrorKey;
         }
+    }
+
+    protected boolean executeParameterRestriction(Parameter parameter, String restrictedFieldValue, String errorField, String errorParameter) {
+        boolean rulePassed = true;
+
+        if (parameter != null) {
+            if (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(parameter, restrictedFieldValue)) {
+                GlobalVariables.getErrorMap().putError(errorField, getKualiConfigurationService().getErrorMessageKey(parameter), new String[] { errorParameter, restrictedFieldValue, parameter.getParameterName(), parameter.getParameterNamespaceCode(), parameter.getParameterValue() });
+                rulePassed = false;
+            }
+        }
+
+        return rulePassed;
+    }
+
+    protected boolean executeParameterRestriction(Parameter allowParameter, Parameter denyParameter, String constrainingValue, String restrictedFieldValue, String errorField, String errorParameter) {
+        boolean rulePassed = true;
+
+        if (allowParameter != null && denyParameter != null) {
+            if (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue( allowParameter, denyParameter, constrainingValue, restrictedFieldValue)) {
+                Parameter ruleToUseInError = (allowParameter !=null)?allowParameter:denyParameter;
+                GlobalVariables.getErrorMap().putError(errorField, getKualiConfigurationService().getErrorMessageKey(allowParameter), new String[] { errorParameter, restrictedFieldValue, ruleToUseInError.getParameterName(), ruleToUseInError.getParameterNamespaceCode(), ruleToUseInError.getParameterValue() });
+                rulePassed = false;
+            }
+        }
+
+        return rulePassed;
     }
 
     // Inherited Document Specific Business Rules
@@ -342,7 +364,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         boolean isAccessible = false;
 
         KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
-        ChartUser currentUser = (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID );
+        ChartUser currentUser = (ChartUser) GlobalVariables.getUserSession().getUniversalUser().getModuleUser(ChartUser.MODULE_ID);
 
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             isAccessible = true;
@@ -383,7 +405,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
         // only count if the doc is enroute
         KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
-        ChartUser currentUser = (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID );
+        ChartUser currentUser = (ChartUser) GlobalVariables.getUserSession().getUniversalUser().getModuleUser(ChartUser.MODULE_ID);
         if (workflowDocument.stateIsEnroute()) {
             int accessibleLines = 0;
             for (Iterator i = financialDocument.getSourceAccountingLines().iterator(); (accessibleLines < min) && i.hasNext();) {
@@ -512,7 +534,8 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
                                 if (StringUtils.equals(ERROR_MAX_LENGTH, error.getErrorKey())) {
                                     errorKey = ERROR_DOCUMENT_ACCOUNTING_LINE_MAX_LENGTH;
 
-                                    // String value = ObjectUtils.getPropertyValue(accountingLine, KFSConstants.AMOUNT_PROPERTY_NAME)
+                                    // String value = ObjectUtils.getPropertyValue(accountingLine,
+                                    // KFSConstants.AMOUNT_PROPERTY_NAME)
 
                                 }
                             }
@@ -574,7 +597,6 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         return valid;
     }
 
-    
 
     /**
      * Perform business rules common to all transactional documents when generating general ledger pending entries.
@@ -765,10 +787,8 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param sectionTitle
      * @param persistedSourceLineTotal
      * @param currentSourceLineTotal
-     * 
      * @deprecated KULEDOCS-1488: It was requested that we no longer display the name of the associated section in the error
      *             message, so this method was replaced with buildTotalChangeErrorMessage(String, KualiDecimal, KualiDecimal).
-     * 
      * @see TransactionDocumentRuleBase.buildTotalChangeErrorMessage(String, KualiDecimal, KualiDecimal)
      */
     private void buildTotalChangeErrorMessage(String propertyName, String sectionTitle, KualiDecimal persistedSourceLineTotal, KualiDecimal currentSourceLineTotal) {
@@ -875,7 +895,8 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
         KualiDecimal amount = accountingLine.getAmount();
 
-        // Check for zero amount, or negative on original (non-correction) document; no sign check for documents that are corrections to previous documents
+        // Check for zero amount, or negative on original (non-correction) document; no sign check for documents that are
+        // corrections to previous documents
         String correctsDocumentId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
         if (ZERO.compareTo(amount) == 0) { // amount == 0
             GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
@@ -1212,9 +1233,11 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
         String objectCode = accountingLine.getFinancialObjectCode();
 
-        //Parameter restrictedObjectCodes = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(KUALI_TRANSACTION_PROCESSING_GLOBAL_RULES_SECURITY_GROUPING, RESTRICTED_OBJECT_CODES);
+        // Parameter restrictedObjectCodes =
+        // SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(KUALI_TRANSACTION_PROCESSING_GLOBAL_RULES_SECURITY_GROUPING,
+        // RESTRICTED_OBJECT_CODES);
 
-        if ( getKualiConfigurationService().failsRule(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DOCUMENT, RESTRICTED_OBJECT_CODES, objectCode) ) {
+        if (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, RESTRICTED_OBJECT_CODES, objectCode)) {
             String objectCodeInfo = objectCode + " - " + accountingLine.getObjectCode().getFinancialObjectCodeShortName();
             GlobalVariables.getErrorMap().putError(FINANCIAL_OBJECT_CODE_PROPERTY_NAME, ERROR_DOCUMENT_INCORRECT_OBJ_CODE, new String[] { objectCodeInfo });
 
@@ -1252,7 +1275,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
     protected Parameter getGlobalObjectTypeRule() {
         LOG.debug("getGlobalObjectTypeRule() - start");
 
-        Parameter returnKualiParameterRule = getParameterRule( KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DOCUMENT, RESTRICTED_OBJECT_TYPE_CODES);
+        Parameter returnKualiParameterRule = SpringContext.getBean(ParameterService.class).getParameter(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, RESTRICTED_OBJECT_TYPE_CODES);
         LOG.debug("getGlobalObjectTypeRule() - end");
         return returnKualiParameterRule;
     }
@@ -1265,7 +1288,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
     protected Parameter getGlobalSubFundGroupRule() {
         LOG.debug("getGlobalSubFundGroupRule() - start");
 
-        Parameter returnKualiParameterRule = getParameterRule( KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DOCUMENT, RESTRICTED_SUB_FUND_GROUP_CODES);
+        Parameter returnKualiParameterRule = SpringContext.getBean(ParameterService.class).getParameter(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, RESTRICTED_SUB_FUND_GROUP_CODES);
         LOG.debug("getGlobalSubFundGroupRule() - end");
         return returnKualiParameterRule;
     }
@@ -1297,7 +1320,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         LOG.debug("createObjectTypeAttributeReference(AccountingLine) - end");
         return returnAttributeReference;
     }
-    
+
     /**
      * This method checks to see if the fund group code for the accouting line's account is allowed. The common implementation
      * allows any fund group code.
@@ -1538,11 +1561,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         if (objectSubTypeCode == null) {
             throw new IllegalArgumentException(EXCEPTIONS.NULL_OBJECT_SUBTYPE_MESSAGE);
         }
-        KualiConfigurationService configService = SpringContext.getBean(KualiConfigurationService.class);
-        Parameter restrictedSubTypes = configService.getParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DOCUMENT, parameterName);
-
-
-        boolean returnboolean = (!configService.failsRule(restrictedSubTypes,objectSubTypeCode));
+        boolean returnboolean = (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName, objectSubTypeCode));
         LOG.debug("checkMandatoryTransfersSubType(String, String) - end");
         return returnboolean;
     }
@@ -1690,7 +1709,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
     protected static boolean indirectRuleSucceeds(Parameter parameterRule, AttributeReference direct, AttributeReference indirect) {
         LOG.debug("indirectRuleSucceeds(KualiParameterRule, AttributeReference, AttributeReference) - start");
         KualiConfigurationService configService = SpringContext.getBean(KualiConfigurationService.class);
-        if (configService.succeedsRule(parameterRule,indirect.getValueString())) {
+        if (configService.succeedsRule(parameterRule, indirect.getValueString())) {
             LOG.debug("indirectRuleSucceeds(KualiParameterRule, AttributeReference, AttributeReference) - end");
             return true;
         }
@@ -1761,7 +1780,6 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         public static final String isInvalidLineTypeIllegalArgumentExceptionMessage = "invalid accounting line type";
 
         /**
-         * 
          * @param debitCreditCode
          * @return true if debitCreditCode equals the the debit constant
          */
@@ -1794,12 +1812,10 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
          * <li> ! (isIncome || isLiability || isExpense || isAsset)
          * </ol>
          * 
-         * 
          * @param rule
          * @param accountingDocument
          * @param accountingLine
          * @return boolean
-         * 
          */
         public static boolean isDebitConsideringType(AccountingDocumentRuleBase rule, AccountingDocument accountingDocument, AccountingLine accountingLine) {
             LOG.debug("isDebitConsideringType(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - start");
@@ -1867,8 +1883,8 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
             else {
                 // non error correction
                 if (!rule.isErrorCorrection(accountingDocument)) {
-                    throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage); 
-                
+                    throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
+
                 }
                 // error correction
                 else {
@@ -1901,12 +1917,10 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
          * <li> ! (isIncome || isLiability || isExpense || isAsset)
          * </ol>
          * 
-         * 
          * @param rule
          * @param accountingDocument
          * @param accountingLine
          * @return boolean
-         * 
          */
         public static boolean isDebitConsideringSection(AccountingDocumentRuleBase rule, AccountingDocument accountingDocument, AccountingLine accountingLine) {
             LOG.debug("isDebitConsideringSection(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - start");
@@ -1988,9 +2002,9 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
             }
             // source line
             if (accountingLine.isSourceAccountingLine()) {
-                //could write below block in one line using == as XNOR operator, but that's confusing to read:
-                //isDebit = (rule.isIncomeOrLiability(accountingLine) == isPositiveAmount);
-                if (isPositiveAmount) { 
+                // could write below block in one line using == as XNOR operator, but that's confusing to read:
+                // isDebit = (rule.isIncomeOrLiability(accountingLine) == isPositiveAmount);
+                if (isPositiveAmount) {
                     isDebit = rule.isIncomeOrLiability(accountingLine);
                 }
                 else {
@@ -2031,7 +2045,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
             LOG.debug("disallowErrorCorrectionDocumentCheck(AccountingDocumentRuleBase, AccountingDocument) - end");
         }
-        
-        
+
+
     }
 }

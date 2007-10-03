@@ -22,10 +22,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
@@ -35,6 +33,7 @@ import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
 import org.kuali.kfs.service.OptionsService;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
 
 /**
@@ -86,7 +85,6 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
      * </ol>
      * 
      * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * 
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
@@ -140,7 +138,7 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
      * @return boolean
      */
     private boolean isFundGroupsBalanceValid(TransferOfFundsDocument tofDoc) {
-        String[] fundGroupCodes = getKualiConfigurationService().getParameterValues(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.TRANSFER_OF_FUNDS_DOC, APPLICATION_PARAMETER.FUND_GROUP_BALANCING_SET);
+        String[] fundGroupCodes = SpringContext.getBean(ParameterService.class).getParameterValues(TransferOfFundsDocument.class, APPLICATION_PARAMETER.FUND_GROUP_BALANCING_SET).toArray(new String[]{});
         return isFundGroupSetBalanceValid(tofDoc, fundGroupCodes);
     }
 
@@ -210,7 +208,6 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
      * 
      * @param accountingLine
      * @return True if the object code's object sub-type code is a mandatory or non-mandatory transfer; false otherwise.
-     * 
      * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
      */
     @Override
@@ -231,24 +228,23 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
 
         return true;
     }
-    
+
     /**
      * Overrides the parent to make sure that the chosen object code's object code is Income/Expense
      * 
      * @param accountingLine
      * @return True if the object code's is income or expense, otherwise false.
-     * 
      * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
-     */   
+     */
     @Override
     public boolean isObjectCodeAllowed(AccountingLine accountingLine) {
         boolean isObjectCodeAllowed = super.isObjectCodeAllowed(accountingLine);
-        
+
         if (!isIncome(accountingLine) && !isExpense(accountingLine)) {
             GlobalVariables.getErrorMap().putError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_TOF_INVALID_OBJECT_TYPE_CODES, new String[] { accountingLine.getObjectCode().getFinancialObjectTypeCode(), accountingLine.getObjectCode().getFinancialObjectSubTypeCode() });
             isObjectCodeAllowed = false;
-        }        
-        
+        }
+
         return isObjectCodeAllowed;
-    }     
+    }
 }

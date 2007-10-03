@@ -81,9 +81,7 @@
 		<property name="paymentFileService">
 			<ref bean="pdpPaymentFileService"/>
 		</property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService"/>
-		</property>
+		<property name="parameterService" ref="parameterService" />
 		<property name="customerProfileService">
 			<ref bean="pdpCustomerProfileService"/>
 		</property>
@@ -144,8 +142,8 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
+		<property name="parameterService">
+			<ref bean="parameterService" />
 		</property>
         <property name="universityDateService">
             <ref bean="universityDateService" />
@@ -210,6 +208,9 @@
     	<property name="purapService">
 			<ref bean="purapService" />
 		</property>        
+    	<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>        
     </bean>
 
     <bean id="paymentRequestDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.PaymentRequestDaoOjb">
@@ -243,9 +244,10 @@
         <property name="noteService">
             <ref bean="noteService" />
         </property>
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService" />
+        <property name="parameterService">
+            <ref bean="parameterService" />
         </property>	        
+        <property name="configurationService" ref="kualiConfigurationService" />
         <property name="negativePaymentRequestApprovalLimitService">
             <ref bean="negativePaymentRequestApprovalLimitService" />
         </property>	        
@@ -268,6 +270,9 @@
 		</property>
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
+        </property>	   
+        <property name="parameterService">
+            <ref bean="parameterService" />
         </property>	   
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
@@ -305,8 +310,8 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
+		<property name="parameterService">
+			<ref bean="parameterService" />
 		</property>
         <property name="imageDao">
             <ref bean="imageDao" />
@@ -369,8 +374,8 @@
 		<property name="creditMemoService">
 			<ref bean="creditMemoService"/>
 		</property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService"/>
+		<property name="parameterService">
+			<ref bean="parameterService"/>
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService"/>
@@ -384,9 +389,8 @@
 	<bean id="purApAccountingDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.PurApAccountingDaoOjb" />
 
 	<bean id="imageDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.ImageDaoNet">
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>		
+		<property name="parameterService" ref="parameterService" />
+		<property name="configurationService" ref="kualiConfigurationService" />
 	</bean>
 	
 	<bean id="negativePaymentRequestApprovalLimitDao" parent="platformAwareDao" 
@@ -396,11 +400,7 @@
 	
 	<!--  Batch Jobs -->
 	
-    <bean id="purapStep" parent="step" abstract="true">
-        <property name="namespace" value="KFS-PA" />
-    </bean>
-
-    <bean id="autoApprovePaymentRequestsStep" class="org.kuali.module.purap.batch.AutoApprovePaymentRequestsStep" parent="purapStep">
+    <bean id="autoApprovePaymentRequestsStep" class="org.kuali.module.purap.batch.AutoApprovePaymentRequestsStep" parent="step">
         <property name="paymentRequestService">
             <ref bean="paymentRequestService" />
         </property>
@@ -418,7 +418,7 @@
 		</property>
 	</bean>
 
-	<bean id="purchasingPreDisbursementExtractStep" class="org.kuali.module.purap.batch.ExtractPdpStep" parent="purapStep">
+	<bean id="purchasingPreDisbursementExtractStep" class="org.kuali.module.purap.batch.ExtractPdpStep" parent="step">
 		<property name="pdpExtractService">
 			<ref bean="pdpExtractService"/>
 		</property>

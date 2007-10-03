@@ -19,25 +19,18 @@ import java.util.Calendar;
 
 import org.kuali.core.JstlConstants;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 public class KraConstants extends JstlConstants {
     private static final long serialVersionUID = 5725060921632498564L;
 
-    public static class Components {
-        public final static String ROUTING_FORM = RoutingForm.class.getSimpleName();
-        public final static String BUDGET = Budget.class.getSimpleName();
-    }
-    
     public static final String SHORT_TIMESTAMP_FORMAT = "MM/dd/yyyy";
     public static final String LONG_TIMESTAMP_FORMAT = "MM/dd/yyyy HH:mm:ss";
-    
+
     public static final int maximumPeriodLengthUnits = Calendar.YEAR;
     public static final int maximumNumberOfPeriods = 20; // used on budgetPeriods.tag
 
     public static final int maximumNumberOfTasks = 20; // used on budgetTasks.tag
-    
+
     public static final int projectDirectorRouteLevel = 1;
 
     public static final String SUBCONTRACTOR_CATEGORY_CODE = "SC"; // used on budgetCostShare*.tag and budgetNonpersonnel.tag
@@ -49,23 +42,22 @@ public class KraConstants extends JstlConstants {
 
     public static final String INSTITUTION_COST_SHARE_CODE = "I";
     public static final String THIRD_PARTY_COST_SHARE_CODE = "T";
-    
+
     public static final String PERMISSION_MOD_CODE = "M";
     public static final String PERMISSION_READ_CODE = "R";
 
     public static final String DATABASE_TRUE_VALUE = "Y";
-    
+
     public static final String QUESTION_ROUTE_DOCUMENT_TO_COMPLETE = "Completing this document will remove it from your Action List.<br/><br/>  Are you sure you want to continue?";
     public static final String PROJECT_DIRECTOR = "Project Director";
-    
+
     public static final String PERIOD = "period";
 
     public static final String TASK = "task";
-    
+
     public static final String DROPDOWN_LIST_SELECT = "select:";
-    
+
     // System Parameters
-    public static final String KRA_NAMESPACE = "KFS-RA";
     public static final String BUDGET_PERIODS_HELP_PARAMETER_NAME = "PERIOD";
     public static final String BUDGET_COSTSHARE_INDIRECT_HELP_PARAMETER_NAME = "INSTITUTION_COST_SHARE_INDIRECT";
     public static final String BUDGET_OUTPUT_HELP_PARAMETER_NAME = "OUTPUT";
@@ -82,20 +74,20 @@ public class KraConstants extends JstlConstants {
     public static final String BUDGET_COST_SHARE_PERMISSION_CODE = "COST_SHARE_PERMISSION_CODE";
     public static final String DEFAULT_BUDGET_TASK_NAME = "DEFAULT_BUDGET_TASK_NAME";
     public static final String INDIRECT_COST_MAX_MANUAL_RATE = "INDIRECT_COST_MAX_MANUAL_RATE";
-    
+
     public static final String DEFAULT_APPOINTMENT_TYPE = "DEFAULT_APPOINTMENT_TYPE";
     public static final String DEFAULT_PERSONNEL_INFLATION_RATE = "DEFAULT_PERSONNEL_INFLATION_RATE";
     public static final String DEFAULT_NONPERSONNEL_INFLATION_RATE = "DEFAULT_NONPERSONNEL_INFLATION_RATE";
-    
+
     public static final String FIRST25K_SUBCATEGORY_CODES = "FIRST25K_SUBCATEGORY_CODES";
     public static final String NEW_PERIOD_IDENTIFIER = "NEW_PERIOD_IDENTIFIER";
-    public static final String ALLOWED_EMPLOYEE_STATUS_RULE = "EMPLOYEE_STATUSES";    
+    public static final String ALLOWED_EMPLOYEE_STATUS_RULE = "EMPLOYEE_STATUSES";
     public static final String PERIOD_IDENTIFIER = "PERIOD_IDENTIFIER";
 
     public static final String APPROVALS_DEFAULT_WORDING = "APPROVALS_DEFAULT_WORDING";
     public static final String APPROVALS_INITIATOR_WORDING = "APPROVALS_INITIATOR_WORDING";
     public static final String APPROVALS_PROJECT_DIRECTOR_WORDING = "APPROVALS_PROJECT_DIRECTOR_WORDING";
-    
+
     public static final String GRADUATE_ASSISTANT_NONPERSONNEL_DESCRIPTION = "GRADUATE_ASSISTANT_NONPERSONNEL_DESCRIPTION";
     public static final String GRADUATE_ASSISTANT_NONPERSONNEL_SUB_CATEGORY_CODE = "GRADUATE_ASSISTANT_NONPERSONNEL_SUB_CATEGORY_CODE";
     public static final String GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE = "GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE";
@@ -121,46 +113,46 @@ public class KraConstants extends JstlConstants {
     public static final String MAXIMUM_PERIOD_LENGTH = "MAXIMUM_PERIOD_LENGTH";
     public static final String MINIMUM_NUMBER_OF_PERIODS = "MINIMUM_NUMBER_OF_PERIODS";
     public static final String MINIMUM_NUMBER_OF_TASKS = "MINIMUM_NUMBER_OF_TASKS";
-    
+
     public static final String MAXIMUM_NUMBER_MODULAR_PERIODS = "MAXIMUM_NUMBER_MODULAR_PERIODS";
 
     public static final String COST_SHARE_PERMISSION_CODE_OPTIONAL = "O";
     public static final String COST_SHARE_PERMISSION_CODE_TRUE = "Y";
-    
+
     public static final String TO_BE_NAMED_LABEL = "TO_BE_NAMED_LABEL";
-    
+
     public static final String KRA_BUDGET_NUMBER_OF_ACADEMIC_YEAR_SUBDIVISIONS = "NUMBER_OF_ACADEMIC_YEAR_SUBDIVISIONS";
     public static final String KRA_BUDGET_ACADEMIC_YEAR_SUBDIVISION_NAMES = "ACADEMIC_YEAR_SUBDIVISION_NAMES";
-    
+
     public static final String PERSONNEL_STATUSES = "PERSONNEL_STATUSES";
     public static final String CREATE_PROPOSAL_PROJECT_TYPES = "CREATE_PROPOSAL_PROJECT_TYPES";
     public static final String PROJECT_TYPES = "PROJECT_TYPES";
-    
+
     public static final String ROUTING_FORM_COST_SHARE_PERMISSION_CODE = "COST_SHARE_ROUTING_CODE";
-    
+
     public static final String PERSON_ROLE_CODE_CO_PROJECT_DIRECTOR = "PERSON_ROLE_CODE_CO_PROJECT_DIRECTOR";
     public static final String PERSON_ROLE_CODE_CONTACT_PERSON = "PERSON_ROLE_CODE_CONTACT_PERSON";
     public static final String PERSON_ROLE_CODE_OTHER = "PERSON_ROLE_CODE_OTHER";
     public static final String PERSON_ROLE_CODE_PROJECT_DIRECTOR = "PERSON_ROLE_CODE_PROJECT_DIRECTOR";
-    
+
     public static final String PROJECT_TYPE_BUDGET_REVISION_ACTIVE = "PROJECT_TYPE_BUDGET_REVISION_ACTIVE";
     public static final String PROJECT_TYPE_BUDGET_REVISION_PENDING = "PROJECT_TYPE_BUDGET_REVISION_PENDING";
     public static final String PROJECT_TYPE_NEW = "PROJECT_TYPE_NEW";
-    
+
     // Research Risks codes (system param names)
     public static final String RESEARCH_RISKS_HUMAN_SUBJECTS_ACTIVE_CODE = "RESEARCH_RISKS_HUMAN_SUBJECTS_ACTIVE_CODE";
     public static final String RESEARCH_RISKS_ANIMALS_ACTIVE_CODE = "RESEARCH_RISKS_ANIMALS_ACTIVE_CODE";
-    
+
     public static final String MANUAL_BASE = "MN";
     public static final String MODIFIED_TOTAL_DIRECT_COST = "MT";
-    
+
     public static final String PROJECT_DIRECTOR_REVIEW_NODE_NAME = "Project Director";
     public static final String PROJECT_DIRECTOR_TEMPLATE_NAME = "KualiRoutingFormProjectDirectorTemplate";
     public static final String ADHOC_REVIEW_NODE_NAME = "Adhoc Approvers";
     public static final String ADHOC_REVIEW_TEMPLATE_NAME = "KualiResearchAdhocApproverTemplate";
     public static final String ORG_REVIEW_NODE_NAME = "Org Review";
     public static final String ORG_REVIEW_TEMPLATE_NAME = "KualiResearchOrgReviewTemplate";
-    
+
     // UI Header Tab names
     public static final String PARAMETERS_HEADER_TAB = "Parameters";
     public static final String OVERVIEW_HEADER_TAB = "Overview";
@@ -174,23 +166,23 @@ public class KraConstants extends JstlConstants {
     public static final String TEMPLATE_HEADER_TAB = "Template";
     public static final String AUDIT_MODE_HEADER_TAB = "Audit Mode";
     public static final String NOTES_HEADER_TAB = "Notes";
-    
+
     public static final String DELETE_PERIOD_QUESTION_ID = "DeletePeriodQuestion";
     public static final String DELETE_TASK_QUESTION_ID = "DeleteTaskQuestion";
     public static final String DELETE_COST_SHARE_QUESTION_ID = "DeleteCostShareQuestion";
-    
+
     // Research Risk Types
     public static final String RESEARCH_RISK_TYPE_ALL_COLUMNS = "A";
     public static final String RESEARCH_RISK_TYPE_SOME_COLUMNS = "S";
     public static final String RESEARCH_RISK_TYPE_DESCRIPTION = "D";
-    
+
     // Study Statuses
     public static final String RESEARCH_RISK_STUDY_STATUS_APPROVED = "A";
     public static final String RESEARCH_RISK_STUDY_STATUS_PENDING = "P";
-    
+
     // Study Review Statuses
     public static final String RESEARCH_RISK_STUDY_REVIEW_EXEMPT = "X";
-    
+
     // Following are used in tags on Main Page.
     public static final String SUBMISSION_TYPE_CHANGE = "SUBMISSION_TYPE_CHANGE";
     public static final String PROJECT_TYPE_OTHER = "PROJECT_TYPE_OTHER";
@@ -201,13 +193,13 @@ public class KraConstants extends JstlConstants {
     public static final String CO_PROJECT_DIRECTOR_PARAM = "PERSON_ROLE_CODE_CO_PROJECT_DIRECTOR";
     public static final String OTHER_PERSON_PARAM = "PERSON_ROLE_CODE_OTHER";
     public static final String PROJECT_DIRECTOR_PARAM = "PERSON_ROLE_CODE_PROJECT_DIRECTOR";
-    
+
     // Role Codes
     public static final String PROJECT_DIRECTOR_CODE = "P";
     public static final String CO_PROJECT_DIRECTOR_CODE = "C";
     public static final String CONTACT_PERSON_ADMINISTRATIVE_CODE = "M";
     public static final String CONTACT_PERSON_PROPOSAL_CODE = "N";
-    
+
     // Ad hoc types
     public static final String AD_HOC_PERMISSION = "P";
     public static final String AD_HOC_APPROVER = "A";

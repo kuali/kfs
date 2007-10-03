@@ -41,10 +41,11 @@ import org.kuali.kfs.batch.BatchInputFileType;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.exceptions.XMLParseException;
 import org.kuali.kfs.service.BatchInputFileService;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.collector.CollectorBatch;
+import org.kuali.module.gl.batch.collector.CollectorStep;
 import org.kuali.module.gl.bo.CollectorDetail;
 import org.kuali.module.gl.bo.CollectorHeader;
 import org.kuali.module.gl.bo.OriginEntryFull;
@@ -69,7 +70,8 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     private CollectorDetailService collectorDetailService;
     private OriginEntryService originEntryService;
     private OriginEntryGroupService originEntryGroupService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
+    private KualiConfigurationService configurationService;
     private MailService mailService;
     private DateTimeService dateTimeService;
     private BatchInputFileService batchInputFileService;
@@ -78,7 +80,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
 
     /**
      * Parses the given file, validates the batch, stores the entries, and sends email.
-     *
+     * 
      * @see org.kuali.module.gl.service.CollectorService#loadCollectorFile(java.lang.String)
      */
     public boolean loadCollectorFile(String fileName, OriginEntryGroup originEntryGroup, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses) {
@@ -86,8 +88,9 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
 
         // the batch name is the file name
         // we can't use the global variables map to store errors because multiple collector batches/files run by the same thread
-        // if we used the global variables map, all of the parse/validation errors from one file would be retained when parsing/validating the
-        // the next file, causing all subsequent files to fail validation.  So, instead we do one unique error map per file
+        // if we used the global variables map, all of the parse/validation errors from one file would be retained when
+        // parsing/validating the
+        // the next file, causing all subsequent files to fail validation. So, instead we do one unique error map per file
         ErrorMap errorMap = collectorReportData.getErrorMapForBatchName(fileName);
 
         CollectorBatch batch = doCollectorFileParse(fileName, errorMap);
@@ -130,9 +133,9 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     }
 
     /**
-     * After a parse error, tries to go through the file to see if the email address can be determined.
-     * This method will not throw an exception
-     *
+     * After a parse error, tries to go through the file to see if the email address can be determined. This method will not throw
+     * an exception
+     * 
      * @param fileName
      * @return
      */
@@ -142,7 +145,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
 
     /**
      * Calls batch input service to parse the xml contents into an object. Any errors will be contained in GlobalVariables.errorMap
-     *
+     * 
      * @param fileName
      */
     private CollectorBatch doCollectorFileParse(String fileName, ErrorMap errorMap) {
@@ -183,7 +186,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
 
     /**
      * Performs the following checks on the collector batch: Any errors will be contained in GlobalVariables.errorMap
-     *
+     * 
      * @param batch - batch to validate
      * @param errorMap the map into which to put errors encountered during validation
      * @return boolean - true if validation was successful, false it not
@@ -191,7 +194,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     protected boolean performValidation(CollectorBatch batch, ErrorMap errorMap) {
         boolean valid = true;
 
-        boolean performDuplicateHeaderCheck = kualiConfigurationService.getIndicatorParameter(KFSConstants.GL_NAMESPACE, GLConstants.Components.COLLECTOR_STEP, SystemGroupParameterNames.COLLECTOR_PERFORM_DUPLICATE_HEADER_CHECK);
+        boolean performDuplicateHeaderCheck = parameterService.getIndicatorParameter(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_PERFORM_DUPLICATE_HEADER_CHECK);
         if (performDuplicateHeaderCheck) {
             valid = duplicateHeaderCheck(batch, errorMap);
         }
@@ -211,10 +214,10 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     }
 
     /**
-     * Modifies the amounts in the ID Billing Detail rows, depending on specific business rules.  For this default implementation, see the
-     * {@link #negateAmountIfNecessary(InterDepartmentalBilling, BalanceTyp, ObjectType, CollectorBatch)} method to see how the billing detail
-     * amounts are modified.
-     *
+     * Modifies the amounts in the ID Billing Detail rows, depending on specific business rules. For this default implementation,
+     * see the {@link #negateAmountIfNecessary(InterDepartmentalBilling, BalanceTyp, ObjectType, CollectorBatch)} method to see how
+     * the billing detail amounts are modified.
+     * 
      * @param batch
      */
     protected void processInterDepartmentalBillingAmounts(CollectorBatch batch) {
@@ -243,9 +246,9 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     }
 
     /**
-     * Negates the amount of the internal departmental billing detail record if necessary.  For this default implementation, if the balance type's
-     * offset indicator is yes and the object type has a debit indicator, then the amount is negated.
-     *
+     * Negates the amount of the internal departmental billing detail record if necessary. For this default implementation, if the
+     * balance type's offset indicator is yes and the object type has a debit indicator, then the amount is negated.
+     * 
      * @param interDepartmentalBilling the ID billing detail
      * @param balanceTyp the balance type
      * @param objectType the object type
@@ -264,9 +267,9 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     }
 
     /**
-     * Returns the balance type code for the interDepartmentalBilling record.  This default implementation will look into the system
+     * Returns the balance type code for the interDepartmentalBilling record. This default implementation will look into the system
      * parameters to determine the balance type
-     *
+     * 
      * @param interDepartmentalBilling a inter departmental billing detail record
      * @param batch the batch to which the interDepartmentalBilling billing belongs
      * @return the balance type code for the billing detail
@@ -277,7 +280,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
 
     /**
      * Checks header against previously loaded batch headers for a duplicate submission.
-     *
+     * 
      * @param batch - batch to check
      * @return true if header if OK, false if header was used previously
      */
@@ -299,7 +302,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     /**
      * Iterates through the origin entries and builds a map on the document types. Then checks there was only one document type
      * found.
-     *
+     * 
      * @param batch - batch to check document types
      * @return true if there is only one document type, false if multiple document types were found.
      */
@@ -323,7 +326,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
 
     /**
      * Iterates through the origin entries and builds a map on the balance types. Then checks there was only one balance type found.
-     *
+     * 
      * @param batch - batch to check balance types
      * @return true if there is only one balance type, false if multiple balance types were found
      */
@@ -348,7 +351,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     /**
      * Verifies each detail (id billing) record key has an corresponding gl entry in the same batch. The key is built by joining the
      * values of chart of accounts code, account number, sub account number, object code, and sub object code.
-     *
+     * 
      * @param batch - batch to validate
      * @return true if all detail records had matching keys, false otherwise
      */
@@ -375,25 +378,20 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     }
 
     private String generateOriginEntryMatchingKey(OriginEntryFull entry, String delimiter) {
-        return StringUtils.join(new String[] { entry.getUniversityFiscalYear().toString(), entry.getUniversityFiscalPeriodCode(), entry.getChartOfAccountsCode(), entry.getAccountNumber(),
-                entry.getSubAccountNumber(), entry.getFinancialObjectCode(), entry.getFinancialSubObjectCode(), entry.getFinancialBalanceTypeCode(),
-                entry.getFinancialObjectTypeCode(), entry.getDocumentNumber(), entry.getFinancialDocumentTypeCode(), entry.getFinancialSystemOriginationCode() }, delimiter);
+        return StringUtils.join(new String[] { entry.getUniversityFiscalYear().toString(), entry.getUniversityFiscalPeriodCode(), entry.getChartOfAccountsCode(), entry.getAccountNumber(), entry.getSubAccountNumber(), entry.getFinancialObjectCode(), entry.getFinancialSubObjectCode(), entry.getFinancialBalanceTypeCode(), entry.getFinancialObjectTypeCode(), entry.getDocumentNumber(), entry.getFinancialDocumentTypeCode(), entry.getFinancialSystemOriginationCode() }, delimiter);
     }
 
     private String generateCollectorDetailMatchingKey(CollectorDetail collectorDetail, String delimiter) {
-        return StringUtils.join(new String[] { collectorDetail.getUniversityFiscalYear().toString(), collectorDetail.getUniversityFiscalPeriodCode(),collectorDetail.getChartOfAccountsCode(),
-                collectorDetail.getAccountNumber(), collectorDetail.getSubAccountNumber(), collectorDetail.getFinancialObjectCode(), collectorDetail.getFinancialSubObjectCode(),
-                collectorDetail.getFinancialBalanceTypeCode(), collectorDetail.getFinancialObjectTypeCode(), collectorDetail.getDocumentNumber(), collectorDetail.getFinancialDocumentTypeCode(),
-                collectorDetail.getFinancialSystemOriginationCode()}, delimiter);
+        return StringUtils.join(new String[] { collectorDetail.getUniversityFiscalYear().toString(), collectorDetail.getUniversityFiscalPeriodCode(), collectorDetail.getChartOfAccountsCode(), collectorDetail.getAccountNumber(), collectorDetail.getSubAccountNumber(), collectorDetail.getFinancialObjectCode(), collectorDetail.getFinancialSubObjectCode(), collectorDetail.getFinancialBalanceTypeCode(), collectorDetail.getFinancialObjectTypeCode(), collectorDetail.getDocumentNumber(), collectorDetail.getFinancialDocumentTypeCode(), collectorDetail.getFinancialSystemOriginationCode() }, delimiter);
     }
 
     /**
      * Checks the batch total line count and amounts against the trailer. Any errors will be contained in GlobalVariables.errorMap
-     *
+     * 
      * @param batch batch to check totals for
      * @param collectorReportData collector report data (optional)
-     *
-     * @see org.kuali.module.gl.service.CollectorHelperService#checkTrailerTotals(org.kuali.module.gl.batch.collector.CollectorBatch, org.kuali.module.gl.util.CollectorReportData)
+     * @see org.kuali.module.gl.service.CollectorHelperService#checkTrailerTotals(org.kuali.module.gl.batch.collector.CollectorBatch,
+     *      org.kuali.module.gl.util.CollectorReportData)
      */
     public boolean checkTrailerTotals(CollectorBatch batch, CollectorReportData collectorReportData) {
         return checkTrailerTotals(batch, collectorReportData, GlobalVariables.getErrorMap());
@@ -401,7 +399,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
 
     /**
      * Checks the batch total line count and amounts against the trailer. Any errors will be contained in GlobalVariables.errorMap
-     *
+     * 
      * @param batch - batch to check totals for
      * @return boolean - true if validation was successful, false it not
      */
@@ -424,7 +422,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         }
 
         // retrieve document types that balance by equal debits and credits
-        String[] documentTypes = kualiConfigurationService.getParameterValues(KFSConstants.GL_NAMESPACE, GLConstants.Components.COLLECTOR_STEP, KFSConstants.SystemGroupParameterNames.COLLECTOR_EQUAL_DC_TOTAL_DOCUMENT_TYPES);
+        String[] documentTypes = parameterService.getParameterValues(CollectorStep.class, KFSConstants.SystemGroupParameterNames.COLLECTOR_EQUAL_DC_TOTAL_DOCUMENT_TYPES).toArray(new String[] {});
 
         boolean equalDebitCreditTotal = false;
         for (int i = 0; i < documentTypes.length; i++) {
@@ -467,12 +465,9 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         this.originEntryService = originEntryService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
 
     public String getStagingDirectory() {
-        return kualiConfigurationService.getPropertyString(KFSConstants.GL_COLLECTOR_STAGING_DIRECTORY);
+        return configurationService.getPropertyString(KFSConstants.GL_COLLECTOR_STAGING_DIRECTORY);
     }
 
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -493,9 +488,18 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
 
     /**
      * Sets the collectorScrubberService attribute value.
+     * 
      * @param collectorScrubberService The collectorScrubberService to set.
      */
     public void setCollectorScrubberService(CollectorScrubberService collectorScrubberService) {
         this.collectorScrubberService = collectorScrubberService;
+    }
+
+    public void setConfigurationService(KualiConfigurationService configurationService) {
+        this.configurationService = configurationService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

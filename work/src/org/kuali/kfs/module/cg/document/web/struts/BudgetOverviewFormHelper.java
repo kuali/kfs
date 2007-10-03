@@ -16,17 +16,16 @@
 package org.kuali.module.kra.budget.web.struts.form;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetModular;
@@ -38,6 +37,7 @@ import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.bo.UserAppointmentTask;
 import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
+import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.service.BudgetIndirectCostService;
 import org.kuali.module.kra.budget.service.BudgetModularService;
 import org.kuali.module.kra.budget.service.BudgetPeriodService;
@@ -46,8 +46,6 @@ import org.kuali.module.kra.budget.web.struts.action.BudgetAction;
 
 /**
  * This is used by the UI to get totals, counts, and other things needed to render the page properly.
- * 
- * 
  */
 public class BudgetOverviewFormHelper {
 
@@ -58,7 +56,7 @@ public class BudgetOverviewFormHelper {
     public final List FULL_YEAR_APPOINTMENTS;
     public final String SUMMER_GRID_APPOINTMENT;
     public final List SUMMER_GRID_APPOINTMENTS;
-    
+
     public final String GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE;
     public final String GRADUATE_ASSISTANT_NONPERSONNEL_SUBCATEGORY_CODE;
     public final String GRADUATE_ASSISTANT_NONPERSONNEL_DESCRIPTION;
@@ -88,29 +86,29 @@ public class BudgetOverviewFormHelper {
     private KualiInteger totalCostsAgencyRequest;
     private KualiInteger totalCostsInstitutionCostShare;
     private KualiInteger totalCostsThirdPartyCostShare;
-    
+
     // What this instance of BudgetOverviewFormHelper represents
     private BudgetPeriod budgetPeriod;
     private BudgetTask budgetTask;
-    
-    //Helper for use on RF Linking
+
+    // Helper for use on RF Linking
     private boolean selected;
 
     /**
      * Constructs a BudgetOverviewFormHelper. Sets necessary constants.
      */
     public BudgetOverviewFormHelper() {
-        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-        this.TO_BE_NAMED = kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, KraConstants.TO_BE_NAMED_LABEL);
-        this.HOURLY_APPOINTMENTS = kualiConfigurationService.getParameterValuesAsList(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.KRA_BUDGET_PERSONNEL_HOURLY_APPOINTMENT_TYPES);
-        this.GRADUATE_RA_APPOINTMENTS = kualiConfigurationService.getParameterValuesAsList(KFSConstants.KRA_NAMESPACE,  KraConstants.Components.BUDGET, KraConstants.KRA_BUDGET_PERSONNEL_GRADUATE_RESEARCH_ASSISTANT_APPOINTMENT_TYPES);
-        this.FULL_YEAR_APPOINTMENTS = kualiConfigurationService.getParameterValuesAsList(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.KRA_BUDGET_PERSONNEL_FULL_YEAR_APPOINTMENT_TYPES);
-        this.SUMMER_GRID_APPOINTMENT = kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.KRA_BUDGET_PERSONNEL_SUMMER_GRID_APPOINTMENT_TYPE);
-        this.SUMMER_GRID_APPOINTMENTS = kualiConfigurationService.getParameterValuesAsList(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.KRA_BUDGET_PERSONNEL_SUMMER_GRID_APPOINTMENT_TYPES);
-        
-        this.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE = kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, KraConstants.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE);
-        this.GRADUATE_ASSISTANT_NONPERSONNEL_SUBCATEGORY_CODE = kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, KraConstants.GRADUATE_ASSISTANT_NONPERSONNEL_SUB_CATEGORY_CODE);
-        this.GRADUATE_ASSISTANT_NONPERSONNEL_DESCRIPTION = kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT,  KraConstants.GRADUATE_ASSISTANT_NONPERSONNEL_DESCRIPTION);
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        this.TO_BE_NAMED = parameterService.getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.TO_BE_NAMED_LABEL);
+        this.HOURLY_APPOINTMENTS = parameterService.getParameterValues(BudgetDocument.class, KraConstants.KRA_BUDGET_PERSONNEL_HOURLY_APPOINTMENT_TYPES);
+        this.GRADUATE_RA_APPOINTMENTS = parameterService.getParameterValues(BudgetDocument.class, KraConstants.KRA_BUDGET_PERSONNEL_GRADUATE_RESEARCH_ASSISTANT_APPOINTMENT_TYPES);
+        this.FULL_YEAR_APPOINTMENTS = parameterService.getParameterValues(BudgetDocument.class, KraConstants.KRA_BUDGET_PERSONNEL_FULL_YEAR_APPOINTMENT_TYPES);
+        this.SUMMER_GRID_APPOINTMENT = parameterService.getParameterValue(BudgetDocument.class, KraConstants.KRA_BUDGET_PERSONNEL_SUMMER_GRID_APPOINTMENT_TYPE);
+        this.SUMMER_GRID_APPOINTMENTS = parameterService.getParameterValues(BudgetDocument.class, KraConstants.KRA_BUDGET_PERSONNEL_SUMMER_GRID_APPOINTMENT_TYPES);
+
+        this.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE = parameterService.getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE);
+        this.GRADUATE_ASSISTANT_NONPERSONNEL_SUBCATEGORY_CODE = parameterService.getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.GRADUATE_ASSISTANT_NONPERSONNEL_SUB_CATEGORY_CODE);
+        this.GRADUATE_ASSISTANT_NONPERSONNEL_DESCRIPTION = parameterService.getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.GRADUATE_ASSISTANT_NONPERSONNEL_DESCRIPTION);
     }
 
     /**
@@ -165,7 +163,8 @@ public class BudgetOverviewFormHelper {
         // nonpersonnel for display only.
         setupPersonnel(currentTaskNumber, currentPeriodNumber, budget.getPersonnel(), budget.getNonpersonnelItems());
 
-        // Used for the Nonpersonnel section - This needs to happen after setPersonnel so Fee Remissions from Grad Asst. Appointments are handled properly.
+        // Used for the Nonpersonnel section - This needs to happen after setPersonnel so Fee Remissions from Grad Asst.
+        // Appointments are handled properly.
         BudgetNonpersonnelFormHelper budgetNonpersonnelFormHelper = new BudgetNonpersonnelFormHelper(currentTaskNumber, currentPeriodNumber, nonpersonnelCategories, budget.getNonpersonnelItems(), true);
 
         // Used for IDC section
@@ -337,7 +336,7 @@ public class BudgetOverviewFormHelper {
             modularAdjustmentAgencyRequest = budgetModularPeriod.getModularVarianceAmount();
             adjustedDirectCostsAgencyRequest = budgetModularPeriod.getBudgetAdjustedModularDirectCostAmount();
         }
-        
+
         // if modular is in invalid mode then adjustedDirectCostsAgencyRequest == null, to avoid NPE we check it.
         if (adjustedDirectCostsAgencyRequest == null) {
             adjustedDirectCostsAgencyRequest = new KualiInteger(0);
@@ -660,7 +659,8 @@ public class BudgetOverviewFormHelper {
 
         // Not used on overview interface but useful for BudgetXml.
         private boolean personProjectDirectorIndicator;
-        private String userBudgetPeriodSalaryAmount; // String because this can be a KualiDecimal or KualiInteger, easier to treat it as String then
+        private String userBudgetPeriodSalaryAmount; // String because this can be a KualiDecimal or KualiInteger, easier to
+                                                        // treat it as String then
         private Integer personWeeksAmount;
 
         /**
@@ -686,16 +686,16 @@ public class BudgetOverviewFormHelper {
             if (HOURLY_APPOINTMENTS.contains(institutionAppointmentTypeCode)) {
                 // Hourly Appointment
                 this.hourlyAppointmentType = true;
-                
+
                 this.userBudgetPeriodSalaryAmount = ObjectUtils.toString(userAppointmentTaskPeriod.getUserHourlyRate());
-                
+
                 this.userAgencyHours = userAppointmentTaskPeriod.getUserAgencyHours();
                 this.userInstitutionHours = userAppointmentTaskPeriod.getUserInstitutionHours();
             }
             else if (GRADUATE_RA_APPOINTMENTS.contains(institutionAppointmentTypeCode)) {
                 // Graduate Research Assistant
                 this.userBudgetPeriodSalaryAmount = ObjectUtils.toString(userAppointmentTaskPeriod.getUserBudgetPeriodSalaryAmount());
-                
+
                 this.agencyPercentEffortAmount = userAppointmentTaskPeriod.getAgencyFullTimeEquivalentPercent();
                 this.institutionCostSharePercentEffortAmount = userAppointmentTaskPeriod.getInstitutionFullTimeEquivalentPercent();
 
@@ -711,7 +711,7 @@ public class BudgetOverviewFormHelper {
             else {
                 // All other appointments
                 this.userBudgetPeriodSalaryAmount = ObjectUtils.toString(userAppointmentTaskPeriod.getUserBudgetPeriodSalaryAmount());
-                
+
                 this.agencyPercentEffortAmount = userAppointmentTaskPeriod.getAgencyPercentEffortAmount();
                 this.institutionCostSharePercentEffortAmount = userAppointmentTaskPeriod.getInstitutionCostSharePercentEffortAmount();
             }

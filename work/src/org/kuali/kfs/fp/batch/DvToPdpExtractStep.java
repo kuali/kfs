@@ -19,15 +19,12 @@ import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.financial.service.DisbursementVoucherExtractService;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 public class DvToPdpExtractStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DvToPdpExtractStep.class);
 
     private DisbursementVoucherExtractService disbursementVoucherExtractService;
 
     public boolean execute(String jobName) throws InterruptedException {
-        LOG.debug("execute() started");
-
         return disbursementVoucherExtractService.extractPayments();
     }
 

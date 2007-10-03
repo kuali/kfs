@@ -34,7 +34,7 @@ public class FiscalYearMakerStep extends AbstractStep {
      * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
      */
     public boolean execute(String jobName) throws InterruptedException {
-        dateMakerService.fiscalYearMakers(Integer.parseInt(getConfigurationService().getParameterValue(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.FISCAL_YEAR_MAKER_STEP, KFSConstants.ChartApcParms.FISCAL_YEAR_MAKER_SOURCE_FISCAL_YEAR)), getConfigurationService().getIndicatorParameter(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.FISCAL_YEAR_MAKER_STEP, KFSConstants.ChartApcParms.FISCAL_YEAR_MAKER_REPLACE_MODE));
+        dateMakerService.fiscalYearMakers(Integer.parseInt(getParameterService().getParameterValue(getClass(), KFSConstants.ChartApcParms.FISCAL_YEAR_MAKER_SOURCE_FISCAL_YEAR)), getParameterService().getIndicatorParameter(getClass(), KFSConstants.ChartApcParms.FISCAL_YEAR_MAKER_REPLACE_MODE));
         return true;
     }
 

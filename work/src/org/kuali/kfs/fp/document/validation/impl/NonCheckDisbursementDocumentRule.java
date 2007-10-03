@@ -22,7 +22,6 @@ import static org.kuali.kfs.KFSKeyConstants.NonCheckDisbursement.ERROR_DOCUMENT_
 import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.REFERENCE_NUMBER;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
-import static org.kuali.module.financial.rules.NonCheckDisbursementDocumentRuleConstants.NON_CHECK_DISBURSEMENT_SECURITY_GROUPING;
 import static org.kuali.module.financial.rules.NonCheckDisbursementDocumentRuleConstants.RESTRICTED_CONSOLIDATION_CODES;
 import static org.kuali.module.financial.rules.NonCheckDisbursementDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
 import static org.kuali.module.financial.rules.NonCheckDisbursementDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
@@ -49,26 +48,7 @@ import org.kuali.module.chart.bo.ObjectCode;
 public class NonCheckDisbursementDocumentRule extends AccountingDocumentRuleBase {
 
     /**
-     * Convenience method for accessing the most-likely requested security grouping
-     * 
-     * @return String
-     */
-    protected String getDefaultParameterNamespace() {
-        return KFSConstants.FINANCIAL_NAMESPACE;
-    }
-    
-    /**
-     * Convenience method for accessing the most-likely requested detail type code
-     * 
-     * @return String
-     */
-    protected String getDefaultParameterDetailTypeCode() {
-        return KFSConstants.Components.NON_CHECK_DISBURSEMENT_DOC;
-    }    
-
-    /**
      * Overrides to consider the object types.<br/>
-     * 
      * <p>
      * Note: This <code>{@link org.kuali.core.document.Document} is always balanced because it only
      * has From: lines.
@@ -98,16 +78,16 @@ public class NonCheckDisbursementDocumentRule extends AccountingDocumentRuleBase
 
     /**
      * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * 
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
     public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine) throws IllegalStateException {
         return IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, financialDocument, accountingLine);
     }
-    
+
     /**
      * overrides the parent to display correct error message for a single sided document
+     * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isSourceAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
      */
     @Override
@@ -120,7 +100,7 @@ public class NonCheckDisbursementDocumentRule extends AccountingDocumentRuleBase
             return true;
         }
     }
-    
+
     /**
      * Overrides the parent to return true, because NonCheckDisbursement documents only use the SourceAccountingLines data
      * structures. The list that holds TargetAccountingLines should be empty. This will be checked when the document is "routed" or

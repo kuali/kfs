@@ -36,7 +36,9 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.service.AccountService;
@@ -46,8 +48,8 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.Summary;
-import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.LaborConstants.YearEnd;
+import org.kuali.module.labor.batch.LaborYearEndBalanceForwardStep;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
@@ -77,7 +79,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
     private BusinessObjectService businessObjectService;
     private LaborReportService laborReportService;
     private DateTimeService dateTimeService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
 
     private final static int LINE_INTERVAL = 2;
 
@@ -85,7 +87,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @see org.kuali.module.labor.service.LaborYearEndBalanceForwardService#forwardBalance()
      */
     public void forwardBalance() {
-        Integer fiscalYear = Integer.valueOf(kualiConfigurationService.getParameterValue(KFSConstants.LABOR_NAMESPACE, LaborConstants.Components.YEAR_END_BALANCE_FORWARD_STEP, YearEnd.OLD_FISCAL_YEAR));
+        Integer fiscalYear = Integer.valueOf(parameterService.getParameterValue(LaborYearEndBalanceForwardStep.class, YearEnd.OLD_FISCAL_YEAR));
         this.forwardBalance(fiscalYear);
     }
 
@@ -249,7 +251,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @return the fund group codes that are acceptable by year-end process
      */
     private String[] getFundGroupProcessed() {
-        return kualiConfigurationService.getParameterValues(KFSConstants.LABOR_NAMESPACE, LaborConstants.Components.YEAR_END_BALANCE_FORWARD_STEP, YearEnd.FUND_GROUP_PROCESSED);
+        return parameterService.getParameterValues(LaborYearEndBalanceForwardStep.class, YearEnd.FUND_GROUP_PROCESSED).toArray(new String[] {});
     }
 
     /**
@@ -258,7 +260,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @return the fund group codes that are acceptable by year-end process
      */
     private String[] getSubFundGroupProcessed() {
-        return kualiConfigurationService.getParameterValues(KFSConstants.LABOR_NAMESPACE, LaborConstants.Components.YEAR_END_BALANCE_FORWARD_STEP, YearEnd.SUB_FUND_GROUP_PROCESSED);
+        return parameterService.getParameterValues(LaborYearEndBalanceForwardStep.class, YearEnd.SUB_FUND_GROUP_PROCESSED).toArray(new String[] {});
     }
 
     /**
@@ -290,7 +292,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @return the document type code of the transaction posted by year-end process
      */
     private String getDocumentTypeCode() {
-        return kualiConfigurationService.getParameterValue(KFSConstants.LABOR_NAMESPACE, LaborConstants.Components.YEAR_END_BALANCE_FORWARD_STEP, GLConstants.ANNUAL_CLOSING_DOCUMENT_TYPE);
+        return parameterService.getParameterValue(LaborYearEndBalanceForwardStep.class, GLConstants.ANNUAL_CLOSING_DOCUMENT_TYPE);
     }
 
     /**
@@ -299,7 +301,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @return the origination code of the transaction posted by year-end process
      */
     private String getOriginationCode() {
-        return kualiConfigurationService.getParameterValue(KFSConstants.LABOR_NAMESPACE, LaborConstants.Components.YEAR_END_BALANCE_FORWARD_STEP, YearEnd.ORIGINATION_CODE);
+        return parameterService.getParameterValue(LaborYearEndBalanceForwardStep.class, YearEnd.ORIGINATION_CODE);
     }
 
     /**
@@ -308,7 +310,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @return the description of the transaction posted by year-end process
      */
     private String getDescription() {
-        return kualiConfigurationService.getPropertyString(KFSKeyConstants.Labor.MESSAGE_YEAR_END_TRANSACTION_DESCRIPTON);
+        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.Labor.MESSAGE_YEAR_END_TRANSACTION_DESCRIPTON);
     }
 
     /**
@@ -338,13 +340,8 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
         this.dateTimeService = dateTimeService;
     }
 
-    /**
-     * Sets the kualiConfigurationService attribute value.
-     * 
-     * @param kualiConfigurationService The kualiConfigurationService to set.
-     */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     /**

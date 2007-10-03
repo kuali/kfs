@@ -28,58 +28,60 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.BatchJobStatus;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.SchedulerService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 
 public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchJobStatusLookupableHelperServiceImpl.class);
-    
+
     private SchedulerService schedulerService;
-    private KualiConfigurationService configService;
-    
+    private KualiConfigurationService configurationService;
+    private ParameterService parameterService;
+
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         super.setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         super.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
         List<BatchJobStatus> allJobs = schedulerService.getJobs();
         List<BatchJobStatus> jobs = new ArrayList<BatchJobStatus>();
-        String nameValue = fieldValues.get( "name" );
+        String nameValue = fieldValues.get("name");
         Pattern namePattern = null;
-        if ( !StringUtils.isEmpty(nameValue) ) {
-            namePattern = Pattern.compile(nameValue.replace("*", ".*"), Pattern.CASE_INSENSITIVE );
+        if (!StringUtils.isEmpty(nameValue)) {
+            namePattern = Pattern.compile(nameValue.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
         }
-        String schedulerGroup = fieldValues.get( "group" );
-        String jobStatus = fieldValues.get( "status" );
-        for ( BatchJobStatus job : allJobs ) {
-            if ( namePattern != null && !namePattern.matcher(job.getName()).matches() ) {
+        String schedulerGroup = fieldValues.get("group");
+        String jobStatus = fieldValues.get("status");
+        for (BatchJobStatus job : allJobs) {
+            if (namePattern != null && !namePattern.matcher(job.getName()).matches()) {
                 continue; // match failed, skip this entry
             }
-            if ( !StringUtils.isEmpty(schedulerGroup) && !schedulerGroup.equalsIgnoreCase( job.getGroup() ) ) {
+            if (!StringUtils.isEmpty(schedulerGroup) && !schedulerGroup.equalsIgnoreCase(job.getGroup())) {
                 continue;
             }
-            if ( !StringUtils.isEmpty(jobStatus) && !jobStatus.equalsIgnoreCase( job.getStatus() ) ) {
+            if (!StringUtils.isEmpty(jobStatus) && !jobStatus.equalsIgnoreCase(job.getStatus())) {
                 continue;
             }
             jobs.add(job);
         }
-        
+
         return jobs;
     }
 
     @Override
     public String getActionUrls(BusinessObject businessObject) {
-        if ( businessObject instanceof BatchJobStatus ) {
-            BatchJobStatus job = (BatchJobStatus)businessObject;
+        if (businessObject instanceof BatchJobStatus) {
+            BatchJobStatus job = (BatchJobStatus) businessObject;
             String linkText = "Modify";
             StringBuffer sb = new StringBuffer();
-            if ( configService.parameterExists(KFSConstants.CORE_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP) ) {            
-                String adminWorkgroup = configService.getParameterValue(KFSConstants.CORE_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP);
-                if ( !GlobalVariables.getUserSession().getUniversalUser().isMember(adminWorkgroup) ) {
+            if (parameterService.parameterExists(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP)) {
+                String adminWorkgroup = parameterService.getParameterValue(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP);
+                if (!GlobalVariables.getUserSession().getUniversalUser().isMember(adminWorkgroup)) {
                     linkText = "View";
                 }
             }
-            sb.append( "<a href=\"" + configService.getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/batchModify.do?methodToCall=start&name=" ).append( UrlFactory.encode( job.getName() ) )
-                    .append( "&group=" ).append( UrlFactory.encode( job.getGroup() ) ).append( "\">" ).append( linkText ).append( "</a>" );
+            sb.append("<a href=\"" + configurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/batchModify.do?methodToCall=start&name=").append(UrlFactory.encode(job.getName())).append("&group=").append(UrlFactory.encode(job.getGroup())).append("\">").append(linkText).append("</a>");
 
             return sb.toString();
         }
@@ -90,8 +92,12 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
         this.schedulerService = schedulerService;
     }
 
-    public void setConfigService(KualiConfigurationService configService) {
-        this.configService = configService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public void setConfigurationService(KualiConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 
 }

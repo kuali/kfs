@@ -19,10 +19,8 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -36,16 +34,15 @@ import org.kuali.core.service.NoteService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
-import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.CreditMemoAccount;
@@ -80,6 +77,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
     private CreditMemoDao creditMemoDao;
     private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private NoteService noteService;
@@ -159,9 +157,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      * @see org.kuali.module.purap.service.CreditMemoService#calculateCreditMemo(org.kuali.module.purap.document.CreditMemoDocument)
      */
     public void calculateCreditMemo(CreditMemoDocument cmDocument) {
-        
+
         cmDocument.updateExtendedPriceOnItems();
-        
+
         for (CreditMemoItem item : (List<CreditMemoItem>) cmDocument.getItems()) {
             // update unit price for service items
             if (item.getItemType().isItemTypeAboveTheLineIndicator() && !item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
@@ -176,52 +174,51 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             }
         }
 
-        //proration
-      //TODO (KULPURAP-1575: ckirschenman) move this to the accounts payable service and call, since it is essentially the easiest case from that
-        if(cmDocument.isSourceVendor()) {
-            //no proration on vendor
+        // proration
+        // TODO (KULPURAP-1575: ckirschenman) move this to the accounts payable service and call, since it is essentially the
+        // easiest case from that
+        if (cmDocument.isSourceVendor()) {
+            // no proration on vendor
             return;
         }
-        
-        for (CreditMemoItem item : (List<CreditMemoItem>)cmDocument.getItems()) {
-            
-            //skip above the line
-            if(item.getItemType().isItemTypeAboveTheLineIndicator()) {
+
+        for (CreditMemoItem item : (List<CreditMemoItem>) cmDocument.getItems()) {
+
+            // skip above the line
+            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 continue;
             }
-            
-            if((item.getSourceAccountingLines().isEmpty()) && (ObjectUtils.isNotNull(item.getExtendedPrice())) && 
-                    (KualiDecimal.ZERO.compareTo(item.getExtendedPrice())!=0)) {
+
+            if ((item.getSourceAccountingLines().isEmpty()) && (ObjectUtils.isNotNull(item.getExtendedPrice())) && (KualiDecimal.ZERO.compareTo(item.getExtendedPrice()) != 0)) {
 
                 KualiDecimal totalAmount = KualiDecimal.ZERO;
                 List<PurApAccountingLine> distributedAccounts = null;
                 List<SourceAccountingLine> summaryAccounts = null;
 
                 totalAmount = cmDocument.getPurApSourceDocumentIfPossible().getTotalDollarAmount();
-                //this should do nothing on preq which is fine
+                // this should do nothing on preq which is fine
                 SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(cmDocument.getPurApSourceDocumentIfPossible());
                 summaryAccounts = SpringContext.getBean(PurapAccountingService.class).generateSummary(cmDocument.getPurApSourceDocumentIfPossible().getItems());
-                distributedAccounts = SpringContext.getBean(PurapAccountingService.class).generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE,CreditMemoAccount.class); 
+                distributedAccounts = SpringContext.getBean(PurapAccountingService.class).generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, CreditMemoAccount.class);
 
-                if(CollectionUtils.isNotEmpty(distributedAccounts)&&
-                        CollectionUtils.isEmpty(item.getSourceAccountingLines())) {
+                if (CollectionUtils.isNotEmpty(distributedAccounts) && CollectionUtils.isEmpty(item.getSourceAccountingLines())) {
                     item.setSourceAccountingLines(distributedAccounts);
                 }
             }
         }
-        //end proration
+        // end proration
     }
 
     private CreditMemoDocument getCreditMemoByDocumentNumber(String documentNumber) {
         if (ObjectUtils.isNotNull(documentNumber)) {
             try {
-                CreditMemoDocument doc = (CreditMemoDocument)documentService.getByDocumentHeaderId(documentNumber);
+                CreditMemoDocument doc = (CreditMemoDocument) documentService.getByDocumentHeaderId(documentNumber);
                 return doc;
             }
             catch (WorkflowException e) {
                 String errorMessage = "Error getting credit memo document from document service";
-                LOG.error("getCreditMemoByDocumentNumber() " + errorMessage,e);
-                throw new RuntimeException(errorMessage,e);
+                LOG.error("getCreditMemoByDocumentNumber() " + errorMessage, e);
+                throw new RuntimeException(errorMessage, e);
             }
         }
         return null;
@@ -242,18 +239,18 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     public void saveDocumentWithoutValidation(CreditMemoDocument document) {
         try {
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
-//          documentService.saveDocumentWithoutRunningValidation(document);
+            // documentService.saveDocumentWithoutRunningValidation(document);
 
         }
         catch (WorkflowException we) {
-            String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
+            String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
         }
-        catch( RuntimeException re){
-            String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + re.getMessage(); 
+        catch (RuntimeException re) {
+            String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + re.getMessage();
             LOG.error(errorMsg, re);
-            throw new RuntimeException(errorMsg, re);            
+            throw new RuntimeException(errorMsg, re);
         }
     }
 
@@ -262,33 +259,32 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      */
     public void populateAndSaveCreditMemo(CreditMemoDocument document) {
         try {
-            document.setStatusCode(PurapConstants.CreditMemoStatuses.IN_PROCESS);            
+            document.setStatusCode(PurapConstants.CreditMemoStatuses.IN_PROCESS);
             documentService.saveDocument(document, ContinueAccountsPayableEvent.class);
         }
-        catch(ValidationException ve){
+        catch (ValidationException ve) {
             document.setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);
-        }        
+        }
         catch (WorkflowException we) {
-            //set the status back to initiate
+            // set the status back to initiate
             document.setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);
-            String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
+            String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
         }
     }
 
-    /** 
+    /**
      * This method reopens PO if closed
      * 
      * @param cmDocument
      */
-    public void reopenClosedPO(CreditMemoDocument cmDocument){
+    public void reopenClosedPO(CreditMemoDocument cmDocument) {
 
         // TODO (KULPURAP-1576: dlemus) CHRIS/DELYEA - THIS SHOULD HAPPEN WITH GL AND PERCENT CONVERT AT 'route document'
         // reopen PO if closed
         Integer purchaseOrderDocumentId = cmDocument.getPurchaseOrderIdentifier();
-        if (cmDocument.isSourceDocumentPaymentRequest() && 
-            ObjectUtils.isNull(purchaseOrderDocumentId)) {
+        if (cmDocument.isSourceDocumentPaymentRequest() && ObjectUtils.isNull(purchaseOrderDocumentId)) {
             PaymentRequestDocument paymentRequestDocument = paymentRequestService.getPaymentRequestById(cmDocument.getPaymentRequestIdentifier());
             purchaseOrderDocumentId = paymentRequestDocument.getPurchaseOrderIdentifier();
         }
@@ -296,11 +292,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         if (ObjectUtils.isNotNull(purchaseOrderDocumentId)) {
             PurchaseOrderDocument purchaseOrderDocument = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderDocumentId);
             // only reopen if the po is not null, it does not have a pending change already scheduled, and it is in closed status
-            if (ObjectUtils.isNotNull(purchaseOrderDocument) &&
-                (!purchaseOrderDocument.isPendingActionIndicator()) &&
-                PurapConstants.PurchaseOrderStatuses.CLOSED.equals(purchaseOrderDocument.getStatusCode())) {
+            if (ObjectUtils.isNotNull(purchaseOrderDocument) && (!purchaseOrderDocument.isPendingActionIndicator()) && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(purchaseOrderDocument.getStatusCode())) {
                 // TODO (KULPURAP-1576: dlemus) call reopen purchasing order service method when avaliable
-             }
+            }
         }
     }
 
@@ -313,9 +307,8 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     public boolean canHoldCreditMemo(CreditMemoDocument cmDocument, UniversalUser user) {
         boolean canHold = false;
 
-        String accountsPayableGroup = kualiConfigurationService.getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-        if ( (!cmDocument.isHoldIndicator()) && user.isMember(accountsPayableGroup) && ObjectUtils.isNull(cmDocument.getExtractedDate()) && 
-             (!PurapConstants.CreditMemoStatuses.STATUSES_DISALLOWING_HOLD.contains(cmDocument.getStatusCode())) ) {
+        String accountsPayableGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+        if ((!cmDocument.isHoldIndicator()) && user.isMember(accountsPayableGroup) && ObjectUtils.isNull(cmDocument.getExtractedDate()) && (!PurapConstants.CreditMemoStatuses.STATUSES_DISALLOWING_HOLD.contains(cmDocument.getStatusCode()))) {
             canHold = true;
         }
 
@@ -352,7 +345,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     public boolean canRemoveHoldCreditMemo(CreditMemoDocument cmDocument, UniversalUser user) {
         boolean canRemoveHold = false;
 
-        String accountsPayableSupervisorGroup = kualiConfigurationService.getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
+        String accountsPayableSupervisorGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
         if (cmDocument.isHoldIndicator() && (user.getPersonUniversalIdentifier().equals(cmDocument.getLastActionPerformedByUniversalUserId()) || user.isMember(accountsPayableSupervisorGroup))) {
             canRemoveHold = true;
         }
@@ -392,8 +385,8 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     public boolean canCancelCreditMemo(CreditMemoDocument cmDocument, UniversalUser user) {
         boolean canCancel = false;
 
-        String accountsPayableGroup = kualiConfigurationService.getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-        if ( (!CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getStatusCode())) && cmDocument.getExtractedDate() == null && !cmDocument.isHoldIndicator() && user.isMember(accountsPayableGroup)) {
+        String accountsPayableGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+        if ((!CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getStatusCode())) && cmDocument.getExtractedDate() == null && !cmDocument.isHoldIndicator() && user.isMember(accountsPayableGroup)) {
             canCancel = true;
         }
 
@@ -401,10 +394,12 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     public String updateStatusByNode(String currentNodeName, AccountsPayableDocument apDoc) {
-        return updateStatusByNode(currentNodeName, (CreditMemoDocument)apDoc);
+        return updateStatusByNode(currentNodeName, (CreditMemoDocument) apDoc);
     }
+
     /**
      * This method updates the status of a cm document
+     * 
      * @param cmDocument
      * @param currentNodeName
      * @param cmDoc
@@ -413,11 +408,12 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         // update the status on the document
 
         String cancelledStatusCode = "";
-        if(StringUtils.isEmpty(currentNodeName)) {
+        if (StringUtils.isEmpty(currentNodeName)) {
             cancelledStatusCode = PurapConstants.CreditMemoStatuses.CANCELLED_POST_AP_APPROVE;
-        } else {
+        }
+        else {
             NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(currentNodeName);
-            if(ObjectUtils.isNotNull(currentNode)) {
+            if (ObjectUtils.isNotNull(currentNode)) {
                 cancelledStatusCode = currentNode.getDisapprovedStatusCode();
             }
         }
@@ -426,7 +422,8 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             purapService.updateStatusAndStatusHistory(cmDoc, cancelledStatusCode);
             saveDocumentWithoutValidation(cmDoc);
             return cancelledStatusCode;
-        } else {
+        }
+        else {
             // TODO (KULPURAP-1579: ckirshenman/hjs) delyea - what to do in a cancel where no status to set exists?
             LOG.warn("No status found to set for document being disapproved in node '" + currentNodeName + "'");
         }
@@ -452,7 +449,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             throw new RuntimeException(e.getMessage());
         }
 
-        
+
         SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(cmDocument, "");
         LOG.debug("cancelExtractedCreditMemo() CM " + cmDocument.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
         LOG.debug("cancelExtractedCreditMemo() ended");
@@ -471,7 +468,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         }
         cmDocument.setExtractedDate(null);
         cmDocument.setCreditMemoPaidTimestamp(null);
- 
+
         Note noteObj;
         try {
             noteObj = documentService.createNoteFromDocument(cmDocument, note);
@@ -481,7 +478,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             throw new RuntimeException(e.getMessage());
         }
         saveDocumentWithoutValidation(cmDocument);
-        
+
         LOG.debug("resetExtractedCreditMemo() CM " + cmDocument.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
         LOG.debug("resetExtractedCreditMemo() ended");
     }
@@ -578,24 +575,29 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     public void takePurchaseOrderCancelAction(AccountsPayableDocument apDoc) {
-        CreditMemoDocument cmDocument = (CreditMemoDocument)apDoc;
-        if(cmDocument.isReopenPurchaseOrderIndicator()) {
+        CreditMemoDocument cmDocument = (CreditMemoDocument) apDoc;
+        if (cmDocument.isReopenPurchaseOrderIndicator()) {
             String docType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
-            SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(cmDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Payment Request "+apDoc.getPurapDocumentIdentifier()+ "cancel", new ArrayList());
+            SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(cmDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Payment Request " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList());
         }
     }
 
     /**
-     * @see org.kuali.module.purap.service.CreditMemoService#markPaid(org.kuali.module.purap.document.CreditMemoDocument, java.sql.Date)
+     * @see org.kuali.module.purap.service.CreditMemoService#markPaid(org.kuali.module.purap.document.CreditMemoDocument,
+     *      java.sql.Date)
      */
-    public void markPaid(CreditMemoDocument cm,Date processDate) {
+    public void markPaid(CreditMemoDocument cm, Date processDate) {
         LOG.debug("markPaid() started");
 
         cm.setCreditMemoPaidTimestamp(new Timestamp(processDate.getTime()));
         saveDocumentWithoutValidation(cm);
     }
 
-    public boolean poItemEligibleForAp(AccountsPayableDocument apDoc, PurchaseOrderItem poItem) {
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    
+        public boolean poItemEligibleForAp(AccountsPayableDocument apDoc, PurchaseOrderItem poItem) {
         //if the po item is not active... skip it
         if(!poItem.isItemActiveIndicator()) {
             return false;

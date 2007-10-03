@@ -20,7 +20,6 @@ import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE;
 import static org.kuali.kfs.KFSPropertyConstants.REFERENCE_NUMBER;
 import static org.kuali.kfs.KFSPropertyConstants.REVERSAL_DATE;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
-import static org.kuali.module.financial.rules.PreEncumbranceDocumentRuleConstants.PRE_ENCUMBRANCE_DOCUMENT_SECURITY_GROUPING;
 import static org.kuali.module.financial.rules.PreEncumbranceDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
 
 import org.apache.commons.lang.StringUtils;
@@ -40,6 +39,7 @@ import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
 import org.kuali.kfs.rules.AttributeReference;
 import org.kuali.kfs.service.HomeOriginationService;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.document.PreEncumbranceDocument;
 
 
@@ -102,7 +102,7 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
      */
     @Override
     public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
-        Parameter combinedRule = getKualiConfigurationService().mergeParameters(getGlobalObjectTypeRule(), getParameterRule( KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.PRE_ENCUMBRANCE_DOC, RESTRICTED_OBJECT_TYPE_CODES));
+        Parameter combinedRule = getKualiConfigurationService().mergeParameters(getGlobalObjectTypeRule(), SpringContext.getBean(ParameterService.class).getParameter(PreEncumbranceDocument.class, RESTRICTED_OBJECT_TYPE_CODES));
         AttributeReference direct = createObjectCodeAttributeReference(accountingLine);
         AttributeReference indirect = createObjectTypeAttributeReference(accountingLine);
         boolean allowed = indirectRuleSucceeds(combinedRule, direct, indirect);

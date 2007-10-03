@@ -23,16 +23,16 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.validation.fieldlevel.PhoneNumberValidationPattern;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
@@ -74,43 +74,40 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processItemValidation(purapDocument);
         List<PurApItem> itemList = purapDocument.getItems();
-        int i=0;
+        int i = 0;
         for (PurApItem item : itemList) {
             GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
-            String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ?  "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
+            String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
             valid &= validateItemUnitPrice(item);
             valid &= validateUnitOfMeasure(item, identifierString);
-            //This validation is applicable to the above the line items only.
-            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {                
+            // This validation is applicable to the above the line items only.
+            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 valid &= validateItemQuantity(item, identifierString);
             }
             else {
-                //If the item is below the line, no accounts can be entered on below the line items
-                //that have no unit cost (KULPURAP-1234)
+                // If the item is below the line, no accounts can be entered on below the line items
+                // that have no unit cost (KULPURAP-1234)
                 valid &= validateBelowTheLineItemNoUnitCost(item, identifierString);
             }
             GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
             i++;
         }
-        valid &= validateTotalCost((PurchasingDocument)purapDocument);
-        valid &= validateContainsAtLeastOneItem((PurchasingDocument)purapDocument);
+        valid &= validateTotalCost((PurchasingDocument) purapDocument);
+        valid &= validateContainsAtLeastOneItem((PurchasingDocument) purapDocument);
         return valid;
     }
 
     private boolean validateBelowTheLineItemNoUnitCost(PurApItem item, String identifierString) {
-        
-        if (ObjectUtils.isNull(item.getItemUnitPrice()) && 
-            ObjectUtils.isNotNull(item.getSourceAccountingLines()) &&
-            !item.getSourceAccountingLines().isEmpty()) {
-            
+
+        if (ObjectUtils.isNull(item.getItemUnitPrice()) && ObjectUtils.isNotNull(item.getSourceAccountingLines()) && !item.getSourceAccountingLines().isEmpty()) {
+
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE_NO_UNIT_COST, identifierString);
             return false;
         }
         return true;
     }
-    
+
     /**
-     * 
      * This method validates that the document contains at least one item.
      * 
      * @param purDocument
@@ -119,21 +116,21 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     private boolean validateContainsAtLeastOneItem(PurchasingDocument purDocument) {
         boolean valid = false;
         for (PurApItem item : purDocument.getItems()) {
-            if (!((PurchasingItemBase)item).isEmpty() && item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (!((PurchasingItemBase) item).isEmpty() && item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 return true;
             }
         }
         String documentType = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(purDocument.getDocumentHeader().getWorkflowDocument().getDocumentType()).getLabel();
-        
-        if (! valid) {
+
+        if (!valid) {
             GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);
         }
         return valid;
     }
-    
+
     /**
-     * This method validates the unit price for all applicable item types. It also validates
-     * that the unit price and description fields were entered for all above the line items.
+     * This method validates the unit price for all applicable item types. It also validates that the unit price and description
+     * fields were entered for all above the line items.
      * 
      * @param purDocument
      * @return
@@ -189,9 +186,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
 
     /**
-     * 
-     * This method validates that if the item type is ITEM, the unit of measure
-     * is required. 
+     * This method validates that if the item type is ITEM, the unit of measure is required.
      * 
      * @param item
      * @return
@@ -210,28 +205,25 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
 
     /**
-     * 
      * This method validates that if the item type is ITEM, the item quantity is required.
+     * 
      * @param item
      * @return
      */
     private boolean validateItemQuantity(PurApItem item, String identifierString) {
-        boolean valid =  true;
-        PurchasingItemBase purItem = (PurchasingItemBase)item;
-        if ( purItem.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ITEM_CODE) &&
-             ( ObjectUtils.isNull(purItem.getItemQuantity()) || 
-               ( ObjectUtils.isNotNull(purItem.getItemQuantity()) && purItem.getItemQuantity().isZero())) )   {
+        boolean valid = true;
+        PurchasingItemBase purItem = (PurchasingItemBase) item;
+        if (purItem.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ITEM_CODE) && (ObjectUtils.isNull(purItem.getItemQuantity()) || (ObjectUtils.isNotNull(purItem.getItemQuantity()) && purItem.getItemQuantity().isZero()))) {
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, KFSKeyConstants.ERROR_REQUIRED, ItemFields.QUANTITY + " in " + identifierString);
         }
-        else if ( purItem.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_SERVICE_CODE) &&
-        		  ObjectUtils.isNotNull(purItem.getItemQuantity())) {
-        	valid = false;
-        	GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ALLOWED );
+        else if (purItem.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_SERVICE_CODE) && ObjectUtils.isNotNull(purItem.getItemQuantity())) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ALLOWED);
         }
         return valid;
     }
-    
+
     /**
      * This method performs any validation for the Payment Info tab.
      * 
@@ -295,32 +287,28 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                     errorMap.putError(VendorPropertyConstants.VENDOR_FAX_NUMBER, PurapKeyConstants.ERROR_FAX_NUMBER_INVALID);
                 }
             }
-        }                
-                
+        }
+
         VendorDetail vendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(purDocument.getVendorHeaderGeneratedIdentifier(), purDocument.getVendorDetailAssignedIdentifier());
-        if ( ObjectUtils.isNull(vendorDetail) ) 
+        if (ObjectUtils.isNull(vendorDetail))
             return valid;
         VendorHeader vendorHeader = vendorDetail.getVendorHeader();
-        
+
         // make sure that the vendor is not debarred
-        if (ObjectUtils.isNotNull(vendorHeader) && 
-            ObjectUtils.isNotNull(vendorHeader.getVendorDebarredIndicator()) && 
-            vendorHeader.getVendorDebarredIndicator()) {       
+        if (ObjectUtils.isNotNull(vendorHeader) && ObjectUtils.isNotNull(vendorHeader.getVendorDebarredIndicator()) && vendorHeader.getVendorDebarredIndicator()) {
             valid &= false;
             errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_DEBARRED_VENDOR);
         }
-        
+
         // make sure that the vendor is of 'PO' type
-        String allowedVendorType = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.PURAP_NAMESPACE, KFSConstants.Components.DOCUMENT, PurapRuleConstants.PURAP_VENDOR_TYPE_ALLOWED_ON_REQ_AND_PO);
-        if (ObjectUtils.isNotNull(vendorHeader) && 
-            ObjectUtils.isNotNull(vendorHeader.getVendorTypeCode()) && 
-            !vendorHeader.getVendorTypeCode().equals(allowedVendorType)) {       
+        String allowedVendorType = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapRuleConstants.PURAP_VENDOR_TYPE_ALLOWED_ON_REQ_AND_PO);
+        if (ObjectUtils.isNotNull(vendorHeader) && ObjectUtils.isNotNull(vendorHeader.getVendorTypeCode()) && !vendorHeader.getVendorTypeCode().equals(allowedVendorType)) {
             valid &= false;
             errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_INVALID_VENDOR_TYPE);
         }
 
         // make sure that the vendor is active
-        if (!vendorDetail.isActiveIndicator()) {       
+        if (!vendorDetail.isActiveIndicator()) {
             valid &= false;
             errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_INACTIVE_VENDOR);
         }
@@ -344,7 +332,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         Date beginDate = purDocument.getPurchaseOrderBeginDate();
         Date endDate = purDocument.getPurchaseOrderEndDate();
         if (ObjectUtils.isNotNull(beginDate) && ObjectUtils.isNotNull(endDate)) {
-            if (dateTimeService.dateDiff( beginDate, endDate, false ) <= 0 ) {
+            if (dateTimeService.dateDiff(beginDate, endDate, false) <= 0) {
                 valid &= false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_END_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_AFTER_END);
             }
@@ -352,10 +340,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return valid;
     }
 
-    
+
     @Override
     protected boolean processCustomUpdateAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
-        if (!verifyAccountingLinePercent((PurApAccountingLine)updatedAccountingLine)) {
+        if (!verifyAccountingLinePercent((PurApAccountingLine) updatedAccountingLine)) {
             return false;
         }
         return super.processCustomUpdateAccountingLineBusinessRules(accountingDocument, originalAccountingLine, updatedAccountingLine);
@@ -363,7 +351,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
 
     @Override
     public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
-        if (!verifyAccountingLinePercent((PurApAccountingLine)accountingLine)) {
+        if (!verifyAccountingLinePercent((PurApAccountingLine) accountingLine)) {
             return false;
         }
         return super.processAddAccountingLineBusinessRules(financialDocument, accountingLine);

@@ -19,11 +19,9 @@ package org.kuali.module.purap.document;
 import java.util.ArrayList;
 
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapRuleConstants;
-import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -55,7 +53,7 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
         // DOCUMENT PROCESSED
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             //TODO remove this config (for testing only) hjs
-            if (SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE,PurapConstants.Components.PURCHASE_ORDER, "GL_AMEND_PO")) {
+            if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(PurchaseOrderDocument.class, "GL_AMEND_PO")) {
                 SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesApproveAmendPurchaseOrder(this);
             }
             

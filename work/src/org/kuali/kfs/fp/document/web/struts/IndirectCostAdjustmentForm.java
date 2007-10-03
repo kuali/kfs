@@ -17,13 +17,12 @@ package org.kuali.module.financial.web.struts.form;
 
 import java.util.Map;
 
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.document.IndirectCostAdjustmentDocument;
 import org.kuali.module.financial.rules.IndirectCostAdjustmentDocumentRuleConstants;
@@ -61,7 +60,7 @@ public class IndirectCostAdjustmentForm extends KualiAccountingDocumentFormBase 
     @Override
     public SourceAccountingLine createNewSourceAccountingLine(AccountingDocument financialDocument) {
         SourceAccountingLine sourceAccountingLine = super.createNewSourceAccountingLine(financialDocument);
-        String objectCode = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.INDIRECT_COST_ADJUSTMENT_DOC, IndirectCostAdjustmentDocumentRuleConstants.GRANT_OBJECT_CODE);
+        String objectCode = SpringContext.getBean(ParameterService.class).getParameterValue(IndirectCostAdjustmentDocument.class, IndirectCostAdjustmentDocumentRuleConstants.GRANT_OBJECT_CODE);
 
         sourceAccountingLine.setFinancialObjectCode(objectCode);
         return sourceAccountingLine;
@@ -73,7 +72,7 @@ public class IndirectCostAdjustmentForm extends KualiAccountingDocumentFormBase 
     @Override
     public TargetAccountingLine createNewTargetAccountingLine(AccountingDocument financialDocument) {
         TargetAccountingLine targetAccountingLine = super.createNewTargetAccountingLine(financialDocument);
-        String objectCode = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.INDIRECT_COST_ADJUSTMENT_DOC, IndirectCostAdjustmentDocumentRuleConstants.RECEIPT_OBJECT_CODE);
+        String objectCode = SpringContext.getBean(ParameterService.class).getParameterValue(IndirectCostAdjustmentDocument.class, IndirectCostAdjustmentDocumentRuleConstants.RECEIPT_OBJECT_CODE);
 
         targetAccountingLine.setFinancialObjectCode(objectCode);
         return targetAccountingLine;

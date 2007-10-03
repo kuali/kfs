@@ -26,9 +26,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.context.TestUtils;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntryFull;
@@ -57,13 +58,12 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         super.setUp();
 
         DateFormat transactionDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dateTimeService.setCurrentDate(new Date(transactionDateFormat.parse(kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM)).getTime()));
+        dateTimeService.setCurrentDate(new Date(transactionDateFormat.parse(SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM)).getTime()));
     }
 
     /**
-     * Test the encumbrance forwarding process in one fell swoop.
-     * 
-     * IF THIS TEST FAILS, READ https://test.kuali.org/jira/browse/KULRNE-34 regarding reference numbers and the year end dates
+     * Test the encumbrance forwarding process in one fell swoop. IF THIS TEST FAILS, READ
+     * https://test.kuali.org/jira/browse/KULRNE-34 regarding reference numbers and the year end dates
      * 
      * @throws Exception ## WARNING: DO NOT run this test or rename this method. WARNING ## ## WARNING: This one test takes just
      *         under 3 hours to run WARNING ## ## WARNING: over the vpn. WARNING ##
@@ -72,7 +72,7 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
 
         clearOriginEntryTables();
         BalanceTestHelper.populateBalanceTable();
-        
+
         // Execute the step ...
         BalanceForwardStep step = SpringContext.getBean(BalanceForwardStep.class);
         step.execute(getClass().getName());
@@ -151,16 +151,16 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
 
     }
 
-    
+
     /**
      * This method resets the application params to values that are appropriate for year end dates
      * 
      * @see org.kuali.module.gl.OriginEntryTestBase#setApplicationConfigurationFlag(java.lang.String, boolean)
      */
     @Override
-    protected void setApplicationConfigurationFlag(String namespace, String component, String name, boolean value) throws Exception {
-        super.setApplicationConfigurationFlag(namespace, component, name, value);
-        TestUtils.setSystemParameter(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM, "2004-01-01", false, false);
-        TestUtils.setSystemParameter(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM, "2004", false, false);
+    protected void setApplicationConfigurationFlag(Class componentClass, String name, boolean value) throws Exception {
+        super.setApplicationConfigurationFlag(componentClass, name, value);
+        TestUtils.setSystemParameter(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM, "2004-01-01", false, false);
+        TestUtils.setSystemParameter(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM, "2004", false, false);
     }
 }

@@ -21,10 +21,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.kra.KraConstants;
+import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.routingform.bo.Purpose;
 
 /**
@@ -73,10 +73,10 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
         this.setBudgetUnrecoveredIndirectCostIndicator(false);
         this.setBudgetManualMtdcIndicator(false);
 
-        KualiConfigurationService configurationService = SpringContext.getBean(KualiConfigurationService.class);
-        this.setBudgetPurposeCode(configurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.BUDGET_PURPOSE_CODE_DEFAULT_VALUE_PARAMETER_NAME));
-        this.setBudgetBaseCode(configurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.BUDGET_BASE_CODE_DEFAULT_VALUE_PARAMETER_NAME));
-        this.setBudgetManualRateIndicator(configurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.BUDGET_MANUAL_RATE_INDICATOR_DEFAULT_VALUE_PARAMETER_NAME));
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        this.setBudgetPurposeCode(parameterService.getParameterValue(BudgetDocument.class, KraConstants.BUDGET_PURPOSE_CODE_DEFAULT_VALUE_PARAMETER_NAME));
+        this.setBudgetBaseCode(parameterService.getParameterValue(BudgetDocument.class, KraConstants.BUDGET_BASE_CODE_DEFAULT_VALUE_PARAMETER_NAME));
+        this.setBudgetManualRateIndicator(parameterService.getParameterValue(BudgetDocument.class, KraConstants.BUDGET_MANUAL_RATE_INDICATOR_DEFAULT_VALUE_PARAMETER_NAME));
 
         this.budgetTaskPeriodIndirectCostItems = new ArrayList();
     }
@@ -121,7 +121,6 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -131,7 +130,6 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -141,7 +139,6 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
      * Gets the budgetBaseCode attribute.
      * 
      * @return Returns the budgetBaseCode
-     * 
      */
     public String getBudgetBaseCode() {
         return budgetBaseCode;
@@ -151,7 +148,6 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
      * Sets the budgetBaseCode attribute.
      * 
      * @param budgetBaseCode The budgetBaseCode to set.
-     * 
      */
     public void setBudgetBaseCode(String budgetBaseCode) {
         this.budgetBaseCode = budgetBaseCode;
@@ -161,7 +157,6 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
      * Gets the budgetIndirectCostCostShareIndicator attribute.
      * 
      * @return Returns the budgetIndirectCostCostShareIndicator
-     * 
      */
     public boolean getBudgetIndirectCostCostShareIndicator() {
         return budgetIndirectCostCostShareIndicator;
@@ -171,7 +166,6 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
      * Sets the budgetIndirectCostCostShareIndicator attribute.
      * 
      * @param budgetIndirectCostCostShareIndicator The budgetIndirectCostCostShareIndicator to set.
-     * 
      */
     public void setBudgetIndirectCostCostShareIndicator(boolean budgetIndirectCostCostShareIndicator) {
         this.budgetIndirectCostCostShareIndicator = budgetIndirectCostCostShareIndicator;
@@ -188,7 +182,6 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
      * Gets the budgetIndirectCostJustificationText attribute.
      * 
      * @return Returns the budgetIndirectCostJustificationText
-     * 
      */
     public String getBudgetIndirectCostJustificationText() {
         return budgetIndirectCostJustificationText;
@@ -198,7 +191,6 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
      * Sets the budgetIndirectCostJustificationText attribute.
      * 
      * @param budgetIndirectCostJustificationText The budgetIndirectCostJustificationText to set.
-     * 
      */
     public void setBudgetIndirectCostJustificationText(String budgetIndirectCostJustificationText) {
         this.budgetIndirectCostJustificationText = budgetIndirectCostJustificationText;
@@ -208,7 +200,6 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
      * Gets the budgetManualMtdcIndicator attribute.
      * 
      * @return Returns the budgetManualMtdcIndicator
-     * 
      */
     public boolean getBudgetManualMtdcIndicator() {
         return budgetManualMtdcIndicator;
@@ -218,7 +209,6 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
      * Sets the budgetManualMtdcIndicator attribute.
      * 
      * @param budgetManualMtdcIndicator The budgetManualMtdcIndicator to set.
-     * 
      */
     public void setBudgetManualMtdcIndicator(boolean budgetManualMtdcIndicator) {
         this.budgetManualMtdcIndicator = budgetManualMtdcIndicator;
@@ -228,7 +218,6 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
      * Gets the budgetManualRateIndicator attribute.
      * 
      * @return Returns the budgetManualRateIndicator
-     * 
      */
     public String getBudgetManualRateIndicator() {
         return budgetManualRateIndicator;
@@ -238,7 +227,6 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
      * Gets the budgetManualRateIndicatorDescription attribute.
      * 
      * @return Returns the budgetManualRateIndicatorDescription
-     * 
      */
     public String getBudgetManualRateIndicatorDescription() {
         return budgetManualRateIndicatorDescription;
@@ -248,7 +236,6 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
      * Sets the budgetManualRateIndicatorDescription attribute.
      * 
      * @param budgetManualRateIndicatorDescription The budgetManualRateIndicatorDescription to set.
-     * 
      */
     public void setBudgetManualRateIndicatorDescription(String budgetManualRateIndicatorDescription) {
         this.budgetManualRateIndicatorDescription = budgetManualRateIndicatorDescription;
@@ -258,7 +245,6 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
      * Sets the budgetManualRateIndicator attribute.
      * 
      * @param budgetManualRateIndicator The budgetManualRateIndicator to set.
-     * 
      */
     public void setBudgetManualRateIndicator(String budgetManualRateIndicator) {
         this.budgetManualRateIndicator = budgetManualRateIndicator;
@@ -268,7 +254,6 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
      * Gets the budgetPurposeCode attribute.
      * 
      * @return Returns the budgetPurposeCode
-     * 
      */
     public String getBudgetPurposeCode() {
         return budgetPurposeCode;
@@ -278,7 +263,6 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
      * Sets the budgetPurposeCode attribute.
      * 
      * @param budgetPurposeCode The budgetPurposeCode to set.
-     * 
      */
     public void setBudgetPurposeCode(String budgetPurposeCode) {
         this.budgetPurposeCode = budgetPurposeCode;
@@ -288,7 +272,6 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
      * Gets the budgetUnrecoveredIndirectCostIndicator attribute.
      * 
      * @return Returns the budgetUnrecoveredIndirectCostIndicator
-     * 
      */
     public boolean getBudgetUnrecoveredIndirectCostIndicator() {
         return budgetUnrecoveredIndirectCostIndicator;
@@ -298,7 +281,6 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
      * Sets the budgetUnrecoveredIndirectCostIndicator attribute.
      * 
      * @param budgetUnrecoveredIndirectCostIndicator The budgetUnrecoveredIndirectCostIndicator to set.
-     * 
      */
     public void setBudgetUnrecoveredIndirectCostIndicator(boolean budgetUnrecoveredIndirectCostIndicator) {
         this.budgetUnrecoveredIndirectCostIndicator = budgetUnrecoveredIndirectCostIndicator;
@@ -344,7 +326,7 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
     /**
      * Gets baseCode.
      * 
-     * @return 
+     * @return
      */
     public BudgetBaseCode getBaseCode() {
         return baseCode;
@@ -353,7 +335,7 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
     /**
      * Sets baseCode.
      * 
-     * @param 
+     * @param
      * @deprecated
      */
     public void setBaseCode(BudgetBaseCode baseCode) {
@@ -363,7 +345,7 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
     /**
      * Gets purpose.
      * 
-     * @return 
+     * @return
      */
     public Purpose getPurpose() {
         return purpose;
@@ -372,7 +354,7 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
     /**
      * Sets purpose.
      * 
-     * @param 
+     * @param
      * @deprecated
      */
     public void setPurpose(Purpose purpose) {

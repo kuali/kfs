@@ -15,32 +15,29 @@
  */
 package org.kuali.kfs.batch;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
-import org.kuali.core.dao.PersistedLookupMetadataDao;
 import org.kuali.core.lookup.LookupResultsService;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.service.impl.ParameterConstants;
 
 public class PurgeOldLookupResultsStep extends AbstractStep {
     private LookupResultsService lookupResultsService;
-    
+
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurgeOldLookupResultsStep.class);
-    
+
     public boolean execute(String jobName) {
         try {
             LOG.info("executing PurgeOldLookupResultsStep");
-            
-            String maxAgeInSecondsStr = getConfigurationService().getParameterValue(KFSConstants.CORE_NAMESPACE,
-                    KFSConstants.Components.LOOKUP,
-                    KFSConstants.SystemGroupParameterNames.MULTIPLE_VALUE_LOOKUP_RESULTS_EXPIRATION_AGE);
+
+            String maxAgeInSecondsStr = getParameterService().getParameterValue(ParameterConstants.NERVOUS_SYSTEM_LOOKUP.class, KFSConstants.SystemGroupParameterNames.MULTIPLE_VALUE_LOOKUP_RESULTS_EXPIRATION_AGE);
             int maxAgeInSeconds = Integer.parseInt(maxAgeInSecondsStr);
-            
+
             Calendar expirationCal = getDateTimeService().getCurrentCalendar();
             expirationCal.add(Calendar.SECOND, -maxAgeInSeconds);
             Timestamp expirationDate = new Timestamp(expirationCal.getTime().getTime());
-            
+
             lookupResultsService.deleteOldLookupResults(expirationDate);
             lookupResultsService.deleteOldSelectedObjectIds(expirationDate);
             return true;

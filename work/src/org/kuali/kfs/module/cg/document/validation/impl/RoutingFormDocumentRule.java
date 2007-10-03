@@ -29,13 +29,13 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.document.BudgetDocument;
@@ -54,8 +54,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class...
- * 
- * 
  */
 public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
     /**
@@ -74,24 +72,24 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
 
         RoutingFormDocument routingFormDocument = (RoutingFormDocument) researchDocument;
 
-        //changing this to '0' so it doesn't validate reference objects within a list (Subcontractors was causing a problem).
+        // changing this to '0' so it doesn't validate reference objects within a list (Subcontractors was causing a problem).
         SpringContext.getBean(DictionaryValidationService.class).validateDocumentRecursively(routingFormDocument, 0);
-        
+
         valid &= processInstitutionCostShare(routingFormDocument);
-        
+
         valid &= processRoutingFormOrganizations(routingFormDocument);
-        
+
         valid &= processRoutingFormSubcontractors(routingFormDocument);
-        
+
         valid &= processRoutingFormResearchRisks(routingFormDocument);
 
         valid &= processRoutingFormPersonnel(routingFormDocument);
-        
+
         valid &= GlobalVariables.getErrorMap().isEmpty();
 
         return valid;
     }
-    
+
     /**
      * Runs audit mode business rule checks on a ResearchDocument.
      * 
@@ -100,10 +98,10 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
      */
     public boolean processRunAuditBusinessRules(Document document) {
         return RoutingFormAuditRule.processRunAuditBusinessRules(document);
-        }
-        
+    }
+
     /**
-     * This method validates Institution Cost Share Orgs.  It checks the following:
+     * This method validates Institution Cost Share Orgs. It checks the following:
      * <ul>
      * <li>The Org must exist</li>
      * <li>If an Account Number is specified, the Account must exist</li>
@@ -117,50 +115,55 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
      */
     private boolean processInstitutionCostShare(RoutingFormDocument routingFormDocument) {
         boolean valid = true;
-        
+
         List accounts = new ArrayList();
         List orgNoAccounts = new ArrayList();
 
         ErrorMap errorMap = GlobalVariables.getErrorMap();
-        
+
         int i = 0;
-        
+
         for (RoutingFormInstitutionCostShare costShare : routingFormDocument.getRoutingFormInstitutionCostShares()) {
             errorMap.addToErrorPath("routingFormInstitutionCostShare[" + i + "]");
             costShare.refresh();
-            
+
             if (costShare.getRoutingFormCostShareAmount() == null || !costShare.getRoutingFormCostShareAmount().isPositive()) {
-                //Amount is zero or less
+                // Amount is zero or less
                 valid = false;
                 errorMap.putError("routingFormCostShareAmount", KraKeyConstants.ERROR_INVALID_AMOUNT_POSITIVE_ONLY);
             }
-            
+
             if (costShare.getOrganization() != null) {
                 if (costShare.getAccountNumber() == null) {
                     if (!orgNoAccounts.contains(costShare.getOrganization())) {
                         orgNoAccounts.add(costShare.getOrganization());
-                    } else {
-                        //org already in list
+                    }
+                    else {
+                        // org already in list
                         valid = false;
                         errorMap.putError("organizationCode", KraKeyConstants.ERROR_ORG_ALREADY_EXISTS_ON_RF, costShare.getChartOfAccountsCode(), costShare.getOrganizationCode());
-                        
+
                     }
-                } else {
-                    //account number is not null
+                }
+                else {
+                    // account number is not null
                     if (costShare.getAccount() == null) {
-                        //account number is specified account doesn't exist
+                        // account number is specified account doesn't exist
                         valid = false;
                         errorMap.putError("accountNumber", KFSKeyConstants.ERROR_ACCOUNT_NOT_FOUND, costShare.getChartOfAccountsCode(), costShare.getOrganizationCode(), costShare.getAccountNumber());
-                    } else if (!accounts.contains(costShare.getAccount())){
+                    }
+                    else if (!accounts.contains(costShare.getAccount())) {
                         accounts.add(costShare.getAccount());
-                    } else {
-                        //account already in list
+                    }
+                    else {
+                        // account already in list
                         valid = false;
                         errorMap.putError("accountNumber", KraKeyConstants.ERROR_ACCOUNT_ALREADY_EXISTS_ON_RF, costShare.getChartOfAccountsCode(), costShare.getOrganizationCode(), costShare.getAccountNumber());
                     }
                 }
-            } else {
-                //organization doesn't exist
+            }
+            else {
+                // organization doesn't exist
                 valid = false;
                 errorMap.putError("organizationCode", KraKeyConstants.ERROR_ORG_NOT_FOUND, costShare.getChartOfAccountsCode(), costShare.getOrganizationCode());
             }
@@ -168,9 +171,9 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         }
         return valid;
     }
-    
+
     /**
-     * This method validates 'Other Organizations'.  It checks the following:
+     * This method validates 'Other Organizations'. It checks the following:
      * <ul>
      * <li>The Org must exist</li>
      * <li>The Org must appear in the list only once</li>
@@ -181,27 +184,29 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
      */
     private boolean processRoutingFormOrganizations(RoutingFormDocument routingFormDocument) {
         boolean valid = true;
-        
+
         List organizations = new ArrayList();
-        
+
         ErrorMap errorMap = GlobalVariables.getErrorMap();
-        
+
         int i = 0;
 
         for (RoutingFormOrganization organization : routingFormDocument.getRoutingFormOrganizations()) {
             organization.refresh();
-            
+
             errorMap.addToErrorPath("routingFormOrganization[" + i + "]");
-            
+
             if (organization.getOrganization() == null) {
-                //organization does not exist
+                // organization does not exist
                 valid = false;
                 errorMap.putError("organizationCode", KraKeyConstants.ERROR_ORG_NOT_FOUND, organization.getChartOfAccountsCode(), organization.getOrganizationCode());
-            } else {
+            }
+            else {
                 if (!organizations.contains(organization.getOrganization())) {
                     organizations.add(organization.getOrganization());
-                } else {
-                    //organization already exists on RF
+                }
+                else {
+                    // organization already exists on RF
                     valid = false;
                     errorMap.putError("organizationCode", KraKeyConstants.ERROR_ORG_ALREADY_EXISTS_ON_RF, organization.getChartOfAccountsCode(), organization.getOrganizationCode());
                 }
@@ -211,9 +216,9 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
 
         return valid;
     }
-    
+
     /**
-     * This method validates 'Subcontractors'.  It checks the following:
+     * This method validates 'Subcontractors'. It checks the following:
      * <ul>
      * <li>The Subcontractor must exist</li>
      * <li>The Subcontractor must appear in the list only once</li>
@@ -233,11 +238,11 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
 
         for (RoutingFormSubcontractor subcontractor : routingFormDocument.getRoutingFormSubcontractors()) {
             subcontractor.refresh();
-            
+
             errorMap.addToErrorPath("routingFormSubcontractor[" + i + "]");
-            
+
             if (subcontractor.getRoutingFormSubcontractorAmount() == null || subcontractor.getRoutingFormSubcontractorAmount().isNegative()) {
-                //Amount is negative
+                // Amount is negative
                 valid = false;
                 errorMap.putError("routingFormSubcontractorAmount", KraKeyConstants.ERROR_INVALID_AMOUNT_NOT_NEGATIVE);
             }
@@ -259,7 +264,8 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                         errorMap.putError("routingFormSubcontractorAmount", KraKeyConstants.ERROR_SUBCONTRACTOR_ALREADY_EXISTS_ON_RF);
                     }
                 }
-            } else {
+            }
+            else {
                 valid = false;
                 errorMap.putError("routingFormSubcontractorAmount", KraKeyConstants.ERROR_SUBCONTRACTOR_NOT_SELECTED);
             }
@@ -268,7 +274,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         }
         return valid;
     }
-    
+
     /**
      * This method validates Personnel. It checks the following:
      * <ul>
@@ -281,56 +287,56 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
     private boolean processRoutingFormPersonnel(RoutingFormDocument routingFormDocument) {
         boolean valid = true;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
-        
+
         // Functionally personnel doesn't need an index i, but it's left here for consistency of validating lists.
         int i = 0;
 
         for (RoutingFormPersonnel person : routingFormDocument.getRoutingFormPersonnel()) {
             errorMap.addToErrorPath("routingFormPersonnel[" + i + "]");
-            
+
             if (person.getPersonUniversalIdentifier() == null && !person.isPersonToBeNamedIndicator()) {
                 valid = false;
                 errorMap.putError("personUniversalIdentifier", KraKeyConstants.ERROR_PERSON_NOT_NAMED);
             }
-            
+
             if (person.getChartOfAccountsCode() == null || person.getOrganizationCode() == null) {
                 valid = false;
                 errorMap.putError("personUniversalIdentifier", KraKeyConstants.ERROR_MISSING, "Routing Form Personnel Chart and/or Org");
             }
-            
+
             errorMap.removeFromErrorPath("routingFormPersonnel[" + i + "]");
             i++;
         }
 
         return valid;
     }
-    
+
     /**
-     * This method validates 'Research Risks'.  It checks the following:
+     * This method validates 'Research Risks'. It checks the following:
      * <ul>
      * <li>If Study is approved, approval date is required.</li>
      * <li>If study is not approved, approval date and expiration date must be empty.</li>
      * <li>If review status is 'exempt', exception number is required.</li>
      * <li>If review status in not 'exempt', exception number should be blank.</li>
      * <li>Expiration date must not be earlier than approval date.</li>
-     * <li>If the Human Subjects approval date is more than one year prior to the routing form creation date, the user must enter a more current date, or set the status to Pending.</li>
-     * <li>If the Animal approval date is more than three years prior to the routing form creation date, the user must enter a more current date, or set the status to Pending.</li>
+     * <li>If the Human Subjects approval date is more than one year prior to the routing form creation date, the user must enter a
+     * more current date, or set the status to Pending.</li>
+     * <li>If the Animal approval date is more than three years prior to the routing form creation date, the user must enter a more
+     * current date, or set the status to Pending.</li>
      * </ul>
      * 
      * @param routingFormDocument The routingFormDocument that is being validated
      * @return valid Does the validation pass
      */
     private boolean processRoutingFormResearchRisks(RoutingFormDocument routingFormDocument) {
-        
+
         boolean valid = true;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
-        
-        String humanSubjectsActiveCode = 
-            SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, KraConstants.RESEARCH_RISKS_HUMAN_SUBJECTS_ACTIVE_CODE);
-        
-        String animalsActiveCode = 
-            SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, KraConstants.RESEARCH_RISKS_ANIMALS_ACTIVE_CODE);
-        
+
+        String humanSubjectsActiveCode = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.RESEARCH_RISKS_HUMAN_SUBJECTS_ACTIVE_CODE);
+
+        String animalsActiveCode = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.RESEARCH_RISKS_ANIMALS_ACTIVE_CODE);
+
         // Setup dates.
         Date createDate = routingFormDocument.getRoutingFormCreateDate();
         Calendar createCalendar = SpringContext.getBean(DateTimeService.class).getCalendar(createDate);
@@ -338,21 +344,20 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         Date humanSubjectsEarliestApprovalDate = createCalendar.getTime();
         createCalendar.add(Calendar.YEAR, -2);
         Date animalsEarliestApprovalDate = createCalendar.getTime();
-        
+
         int i = 0;
         for (RoutingFormResearchRisk researchRisk : routingFormDocument.getRoutingFormResearchRisks()) {
             errorMap.addToErrorPath("routingFormResearchRisk[" + i + "]");
             int j = 0;
             for (RoutingFormResearchRiskStudy study : researchRisk.getResearchRiskStudies()) {
                 errorMap.addToErrorPath("researchRiskStudy[" + j + "]");
-                
+
                 // If study is approved, approval date is required.
-                if (KraConstants.RESEARCH_RISK_STUDY_STATUS_APPROVED.equals(study.getResearchRiskStudyApprovalStatusCode())
-                        && ObjectUtils.isNull(study.getResearchRiskStudyApprovalDate())) {
+                if (KraConstants.RESEARCH_RISK_STUDY_STATUS_APPROVED.equals(study.getResearchRiskStudyApprovalStatusCode()) && ObjectUtils.isNull(study.getResearchRiskStudyApprovalDate())) {
                     valid = false;
                     errorMap.putError("researchRiskStudyApprovalDate", KraKeyConstants.ERROR_APPROVAL_DATE_REQUIRED);
                 }
-                
+
                 // If study is not approved, approval date and expiration date must be empty.
                 if (!KraConstants.RESEARCH_RISK_STUDY_STATUS_APPROVED.equals(study.getResearchRiskStudyApprovalStatusCode())) {
                     if (ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate())) {
@@ -364,29 +369,27 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                         errorMap.putError("researchRiskStudyExpirationDate", KraKeyConstants.ERROR_EXPIRATION_DATE_REMOVE);
                     }
                 }
-                
+
                 // If review status is 'exempt', exception number is required.
-                if (KraConstants.RESEARCH_RISK_STUDY_REVIEW_EXEMPT.equals(study.getResearchRiskStudyReviewCode())
-                        && StringUtils.isBlank(study.getResearchRiskExemptionNumber())) {
+                if (KraConstants.RESEARCH_RISK_STUDY_REVIEW_EXEMPT.equals(study.getResearchRiskStudyReviewCode()) && StringUtils.isBlank(study.getResearchRiskExemptionNumber())) {
                     valid = false;
                     errorMap.putError("researchRiskExemptionNumber", KraKeyConstants.ERROR_EXEMPTION_NUMBER_REQUIRED);
                 }
-                
+
                 // If review status in not 'exempt', exception number should be blank.
-                if (!KraConstants.RESEARCH_RISK_STUDY_REVIEW_EXEMPT.equals(study.getResearchRiskStudyReviewCode())
-                        && !StringUtils.isBlank(study.getResearchRiskExemptionNumber())) {
+                if (!KraConstants.RESEARCH_RISK_STUDY_REVIEW_EXEMPT.equals(study.getResearchRiskStudyReviewCode()) && !StringUtils.isBlank(study.getResearchRiskExemptionNumber())) {
                     valid = false;
                     errorMap.putError("researchRiskExemptionNumber", KraKeyConstants.ERROR_EXEMPTION_NUMBER_REMOVE);
                 }
-                
+
                 // Expiration date must not be earlier than approval date.
-                if (ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate()) && ObjectUtils.isNotNull(study.getResearchRiskStudyExpirationDate())
-                        && study.getResearchRiskStudyExpirationDate().before(study.getResearchRiskStudyApprovalDate())) {
+                if (ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate()) && ObjectUtils.isNotNull(study.getResearchRiskStudyExpirationDate()) && study.getResearchRiskStudyExpirationDate().before(study.getResearchRiskStudyApprovalDate())) {
                     valid = false;
                     errorMap.putError("researchRiskStudyExpirationDate", KraKeyConstants.ERROR_EXPIRATION_DATE_TOO_EARLY);
                 }
-                
-                // If Human Subjects approval date is more than one year prior to the routing form creation date, the user must enter a more current date, or set the status to Pending.
+
+                // If Human Subjects approval date is more than one year prior to the routing form creation date, the user must
+                // enter a more current date, or set the status to Pending.
                 if (researchRisk.getResearchRiskTypeCode().equals(humanSubjectsActiveCode) && ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate())) {
                     int dateDiff = SpringContext.getBean(DateTimeService.class).dateDiff(study.getResearchRiskStudyApprovalDate(), humanSubjectsEarliestApprovalDate, false);
                     if (dateDiff > 0) {
@@ -395,8 +398,9 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                         errorMap.putError("researchRiskStudyApprovalDate", KraKeyConstants.ERROR_HUMAN_SUBJECTS_APPROVAL_DATE_TOO_OLD);
                     }
                 }
-                
-                // If Animals approval date is more than 3 years prior to the routing form creation date, the user must enter a more current date, or set the status to Pending.
+
+                // If Animals approval date is more than 3 years prior to the routing form creation date, the user must enter a more
+                // current date, or set the status to Pending.
                 if (researchRisk.getResearchRiskTypeCode().equals(animalsActiveCode) && ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate())) {
                     int dateDiff = SpringContext.getBean(DateTimeService.class).dateDiff(study.getResearchRiskStudyApprovalDate(), animalsEarliestApprovalDate, false);
                     if (dateDiff > 0) {
@@ -404,17 +408,17 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                         errorMap.putError("researchRiskStudyApprovalDate", KraKeyConstants.ERROR_ANIMALS_APPROVAL_DATE_TOO_OLD);
                     }
                 }
-                
+
                 errorMap.removeFromErrorPath("researchRiskStudy[" + j++ + "]");
             }
-            
+
             errorMap.removeFromErrorPath("routingFormResearchRisk[" + i++ + "]");
         }
-        
+
         return valid;
     }
-    
-        
+
+
     /**
      * This method validates that a Budget can be lined to a RF. It checks the following:
      * <ul>
@@ -423,91 +427,94 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
      * 
      * @param routingFormDocument The routingFormDocument that is being validated
      * @param budgetDocumentHeaderId The doc header ID of the budget to be linked to this RF
-     * @param selectedBudgetPeriods An array containing the 
+     * @param selectedBudgetPeriods An array containing the
      * @param allPeriods
      * @return valid Does the validation pass
      */
     public boolean processBudgetRoutingFormLink(RoutingFormDocument routingFormDocument, String[] selectedBudgetPeriods, boolean allPeriods, boolean checkPeriods) {
         boolean valid = true;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
-        
+
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
         errorMap.addToErrorPath("document");
-        
+
         try {
             DictionaryValidationService dictionaryValidationService = SpringContext.getBean(DictionaryValidationService.class);
             dictionaryValidationService.validateDocument(routingFormDocument);
-            
-            //see if the Budget Document Header ID is valid
-            
-            //This stinks, but it has to be done since Workflow uses Longs for document number.
+
+            // see if the Budget Document Header ID is valid
+
+            // This stinks, but it has to be done since Workflow uses Longs for document number.
             try {
                 new Long(routingFormDocument.getRoutingFormBudgetNumber());
-            } catch (NumberFormatException e){
-                errorMap.putError("routingFormBudgetNumber", KraKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_BUDGET_DOCUMENT, new String[] {routingFormDocument.getRoutingFormBudgetNumber()});
+            }
+            catch (NumberFormatException e) {
+                errorMap.putError("routingFormBudgetNumber", KraKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_BUDGET_DOCUMENT, new String[] { routingFormDocument.getRoutingFormBudgetNumber() });
                 return false;
             }
-            
+
             if (documentService.documentExists(routingFormDocument.getRoutingFormBudgetNumber())) {
                 Document document = documentService.getByDocumentHeaderId(routingFormDocument.getRoutingFormBudgetNumber());
                 if (BudgetDocument.class.isAssignableFrom(document.getClass())) {
-                    BudgetDocument budgetDocument = (BudgetDocument)document;
-                    
-                    //see if this user can vew/modify the budget
+                    BudgetDocument budgetDocument = (BudgetDocument) document;
+
+                    // see if this user can vew/modify the budget
                     BudgetDocumentAuthorizer budgetDocumentAuthorizer = new BudgetDocumentAuthorizer();
                     Map budgetAuthorizationsMap = budgetDocumentAuthorizer.getEditMode(budgetDocument, GlobalVariables.getUserSession().getUniversalUser());
-                    if ((!budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY)) ||
-                            (budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.get(AuthorizationConstants.EditMode.FULL_ENTRY).equals("TRUE") && 
-                                    budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.get(AuthorizationConstants.EditMode.FULL_ENTRY).equals("TRUE"))) {
+                    if ((!budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY)) || (budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.get(AuthorizationConstants.EditMode.FULL_ENTRY).equals("TRUE") && budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.get(AuthorizationConstants.EditMode.FULL_ENTRY).equals("TRUE"))) {
                         errorMap.putError("routingFormBudgetNumber1", KraKeyConstants.ERROR_SELECTED_PERIODS_CONSECUTIVE);
                         return false;
                     }
-                    
-                    //see if this budget is already linked to another RF
+
+                    // see if this budget is already linked to another RF
                     Map<String, Object> fieldValues = new HashMap<String, Object>();
                     fieldValues.put("routingFormBudgetNumber", routingFormDocument.getRoutingFormBudgetNumber());
-                    
-                    List<RoutingFormDocument> matching = (List<RoutingFormDocument>)businessObjectService.findMatching(RoutingFormDocument.class, fieldValues);
+
+                    List<RoutingFormDocument> matching = (List<RoutingFormDocument>) businessObjectService.findMatching(RoutingFormDocument.class, fieldValues);
 
                     for (RoutingFormDocument rfd : matching) {
-                        if (! rfd.getDocumentNumber().equals(routingFormDocument.getDocumentNumber())) {
+                        if (!rfd.getDocumentNumber().equals(routingFormDocument.getDocumentNumber())) {
                             valid = false;
-                            errorMap.putError("routingFormBudgetNumber", KraKeyConstants.ERROR_BUDGET_ALREADY_LINKED, new String[] {routingFormDocument.getRoutingFormBudgetNumber(), rfd.getDocumentNumber()});
+                            errorMap.putError("routingFormBudgetNumber", KraKeyConstants.ERROR_BUDGET_ALREADY_LINKED, new String[] { routingFormDocument.getRoutingFormBudgetNumber(), rfd.getDocumentNumber() });
                             break;
                         }
                     }
-                    
-                    //see if Modular has been distributed
-                    
-                } else {
-                    valid = false;
-                    errorMap.putError("routingFormBudgetNumber", KraKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_BUDGET_DOCUMENT, new String[] {routingFormDocument.getRoutingFormBudgetNumber()});
+
+                    // see if Modular has been distributed
+
                 }
-            } else {
+                else {
+                    valid = false;
+                    errorMap.putError("routingFormBudgetNumber", KraKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_BUDGET_DOCUMENT, new String[] { routingFormDocument.getRoutingFormBudgetNumber() });
+                }
+            }
+            else {
                 valid = false;
-                errorMap.putError("routingFormBudgetNumber", KraKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_EXIST, new String[] {routingFormDocument.getRoutingFormBudgetNumber()});
+                errorMap.putError("routingFormBudgetNumber", KraKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_EXIST, new String[] { routingFormDocument.getRoutingFormBudgetNumber() });
             }
 
-            //check selected periods
+            // check selected periods
             if (!allPeriods && checkPeriods) {
                 int nextPeriodNumberShouldBe = -1;
                 if (selectedBudgetPeriods != null && selectedBudgetPeriods.length > 0) {
-                    for (int i = 0; i < selectedBudgetPeriods.length; i++){
-                        if (i != 0 && Integer.valueOf(selectedBudgetPeriods[i]) != nextPeriodNumberShouldBe) { //first time
+                    for (int i = 0; i < selectedBudgetPeriods.length; i++) {
+                        if (i != 0 && Integer.valueOf(selectedBudgetPeriods[i]) != nextPeriodNumberShouldBe) { // first time
                             valid = false;
                             errorMap.putError("routingFormBudgetNumber1", KraKeyConstants.ERROR_SELECTED_PERIODS_CONSECUTIVE);
                             break;
                         }
                         nextPeriodNumberShouldBe = Integer.valueOf(selectedBudgetPeriods[i]) + 1;
                     }
-                } else {
+                }
+                else {
                     valid = false;
                     errorMap.putError("routingFormBudgetNumber1", KraKeyConstants.ERROR_AT_LEAST_ONE_PERIOD);
                 }
             }
-        } catch (WorkflowException e) {
+        }
+        catch (WorkflowException e) {
             throw new RuntimeException("Exception validating budget to link", e);
         }
 

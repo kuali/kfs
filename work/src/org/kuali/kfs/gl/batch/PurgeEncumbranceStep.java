@@ -25,7 +25,6 @@ import java.util.List;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.chart.service.ChartService;
-import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.service.EncumbranceService;
 
 public class PurgeEncumbranceStep extends AbstractStep {
@@ -39,7 +38,7 @@ public class PurgeEncumbranceStep extends AbstractStep {
      * class should NOT be transactional.
      */
     public boolean execute(String jobName) {
-        String yearStr = getConfigurationService().getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.PURGE_ENCUMBRANCE_STEP, KFSConstants.SystemGroupParameterNames.PURGE_GL_ENCUMBRANCE_T_BEFORE_YEAR);
+        String yearStr = getParameterService().getParameterValue(getClass(), KFSConstants.SystemGroupParameterNames.PURGE_GL_ENCUMBRANCE_T_BEFORE_YEAR);
         int year = Integer.parseInt(yearStr);
         List charts = chartService.getAllChartCodes();
         for (Iterator iter = charts.iterator(); iter.hasNext();) {

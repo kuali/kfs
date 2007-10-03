@@ -31,28 +31,29 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.ObjectTypeService;
 import org.kuali.module.chart.service.OrganizationReversionService;
 import org.kuali.module.chart.service.SubFundGroupService;
 import org.kuali.module.gl.GLConstants;
+import org.kuali.module.gl.batch.BalanceForwardStep;
+import org.kuali.module.gl.batch.closing.year.service.FilteringBalanceIterator;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.batch.closing.year.service.FilteringBalanceIterator;
 import org.kuali.module.gl.dao.BalanceDao;
 import org.kuali.module.gl.util.OJBUtility;
 
 public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
     private OptionsService optionsService;
 
     /**
@@ -141,7 +142,6 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @param criteria - the criteria that might have a criterion appended
      * @param name - name of the attribute
      * @param collection - the collection to inspect
-     * 
      */
     private void criteriaBuilder(Criteria criteria, String name, Collection collection) {
         criteriaBuilderHelper(criteria, name, collection, false);
@@ -149,7 +149,6 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
 
     /**
      * Similar to criteriaBuilder, this adds a negative criterion (NOT EQUALS, NOT IN)
-     * 
      */
     private void negatedCriteriaBuilder(Criteria criteria, String name, Collection collection) {
         criteriaBuilderHelper(criteria, name, collection, true);
@@ -160,7 +159,6 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * This method provides the implementation for the conveniences methods criteriaBuilder & negatedCriteriaBuilder
      * 
      * @param negate - the criterion will be negated (NOT EQUALS, NOT IN) when this is true
-     * 
      */
     private void criteriaBuilderHelper(Criteria criteria, String name, Collection collection, boolean negate) {
         if (collection != null) {
@@ -376,9 +374,9 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @return a query criteria
      */
     private Criteria buildCriteriaFromMap(Map fieldValues, Balance balance) {
-        Map localFieldValues = new HashMap();        
+        Map localFieldValues = new HashMap();
         localFieldValues.putAll(fieldValues);
-        
+
         Criteria criteria = new Criteria();
 
         // handle encumbrance balance type
@@ -396,7 +394,10 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
     }
 
     private List<String> getEncumbranceBalanceTypeCodeList() {
-        return kualiConfigurationService.getParameterValuesAsList(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BALANCE_INQUIRY_AVAILABLE_BALANCES, "EncumbranceDrillDownBalanceTypes");
+        return new ArrayList();
+        // TODO abyrne will create jira - this parm doesn't exist
+        // return parameterService.getParameterValues(KFSConstants.GL_NAMESPACE, KFSConstants.Components.,
+        // "EncumbranceDrillDownBalanceTypes");
     }
 
     /**
@@ -555,7 +556,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         Criteria c = new Criteria();
         c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
         QueryByCriteria query = QueryFactory.newQuery(Balance.class, c);
-        
+
         return getPersistenceBrokerTemplate().getCount(query);
     }
 
@@ -564,9 +565,9 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      */
     public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year) {
         LOG.debug("findNominalActivityBalancesForFiscalYear() started");
-        
+
         Options currentYearOptions = optionsService.getCurrentYearOptions();
-        
+
         // generate List of nominal activity object type codes
         ObjectTypeService objectTypeService = SpringContext.getBean(ObjectTypeService.class);
 
@@ -593,13 +594,13 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      */
     public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year) {
         ObjectTypeService objectTypeService = SpringContext.getBean(ObjectTypeService.class);
-        
-        String[] generalBalanceForwardBalanceTypesArray = kualiConfigurationService.getParameterValues(KFSConstants.GL_NAMESPACE, GLConstants.Components.BALANCE_FORWARD_STEP, GLConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET);
+
+        String[] generalBalanceForwardBalanceTypesArray = parameterService.getParameterValues(BalanceForwardStep.class, GLConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET).toArray(new String[] {});
         List<String> generalBalanceForwardBalanceTypes = new ArrayList<String>();
-        for (String bt: generalBalanceForwardBalanceTypesArray) {
+        for (String bt : generalBalanceForwardBalanceTypesArray) {
             generalBalanceForwardBalanceTypes.add(bt);
         }
-        
+
         Criteria c = new Criteria();
         c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
         c.addIn(KFSPropertyConstants.BALANCE_TYPE_CODE, generalBalanceForwardBalanceTypes);
@@ -615,11 +616,11 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         query.addOrderByAscending(KFSPropertyConstants.OBJECT_TYPE_CODE);
 
         Iterator<Balance> balances = getPersistenceBrokerTemplate().getIteratorByQuery(query);
-        
+
         Map<String, FilteringBalanceIterator> balanceIterators = SpringContext.getBeansOfType(FilteringBalanceIterator.class);
         FilteringBalanceIterator filteredBalances = balanceIterators.get("glBalanceTotalNotZeroIterator");
         filteredBalances.setBalancesSource(balances);
-        
+
         return filteredBalances;
     }
 
@@ -629,31 +630,32 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
     public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year) {
         ObjectTypeService objectTypeService = SpringContext.getBean(ObjectTypeService.class);
         SubFundGroupService subFundGroupService = SpringContext.getBean(SubFundGroupService.class);
-        
-        final String[] subFundGroupsForCumulativeBalanceForwardingArray = kualiConfigurationService.getParameterValues(KFSConstants.GL_NAMESPACE, GLConstants.Components.BALANCE_FORWARD_STEP, GLConstants.BalanceForwardRule.SUB_FUND_GROUPS_FOR_INCEPTION_TO_DATE_REPORTING);
+
+        final String[] subFundGroupsForCumulativeBalanceForwardingArray = parameterService.getParameterValues(BalanceForwardStep.class, GLConstants.BalanceForwardRule.SUB_FUND_GROUPS_FOR_INCEPTION_TO_DATE_REPORTING).toArray(new String[] {});
         List<String> subFundGroupsForCumulativeBalanceForwarding = new ArrayList<String>();
-        for (String subFundGroup: subFundGroupsForCumulativeBalanceForwardingArray) {
+        for (String subFundGroup : subFundGroupsForCumulativeBalanceForwardingArray) {
             subFundGroupsForCumulativeBalanceForwarding.add(subFundGroup);
         }
-        
-        String[] cumulativeBalanceForwardBalanceTypesArray = kualiConfigurationService.getParameterValues(KFSConstants.GL_NAMESPACE, GLConstants.Components.BALANCE_FORWARD_STEP, GLConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_INCOME_EXPENSE);
+
+        String[] cumulativeBalanceForwardBalanceTypesArray = parameterService.getParameterValues(BalanceForwardStep.class, GLConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_INCOME_EXPENSE).toArray(new String[] {});
         List<String> cumulativeBalanceForwardBalanceTypes = new ArrayList<String>();
-        for (String bt: cumulativeBalanceForwardBalanceTypesArray) {
+        for (String bt : cumulativeBalanceForwardBalanceTypesArray) {
             cumulativeBalanceForwardBalanceTypes.add(bt);
         }
-        
+
         Criteria c = new Criteria();
         c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
         c.addIn(KFSPropertyConstants.BALANCE_TYPE_CODE, cumulativeBalanceForwardBalanceTypes);
         c.addIn(KFSPropertyConstants.OBJECT_TYPE_CODE, objectTypeService.getCumulativeForwardBalanceObjectTypes(year));
-        
+
         Criteria forCGCrit = new Criteria();
-        if (kualiConfigurationService.getIndicatorParameter(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG)) {
+        if (parameterService.getIndicatorParameter(Account.class, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG)) {
             forCGCrit.addEqualTo("priorYearAccount.subFundGroup.fundGroupCode", subFundGroupService.getContractsAndGrantsDenotingValue());
-        } else {
+        }
+        else {
             forCGCrit.addEqualTo("priorYearAccount.subFundGroupCode", subFundGroupService.getContractsAndGrantsDenotingValue());
         }
-        
+
         Criteria subFundGroupCrit = new Criteria();
         subFundGroupCrit.addIn("priorYearAccount.subFundGroupCode", subFundGroupsForCumulativeBalanceForwarding);
         forCGCrit.addOrCriteria(subFundGroupCrit);
@@ -669,11 +671,11 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         query.addOrderByAscending(KFSPropertyConstants.OBJECT_TYPE_CODE);
 
         Iterator<Balance> balances = getPersistenceBrokerTemplate().getIteratorByQuery(query);
-        
+
         Map<String, FilteringBalanceIterator> balanceIterators = SpringContext.getBeansOfType(FilteringBalanceIterator.class);
         FilteringBalanceIterator filteredBalances = balanceIterators.get("glBalanceAnnualAndCGTotalNotZeroIterator");
         filteredBalances.setBalancesSource(balances);
-        
+
         return filteredBalances;
     }
 
@@ -691,11 +693,12 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
             Parameter currentRule = rules.get(new Integer(i));
             if (currentRule != null) {
                 String propertyName = StringUtils.substringBefore(currentRule.getParameterValue(), "=");
-                List<String> ruleValues = convertStringArrayToList(StringUtils.substringAfter(currentRule.getParameterValue(), "=").split( ";" ));
+                List<String> ruleValues = Arrays.asList(StringUtils.substringAfter(currentRule.getParameterValue(), "=").split(";"));
                 if (propertyName != null && propertyName.length() > 0 && ruleValues.size() > 0) {
-                    if (kualiConfigurationService.isAllowedRule(currentRule)) {
+                    if (KFSConstants.APC_ALLOWED_OPERATOR.equals(currentRule.getParameterConstraintCode())) {
                         c.addIn(propertyName, ruleValues);
-                    } else {
+                    }
+                    else {
                         c.addNotIn(propertyName, ruleValues);
                     }
                 }
@@ -713,25 +716,13 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
-    
-    private List<String> convertStringArrayToList(String[] ary) {
-        List<String> stringList = new ArrayList<String>();
-        for (String a: ary) {
-            if (a != null && a.length() > 0) {
-                stringList.add(a);
-            }
-        }
-        return stringList;
-    }
 
-    /**
-     * @param kualiConfigurationService
-     */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
 
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

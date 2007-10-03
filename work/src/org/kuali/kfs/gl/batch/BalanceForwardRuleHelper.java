@@ -19,13 +19,14 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.chart.bo.PriorYearAccount;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
@@ -35,8 +36,8 @@ import org.kuali.module.chart.service.SubFundGroupService;
 import org.kuali.module.financial.exceptions.InvalidFlexibleOffsetException;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 import org.kuali.module.gl.GLConstants;
+import org.kuali.module.gl.batch.BalanceForwardStep;
 import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryService;
@@ -54,7 +55,6 @@ public class BalanceForwardRuleHelper {
     /**
      * A container for the state of the balance forward process. The way state is handled is heavily dependent upon the way in which
      * YearEndServiceImpl.forwardBalancesForFiscalYear works.
-     * 
      */
     public static class BalanceForwardProcessState {
         private int globalReadCount;
@@ -92,7 +92,7 @@ public class BalanceForwardRuleHelper {
         public void incrementSequenceWriteCount() {
             sequenceWriteCount++;
         }
-        
+
         public void incrementNonFatalCount() {
             nonFatalCount += 1;
         }
@@ -116,7 +116,7 @@ public class BalanceForwardRuleHelper {
         public int getSequenceClosedCount() {
             return sequenceClosedCount;
         }
-        
+
         public int getNonFatalCount() {
             return nonFatalCount;
         }
@@ -140,7 +140,7 @@ public class BalanceForwardRuleHelper {
         public void setSequenceWriteCount(int sequenceWriteCount) {
             this.sequenceWriteCount = sequenceWriteCount;
         }
-        
+
         public void setNonFatalCount(int nonFatalCount) {
             this.nonFatalCount = nonFatalCount;
         }
@@ -155,7 +155,7 @@ public class BalanceForwardRuleHelper {
     private PriorYearAccountService priorYearAccountService;
     private SubFundGroupService subFundGroupService;
     private OriginEntryService originEntryService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
     private Options currentYearOptions;
     private String[] priorYearAccountObjectTypes;
     private String[] generalSwObjectTypes;
@@ -169,23 +169,23 @@ public class BalanceForwardRuleHelper {
         super();
         state = new BalanceForwardProcessState();
         flexibleOffsetAccountService = SpringContext.getBean(FlexibleOffsetAccountService.class);
-        kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-        annualClosingDocType = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE);
-        glOriginationCode = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE);
+        parameterService = SpringContext.getBean(ParameterService.class);
+        annualClosingDocType = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE);
+        glOriginationCode = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE);
 
     }
-    
+
     public BalanceForwardRuleHelper(Integer closingFiscalYear) {
         this();
         setClosingFiscalYear(closingFiscalYear);
-        
+
         Options jobYearRunOptions = SpringContext.getBean(OptionsService.class).getOptions(closingFiscalYear);
-        
+
         generalSwObjectTypes = new String[3];
         generalSwObjectTypes[0] = jobYearRunOptions.getFinancialObjectTypeAssetsCd();
         generalSwObjectTypes[1] = jobYearRunOptions.getFinObjectTypeLiabilitiesCode();
         generalSwObjectTypes[2] = jobYearRunOptions.getFinObjectTypeFundBalanceCd();
-        
+
         // "EE", "ES", "EX", "IC", "TE", "TI", "IN", "CH"
         priorYearAccountObjectTypes = new String[8];
         priorYearAccountObjectTypes[0] = jobYearRunOptions.getFinObjTypeExpendNotExpCode();
@@ -197,7 +197,7 @@ public class BalanceForwardRuleHelper {
         priorYearAccountObjectTypes[6] = jobYearRunOptions.getFinObjectTypeIncomecashCode();
         priorYearAccountObjectTypes[7] = jobYearRunOptions.getFinObjTypeCshNotIncomeCd();
     }
-    
+
     /**
      * Constructs a BalanceForwardRuleHelper.
      * 
@@ -218,11 +218,12 @@ public class BalanceForwardRuleHelper {
         for (Object balanceTypAsObj: SpringContext.getBean(BalanceTypService.class).getAllBalanceTyps()) {
             BalanceTyp balanceType = (BalanceTyp)balanceTypAsObj;
             balanceTypeEncumbranceIndicators.put(balanceType.getCode(), (balanceType.isFinBalanceTypeEncumIndicator() ? Boolean.TRUE : Boolean.FALSE));
-        }
+    }
     }
 
     /**
      * This method...
+     * 
      * @param balance
      */
     public void processGeneralForwardBalance(Balance balance, OriginEntryGroup closedPriorYearAccountGroup, OriginEntryGroup unclosedPriorYearAccountGroup) {
@@ -242,15 +243,16 @@ public class BalanceForwardRuleHelper {
             state.setSequenceNumber(1);
 
         }
-        
+
         state.incrementGlobalSelectCount();
-        
+
         OriginEntryFull entry = generateGeneralForwardOriginEntry(balance);
         saveForwardingEntry(balance, entry, closedPriorYearAccountGroup, unclosedPriorYearAccountGroup);
     }
 
     /**
      * This method creates an origin entry for a cumulative balance forward and saves it in its proper origin entry group
+     * 
      * @param balance
      * @param closedPriorYearAccountGroup the origin entry group where forwarding origin entries with closed prior year accounts go
      * @param unclosedPriorYearAcocuntGroup the origin entry group where forwarding origin entries with open prior year accounts go
@@ -272,15 +274,16 @@ public class BalanceForwardRuleHelper {
             state.setSequenceNumber(1);
 
         }
-        
+
         state.incrementGlobalSelectCount();
-        
+
         OriginEntryFull activeEntry = generateCumulativeForwardOriginEntry(balance);
         saveForwardingEntry(balance, activeEntry, closedPriorYearAccountGroup, unclosedPriorYearAccountGroup);
     }
 
     /**
      * This method generates an origin entry for a given cumulative balance forward balance
+     * 
      * @param balance a balance to foward, cumulative style
      * @return an OriginEntryFull to forward the given balance
      */
@@ -347,7 +350,7 @@ public class BalanceForwardRuleHelper {
 
         // 1352 008740 MOVE 'ACLO'
         // 1353 008750 TO FDOC-TYP-CD OF GLEN-RECORD.
-        
+
         activeEntry.setFinancialDocumentTypeCode(this.annualClosingDocType);
 
         // 1354 008760 MOVE 'MF'
@@ -395,21 +398,22 @@ public class BalanceForwardRuleHelper {
 
         }
         else {
-            
+
             String wsFinancialObjectTypeDebitCreditCode = null;
-            
+
             try {
                 wsFinancialObjectTypeDebitCreditCode = getFinancialObjectTypeDebitCreditCode(balance);
-            } catch (NonFatalErrorException nfee) {
+            }
+            catch (NonFatalErrorException nfee) {
 
                 getState().incrementNonFatalCount();
-                
+
                 // 1197 007240 PERFORM 8500-CHECK-NEW-PAGE
                 // 1198 007250 THRU 8500-CHECK-NEW-PAGE-EXIT
                 // 1199 007260 MOVE 'C' TO WS-FIN-OBJTYP-DBCR-CD
-                
+
                 wsFinancialObjectTypeDebitCreditCode = KFSConstants.GL_CREDIT_CODE;
-                
+
                 LOG.info(nfee.getMessage());
             }
 
@@ -494,11 +498,12 @@ public class BalanceForwardRuleHelper {
 
         // 1401 009230 MOVE WS-TRN-ENCUM-UPDT-CD
         // 1402 009240 TO TRN-ENCUM-UPDT-CD OF GLEN-RECORD.
-        
+
         String transactionEncumbranceUpdateCode = null;
         try {
             transactionEncumbranceUpdateCode = getTransactionEncumbranceUpdateCode(balance);
-        } catch (NonFatalErrorException nfee) {
+        }
+        catch (NonFatalErrorException nfee) {
 
             // 1161 006880 ADD +1 TO NON-FATAL-COUNT
 
@@ -550,12 +555,13 @@ public class BalanceForwardRuleHelper {
 
     /**
      * This method...
+     * 
      * @param balance
      * @param nonFatalCount
      * @return
      */
     public OriginEntryFull generateGeneralForwardOriginEntry(Balance balance) {
-        
+
         OriginEntryFull entry = new OriginEntryFull();
 
         // 1215 007420 PERFORM 4100-WRITE-GENERAL
@@ -657,11 +663,12 @@ public class BalanceForwardRuleHelper {
         // 1264 007910 TRN-LDGR-ENTR-DESC.
 
         entry.setTransactionLedgerEntryDescription(new StringBuffer("BEG BAL BROUGHT FORWARD FROM ").append(closingFiscalYear).toString());
-        
+
         String transactionEncumbranceUpdateCode = null;
         try {
             transactionEncumbranceUpdateCode = getTransactionEncumbranceUpdateCode(balance);
-        } catch (NonFatalErrorException nfee) {
+        }
+        catch (NonFatalErrorException nfee) {
 
             // 1161 006880 ADD +1 TO NON-FATAL-COUNT
 
@@ -678,21 +685,22 @@ public class BalanceForwardRuleHelper {
 
         KualiDecimal transactionLedgerEntryAmount = new KualiDecimal(0);
         transactionLedgerEntryAmount = transactionLedgerEntryAmount.add(balance.getAccountLineAnnualBalanceAmount()).add(balance.getBeginningBalanceLineAmount()).add(balance.getContractsGrantsBeginningBalanceAmount());
-        
+
         String wsFinancialObjectTypeDebitCreditCode = null;
-        
+
         try {
             wsFinancialObjectTypeDebitCreditCode = getFinancialObjectTypeDebitCreditCode(balance);
-        } catch (NonFatalErrorException nfee) {
+        }
+        catch (NonFatalErrorException nfee) {
 
             getState().incrementNonFatalCount();
-            
+
             // 1197 007240 PERFORM 8500-CHECK-NEW-PAGE
             // 1198 007250 THRU 8500-CHECK-NEW-PAGE-EXIT
             // 1199 007260 MOVE 'C' TO WS-FIN-OBJTYP-DBCR-CD
-            
+
             wsFinancialObjectTypeDebitCreditCode = KFSConstants.GL_CREDIT_CODE;
-            
+
             LOG.info(nfee.getMessage());
         }
 
@@ -812,6 +820,7 @@ public class BalanceForwardRuleHelper {
 
     /**
      * This method...
+     * 
      * @param balance
      * @param nonFatalCount
      * @return
@@ -829,14 +838,15 @@ public class BalanceForwardRuleHelper {
         if (encumIndicator == null) {
             throw new NonFatalErrorException(new StringBuffer(" ERROR ").append(balance.getBalanceTypeCode()).append(" NOT ON TABLE ").toString());
         } else if (encumIndicator.booleanValue()) {
-            updateCode = KFSConstants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD;
-        }
+                updateCode = KFSConstants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD;
+            }
 
         return updateCode;
     }
 
     /**
      * This method attempts to determine the debit/credit code of a given balance based on the object type
+     * 
      * @param balance
      * @return
      */
@@ -897,10 +907,10 @@ public class BalanceForwardRuleHelper {
         }
         return wsFinancialObjectTypeDebitCreditCode;
     }
-    
+
     public boolean selectGeneral(Balance balance) {
         boolean selectGeneralSwFlag = false;
-        final String[] CONDITION_GENERAL_SW_FLAG = kualiConfigurationService.getParameterValues(KFSConstants.GL_NAMESPACE, GLConstants.Components.BALANCE_FORWARD_STEP, GLConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET);
+        final String[] CONDITION_GENERAL_SW_FLAG = parameterService.getParameterValues(BalanceForwardStep.class, GLConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET).toArray(new String[] {});
         if (ObjectHelper.isOneOf(balance.getBalanceTypeCode(), CONDITION_GENERAL_SW_FLAG) && ObjectHelper.isOneOf(balance.getObjectTypeCode(), generalSwObjectTypes)) {
 
             selectGeneralSwFlag = true;
@@ -933,7 +943,7 @@ public class BalanceForwardRuleHelper {
         }
         return selectGeneralSwFlag;
     }
-    
+
     public boolean selectActive(Balance balance) throws FatalErrorException {
         boolean selectActiveSwFlag = false;
         // 1018 005450 IF (GLGLBL-FIN-BALANCE-TYP-CD = 'AC' OR 'CB')
@@ -946,9 +956,8 @@ public class BalanceForwardRuleHelper {
 
         PriorYearAccount priorYearAccount = priorYearAccountService.getByPrimaryKey(balance.getChartOfAccountsCode(), balance.getAccountNumber());
 
-        
 
-        final String[] CONDITION_PRIOR_YEAR_ACCOUNT = kualiConfigurationService.getParameterValues(KFSConstants.GL_NAMESPACE, GLConstants.Components.BALANCE_FORWARD_STEP, GLConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_INCOME_EXPENSE);
+        final String[] CONDITION_PRIOR_YEAR_ACCOUNT = parameterService.getParameterValues(BalanceForwardStep.class, GLConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_INCOME_EXPENSE).toArray(new String[] {});
         if (ObjectHelper.isOneOf(balance.getBalanceTypeCode(), CONDITION_PRIOR_YEAR_ACCOUNT) && ObjectHelper.isOneOf(balance.getObjectTypeCode(), priorYearAccountObjectTypes)) {
 
             // 1025 005520 MOVE GLGLBL-FIN-COA-CD
@@ -1020,7 +1029,7 @@ public class BalanceForwardRuleHelper {
                 // 1076 006030 OR 'PFCMR ')
 
                 // Contract and grants balances.
-                final String[] CONDITION_ACTIVE_SW_FLAG = kualiConfigurationService.getParameterValues(KFSConstants.GL_NAMESPACE, GLConstants.Components.BALANCE_FORWARD_STEP, GLConstants.BalanceForwardRule.SUB_FUND_GROUPS_FOR_INCEPTION_TO_DATE_REPORTING);
+                final String[] CONDITION_ACTIVE_SW_FLAG = parameterService.getParameterValues(BalanceForwardStep.class, GLConstants.BalanceForwardRule.SUB_FUND_GROUPS_FOR_INCEPTION_TO_DATE_REPORTING).toArray(new String[] {});
                 if (priorYearAccount.isForContractsAndGrants() || ObjectHelper.isOneOf(subFundGroup.getSubFundGroupCode().trim(), CONDITION_ACTIVE_SW_FLAG)) {
 
                     // 1077 006040 MOVE 'Y' TO WS-SELECT-ACTIVE-SW
@@ -1075,9 +1084,10 @@ public class BalanceForwardRuleHelper {
         }
         return selectActiveSwFlag;
     }
-    
+
     /**
      * This method...
+     * 
      * @param balance
      * @param entry
      * @param closedPriorYearAccountGroup
@@ -1160,7 +1170,7 @@ public class BalanceForwardRuleHelper {
             // 1438 009550 ADD +1 TO SEQ-CLOSE-COUNT.
 
             state.incrementSequenceClosedCount();
-            
+
             if (0 == state.getSequenceWriteCount() % 1000) {
 
                 // 1424 DISPLAY ' SEQUENTIAL RECORDS WRITTEN = ' SEQ-CHECK-CNT
@@ -1169,9 +1179,8 @@ public class BalanceForwardRuleHelper {
 
                 // 1425 END-IF
 
-            }
-
         }
+    }
     }
 
     /**

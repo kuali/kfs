@@ -16,19 +16,17 @@
 package org.kuali.module.chart.document;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.chart.bo.Org;
 
 /**
  * Org/Organization specific authorization rules.
- * 
- * 
  */
 public class OrgDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
@@ -42,13 +40,11 @@ public class OrgDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
     }
 
     /**
-     * 
      * This method returns the set of authorization restrictions (if any) that apply to this Org in this context.
      * 
      * @param document
      * @param user
      * @return
-     * 
      */
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
 
@@ -60,11 +56,7 @@ public class OrgDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
             return auths;
         }
 
-        // get the group name that we need here - ORG
-        KualiConfigurationService configService;
-        configService = SpringContext.getBean(KualiConfigurationService.class);
-        String groupName = configService.getParameterValue(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ORGANIZATION,
-                KFSConstants.ChartApcParms.ORG_PLANT_WORKGROUP_PARM_NAME);
+        String groupName = SpringContext.getBean(ParameterService.class).getParameterValue(Org.class, KFSConstants.ChartApcParms.ORG_PLANT_WORKGROUP_PARM_NAME);
 
         // if the user is NOT a member of the special group, then mark all the
         // ICR & CS fields read-only.

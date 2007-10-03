@@ -40,16 +40,9 @@ import org.kuali.test.ConfigureContext;
 @ConfigureContext
 public class DataDictionaryConfigurationTest extends KualiTestBase {
     private static final Logger LOG = Logger.getLogger(DataDictionaryConfigurationTest.class);
-    private static final String BASE_PACKAGE_PREFIX = "org.kuali.";
-    private static final String BASE_MODULE_PACKAGE_PREFIX = BASE_PACKAGE_PREFIX + "module.";
-    private static final String KFS_CORE_PACKAGE_PREFIX = BASE_PACKAGE_PREFIX + KFSConstants.KFS_MODULE_ID + ".";
     private DataDictionary dataDictionary;
     private Map <String,Exception> dataDictionaryLoadFailures;
     private Map<String,String> dataDictionaryWarnings;
-    private Map<String, KualiModule> modules;
-    private KualiModule coreModule;
-    private KualiModule kfsModule;
-    Map<String, Set<String>> componentNamesByModule = new TreeMap();
     
     public void testLoadDataDictionaryConfiguration() throws Exception {
         loadDataDictionary();
@@ -65,25 +58,6 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
             System.err.print(warningMessage);
         }
         assertTrue(failureMessage.toString(), dataDictionaryLoadFailures.isEmpty());  
-    }
-    
-    public void testGetComponentsByModule() throws Exception {
-        loadDataDictionary();
-        Map<String, Set<String>> componentNamesByClassName = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getComponentNamesByClassName();
-        for (String componentClassName : componentNamesByClassName.keySet()) {
-            componentNamesByModule.get(getComponentModuleId(componentClassName)).addAll(componentNamesByClassName.get(componentClassName));
-        }
-        for (JobDescriptor jobDescriptor : SpringContext.getBeansOfType(JobDescriptor.class).values()) {
-            componentNamesByModule.get(getComponentModuleId(jobDescriptor.getSteps().get(0).getClass().getName())).add(getNiceJobName(jobDescriptor));
-        }
-        StringBuffer output = new StringBuffer("Components By Module:");
-        for (String moduleId : componentNamesByModule.keySet()) {
-            output.append("\n").append(modules.get(moduleId).getModuleCode()).append(" - ").append(modules.get(moduleId).getModuleName());
-            for (String componentName : componentNamesByModule.get(moduleId)) {
-                output.append("\n\t").append(componentName);
-            }
-        }
-        LOG.info(output);
     }
     
     public void testAllDataDictionaryDocumentTypesExistInDocumentTypeTable() throws Exception {
@@ -129,53 +103,10 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         }
     }
     
-    private String getComponentModuleId(String className) {
-        if (className.contains(BASE_MODULE_PACKAGE_PREFIX)) {
-            return StringUtils.substringBefore(StringUtils.substringAfter(className, BASE_MODULE_PACKAGE_PREFIX), ".");
-        }
-        else if (className.contains(KFS_CORE_PACKAGE_PREFIX)){
-            return kfsModule.getModuleId();
-        }
-        else {
-            return coreModule.getModuleId();
-        }
-    }
-
-    private String getNiceJobName(JobDescriptor jobDescriptor) {
-        StringBuffer niceJobName = new StringBuffer();
-        String jobName = StringUtils.capitalize(jobDescriptor.getJobDetail().getName());
-        for (int i = 0; i < jobName.length(); i++) {
-            if (Character.isLowerCase(jobName.charAt(i))) {
-                niceJobName.append(jobName.charAt(i));
-            }
-            else {
-                niceJobName.append(" ").append(jobName.charAt(i));
-            }
-        }
-        return niceJobName.toString().trim();
-    }
-    
     protected void setUp() throws Exception {
         super.setUp();
         dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
         dataDictionaryLoadFailures = new TreeMap();
         dataDictionaryWarnings = new TreeMap();
-        modules = new HashMap();
-        coreModule = new KualiModule();
-        coreModule.setModuleId(KFSConstants.CROSS_MODULE_ID);
-        coreModule.setModuleCode(KFSConstants.CROSS_MODULE_CODE);
-        coreModule.setModuleName(KFSConstants.CROSS_MODULE_NAME);
-        modules.put(coreModule.getModuleId(), coreModule);
-        componentNamesByModule.put(coreModule.getModuleId(), new TreeSet());
-        kfsModule = new KualiModule();
-        kfsModule.setModuleId(KFSConstants.KFS_MODULE_ID);
-        kfsModule.setModuleCode(KFSConstants.KFS_MODULE_CODE);
-        kfsModule.setModuleName(KFSConstants.KFS_MODULE_NAME);
-        modules.put(kfsModule.getModuleId(), kfsModule);
-        componentNamesByModule.put(kfsModule.getModuleId(), new TreeSet());
-        for (KualiModule module : SpringContext.getBean(KualiModuleService.class).getInstalledModules()) {
-            modules.put(module.getModuleId(), module);
-            componentNamesByModule.put(module.getModuleId(), new TreeSet());
-        }
     }
 }

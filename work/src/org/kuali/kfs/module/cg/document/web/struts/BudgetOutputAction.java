@@ -48,6 +48,8 @@ import org.kuali.core.util.WebUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.module.kra.budget.xml.BudgetXml;
@@ -55,8 +57,6 @@ import org.w3c.dom.Document;
 
 /**
  * This class handles Output Actions for Research Administration.
- * 
- * 
  */
 public class BudgetOutputAction extends BudgetAction {
 
@@ -253,44 +253,44 @@ public class BudgetOutputAction extends BudgetAction {
      */
     private StreamSource pickStylesheet(String currentOutputReportType, String currentOutputAgencyType, HttpServletRequest request) throws IOException {
         String urlString = "";
-        
-        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-        String stylesheetUrlOrPath = kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, STYLESHEET_URL_OR_PATH_PARM_NM);
+
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        String stylesheetUrlOrPath = parameterService.getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, STYLESHEET_URL_OR_PATH_PARM_NM);
 
         // following checks if STYLESHEET_URL_OR_PATH is a URL already or path within the project
         if (stylesheetUrlOrPath.contains("://")) {
             urlString = stylesheetUrlOrPath;
         }
         else {
-            String APPLICATION_BASE_URL_KEY = kualiConfigurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+            String APPLICATION_BASE_URL_KEY = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
             urlString = APPLICATION_BASE_URL_KEY + stylesheetUrlOrPath;
         }
 
         if (GENERIC_BY_TASK.equals(currentOutputReportType)) {
-            urlString += kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, GENERIC_BY_TASK_XSL_PATH_PARM_NM);
+            urlString += parameterService.getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, GENERIC_BY_TASK_XSL_PATH_PARM_NM);
         }
         else if (GENERIC_BY_PERIOD.equals(currentOutputReportType)) {
-            urlString += kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, GENERIC_BY_PERIOD_XSL_PATH_PARM_NM);
+            urlString += parameterService.getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, GENERIC_BY_PERIOD_XSL_PATH_PARM_NM);
         }
         else if (AGENCY.equals(currentOutputReportType)) {
             if (NIH_2590.equals(currentOutputAgencyType)) {
-                urlString += kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, NIH2590_XSL_PATH_PARM_NM);
+                urlString += parameterService.getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, NIH2590_XSL_PATH_PARM_NM);
             }
             else if (NIH_398.equals(currentOutputAgencyType)) {
-                urlString += kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, NIH398_XSL_PATH_PARM_NM);
+                urlString += parameterService.getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, NIH398_XSL_PATH_PARM_NM);
             }
             else if (NIH_MOD.equals(currentOutputAgencyType)) {
-                urlString += kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, NIH_MODULAR_XSL_PATH_PARM_NM);
+                urlString += parameterService.getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, NIH_MODULAR_XSL_PATH_PARM_NM);
             }
             else if (NIH_SUMMARY.equals(currentOutputAgencyType)) {
-                urlString += kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, NSF_SUMMARY_XSL_PATH_PARM_NM);
+                urlString += parameterService.getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, NSF_SUMMARY_XSL_PATH_PARM_NM);
             }
             else {
                 LOG.error("Report type agency stylesheet not found.");
             }
         }
         else if (SF_424.equals(currentOutputReportType)) {
-            urlString += kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, SF424_XSL_PATH_PARM_NM);
+            urlString += parameterService.getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, SF424_XSL_PATH_PARM_NM);
         }
         else {
             LOG.error("Report type stylesheet not found.");

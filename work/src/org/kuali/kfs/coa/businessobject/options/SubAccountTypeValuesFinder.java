@@ -19,40 +19,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.rules.SubAccountRule;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.chart.bo.SubAccount;
 
 public class SubAccountTypeValuesFinder extends KeyValuesBase {
 
-    protected KualiConfigurationService configService;
-
-
-    public SubAccountTypeValuesFinder() {
-        super();
-
-        this.setConfigService(SpringContext.getBean(KualiConfigurationService.class));
-    }
-
-
     public List getKeyValues() {
-
-        // now we need to retrieve the parm values
-        String[] parmValues = configService.getParameterValues(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.SUB_ACCOUNT, KFSConstants.ChartApcParms.CG_ALLOWED_SUBACCOUNT_TYPE_CODES);
-
         List activeLabels = new ArrayList();
         activeLabels.add(new KeyLabelPair("", ""));
-        for (int i = 0; i < parmValues.length; i++) {
-            String parm = parmValues[i];
-            activeLabels.add(new KeyLabelPair(parm, parm));
+        for (String value : SpringContext.getBean(ParameterService.class).getParameterValues(SubAccount.class, KFSConstants.ChartApcParms.CG_ALLOWED_SUBACCOUNT_TYPE_CODES)) {
+            activeLabels.add(new KeyLabelPair(value, value));
         }
         return activeLabels;
     }
-
-    public void setConfigService(KualiConfigurationService configService) {
-        this.configService = configService;
-    }
-
 }

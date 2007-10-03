@@ -32,9 +32,11 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.CashDrawer;
+import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.document.CashReceiptFamilyBase;
 import org.kuali.module.financial.service.CashDrawerService;
 import org.kuali.module.financial.service.CashReceiptService;
@@ -130,14 +132,14 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
         valid &= super.isObjectTypeAllowed(accountingLine);
 
         if (valid) {
-            Parameter rule = getKualiConfigurationService().getParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.CASH_RECEIPT_DOC, RESTRICTED_OBJECT_TYPE_CODES);
+            Parameter rule = SpringContext.getBean(ParameterService.class).getParameter(CashReceiptDocument.class, RESTRICTED_OBJECT_TYPE_CODES);
 
             ObjectCode objectCode = accountingLine.getObjectCode();
             if (ObjectUtils.isNull(objectCode)) {
                 accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
             }
 
-            if (getKualiConfigurationService().failsRule(rule,objectCode.getFinancialObjectTypeCode())) {
+            if (getKualiConfigurationService().failsRule(rule, objectCode.getFinancialObjectTypeCode())) {
                 valid = false;
 
                 // add message
@@ -161,7 +163,7 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
         valid &= super.isObjectConsolidationAllowed(accountingLine);
 
         if (valid) {
-            Parameter rule = getKualiConfigurationService().getParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.CASH_RECEIPT_DOC, RESTRICTED_CONSOLIDATED_OBJECT_CODES);
+            Parameter rule = SpringContext.getBean(ParameterService.class).getParameter(CashReceiptDocument.class, RESTRICTED_CONSOLIDATED_OBJECT_CODES);
 
             ObjectCode objectCode = accountingLine.getObjectCode();
             if (ObjectUtils.isNull(objectCode)) {
@@ -175,7 +177,7 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
 
             String consolidatedObjectCode = objectLevel.getConsolidatedObjectCode();
 
-            if (getKualiConfigurationService().failsRule(rule,consolidatedObjectCode)) {
+            if (getKualiConfigurationService().failsRule(rule, consolidatedObjectCode)) {
                 valid = false;
 
                 // add message
@@ -199,14 +201,14 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
         valid &= super.isObjectSubTypeAllowed(accountingLine);
 
         if (valid) {
-            Parameter rule = getKualiConfigurationService().getParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.CASH_RECEIPT_DOC, RESTRICTED_OBJECT_SUB_TYPE_CODES);
+            Parameter rule = SpringContext.getBean(ParameterService.class).getParameter(CashReceiptDocument.class, RESTRICTED_OBJECT_SUB_TYPE_CODES);
 
             ObjectCode objectCode = accountingLine.getObjectCode();
             if (ObjectUtils.isNull(objectCode)) {
                 accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
             }
 
-            if (getKualiConfigurationService().failsRule(rule,objectCode.getFinancialObjectSubTypeCode())) {
+            if (getKualiConfigurationService().failsRule(rule, objectCode.getFinancialObjectSubTypeCode())) {
                 valid = false;
 
                 // add message
@@ -259,7 +261,6 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
 
     /**
      * @see IsDebitUtils#isDebitConsideringType(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * 
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */

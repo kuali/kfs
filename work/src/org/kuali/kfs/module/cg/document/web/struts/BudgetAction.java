@@ -16,7 +16,6 @@
 package org.kuali.module.kra.budget.web.struts.action;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -40,12 +39,14 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.bo.AdhocPerson;
 import org.kuali.module.kra.bo.AdhocWorkgroup;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
+import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.rules.event.EnterModularEvent;
 import org.kuali.module.kra.budget.rules.event.RunAuditEvent;
 import org.kuali.module.kra.budget.service.BudgetIndirectCostService;
@@ -86,28 +87,27 @@ public class BudgetAction extends ResearchDocumentActionBase {
 
         return forward;
     }
-    
 
-    
+
     @Override
     /**
-     * Overriding headerTab to customize how clearing tab state works on Budget.  Specifically, additional attributes (selected task and period) should be cleared any time header navigation occurs.
+     * Overriding headerTab to customize how clearing tab state works on Budget. Specifically, additional attributes (selected task
+     * and period) should be cleared any time header navigation occurs.
      */
     public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        BudgetForm budgetForm = (BudgetForm)form;
+
+        BudgetForm budgetForm = (BudgetForm) form;
 
         // This is so that tab states are not shared between pages.
         budgetForm.newTabState(true, true);
 
-        
+
         return super.headerTab(mapping, form, request, response);
     }
 
 
-
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         BudgetForm budgetForm = (BudgetForm) form;
 
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
@@ -126,7 +126,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
             budgetForm.setAdHocRouteWorkgroups(convertToAdHocRouteWorkgroups(budgetForm.getBudgetDocument().getAdhocWorkgroups()));
             return super.route(mapping, form, request, response);
         }
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
     }
@@ -198,10 +198,10 @@ public class BudgetAction extends ResearchDocumentActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
 
         // Set default task name
-        String DEFAULT_BUDGET_TASK_NAME = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.DEFAULT_BUDGET_TASK_NAME);
+        String DEFAULT_BUDGET_TASK_NAME = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, KraConstants.DEFAULT_BUDGET_TASK_NAME);
         budgetForm.getNewTask().setBudgetTaskName(DEFAULT_BUDGET_TASK_NAME + " " + (budgetForm.getBudgetDocument().getTaskListSize() + 1));
-        
-//      New task defaults to on campus
+
+        // New task defaults to on campus
         budgetForm.getNewTask().setBudgetTaskOnCampus(true);
 
         // Set default budget types
@@ -255,12 +255,13 @@ public class BudgetAction extends ResearchDocumentActionBase {
         this.load(mapping, form, request, response);
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudgetDocument().getBudget();
-        
-        // TODO Shouldn't be necessary but was added to fix KULERA-945: "Navigating from Nonpersonnel to Modular may cause exception"
-        for(BudgetNonpersonnel budgetNonpersonnel : budget.getNonpersonnelItems()) {
+
+        // TODO Shouldn't be necessary but was added to fix KULERA-945: "Navigating from Nonpersonnel to Modular may cause
+        // exception"
+        for (BudgetNonpersonnel budgetNonpersonnel : budget.getNonpersonnelItems()) {
             budgetNonpersonnel.refreshReferenceObject("nonpersonnelObjectCode");
         }
-        
+
         SpringContext.getBean(BudgetModularService.class).generateModularBudget(budget, budgetForm.getNonpersonnelCategories());
 
         SpringContext.getBean(KualiRuleService.class).applyRules(new EnterModularEvent(budgetForm.getDocument()));
@@ -289,7 +290,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
         this.load(mapping, form, request, response);
 
         BudgetForm budgetForm = (BudgetForm) form;
-        
+
         setupBudgetCostSharePermissionDisplay(budgetForm);
 
         SpringContext.getBean(BudgetIndirectCostService.class).refreshIndirectCost(budgetForm.getBudgetDocument());
@@ -324,10 +325,9 @@ public class BudgetAction extends ResearchDocumentActionBase {
         this.load(mapping, form, request, response);
 
         BudgetForm budgetForm = (BudgetForm) form;
-        
-        budgetForm.setInitiator(SpringContext.getBean(UniversalUserService.class).getUniversalUser(
-                new AuthenticationUserId(budgetForm.getDocument().getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId())));
-        
+
+        budgetForm.setInitiator(SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(budgetForm.getDocument().getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId())));
+
         budgetForm.getBudgetDocument().populateDocumentForRouting();
         budgetForm.getBudgetDocument().getDocumentHeader().getWorkflowDocument().saveRoutingData();
 
@@ -379,14 +379,14 @@ public class BudgetAction extends ResearchDocumentActionBase {
      * @throws Exception
      */
     protected static void setupAcademicYearSubdivisionConstants(BudgetForm budgetForm) throws Exception {
-        List<String> academicYearSubdivisionNames = SpringContext.getBean(KualiConfigurationService.class).getParameterValuesAsList(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.KRA_BUDGET_ACADEMIC_YEAR_SUBDIVISION_NAMES);
+        List<String> academicYearSubdivisionNames = SpringContext.getBean(ParameterService.class).getParameterValues(BudgetDocument.class, KraConstants.KRA_BUDGET_ACADEMIC_YEAR_SUBDIVISION_NAMES);
         budgetForm.setAcademicYearSubdivisionNames(academicYearSubdivisionNames);
-        budgetForm.setNumberOfAcademicYearSubdivisions(Integer.parseInt(SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.KRA_BUDGET_NUMBER_OF_ACADEMIC_YEAR_SUBDIVISIONS)));
+        budgetForm.setNumberOfAcademicYearSubdivisions(Integer.parseInt(SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, KraConstants.KRA_BUDGET_NUMBER_OF_ACADEMIC_YEAR_SUBDIVISIONS)));
     }
-    
+
     private static List<AdHocRoutePerson> convertToAdHocRoutePersons(List<AdhocPerson> adHocPermissions) {
         List<AdHocRoutePerson> adHocRoutePersons = new ArrayList<AdHocRoutePerson>();
-        for (AdhocPerson adHocPermission: adHocPermissions) {
+        for (AdhocPerson adHocPermission : adHocPermissions) {
             SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(adHocPermission);
             AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
             adHocRoutePerson.setId(adHocPermission.getUser().getPersonUserIdentifier());
@@ -395,10 +395,10 @@ public class BudgetAction extends ResearchDocumentActionBase {
         }
         return adHocRoutePersons;
     }
-    
+
     private static List<AdHocRouteWorkgroup> convertToAdHocRouteWorkgroups(List<AdhocWorkgroup> adHocWorkgroups) {
         List<AdHocRouteWorkgroup> adHocRouteWorkgroups = new ArrayList<AdHocRouteWorkgroup>();
-        for (AdhocWorkgroup adHocWorkgroup: adHocWorkgroups) {
+        for (AdhocWorkgroup adHocWorkgroup : adHocWorkgroups) {
             SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(adHocWorkgroup);
             AdHocRouteWorkgroup adHocRouteWorkgroup = new AdHocRouteWorkgroup();
             adHocRouteWorkgroup.setId(adHocWorkgroup.getWorkgroupName());
@@ -407,10 +407,9 @@ public class BudgetAction extends ResearchDocumentActionBase {
         }
         return adHocRouteWorkgroups;
     }
-    
+
     protected static void setupBudgetCostSharePermissionDisplay(BudgetForm budgetForm) {
-        String costSharePermissionCode = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(
-                KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.BUDGET_COST_SHARE_PERMISSION_CODE);
+        String costSharePermissionCode = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, KraConstants.BUDGET_COST_SHARE_PERMISSION_CODE);
         if (costSharePermissionCode.equals(KraConstants.COST_SHARE_PERMISSION_CODE_OPTIONAL)) {
             budgetForm.setDisplayCostSharePermission(true);
         }

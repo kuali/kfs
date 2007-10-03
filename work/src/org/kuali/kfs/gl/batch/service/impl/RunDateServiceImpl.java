@@ -15,27 +15,27 @@
  */
 package org.kuali.module.gl.service.impl;
 
-import java.util.Date;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.gl.GLConstants;
+import org.kuali.module.gl.batch.ScrubberStep;
 import org.kuali.module.gl.service.RunDateService;
 
 public class RunDateServiceImpl implements RunDateService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RunDateServiceImpl.class);
-    
-    private KualiConfigurationService kualiConfigurationService;
-    
+
+    private ParameterService parameterService;
+
     public Date calculateRunDate(Date executionDate) {
         Calendar currentCal = Calendar.getInstance();
         currentCal.setTime(executionDate);
-        
+
         CutoffTime cutoffTime = parseCutoffTime(retrieveCutoffTimeValue());
-        
+
         if (isCurrentDateBeforeCutoff(currentCal, cutoffTime)) {
             // time to set the date to the previous day's last minute/second
             currentCal.add(Calendar.DAY_OF_MONTH, -1);
@@ -54,7 +54,7 @@ public class RunDateServiceImpl implements RunDateService {
         if (cutoffTime != null) {
             // if cutoff date is not properly defined
             // 24 hour clock (i.e. hour is 0 - 23)
-            
+
             // clone the calendar so we get the same month, day, year
             // then change the hour, minute, second fields
             // then see if the cutoff is before or after
@@ -64,13 +64,13 @@ public class RunDateServiceImpl implements RunDateService {
             cutoffCal.set(Calendar.MINUTE, cutoffTime.minute);
             cutoffCal.set(Calendar.SECOND, cutoffTime.second);
             cutoffCal.set(Calendar.MILLISECOND, 0);
-            
+
             return currentCal.before(cutoffCal);
         }
         // if cutoff date is not properly defined, then it is considered to be after the cutoff
         return false;
     }
-    
+
     protected class CutoffTime {
         /**
          * 24 hour time, from 0-23, inclusive
@@ -81,36 +81,37 @@ public class RunDateServiceImpl implements RunDateService {
          * From 0-59, inclusive
          */
         protected int minute;
-        
+
         /**
          * From 0-59, inclusive
          */
         protected int second;
-        
+
         protected CutoffTime(int hour, int minute, int second) {
             this.hour = hour;
             this.minute = minute;
             this.second = second;
         }
     }
-    
+
     protected CutoffTime parseCutoffTime(String cutoffTime) {
         if (StringUtils.isBlank(cutoffTime)) {
             return new CutoffTime(0, 0, 0);
-        } else {
+        }
+        else {
             cutoffTime = cutoffTime.trim();
             LOG.debug("Cutoff time value found: " + cutoffTime);
             StringTokenizer st = new StringTokenizer(cutoffTime, ":", false);
-            
+
             try {
                 String hourStr = st.nextToken();
                 String minuteStr = st.nextToken();
                 String secondStr = st.nextToken();
-                
+
                 int hourInt = Integer.parseInt(hourStr, 10);
                 int minuteInt = Integer.parseInt(minuteStr, 10);
                 int secondInt = Integer.parseInt(secondStr, 10);
-                
+
                 if (hourInt < 0 || hourInt > 23 || minuteInt < 0 || minuteInt > 59 || secondInt < 0 || secondInt > 59) {
                     throw new IllegalArgumentException("Cutoff time must be in the format \"HH:mm:ss\", where HH, mm, ss are defined in the java.text.SimpleDateFormat class.  In particular, 0 <= hour <= 23, 0 <= minute <= 59, and 0 <= second <= 59");
                 }
@@ -121,26 +122,24 @@ public class RunDateServiceImpl implements RunDateService {
             }
         }
     }
-    
+
     /**
      * Retrieves the cutoff time from a repository.
-     * @return a time of day in the format "HH:mm:ss", where HH, mm, ss are defined in the java.text.SimpleDateFormat class.  
-     * In particular, 0 <= hour <= 23, 0 <= minute <= 59, and 0 <= second <= 59
+     * 
+     * @return a time of day in the format "HH:mm:ss", where HH, mm, ss are defined in the java.text.SimpleDateFormat class. In
+     *         particular, 0 <= hour <= 23, 0 <= minute <= 59, and 0 <= second <= 59
      */
     protected String retrieveCutoffTimeValue() {
-        String value = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.SCRUBBER_STEP, GLConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME);
-        if ( StringUtils.isBlank( value ) ) {
-            LOG.error("Unable to retrieve parameter for GL process cutoff date.  Defaulting to no cutoff time (i.e. midnight)" );
+        String value = parameterService.getParameterValue(ScrubberStep.class, GLConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME);
+        if (StringUtils.isBlank(value)) {
+            LOG.error("Unable to retrieve parameter for GL process cutoff date.  Defaulting to no cutoff time (i.e. midnight)");
             value = null;
         }
         return value;
     }
 
-    public KualiConfigurationService getKualiConfigurationService() {
-        return kualiConfigurationService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
 }

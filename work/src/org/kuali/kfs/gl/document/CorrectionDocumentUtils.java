@@ -21,10 +21,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.gl.bo.CorrectionChange;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.CorrectionCriteria;
@@ -37,52 +37,47 @@ import org.kuali.module.labor.web.optionfinder.LaborOriginEntryFieldFinder;
 public class CorrectionDocumentUtils {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionDocumentUtils.class);
     public static final int DEFAULT_RECORD_COUNT_FUNCTIONALITY_LIMIT = 1000;
-    
+
     /**
      * The GLCP document will always be on restricted functionality mode, regardless of input group size
      */
     public static final int RECORD_COUNT_FUNCTIONALITY_LIMIT_IS_NONE = 0;
-    
+
     /**
      * The GLCP document will never be on restricted functionality mode, regardless of input group size
      */
     public static final int RECORD_COUNT_FUNCTIONALITY_LIMIT_IS_UNLIMITED = -1;
-    
+
     public static final int DEFAULT_RECORDS_PER_PAGE = 10;
-    
+
     public static int getRecordCountFunctionalityLimit() {
-        String limitString = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.GENERAL_LEDGER_CORRECTION_PROCESS_DOC, 
-                KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORD_COUNT_FUNCTIONALITY_LIMIT);
+        String limitString = SpringContext.getBean(ParameterService.class).getParameterValue(CorrectionDocument.class, KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORD_COUNT_FUNCTIONALITY_LIMIT);
         if (limitString != null) {
             return Integer.valueOf(limitString);
         }
-        
+
         return DEFAULT_RECORD_COUNT_FUNCTIONALITY_LIMIT;
     }
-    
+
     public static int getRecordsPerPage() {
-        String limitString = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.GL_NAMESPACE,
-                KFSConstants.Components.GENERAL_LEDGER_CORRECTION_PROCESS_DOC,
-                KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORDS_PER_PAGE);
+        String limitString = SpringContext.getBean(ParameterService.class).getParameterValue(CorrectionDocument.class, KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORDS_PER_PAGE);
         if (limitString != null) {
             return Integer.valueOf(limitString);
         }
         return DEFAULT_RECORDS_PER_PAGE;
     }
-    
+
     /**
-     * 
      * @param correctionForm
      * @return
      */
     public static boolean isRestrictedFunctionalityMode(int inputGroupSize, int recordCountFunctionalityLimit) {
-        return (recordCountFunctionalityLimit != CorrectionDocumentUtils.RECORD_COUNT_FUNCTIONALITY_LIMIT_IS_UNLIMITED && inputGroupSize >= recordCountFunctionalityLimit) ||
-                recordCountFunctionalityLimit == CorrectionDocumentUtils.RECORD_COUNT_FUNCTIONALITY_LIMIT_IS_NONE;
+        return (recordCountFunctionalityLimit != CorrectionDocumentUtils.RECORD_COUNT_FUNCTIONALITY_LIMIT_IS_UNLIMITED && inputGroupSize >= recordCountFunctionalityLimit) || recordCountFunctionalityLimit == CorrectionDocumentUtils.RECORD_COUNT_FUNCTIONALITY_LIMIT_IS_NONE;
     }
-    
+
     /**
-     * When a correction criterion is about to be added to a group, this will check if it is valid, meaning that
-     * the field name is not blank
+     * When a correction criterion is about to be added to a group, this will check if it is valid, meaning that the field name is
+     * not blank
      * 
      * @param correctionCriteria
      * @return
@@ -94,7 +89,7 @@ public class CorrectionDocumentUtils {
         }
         return true;
     }
-    
+
     /**
      * When a document is about to be saved, this will check if it is valid, meaning that the field name and value are both blank
      * 
@@ -102,13 +97,12 @@ public class CorrectionDocumentUtils {
      * @return
      */
     public static boolean validCorrectionCriteriaForSaving(CorrectionCriteria correctionCriteria) {
-        return correctionCriteria == null || 
-                (StringUtils.isBlank(correctionCriteria.getCorrectionFieldName()) &&  StringUtils.isBlank(correctionCriteria.getCorrectionFieldValue()));
+        return correctionCriteria == null || (StringUtils.isBlank(correctionCriteria.getCorrectionFieldName()) && StringUtils.isBlank(correctionCriteria.getCorrectionFieldValue()));
     }
-    
+
     /**
-     * When a correction change is about to be added to a group, this will check if it is valid, meaning that
-     * the field name is not blank
+     * When a correction change is about to be added to a group, this will check if it is valid, meaning that the field name is not
+     * blank
      * 
      * @param correctionCriteria
      * @return
@@ -120,7 +114,7 @@ public class CorrectionDocumentUtils {
         }
         return true;
     }
-    
+
     /**
      * When a document is about to be saved, this will check if it is valid, meaning that the field name and value are both blank
      * 
@@ -128,10 +122,9 @@ public class CorrectionDocumentUtils {
      * @return
      */
     public static boolean validCorrectionChangeForSaving(CorrectionChange correctionChange) {
-        return correctionChange == null || 
-                (StringUtils.isBlank(correctionChange.getCorrectionFieldName()) &&  StringUtils.isBlank(correctionChange.getCorrectionFieldValue()));
+        return correctionChange == null || (StringUtils.isBlank(correctionChange.getCorrectionFieldName()) && StringUtils.isBlank(correctionChange.getCorrectionFieldValue()));
     }
-    
+
     /**
      * Sets all origin entries' entry IDs to null within the collection.
      * 
@@ -142,7 +135,7 @@ public class CorrectionDocumentUtils {
             entry.setEntryId(null);
         }
     }
-    
+
     /**
      * Sets all origin entries' entry IDs to be sequential starting from 0 in the collection
      * 
@@ -155,10 +148,10 @@ public class CorrectionDocumentUtils {
             index++;
         }
     }
-    
+
     /**
-     * Returns whether an origin entry matches the passed in criteria.  If both the criteria and actual value are both String types and are empty, null, or whitespace only,
-     * then they will match.
+     * Returns whether an origin entry matches the passed in criteria. If both the criteria and actual value are both String types
+     * and are empty, null, or whitespace only, then they will match.
      * 
      * @param cc
      * @param oe
@@ -174,7 +167,7 @@ public class CorrectionDocumentUtils {
         if ("String".equals(fieldType) && StringUtils.isBlank(fieldActualValueString)) {
             fieldActualValueString = "";
         }
-        
+
         if ("eq".equals(cc.getCorrectionOperatorCode())) {
             return fieldActualValueString.equals(fieldTestValue);
         }
@@ -192,10 +185,10 @@ public class CorrectionDocumentUtils {
         }
         throw new IllegalArgumentException("Unknown operator: " + cc.getCorrectionOperatorCode());
     }
-    
+
     /**
-     * Returns whether an origin entry matches the passed in criteria.  If both the criteria and actual value are both String types and are empty, null, or whitespace only,
-     * then they will match.
+     * Returns whether an origin entry matches the passed in criteria. If both the criteria and actual value are both String types
+     * and are empty, null, or whitespace only, then they will match.
      * 
      * @param cc
      * @param oe
@@ -212,7 +205,7 @@ public class CorrectionDocumentUtils {
         if ("String".equals(fieldType) && StringUtils.isBlank(fieldActualValueString)) {
             fieldActualValueString = "";
         }
-        
+
         if ("eq".equals(cc.getCorrectionOperatorCode())) {
             return fieldActualValueString.equals(fieldTestValue);
         }
@@ -230,7 +223,7 @@ public class CorrectionDocumentUtils {
         }
         throw new IllegalArgumentException("Unknown operator: " + cc.getCorrectionOperatorCode());
     }
-    
+
     /**
      * Converts the value into a string, with the appropriate formatting
      * 
@@ -260,13 +253,13 @@ public class CorrectionDocumentUtils {
         }
         return "";
     }
-    
+
     /**
-     * Applies a list of change criteria groups to an origin entry.  Note that the returned value, if not null, is a reference to the same
-     * instance as the origin entry passed in (i.e. intentional side effect)
+     * Applies a list of change criteria groups to an origin entry. Note that the returned value, if not null, is a reference to the
+     * same instance as the origin entry passed in (i.e. intentional side effect)
      * 
      * @param entry
-     * @param matchCriteriaOnly if true and no criteria match, then this method will return null 
+     * @param matchCriteriaOnly if true and no criteria match, then this method will return null
      * @param changeCriteriaGroups
      * @return the passed in entry instance, or null (see above)
      */
@@ -274,7 +267,7 @@ public class CorrectionDocumentUtils {
         if (matchCriteriaOnly && !doesEntryMatchAnyCriteriaGroups(entry, changeCriteriaGroups)) {
             return null;
         }
-        
+
         for (CorrectionChangeGroup ccg : changeCriteriaGroups) {
             int matches = 0;
             for (CorrectionCriteria cc : ccg.getCorrectionCriteria()) {
@@ -293,7 +286,7 @@ public class CorrectionDocumentUtils {
         }
         return entry;
     }
-    
+
     /**
      * Returns whether the entry matches any of the criteria groups
      * 
@@ -319,7 +312,7 @@ public class CorrectionDocumentUtils {
         }
         return anyGroupMatch;
     }
-    
+
     /**
      * Returns whether the entry matches any of the criteria groups
      * 
@@ -345,9 +338,10 @@ public class CorrectionDocumentUtils {
         }
         return anyGroupMatch;
     }
-    
+
     /**
      * Computes the statistics (credit amount, debit amount, row count) of a collection of origin entries.
+     * 
      * @param entries
      * @return
      */
@@ -362,15 +356,17 @@ public class CorrectionDocumentUtils {
 
     /**
      * Returns whether the origin entry represents a debit budget
+     * 
      * @param oe
      * @return
      */
     public static boolean isDebitBudget(OriginEntryFull oe) {
         return (oe.getTransactionDebitCreditCode() == null || KFSConstants.GL_BUDGET_CODE.equals(oe.getTransactionDebitCreditCode()) || KFSConstants.GL_DEBIT_CODE.equals(oe.getTransactionDebitCreditCode()));
     }
-    
+
     /**
      * Given an instance of statistics, it adds infromation from the passed in entry to the statistics
+     * 
      * @param entry
      * @param statistics
      */
@@ -383,9 +379,10 @@ public class CorrectionDocumentUtils {
             statistics.addCredit(entry.getTransactionLedgerEntryAmount());
         }
     }
-    
+
     /**
      * Sets document with the statistics data
+     * 
      * @param statistics
      * @param document
      */

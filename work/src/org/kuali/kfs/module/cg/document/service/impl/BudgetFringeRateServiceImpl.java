@@ -23,10 +23,11 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.AppointmentType;
 import org.kuali.module.kra.budget.bo.Budget;
@@ -40,21 +41,20 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class BudgetFringeRateServiceImpl implements BudgetFringeRateService {
-    
-    private KualiConfigurationService kualiConfigurationService;
+
+    private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
 
     public BudgetFringeRate getBudgetFringeRate(String documentNumber, String institutionAppointmentTypeCode) {
-        
-        BudgetFringeRate budgetFringeRate = (BudgetFringeRate) businessObjectService.retrieve(
-                new BudgetFringeRate(documentNumber, institutionAppointmentTypeCode));
-        
+
+        BudgetFringeRate budgetFringeRate = (BudgetFringeRate) businessObjectService.retrieve(new BudgetFringeRate(documentNumber, institutionAppointmentTypeCode));
+
         if (budgetFringeRate == null) {
             AppointmentType appointmentType = (AppointmentType) businessObjectService.retrieve(new AppointmentType(institutionAppointmentTypeCode));
             budgetFringeRate = new BudgetFringeRate(documentNumber, appointmentType);
         }
-        
+
         return budgetFringeRate;
     }
 
@@ -64,18 +64,16 @@ public class BudgetFringeRateServiceImpl implements BudgetFringeRateService {
     public Collection getDefaultFringeRates() {
         Map fieldValues = new HashMap();
         fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
-        
+
         return businessObjectService.findMatching(AppointmentType.class, fieldValues);
     }
 
     public BudgetFringeRate getBudgetFringeRateForDefaultAppointmentType(String documentNumber) {
-        
-        AppointmentType appointmentType = (AppointmentType) businessObjectService.retrieve(
-                new AppointmentType(kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, KraConstants.DEFAULT_APPOINTMENT_TYPE)));
-        
-        BudgetFringeRate defaultFringeRate = (BudgetFringeRate) businessObjectService.retrieve(
-                new BudgetFringeRate(documentNumber, appointmentType.getAppointmentTypeCode()));
-        
+
+        AppointmentType appointmentType = (AppointmentType) businessObjectService.retrieve(new AppointmentType(parameterService.getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.DEFAULT_APPOINTMENT_TYPE)));
+
+        BudgetFringeRate defaultFringeRate = (BudgetFringeRate) businessObjectService.retrieve(new BudgetFringeRate(documentNumber, appointmentType.getAppointmentTypeCode()));
+
         if (defaultFringeRate != null) {
             return defaultFringeRate;
         }
@@ -122,9 +120,8 @@ public class BudgetFringeRateServiceImpl implements BudgetFringeRateService {
         }
     }
 
-
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

@@ -29,9 +29,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -39,8 +38,8 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.Summary;
-import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.LaborConstants.Poster;
+import org.kuali.module.labor.batch.LaborPosterStep;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.rules.TransactionFieldValidator;
 import org.kuali.module.labor.service.LaborOriginEntryService;
@@ -67,7 +66,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     private LaborReportService laborReportService;
     private DateTimeService dateTimeService;
     private VerifyTransaction laborPosterTransactionValidator;
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
 
     private PostTransaction laborLedgerEntryPoster;
     private PostTransaction laborLedgerBalancePoster;
@@ -327,7 +326,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @return a set of the balance type codes that are bypassed by Labor Poster
      */
     public String[] getBalanceTypesNotProcessed() {
-        return kualiConfigurationService.getParameterValues(KFSConstants.LABOR_NAMESPACE, LaborConstants.Components.LABOR_POSTER_STEP, Poster.BALANCE_TYPES_NOT_PROCESSED);
+        return parameterService.getParameterValues(LaborPosterStep.class, Poster.BALANCE_TYPES_NOT_PROCESSED).toArray(new String[] {});
     }
 
     /**
@@ -336,7 +335,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @return a set of the object codes that are bypassed by Labor Poster
      */
     public String[] getObjectsNotProcessed() {
-        return kualiConfigurationService.getParameterValues(KFSConstants.LABOR_NAMESPACE, LaborConstants.Components.LABOR_POSTER_STEP, Poster.OBJECT_CODES_NOT_PROCESSED);
+        return parameterService.getParameterValues(LaborPosterStep.class, Poster.OBJECT_CODES_NOT_PROCESSED).toArray(new String[] {});
     }
 
     /**
@@ -345,7 +344,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @return a set of the fiscal period codes that are bypassed by Labor Poster
      */
     public String[] getPeriodCodesNotProcessed() {
-        return kualiConfigurationService.getParameterValues(KFSConstants.LABOR_NAMESPACE, LaborConstants.Components.LABOR_POSTER_STEP, Poster.PERIOD_CODES_NOT_PROCESSED);
+        return parameterService.getParameterValues(LaborPosterStep.class, Poster.PERIOD_CODES_NOT_PROCESSED).toArray(new String[] {});
     }
 
     /**
@@ -357,14 +356,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         this.dateTimeService = dateTimeService;
     }
 
-    /**
-     * Sets the kualiConfigurationService attribute value.
-     * 
-     * @param kualiConfigurationService The kualiConfigurationService to set.
-     */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
 
     /**
      * Sets the laborLedgerBalancePoster attribute value.
@@ -427,5 +418,9 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      */
     public void setLaborPosterTransactionValidator(VerifyTransaction laborPosterTransactionValidator) {
         this.laborPosterTransactionValidator = laborPosterTransactionValidator;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

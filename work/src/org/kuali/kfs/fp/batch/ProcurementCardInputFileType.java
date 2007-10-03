@@ -40,12 +40,8 @@ public class ProcurementCardInputFileType extends BatchInputFileTypeBase {
         return KFSConstants.PCDO_FILE_TYPE_INDENTIFIER;
     }
     
-    public String getWorkgroupParameterComponent() {
-        return KFSConstants.SystemGroupParameterNames.PCDO_FILE_TYPE_PARAMETER_COMPONENT;
-    }
-
-    public String getWorkgroupParameterNamespace() {
-        return KFSConstants.SystemGroupParameterNames.PCDO_FILE_TYPE_PARAMETER_NAMESPACE;
+    public Class getUploadWorkgroupParameterComponent() {
+        return ProcurementCardLoadStep.class;
     }
 
     /**

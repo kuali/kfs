@@ -26,12 +26,13 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
@@ -45,7 +46,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
     private static String wireTransferGroupName;
     private static String frnGroupName;
     private static String adminGroupName;
-    
+
     /**
      * Overrides to call super and then blanketly set the canBlanketApprove flag to false, since this is never allowed on a DV.
      * 
@@ -85,23 +86,23 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * @param user
      */
     private void setDVWorkgroupEditModes(Map editModeMap, Document document, UniversalUser user) {
-        if ( isUserInTaxGroup( user ) ) {
+        if (isUserInTaxGroup(user)) {
             editModeMap.put(AuthorizationConstants.DisbursementVoucherEditMode.TAX_ENTRY, "TRUE");
             editModeMap.put(AuthorizationConstants.DisbursementVoucherEditMode.EXPENSE_SPECIAL_ENTRY, "TRUE");
         }
-        if ( isUserInFRNGroup( user ) ) {
+        if (isUserInFRNGroup(user)) {
             editModeMap.put(AuthorizationConstants.DisbursementVoucherEditMode.FRN_ENTRY, "TRUE");
             editModeMap.put(AuthorizationConstants.DisbursementVoucherEditMode.EXPENSE_SPECIAL_ENTRY, "TRUE");
         }
-        if ( isUserInTravelGroup( user ) ) {
+        if (isUserInTravelGroup(user)) {
             editModeMap.put(AuthorizationConstants.DisbursementVoucherEditMode.TRAVEL_ENTRY, "TRUE");
             editModeMap.put(AuthorizationConstants.DisbursementVoucherEditMode.EXPENSE_SPECIAL_ENTRY, "TRUE");
         }
-        if ( isUserInWireGroup( user ) ) {
+        if (isUserInWireGroup(user)) {
             editModeMap.put(AuthorizationConstants.DisbursementVoucherEditMode.WIRE_ENTRY, "TRUE");
             editModeMap.put(AuthorizationConstants.DisbursementVoucherEditMode.EXPENSE_SPECIAL_ENTRY, "TRUE");
         }
-        if ( isUserInDvAdminGroup( user ) ) {
+        if (isUserInDvAdminGroup(user)) {
             editModeMap.put(AuthorizationConstants.DisbursementVoucherEditMode.ADMIN_ENTRY, "TRUE");
             editModeMap.put(AuthorizationConstants.DisbursementVoucherEditMode.EXPENSE_SPECIAL_ENTRY, "TRUE");
         }
@@ -112,11 +113,11 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * 
      * @return true if user is in group
      */
-    private boolean isUserInTaxGroup( UniversalUser user ) {
-        if ( taxGroupName == null ) {
-            taxGroupName = SpringContext.getBean(KualiConfigurationService.class).getParameterValue( KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DISBURSEMENT_VOUCHER_DOC, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP );
+    private boolean isUserInTaxGroup(UniversalUser user) {
+        if (taxGroupName == null) {
+            taxGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP);
         }
-        return user.isMember( taxGroupName );
+        return user.isMember(taxGroupName);
     }
 
     /**
@@ -124,11 +125,11 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * 
      * @return true if user is in group
      */
-    private boolean isUserInTravelGroup( UniversalUser user ) {
-        if ( travelGroupName == null ) {
-            travelGroupName = SpringContext.getBean(KualiConfigurationService.class).getParameterValue( KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DISBURSEMENT_VOUCHER_DOC, KFSConstants.FinancialApcParms.DV_TRAVEL_WORKGROUP );
+    private boolean isUserInTravelGroup(UniversalUser user) {
+        if (travelGroupName == null) {
+            travelGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TRAVEL_WORKGROUP);
         }
-        return user.isMember( travelGroupName );
+        return user.isMember(travelGroupName);
     }
 
     /**
@@ -136,11 +137,11 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * 
      * @return true if user is in group
      */
-    private boolean isUserInFRNGroup( UniversalUser user ) {
-        if ( frnGroupName == null ) {
-            frnGroupName = SpringContext.getBean(KualiConfigurationService.class).getParameterValue( KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DISBURSEMENT_VOUCHER_DOC, KFSConstants.FinancialApcParms.DV_FOREIGNDRAFT_WORKGROUP );
+    private boolean isUserInFRNGroup(UniversalUser user) {
+        if (frnGroupName == null) {
+            frnGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_FOREIGNDRAFT_WORKGROUP);
         }
-        return user.isMember( frnGroupName );
+        return user.isMember(frnGroupName);
     }
 
     /**
@@ -148,11 +149,11 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * 
      * @return true if user is in group
      */
-    private boolean isUserInWireGroup( UniversalUser user ) {
-        if ( wireTransferGroupName == null ) {
-            wireTransferGroupName = SpringContext.getBean(KualiConfigurationService.class).getParameterValue( KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DISBURSEMENT_VOUCHER_DOC, KFSConstants.FinancialApcParms.DV_WIRETRANSFER_WORKGROUP );
+    private boolean isUserInWireGroup(UniversalUser user) {
+        if (wireTransferGroupName == null) {
+            wireTransferGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_WIRETRANSFER_WORKGROUP);
         }
-        return user.isMember( wireTransferGroupName );
+        return user.isMember(wireTransferGroupName);
     }
 
     /**
@@ -160,11 +161,11 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * 
      * @return true if user is in group, false otherwise
      */
-    private boolean isUserInDvAdminGroup( UniversalUser user ) {
-        if ( adminGroupName == null ) {
-            adminGroupName = SpringContext.getBean(KualiConfigurationService.class).getParameterValue( KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DISBURSEMENT_VOUCHER_DOC, KFSConstants.FinancialApcParms.DV_ADMIN_WORKGROUP );
+    private boolean isUserInDvAdminGroup(UniversalUser user) {
+        if (adminGroupName == null) {
+            adminGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_ADMIN_WORKGROUP);
         }
-        return user.isMember( adminGroupName );
+        return user.isMember(adminGroupName);
     }
 
     /**
@@ -180,15 +181,15 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
             return editableFields;
         }
 
-        if ( isUserInDvAdminGroup( user ) || isUserInTravelGroup( user ) ) {
+        if (isUserInDvAdminGroup(user) || isUserInTravelGroup(user)) {
             // retrieve allow object code edit indicator
-            boolean allowObjectEdits = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.DISBURSEMENT_VOUCHER_DOC, DisbursementVoucherRuleConstants.ALLOW_OBJECT_CODE_EDITS);
+            boolean allowObjectEdits = SpringContext.getBean(ParameterService.class).getIndicatorParameter(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.ALLOW_OBJECT_CODE_EDITS);
             if (allowObjectEdits) {
                 editableFields.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, "TRUE");
             }
         }
 
-        if ( isUserInTaxGroup( user ) || isUserInFRNGroup( user ) || isUserInWireGroup( user ) || isUserInTravelGroup( user ) ) {
+        if (isUserInTaxGroup(user) || isUserInFRNGroup(user) || isUserInWireGroup(user) || isUserInTravelGroup(user)) {
             editableFields.put(KFSPropertyConstants.AMOUNT, "TRUE");
         }
 

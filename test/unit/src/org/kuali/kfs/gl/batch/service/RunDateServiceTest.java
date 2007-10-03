@@ -22,20 +22,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.kuali.core.service.ConfigurableDateService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.context.TestUtils;
-import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.module.chart.service.OffsetDefinitionService;
-import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.dao.UniversityDateDao;
-import org.kuali.module.gl.service.impl.ScrubberProcess;
+import org.kuali.module.gl.batch.ScrubberStep;
 import org.kuali.test.ConfigureContext;
 
 @ConfigureContext
@@ -80,7 +71,7 @@ public class RunDateServiceTest extends KualiTestBase {
     }
     
     public void testCalculateCutoffDuringMidnightHour() throws Exception {
-        TestUtils.setSystemParameter(GLConstants.GL_NAMESPACE,GLConstants.Components.SCRUBBER_STEP, GLConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME,
+        TestUtils.setSystemParameter(ScrubberStep.class, GLConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME,
                 "0:05:00", false, false);
         Map<String, String> expectedCurrentToRunTimeMappings = new LinkedHashMap<String, String>();
         

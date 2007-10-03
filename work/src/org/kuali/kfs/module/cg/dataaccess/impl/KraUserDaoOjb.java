@@ -15,38 +15,34 @@
  */
 package org.kuali.module.kra.budget.dao.ojb;
 
-import java.util.Arrays;
+import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.kuali.core.dao.ojb.KualiModuleUserDaoOjb;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.kra.KraConstants;
 
 public class KraUserDaoOjb extends KualiModuleUserDaoOjb {
 
-	KualiConfigurationService configService;
-	
-	@Override
-	public Object getActiveUserQueryCriteria(String moduleId) {
-        String[] values = getConfigService().getParameterValues( KFSConstants.KRA_NAMESPACE, KFSConstants.Components.ALL, KraConstants.ALLOWED_EMPLOYEE_STATUS_RULE  );
+    ParameterService parameterService;
 
-		Criteria criteria = new Criteria();
-		criteria.addEqualTo("staff", "Y");
-		Criteria isFacultyCriteria = new Criteria();
-		isFacultyCriteria.addEqualTo("faculty", "Y");
-		criteria.addOrCriteria(isFacultyCriteria);
-		criteria.addIn("employeeStatusCode", Arrays.asList(values));
-		return criteria; 
-        
-	}
+    @Override
+    public Object getActiveUserQueryCriteria(String moduleId) {
+        List<String> values = parameterService.getParameterValues(ParameterConstants.RESEARCH_ADMINISTRATION_ALL.class, KraConstants.ALLOWED_EMPLOYEE_STATUS_RULE);
 
-	public KualiConfigurationService getConfigService() {
-		return configService;
-	}
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("staff", "Y");
+        Criteria isFacultyCriteria = new Criteria();
+        isFacultyCriteria.addEqualTo("faculty", "Y");
+        criteria.addOrCriteria(isFacultyCriteria);
+        criteria.addIn("employeeStatusCode", values);
+        return criteria;
 
-	public void setConfigService(KualiConfigurationService configService) {
-		this.configService = configService;
-	}
-	
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
 }

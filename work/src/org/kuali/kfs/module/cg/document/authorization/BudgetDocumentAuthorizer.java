@@ -23,10 +23,10 @@ import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.document.ResearchDocumentAuthorizer;
 import org.kuali.module.kra.service.ResearchDocumentPermissionsService;
@@ -37,47 +37,47 @@ import org.kuali.workflow.KualiWorkflowUtils;
  */
 public class BudgetDocumentAuthorizer extends ResearchDocumentAuthorizer {
     private static Log LOG = LogFactory.getLog(BudgetDocumentAuthorizer.class);
-    
+
     /**
      * @see org.kuali.core.authorization.DocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.KualiUser)
      */
     public Map getEditMode(Document d, UniversalUser u) {
-        
-        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         ResearchDocumentPermissionsService permissionsService = SpringContext.getBean(ResearchDocumentPermissionsService.class);
         BudgetDocument budgetDocument = (BudgetDocument) d;
         String permissionCode = AuthorizationConstants.EditMode.UNVIEWABLE;
         KualiWorkflowDocument workflowDocument = budgetDocument.getDocumentHeader().getWorkflowDocument();
-        
+
         // Check initiator
         if (workflowDocument.getInitiatorNetworkId().equalsIgnoreCase(u.getPersonUserIdentifier())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
             return finalizeEditMode(budgetDocument, permissionCode);
         }
-        
+
         // Check project director
         if (u.getPersonUniversalIdentifier().equals(budgetDocument.getBudget().getBudgetProjectDirectorUniversalIdentifier())) {
-            permissionCode = getPermissionCodeByPrecedence(permissionCode, kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.PROJECT_DIRECTOR_BUDGET_PERMISSION));
+            permissionCode = getPermissionCodeByPrecedence(permissionCode, parameterService.getParameterValue(BudgetDocument.class, KraConstants.PROJECT_DIRECTOR_BUDGET_PERMISSION));
         }
-        
+
         // Check default org permissions - project director
         if (!budgetDocument.getBudget().getPersonnel().isEmpty()) {
             if (permissionsService.isUserInOrgHierarchy(budgetDocument.buildProjectDirectorReportXml(true), KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE, u.getPersonUniversalIdentifier())) {
-                permissionCode = getPermissionCodeByPrecedence(permissionCode, kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.PROJECT_DIRECTOR_ORG_BUDGET_PERMISSION));
+                permissionCode = getPermissionCodeByPrecedence(permissionCode, parameterService.getParameterValue(BudgetDocument.class, KraConstants.PROJECT_DIRECTOR_ORG_BUDGET_PERMISSION));
             }
         }
-        
+
         // Check default org permissions - cost sharing orgs
         if (permissionsService.isUserInOrgHierarchy(budgetDocument.buildCostShareOrgReportXml(true), KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE, u.getPersonUniversalIdentifier())) {
-            permissionCode = getPermissionCodeByPrecedence(permissionCode, kualiConfigurationService.getParameterValue(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, KraConstants.COST_SHARE_ORGS_BUDGET_PERMISSION));
+            permissionCode = getPermissionCodeByPrecedence(permissionCode, parameterService.getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.COST_SHARE_ORGS_BUDGET_PERMISSION));
         }
-        
+
         permissionCode = getPermissionCodeByPrecedence(permissionCode, getAdHocEditMode(budgetDocument, u));
-        
+
         return finalizeEditMode(budgetDocument, permissionCode);
     }
-    
+
     /**
      * Overrides most of the inherited flags so that the buttons behave exactly like they used to in the obsoleted
      * budgetDocumentControls.tag
@@ -101,7 +101,7 @@ public class BudgetDocumentAuthorizer extends ResearchDocumentAuthorizer {
         flags.setCanAnnotate(true);
 
         BudgetDocument budgetDocument = (BudgetDocument) document;
-        
+
         // use inherited canRoute, canAnnotate, and canReload values
 
         return flags;

@@ -36,10 +36,12 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OffsetDefinitionService;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 import org.kuali.module.gl.GLConstants;
+import org.kuali.module.gl.batch.ScrubberStep;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.bo.Transaction;
@@ -142,8 +144,11 @@ public class LaborScrubberProcess {
         this.persistenceService = persistenceService;
         this.laborReportService = laborReportService;
         this.scrubberValidator = scrubberValidator;
-        
-        parameters = kualiConfigurationService.getParametersByDetailTypeAsMap(KFSConstants.GL_NAMESPACE, GLConstants.Components.SCRUBBER_STEP );
+
+        parameters = new HashMap<String, Parameter>();
+        for (Parameter parameter : SpringContext.getBean(ParameterService.class).getParameters(ScrubberStep.class)) {
+            parameters.put(parameter.getParameterName(), parameter);
+        }
 
         cutoffHour = null;
         cutoffMinute = null;
@@ -376,7 +381,7 @@ public class LaborScrubberProcess {
 
                 Parameter offsetFiscalPeriods = getParameter(GLConstants.GlScrubberGroupRules.OFFSET_FISCAL_PERIOD_CODES);
 
-                if (scrubbedEntry.getBalanceType().isFinancialOffsetGenerationIndicator() && kualiConfigurationService.succeedsRule( offsetFiscalPeriods,scrubbedEntry.getUniversityFiscalPeriodCode())) {
+                if (scrubbedEntry.getBalanceType().isFinancialOffsetGenerationIndicator() && kualiConfigurationService.succeedsRule(offsetFiscalPeriods, scrubbedEntry.getUniversityFiscalPeriodCode())) {
                     if (scrubbedEntry.isDebit()) {
                         unitOfWork.offsetAmount = unitOfWork.offsetAmount.add(transactionAmount);
                     }
@@ -397,7 +402,7 @@ public class LaborScrubberProcess {
                 Parameter costShareEncDocTypeCodes = getParameter(GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_DOC_TYPE_CODES);
                 Parameter costShareFiscalPeriodCodes = getParameter(GLConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES);
 
-                if (kualiConfigurationService.succeedsRule( costShareObjectTypeCodes,scrubbedEntry.getFinancialObjectTypeCode()) && kualiConfigurationService.succeedsRule( costShareEncBalanceTypeCodes,scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntry.getAccount().isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && kualiConfigurationService.succeedsRule( costShareEncFiscalPeriodCodes,scrubbedEntry.getUniversityFiscalPeriodCode()) && kualiConfigurationService.succeedsRule( costShareEncDocTypeCodes,scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
+                if (kualiConfigurationService.succeedsRule(costShareObjectTypeCodes, scrubbedEntry.getFinancialObjectTypeCode()) && kualiConfigurationService.succeedsRule(costShareEncBalanceTypeCodes, scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntry.getAccount().isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && kualiConfigurationService.succeedsRule(costShareEncFiscalPeriodCodes, scrubbedEntry.getUniversityFiscalPeriodCode()) && kualiConfigurationService.succeedsRule(costShareEncDocTypeCodes, scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
 
                     // TODO: Check
                     /*
@@ -406,7 +411,7 @@ public class LaborScrubberProcess {
                      * saveValidTransaction = false; saveErrorTransaction = true; }
                      */}
 
-                if (kualiConfigurationService.succeedsRule( costShareObjectTypeCodes,scrubbedEntry.getFinancialObjectTypeCode()) && scrubbedEntry.getOption().getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntry.getAccount().isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && kualiConfigurationService.succeedsRule( costShareFiscalPeriodCodes,scrubbedEntry.getUniversityFiscalPeriodCode()) && kualiConfigurationService.succeedsRule( costShareEncDocTypeCodes,scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
+                if (kualiConfigurationService.succeedsRule(costShareObjectTypeCodes, scrubbedEntry.getFinancialObjectTypeCode()) && scrubbedEntry.getOption().getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntry.getAccount().isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && kualiConfigurationService.succeedsRule(costShareFiscalPeriodCodes, scrubbedEntry.getUniversityFiscalPeriodCode()) && kualiConfigurationService.succeedsRule(costShareEncDocTypeCodes, scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
                     if (scrubbedEntry.isDebit()) {
                         scrubCostShareAmount = scrubCostShareAmount.subtract(transactionAmount);
                     }
@@ -419,12 +424,12 @@ public class LaborScrubberProcess {
 
                 // TODO: Check
                 /*
-                 * if (kualiConfigurationService.succeedsRule( otherDocTypeCodes,scrubbedEntry.getFinancialDocumentTypeCode())) { String m =
-                 * processCapitalization(scrubbedEntry); if (m != null) { saveValidTransaction = false; saveErrorTransaction =
-                 * false; addTransactionError(m, "", Message.TYPE_FATAL); } m = processLiabilities(scrubbedEntry); if (m != null) {
-                 * saveValidTransaction = false; saveErrorTransaction = false; addTransactionError(m, "", Message.TYPE_FATAL); } m =
-                 * processPlantIndebtedness(scrubbedEntry); if (m != null) { saveValidTransaction = false; saveErrorTransaction =
-                 * false; addTransactionError(m, "", Message.TYPE_FATAL); } }
+                 * if (kualiConfigurationService.succeedsRule( otherDocTypeCodes,scrubbedEntry.getFinancialDocumentTypeCode())) {
+                 * String m = processCapitalization(scrubbedEntry); if (m != null) { saveValidTransaction = false;
+                 * saveErrorTransaction = false; addTransactionError(m, "", Message.TYPE_FATAL); } m =
+                 * processLiabilities(scrubbedEntry); if (m != null) { saveValidTransaction = false; saveErrorTransaction = false;
+                 * addTransactionError(m, "", Message.TYPE_FATAL); } m = processPlantIndebtedness(scrubbedEntry); if (m != null) {
+                 * saveValidTransaction = false; saveErrorTransaction = false; addTransactionError(m, "", Message.TYPE_FATAL); } }
                  */
 
                 // TODO: Check
@@ -485,7 +490,7 @@ public class LaborScrubberProcess {
     private Parameter getParameter(String param) {
         Parameter p = parameters.get(param);
         if (p == null) {
-            throw new IllegalArgumentException("Parameter: " + KFSConstants.GL_NAMESPACE + "/" + param + " does not exist");
+            throw new IllegalArgumentException("LaborScubberProcess couldn't find ScrubberStep parameter: " + param);
         }
         return p;
     }
@@ -843,7 +848,7 @@ public class LaborScrubberProcess {
             }
 
             // put the transactions into an error group
-            if(transactions != null){
+            if (transactions != null) {
                 for (LaborOriginEntry transaction : transactions) {
                     demergerReport.incrementErrorTransactionsSaved();
                     transaction.setGroup(errorGroup);
@@ -860,7 +865,7 @@ public class LaborScrubberProcess {
 
         eOes = laborOriginEntryService.getStatistics(errorGroup.getId());
         demergerReport.setErrorTransactionWritten(eOes.getRowCount());
-        
+
         String reportsDirectory = ReportRegistry.getReportsDirectory();
         laborReportService.generateScrubberDemergerStatisticsReports(demergerReport, reportsDirectory, runDate);
     }

@@ -19,12 +19,12 @@ import java.util.ArrayList;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.UserSession;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.BatchSpringContext;
 import org.kuali.kfs.batch.Step;
+import org.kuali.kfs.service.ParameterService;
 
 public class BatchStepRunner {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchStepRunner.class);
@@ -42,9 +42,9 @@ public class BatchStepRunner {
                 stepNames = StringUtils.split(args[0], ",");
             }
             else {
-                stepNames = new String[] {args[0]};
+                stepNames = new String[] { args[0] };
             }
-            
+
             String jobName = KFSConstants.BATCH_STEP_RUNNER_JOB_NAME;
             if (args.length >= 2) {
                 jobName = args[1];
@@ -60,42 +60,47 @@ public class BatchStepRunner {
             System.exit(8);
         }
     }
-    
+
     private static void runStep(String stepName, String jobName) throws Exception {
         GlobalVariables.setErrorMap(new ErrorMap());
         GlobalVariables.setMessageList(new ArrayList<Object>());
         String stepUserParameter = "USER";
-        KualiConfigurationService configService = SpringContext.getBean(KualiConfigurationService.class);
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         LOG.debug("runStep() Retrieving step " + stepName);
         Step step = BatchSpringContext.getStep(stepName);
         try {
-	        if (configService.parameterExists(step.getNamespace(), step.getComponentName(), stepUserParameter)) {
-	            GlobalVariables.setUserSession(new UserSession(configService.getParameterValue(step.getNamespace(), step.getComponentName(), stepUserParameter)));
-	        } else {
-	            GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
-	        }
-        } catch ( Exception ex ) {
-        	// database may not be created yet, if performing the initial import - handle the database error which results
-        	LOG.warn( "error checking application parameter", ex );
+            if (parameterService.parameterExists(step.getClass(), stepUserParameter)) {
+                GlobalVariables.setUserSession(new UserSession(parameterService.getParameterValue(step.getClass(), stepUserParameter)));
+            }
+            else {
+                GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
+            }
+        }
+        catch (Exception ex) {
+            // database may not be created yet, if performing the initial import - handle the database error which results
+            LOG.warn("error checking application parameter", ex);
         }
         String stepRunIndicatorParameter = "RUN_IND";
         boolean skipStep = false;
         try {
-        	skipStep = configService.parameterExists(step.getNamespace(), step.getComponentName(), stepRunIndicatorParameter) && !configService.getIndicatorParameter(step.getNamespace(), step.getComponentName(), stepRunIndicatorParameter);
-        } catch ( Exception ex ) {
-        	// database may not be created yet, if performing the initial import - handle the database error which results
-        	LOG.warn( "error checking application parameter", ex );
+            skipStep = parameterService.parameterExists(step.getClass(), stepRunIndicatorParameter) && !parameterService.getIndicatorParameter(step.getClass(), stepRunIndicatorParameter);
         }
-        if ( skipStep ) {
+        catch (Exception ex) {
+            // database may not be created yet, if performing the initial import - handle the database error which results
+            LOG.warn("error checking application parameter", ex);
+        }
+        if (skipStep) {
             LOG.info("runStep() Skipping step " + stepName + " due to flag turned off");
-        } else {
+        }
+        else {
             LOG.info("runStep() Running step " + stepName);
             if (step.execute(jobName)) {
                 LOG.info("runStep() Step successful - continue");
-            } else {
+            }
+            else {
                 LOG.info("runStep() Step successful - stop job");
                 System.exit(4);
             }
         }
     }
- }
+}

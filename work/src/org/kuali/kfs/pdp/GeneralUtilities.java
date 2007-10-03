@@ -14,8 +14,7 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.pdp.exception.ConfigurationError;
 
 
@@ -27,28 +26,32 @@ public class GeneralUtilities {
 
     // GENERAL UTILITIES SECTION
 
-    public static int getParameterInteger(String parameterDetailTypeCode,String parm, KualiConfigurationService kcs) {
-        String srpp = kcs.getParameterValue(KFSConstants.PDP_NAMESPACE, parameterDetailTypeCode, parm);
-        if ( srpp != null ) {
+    public static int getParameterInteger(ParameterService parameterService, Class componentClass, String parm) {
+        String srpp = parameterService.getParameterValue(componentClass, parm);
+        if (srpp != null) {
             try {
                 return Integer.parseInt(srpp);
-            } catch (NumberFormatException e) {
+            }
+            catch (NumberFormatException e) {
                 throw new ConfigurationError(parm + " is not a number");
             }
-        } else {
+        }
+        else {
             throw new ConfigurationError("Unable to find " + parm);
         }
     }
 
-    public static int getParameterInteger(String parameterDetailTypeCode,String parm,KualiConfigurationService kcs, int defaultValue) {
-        String srpp = kcs.getParameterValue(KFSConstants.PDP_NAMESPACE, parameterDetailTypeCode, parm);
-        if ( srpp != null ) {
+    public static int getParameterInteger(ParameterService parameterService, Class componentClass, String parm, int defaultValue) {
+        String srpp = parameterService.getParameterValue(componentClass, parm);
+        if (srpp != null) {
             try {
                 return Integer.parseInt(srpp);
-            } catch (NumberFormatException e) {
+            }
+            catch (NumberFormatException e) {
                 return defaultValue;
             }
-        } else {
+        }
+        else {
             return defaultValue;
         }
     }

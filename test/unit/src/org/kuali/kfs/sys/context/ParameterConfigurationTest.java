@@ -18,7 +18,6 @@ package org.kuali.core.rule;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.bo.ParameterDetailType;
@@ -26,46 +25,38 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rules.ParameterRule;
-import org.kuali.kfs.util.ParameterDetailTypeUtils;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.test.ConfigureContext;
 
 @ConfigureContext
 public class ParameterConfigurationTest extends KualiTestBase {
-
-    public void setUp() throws Exception {
-        //List<ParameterDetailType> ddComponents = ParameterDetailTypeUtils.getDDComponents();
-    }
 
     public void testValidateParameterComponents() throws Exception {
         Collection<Parameter> params = SpringContext.getBean(BusinessObjectService.class).findAll(Parameter.class);
         ParameterRule paramRule = new ParameterRule();
         StringBuffer badComponents = new StringBuffer();
         int failCount = 0;
-        for ( Parameter param : params ) {
-            if ( !paramRule.checkComponent(param) ) {
-                badComponents.append( param.getParameterNamespaceCode() ).append( '/' )
-                        .append( param.getParameterDetailTypeCode() ).append('/')
-                        .append( param.getParameterName() )
-                        .append( '\n' );
+        for (Parameter param : params) {
+            if (!paramRule.checkComponent(param)) {
+                badComponents.append("\n").append(param.getParameterNamespaceCode()).append("\t").append(param.getParameterDetailTypeCode()).append("\t").append(param.getParameterName()).append("\t");
                 failCount++;
             }
         }
-        badComponents.insert( 0, failCount + " parameters failed component validation\n" );
-        badComponents.insert( 0,  "The following parameters have invalid components:\n" );        
-        if ( failCount > 0 ) {
+        badComponents.insert(0, "The following " + failCount + " parameters have invalid components:");
+        if (failCount > 0) {
             ArrayList<String> components = new ArrayList<String>();
-            for ( ParameterDetailType pdt : ParameterDetailTypeUtils.getDDComponents() ) {
-                components.add( pdt.getParameterNamespaceCode() + "/" + pdt.getParameterDetailTypeCode() );
+            for (ParameterDetailType pdt : SpringContext.getBean(ParameterService.class).getNonDatabaseDetailTypes()) {
+                components.add(pdt.getParameterNamespaceCode() + "/" + pdt.getParameterDetailTypeCode());
             }
-            for ( ParameterDetailType pdt : (Collection<ParameterDetailType>)SpringContext.getBean(BusinessObjectService.class).findAll(ParameterDetailType.class) ) {
-                components.add( pdt.getParameterNamespaceCode() + "/" + pdt.getParameterDetailTypeCode() );
+            for (ParameterDetailType pdt : (Collection<ParameterDetailType>) SpringContext.getBean(BusinessObjectService.class).findAll(ParameterDetailType.class)) {
+                components.add(pdt.getParameterNamespaceCode() + "/" + pdt.getParameterDetailTypeCode());
             }
             Collections.sort(components);
-            System.out.println( "Valid Components: ");
-            for ( String component : components ) {
-                System.out.println( component );
+            System.out.println("Valid Components: ");
+            for (String component : components) {
+                System.out.println(component);
             }
         }
-        assertTrue( badComponents.toString(), failCount == 0 );
+        assertTrue(badComponents.toString(), failCount == 0);
     }
 }

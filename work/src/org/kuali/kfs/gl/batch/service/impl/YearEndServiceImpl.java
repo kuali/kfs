@@ -16,11 +16,7 @@
 package org.kuali.module.gl.batch.closing.year.service.impl;
 
 import java.sql.Date;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -32,11 +28,14 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.chart.service.ObjectTypeService;
 import org.kuali.module.chart.service.PriorYearAccountService;
 import org.kuali.module.chart.service.SubFundGroupService;
 import org.kuali.module.gl.GLConstants;
+import org.kuali.module.gl.batch.NominalActivityClosingStep;
 import org.kuali.module.gl.batch.closing.year.service.YearEndService;
 import org.kuali.module.gl.batch.closing.year.service.impl.helper.BalanceForwardRuleHelper;
 import org.kuali.module.gl.batch.closing.year.service.impl.helper.EncumbranceClosingRuleHelper;
@@ -45,7 +44,6 @@ import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.EncumbranceDao;
 import org.kuali.module.gl.dao.YearEndDao;
 import org.kuali.module.gl.service.BalanceService;
@@ -72,22 +70,22 @@ public class YearEndServiceImpl implements YearEndService {
     private BalanceService balanceService;
     private BalanceTypService balanceTypeService;
     private ObjectTypeService objectTypeService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
+    private KualiConfigurationService configurationService;
     private PriorYearAccountService priorYearAccountService;
     private SubFundGroupService subFundGroupService;
     private EncumbranceClosingRuleHelper encumbranceClosingRuleHelper;
     private ReportService reportService;
     private PersistenceService persistenceService;
     private YearEndDao yearEndDao;
-    
+
     public static final String TRANSACTION_DATE_FORMAT_STRING = "yyyy-MM-dd";
-    
+
     public YearEndServiceImpl() {
         super();
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#closeNominalActivity()
      */
     public void closeNominalActivity(OriginEntryGroup nominalClosingOriginEntryGroup, Map nominalClosingJobParameters, Map<String, Integer> nominalClosingCounts) {
@@ -104,20 +102,20 @@ public class YearEndServiceImpl implements YearEndService {
         // 678 003650 DISPLAY "UNIV_FISCAL_YR" UPON ENVIRONMENT-NAME.
         // 679 003660 ACCEPT VAR-UNIV-FISCAL-YR FROM ENVIRONMENT-VALUE.
 
-        varFiscalYear = (Integer)nominalClosingJobParameters.get(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR);
-        
-        ObjectTypeService objectTypeService = (ObjectTypeService)SpringContext.getBean(ObjectTypeService.class);
+        varFiscalYear = (Integer) nominalClosingJobParameters.get(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR);
+
+        ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
         List<String> objectTypes = objectTypeService.getBasicExpenseObjectTypes(varFiscalYear);
-        objectTypes.add( objectTypeService.getExpenseTransferObjectType(varFiscalYear));
+        objectTypes.add(objectTypeService.getExpenseTransferObjectType(varFiscalYear));
         String[] expenseObjectCodeTypes = objectTypes.toArray(new String[0]);
 
         // 682 003690 DISPLAY "NET_EXP_OBJECT_CD" UPON ENVIRONMENT-NAME.
         // 683 003700 ACCEPT VAR-NET-EXP-OBJECT-CD FROM ENVIRONMENT-VALUE.
 
-        varNetExpenseObjectCode = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.NOMINAL_ACTIVITY_CLOSING_STEP, "NET_EXPENSE_OBJECT_CODE");
-        varNetRevenueObjectCode = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.NOMINAL_ACTIVITY_CLOSING_STEP, "NET_REVENUE_OBJECT_CODE");
-        varFundBalanceObjectCode = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_CODE_PARM);
-        varFundBalanceObjectTypeCode = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_TYPE_PARM);
+        varNetExpenseObjectCode = parameterService.getParameterValue(NominalActivityClosingStep.class, "NET_EXPENSE_OBJECT_CODE");
+        varNetRevenueObjectCode = parameterService.getParameterValue(NominalActivityClosingStep.class, "NET_REVENUE_OBJECT_CODE");
+        varFundBalanceObjectCode = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_CODE_PARM);
+        varFundBalanceObjectTypeCode = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_TYPE_PARM);
 
         nominalClosingJobParameters.put(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR, varFiscalYear);
         nominalClosingJobParameters.put(GLConstants.ColumnNames.NET_EXP_OBJECT_CD, varNetExpenseObjectCode);
@@ -131,7 +129,7 @@ public class YearEndServiceImpl implements YearEndService {
         String accountNumberHold = null;
 
         boolean selectSw = false;
-        
+
         nominalClosingCounts.put("globalSelectCount", new Integer(0));
         nominalClosingCounts.put("sequenceNumber", new Integer(0));
         nominalClosingCounts.put("sequenceWriteCount", new Integer(0));
@@ -148,7 +146,7 @@ public class YearEndServiceImpl implements YearEndService {
             selectSw = true;
 
             try {
-                
+
                 LOG.debug("Balance selected.");
 
                 // 792 004750 IF GLGLBL-ACCOUNT-NBR = WS-ACCOUNT-NBR-HOLD
@@ -250,12 +248,12 @@ public class YearEndServiceImpl implements YearEndService {
                 // 915 005960 MOVE 'ACLO'
                 // 916 005970 TO FDOC-TYP-CD OF GLEN-RECORD.
 
-                activityEntry.setFinancialDocumentTypeCode(kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE));
+                activityEntry.setFinancialDocumentTypeCode(parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE));
 
                 // 917 005980 MOVE 'MF'
                 // 918 005990 TO FS-ORIGIN-CD OF GLEN-RECORD.
 
-                activityEntry.setFinancialSystemOriginationCode(kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
+                activityEntry.setFinancialSystemOriginationCode(parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
 
                 // 919 006000 STRING 'AC'
                 // 920 006010 GLGLBL-ACCOUNT-NBR
@@ -287,7 +285,7 @@ public class YearEndServiceImpl implements YearEndService {
                     // 937 006180 DELIMITED BY SIZE INTO
                     // 938 006190 TRN-LDGR-ENTR-DESC OF GLEN-RECORD
 
-                    activityEntry.setTransactionLedgerEntryDescription(this.createTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_CLOSE_ENTRY_TO_NOMINAL_EXPENSE), balance));
+                    activityEntry.setTransactionLedgerEntryDescription(this.createTransactionLedgerEntryDescription(configurationService.getPropertyString(KFSKeyConstants.MSG_CLOSE_ENTRY_TO_NOMINAL_EXPENSE), balance));
 
                     // 939 006200 ELSE
 
@@ -306,7 +304,7 @@ public class YearEndServiceImpl implements YearEndService {
                     // 949 006300 DELIMITED BY SIZE INTO
                     // 950 006310 TRN-LDGR-ENTR-DESC OF GLEN-RECORD.
 
-                    activityEntry.setTransactionLedgerEntryDescription(this.createTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_CLOSE_ENTRY_TO_NOMINAL_REVENUE), balance));
+                    activityEntry.setTransactionLedgerEntryDescription(this.createTransactionLedgerEntryDescription(configurationService.getPropertyString(KFSKeyConstants.MSG_CLOSE_ENTRY_TO_NOMINAL_REVENUE), balance));
 
                 }
 
@@ -605,7 +603,7 @@ public class YearEndServiceImpl implements YearEndService {
                 incrementCount(nominalClosingCounts, "sequenceWriteCount");
 
                 // 1063 MOVE SEQ-WRITE-COUNT TO SEQ-CHECK-CNT.
-                
+
                 nominalClosingCounts.put("sequenceCheckCount", new Integer(nominalClosingCounts.get("sequenceWriteCount").intValue()));
 
                 // 1064 IF SEQ-CHECK-CNT (7:3) = '000'
@@ -677,12 +675,12 @@ public class YearEndServiceImpl implements YearEndService {
                 // 1088 007630 MOVE 'ACLO'
                 // 1089 007640 TO FDOC-TYP-CD OF GLEN-RECORD.
 
-                offsetEntry.setFinancialDocumentTypeCode(kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE));
+                offsetEntry.setFinancialDocumentTypeCode(parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE));
 
                 // 1090 007650 MOVE 'MF'
                 // 1091 007660 TO FS-ORIGIN-CD OF GLEN-RECORD.
 
-                offsetEntry.setFinancialSystemOriginationCode(kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
+                offsetEntry.setFinancialSystemOriginationCode(parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
 
                 // 1092 007670 STRING 'AC'
                 // 1093 007680 GLGLBL-ACCOUNT-NBR
@@ -709,7 +707,7 @@ public class YearEndServiceImpl implements YearEndService {
                 // 1108 007830 DELIMITED BY SIZE INTO
                 // 1109 007840 TRN-LDGR-ENTR-DESC OF GLEN-RECORD.
 
-                offsetEntry.setTransactionLedgerEntryDescription(this.createTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_CLOSE_ENTRY_TO_FUND_BALANCE), balance));
+                offsetEntry.setTransactionLedgerEntryDescription(this.createTransactionLedgerEntryDescription(configurationService.getPropertyString(KFSKeyConstants.MSG_CLOSE_ENTRY_TO_FUND_BALANCE), balance));
 
                 // 1110 007850 MOVE GLGLBL-ACLN-ANNL-BAL-AMT
                 // 1111 007860 TO TRN-LDGR-ENTR-AMT OF GLEN-RECORD.
@@ -836,11 +834,10 @@ public class YearEndServiceImpl implements YearEndService {
                     LOG.info(new StringBuffer(" ORIGIN ENTRIES INSERTED = ").append(nominalClosingCounts.get("sequenceCheckCount")).toString());
 
                 }
-                
+
                 if (nominalClosingCounts.get("globalSelectCount").intValue() % 1000 == 0) {
                     persistenceService.clearCache();
                 }
-
 
 
                 // 802 004850 MOVE GLGLBL-ACCOUNT-NBR
@@ -957,7 +954,8 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
-     * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#generateCloseNominalActivityReports(org.kuali.module.gl.bo.OriginEntryGroup, java.util.Map, java.util.Map)
+     * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#generateCloseNominalActivityReports(org.kuali.module.gl.bo.OriginEntryGroup,
+     *      java.util.Map, java.util.Map)
      */
     public void generateCloseNominalActivityReports(OriginEntryGroup nominalClosingOriginEntryGroup, Map nominalClosingJobParameters, Map<String, Integer> nominalActivityClosingCounts) {
         // Assemble statistics.
@@ -982,7 +980,7 @@ public class YearEndServiceImpl implements YearEndService {
 
         Date runDate = new Date(dateTimeService.getCurrentDate().getTime());
         reportService.generateNominalActivityClosingStatisticsReport(nominalClosingJobParameters, statistics, runDate, nominalClosingOriginEntryGroup);
-        
+
     }
 
     private String createTransactionLedgerEntryDescription(String descriptorIntro, Balance balance) {
@@ -990,7 +988,7 @@ public class YearEndServiceImpl implements YearEndService {
         description.append(descriptorIntro.trim()).append(' ');
         return description.append(getSizedField(5, balance.getSubAccountNumber())).append("-").append(getSizedField(4, balance.getObjectCode())).append("-").append(getSizedField(3, balance.getSubObjectCode())).append("-").append(getSizedField(2, balance.getObjectTypeCode())).toString();
     }
-    
+
     private StringBuilder getSizedField(int size, String value) {
         StringBuilder fieldString = new StringBuilder();
         if (value != null) {
@@ -998,14 +996,15 @@ public class YearEndServiceImpl implements YearEndService {
             while (fieldString.length() < size) {
                 fieldString.append(' ');
             }
-        } else {
+        }
+        else {
             while (fieldString.length() < size) {
                 fieldString.append('-');
             }
         }
         return fieldString;
-    } 
-    
+    }
+
     private int incrementCount(Map<String, Integer> counts, String countName) {
         Integer value = counts.get(countName);
         int incremented = value.intValue() + 1;
@@ -1030,9 +1029,9 @@ public class YearEndServiceImpl implements YearEndService {
         balanceForwardRuleHelper.setSubFundGroupService(subFundGroupService);
         balanceForwardRuleHelper.setOriginEntryService(originEntryService);
         balanceForwardRuleHelper.getState().setGlobalReadCount(balanceService.countBalancesForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear()));
-        
+
         Balance balance;
-        
+
         // do the general forwards
         Iterator<Balance> generalBalances = balanceService.findGeneralBalancesToForwardForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear());
         while (generalBalances.hasNext()) {
@@ -1042,7 +1041,7 @@ public class YearEndServiceImpl implements YearEndService {
                 persistenceService.clearCache();
             }
         }
-        
+
         // do the cumulative forwards
         Iterator<Balance> cumulativeBalances = balanceService.findCumulativeBalancesToForwardForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear());
         while (cumulativeBalances.hasNext()) {
@@ -1050,13 +1049,15 @@ public class YearEndServiceImpl implements YearEndService {
             balanceForwardRuleHelper.processCumulativeForwardBalance(balance, balanceForwardsClosedPriorYearAccountGroup, balanceForwardsUnclosedPriorYearAccountGroup);
             if (balanceForwardRuleHelper.getState().getGlobalSelectCount() % 1000 == 0) {
                 persistenceService.clearCache();
-            }
         }
-        
+        }
+
     }
-    
+
     /**
-     * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#generateForwardBalanceReports(org.kuali.module.gl.bo.OriginEntryGroup, org.kuali.module.gl.bo.OriginEntryGroup, org.kuali.module.gl.batch.closing.year.service.impl.helper.BalanceForwardRuleHelper)
+     * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#generateForwardBalanceReports(org.kuali.module.gl.bo.OriginEntryGroup,
+     *      org.kuali.module.gl.bo.OriginEntryGroup,
+     *      org.kuali.module.gl.batch.closing.year.service.impl.helper.BalanceForwardRuleHelper)
      */
     public void generateForwardBalanceReports(OriginEntryGroup balanceForwardsUnclosedPriorYearAccountGroup, OriginEntryGroup balanceForwardsClosedPriorYearAccountGroup, BalanceForwardRuleHelper balanceForwardRuleHelper) {
         // Assemble statistics.
@@ -1101,7 +1102,7 @@ public class YearEndServiceImpl implements YearEndService {
         counts.put("originEntriesWritten", new Integer(0));
 
         // encumbranceDao will return all encumbrances for the fiscal year sorted properly by all of the appropriate keys.
-        Iterator encumbranceIterator = encumbranceDao.getEncumbrancesToClose((Integer)jobParameters.get(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR));
+        Iterator encumbranceIterator = encumbranceDao.getEncumbrancesToClose((Integer) jobParameters.get(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR));
         while (encumbranceIterator.hasNext()) {
 
             Encumbrance encumbrance = (Encumbrance) encumbranceIterator.next();
@@ -1113,7 +1114,7 @@ public class YearEndServiceImpl implements YearEndService {
                 incrementCount(counts, "encumbrancesSelected");
 
                 // build a pair of origin entries to carry forward the encumbrance.
-                OriginEntryOffsetPair beginningBalanceEntryPair = EncumbranceClosingOriginEntryFactory.createBeginningBalanceEntryOffsetPair(encumbrance, (Integer)jobParameters.get(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR), (Date)jobParameters.get(GLConstants.ColumnNames.UNIV_DT));
+                OriginEntryOffsetPair beginningBalanceEntryPair = EncumbranceClosingOriginEntryFactory.createBeginningBalanceEntryOffsetPair(encumbrance, (Integer) jobParameters.get(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR), (Date) jobParameters.get(GLConstants.ColumnNames.UNIV_DT));
 
                 if (beginningBalanceEntryPair.isFatalErrorFlag()) {
 
@@ -1170,15 +1171,16 @@ public class YearEndServiceImpl implements YearEndService {
                     }
                 }
             }
-            
+
             if (counts.get("encumbrancesSelected").intValue() % 1000 == 0) {
                 persistenceService.clearCache();
             }
-        }   
+        }
     }
 
     /**
-     * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#generateForwardEncumbrancesReports(org.kuali.module.gl.bo.OriginEntryGroup, java.util.Map, java.util.Map)
+     * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#generateForwardEncumbrancesReports(org.kuali.module.gl.bo.OriginEntryGroup,
+     *      java.util.Map, java.util.Map)
      */
     public void generateForwardEncumbrancesReports(OriginEntryGroup originEntryGroup, Map jobParameters, Map<String, Integer> forwardEncumbrancesCounts) {
         // Assemble statistics.
@@ -1204,15 +1206,15 @@ public class YearEndServiceImpl implements YearEndService {
         Date runDate = new Date(dateTimeService.getCurrentDate().getTime());
         reportService.generateEncumbranceClosingStatisticsReport(jobParameters, statistics, runDate, originEntryGroup);
     }
-    
+
     /**
      * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#logAllMissingPriorYearAccounts(java.lang.Integer)
      */
     public void logAllMissingPriorYearAccounts(Integer fiscalYear) {
         Set<Map<String, String>> missingPriorYearAccountKeys = yearEndDao.findKeysOfMissingPriorYearAccountsForBalances(fiscalYear);
         missingPriorYearAccountKeys.addAll(yearEndDao.findKeysOfMissingPriorYearAccountsForOpenEncumbrances(fiscalYear));
-        for (Map<String, String> key: missingPriorYearAccountKeys) {
-            LOG.info("PRIOR YEAR ACCOUNT MISSING FOR "+key.get("chartOfAccountsCode")+"-"+key.get("accountNumber"));
+        for (Map<String, String> key : missingPriorYearAccountKeys) {
+            LOG.info("PRIOR YEAR ACCOUNT MISSING FOR " + key.get("chartOfAccountsCode") + "-" + key.get("accountNumber"));
         }
     }
 
@@ -1222,10 +1224,10 @@ public class YearEndServiceImpl implements YearEndService {
     public void logAllMissingSubFundGroups(Integer fiscalYear) {
         Set missingSubFundGroupKeys = yearEndDao.findKeysOfMissingSubFundGroupsForBalances(fiscalYear);
         missingSubFundGroupKeys.addAll(yearEndDao.findKeysOfMissingSubFundGroupsForOpenEncumbrances(fiscalYear));
-        for (Object key: missingSubFundGroupKeys) {
-            LOG.info("SUB FUND GROUP MISSING FOR "+(String)((Map)key).get("subFundGroupCode"));
+        for (Object key : missingSubFundGroupKeys) {
+            LOG.info("SUB FUND GROUP MISSING FOR " + (String) ((Map) key).get("subFundGroupCode"));
         }
-        
+
     }
 
     public void setEncumbranceDao(EncumbranceDao encumbranceDao) {
@@ -1264,8 +1266,9 @@ public class YearEndServiceImpl implements YearEndService {
         this.objectTypeService = objectTypeService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     public void setPriorYearAccountService(PriorYearAccountService priorYearAccountService) {
@@ -1278,14 +1281,19 @@ public class YearEndServiceImpl implements YearEndService {
 
     /**
      * Sets the persistenceService attribute value.
+     * 
      * @param persistenceService The persistenceService to set.
      */
     public void setPersistenceService(PersistenceService persistenceService) {
         this.persistenceService = persistenceService;
     }
-    
+
     public void setYearEndDao(YearEndDao yearEndDao) {
         this.yearEndDao = yearEndDao;
     }
-    
+
+    public void setConfigurationService(KualiConfigurationService configurationService) {
+        this.configurationService = configurationService;
+    }
+
 }

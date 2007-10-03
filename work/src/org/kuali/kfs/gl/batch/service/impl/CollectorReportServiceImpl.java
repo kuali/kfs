@@ -39,8 +39,9 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
-import org.kuali.module.gl.GLConstants;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.gl.batch.collector.CollectorBatch;
+import org.kuali.module.gl.batch.collector.CollectorStep;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.service.CollectorReportService;
@@ -70,25 +71,26 @@ import com.lowagie.text.pdf.PdfWriter;
 
 public class CollectorReportServiceImpl implements CollectorReportService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectorReportServiceImpl.class);
-    
+
     private static final String CURRENCY_SYMBOL = "$";
-    
+
     private DateTimeService dateTimeService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
+    private KualiConfigurationService configurationService;
     private MailService mailService;
-    
+
     private Font headerFont;
     private Font textFont;
     private int textFontSize;
-    
+
     private String directoryName;
-    
+
     public CollectorReportServiceImpl() {
         textFontSize = 8;
         headerFont = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD);
         textFont = FontFactory.getFont(FontFactory.COURIER, textFontSize, Font.NORMAL);
     }
-    
+
     /**
      * @see org.kuali.module.gl.service.CollectorReportService#sendEmails(org.kuali.module.gl.util.CollectorReportData)
      */
@@ -105,7 +107,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         batchIter = collectorReportData.getAddedBatches();
         while (batchIter.hasNext()) {
             CollectorBatch batch = batchIter.next();
-            
+
         }
     }
 
@@ -113,22 +115,22 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         try {
             Document document = openPdfWriter(getDirectoryName(), "collector", dateTimeService.getCurrentDate(), "Collector reports");
             appendCollectorHeaderInformation(document, collectorReportData);
-            
+
             document.newPage();
             appendScrubberReport(document, collectorReportData);
-            
+
             document.newPage();
             appendDemergerReport(document, collectorReportData);
-            
+
             document.newPage();
             appendDeletedOriginEntryAndDetailReport(document, collectorReportData);
-            
+
             document.newPage();
             appendDetailChangedAccountReport(document, collectorReportData);
-            
+
             document.newPage();
             appendLedgerReport(document, collectorReportData);
-            
+
             document.close();
         }
         catch (DocumentException e) {
@@ -136,14 +138,14 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             throw new RuntimeException("Error generating reports.", e);
         }
     }
-    
+
     protected void appendCollectorHeaderInformation(Document document, CollectorReportData collectorReportData) throws DocumentException {
         Iterator<CollectorBatch> batchIter = collectorReportData.getAddedBatches();
         OriginEntryTotals aggregateOriginEntryTotals = new OriginEntryTotals();
         int aggregateTotalRecordsCountFromTrailer = 0;
         int aggregateNumInputDetails = 0;
         int aggregateNumSavedDetails = 0;
-        
+
         if (!collectorReportData.getAllUnparsableBatchNames().isEmpty()) {
             Paragraph unparsableBatchNames = new Paragraph();
             unparsableBatchNames.setAlignment(Paragraph.ALIGN_LEFT);
@@ -173,9 +175,9 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             OriginEntryTotals batchOriginEntryTotals = collectorReportData.getOriginEntryTotals(batch);
             appendHeaderInformation(buf, batch);
             appendTotalsInformation(buf, batch, batchOriginEntryTotals);
-            
+
             List<String> errorMessages = translateErrorsFromErrorMap(collectorReportData.getErrorMapForBatchName(batch.getBatchName()));
-            
+
             if (batchOriginEntryTotals != null) {
                 aggregateOriginEntryTotals.incorporateTotals(batchOriginEntryTotals);
             }
@@ -188,14 +190,14 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             if (batchNumSavedDetails != null) {
                 aggregateNumSavedDetails += batchNumSavedDetails;
             }
-            
+
             Paragraph summary = new Paragraph();
             summary.setAlignment(Paragraph.ALIGN_LEFT);
             summary.setFirstLineIndent(0);
             summary.setLeading(textFontSize);
             summary.add(new Phrase("Header  *********************************************************************", textFont));
             summary.add(new Phrase(buf.toString(), textFont));
-            
+
             String validationErrors = getValidationStatus(errorMessages, false, 15);
             if (StringUtils.isNotBlank(validationErrors)) {
                 summary.add(new Phrase(validationErrors, textFont));
@@ -220,7 +222,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         totals.add(new Phrase("Inserted " + aggregateNumSavedDetails + " detail records into gl_id_bill_t\n", textFont));
         document.add(totals);
     }
-    
+
 
     protected void appendHeaderInformation(StringBuilder buf, CollectorBatch batch) {
         buf.append("\n        Chart: ").append(batch.getChartOfAccountsCode()).append("\n");
@@ -232,7 +234,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         buf.append("        Email: ").append(batch.getWorkgroupName()).append("\n");
         buf.append("        Transmission Date: ").append(batch.getTransmissionDate()).append("\n\n");
     }
-    
+
     protected void appendTotalsInformation(StringBuilder buf, CollectorBatch batch, OriginEntryTotals totals) {
         if (totals == null) {
             buf.append("        Totals are unavailable for this batch.\n");
@@ -245,25 +247,25 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             appendAmountCountLine(buf, "Valid Group Count = ", batch.getTotalRecords().toString(), CURRENCY_SYMBOL + batch.getTotalAmount());
         }
     }
-    
+
     protected Document openPdfWriter(String destinationDirectory, String fileprefix, Date runDate, String title) {
         try {
             Document document = new Document(PageSize.A4.rotate());
-            
+
             PageHelper helper = new PageHelper();
             helper.runDate = runDate;
             helper.headerFont = headerFont;
             helper.title = title;
-            
+
             String filename = destinationDirectory + "/" + fileprefix + "_";
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
             filename = filename + sdf.format(runDate);
             filename = filename + ".pdf";
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
             writer.setPageEvent(helper);
-            
+
             document.open();
-            
+
             return document;
         }
         catch (Exception e) {
@@ -276,11 +278,11 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             }
         }
     }
-    
+
     protected void appendAmountCountLine(StringBuilder buf, String countTitle, String count, String amountString) {
         appendPaddingString(buf, ' ', countTitle.length(), 35);
         buf.append(countTitle);
-        
+
         appendPaddingString(buf, '0', count.length(), 5);
         buf.append(count);
 
@@ -288,7 +290,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         buf.append(amountString).append("\n");
 
     }
-    
+
     protected StringBuilder appendPaddingString(StringBuilder buf, char padCharacter, int valueLength, int desiredLength) {
         for (int i = valueLength; i < desiredLength; i++) {
             buf.append(padCharacter);
@@ -300,50 +302,50 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         Iterator<CollectorBatch> batchIter = collectorReportData.getAddedBatches();
         ScrubberReportData aggregateScrubberReportData = new ScrubberReportData();
         Map<Transaction, List<Message>> aggregateScrubberErrors = new LinkedHashMap<Transaction, List<Message>>();
-        
+
         while (batchIter.hasNext()) {
             CollectorBatch batch = batchIter.next();
-            
+
             ScrubberReportData batchScrubberReportData = collectorReportData.getScrubberReportData(batch);
             if (batchScrubberReportData != null) {
-                // if some validation error occured during batch load, the scrubber wouldn't have been run, so there'd be no data 
+                // if some validation error occured during batch load, the scrubber wouldn't have been run, so there'd be no data
                 aggregateScrubberReportData.incorporateReportData(batchScrubberReportData);
             }
-            
+
             Map<Transaction, List<Message>> batchScrubberReportErrors = collectorReportData.getBatchOriginEntryScrubberErrors(batch);
             if (batchScrubberReportErrors != null) {
                 // if some validation error occured during batch load, the scrubber wouldn't have been run, so there'd be a null map
                 aggregateScrubberErrors.putAll(batchScrubberReportErrors);
             }
         }
-        
+
         List<Transaction> transactions = new ArrayList<Transaction>(aggregateScrubberErrors.keySet());
-        
+
         TransactionReport transactionReport = new TransactionReport();
         List<Summary> summaries = buildScrubberReportSummary(aggregateScrubberReportData);
-        
+
         transactionReport.appendReport(document, headerFont, textFont, transactions, aggregateScrubberErrors, summaries, dateTimeService.getCurrentDate());
     }
-    
+
     protected void appendDemergerReport(Document document, CollectorReportData collectorReportData) throws DocumentException {
         Iterator<CollectorBatch> batchIter = collectorReportData.getAddedBatches();
         DemergerReportData aggregateDemergerReportData = new DemergerReportData();
         ScrubberReportData aggregateScrubberReportData = new ScrubberReportData();
-        
+
         while (batchIter.hasNext()) {
             CollectorBatch batch = batchIter.next();
-            
+
             ScrubberReportData batchScrubberReportData = collectorReportData.getScrubberReportData(batch);
             if (batchScrubberReportData != null) {
                 aggregateScrubberReportData.incorporateReportData(batchScrubberReportData);
-                
+
                 DemergerReportData batchDemergerReportData = collectorReportData.getDemergerReportData(batch);
                 if (batchDemergerReportData != null) {
                     aggregateDemergerReportData.incorporateReportData(batchDemergerReportData);
                 }
             }
         }
-        
+
         List<Summary> summaries = buildDemergerReportSummary(aggregateScrubberReportData, aggregateDemergerReportData);
         List<Transaction> emptyTrans = Collections.emptyList();
         Map<Transaction, List<Message>> emptyErrors = Collections.emptyMap();
@@ -351,18 +353,18 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         TransactionReport transactionReport = new TransactionReport();
         transactionReport.appendReport(document, headerFont, textFont, emptyTrans, emptyErrors, summaries, dateTimeService.getCurrentDate());
     }
-    
-    protected void appendDeletedOriginEntryAndDetailReport(Document document, CollectorReportData collectorReportData) throws DocumentException{
+
+    protected void appendDeletedOriginEntryAndDetailReport(Document document, CollectorReportData collectorReportData) throws DocumentException {
         // figure out how many billing details were removed/bypassed in all of the batches
         Iterator<CollectorBatch> batchIter = collectorReportData.getAddedBatches();
         int aggregateNumDetailsDeleted = 0;
-        
+
         StringBuilder buf = new StringBuilder();
-        
+
         buf.append("ID-Billing detail data matched with GLE errors to remove documents with errors\n");
         while (batchIter.hasNext()) {
             CollectorBatch batch = batchIter.next();
-            
+
             Integer batchNumDetailsDeleted = collectorReportData.getNumDetailDeleted(batch);
             if (batchNumDetailsDeleted != null) {
                 aggregateNumDetailsDeleted += batchNumDetailsDeleted.intValue();
@@ -375,17 +377,16 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         KualiDecimal aggregateDebitAmount = KualiDecimal.ZERO;
         while (batchIter.hasNext()) {
             CollectorBatch batch = batchIter.next();
-            
+
             Map<DocumentGroupData, OriginEntryTotals> inputEntryTotals = collectorReportData.getTotalsOnInputOriginEntriesAssociatedWithErrorGroup(batch);
             if (inputEntryTotals != null) {
                 for (Map.Entry<DocumentGroupData, OriginEntryTotals> errorDocumentGroupEntry : inputEntryTotals.entrySet()) {
-                    // normally, blank credit/debit code is treated as a debit, but the ID billing program (the predecessor to the collector)
+                    // normally, blank credit/debit code is treated as a debit, but the ID billing program (the predecessor to the
+                    // collector)
                     // was specific about treating only a code of 'D' as a debit
-                    
-                    buf.append("Message sent to ").append(StringUtils.rightPad(batch.getWorkgroupName(), 50, ' ')).append("for Document ")
-                            .append(errorDocumentGroupEntry.getKey().getDocumentNumber()).append("\n");
-                    int documentTransactionCount = errorDocumentGroupEntry.getValue().getNumCreditEntries() + errorDocumentGroupEntry.getValue().getNumDebitEntries() +
-                            errorDocumentGroupEntry.getValue().getNumOtherEntries();
+
+                    buf.append("Message sent to ").append(StringUtils.rightPad(batch.getWorkgroupName(), 50, ' ')).append("for Document ").append(errorDocumentGroupEntry.getKey().getDocumentNumber()).append("\n");
+                    int documentTransactionCount = errorDocumentGroupEntry.getValue().getNumCreditEntries() + errorDocumentGroupEntry.getValue().getNumDebitEntries() + errorDocumentGroupEntry.getValue().getNumOtherEntries();
                     aggregateTransactionCount += documentTransactionCount;
                     aggregateDebitAmount = aggregateDebitAmount.add(errorDocumentGroupEntry.getValue().getDebitAmount());
                     buf.append("Total Transactions ").append(documentTransactionCount).append(" for Total Debit Amount ").append(CURRENCY_SYMBOL).append(errorDocumentGroupEntry.getValue().getDebitAmount()).append("\n");
@@ -397,18 +398,18 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         Paragraph report = new Paragraph(buf.toString(), textFont);
         report.setLeading(textFontSize);
         document.add(report);
-        
+
     }
-    
+
     protected void appendDetailChangedAccountReport(Document document, CollectorReportData collectorReportData) throws DocumentException {
         StringBuilder buf = new StringBuilder();
-        
+
         buf.append("ID-Billing Detail Records with Account Numbers Changed Due to Change of Corresponding GLE Data\nTot-Recs-Changed ");
         Iterator<CollectorBatch> batchIter = collectorReportData.getAddedBatches();
         int aggregateNumDetailAccountValuesChanged = 0;
         while (batchIter.hasNext()) {
             CollectorBatch batch = batchIter.next();
-            
+
             Integer batchNumDetailAccountValuesChanged = collectorReportData.getNumDetailAccountValuesChanged(batch);
             if (batchNumDetailAccountValuesChanged != null) {
                 aggregateNumDetailAccountValuesChanged += batchNumDetailAccountValuesChanged;
@@ -417,11 +418,12 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         buf.append(aggregateNumDetailAccountValuesChanged);
         Paragraph report = new Paragraph(buf.toString(), textFont);
         report.setLeading(textFontSize);
-        document.add(report); 
+        document.add(report);
     }
-    
+
     /**
-     * Gets the dateTimeService attribute. 
+     * Gets the dateTimeService attribute.
+     * 
      * @return Returns the dateTimeService.
      */
     protected DateTimeService getDateTimeService() {
@@ -430,12 +432,13 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     /**
      * Sets the dateTimeService attribute value.
+     * 
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    
+
     /**
      * Generate the header for the scrubber status report.
      * 
@@ -453,7 +456,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
         return reportSummary;
     }
-    
+
     /**
      * Generate the header for the demerger status report.
      * 
@@ -469,15 +472,15 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
         return reportSummary;
     }
-    
+
     protected void appendLedgerReport(Document document, CollectorReportData collectorReportData) throws DocumentException {
         LedgerEntryHolder ledgerEntryHolder = collectorReportData.getLedgerEntryHolder();
         Paragraph header = new Paragraph();
         header.setAlignment(Paragraph.ALIGN_CENTER);
-        
+
         header.add(new Phrase("GENERAL LEDGER INPUT TRANSACTIONS FROM COLLECTOR\n\n", headerFont));
         document.add(header);
-        
+
         if (ledgerEntryHolder != null) {
             LedgerReport ledgerReport = new LedgerReport();
             PdfPTable reportContents = ledgerReport.drawPdfTable(ledgerEntryHolder);
@@ -504,16 +507,17 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
             for (Iterator iter2 = errorMap.getMessages(errorKey).iterator(); iter2.hasNext();) {
                 ErrorMessage errorMessage = (ErrorMessage) iter2.next();
-                String messageText = kualiConfigurationService.getPropertyString(errorMessage.getErrorKey());
+                String messageText = configurationService.getPropertyString(errorMessage.getErrorKey());
                 collectorErrors.add(MessageFormat.format(messageText, (Object[]) errorMessage.getMessageParameters()));
             }
         }
 
         return collectorErrors;
     }
-    
+
     /**
-     * Gets the directoryName attribute. 
+     * Gets the directoryName attribute.
+     * 
      * @return Returns the directoryName.
      */
     public String getDirectoryName() {
@@ -522,28 +526,13 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     /**
      * Sets the directoryName attribute value.
+     * 
      * @param directoryName The directoryName to set.
      */
     public void setDirectoryName(String directoryName) {
         this.directoryName = directoryName;
     }
 
-    /**
-     * Gets the kualiConfigurationService attribute. 
-     * @return Returns the kualiConfigurationService.
-     */
-    public KualiConfigurationService getKualiConfigurationService() {
-        return kualiConfigurationService;
-    }
-
-    /**
-     * Sets the kualiConfigurationService attribute value.
-     * @param kualiConfigurationService The kualiConfigurationService to set.
-     */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
-    
     /**
      * Sends email with results of the batch processing.
      * 
@@ -552,15 +541,15 @@ public class CollectorReportServiceImpl implements CollectorReportService {
     protected void sendValidationEmail(CollectorBatch batch, CollectorReportData collectorReportData) {
         ErrorMap errorMap = collectorReportData.getErrorMapForBatchName(batch.getBatchName());
         List<String> errorMessages = translateErrorsFromErrorMap(errorMap);
-        
+
         LOG.debug("sendValidationEmail() starting");
         MailMessage message = new MailMessage();
 
         message.setFromAddress(mailService.getBatchMailingList());
-        
-        String subject = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.COLLECTOR_STEP, SystemGroupParameterNames.COLLECTOR_VALIDATOR_EMAIL_SUBJECT_PARAMETER_NAME);
-        String productionEnvironmentCode = kualiConfigurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        String environmentCode = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+
+        String subject = parameterService.getParameterValue(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_VALIDATOR_EMAIL_SUBJECT_PARAMETER_NAME);
+        String productionEnvironmentCode = configurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
+        String environmentCode = configurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
         if (!StringUtils.equals(productionEnvironmentCode, environmentCode)) {
             subject = environmentCode + ": " + subject;
         }
@@ -569,22 +558,22 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         String body = createValidationMessageBody(errorMessages, batch, collectorReportData);
         message.setMessage(body);
         message.addToAddress(batch.getWorkgroupName());
-        
+
         try {
             mailService.sendMessage(message);
-            
-            String notificationMessage = kualiConfigurationService.getPropertyString(KFSKeyConstants.Collector.NOTIFICATION_EMAIL_SENT);
-            String formattedMessage = MessageFormat.format(notificationMessage, new Object[] {batch.getWorkgroupName()});
+
+            String notificationMessage = configurationService.getPropertyString(KFSKeyConstants.Collector.NOTIFICATION_EMAIL_SENT);
+            String formattedMessage = MessageFormat.format(notificationMessage, new Object[] { batch.getWorkgroupName() });
             collectorReportData.setEmailSendingStatusForParsedBatch(batch, formattedMessage);
         }
         catch (InvalidAddressException e) {
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
-            String errorMessage = kualiConfigurationService.getPropertyString(KFSKeyConstants.Collector.EMAIL_SEND_ERROR);
-            String formattedMessage = MessageFormat.format(errorMessage, new Object[] {batch.getWorkgroupName()});
+            String errorMessage = configurationService.getPropertyString(KFSKeyConstants.Collector.EMAIL_SEND_ERROR);
+            String formattedMessage = MessageFormat.format(errorMessage, new Object[] { batch.getWorkgroupName() });
             collectorReportData.setEmailSendingStatusForParsedBatch(batch, formattedMessage);
         }
     }
-    
+
     protected void sendDemergerEmail(CollectorBatch batch, CollectorReportData collectorReportData) {
         LOG.debug("sendDemergerEmail() starting");
         String body = createDemergerMessageBody(batch, collectorReportData);
@@ -595,10 +584,10 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         MailMessage message = new MailMessage();
 
         message.setFromAddress(mailService.getBatchMailingList());
-        
-        String subject = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.COLLECTOR_STEP, SystemGroupParameterNames.COLLECTOR_DEMERGER_EMAIL_SUBJECT_PARAMETER_NAME);
-        String productionEnvironmentCode = kualiConfigurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        String environmentCode = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+
+        String subject = parameterService.getParameterValue(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_DEMERGER_EMAIL_SUBJECT_PARAMETER_NAME);
+        String productionEnvironmentCode = configurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
+        String environmentCode = configurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
         if (!StringUtils.equals(productionEnvironmentCode, environmentCode)) {
             subject = environmentCode + ": " + subject;
         }
@@ -606,18 +595,18 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
         message.setMessage(body);
         message.addToAddress(batch.getWorkgroupName());
-        
+
         try {
             mailService.sendMessage(message);
-            
-            String notificationMessage = kualiConfigurationService.getPropertyString(KFSKeyConstants.Collector.NOTIFICATION_EMAIL_SENT);
-            String formattedMessage = MessageFormat.format(notificationMessage, new Object[] {batch.getWorkgroupName()});
+
+            String notificationMessage = configurationService.getPropertyString(KFSKeyConstants.Collector.NOTIFICATION_EMAIL_SENT);
+            String formattedMessage = MessageFormat.format(notificationMessage, new Object[] { batch.getWorkgroupName() });
             collectorReportData.setEmailSendingStatusForParsedBatch(batch, formattedMessage);
         }
         catch (InvalidAddressException e) {
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
-            String errorMessage = kualiConfigurationService.getPropertyString(KFSKeyConstants.Collector.EMAIL_SEND_ERROR);
-            String formattedMessage = MessageFormat.format(errorMessage, new Object[] {batch.getWorkgroupName()});
+            String errorMessage = configurationService.getPropertyString(KFSKeyConstants.Collector.EMAIL_SEND_ERROR);
+            String formattedMessage = MessageFormat.format(errorMessage, new Object[] { batch.getWorkgroupName() });
             collectorReportData.setEmailSendingStatusForParsedBatch(batch, formattedMessage);
         }
     }
@@ -626,7 +615,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         StringBuilder body = new StringBuilder();
 
         ErrorMap fileErrorMap = collectorReportData.getErrorMapForBatchName(batch.getBatchName());
-        
+
         body.append("Header Information:\n\n");
         if (!fileErrorMap.containsMessageKey(KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML)) {
             appendHeaderInformation(body, batch);
@@ -636,16 +625,16 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
         return body.toString();
     }
-    
+
     protected String getValidationStatus(List<String> errorMessages, boolean notifyIfSuccessful, int numLeftPaddingSpaces) {
         StringBuilder buf = new StringBuilder();
         appendValidationStatus(buf, errorMessages, notifyIfSuccessful, numLeftPaddingSpaces);
         return buf.toString();
     }
-    
+
     protected void appendValidationStatus(StringBuilder buf, List<String> errorMessages, boolean notifyIfSuccessful, int numLeftPaddingSpaces) {
         String padding = StringUtils.leftPad("", numLeftPaddingSpaces, ' ');
-        
+
         if (notifyIfSuccessful || !errorMessages.isEmpty()) {
             buf.append("\n").append(padding).append("Reported Errors:\n");
         }
@@ -661,14 +650,15 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             buf.append("\n").append(padding).append("----- THIS FILE WAS NOT PROCESSED AND WILL NEED TO BE CORRECTED AND RESUBMITTED -----\n");
         }
     }
-    
+
     protected String createDemergerMessageBody(CollectorBatch batch, CollectorReportData collectorReportData) {
         StringBuilder buf = new StringBuilder();
         appendHeaderInformation(buf, batch);
-        
+
         Map<Transaction, List<Message>> batchOriginEntryScrubberErrors = collectorReportData.getBatchOriginEntryScrubberErrors(batch);
-        
-        // the keys of the map returned by getTotalsOnInputOriginEntriesAssociatedWithErrorGroup represent all of the error document groups in the system 
+
+        // the keys of the map returned by getTotalsOnInputOriginEntriesAssociatedWithErrorGroup represent all of the error document
+        // groups in the system
         Map<DocumentGroupData, OriginEntryTotals> errorGroupDocumentTotals = collectorReportData.getTotalsOnInputOriginEntriesAssociatedWithErrorGroup(batch);
         Set<DocumentGroupData> errorDocumentGroups = null;
         if (errorGroupDocumentTotals == null) {
@@ -694,12 +684,13 @@ public class CollectorReportServiceImpl implements CollectorReportService {
                 }
             }
         }
-        
+
         return buf.toString();
     }
 
     /**
-     * Gets the mailService attribute. 
+     * Gets the mailService attribute.
+     * 
      * @return Returns the mailService.
      */
     public MailService getMailService() {
@@ -708,9 +699,18 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     /**
      * Sets the mailService attribute value.
+     * 
      * @param mailService The mailService to set.
      */
     public void setMailService(MailService mailService) {
         this.mailService = mailService;
+    }
+
+    public void setConfigurationService(KualiConfigurationService configurationService) {
+        this.configurationService = configurationService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

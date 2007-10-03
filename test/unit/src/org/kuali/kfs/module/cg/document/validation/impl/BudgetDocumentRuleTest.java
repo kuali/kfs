@@ -20,14 +20,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetTask;
+import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule;
 import org.kuali.test.ConfigureContext;
 
@@ -50,8 +50,8 @@ public class BudgetDocumentRuleTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         budgetDocumentRule = new BudgetDocumentRule();
-        MAXIMUM_NUMBER_OF_TASKS = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.MAXIMUM_NUMBER_OF_TASKS);
-        MINIMUM_NUMBER_OF_TASKS = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(KFSConstants.KRA_NAMESPACE, KraConstants.Components.BUDGET, KraConstants.MINIMUM_NUMBER_OF_TASKS);
+        MAXIMUM_NUMBER_OF_TASKS = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, KraConstants.MAXIMUM_NUMBER_OF_TASKS);
+        MINIMUM_NUMBER_OF_TASKS = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, KraConstants.MINIMUM_NUMBER_OF_TASKS);
     }
 
     public void testValidPeriods() throws Exception {

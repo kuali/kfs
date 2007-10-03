@@ -15,10 +15,10 @@
  */
 package org.kuali.module.gl.service.impl.orgreversion;
 
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 
 public class GenericOrganizationReversionCategory implements OrganizationReversionCategoryLogic {
@@ -27,20 +27,15 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
     private String categoryCode;
     private String categoryName;
     private boolean isExpense;
-    
-    private KualiConfigurationService kualiConfigurationService;
-    
+
+    private ParameterService parameterService;
+
     public GenericOrganizationReversionCategory() {
     }
 
     public void setCategoryCode(String code) {
         categoryCode = code;
-        isExpense = kualiConfigurationService.evaluateConstrainedParameter(
-                KFSConstants.CHART_NAMESPACE, 
-                KFSConstants.Components.ORGANIZATION_REVERSION_CATEGORY, 
-                KFSConstants.OrgReversion.IS_EXPENSE_PARAM, 
-                categoryCode,
-                "Y" );
+        isExpense = parameterService.evaluateConstrainedValue(OrganizationReversionCategory.class, KFSConstants.OrgReversion.IS_EXPENSE_PARAM, categoryCode, "Y");
     }
 
     public void setCategoryName(String name) {
@@ -55,34 +50,10 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
         String objTyp = oc.getFinancialObjectTypeCode();
         String objSubTyp = oc.getFinancialObjectSubType().getCode();
 
-        boolean consolidationRulesPassed = kualiConfigurationService.evaluateConstrainedParameter(
-                KFSConstants.CHART_NAMESPACE, 
-                KFSConstants.Components.ORGANIZATION_REVERSION_CATEGORY,
-                KFSConstants.OrgReversion.VALID_PREFIX + KFSConstants.OrgReversion.OBJECT_CONSOL_PARAM_SUFFIX,
-                KFSConstants.OrgReversion.INVALID_PREFIX + KFSConstants.OrgReversion.OBJECT_CONSOL_PARAM_SUFFIX,
-                categoryCode,
-                cons );
-        boolean levelRulesPassed = kualiConfigurationService.evaluateConstrainedParameter(
-                KFSConstants.CHART_NAMESPACE, 
-                KFSConstants.Components.ORGANIZATION_REVERSION_CATEGORY,
-                KFSConstants.OrgReversion.VALID_PREFIX + KFSConstants.OrgReversion.OBJECT_LEVEL_PARAM_SUFFIX,
-                KFSConstants.OrgReversion.INVALID_PREFIX + KFSConstants.OrgReversion.OBJECT_LEVEL_PARAM_SUFFIX,
-                categoryCode,
-                level );
-        boolean objectTypeRulesPassed = kualiConfigurationService.evaluateConstrainedParameter(
-                KFSConstants.CHART_NAMESPACE, 
-                KFSConstants.Components.ORGANIZATION_REVERSION_CATEGORY,
-                KFSConstants.OrgReversion.VALID_PREFIX + KFSConstants.OrgReversion.OBJECT_TYPE_PARAM_SUFFIX,
-                KFSConstants.OrgReversion.INVALID_PREFIX + KFSConstants.OrgReversion.OBJECT_TYPE_PARAM_SUFFIX,
-                categoryCode,
-                objTyp );
-        boolean objectSubTypeRulesPassed = kualiConfigurationService.evaluateConstrainedParameter(
-                KFSConstants.CHART_NAMESPACE, 
-                KFSConstants.Components.ORGANIZATION_REVERSION_CATEGORY,
-                KFSConstants.OrgReversion.VALID_PREFIX + KFSConstants.OrgReversion.OBJECT_SUB_TYPE_PARAM_SUFFIX,
-                KFSConstants.OrgReversion.INVALID_PREFIX + KFSConstants.OrgReversion.OBJECT_SUB_TYPE_PARAM_SUFFIX,
-                categoryCode,
-                objSubTyp );
+        boolean consolidationRulesPassed = parameterService.evaluateConstrainedValue(OrganizationReversionCategory.class, KFSConstants.OrgReversion.VALID_PREFIX + KFSConstants.OrgReversion.OBJECT_CONSOL_PARAM_SUFFIX, KFSConstants.OrgReversion.INVALID_PREFIX + KFSConstants.OrgReversion.OBJECT_CONSOL_PARAM_SUFFIX, categoryCode, cons);
+        boolean levelRulesPassed = parameterService.evaluateConstrainedValue(OrganizationReversionCategory.class, KFSConstants.OrgReversion.VALID_PREFIX + KFSConstants.OrgReversion.OBJECT_LEVEL_PARAM_SUFFIX, KFSConstants.OrgReversion.INVALID_PREFIX + KFSConstants.OrgReversion.OBJECT_LEVEL_PARAM_SUFFIX, categoryCode, level);
+        boolean objectTypeRulesPassed = parameterService.evaluateConstrainedValue(OrganizationReversionCategory.class, KFSConstants.OrgReversion.VALID_PREFIX + KFSConstants.OrgReversion.OBJECT_TYPE_PARAM_SUFFIX, KFSConstants.OrgReversion.INVALID_PREFIX + KFSConstants.OrgReversion.OBJECT_TYPE_PARAM_SUFFIX, categoryCode, objTyp);
+        boolean objectSubTypeRulesPassed = parameterService.evaluateConstrainedValue(OrganizationReversionCategory.class, KFSConstants.OrgReversion.VALID_PREFIX + KFSConstants.OrgReversion.OBJECT_SUB_TYPE_PARAM_SUFFIX, KFSConstants.OrgReversion.INVALID_PREFIX + KFSConstants.OrgReversion.OBJECT_SUB_TYPE_PARAM_SUFFIX, categoryCode, objSubTyp);
 
         return consolidationRulesPassed && levelRulesPassed && objectTypeRulesPassed && objectSubTypeRulesPassed;
     }
@@ -99,11 +70,7 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
         return isExpense;
     }
 
-    /**
-     * Sets the kualiConfigurationService attribute value.
-     * @param kualiConfigurationService The kualiConfigurationService to set.
-     */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

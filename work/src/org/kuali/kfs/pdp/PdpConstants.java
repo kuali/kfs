@@ -18,12 +18,6 @@ package org.kuali.module.pdp;
 
 public class PdpConstants {
 
-    public static final String PDP_NAMESPACE = "KFS-PD";
-    
-    public static class Components {
-        public static final String LOAD_FED_RESERVE_BANK_DATA_STEP = "LoadFederalReserveBankDataStep";
-    }
-    
     public static class PayeeTypeCodes {
         public static String VENDOR = "V";
     }
@@ -50,7 +44,7 @@ public class PdpConstants {
         public static String TAXHOLDERS_GROUP = "KUALI_PDP_TAXHOLDERS";
         public static String VIEWALL_GROUP = "KUALI_PDP_VIEWALL";
         public static String VIEWID_GROUP = "KUALI_PDP_VIEWID";
-        public static String VIEWBANK_GROUP = "KUALI_PDP_VIEWBANK";        
+        public static String VIEWBANK_GROUP = "KUALI_PDP_VIEWBANK";
     }
 
     public static class ApplicationParameterKeys {

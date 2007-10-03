@@ -56,7 +56,7 @@
 	</bean>
 	
 	<bean id="kraUserDao" class="org.kuali.module.kra.budget.dao.ojb.KraUserDaoOjb">
-		<property name="configService" ref="kualiConfigurationService" />
+		<property name="parameterService" ref="parameterService" />
 	</bean>
 
 	<bean id="budgetService" class="org.kuali.module.kra.budget.service.impl.BudgetServiceImpl">
@@ -96,12 +96,12 @@
         <property name="maintenanceDocumentDictionaryService">
       		<ref bean="maintenanceDocumentDictionaryService" />
     	</property>
-		<property name="configService" ref="kualiConfigurationService" />
+		<property name="parameterService" ref="parameterService" />
 	</bean>
 
 	<bean id="budgetFringeRateService" class="org.kuali.module.kra.budget.service.impl.BudgetFringeRateServiceImpl">
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
+		<property name="parameterService">
+			<ref bean="parameterService" />
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -166,8 +166,8 @@
 		<property name="budgetFringeRateService">
 			<ref bean="budgetFringeRateService" />
 		</property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
+		<property name="parameterService">
+			<ref bean="parameterService" />
 		</property>
 	</bean>
 
@@ -180,8 +180,8 @@
 		<property name="budgetModularService">
 			<ref bean="budgetModularService" />
 		</property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
+		<property name="parameterService">
+			<ref bean="parameterService" />
 		</property>
 	</bean>
 
@@ -216,8 +216,8 @@
 		<property name="purposeService">
 			<ref bean="purposeService" />
 		</property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
+		<property name="parameterService">
+			<ref bean="parameterService" />
 		</property>
 	</bean>
 

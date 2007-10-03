@@ -16,18 +16,17 @@
 package org.kuali.module.kra.budget.rules.budget;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.bo.Budget;
@@ -41,11 +40,12 @@ import org.kuali.module.kra.util.AuditCluster;
 import org.kuali.module.kra.util.AuditError;
 
 public class BudgetAuditRule {
-    
+
     BudgetPersonnelRule budgetPersonnelRule = new BudgetPersonnelRule();
-    
-    protected BudgetAuditRule() {}
-    
+
+    protected BudgetAuditRule() {
+    }
+
     /**
      * Checks business rules to be flagged as audit errors.
      * 
@@ -73,24 +73,22 @@ public class BudgetAuditRule {
 
         return valid;
     }
-    
+
     private boolean runParametersSoftAuditErrors(BudgetDocument budgetDocument) {
         // Need to setup IDC values
         BudgetIndirectCostService idcService = SpringContext.getBean(BudgetIndirectCostService.class);
         idcService.refreshIndirectCost(budgetDocument);
-        
+
         if (ObjectUtils.isNotNull(budgetDocument.getBudget().getIndirectCost())) {
             List<AuditError> parametersSoftAuditErrors = new ArrayList<AuditError>();
             List<BudgetTaskPeriodIndirectCost> taskPeriodIndirectCostItems = budgetDocument.getBudget().getIndirectCost().getBudgetTaskPeriodIndirectCostItems();
-        
+
             for (BudgetTaskPeriodIndirectCost taskPeriodIndirectCost : taskPeriodIndirectCostItems) {
                 if (taskPeriodIndirectCost.getCalculatedIndirectCost().isNegative()) {
-                    parametersSoftAuditErrors.add(new AuditError("document.budget.audit.parameters.tasks.negativeIdc" + taskPeriodIndirectCost.getBudgetTaskSequenceNumber().toString(),
-                            KraKeyConstants.AUDIT_PARAMETERS_NEGATIVE_IDC,
-                            "parameters", new String[] {taskPeriodIndirectCost.getBudgetTaskSequenceNumber().toString()}));
+                    parametersSoftAuditErrors.add(new AuditError("document.budget.audit.parameters.tasks.negativeIdc" + taskPeriodIndirectCost.getBudgetTaskSequenceNumber().toString(), KraKeyConstants.AUDIT_PARAMETERS_NEGATIVE_IDC, "parameters", new String[] { taskPeriodIndirectCost.getBudgetTaskSequenceNumber().toString() }));
                 }
             }
-        
+
             if (!parametersSoftAuditErrors.isEmpty()) {
                 GlobalVariables.getAuditErrorMap().put("parametersSoftAuditErrors", new AuditCluster("Parameters", parametersSoftAuditErrors, true));
                 return false;
@@ -104,14 +102,12 @@ public class BudgetAuditRule {
         BudgetCostShareFormHelper budgetCostShareFormHelper = new BudgetCostShareFormHelper(budget.getPeriods(), budget.getPersonnel(), budget.getNonpersonnelItems(), budget.getInstitutionCostSharePersonnelItems(), budget.getInstitutionCostShareItems(), budget.getThirdPartyCostShareItems());
 
         if (!budgetCostShareFormHelper.getInstitutionDirect().getTotalBalanceToBeDistributed().equals(new KualiInteger(0))) {
-            costShareAuditErrors.add(new AuditError("document.budget.audit.costShare.institution.distributed",
-            KraKeyConstants.AUDIT_COST_SHARE_INSTITUTION_DISTRIBUTED, "costshare"));
+            costShareAuditErrors.add(new AuditError("document.budget.audit.costShare.institution.distributed", KraKeyConstants.AUDIT_COST_SHARE_INSTITUTION_DISTRIBUTED, "costshare"));
         }
         if (!budgetCostShareFormHelper.getThirdPartyDirect().getTotalBalanceToBeDistributed().equals(new KualiInteger(0))) {
-            costShareAuditErrors.add(new AuditError("document.budget.audit.costShare.3rdParty.distributed",
-            KraKeyConstants.AUDIT_COST_SHARE_3P_DISTRIBUTED, "costshare"));
+            costShareAuditErrors.add(new AuditError("document.budget.audit.costShare.3rdParty.distributed", KraKeyConstants.AUDIT_COST_SHARE_3P_DISTRIBUTED, "costshare"));
         }
-        
+
         if (!costShareAuditErrors.isEmpty()) {
             GlobalVariables.getAuditErrorMap().put("costShareAuditErrors", new AuditCluster("Cost Share", costShareAuditErrors));
             return false;
@@ -121,50 +117,51 @@ public class BudgetAuditRule {
 
     private boolean runNonpersonnelAuditErrors(List<BudgetNonpersonnel> nonpersonnelItems) {
         List<AuditError> nonpersonnelAuditErrors = new ArrayList<AuditError>();
-        List<String> first25kSubcategoryCodes = SpringContext.getBean(KualiConfigurationService.class).getParameterValuesAsList(KFSConstants.KRA_NAMESPACE, KFSConstants.Components.DOCUMENT, KraConstants.FIRST25K_SUBCATEGORY_CODES);
-        
+        List<String> first25kSubcategoryCodes = SpringContext.getBean(ParameterService.class).getParameterValues(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.FIRST25K_SUBCATEGORY_CODES);
+
         HashMap<String, BudgetNonpersonnel> hashMap = new HashMap();
-        
+
         // Go over all nonpersonnel items, and pick subcontractor less then 25K items. Finally aggregate the ones that
         // have same subcategoryCode and subcontractor number.
-        for(BudgetNonpersonnel budgetNonpersonnel : nonpersonnelItems) {
-            if (KraConstants.SUBCONTRACTOR_CATEGORY_CODE.equals(budgetNonpersonnel.getBudgetNonpersonnelCategoryCode()) &&
-                    first25kSubcategoryCodes.contains(budgetNonpersonnel.getBudgetNonpersonnelSubCategoryCode())) {
+        for (BudgetNonpersonnel budgetNonpersonnel : nonpersonnelItems) {
+            if (KraConstants.SUBCONTRACTOR_CATEGORY_CODE.equals(budgetNonpersonnel.getBudgetNonpersonnelCategoryCode()) && first25kSubcategoryCodes.contains(budgetNonpersonnel.getBudgetNonpersonnelSubCategoryCode())) {
                 String key = budgetNonpersonnel.getBudgetNonpersonnelSubCategoryCode() + "-" + budgetNonpersonnel.getSubcontractorNumber();
-                
-                if(hashMap.containsKey(key)) {
+
+                if (hashMap.containsKey(key)) {
                     BudgetNonpersonnel matchedBudgetNonpersonnel = hashMap.get(key);
-                    
+
                     matchedBudgetNonpersonnel.setAgencyRequestAmount(matchedBudgetNonpersonnel.getAgencyRequestAmount().add(budgetNonpersonnel.getAgencyRequestAmount()));
                     matchedBudgetNonpersonnel.setBudgetInstitutionCostShareAmount(matchedBudgetNonpersonnel.getBudgetInstitutionCostShareAmount().add(budgetNonpersonnel.getBudgetInstitutionCostShareAmount()));
                     matchedBudgetNonpersonnel.setBudgetThirdPartyCostShareAmount(matchedBudgetNonpersonnel.getBudgetThirdPartyCostShareAmount().add(budgetNonpersonnel.getBudgetThirdPartyCostShareAmount()));
-                } else {
+                }
+                else {
                     // create a new one so to avoid messing with the interface values
                     hashMap.put(key, new BudgetNonpersonnel(budgetNonpersonnel));
                 }
             }
         }
-        
+
         // Second step is to look over the aggregated items and decide if they need audit errors (sum(amounts) > 25K).
         for (BudgetNonpersonnel budgetNonpersonnel : hashMap.values()) {
             if (budgetNonpersonnel.getAgencyRequestAmount().add(budgetNonpersonnel.getBudgetInstitutionCostShareAmount().add(budgetNonpersonnel.getBudgetThirdPartyCostShareAmount())).isGreaterThan(new KualiInteger(25000))) {
-                // Necessary because the nonpersonnel page doesn't have all the required hidden variables for this. This should only happen
+                // Necessary because the nonpersonnel page doesn't have all the required hidden variables for this. This should only
+                // happen
                 // for the first one found that has null values, after that it will be set for all others.
                 if (budgetNonpersonnel.getNonpersonnelObjectCode() == null) {
                     budgetNonpersonnel.refreshReferenceObject("nonpersonnelObjectCode");
                 }
-                
-                nonpersonnelAuditErrors.add(new AuditError("document.budget.audit.nonpersonnelItem.category." + budgetNonpersonnel.getBudgetNonpersonnelCategoryCode(), KraKeyConstants.AUDIT_NONPERSONNEL_SUBCONTRACTOR_EXCESS_AMOUNT,  "nonpersonnel", new String[] { budgetNonpersonnel.getNonpersonnelObjectCode().getNonpersonnelSubCategory().getName(), budgetNonpersonnel.getBudgetNonpersonnelDescription()}));
+
+                nonpersonnelAuditErrors.add(new AuditError("document.budget.audit.nonpersonnelItem.category." + budgetNonpersonnel.getBudgetNonpersonnelCategoryCode(), KraKeyConstants.AUDIT_NONPERSONNEL_SUBCONTRACTOR_EXCESS_AMOUNT, "nonpersonnel", new String[] { budgetNonpersonnel.getNonpersonnelObjectCode().getNonpersonnelSubCategory().getName(), budgetNonpersonnel.getBudgetNonpersonnelDescription() }));
             }
         }
-        
+
         if (!nonpersonnelAuditErrors.isEmpty()) {
             GlobalVariables.getAuditErrorMap().put("nonpersonnelAuditErrors", new AuditCluster("Nonpersonnel", nonpersonnelAuditErrors, true));
             return false;
         }
         return true;
     }
-    
+
     private boolean runModularSoftAuditErrors(BudgetModular modularBudget) {
         List<AuditError> modularSoftAuditErrors = new ArrayList<AuditError>();
         if (StringUtils.isBlank(modularBudget.getBudgetModularConsortiumDescription())) {

@@ -27,19 +27,22 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
+import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.service.OrganizationReversionService;
 import org.kuali.module.chart.service.PriorYearAccountService;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.BalanceService;
+import org.kuali.module.gl.service.OrgReversionUnitOfWorkService;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 import org.kuali.module.gl.service.OrganizationReversionProcessService;
 import org.kuali.module.gl.service.OrganizationReversionSelection;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ReportService;
-import org.kuali.module.gl.service.OrgReversionUnitOfWorkService;
 import org.kuali.module.gl.service.impl.orgreversion.OrganizationReversionProcess;
 import org.kuali.module.gl.util.Summary;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,11 +50,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class OrganizationReversionProcessServiceImpl implements OrganizationReversionProcessService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionProcessServiceImpl.class);
-    
+
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
     private OrganizationReversionService organizationReversionService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
     private BalanceService balanceService;
     private OrganizationReversionSelection organizationReversionSelection;
     private OriginEntryGroupService originEntryGroupService;
@@ -73,10 +76,6 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
-    }
-
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
     }
 
     public void setOrganizationReversionSelection(OrganizationReversionSelection organizationReversionSelection) {
@@ -105,18 +104,19 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
 
     /**
      * Sets the reportService attribute value.
+     * 
      * @param reportService The reportService to set.
      */
     public void setReportService(ReportService reportService) {
         this.reportService = reportService;
     }
-    
+
     /**
-     * This is a setter.  It sets the OrgReversionUnitOfWorkService so we can use it, when we
-     * go and create the OrgReversionProcesses.  It makes the internal variables equal to the parameter
-     * you've sent in.  That's how setters work.  It's a concept that likely doesn't need heavy
-     * commenting, but perhaps should lead to debates over how object oriented languages are ideally used
-     * or the nature of state and concurrency within functional versus imperative languages.
+     * This is a setter. It sets the OrgReversionUnitOfWorkService so we can use it, when we go and create the
+     * OrgReversionProcesses. It makes the internal variables equal to the parameter you've sent in. That's how setters work. It's a
+     * concept that likely doesn't need heavy commenting, but perhaps should lead to debates over how object oriented languages are
+     * ideally used or the nature of state and concurrency within functional versus imperative languages.
+     * 
      * @param orgReversionUnitOfWorkService the service to set.
      */
     public void setOrgReversionUnitOfWorkService(OrgReversionUnitOfWorkService orgReversionUnitOfWorkService) {
@@ -140,15 +140,15 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
 
         orp.organizationReversionProcess();
     }
-    
+
     public Map getJobParameters() {
         // Get job parameters
         Map jobParameters = new HashMap();
-        String strTransactionDate = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM);
-        jobParameters.put(KFSConstants.UNALLOC_OBJECT_CD, kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.ORGANIZATION_REVERSION, GLConstants.OrganizationReversionProcess.UNALLOC_OBJECT_CODE_PARM));
-        jobParameters.put(KFSConstants.BEG_BUD_CASH_OBJECT_CD, kualiConfigurationService.getParameterValue(KFSConstants.CHART_NAMESPACE, GLConstants.Components.ORGANIZATION_REVERSION, GLConstants.OrganizationReversionProcess.CARRY_FORWARD_OBJECT_CODE));
-        jobParameters.put(KFSConstants.FUND_BAL_OBJECT_CD, kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_CODE_PARM));
-        String strUniversityFiscalYear = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM);
+        String strTransactionDate = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM);
+        jobParameters.put(KFSConstants.UNALLOC_OBJECT_CD, parameterService.getParameterValue(OrganizationReversion.class, GLConstants.OrganizationReversionProcess.UNALLOC_OBJECT_CODE_PARM));
+        jobParameters.put(KFSConstants.BEG_BUD_CASH_OBJECT_CD, parameterService.getParameterValue(OrganizationReversion.class, GLConstants.OrganizationReversionProcess.CARRY_FORWARD_OBJECT_CODE));
+        jobParameters.put(KFSConstants.FUND_BAL_OBJECT_CD, parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_CODE_PARM));
+        String strUniversityFiscalYear = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM);
 
         try {
             SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
@@ -174,30 +174,30 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
         // prepare statistics for report
         SimpleDateFormat reportDateFormat = new SimpleDateFormat(DATE_FORMAT);
         jobParameters.put(KFSConstants.TRANSACTION_DT, reportDateFormat.format(jobParameters.get(KFSConstants.TRANSACTION_DT)));
-        
+
         Summary totalRecordCountSummary = new Summary();
         totalRecordCountSummary.setSortOrder(Summary.TOTAL_RECORD_COUNT_SUMMARY_SORT_ORDER);
         totalRecordCountSummary.setDescription("NUMBER OF GLBL RECORDS READ....:");
         totalRecordCountSummary.setCount(organizationReversionCounts.get("balancesRead"));
-        
+
         Summary selectedRecordCountSummary = new Summary();
         selectedRecordCountSummary.setSortOrder(Summary.SELECTED_RECORD_COUNT_SUMMARY_SORT_ORDER);
         selectedRecordCountSummary.setDescription("NUMBER OF GLBL RECORDS SELECTED:");
         selectedRecordCountSummary.setCount(organizationReversionCounts.get("balancesSelected"));
-        
+
         Summary sequenceRecordsWrittenSummary = new Summary();
         sequenceRecordsWrittenSummary.setSortOrder(Summary.SEQUENCE_RECORDS_WRITTEN_SUMMARY_SORT_ORDER);
         sequenceRecordsWrittenSummary.setDescription("NUMBER OF SEQ RECORDS WRITTEN..:");
         sequenceRecordsWrittenSummary.setCount(organizationReversionCounts.get("recordsWritten"));
-        
+
         List<Summary> summaries = new ArrayList<Summary>();
         summaries.add(totalRecordCountSummary);
         summaries.add(selectedRecordCountSummary);
         summaries.add(sequenceRecordsWrittenSummary);
-        
+
         Date runDate = new Date(dateTimeService.getCurrentDate().getTime());
         reportService.generateOrgReversionStatisticsReport(jobParameters, summaries, runDate, outputGroup);
-        
+
     }
 
     /**
@@ -207,5 +207,9 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
         java.util.Date runDate = dateTimeService.getCurrentDate();
         // Create output group
         return originEntryGroupService.createGroup(new java.sql.Date(runDate.getTime()), OriginEntrySource.YEAR_END_ORG_REVERSION, true, false, true);
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

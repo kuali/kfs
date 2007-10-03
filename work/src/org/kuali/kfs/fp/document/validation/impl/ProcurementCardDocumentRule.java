@@ -39,13 +39,14 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
 import org.kuali.module.financial.bo.ProcurementCardTransactionDetail;
 import org.kuali.module.financial.document.ProcurementCardDocument;
@@ -152,16 +153,16 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
         }
 
         /* check object type global restrictions */
-        objectCodeAllowed = objectCodeAllowed && executeParameterRestriction(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.PROCUREMENT_CARD_DOC, OBJECT_TYPE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getObjectCode().getFinancialObjectTypeCode(), errorKey, "Object type");
+        objectCodeAllowed = objectCodeAllowed && executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(ProcurementCardDocument.class, OBJECT_TYPE_GLOBAL_RESTRICTION_PARM_NM), accountingLine.getObjectCode().getFinancialObjectTypeCode(), errorKey, "Object type");
 
         /* check object sub type global restrictions */
-        objectCodeAllowed = objectCodeAllowed && executeParameterRestriction(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.PROCUREMENT_CARD_DOC, OBJECT_SUB_TYPE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getObjectCode().getFinancialObjectSubTypeCode(), errorKey, "Object sub type");
+        objectCodeAllowed = objectCodeAllowed && executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(ProcurementCardDocument.class, OBJECT_SUB_TYPE_GLOBAL_RESTRICTION_PARM_NM), accountingLine.getObjectCode().getFinancialObjectSubTypeCode(), errorKey, "Object sub type");
 
         /* check object level global restrictions */
-        objectCodeAllowed = objectCodeAllowed && executeParameterRestriction(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.PROCUREMENT_CARD_DOC, OBJECT_LEVEL_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getObjectCode().getFinancialObjectLevelCode(), errorKey, "Object level");
+        objectCodeAllowed = objectCodeAllowed && executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(ProcurementCardDocument.class, OBJECT_LEVEL_GLOBAL_RESTRICTION_PARM_NM), accountingLine.getObjectCode().getFinancialObjectLevelCode(), errorKey, "Object level");
 
         /* check object consolidation global restrictions */
-        objectCodeAllowed = objectCodeAllowed && executeParameterRestriction(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.PROCUREMENT_CARD_DOC, OBJECT_CONSOLIDATION_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialConsolidationObjectCode(), errorKey, "Object consolidation code");
+        objectCodeAllowed = objectCodeAllowed && executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(ProcurementCardDocument.class, OBJECT_CONSOLIDATION_GLOBAL_RESTRICTION_PARM_NM), accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialConsolidationObjectCode(), errorKey, "Object consolidation code");
 
         /* get mcc restriction from transaction */
         String mccRestriction = "";
@@ -179,10 +180,10 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
         }
 
         /* check object code is in permitted list for mcc */
-        objectCodeAllowed = objectCodeAllowed && executeConstrainedParameterRestriction(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.PROCUREMENT_CARD_DOC, ProcurementCardDocumentRuleConstants.VALID_OBJECTS_BY_MCC_CODE_PARM_NM, ProcurementCardDocumentRuleConstants.INVALID_OBJECTS_BY_MCC_CODE_PARM_NM, mccRestriction, accountingLine.getFinancialObjectCode(), errorKey, "Object code");
+        objectCodeAllowed = objectCodeAllowed && executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(ProcurementCardDocument.class, ProcurementCardDocumentRuleConstants.VALID_OBJECTS_BY_MCC_CODE_PARM_NM), SpringContext.getBean(ParameterService.class).getParameter(ProcurementCardDocument.class, ProcurementCardDocumentRuleConstants.INVALID_OBJECTS_BY_MCC_CODE_PARM_NM), mccRestriction, accountingLine.getFinancialObjectCode(), errorKey, "Object code");
 
         /* check object sub type is in permitted list for mcc */
-        objectCodeAllowed = objectCodeAllowed && executeConstrainedParameterRestriction(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.PROCUREMENT_CARD_DOC, ProcurementCardDocumentRuleConstants.VALID_OBJ_SUB_TYPE_BY_MCC_CODE_PARM_NM, ProcurementCardDocumentRuleConstants.INVALID_OBJ_SUB_TYPE_BY_MCC_CODE_PARM_NM, mccRestriction, accountingLine.getObjectCode().getFinancialObjectSubTypeCode(), errorKey, "Object sub type code");
+        objectCodeAllowed = objectCodeAllowed && executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(ProcurementCardDocument.class, ProcurementCardDocumentRuleConstants.VALID_OBJ_SUB_TYPE_BY_MCC_CODE_PARM_NM), SpringContext.getBean(ParameterService.class).getParameter(ProcurementCardDocument.class, ProcurementCardDocumentRuleConstants.INVALID_OBJ_SUB_TYPE_BY_MCC_CODE_PARM_NM), mccRestriction, accountingLine.getObjectCode().getFinancialObjectSubTypeCode(), errorKey, "Object sub type code");
 
         return objectCodeAllowed;
     }
@@ -207,20 +208,20 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
         }
 
         /* global account number restrictions */
-        accountNumberAllowed = accountNumberAllowed && executeParameterRestriction(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.PROCUREMENT_CARD_DOC, ACCOUNT_NUMBER_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getAccountNumber(), errorKey, "Account number");
+        accountNumberAllowed = accountNumberAllowed && executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(ProcurementCardDocument.class, ACCOUNT_NUMBER_GLOBAL_RESTRICTION_PARM_NM), accountingLine.getAccountNumber(), errorKey, "Account number");
 
         /* global sub fund restrictions */
-        accountNumberAllowed = accountNumberAllowed && executeParameterRestriction(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.PROCUREMENT_CARD_DOC, SUB_FUND_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getAccount().getSubFundGroupCode(), errorKey, "Sub fund code");
+        accountNumberAllowed = accountNumberAllowed && executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(ProcurementCardDocument.class, SUB_FUND_GLOBAL_RESTRICTION_PARM_NM), accountingLine.getAccount().getSubFundGroupCode(), errorKey, "Sub fund code");
 
         /* global function code restrictions */
-        accountNumberAllowed = accountNumberAllowed && executeParameterRestriction(KFSConstants.FINANCIAL_NAMESPACE, KFSConstants.Components.PROCUREMENT_CARD_DOC, FUNCTION_CODE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getAccount().getFinancialHigherEdFunctionCd(), errorKey, "Function code");
+        accountNumberAllowed = accountNumberAllowed && executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(ProcurementCardDocument.class, FUNCTION_CODE_GLOBAL_RESTRICTION_PARM_NM), accountingLine.getAccount().getFinancialHigherEdFunctionCd(), errorKey, "Function code");
 
         return accountNumberAllowed;
     }
 
     /**
-     * Overrides FinancialDocumentRuleBase.isDocumentBalanceValid and changes the default debit/credit comparision to checking
-     * the target total against the total balance. If they don't balance, and error message is produced that is more appropriate for
+     * Overrides FinancialDocumentRuleBase.isDocumentBalanceValid and changes the default debit/credit comparision to checking the
+     * target total against the total balance. If they don't balance, and error message is produced that is more appropriate for
      * PCDO.
      * 
      * @param transactionalDocument
@@ -240,17 +241,17 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
         }
 
         List<ProcurementCardTransactionDetail> pcTransactionEntries = pcDocument.getTransactionEntries();
-        
-        for(ProcurementCardTransactionDetail pcTransactionDetail : pcTransactionEntries) {
+
+        for (ProcurementCardTransactionDetail pcTransactionDetail : pcTransactionEntries) {
             isValid &= isTransactionBalanceValid(pcTransactionDetail);
         }
-        
+
         return isValid;
     }
-    
+
     /**
-     * 
      * This method...
+     * 
      * @param pcTransaction
      * @return
      */
@@ -258,29 +259,28 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
         boolean inBalance = true;
         KualiDecimal transAmount = pcTransaction.getTransactionTotalAmount();
         List<ProcurementCardTargetAccountingLine> targetAcctingLines = pcTransaction.getTargetAccountingLines();
-        
+
         KualiDecimal targetLineTotal = new KualiDecimal(0.00);
-        
-        for(TargetAccountingLine targetLine : targetAcctingLines) {
+
+        for (TargetAccountingLine targetLine : targetAcctingLines) {
             targetLineTotal = targetLineTotal.add(targetLine.getAmount());
         }
-        
+
         // perform absolute value check because current system has situations where amounts may be opposite in sign
         // This will no longer be necessary following completion of KULFDBCK-1290
         inBalance = transAmount.abs().equals(targetLineTotal.abs());
-        
-        if(!inBalance) {
-            GlobalVariables.getErrorMap().putError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_PC_TRANSACTION_TOTAL_ACCTING_LINE_TOTAL_NOT_EQUAL, new String[] {transAmount.toString(), targetLineTotal.toString()});
+
+        if (!inBalance) {
+            GlobalVariables.getErrorMap().putError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_PC_TRANSACTION_TOTAL_ACCTING_LINE_TOTAL_NOT_EQUAL, new String[] { transAmount.toString(), targetLineTotal.toString() });
         }
-        
+
         return inBalance;
     }
 
     /**
      * On procurement card, positive source amounts are credits, negative source amounts are debits
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDebit(FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDebit(FinancialDocument, org.kuali.core.bo.AccountingLine)
      */
     public boolean isDebit(AccountingDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
         // disallow error correction
@@ -348,9 +348,9 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * Fix the GlobalVariables.getErrorMap errorPath for how PCDO needs them in order to properly display errors on the
-     * interface. This is different from kuali accounting lines because instead PCDO has accounting lines insides of
-     * transactions. Hence the error path is slighly different. 
+     * Fix the GlobalVariables.getErrorMap errorPath for how PCDO needs them in order to properly display errors on the interface.
+     * This is different from kuali accounting lines because instead PCDO has accounting lines insides of transactions. Hence the
+     * error path is slighly different.
      * 
      * @param transactionalDocument
      * @param accountingLine
@@ -358,33 +358,33 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
     private void fixErrorPath(AccountingDocument financialDocument, AccountingLine accountingLine) {
         List transactionEntries = ((ProcurementCardDocument) financialDocument).getTransactionEntries();
         ProcurementCardTargetAccountingLine targetAccountingLineToBeFound = (ProcurementCardTargetAccountingLine) accountingLine;
-        
+
         String errorPath = KFSPropertyConstants.DOCUMENT;
-        
+
         // originally I used getFinancialDocumentTransactionLineNumber to determine the appropriate transaction, unfortunatly
         // this makes it dependent on the order of transactionEntries in FP_PRCRMNT_DOC_T. Hence we have two loops below.
         boolean done = false;
         int transactionLineIndex = 0;
         for (Iterator iterTransactionEntries = transactionEntries.iterator(); !done && iterTransactionEntries.hasNext(); transactionLineIndex++) {
             ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) iterTransactionEntries.next();
-            
+
             // Loop over the transactionEntry to find the accountingLine's location. Keep another counter handy.
             int accountingLineCounter = 0;
             for (Iterator iterTargetAccountingLines = transactionEntry.getTargetAccountingLines().iterator(); !done && iterTargetAccountingLines.hasNext(); accountingLineCounter++) {
                 ProcurementCardTargetAccountingLine targetAccountingLine = (ProcurementCardTargetAccountingLine) iterTargetAccountingLines.next();
-                
-                if(targetAccountingLine.getSequenceNumber().equals(targetAccountingLineToBeFound.getSequenceNumber())) {
+
+                if (targetAccountingLine.getSequenceNumber().equals(targetAccountingLineToBeFound.getSequenceNumber())) {
                     // Found the item, capture error path, and set boolean (break isn't enough for 2 loops).
                     errorPath = errorPath + "." + KFSPropertyConstants.TRANSACTION_ENTRIES + "[" + transactionLineIndex + "]." + KFSPropertyConstants.TARGET_ACCOUNTING_LINES + "[" + accountingLineCounter + "]";
                     done = true;
                 }
             }
         }
-        
+
         if (!done) {
             LOG.warn("fixErrorPath failed to locate item accountingLine=" + accountingLine.toString());
         }
-        
+
         // Clearing the error path is not a universal solution but should work for PCDO. In this case it's the only choice
         // because KualiRuleService.applyRules will miss to remove the previous transaction added error path (only this
         // method knows how it is called).

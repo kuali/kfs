@@ -18,11 +18,10 @@ package org.kuali.module.chart.service.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.spring.Cached;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSConstants.ChartApcParms;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.dao.OrganizationDao;
 import org.kuali.module.chart.service.ChartService;
@@ -35,9 +34,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class OrganizationServiceImpl implements OrganizationService {
     private OrganizationDao organizationDao;
-    private KualiConfigurationService configService;
-    private ChartService chartService; 
-    
+    private ParameterService parameterService;
+    private ChartService chartService;
+
     /**
      * Implements the getByPrimaryId method defined by OrganizationService.
      * 
@@ -85,7 +84,6 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     /**
-     * 
      * @see org.kuali.module.chart.service.OrganizationService#getActiveAccountsByOrg(java.lang.String, java.lang.String)
      */
     public List getActiveAccountsByOrg(String chartOfAccountsCode, String organizationCode) {
@@ -101,7 +99,6 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     /**
-     * 
      * @see org.kuali.module.chart.service.OrganizationService#getActiveChildOrgs(java.lang.String, java.lang.String)
      */
     public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode) {
@@ -120,33 +117,21 @@ public class OrganizationServiceImpl implements OrganizationService {
         if (StringUtils.isBlank(organizationTypeCode)) {
             throw new IllegalArgumentException("String parameter organizationTypeCode was null or blank.");
         }
-        
-        return organizationDao.getActiveOrgsByType( organizationTypeCode );
+
+        return organizationDao.getActiveOrgsByType(organizationTypeCode);
     }
-   
+
     /*
-     *   returns the chart of accounts code and the orgnization code of the root
-     *   organization
+     * returns the chart of accounts code and the orgnization code of the root organization
      */
-    public String[] getRootOrganizationCode()
-    {
-        String rootChart = 
-        getChartService().getUniversityChart().getChartOfAccountsCode();
-        String selfReportsOrgType =
-        getConfigService().getParameterValue(
-                KFSConstants.CHART_NAMESPACE,
-                KFSConstants.Components.ORGANIZATION,
-                ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
-        return (organizationDao.getRootOrganizationCode(rootChart,
-                                                        selfReportsOrgType));
+    public String[] getRootOrganizationCode() {
+        String rootChart = getChartService().getUniversityChart().getChartOfAccountsCode();
+        String selfReportsOrgType = SpringContext.getBean(ParameterService.class).getParameterValue(Org.class, ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
+        return (organizationDao.getRootOrganizationCode(rootChart, selfReportsOrgType));
     }
 
-    public KualiConfigurationService getConfigService() {
-        return configService;
-    }
-
-    public void setConfigService(KualiConfigurationService configService) {
-        this.configService = configService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     public ChartService getChartService() {
@@ -156,5 +141,5 @@ public class OrganizationServiceImpl implements OrganizationService {
     public void setChartService(ChartService chartService) {
         this.chartService = chartService;
     }
-    
+
 }

@@ -22,6 +22,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.module.chart.bo.Org;
@@ -32,7 +33,7 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionOrganizationReportsRule.class);
 
-    
+
     private OrganizationService orgService;
     private ChartService chartService;
     private BudgetConstructionOrganizationReportsService bcOrgReportsService;
@@ -85,7 +86,7 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
 
         // check reporting hierarchy is valid
         success &= checkSimpleRules(document);
-        // check that user is authorized       
+        // check that user is authorized
         success &= checkUserAuthorized();
         return success;
     }
@@ -94,19 +95,19 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
- 
+
         LOG.info("Entering processCustomSaveDocumentBusinessRules()");
 
         // check reporting hierarchy is valid
         checkSimpleRules(document);
-        // check that user is authorized        
+        // check that user is authorized
         checkUserAuthorized();
         return true;
     }
 
- 
+
     protected boolean checkSimpleRules(MaintenanceDocument document) {
-        
+
         boolean success = true;
         String lastReportsToChartOfAccountsCode;
         String lastReportsToOrganizationCode;
@@ -115,62 +116,60 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
         Org tempOrg;
         Integer loopCount;
         Integer maxLoopCount = 40;
-        
+
         boolean orgMustReportToSelf = false;
         tempOrg = null;
-        
+
         // Get the Org business object so that we can check the org type
-        if ( ObjectUtils.isNotNull(newBCOrgReports.getChartOfAccountsCode())
-                && ObjectUtils.isNotNull(newBCOrgReports.getOrganizationCode()) ) {
-            tempOrg = orgService.getByPrimaryId(newBCOrgReports.getChartOfAccountsCode(), newBCOrgReports.getOrganizationCode());         
-            
-            // Check the Org Type of the Org business object to see if it is the root (reports to self) 
-            
-            if ( ObjectUtils.isNotNull(tempOrg)){
-                if (applyApcRule(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ORGANIZATION, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode())) {
+        if (ObjectUtils.isNotNull(newBCOrgReports.getChartOfAccountsCode()) && ObjectUtils.isNotNull(newBCOrgReports.getOrganizationCode())) {
+            tempOrg = orgService.getByPrimaryId(newBCOrgReports.getChartOfAccountsCode(), newBCOrgReports.getOrganizationCode());
+
+            // Check the Org Type of the Org business object to see if it is the root (reports to self)
+
+            if (ObjectUtils.isNotNull(tempOrg)) {
+                if (SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(Org.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode())) {
                     orgMustReportToSelf = true;
                 }
             }
         }
-        
+
         // Reports To Chart/Org should not be same as this Chart/Org
         // However, allow special case where organization type is listed in the business rules
-        if ( ObjectUtils.isNotNull(newBCOrgReports.getReportsToChartOfAccountsCode()) 
-                && ObjectUtils.isNotNull(newBCOrgReports.getReportsToOrganizationCode()) 
-                && ObjectUtils.isNotNull(newBCOrgReports.getChartOfAccountsCode())
-                && ObjectUtils.isNotNull(newBCOrgReports.getOrganizationCode()) ) {
-            if ( !orgMustReportToSelf ) {
-                
-                if ((newBCOrgReports.getReportsToChartOfAccountsCode().equals(newBCOrgReports.getChartOfAccountsCode())) 
-                        && (newBCOrgReports.getReportsToOrganizationCode().equals(newBCOrgReports.getOrganizationCode()))) {
+        if (ObjectUtils.isNotNull(newBCOrgReports.getReportsToChartOfAccountsCode()) && ObjectUtils.isNotNull(newBCOrgReports.getReportsToOrganizationCode()) && ObjectUtils.isNotNull(newBCOrgReports.getChartOfAccountsCode()) && ObjectUtils.isNotNull(newBCOrgReports.getOrganizationCode())) {
+            if (!orgMustReportToSelf) {
+
+                if ((newBCOrgReports.getReportsToChartOfAccountsCode().equals(newBCOrgReports.getChartOfAccountsCode())) && (newBCOrgReports.getReportsToOrganizationCode().equals(newBCOrgReports.getOrganizationCode()))) {
                     putFieldError("reportsToOrganizationCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_CANNOT_BE_SAME_ORG);
                     success = false;
-                } else {
+                }
+                else {
                     // Don't allow a circular reference on Reports to Chart/Org
-                    // terminate the search when a top-level org is found                    
+                    // terminate the search when a top-level org is found
                     lastReportsToChartOfAccountsCode = newBCOrgReports.getReportsToChartOfAccountsCode();
                     lastReportsToOrganizationCode = newBCOrgReports.getReportsToOrganizationCode();
                     continueSearch = true;
                     loopCount = 0;
                     do {
                         tempBCOrgReports = bcOrgReportsService.getByPrimaryId(lastReportsToChartOfAccountsCode, lastReportsToOrganizationCode);
-                        loopCount++;;
+                        loopCount++;
+                        ;
                         if (ObjectUtils.isNull(tempBCOrgReports)) {
                             continueSearch = false;
                             // if a null is returned on the first iteration, then the reports-to org does not exist
                             // fail the validation
-                            if ( loopCount == 1 ) {
+                            if (loopCount == 1) {
                                 putFieldError("reportsToOrganizationCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_MUST_EXIST);
                                 success = false;
                             }
-                        } else {
+                        }
+                        else {
                             {
-                                // LOG.info("Found Org = " + lastReportsToChartOfAccountsCode + "/" + lastReportsToOrganizationCode);
+                                // LOG.info("Found Org = " + lastReportsToChartOfAccountsCode + "/" +
+                                // lastReportsToOrganizationCode);
                                 lastReportsToChartOfAccountsCode = tempBCOrgReports.getReportsToChartOfAccountsCode();
                                 lastReportsToOrganizationCode = tempBCOrgReports.getReportsToOrganizationCode();
-                                
-                                if ((tempBCOrgReports.getReportsToChartOfAccountsCode().equals(newBCOrgReports.getChartOfAccountsCode())) 
-                                        && (tempBCOrgReports.getReportsToOrganizationCode().equals(newBCOrgReports.getOrganizationCode())) ) {
+
+                                if ((tempBCOrgReports.getReportsToChartOfAccountsCode().equals(newBCOrgReports.getChartOfAccountsCode())) && (tempBCOrgReports.getReportsToOrganizationCode().equals(newBCOrgReports.getOrganizationCode()))) {
                                     putFieldError("reportsToOrganizationCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_CANNOT_BE_CIRCULAR_REF_TO_SAME_ORG);
                                     success = false;
                                     continueSearch = false;
@@ -180,75 +179,66 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
                         if (loopCount > maxLoopCount) {
                             continueSearch = false;
                         }
-                        // stop the search if we reach an org that reports to itself 
-                        if ( continueSearch 
-                                && (tempBCOrgReports.getReportsToChartOfAccountsCode().equals(tempBCOrgReports.getReportsToChartOfAccountsCode()) )
-                                && (tempBCOrgReports.getReportsToOrganizationCode().equals(tempBCOrgReports.getOrganizationCode()) ) ) 
-                            continueSearch = false;                
-                        
+                        // stop the search if we reach an org that reports to itself
+                        if (continueSearch && (tempBCOrgReports.getReportsToChartOfAccountsCode().equals(tempBCOrgReports.getReportsToChartOfAccountsCode())) && (tempBCOrgReports.getReportsToOrganizationCode().equals(tempBCOrgReports.getOrganizationCode())))
+                            continueSearch = false;
+
                     } while (continueSearch == true);
-                    
+
                 } // end else (checking for circular ref)
-                
-            } else { // org must report to self (university level organization)
-                if ( !(newBCOrgReports.getReportsToChartOfAccountsCode().equals(newBCOrgReports.getChartOfAccountsCode()) 
-                        && newBCOrgReports.getReportsToOrganizationCode().equals(newBCOrgReports.getOrganizationCode()) ) ) {
+
+            }
+            else { // org must report to self (university level organization)
+                if (!(newBCOrgReports.getReportsToChartOfAccountsCode().equals(newBCOrgReports.getChartOfAccountsCode()) && newBCOrgReports.getReportsToOrganizationCode().equals(newBCOrgReports.getOrganizationCode()))) {
                     putFieldError("reportsToOrganizationCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_MUST_BE_SAME_ORG);
                     success = false;
                 }
             }
         }
-        
+
         return success;
     }
 
     /**
-     * 
-     * Check that the user is authorized to process this document.
-     * 
-     * The user is authorized if either of the following are true:
-     * 1. The transaction user is the manager of the Chart
-     * 2. The transaction user is the manager of the Root Chart
+     * Check that the user is authorized to process this document. The user is authorized if either of the following are true: 1.
+     * The transaction user is the manager of the Chart 2. The transaction user is the manager of the Root Chart
      * 
      * @param document - the maintenanceDocument being evaluated
-     * 
      */
 
     protected boolean checkUserAuthorized() {
-        
+
         boolean success = true;
         String chartUserId = "";
         String transactionUserId = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
-        if (!(newBCOrgReports.getChartOfAccounts()== null)){
-        
-               chartUserId = newBCOrgReports.getChartOfAccounts().getFinCoaManagerUniversalId();
-               if (transactionUserId.equals(chartUserId)||transactionUserId.equals(rootChartUserId)){
-                   success = true;
-               }else{
-                   putFieldError("chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_USER_MUST_BE_CHART_MANAGER_OR_ROOT_MANAGER);
-                   success = false;
-               }
-        } else{
+        if (!(newBCOrgReports.getChartOfAccounts() == null)) {
+
+            chartUserId = newBCOrgReports.getChartOfAccounts().getFinCoaManagerUniversalId();
+            if (transactionUserId.equals(chartUserId) || transactionUserId.equals(rootChartUserId)) {
+                success = true;
+            }
+            else {
+                putFieldError("chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_USER_MUST_BE_CHART_MANAGER_OR_ROOT_MANAGER);
+                success = false;
+            }
+        }
+        else {
             putFieldError("chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_USER_MUST_BE_CHART_MANAGER_OR_ROOT_MANAGER);
             success = false;
         }
-//        LOG.info("transactionUserId = " + transactionUserId );
-//        LOG.info("chartUserId = " + chartUserId );
-//        LOG.info("rootChartUserId = " + rootChartUserId );
-                  
+        // LOG.info("transactionUserId = " + transactionUserId );
+        // LOG.info("chartUserId = " + chartUserId );
+        // LOG.info("rootChartUserId = " + rootChartUserId );
+
         return success;
     }
-       
+
     /**
-     * 
      * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
-     * old objects contained in the maintenance document.
-     * 
-     * It also calls the BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys,
-     * if available.
+     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
+     * all sub-objects from the DB by their primary keys, if available.
      * 
      * @param document - the maintenanceDocument being evaluated
-     * 
      */
     public void setupConvenienceObjects() {
 

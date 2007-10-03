@@ -25,86 +25,94 @@ import org.kuali.core.bo.ParameterDetailType;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.service.KualiModuleService;
-import org.kuali.kfs.util.ParameterDetailTypeUtils;
+import org.kuali.kfs.service.ParameterService;
 
 public class ParameterDetailTypeLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger( ParameterDetailTypeLookupableHelperServiceImpl.class );
-    
-    @Override
-    public List<? extends BusinessObject> getSearchResults(java.util.Map<String,String> fieldValues) {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ParameterDetailTypeLookupableHelperServiceImpl.class);
+    private ParameterService parameterService;
 
-        List<BusinessObject> baseLookup = (List<BusinessObject>)super.getSearchResults(fieldValues);
-        
+    @Override
+    public List<? extends BusinessObject> getSearchResults(java.util.Map<String, String> fieldValues) {
+
+        List<BusinessObject> baseLookup = (List<BusinessObject>) super.getSearchResults(fieldValues);
+
         // all step beans
         // all BO beans
-        // all trans doc beans 
+        // all trans doc beans
 
-        List<ParameterDetailType> components = ParameterDetailTypeUtils.getDDComponents();
-        
+        List<ParameterDetailType> components = parameterService.getNonDatabaseDetailTypes();
+
         String activeCheck = fieldValues.get("active");
-        if ( activeCheck == null ) {
+        if (activeCheck == null) {
             activeCheck = "";
         }
         int maxResultsCount = LookupUtils.getApplicationSearchResultsLimit();
         // only bother with the component lookup if returning active components
-        if ( baseLookup instanceof CollectionIncomplete && !activeCheck.equals( "N" ) ) {
-            long originalCount = Math.max(baseLookup.size(), ((CollectionIncomplete)baseLookup).getActualSizeIfTruncated() );
+        if (baseLookup instanceof CollectionIncomplete && !activeCheck.equals("N")) {
+            long originalCount = Math.max(baseLookup.size(), ((CollectionIncomplete) baseLookup).getActualSizeIfTruncated());
             long totalCount = originalCount;
             Pattern detailTypeRegex = null;
             Pattern namespaceRegex = null;
             Pattern nameRegex = null;
-            
-            if ( StringUtils.isNotBlank( fieldValues.get("parameterDetailTypeCode") ) ) {
+
+            if (StringUtils.isNotBlank(fieldValues.get("parameterDetailTypeCode"))) {
                 String patternStr = fieldValues.get("parameterDetailTypeCode").replace("*", ".*").toUpperCase();
                 try {
                     detailTypeRegex = Pattern.compile(patternStr);
-                } catch ( PatternSyntaxException ex ) {
-                    LOG.error( "Unable to parse parameterDetailTypeCode pattern, ignoring.", ex );
-                }                
+                }
+                catch (PatternSyntaxException ex) {
+                    LOG.error("Unable to parse parameterDetailTypeCode pattern, ignoring.", ex);
+                }
             }
-            if ( StringUtils.isNotBlank( fieldValues.get("parameterNamespaceCode") ) ) {
+            if (StringUtils.isNotBlank(fieldValues.get("parameterNamespaceCode"))) {
                 String patternStr = fieldValues.get("parameterNamespaceCode").replace("*", ".*").toUpperCase();
                 try {
                     namespaceRegex = Pattern.compile(patternStr);
-                } catch ( PatternSyntaxException ex ) {
-                    LOG.error( "Unable to parse parameterNamespaceCode pattern, ignoring.", ex );
-                }                
+                }
+                catch (PatternSyntaxException ex) {
+                    LOG.error("Unable to parse parameterNamespaceCode pattern, ignoring.", ex);
+                }
             }
-            if ( StringUtils.isNotBlank( fieldValues.get("parameterDetailTypeName") ) ) {
+            if (StringUtils.isNotBlank(fieldValues.get("parameterDetailTypeName"))) {
                 String patternStr = fieldValues.get("parameterDetailTypeName").replace("*", ".*").toUpperCase();
                 try {
                     nameRegex = Pattern.compile(patternStr);
-                } catch ( PatternSyntaxException ex ) {
-                    LOG.error( "Unable to parse parameterDetailTypeName pattern, ignoring.", ex );
-                }                
+                }
+                catch (PatternSyntaxException ex) {
+                    LOG.error("Unable to parse parameterDetailTypeName pattern, ignoring.", ex);
+                }
             }
-            for ( ParameterDetailType pdt : components ) {
+            for (ParameterDetailType pdt : components) {
                 boolean includeType = true;
-                if ( detailTypeRegex != null ) {
-                    includeType = detailTypeRegex.matcher( pdt.getParameterDetailTypeCode().toUpperCase() ).matches();
+                if (detailTypeRegex != null) {
+                    includeType = detailTypeRegex.matcher(pdt.getParameterDetailTypeCode().toUpperCase()).matches();
                 }
-                if ( includeType && namespaceRegex != null ) {
-                    includeType = namespaceRegex.matcher( pdt.getParameterNamespaceCode().toUpperCase() ).matches();
+                if (includeType && namespaceRegex != null) {
+                    includeType = namespaceRegex.matcher(pdt.getParameterNamespaceCode().toUpperCase()).matches();
                 }
-                if ( includeType && nameRegex != null ) {
-                    includeType = nameRegex.matcher( pdt.getParameterDetailTypeName().toUpperCase() ).matches();
+                if (includeType && nameRegex != null) {
+                    includeType = nameRegex.matcher(pdt.getParameterDetailTypeName().toUpperCase()).matches();
                 }
-                if ( includeType ) {
-                    if ( totalCount < maxResultsCount ) {
-                        baseLookup.add( pdt );
+                if (includeType) {
+                    if (totalCount < maxResultsCount) {
+                        baseLookup.add(pdt);
                     }
                     totalCount++;
                 }
             }
-            if ( totalCount > maxResultsCount ) {
-                ((CollectionIncomplete)baseLookup).setActualSizeIfTruncated(totalCount);
-            } else {
-                ((CollectionIncomplete)baseLookup).setActualSizeIfTruncated(0L);
+            if (totalCount > maxResultsCount) {
+                ((CollectionIncomplete) baseLookup).setActualSizeIfTruncated(totalCount);
+            }
+            else {
+                ((CollectionIncomplete) baseLookup).setActualSizeIfTruncated(0L);
             }
         }
-        
+
         return baseLookup;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

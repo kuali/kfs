@@ -568,15 +568,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     public boolean shouldPurchaseOrderBeReversed(AccountsPayableDocument apDoc) {
-        PurchaseOrderDocument po = apDoc.getPurchaseOrderDocument();
-        if(ObjectUtils.isNull(po)) {
-            return false;
-        }
-        //if past full entry and already closed return true
-        if(purapService.isFullDocumentEntryCompleted(apDoc) &&
-                StringUtils.equalsIgnoreCase(PurapConstants.PurchaseOrderStatuses.OPEN,po.getStatusCode())) {
-            return true;
-        }
+        //always return false, never reverse
         return false;
     }
 

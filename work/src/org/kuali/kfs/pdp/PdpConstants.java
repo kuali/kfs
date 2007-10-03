@@ -17,7 +17,7 @@ package org.kuali.module.pdp;
 
 
 public class PdpConstants {
-    
+
     public static final String PDP_NAMESPACE = "KFS-PD";
     
     public static class Components {
@@ -58,6 +58,11 @@ public class PdpConstants {
         public static String SEARCH_RESULTS_PER_PAGE = "RESULTS_PER_PAGE";
 
         public static String ACH_BANK_INPUT_FILE = "ACH_BANK_INPUT_FILE";
+        public static String CHECK_EXTRACT_FILE = "CHECK_EXTRACT_FILE";
+        public static String ACH_EXTRACT_FILE = "ACH_EXTRACT_FILE";
+        public static String CHECK_CANCEL_EXTRACT_FILE = "CHECK_CANCEL_EXTRACT_FILE";
+
+        public static String EXTRACT_PROCESS_ID = "EXTRACT_PROCESS_ID";
 
         public static String BATCH_OUTPUT_DIR = "BATCH_OUTPUT_DIR";
 
@@ -71,6 +76,10 @@ public class PdpConstants {
         public static String FORMAT_SUMMARY_ROWS = "FORMAT_SUMMARY_REVIEW_RESULTS_PER_PAGE";
 
         public static String DISBURSEMENT_ACTION_EXPIRATION_DAYS = "DISBURSEMENT_CANCELLATION_DAYS";
+    }
+
+    public static class DisbursementTypeCodes {
+        public static String CHECK = "CHCK";
     }
 
     public static class PaymentStatusCodes {

@@ -30,7 +30,31 @@ import org.kuali.module.pdp.bo.PaymentGroup;
 import org.kuali.module.pdp.bo.PaymentProcess;
 
 public interface PaymentGroupService {
+    /**
+     * Get all payment groups by Payment Process Id/Disbursement Type
+     * 
+     * @param pid
+     * @param disbursementType
+     * @return
+     */
+    public Iterator getByProcessIdDisbursementType(Integer pid,String disbursementType);
+
+    /**
+     * Get all payment groups by Payment Process Id
+     * This method...
+     * @param processId
+     * @return
+     */
+    public Iterator getByProcessId(Integer processId);
+
+    /**
+     * Get all payment groups by Payment Process object
+     * 
+     * @param p
+     * @return
+     */
     public Iterator getByProcess(PaymentProcess p);
+
     public void save(PaymentGroup pg);
     public PaymentGroup get(Integer id);
     public List getByBatchId(Integer batchId);

@@ -127,4 +127,12 @@ public interface BalanceService {
      * @return
      */
     public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year);
+    
+    /**
+     * Returns all of the balances to be forwarded for the organization reversion process
+     * @param year the year of balances to find
+     * @param endOfYear whether the organization reversion process is running end of year (before the fiscal year change over) or beginning of year (after the fiscal year change over)
+     * @return an iterator of balances to put through the strenuous organization reversion process
+     */
+    public Iterator<Balance> findOrganizationReversionBalancesForFiscalYear(Integer year, boolean endOfYear);
 }

@@ -15,7 +15,14 @@
  */
 package org.kuali.module.gl.batch;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.AbstractStep;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.gl.batch.closing.year.service.YearEndService;
+import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OrganizationReversionProcessService;
 import org.springframework.util.StopWatch;
 
@@ -27,7 +34,17 @@ public class OrganizationReversionBeginningOfYearStep extends AbstractStep {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start(jobName);
         
-        organizationReversionProcessService.organizationReversionProcessBeginningOfYear();
+        OriginEntryGroup outputGroup = organizationReversionProcessService.createOrganizationReversionProcessOriginEntryGroup();
+        Map jobParameters = organizationReversionProcessService.getJobParameters();
+        Map<String, Integer> organizationReversionCounts = new HashMap<String, Integer>();
+        
+        YearEndService yearEndService = SpringContext.getBean(YearEndService.class);
+        yearEndService.logAllMissingPriorYearAccounts((Integer)jobParameters.get(KFSConstants.UNIV_FISCAL_YR));
+        yearEndService.logAllMissingSubFundGroups((Integer)jobParameters.get(KFSConstants.UNIV_FISCAL_YR));
+        
+        organizationReversionProcessService.organizationReversionProcessBeginningOfYear(outputGroup, jobParameters, organizationReversionCounts);
+        
+        organizationReversionProcessService.generateOrganizationReversionProcessReports(outputGroup, jobParameters, organizationReversionCounts);
         
         stopWatch.stop();
         LOG.info(jobName+" took "+(stopWatch.getTotalTimeSeconds()/60.0)+" minutes to complete");

@@ -448,5 +448,12 @@ public class BalanceServiceImpl implements BalanceService {
     public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year) {
         return balanceDao.findGeneralBalancesToForwardForFiscalYear(year);
     }
+
+    /**
+     * @see org.kuali.module.gl.service.BalanceService#findOrganizationReversionBalancesForFiscalYear(java.lang.Integer, boolean)
+     */
+    public Iterator<Balance> findOrganizationReversionBalancesForFiscalYear(Integer year, boolean endOfYear) {
+        return balanceDao.findOrganizationReversionBalancesForFiscalYear(year, endOfYear);
+    }
     
 }

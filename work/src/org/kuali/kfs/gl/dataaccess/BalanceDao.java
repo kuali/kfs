@@ -165,4 +165,11 @@ public interface BalanceDao {
      * @return and Iterator chuck full of Balances
      */
     public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year);
+    
+    /**
+     * Returns the balances that would specifically be picked up by the Organization Reversion year end process
+     * @param year the year to find balances for
+     * @return an iterator of the balances to process
+     */
+    public Iterator<Balance> findOrganizationReversionBalancesForFiscalYear(Integer year, boolean endOfYear);
 }

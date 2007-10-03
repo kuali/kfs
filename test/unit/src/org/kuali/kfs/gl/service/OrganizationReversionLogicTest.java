@@ -20,6 +20,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,7 @@ import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.service.OrgReversionUnitOfWorkService;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
+import org.kuali.module.gl.service.OrganizationReversionProcessService;
 import org.kuali.module.gl.service.OrganizationReversionSelection;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
@@ -61,8 +63,8 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
     private BalanceService balanceService;
     private OrganizationReversionSelection organizationReversionSelection;
     private OrganizationReversionCategoryLogic cashOrganizationReversionCategoryLogic;
+    private OrganizationReversionProcessService organizationReversionProcessService;
     private PriorYearAccountService priorYearAccountService;
-    private ReportService reportService;
     private OrgReversionUnitOfWorkService orgReversionUnitOfWorkService;
     private OrganizationReversionProcess orgRevProcess;
     private Integer currentFiscalYear;
@@ -185,13 +187,17 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
         organizationReversionSelection = SpringContext.getBean(OrganizationReversionSelection.class);
         cashOrganizationReversionCategoryLogic = SpringContext.getBean(CashOrganizationReversionCategoryLogic.class);
         priorYearAccountService = SpringContext.getBean(PriorYearAccountService.class);
-        reportService = SpringContext.getBean(ReportService.class);
         orgReversionUnitOfWorkService = SpringContext.getBean(OrgReversionUnitOfWorkService.class);
+        organizationReversionProcessService = SpringContext.getBean(OrganizationReversionProcessService.class);
+        
         
         currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         previousFiscalYear = new Integer(currentFiscalYear.intValue() - 1);
         
-        orgRevProcess = new OrganizationReversionProcess(true, organizationReversionService, kualiConfigurationService, balanceService, organizationReversionSelection, originEntryGroupService, originEntryService, persistenceService, dtService, cashOrganizationReversionCategoryLogic, priorYearAccountService, reportService, orgReversionUnitOfWorkService);
+        Map jobParameters = organizationReversionProcessService.getJobParameters();
+        Map<String, Integer> organizationReversionCounts = new HashMap<String, Integer>();
+        
+        orgRevProcess = new OrganizationReversionProcess(null, true, organizationReversionService, balanceService, organizationReversionSelection, originEntryGroupService, originEntryService, persistenceService, dtService, cashOrganizationReversionCategoryLogic, priorYearAccountService, orgReversionUnitOfWorkService, jobParameters, organizationReversionCounts);
         orgRevProcess.initializeProcess();
     }
     
@@ -206,6 +212,8 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
         for (Balance bal: balancesToTestAgainst) {
             balanceService.save(bal);
         }
+        OriginEntryGroup outputGroup = organizationReversionProcessService.createOrganizationReversionProcessOriginEntryGroup();
+        orgRevProcess.setOutputGroup(outputGroup);
         orgRevProcess.setHoldGeneratedOriginEntries(true);
         orgRevProcess.organizationReversionProcess();
         

@@ -18,6 +18,7 @@ package org.kuali.module.chart.service;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.bo.Parameter;
 import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
@@ -48,4 +49,16 @@ public interface OrganizationReversionService {
      * @return list of org reversion category codes
      */
     public List<OrganizationReversionCategory> getCategoryList();
+    
+    /**
+     * Returns the selection parameter rules that should be used by the Organization Reversion End of Year job to select balances
+     * @return a map of rules with the key being the order they are to be invoked in
+     */
+    public Map<Integer, Parameter> getEndOfYearSelectionRules();
+    
+    /**
+     * Returns the selection parameter rules that should be used by the Organization Reversion Beginning of Year job to select balances
+     * @return a map of rules with the key being the order they are to be invoked in
+     */
+    public Map<Integer, Parameter> getBeginningOfYearSelectionRules();
 }

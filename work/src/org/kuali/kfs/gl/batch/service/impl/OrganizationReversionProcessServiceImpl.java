@@ -15,11 +15,23 @@
  */
 package org.kuali.module.gl.service.impl;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.chart.service.OrganizationReversionService;
 import org.kuali.module.chart.service.PriorYearAccountService;
+import org.kuali.module.gl.GLConstants;
+import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 import org.kuali.module.gl.service.OrganizationReversionProcessService;
@@ -29,11 +41,14 @@ import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.OrgReversionUnitOfWorkService;
 import org.kuali.module.gl.service.impl.orgreversion.OrganizationReversionProcess;
+import org.kuali.module.gl.util.Summary;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class OrganizationReversionProcessServiceImpl implements OrganizationReversionProcessService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionProcessServiceImpl.class);
+    
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
 
     private OrganizationReversionService organizationReversionService;
     private KualiConfigurationService kualiConfigurationService;
@@ -108,19 +123,89 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
         this.orgReversionUnitOfWorkService = orgReversionUnitOfWorkService;
     }
 
-    public void organizationReversionProcessEndOfYear() {
+    public void organizationReversionProcessEndOfYear(OriginEntryGroup outputGroup, Map jobParameters, Map<String, Integer> organizationReversionCounts) {
         LOG.debug("organizationReversionProcessEndOfYear() started");
 
-        OrganizationReversionProcess orp = new OrganizationReversionProcess(true, organizationReversionService, kualiConfigurationService, balanceService, organizationReversionSelection, originEntryGroupService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic, priorYearAccountService, reportService, orgReversionUnitOfWorkService);
+        this.organizationReversionSelection.setEndOfYear(true);
+        OrganizationReversionProcess orp = new OrganizationReversionProcess(outputGroup, true, organizationReversionService, balanceService, organizationReversionSelection, originEntryGroupService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic, priorYearAccountService, orgReversionUnitOfWorkService, jobParameters, organizationReversionCounts);
 
         orp.organizationReversionProcess();
     }
 
-    public void organizationReversionProcessBeginningOfYear() {
+    public void organizationReversionProcessBeginningOfYear(OriginEntryGroup outputGroup, Map jobParameters, Map<String, Integer> organizationReversionCounts) {
         LOG.debug("organizationReversionProcessEndOfYear() started");
 
-        OrganizationReversionProcess orp = new OrganizationReversionProcess(false, organizationReversionService, kualiConfigurationService, balanceService, organizationReversionSelection, originEntryGroupService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic, priorYearAccountService, reportService, orgReversionUnitOfWorkService);
+        this.organizationReversionSelection.setEndOfYear(false);
+        OrganizationReversionProcess orp = new OrganizationReversionProcess(outputGroup, false, organizationReversionService, balanceService, organizationReversionSelection, originEntryGroupService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic, priorYearAccountService, orgReversionUnitOfWorkService, jobParameters, organizationReversionCounts);
 
         orp.organizationReversionProcess();
+    }
+    
+    public Map getJobParameters() {
+        // Get job parameters
+        Map jobParameters = new HashMap();
+        String strTransactionDate = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM);
+        jobParameters.put(KFSConstants.UNALLOC_OBJECT_CD, kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, GLConstants.Components.ORGANIZATION_REVERSION, GLConstants.OrganizationReversionProcess.UNALLOC_OBJECT_CODE_PARM));
+        jobParameters.put(KFSConstants.BEG_BUD_CASH_OBJECT_CD, kualiConfigurationService.getParameterValue(KFSConstants.CHART_NAMESPACE, GLConstants.Components.ORGANIZATION_REVERSION, GLConstants.OrganizationReversionProcess.CARRY_FORWARD_OBJECT_CODE));
+        jobParameters.put(KFSConstants.FUND_BAL_OBJECT_CD, kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_CODE_PARM));
+        String strUniversityFiscalYear = kualiConfigurationService.getParameterValue(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BATCH, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM);
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+            java.util.Date jud = sdf.parse(strTransactionDate);
+            jobParameters.put(KFSConstants.TRANSACTION_DT, new java.sql.Date(jud.getTime()));
+        }
+        catch (ParseException e) {
+            throw new IllegalArgumentException("TRANSACTION_DT is an invalid date");
+        }
+        try {
+            jobParameters.put(KFSConstants.UNIV_FISCAL_YR, new Integer(strUniversityFiscalYear));
+        }
+        catch (NumberFormatException nfe) {
+            throw new IllegalArgumentException("UNIV_FISCAL_YR is an invalid year");
+        }
+        return jobParameters;
+    }
+
+    /**
+     * @see org.kuali.module.gl.service.OrganizationReversionProcessService#generateOrganizationReversionProcessReports()
+     */
+    public void generateOrganizationReversionProcessReports(OriginEntryGroup outputGroup, Map jobParameters, Map<String, Integer> organizationReversionCounts) {
+        // prepare statistics for report
+        SimpleDateFormat reportDateFormat = new SimpleDateFormat(DATE_FORMAT);
+        jobParameters.put(KFSConstants.TRANSACTION_DT, reportDateFormat.format(jobParameters.get(KFSConstants.TRANSACTION_DT)));
+        
+        Summary totalRecordCountSummary = new Summary();
+        totalRecordCountSummary.setSortOrder(Summary.TOTAL_RECORD_COUNT_SUMMARY_SORT_ORDER);
+        totalRecordCountSummary.setDescription("NUMBER OF GLBL RECORDS READ....:");
+        totalRecordCountSummary.setCount(organizationReversionCounts.get("balancesRead"));
+        
+        Summary selectedRecordCountSummary = new Summary();
+        selectedRecordCountSummary.setSortOrder(Summary.SELECTED_RECORD_COUNT_SUMMARY_SORT_ORDER);
+        selectedRecordCountSummary.setDescription("NUMBER OF GLBL RECORDS SELECTED:");
+        selectedRecordCountSummary.setCount(organizationReversionCounts.get("balancesSelected"));
+        
+        Summary sequenceRecordsWrittenSummary = new Summary();
+        sequenceRecordsWrittenSummary.setSortOrder(Summary.SEQUENCE_RECORDS_WRITTEN_SUMMARY_SORT_ORDER);
+        sequenceRecordsWrittenSummary.setDescription("NUMBER OF SEQ RECORDS WRITTEN..:");
+        sequenceRecordsWrittenSummary.setCount(organizationReversionCounts.get("recordsWritten"));
+        
+        List<Summary> summaries = new ArrayList<Summary>();
+        summaries.add(totalRecordCountSummary);
+        summaries.add(selectedRecordCountSummary);
+        summaries.add(sequenceRecordsWrittenSummary);
+        
+        Date runDate = new Date(dateTimeService.getCurrentDate().getTime());
+        reportService.generateOrgReversionStatisticsReport(jobParameters, summaries, runDate, outputGroup);
+        
+    }
+
+    /**
+     * @see org.kuali.module.gl.service.OrganizationReversionProcessService#createOrganizationReversionProcessOriginEntryGroup()
+     */
+    public OriginEntryGroup createOrganizationReversionProcessOriginEntryGroup() {
+        java.util.Date runDate = dateTimeService.getCurrentDate();
+        // Create output group
+        return originEntryGroupService.createGroup(new java.sql.Date(runDate.getTime()), OriginEntrySource.YEAR_END_ORG_REVERSION, true, false, true);
     }
 }

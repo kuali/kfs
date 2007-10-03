@@ -20,8 +20,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.Map.Entry;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.Parameter;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionCategory;
@@ -38,6 +43,7 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
 
     private OrganizationReversionDao organizationReversionDao;
     private KualiConfigurationService kualiConfigurationService;
+    private static final String ORDERING_NUMBER_RULE_SEPERATOR = "_";
 
     /**
      * 
@@ -84,6 +90,36 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
         LOG.debug("getCategoryList() started");
 
         return organizationReversionDao.getCategories();
+    }
+
+    /**
+     * @see org.kuali.module.chart.service.OrganizationReversionService#getBeginningOfYearSelectionRules()
+     */
+    public Map<Integer, Parameter> getBeginningOfYearSelectionRules() {
+        Map<Integer, Parameter> rules = this.getEndOfYearSelectionRules();
+        for (Entry<Integer, Parameter> entry: rules.entrySet()) {
+            Parameter param = entry.getValue();
+            param.setParameterValue(param.getParameterValue().replaceAll("account\\.", "priorYearAccount."));
+        }
+        return rules;
+    }
+
+    /**
+     * @see org.kuali.module.chart.service.OrganizationReversionService#getEndOfYearSelectionRules()
+     */
+    public Map<Integer, Parameter> getEndOfYearSelectionRules() {
+        Map<String, Parameter> rules = kualiConfigurationService.getParametersByDetailTypeAsMap(KFSConstants.CHART_NAMESPACE, KFSConstants.Components.ORGANIZATION_REVERSION );
+                
+        Map<Integer, Parameter> parsedRules = new TreeMap<Integer, Parameter>();
+        // get the selection rule parameters
+        for(Entry<String, Parameter> entry : rules.entrySet()) {
+            if ( entry.getKey().startsWith("SELECTION") ) {
+                parsedRules.put(
+                        new Integer( StringUtils.substringAfter(entry.getKey(), ORDERING_NUMBER_RULE_SEPERATOR) ),
+                        entry.getValue());
+            }
+        }
+        return parsedRules;
     }
 
     public void setOrganizationReversionDao(OrganizationReversionDao orDao) {

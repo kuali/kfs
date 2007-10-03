@@ -23,11 +23,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.core.bo.Parameter;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
@@ -38,6 +40,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.ObjectTypeService;
+import org.kuali.module.chart.service.OrganizationReversionService;
 import org.kuali.module.chart.service.SubFundGroupService;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.Balance;
@@ -560,7 +563,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @see org.kuali.module.gl.dao.BalanceDao#findNominalActivityBalancesForFiscalYear(java.lang.Integer)
      */
     public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year) {
-        LOG.debug("findBalancesForFiscalYear() started");
+        LOG.debug("findNominalActivityBalancesForFiscalYear() started");
         
         Options currentYearOptions = optionsService.getCurrentYearOptions();
         
@@ -672,6 +675,53 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         filteredBalances.setBalancesSource(balances);
         
         return filteredBalances;
+    }
+
+    /**
+     * @see org.kuali.module.gl.dao.BalanceDao#findOrganizationReversionBalancesForFiscalYear(java.lang.Integer, boolean)
+     */
+    public Iterator<Balance> findOrganizationReversionBalancesForFiscalYear(Integer year, boolean endOfYear) {
+        LOG.debug("findOrganizationReversionBalancesForFiscalYear() started");
+        OrganizationReversionService organizationReversionService = SpringContext.getBean(OrganizationReversionService.class);
+        Map<Integer, Parameter> rules = (endOfYear ? organizationReversionService.getEndOfYearSelectionRules() : organizationReversionService.getBeginningOfYearSelectionRules());
+
+        Criteria c = new Criteria();
+        c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
+        for (int i = 0; i <= rules.size(); i++) {
+            Parameter currentRule = rules.get(new Integer(i));
+            if (currentRule != null) {
+                String propertyName = StringUtils.substringBefore(currentRule.getParameterValue(), "=");
+                List<String> ruleValues = convertStringArrayToList(StringUtils.substringAfter(currentRule.getParameterValue(), "=").split( ";" ));
+                if (propertyName != null && propertyName.length() > 0 && ruleValues.size() > 0) {
+                    if (kualiConfigurationService.isAllowedRule(currentRule)) {
+                        c.addIn(propertyName, ruleValues);
+                    } else {
+                        c.addNotIn(propertyName, ruleValues);
+                    }
+                }
+            }
+        }
+
+        QueryByCriteria query = QueryFactory.newQuery(Balance.class, c);
+        query.addOrderByAscending(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.ACCOUNT_NUMBER);
+        query.addOrderByAscending(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        query.addOrderByAscending(KFSPropertyConstants.OBJECT_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.SUB_OBJECT_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.BALANCE_TYPE_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.OBJECT_TYPE_CODE);
+
+        return getPersistenceBrokerTemplate().getIteratorByQuery(query);
+    }
+    
+    private List<String> convertStringArrayToList(String[] ary) {
+        List<String> stringList = new ArrayList<String>();
+        for (String a: ary) {
+            if (a != null && a.length() > 0) {
+                stringList.add(a);
+            }
+        }
+        return stringList;
     }
 
     /**

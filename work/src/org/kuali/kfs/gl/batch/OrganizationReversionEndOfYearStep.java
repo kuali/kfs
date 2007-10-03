@@ -15,7 +15,11 @@
  */
 package org.kuali.module.gl.batch;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.kfs.batch.AbstractStep;
+import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OrganizationReversionProcessService;
 import org.springframework.util.StopWatch;
 
@@ -27,7 +31,13 @@ public class OrganizationReversionEndOfYearStep extends AbstractStep {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start(jobName);
         
-        organizationReversionProcessService.organizationReversionProcessEndOfYear();
+        OriginEntryGroup outputGroup = organizationReversionProcessService.createOrganizationReversionProcessOriginEntryGroup();
+        Map jobParameters = organizationReversionProcessService.getJobParameters();
+        Map<String, Integer> organizationReversionCounts = new HashMap<String, Integer>();
+        
+        organizationReversionProcessService.organizationReversionProcessEndOfYear(outputGroup, jobParameters, organizationReversionCounts);
+        
+        organizationReversionProcessService.generateOrganizationReversionProcessReports(outputGroup, jobParameters, organizationReversionCounts);
         
         stopWatch.stop();
         LOG.info(jobName+" took "+(stopWatch.getTotalTimeSeconds()/60.0)+" minutes to complete");

@@ -330,6 +330,12 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_INVALID_ORGANIZATION = "error.document.globalOrgReversion.invalidOrganization";
     public static final String ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_NO_ORG_REVERSION = "error.document.globalOrgReversion.noOrgReversion";
     public static final String ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_DUPLICATE_ORGS = "error.document.globalOrgReversion.duplicateOrgs";
+    
+    // AchBank errors
+    public static final String ERROR_DOCUMENT_ACHBANKMAINT_INVALID_TYPE_CODE = "error.document.achBankMaintenance.invalidTypeCode";
+    public static final String ERROR_DOCUMENT_ACHBANKMAINT_INVALID_OFFICE_CODE = "error.document.achBankMaintenance.invalidOfficeCode";
+    public static final String ERROR_DOCUMENT_ACHBANKMAINT_INVALID_INST_STATUS_CODE = "error.document.achBankMaintenance.invalidInstStatusCode";
+    public static final String ERROR_DOCUMENT_ACHBANKMAINT_INVALID_DATA_VIEW_CODE = "error.document.achBankMaintenance.invalidDataViewCode";
 
     // BankAccount errors
     public static final String ERROR_DOCUMENT_BANKACCMAINT_INVALID_BANK = "error.document.bankAcctMaintenance.invalidBank";

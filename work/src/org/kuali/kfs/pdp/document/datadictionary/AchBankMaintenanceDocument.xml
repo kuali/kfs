@@ -22,6 +22,7 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.pdp.bo.AchBank</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.module.pdp.rules.AchBankRule</businessRulesClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>

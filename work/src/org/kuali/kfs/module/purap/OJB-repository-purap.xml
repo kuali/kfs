@@ -2225,6 +2225,9 @@
     <reference-descriptor name="paymentRequestCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="paymentRequestCostSourceCode" />
     </reference-descriptor>
+    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="recurringPaymentTypeCode" />
+    </reference-descriptor>
 
     <!-- Do not set this collection to auto save or delete; it needs to be saved by a specific process in the GL entry creation (hjs) -->
    <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -2521,7 +2524,7 @@
     <reference-descriptor name="objectCode" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectCode" />
-    </reference-descriptor>     
+    </reference-descriptor>
     <reference-descriptor name="subObjectCode" class-ref="org.kuali.module.chart.bo.SubObjCdCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />

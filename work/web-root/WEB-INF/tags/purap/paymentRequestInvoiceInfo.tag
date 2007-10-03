@@ -95,7 +95,10 @@
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.recurringPaymentTypeCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentTypeCode}" property="document.recurringPaymentTypeCode"  readOnly="true"/>
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentTypeCode}" 
+                   property="document.recurringPaymentTypeCode"
+                   extraReadOnlyProperty="document.recurringPaymentType.recurringPaymentTypeDescription"  
+                   readOnly="true"/>
                 </td>
             </tr>
             

@@ -1213,6 +1213,9 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * @return Returns the recurringPaymentType.
      */
     public RecurringPaymentType getRecurringPaymentType() {
+        if (ObjectUtils.isNull(recurringPaymentType)) {
+            refreshReferenceObject(PurapPropertyConstants.RECURRING_PAYMENT_TYPE);
+        }
         return recurringPaymentType;
     }
 

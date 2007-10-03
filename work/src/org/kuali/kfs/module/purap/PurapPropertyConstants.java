@@ -108,6 +108,7 @@ public class PurapPropertyConstants {
     public static final String PAYMENT_REQUEST_PAY_DATE = "paymentRequestPayDate";
     public static final String GRAND_TOTAL = "grandTotal";
     public static final String PAYMENT_REQUEST = "paymentRequest";
+    public static final String RECURRING_PAYMENT_TYPE = "recurringPaymentType";
 
     // CREDIT MEMO DOCUMENT
     public static final String PAYMENT_REQUEST_ID = "paymentRequestIdentifier";

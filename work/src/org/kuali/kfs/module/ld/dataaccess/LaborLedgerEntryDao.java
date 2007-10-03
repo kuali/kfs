@@ -43,4 +43,10 @@ public interface LaborLedgerEntryDao {
      * @return the ledger entries that satisfy the all entries in the given field-value pair
      */
     Iterator<LedgerEntry> find(Map<String, String> fieldValues);
+
+    /**
+     * save the given ledger entry into the underlying data store
+     * @param ledgerEntry the given ledger entry
+     */
+    void save(LedgerEntry ledgerEntry);
 }

@@ -62,6 +62,20 @@ public class LedgerBalance extends Balance {
         this.setFinancialBeginningBalanceLineAmount(KualiDecimal.ZERO);
         this.setContractsGrantsBeginningBalanceAmount(KualiDecimal.ZERO);
     }
+    
+    public LedgerBalance(LaborTransaction transaction) {
+        this();
+        this.setChartOfAccountsCode(transaction.getChartOfAccountsCode());
+        this.setAccountNumber(transaction.getAccountNumber());
+        this.setFinancialBalanceTypeCode(transaction.getFinancialBalanceTypeCode());
+        this.setEmplid(transaction.getEmplid());
+        this.setFinancialObjectCode(transaction.getFinancialObjectCode());
+        this.setFinancialObjectTypeCode(transaction.getFinancialObjectTypeCode());
+        this.setFinancialSubObjectCode(transaction.getFinancialSubObjectCode());
+        this.setPositionNumber(transaction.getPositionNumber());
+        this.setUniversityFiscalYear(transaction.getUniversityFiscalYear());
+        this.setSubAccountNumber(transaction.getSubAccountNumber());
+    }
 
     /**
      * Gets the emplid attribute.
@@ -79,15 +93,6 @@ public class LedgerBalance extends Balance {
      */
     public void setEmplid(String emplid) {
         this.emplid = emplid;
-
-        // Try to find a ledger person for this emplid if one exists
-        try {
-            setLedgerPerson(SpringContext.getBean(LaborUserService.class).getLaborUserByPersonPayrollIdentifier(emplid).getUniversalUser());
-        }
-        catch (UserNotFoundException unfe) {
-            // The user is not valid. We don't have a user
-            setLedgerPerson(null);
-        }
     }
 
     /**
@@ -378,6 +383,17 @@ public class LedgerBalance extends Balance {
     }
 
     public UniversalUser getLedgerPerson() {
+        
+        if(ledgerPerson == null){
+            // Try to find a ledger person for this emplid if one exists
+            try {
+                setLedgerPerson(SpringContext.getBean(LaborUserService.class).getLaborUserByPersonPayrollIdentifier(emplid).getUniversalUser());
+            }
+            catch (UserNotFoundException unfe) {
+                // The user is not valid. We don't have a user
+                setLedgerPerson(null);
+            }
+        }
         return ledgerPerson;
     }
 

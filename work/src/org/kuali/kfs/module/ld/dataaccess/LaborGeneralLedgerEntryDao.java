@@ -31,4 +31,11 @@ public interface LaborGeneralLedgerEntryDao {
      * @return the max squence number with the infomation in the given Labor General edger Entry object
      */
     Integer getMaxSequenceNumber(LaborGeneralLedgerEntry laborGeneralLedgerEntry);
+
+    /**
+     * save the given labor GL entry into the underlying data store
+     * 
+     * @param laborGeneralLedgerEntry the given labor GL entry
+     */
+    public void save(LaborGeneralLedgerEntry laborGeneralLedgerEntry);
 }

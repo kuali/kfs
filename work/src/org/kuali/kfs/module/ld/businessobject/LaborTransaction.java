@@ -54,7 +54,5 @@ public interface LaborTransaction extends Transaction {
     public DocumentHeader getFinancialDocument();
     public DocumentType getReferenceFinancialDocumentType();
     public OriginationCode getReferenceFinancialSystemOrigination();
-    public AccountingPeriod getPayrollEndDateFiscalPeriod();
-    
-    
+    public AccountingPeriod getPayrollEndDateFiscalPeriod();  
 }

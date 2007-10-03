@@ -97,6 +97,36 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
      */
     public Entry() {
     }
+    
+    public Entry(Transaction t) {
+        super();
+
+        setUniversityFiscalYear(t.getUniversityFiscalYear());
+        setChartOfAccountsCode(t.getChartOfAccountsCode());
+        setAccountNumber(t.getAccountNumber());
+        setSubAccountNumber(t.getSubAccountNumber());
+        setFinancialObjectCode(t.getFinancialObjectCode());
+        setFinancialSubObjectCode(t.getFinancialSubObjectCode());
+        setFinancialBalanceTypeCode(t.getFinancialBalanceTypeCode());
+        setFinancialObjectTypeCode(t.getFinancialObjectTypeCode());
+        setUniversityFiscalPeriodCode(t.getUniversityFiscalPeriodCode());
+        setFinancialDocumentTypeCode(t.getFinancialDocumentTypeCode());
+        setFinancialSystemOriginationCode(t.getFinancialSystemOriginationCode());
+        setDocumentNumber(t.getDocumentNumber());
+        setTransactionLedgerEntrySequenceNumber(t.getTransactionLedgerEntrySequenceNumber());
+        setTransactionLedgerEntryDescription(t.getTransactionLedgerEntryDescription());
+        setTransactionLedgerEntryAmount(t.getTransactionLedgerEntryAmount());
+        setTransactionDebitCreditCode(t.getTransactionDebitCreditCode());
+        setTransactionDate(t.getTransactionDate());
+        setOrganizationDocumentNumber(t.getOrganizationDocumentNumber());
+        setProjectCode(t.getProjectCode());
+        setOrganizationReferenceId(t.getOrganizationReferenceId());
+        setReferenceFinancialDocumentTypeCode(t.getReferenceFinancialDocumentTypeCode());
+        setReferenceFinancialSystemOriginationCode(t.getReferenceFinancialSystemOriginationCode());
+        setReferenceFinancialDocumentNumber(t.getReferenceFinancialDocumentNumber());
+        setFinancialDocumentReversalDate(t.getFinancialDocumentReversalDate());
+        setTransactionEncumbranceUpdateCode(t.getTransactionEncumbranceUpdateCode());
+    }
 
     public Entry(Transaction t, java.util.Date postDate) {
         super();

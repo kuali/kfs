@@ -21,6 +21,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.bo.LaborTransaction;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.service.LaborLedgerEntryService;
 import org.kuali.module.labor.util.ObjectUtil;
@@ -39,8 +40,8 @@ public class LaborLedgerEntryPoster implements PostTransaction {
      */
     public String post(Transaction transaction, int mode, java.util.Date postDate) {
         String operationType = KFSConstants.OperationType.INSERT;
-        LedgerEntry ledgerEntry = new LedgerEntry();
-        ObjectUtil.buildObject(ledgerEntry, transaction);
+        LedgerEntry ledgerEntry = new LedgerEntry((LaborTransaction)transaction);
+        // ObjectUtil.buildObject(ledgerEntry, transaction);
 
         ledgerEntry.setTransactionLedgerEntrySequenceNumber(laborLedgerEntryService.getMaxSequenceNumber(ledgerEntry) + 1);
         ledgerEntry.setTransactionPostingDate(new Date(postDate.getTime()));

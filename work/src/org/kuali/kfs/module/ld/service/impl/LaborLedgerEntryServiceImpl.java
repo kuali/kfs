@@ -31,14 +31,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
 
-    private BusinessObjectService businessObjectService;
     private LaborLedgerEntryDao laborLedgerEntryDao;
     
     /**
      * @see org.kuali.module.labor.service.LaborLedgerEntryService#save(org.kuali.module.labor.bo.LedgerEntry)
      */
     public void save(LedgerEntry ledgerEntry) {
-        businessObjectService.save(ledgerEntry);
+        laborLedgerEntryDao.save(ledgerEntry);
     }
 
     /**
@@ -53,14 +52,6 @@ public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
      */
     public Iterator<LedgerEntry> find(Map<String, String> fieldValues) {        
         return laborLedgerEntryDao.find(fieldValues);
-    }
-
-    /**
-     * Sets the businessObjectService attribute value.
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 
     /**

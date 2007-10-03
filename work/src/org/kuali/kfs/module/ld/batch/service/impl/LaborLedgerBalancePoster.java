@@ -24,6 +24,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.bo.LaborTransaction;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.util.ObjectUtil;
@@ -43,8 +44,8 @@ public class LaborLedgerBalancePoster implements PostTransaction {
      */
     public String post(Transaction transaction, int mode, Date postDate) {
         String operationType = KFSConstants.OperationType.INSERT;
-        LedgerBalance ledgerBalance = new LedgerBalance();       
-        ObjectUtil.buildObject(ledgerBalance, transaction);
+        LedgerBalance ledgerBalance = new LedgerBalance((LaborTransaction)transaction);       
+        //ObjectUtil.buildObject(ledgerBalance, transaction);
 
         LedgerBalance tempLedgerBalance = (LedgerBalance) businessObjectService.retrieve(ledgerBalance);
         if (tempLedgerBalance != null) {

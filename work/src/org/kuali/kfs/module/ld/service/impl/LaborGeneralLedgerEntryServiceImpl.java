@@ -30,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class LaborGeneralLedgerEntryServiceImpl implements LaborGeneralLedgerEntryService {
 
-    private BusinessObjectService businessObjectService;
     private LaborGeneralLedgerEntryDao laborGeneralLedgerEntryDao;
     private LaborDao laborDao;
 
@@ -46,15 +45,6 @@ public class LaborGeneralLedgerEntryServiceImpl implements LaborGeneralLedgerEnt
      */
     public void save(LaborGeneralLedgerEntry laborGeneralLedgerEntry) {
         laborDao.insert(laborGeneralLedgerEntry);
-    }
-
-    /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 
     /**

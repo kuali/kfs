@@ -37,13 +37,14 @@ import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.gl.bo.Entry;
+import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.bo.UniversityDate;
 
 /**
  * 
  */
-public class LedgerEntry extends Entry {
+public class LedgerEntry extends Entry{
 
 	private Integer universityFiscalYear;
 	private String chartOfAccountsCode;
@@ -120,6 +121,34 @@ public class LedgerEntry extends Entry {
 	}
 
 	/**
+	 * Constructs a LedgerEntry.java.
+	 * @param transaction the given transaction
+	 */
+	public LedgerEntry(LaborTransaction transaction) {
+        super(transaction);
+        
+        this.setEarnCode(transaction.getEarnCode());
+        this.setEmplid(transaction.getEmplid());
+        this.setEmployeeRecord(transaction.getEmployeeRecord());
+        this.setGrade(transaction.getGrade());
+        
+        this.setHrmsCompany(transaction.getHrmsCompany());
+        this.setLaborLedgerOriginalAccountNumber(transaction.getLaborLedgerOriginalAccountNumber());
+        this.setLaborLedgerOriginalChartOfAccountsCode(transaction.getLaborLedgerOriginalChartOfAccountsCode());
+        this.setLaborLedgerOriginalFinancialObjectCode(transaction.getLaborLedgerOriginalFinancialObjectCode());
+        this.setLaborLedgerOriginalFinancialSubObjectCode(transaction.getLaborLedgerOriginalFinancialSubObjectCode());
+        this.setLaborLedgerOriginalSubAccountNumber(transaction.getLaborLedgerOriginalSubAccountNumber());
+        
+        this.setPayGroup(transaction.getPayGroup());
+        this.setPayPeriodEndDate(transaction.getPayPeriodEndDate());
+        this.setPayrollEndDateFiscalPeriodCode(transaction.getPayrollEndDateFiscalPeriodCode());
+        this.setPayrollEndDateFiscalYear(transaction.getPayrollEndDateFiscalYear());
+        this.setPositionNumber(transaction.getPositionNumber());
+    }
+
+
+
+    /**
 	 * Gets the universityFiscalYear attribute.
 	 * 
 	 * @return Returns the universityFiscalYear

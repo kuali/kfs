@@ -68,4 +68,11 @@ public class LaborGeneralLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb imple
         }
         return maxSequenceNumber;
     }
+
+    /**
+     * @see org.kuali.module.labor.dao.LaborGeneralLedgerEntryDao#save(org.kuali.module.labor.bo.LaborGeneralLedgerEntry)
+     */
+    public void save(LaborGeneralLedgerEntry laborGeneralLedgerEntry) {
+        getPersistenceBrokerTemplate().store(laborGeneralLedgerEntry);       
+    }
 }

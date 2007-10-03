@@ -83,9 +83,6 @@
 	</bean>
 
     <bean id="laborGeneralLedgerEntryService" class="org.kuali.module.labor.service.impl.LaborGeneralLedgerEntryServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
         <property name="laborGeneralLedgerEntryDao">
             <ref bean="laborGeneralLedgerEntryDao" />
         </property>
@@ -95,9 +92,6 @@
     </bean>
     
     <bean id="laborLedgerEntryService" class="org.kuali.module.labor.service.impl.LaborLedgerEntryServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
         <property name="laborLedgerEntryDao">
             <ref bean="laborLedgerEntryDao" />
         </property>

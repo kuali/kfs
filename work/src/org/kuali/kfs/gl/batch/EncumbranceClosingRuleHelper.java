@@ -86,58 +86,43 @@ public class EncumbranceClosingRuleHelper {
 
         // null guard
         if (null == encumbrance) {
-
             return false;
-
         }
-
-        // internal encumbrance or labor distribution
-        if (KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode()) && KFSConstants.LABOR_DISTRIBUTION_ORIGIN_CODE.equals(encumbrance.getOriginCode())) {
+        
+        if (encumbrance.getAccountLineEncumbranceAmount().equals(encumbrance.getAccountLineEncumbranceClosedAmount())) {
             return false;
-
         }
 
-        if (KFSConstants.BALANCE_TYPE_COST_SHARE_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode())) {
-
-            return false;
-
-        }
-
-        // closed encumbrances aren't carried forward
-        if (ObjectHelper.isOneOf(encumbrance.getBalanceTypeCode(), new String[] { KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE, KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE })) {
-
-            return isEncumbranceClosed(encumbrance);
-
-        }
-
-        // pre-encumbrances
-        if (KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode())) {
-
-            PriorYearAccount priorYearAccount = priorYearAccountService.getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber());
-
-            // the account on the encumbrance must be valid
-            if (null == priorYearAccount) {
-
-                LOG.info("No prior year account for chart \"" + encumbrance.getChartOfAccountsCode() + "\" and account \"" + encumbrance.getAccountNumber() + "\"");
-
-                return false;
-
+        if (ObjectHelper.isOneOf(encumbrance.getBalanceTypeCode(), new String[] { KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE, KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE, KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE })) {
+            // internal encumbrances are forwarded, unless they are labor distribution
+            if (KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode())) {
+                if (KFSConstants.LABOR_DISTRIBUTION_ORIGIN_CODE.equals(encumbrance.getOriginCode())) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } else if (KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode())) {
+                // pre-encumbrances are forwarded, but only if they're related to contracts and grants accounts
+                PriorYearAccount priorYearAccount = priorYearAccountService.getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber());
+                // the account on the encumbrance must be valid
+                if (null == priorYearAccount) {
+                    LOG.info("No prior year account for chart \"" + encumbrance.getChartOfAccountsCode() + "\" and account \"" + encumbrance.getAccountNumber() + "\"");
+                    return false;
+                }
+                // the sub fund group must exist for the prior year account and the
+                // encumbrance must not be closed.
+                if (priorYearAccount.isForContractsAndGrants()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                // we're still here?  because we're an external encumbrance, and we always get forwarded
+                return true;
             }
-
-            // the sub fund group must exist for the prior year account and the
-            // encumbrance must not be closed.
-            if (priorYearAccount.isForContractsAndGrants()) {
-                return isEncumbranceClosed(encumbrance);
-
-            }
-            else {
-
-                return false;
-
-            }
-
         }
 
+        // we're still here?  because we're not of a valid encumbrance balance type; we don't get forwarded
         return false;
 
     }

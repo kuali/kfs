@@ -26,8 +26,5 @@
 		<property name="organizationReversionDao">
 			<ref bean="organizationReversionDao" />
 		</property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
 	</bean>
 </beans>

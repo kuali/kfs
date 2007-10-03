@@ -57,8 +57,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
         laborGeneralLedgerEntry.setTransactionDebitCreditCode(this.getDebitCreditCode(transaction));
         laborGeneralLedgerEntry.setTransactionLedgerEntryAmount(this.getTransactionAmount(transaction));
 
-        String description = StringUtils.left(this.getTransactionDescription(transaction), LaborConstants.TRANSACTION_DESCRIPTION_MAX_LENGTH);
-        laborGeneralLedgerEntry.setTransactionLedgerEntryDescription(description);
+        laborGeneralLedgerEntry.setTransactionLedgerEntryDescription(getTransactionDescription(transaction));
 
         laborGeneralLedgerEntry.setTransactionEncumbranceUpdateCode(this.getEncumbranceUpdateCode(transaction));
 
@@ -99,13 +98,20 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
      */
     private String getTransactionDescription(Transaction transaction) {
         String documentTypeCode = transaction.getFinancialDocumentTypeCode();
-        return this.getDescriptionMap().get(documentTypeCode);
+        String description = getDescriptionMap().get(documentTypeCode);        
+        description = StringUtils.isNotEmpty(description) ? description : transaction.getTransactionLedgerEntryDescription();
+        
+        // make sure the length of the description cannot excess the specified maximum
+        if(StringUtils.isNotEmpty(description) && description.length() > LaborConstants.TRANSACTION_DESCRIPTION_MAX_LENGTH){
+            description = StringUtils.left(description, LaborConstants.TRANSACTION_DESCRIPTION_MAX_LENGTH);
+        }       
+        return description;
     }
 
     /**
      * @return the description dictionary that can be used to look up approperite description
      */
-    private Map<String, String> getDescriptionMap() {
+    public static Map<String, String> getDescriptionMap() {
         Map<String, String> descriptionMap = new HashMap<String, String>();
 
         descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.NORMAL_PAY, "NORMAL PAYROLL ACTIVITY");
@@ -122,11 +128,6 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
         descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.HAND_DRAWN_CHECK, "PAYROLL HAND DRAWN CHECK PAYMENTS");
         descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.OVERPAYMENT, "PAYROLL OVERPAYMENT COLLECTIONS");
         descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.RETROACTIVE_ADJUSTMENT, "PAYROLL RETROACTIVE ADJUSTMENTS");
-
-        descriptionMap.put(LaborConstants.JournalVoucherOffsetType.ACCRUAL.typeCode, LaborConstants.JournalVoucherOffsetType.ACCRUAL.longDescription);
-        descriptionMap.put(LaborConstants.JournalVoucherOffsetType.CASH.typeCode, LaborConstants.JournalVoucherOffsetType.CASH.longDescription);
-        descriptionMap.put(LaborConstants.JournalVoucherOffsetType.ENCUMBRANCE.typeCode, LaborConstants.JournalVoucherOffsetType.ENCUMBRANCE.longDescription);
-        descriptionMap.put(LaborConstants.JournalVoucherOffsetType.NO_OFFSET.typeCode, LaborConstants.JournalVoucherOffsetType.NO_OFFSET.longDescription);
 
         return descriptionMap;
     }

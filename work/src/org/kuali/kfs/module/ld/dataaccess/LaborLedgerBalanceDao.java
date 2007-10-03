@@ -95,4 +95,10 @@ public interface LaborLedgerBalanceDao {
      * @return the ledger balances for the given fiscal year and balance types
      */
     public List<LaborBalanceSummary> findBalanceSummary(Integer fiscalYear, Collection<String> balanceTypes);
+    
+    /**
+     * save the given ledger balance into the underlying data store
+     * @param ledgerBalance the given ledger balance
+     */
+    public void save(LedgerBalance ledgerBalance);
 }

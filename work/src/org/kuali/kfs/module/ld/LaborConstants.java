@@ -102,6 +102,7 @@ public class LaborConstants {
         consolidationAttributes.add(KFSPropertyConstants.REFERENCE_FINANCIAL_SYSTEM_ORIGINATION_CODE);
         consolidationAttributes.add(KFSPropertyConstants.PROJECT_CODE);
         consolidationAttributes.add(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID);
+        consolidationAttributes.add(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC);
 
         consolidationAttributes.add(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);
         consolidationAttributes.add(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);

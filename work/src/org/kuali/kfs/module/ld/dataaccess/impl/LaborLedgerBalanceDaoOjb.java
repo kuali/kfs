@@ -176,7 +176,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     private List<String> getEncumbranceBalanceTypeCodeList() {
-        String[] balanceTypesAsArray = kualiConfigurationService.getParameterValues(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BALANCE_INQUIRY_AVAILABLE_BALANCES, "EncumbranceDrillDownBalanceTypes" );
+        String[] balanceTypesAsArray = kualiConfigurationService.getParameterValues(KFSConstants.GL_NAMESPACE, KFSConstants.Components.BALANCE_INQUIRY_AVAILABLE_BALANCES, "EncumbranceDrillDownBalanceTypes");
         return Arrays.asList(balanceTypesAsArray);
     }
 
@@ -252,6 +252,13 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
             balanceSummaryCollection.add(this.marshalFundsAsLaborBalanceSummary(queryResults.next()));
         }
         return balanceSummaryCollection;
+    }
+
+    /**
+     * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#save(org.kuali.module.labor.bo.LedgerBalance)
+     */
+    public void save(LedgerBalance ledgerBalance) {
+        getPersistenceBrokerTemplate().store(ledgerBalance);
     }
 
     // get the current funds according to the given criteria

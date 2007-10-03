@@ -326,6 +326,9 @@
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
+        <property name="laborLedgerBalanceService">
+			<ref bean="laborLedgerBalanceService" />
+		</property>	
     </bean>
 
     <bean id="laborGLLedgerEntryPoster" class="org.kuali.module.labor.batch.poster.impl.LaborGLLedgerEntryPoster">
@@ -439,8 +442,8 @@
             <ref bean="optionsService" />
         </property>
         
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
+        <property name="laborOriginEntryService">
+            <ref bean="laborOriginEntryService" />
         </property>        
         <property name="dateTimeService">
             <ref bean="dateTimeService" />

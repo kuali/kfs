@@ -30,6 +30,7 @@ import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
@@ -46,6 +47,7 @@ import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.service.LaborPosterService;
 import org.kuali.module.labor.service.LaborReportService;
 import org.kuali.module.labor.util.MessageBuilder;
+import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.ReportRegistry;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -96,6 +98,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @param runDate the data when the process is running
      */
     private void postLaborLedgerEntries(OriginEntryGroup validGroup, OriginEntryGroup invalidGroup, Date runDate) {
+        LOG.info("postLaborLedgerEntries() started");
+
         String reportsDirectory = ReportRegistry.getReportsDirectory();
         Map<Transaction, List<Message>> errorMap = new HashMap<Transaction, List<Message>>();
         List<Summary> reportSummary = this.buildReportSummaryForLaborLedgerPosting();
@@ -203,9 +207,14 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @param postDate the data when the transaction is processes
      */
     private void postAsProcessedOriginEntry(LaborOriginEntry originEntry, OriginEntryGroup entryGroup, Date postDate) {
-        originEntry.setEntryGroupId(entryGroup.getId());
-        originEntry.setTransactionPostingDate(postDate);
-        laborOriginEntryService.save(originEntry);
+        LaborOriginEntry newOriginEntry = new LaborOriginEntry();
+        
+        ObjectUtil.buildObject(newOriginEntry, originEntry);
+        newOriginEntry.setEntryId(null);
+        newOriginEntry.setEntryGroupId(entryGroup.getId());
+        newOriginEntry.setTransactionPostingDate(postDate);
+        
+        laborOriginEntryService.save(newOriginEntry);
     }
 
     /**
@@ -235,6 +244,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @param runDate the data when the process is running
      */
     private void postLaborGLEntries(OriginEntryGroup validGroup, Date runDate) {
+        LOG.info("postLaborGLEntries() started");
+
         String reportsDirectory = ReportRegistry.getReportsDirectory();
         List<Summary> reportSummary = this.buildReportSummaryForLaborGLPosting();
         Map<Transaction, List<Message>> errorMap = new HashMap<Transaction, List<Message>>();

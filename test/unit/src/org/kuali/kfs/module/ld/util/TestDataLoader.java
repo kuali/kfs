@@ -44,7 +44,7 @@ import org.kuali.module.labor.util.testobject.PendingLedgerEntryForTesting;
 
 public class TestDataLoader {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborScrubberProcess.class);
-    
+
     private Properties properties;
     private String fieldNames;
     private String fieldLength;
@@ -58,13 +58,13 @@ public class TestDataLoader {
 
     public TestDataLoader() {
         String messageFileName = "test/src/org/kuali/module/labor/testdata/message.properties";
-        String propertiesFileName = "test/src/org/kuali/module/labor/testdata/laborTransaction2.properties";
+        String propertiesFileName = "test/src/org/kuali/module/labor/testdata/laborTransaction.properties";
 
         properties = (new TestDataGenerator(propertiesFileName, messageFileName)).getProperties();
         fieldNames = properties.getProperty("fieldNames");
         fieldLength = properties.getProperty("fieldLength");
         deliminator = properties.getProperty("deliminator");
-        
+
         LaborSpringContext.initializeApplicationContext();
         keyFieldList = Arrays.asList(StringUtils.split(fieldNames, deliminator));
         fieldLengthList = Arrays.asList(StringUtils.split(fieldLength, deliminator));
@@ -137,32 +137,44 @@ public class TestDataLoader {
     public static void main(String[] args) {
         TestDataLoader testDataLoader = new TestDataLoader();
         Date groupCreationDate = new Date(0);
-        
-        if(ArrayUtils.contains(args, "poster")){
-            OriginEntryGroup group = new OriginEntryGroup();
-            group.setSourceCode(LABOR_SCRUBBER_VALID);
-            group.setValid(true);
-            group.setScrub(false);
-            group.setProcess(true);
-            group.setDate(groupCreationDate);
-            int numOfData = testDataLoader.loadTransactionIntoOriginEntryTable(group);
-            System.out.println("Number of Origin Entries for Poster = " + numOfData);
+
+        if (ArrayUtils.isEmpty(args) || args.length < 2) {
+            System.out.println("The program requires at least two arguments.");
+            return;
         }
-        
-        if(ArrayUtils.contains(args, "scrubber")){
-            OriginEntryGroup group = new OriginEntryGroup();
-            group.setSourceCode(LABOR_BACKUP);
-            group.setValid(true);
-            group.setScrub(true);
-            group.setProcess(true);
-            group.setDate(groupCreationDate);
-            int numOfData = testDataLoader.loadTransactionIntoOriginEntryTable(group);
-            System.out.println("Number of Origin Entries for Scrubber = " + numOfData);
+
+        if (!StringUtils.isAlphanumeric(args[0])) {
+            System.out.println("The first argument should be a number.");
+            return;
         }
-        
-        if(ArrayUtils.contains(args, "pending")){
-            int numOfData = testDataLoader.loadTransactionIntoPendingEntryTable();
-            System.out.println("Number of Pending Entries = " + numOfData);
+
+        for (int numOfRound = Integer.parseInt(args[0]); numOfRound > 0; numOfRound--) {
+            if (ArrayUtils.contains(args, "poster")) {
+                OriginEntryGroup group = new OriginEntryGroup();
+                group.setSourceCode(LABOR_SCRUBBER_VALID);
+                group.setValid(true);
+                group.setScrub(false);
+                group.setProcess(true);
+                group.setDate(groupCreationDate);
+                int numOfData = testDataLoader.loadTransactionIntoOriginEntryTable(group);
+                System.out.println("Number of Origin Entries for Poster = " + numOfData);
+            }
+
+            if (ArrayUtils.contains(args, "scrubber")) {
+                OriginEntryGroup group = new OriginEntryGroup();
+                group.setSourceCode(LABOR_BACKUP);
+                group.setValid(true);
+                group.setScrub(true);
+                group.setProcess(true);
+                group.setDate(groupCreationDate);
+                int numOfData = testDataLoader.loadTransactionIntoOriginEntryTable(group);
+                System.out.println("Number of Origin Entries for Scrubber = " + numOfData);
+            }
+
+            if (ArrayUtils.contains(args, "pending")) {
+                int numOfData = testDataLoader.loadTransactionIntoPendingEntryTable();
+                System.out.println("Number of Pending Entries = " + numOfData);
+            }
         }
         System.exit(0);
     }

@@ -25,6 +25,7 @@ import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class LaborLedgerBalancePoster implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerBalancePoster.class);
     private BusinessObjectService businessObjectService;
+    private LaborLedgerBalanceService laborLedgerBalanceService;
 
     /**
      * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction, int, java.util.Date)
@@ -56,7 +58,7 @@ public class LaborLedgerBalancePoster implements PostTransaction {
         ledgerBalance.addAmount(transaction.getUniversityFiscalPeriodCode(), amount);
         ledgerBalance.setTransactionDateTimeStamp(new Timestamp(postDate.getTime()));
 
-        businessObjectService.save(ledgerBalance);
+        laborLedgerBalanceService.save(ledgerBalance);
         return operationType;
     }
 
@@ -74,5 +76,13 @@ public class LaborLedgerBalancePoster implements PostTransaction {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Sets the laborLedgerBalanceService attribute value.
+     * @param laborLedgerBalanceService The laborLedgerBalanceService to set.
+     */
+    public void setLaborLedgerBalanceService(LaborLedgerBalanceService laborLedgerBalanceService) {
+        this.laborLedgerBalanceService = laborLedgerBalanceService;
     }
 }

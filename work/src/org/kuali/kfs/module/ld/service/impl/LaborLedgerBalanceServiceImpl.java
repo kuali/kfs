@@ -81,7 +81,7 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
         }
         return recordCount;
     }
-    
+
     /**
      * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findLedgerBalance(java.util.Collection,
      *      org.kuali.module.labor.bo.LaborTransaction)
@@ -133,7 +133,7 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
             LedgerBalance newLedgerBalance = new LedgerBalance();
             ObjectUtil.buildObject(newLedgerBalance, transaction);
             updateLedgerBalance(newLedgerBalance, transaction);
-            
+
             ledgerBalanceCollection.add(newLedgerBalance);
             return newLedgerBalance;
         }
@@ -175,7 +175,7 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
     public List<EmployeeFunding> findEmployeeFundingWithCSFTracker(Map fieldValues, boolean isConsolidated) {
         List<EmployeeFunding> currentFundsCollection = this.findEmployeeFunding(fieldValues, isConsolidated);
         List<EmployeeFunding> CSFTrackersCollection = laborCalculatedSalaryFoundationTrackerService.findCSFTrackersAsEmployeeFunding(fieldValues, isConsolidated);
-        
+
         for (EmployeeFunding CSFTrackerAsEmployeeFunding : CSFTrackersCollection) {
             if (currentFundsCollection.contains(CSFTrackerAsEmployeeFunding)) {
                 int index = currentFundsCollection.indexOf(CSFTrackerAsEmployeeFunding);
@@ -187,8 +187,8 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
                 currentFunds.setCsfAmount(CSFTrackerAsEmployeeFunding.getCsfAmount());
                 currentFunds.setCsfFullTimeEmploymentQuantity(CSFTrackerAsEmployeeFunding.getCsfFullTimeEmploymentQuantity());
             }
-            else{
-                currentFundsCollection.add(CSFTrackerAsEmployeeFunding);              
+            else {
+                currentFundsCollection.add(CSFTrackerAsEmployeeFunding);
             }
         }
         return currentFundsCollection;
@@ -199,6 +199,13 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
      */
     public List<LaborBalanceSummary> findBalanceSummary(Integer fiscalYear, Collection<String> balanceTypes) {
         return laborLedgerBalanceDao.findBalanceSummary(fiscalYear, balanceTypes);
+    }
+
+    /**
+     * @see org.kuali.module.labor.service.LaborLedgerBalanceService#save(org.kuali.module.labor.bo.LedgerBalance)
+     */
+    public void save(LedgerBalance ledgerBalance) {
+        laborLedgerBalanceDao.save(ledgerBalance);
     }
 
     // get the person name through employee id

@@ -772,7 +772,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
         appointmentTypeMappings.put(KraConstants.ACADEMIC_YEAR_SUMMER, academicYearSummerList.toString());
         appointmentTypeMappings.put(KraConstants.ACADEMIC_YEAR_SUMMER_ARRAY, academicYearSummerList.toArray(new String[] {}));
         appointmentTypeMappings.put(KraConstants.HOURLY, parameterService.getParameterValues(BudgetDocument.class, KraConstants.KRA_BUDGET_PERSONNEL_HOURLY_APPOINTMENT_TYPES).toString());
-        appointmentTypeMappings.put(KraConstants.GRADUATE_ASSISTANT, parameterService.getParameterValues(BudgetDocument.class, KraConstants.KRA_BUDGET_PERSONNEL_GRADUATE_RESEARCH_ASSISTANT_APPOINTMENT_TYPES)).toString();
+        appointmentTypeMappings.put(KraConstants.GRADUATE_ASSISTANT, parameterService.getParameterValues(BudgetDocument.class, KraConstants.KRA_BUDGET_PERSONNEL_GRADUATE_RESEARCH_ASSISTANT_APPOINTMENT_TYPES).toString());
         appointmentTypeMappings.put(KraConstants.ACADEMIC_SUMMER, parameterService.getParameterValue(BudgetDocument.class, KraConstants.KRA_BUDGET_PERSONNEL_SUMMER_GRID_APPOINTMENT_TYPE));
         appointmentTypeMappings.put(KraConstants.ACADEMIC_YEAR, parameterService.getParameterValue(BudgetDocument.class, KraConstants.KRA_BUDGET_PERSONNEL_ACADEMIC_YEAR_APPOINTMENT_TYPE));
         // }

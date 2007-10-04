@@ -20,6 +20,7 @@ import org.kuali.core.util.KualiDecimal;
 public class OriginEntryStatistics {
     private KualiDecimal debitTotalAmount = KualiDecimal.ZERO;
     private KualiDecimal creditTotalAmount = KualiDecimal.ZERO;
+    private KualiDecimal budgetTotalAmount = KualiDecimal.ZERO;
     private Integer rowCount = 0;
 
     public void addDebit(KualiDecimal d) {
@@ -27,11 +28,19 @@ public class OriginEntryStatistics {
             debitTotalAmount = debitTotalAmount.add(d);
         }
     }
+    
     public void addCredit(KualiDecimal c) {
         if (c != null) {
             creditTotalAmount = creditTotalAmount.add(c);
         }
     }
+    
+    public void addBudget(KualiDecimal b) {
+        if (b != null) {
+            budgetTotalAmount = budgetTotalAmount.add(b);
+        }
+    }
+    
     public void incrementCount() {
         rowCount++;
     }
@@ -47,6 +56,12 @@ public class OriginEntryStatistics {
     }
     public void setDebitTotalAmount(KualiDecimal debitTotalAmount) {
         this.debitTotalAmount = debitTotalAmount;
+    }
+    public KualiDecimal getBudgetTotalAmount() {
+        return budgetTotalAmount;
+    }
+    public void setBudgetTotalAmount(KualiDecimal budgetTotalAmount) {
+        this.budgetTotalAmount = budgetTotalAmount;
     }
     public Integer getRowCount() {
         return rowCount;

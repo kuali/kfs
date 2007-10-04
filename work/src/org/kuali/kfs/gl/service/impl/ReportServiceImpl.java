@@ -797,12 +797,17 @@ public class ReportServiceImpl implements ReportService {
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             summary.addCell(cell);
 
-            cell = new PdfPCell(new Phrase("Total Debits/Blanks: " + cDocument.getCorrectionDebitTotalAmount().toString(), textFont));
+            cell = new PdfPCell(new Phrase("Total Debits: " + cDocument.getCorrectionDebitTotalAmount().toString(), textFont));
             cell.setColspan(2);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             summary.addCell(cell);
 
             cell = new PdfPCell(new Phrase("Total Credits: " + cDocument.getCorrectionCreditTotalAmount().toString(), textFont));
+            cell.setColspan(2);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            summary.addCell(cell);
+
+            cell = new PdfPCell(new Phrase("Total No DB/CR: " + cDocument.getCorrectionBudgetTotalAmount().toString(), textFont));
             cell.setColspan(2);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             summary.addCell(cell);

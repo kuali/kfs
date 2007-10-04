@@ -49,6 +49,8 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.chart.service.ObjectTypeService;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.EmployeeFunding;
@@ -176,12 +178,16 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     private List<String> getEncumbranceBalanceTypeCodeList() {
-        return new ArrayList();
         // todo abyre is going to create jira for this
         // String[] balanceTypesAsArray =
         // SpringContext.getBean(ParameterService.class).getParameterValues(KFSConstants.GL_NAMESPACE,
         // KFSConstants.Components.BALANCE_INQUIRY_AVAILABLE_BALANCES, "EncumbranceDrillDownBalanceTypes" );
         // return Arrays.asList(balanceTypesAsArray);
+        
+        ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
+        List<String> encumberanceBalanceTypeCodeList = objectTypeService.getCurrentYearEncumbranceBalanceTypes();
+        encumberanceBalanceTypeCodeList.add( objectTypeService.getCurrentYearCostShareEncumbranceBalanceType() );
+        return encumberanceBalanceTypeCodeList;
     }
 
     /**

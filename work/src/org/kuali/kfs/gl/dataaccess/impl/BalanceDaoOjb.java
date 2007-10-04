@@ -394,10 +394,14 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
     }
 
     private List<String> getEncumbranceBalanceTypeCodeList() {
-        return new ArrayList();
         // TODO abyrne will create jira - this parm doesn't exist
         // return parameterService.getParameterValues(KFSConstants.GL_NAMESPACE, KFSConstants.Components.,
         // "EncumbranceDrillDownBalanceTypes");
+        
+        ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
+        List<String> encumberanceBalanceTypeCodeList = objectTypeService.getCurrentYearEncumbranceBalanceTypes();
+        encumberanceBalanceTypeCodeList.add( objectTypeService.getCurrentYearCostShareEncumbranceBalanceType() );
+        return encumberanceBalanceTypeCodeList;        
     }
 
     /**

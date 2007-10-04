@@ -168,4 +168,25 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
         cumulativeBalanceForwardsObjectTypes.add(option.getFinObjTypeCshNotIncomeCd());
         return cumulativeBalanceForwardsObjectTypes;
     }
+
+    public String getCostShareEncumbranceBalanceType(Integer universityFiscalYear) {
+        return optionsDao.getByPrimaryId(universityFiscalYear).getCostShareEncumbranceBalanceTypeCd();
+    }
+
+    public List<String> getEncumbranceBalanceTypes(Integer universityFiscalYear) {
+        Options option = optionsDao.getByPrimaryId(universityFiscalYear);
+        List<String> encumberanceBalanceTypes = new ArrayList<String>();
+        encumberanceBalanceTypes.add(option.getExtrnlEncumFinBalanceTypCd());
+        encumberanceBalanceTypes.add(option.getIntrnlEncumFinBalanceTypCd());
+        encumberanceBalanceTypes.add(option.getPreencumbranceFinBalTypeCd());
+        return encumberanceBalanceTypes;
+    }
+
+    public String getCurrentYearCostShareEncumbranceBalanceType() {
+        return getCostShareEncumbranceBalanceType(universityDateService.getCurrentFiscalYear());
+    }
+
+    public List<String> getCurrentYearEncumbranceBalanceTypes() {
+        return getEncumbranceBalanceTypes(universityDateService.getCurrentFiscalYear());
+    }
 }

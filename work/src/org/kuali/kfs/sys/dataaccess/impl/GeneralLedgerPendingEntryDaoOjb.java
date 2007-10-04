@@ -39,6 +39,7 @@ import org.kuali.kfs.dao.GeneralLedgerPendingEntryDao;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.util.KFSUtils;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.service.ObjectTypeService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.Encumbrance;
@@ -600,11 +601,15 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     }
 
     private List<String> getEncumbranceBalanceTypeCodeList() {
-        return new ArrayList();
         // todo - abyrne will create a jira
         // String[] balanceTypesAsArray = parameterService.getParameterValues(KFSConstants.GL_NAMESPACE,
         // KFSConstants.Components.BALANCE_INQUIRY_AVAILABLE_BALANCES, "EncumbranceDrillDownBalanceTypes");
         // return Arrays.asList(balanceTypesAsArray);
+        
+        ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
+        List<String> encumberanceBalanceTypeCodeList = objectTypeService.getCurrentYearEncumbranceBalanceTypes();
+        encumberanceBalanceTypeCodeList.add( objectTypeService.getCurrentYearCostShareEncumbranceBalanceType() );
+        return encumberanceBalanceTypeCodeList;        
     }
 
     public Collection findPendingEntries(Map fieldValues, boolean isApproved) {

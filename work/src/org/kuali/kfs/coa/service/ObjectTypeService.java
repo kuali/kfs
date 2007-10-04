@@ -69,6 +69,35 @@ public interface ObjectTypeService {
     public String getIncomeTransferObjectType(Integer universityFiscalYear);
     
     /**
+     * Returns the list of encumbrance-related balance types from options table for a given university fiscal year
+     * @param universityFiscalYear
+     * @return
+     */
+    public List<String> getEncumbranceBalanceTypes(Integer universityFiscalYear);
+    
+    /**
+     * Returns the cost share encumberance balance type from options table for a given university fiscal year
+     * @param universityFiscalYear
+     * @return
+     */
+    public String getCostShareEncumbranceBalanceType(Integer universityFiscalYear);   
+    
+    
+    /**
+     * Returns the list of encumbrance-related balance types from options table for the current university fiscal year
+     * @param universityFiscalYear
+     * @return
+     */
+    public List<String> getCurrentYearEncumbranceBalanceTypes();
+    
+    /**
+     * Returns the cost share encumberance balance type from options table for the current university fiscal year
+     * @param universityFiscalYear
+     * @return
+     */
+    public String getCurrentYearCostShareEncumbranceBalanceType(); 
+    
+    /**
      * Returns a list of basic expense objects from options table for the current university fiscal year
      * @param universityFiscalYear
      * @return
@@ -103,6 +132,8 @@ public interface ObjectTypeService {
      * @return
      */
     public String getCurrentYearIncomeTransferObjectType(); 
+    
+    
     
     /**
      * Returns a list of the object types that the nominal balance selector uses to determine if it should

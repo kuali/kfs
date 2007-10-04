@@ -16,6 +16,8 @@
 package org.kuali.module.labor.rules;
 
 
+import java.util.List;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
@@ -279,9 +281,9 @@ public class TransactionFieldValidator {
      * @param unpostableperidCodes the list of unpostable period code
      * @return null if the perid code of the transaction is not in unpostableperidCodes; otherwise, return error message
      */
-    public static Message checkPostablePeridCode(LaborTransaction transaction, String[] unpostableperidCodes) {
+    public static Message checkPostablePeridCode(LaborTransaction transaction, List<String> unpostableperidCodes) {
         String periodCode = transaction.getUniversityFiscalPeriodCode();
-        if (ArrayUtils.contains(unpostableperidCodes, periodCode)) {
+        if (unpostableperidCodes.contains(periodCode)) {
             return MessageBuilder.buildErrorMessage(KFSKeyConstants.Labor.ERROR_UNPOSTABLE_PERIOD_CODE, periodCode, Message.TYPE_FATAL);
         }
         return null;
@@ -295,9 +297,9 @@ public class TransactionFieldValidator {
      * @return null if the balance type code of the transaction is not in unpostableBalanceTypeCodes; otherwise, return error
      *         message
      */
-    public static Message checkPostableBalanceTypeCode(LaborTransaction transaction, String[] unpostableBalanceTypeCodes) {
+    public static Message checkPostableBalanceTypeCode(LaborTransaction transaction, List<String> unpostableBalanceTypeCodes) {
         String balanceTypeCode = transaction.getFinancialBalanceTypeCode();
-        if (ArrayUtils.contains(unpostableBalanceTypeCodes, balanceTypeCode)) {
+        if (unpostableBalanceTypeCodes.contains(balanceTypeCode)) {
             return MessageBuilder.buildErrorMessage(KFSKeyConstants.Labor.ERROR_UNPOSTABLE_BALANCE_TYPE, balanceTypeCode, Message.TYPE_FATAL);
         }
         return null;
@@ -324,9 +326,9 @@ public class TransactionFieldValidator {
      * @param unpostableObjectCodes the list of unpostable object codes
      * @return null if the object code of the transaction is not in unpostableObjectCodes; otherwise, return error message
      */
-    public static Message checkPostableObjectCode(LaborTransaction transaction, String[] unpostableObjectCodes) {
+    public static Message checkPostableObjectCode(LaborTransaction transaction, List<String> unpostableObjectCodes) {
         String objectCode = transaction.getFinancialObjectCode();
-        if (ArrayUtils.contains(unpostableObjectCodes, objectCode)) {
+        if (unpostableObjectCodes.contains(objectCode)) {
             return MessageBuilder.buildErrorMessage(KFSKeyConstants.Labor.ERROR_UNPOSTABLE_OBJECT_CODE, objectCode, Message.TYPE_FATAL);
         }
         return null;

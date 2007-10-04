@@ -171,6 +171,14 @@ public interface LaborOriginEntryService {
      * @return origin entries that belong to the given group
      */
     public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group);
+    
+    /**
+     * Get origin entries that belong to the given group
+     * 
+     * @param group the given origin entry group
+     * @return origin entries that belong to the given group
+     */
+    public Collection<LaborOriginEntry> getEntryCollectionByGroup(OriginEntryGroup group);
 
     /**
      * Get origin entries that belong to the given groups

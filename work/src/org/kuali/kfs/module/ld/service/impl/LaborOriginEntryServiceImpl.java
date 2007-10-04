@@ -461,7 +461,6 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
         return laborOriginEntryDao.getCountOfEntriesInGroups(groups);
     }
 
-
     /**
      * @see org.kuali.module.labor.service.LaborLaborOriginEntryService#getCountOfEntriesInSingleGroup(org.kuali.module.gl.bo.OriginEntryGroup)
      */
@@ -470,6 +469,14 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
         groups.add(group);
 
         return this.getCountOfEntriesInGroups(groups);
+    }
+    
+
+    /**
+     * @see org.kuali.module.labor.service.LaborOriginEntryService#getEntryCollectionByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
+     */
+    public Collection<LaborOriginEntry> getEntryCollectionByGroup(OriginEntryGroup group) {
+        return laborOriginEntryDao.getEntryCollectionByGroup(group);
     }
 
     /**

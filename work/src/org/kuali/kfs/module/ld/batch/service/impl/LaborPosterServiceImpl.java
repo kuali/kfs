@@ -109,10 +109,9 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         int numberOfOriginEntry = laborOriginEntryService.getCountOfEntriesInGroups(postingGroups);
         int numberOfSelectedOriginEntry = 0;
 
-        for (OriginEntryGroup entryGroup : postingGroups) {
-            Iterator<LaborOriginEntry> entries = laborOriginEntryService.getEntriesByGroup(entryGroup);
-            while (entries != null && entries.hasNext()) {
-                LaborOriginEntry originEntry = entries.next();
+        for (OriginEntryGroup entryGroup : postingGroups) {            
+            Collection<LaborOriginEntry> entries = laborOriginEntryService.getEntryCollectionByGroup(entryGroup);
+            for(LaborOriginEntry originEntry : entries){
                 if (postSingleEntryIntoLaborLedger(originEntry, reportSummary, errorMap, validGroup, invalidGroup, runDate)) {
                     numberOfSelectedOriginEntry++;
                     originEntry = null;
@@ -325,8 +324,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * 
      * @return a set of the balance type codes that are bypassed by Labor Poster
      */
-    public String[] getBalanceTypesNotProcessed() {
-        return parameterService.getParameterValues(LaborPosterStep.class, Poster.BALANCE_TYPES_NOT_PROCESSED).toArray(new String[] {});
+    public List<String> getBalanceTypesNotProcessed() {
+        return parameterService.getParameterValues(LaborPosterStep.class, Poster.BALANCE_TYPES_NOT_PROCESSED);
     }
 
     /**
@@ -334,8 +333,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * 
      * @return a set of the object codes that are bypassed by Labor Poster
      */
-    public String[] getObjectsNotProcessed() {
-        return parameterService.getParameterValues(LaborPosterStep.class, Poster.OBJECT_CODES_NOT_PROCESSED).toArray(new String[] {});
+    public List<String> getObjectsNotProcessed() {
+        return parameterService.getParameterValues(LaborPosterStep.class, Poster.OBJECT_CODES_NOT_PROCESSED);
     }
 
     /**
@@ -343,8 +342,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * 
      * @return a set of the fiscal period codes that are bypassed by Labor Poster
      */
-    public String[] getPeriodCodesNotProcessed() {
-        return parameterService.getParameterValues(LaborPosterStep.class, Poster.PERIOD_CODES_NOT_PROCESSED).toArray(new String[] {});
+    public List<String> getPeriodCodesNotProcessed() {
+        return parameterService.getParameterValues(LaborPosterStep.class, Poster.PERIOD_CODES_NOT_PROCESSED);
     }
 
     /**

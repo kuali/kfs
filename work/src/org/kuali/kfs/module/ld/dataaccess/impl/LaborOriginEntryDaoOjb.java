@@ -284,4 +284,17 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
 
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
+
+    /**
+     * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getEntryCollectionByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
+     */
+    public Collection<LaborOriginEntry> getEntryCollectionByGroup(OriginEntryGroup group) {
+        LOG.debug("getEntriesByGroups() started");
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(KFSPropertyConstants.ENTRY_GROUP_ID, group.getId());
+
+        QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
 }

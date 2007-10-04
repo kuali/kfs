@@ -76,5 +76,13 @@ public interface LaborOriginEntryDao extends OriginEntryDao {
      * @param searchCriteria Map of field, value pairs
      * @return collection of entries
      */
-    Collection getMatchingEntriesByCollection(Map searchCriteria); 
+    Collection getMatchingEntriesByCollection(Map searchCriteria);
+
+    /**
+     * Return a collection to all the entries in the given group
+     * 
+     * @param group the given origin entry group
+     * @return Collection of entries in the specified group
+     */
+    Collection<LaborOriginEntry> getEntryCollectionByGroup(OriginEntryGroup group); 
 }

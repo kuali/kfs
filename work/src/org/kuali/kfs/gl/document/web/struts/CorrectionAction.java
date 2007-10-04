@@ -1738,6 +1738,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         if (clearOutSummary) {
             document.setCorrectionCreditTotalAmount(null);
             document.setCorrectionDebitTotalAmount(null);
+            document.setCorrectionBudgetTotalAmount(null);
             document.setCorrectionRowCount(null);
         }
         else {

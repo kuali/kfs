@@ -182,7 +182,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
         Map jobParameters = organizationReversionProcessService.getJobParameters();
         Map<String, Integer> organizationReversionCounts = new HashMap<String, Integer>();
         
-        orgRevProcess = new OrganizationReversionProcess(null, true, organizationReversionService, balanceService, organizationReversionSelection, originEntryGroupService, originEntryService, persistenceService, dtService, cashOrganizationReversionCategoryLogic, priorYearAccountService, orgReversionUnitOfWorkService, jobParameters, organizationReversionCounts);
+        orgRevProcess = new OrganizationReversionProcess(null, false, organizationReversionService, balanceService, organizationReversionSelection, originEntryGroupService, originEntryService, persistenceService, dtService, cashOrganizationReversionCategoryLogic, priorYearAccountService, orgReversionUnitOfWorkService, jobParameters, organizationReversionCounts);
         orgRevProcess.initializeProcess();
     }
 

@@ -192,7 +192,7 @@ public class OrganizationReversionProcess {
             }
         }
         // save the final unit of work
-        if (!skipToNextUnitOfWork) {
+        if (!skipToNextUnitOfWork && getBalancesSelected() > 0) {
             try {
                 calculateTotals();
                 List<OriginEntryFull> originEntriesToWrite = generateOutputOriginEntries();

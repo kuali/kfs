@@ -693,12 +693,12 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
 
         Criteria c = new Criteria();
         c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
-        for (int i = 0; i <= rules.size(); i++) {
-            Parameter currentRule = rules.get(new Integer(i));
+        for (Map.Entry<Integer, Parameter> parameter: rules.entrySet()) {
+            Parameter currentRule = parameter.getValue();
             if (currentRule != null) {
                 String propertyName = StringUtils.substringBefore(currentRule.getParameterValue(), "=");
                 List<String> ruleValues = Arrays.asList(StringUtils.substringAfter(currentRule.getParameterValue(), "=").split(";"));
-                if (propertyName != null && propertyName.length() > 0 && ruleValues.size() > 0) {
+                if (propertyName != null && propertyName.length() > 0 && ruleValues.size() > 0 && !StringUtils.isBlank(ruleValues.get(0))) {
                     if (KFSConstants.APC_ALLOWED_OPERATOR.equals(currentRule.getParameterConstraintCode())) {
                         c.addIn(propertyName, ruleValues);
                     }

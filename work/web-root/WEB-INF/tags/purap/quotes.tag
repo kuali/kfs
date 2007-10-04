@@ -21,9 +21,6 @@
               description="The DataDictionary entry containing attributes for this row's fields." %>
 <%@ attribute name="isPurchaseOrderAwarded" required="true" description="has the PO been awarded?" %>
 
-<c:set var="amendmentEntry"
-	value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
-
 <kul:tab tabTitle="Quote" defaultOpen="false"
 	tabErrorKey="${PurapConstants.QUOTE_TAB_ERRORS}">
 	<div class="tab-container" align=center><!--  if (fullEntryMode or amendmentEntry), then display the addLine -->
@@ -52,13 +49,15 @@
                  <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderQuoteDueDate}" /></div>
              </th>
              <td align=left valign=middle class="datacell">
-                 <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderQuoteDueDate}" property="document.purchaseOrderQuoteDueDate" readOnly="${isPurchaseOrderAwarded}" />
+                 <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderQuoteDueDate}" property="document.purchaseOrderQuoteDueDate" 
+                 readOnly="${isPurchaseOrderAwarded or not preRouteChangeMode}" />
              </td>
              <th align=right valign=middle class="bord-l-b" rowspan="2">
                  <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderQuoteVendorNoteText}" /></div>
              </th>
              <td align=left valign=middle class="datacell" rowspan="2" colspan="2">
-                 <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderQuoteVendorNoteText}" property="document.purchaseOrderQuoteVendorNoteText" readOnly="${isPurchaseOrderAwarded}" />
+                 <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderQuoteVendorNoteText}" property="document.purchaseOrderQuoteVendorNoteText" 
+                 readOnly="${isPurchaseOrderAwarded or not preRouteChangeMode}" />
              </td>
         </tr>
         <tr>
@@ -66,14 +65,15 @@
                  <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderQuoteTypeCode}" /></div>
              </th>
              <td align=left valign=middle class="datacell">
-                 <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderQuoteTypeCode}" property="document.purchaseOrderQuoteTypeCode" readOnly="${isPurchaseOrderAwarded}" />
+                 <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderQuoteTypeCode}" property="document.purchaseOrderQuoteTypeCode" 
+                 readOnly="${isPurchaseOrderAwarded or not preRouteChangeMode}" />
              </td>
         </tr>
 
 		<tr>
 			<td colspan="5" class="subhead">
 				<span class="subhead-left">Vendor Information</span>
-				<c:if test="${!isPurchaseOrderAwarded}">
+				<c:if test="${!isPurchaseOrderAwarded && preRouteChangeMode}">
 					<span class="subhead-right">
 						<input type="image" name="methodToCall.performLookup.(!!org.kuali.module.purap.bo.PurchaseOrderQuoteList!!).(((purchaseOrderQuoteListIdentifier:document.purchaseOrderQuoteListIdentifier)))"
 						   src="${ConfigProperties.externalizable.images.url}tinybutton-selquolist.gif" border="0" class="tinybutton" valign="middle" alt="Search for a Vendor" title="Search for a Vendor" />
@@ -84,7 +84,7 @@
 			</td>
 		</tr>
 
-		<c:if test="${!isPurchaseOrderAwarded}">
+		<c:if test="${!isPurchaseOrderAwarded && preRouteChangeMode}">
         <tr>
 			<td colspan="5" class="subhead">
 				<span class="subhead-left">New Vendor</span>
@@ -205,7 +205,7 @@
 		        ctr="${ctr}" /> 
 		</logic:iterate>
 
-		<c:if test="${not isPurchaseOrderAwarded}">
+		<c:if test="${!isPurchaseOrderAwarded && preRouteChangeMode}">
 		<tr>
 			<td colspan="5">
 				<div align="center">

@@ -27,10 +27,6 @@
 <c:if test="${empty editableFundingSource}">
 	<c:set var="editableFundingSource" value="false" />
 </c:if>
-<c:if test="${empty amendmentEntry}">
-	<c:set var="amendmentEntry" value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
-</c:if>
-<c:set var="preRouteChangeMode" value="${(not empty KualiForm.editingMode['preRouteChangeable'])}" />
 
 <div class="h2-container">
 	<h2><c:out value="${detailSectionLabel}"/></h2>

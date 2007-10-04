@@ -87,7 +87,8 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
             if (hasInitiateAuthorization(d, user)) {
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
 
-                // contract manager and manual status change can only happen prior to routing
+                // PRE_ROUTE_CHANGEABLE mode is used for fields that are editable only before PO is routed
+                // for ex, contract manager, manual status change, and quote etc
                 editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.PRE_ROUTE_CHANGEABLE, "TRUE");
             }
         }

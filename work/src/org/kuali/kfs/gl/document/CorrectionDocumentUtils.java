@@ -355,25 +355,38 @@ public class CorrectionDocumentUtils {
     }
 
     /**
-     * Returns whether the origin entry represents a debit budget
+     * Returns whether the origin entry represents a debit
      * 
      * @param oe
      * @return
      */
-    public static boolean isDebitBudget(OriginEntryFull oe) {
-        return (oe.getTransactionDebitCreditCode() == null || KFSConstants.GL_BUDGET_CODE.equals(oe.getTransactionDebitCreditCode()) || KFSConstants.GL_DEBIT_CODE.equals(oe.getTransactionDebitCreditCode()));
+    public static boolean isDebit(OriginEntryFull oe) {
+        return (oe.getTransactionDebitCreditCode() == null || KFSConstants.GL_DEBIT_CODE.equals(oe.getTransactionDebitCreditCode()));
     }
 
     /**
-     * Given an instance of statistics, it adds infromation from the passed in entry to the statistics
+     * Returns whether the origin entry represents a debit
+     * 
+     * @param oe
+     * @return
+     */
+    public static boolean isBudget(OriginEntryFull oe) {
+        return KFSConstants.GL_BUDGET_CODE.equals(oe.getTransactionDebitCreditCode());
+    }
+    
+    /**
+     * Given an instance of statistics, it adds information from the passed in entry to the statistics
      * 
      * @param entry
      * @param statistics
      */
     public static void updateStatisticsWithEntry(OriginEntryFull entry, OriginEntryStatistics statistics) {
         statistics.incrementCount();
-        if (isDebitBudget(entry)) {
+        if (isDebit(entry)) {
             statistics.addDebit(entry.getTransactionLedgerEntryAmount());
+        }
+        else if (isBudget(entry)){
+            statistics.addBudget(entry.getTransactionLedgerEntryAmount());
         }
         else {
             statistics.addCredit(entry.getTransactionLedgerEntryAmount());
@@ -389,6 +402,7 @@ public class CorrectionDocumentUtils {
     public static void copyStatisticsToDocument(OriginEntryStatistics statistics, CorrectionDocument document) {
         document.setCorrectionCreditTotalAmount(statistics.getCreditTotalAmount());
         document.setCorrectionDebitTotalAmount(statistics.getDebitTotalAmount());
+        document.setCorrectionBudgetTotalAmount(statistics.getBudgetTotalAmount());
         document.setCorrectionRowCount(statistics.getRowCount());
     }
 }

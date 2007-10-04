@@ -81,18 +81,33 @@
 	                attributeEntry="${documentAttributes.purchaseOrderPreviousIdentifier}" 
 	                readOnly="${not (fullEntryMode or amendmentEntry)}" />
 	        </td>
-	        <th align=right valign=middle class="bord-l-b">
-	            <div align="right">
-	            	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" />
-	            </div>
-	        </th>
-	        <td align=left valign=middle class="datacell">
-	        	<kul:htmlControlAttribute 
-	                property="document.purchaseOrderConfirmedIndicator"
-	                attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" 
-                    readOnly="${not (fullEntryMode or amendmentEntry)}" />
-	        </td> 
+            <th align=right valign=middle class="bord-l-b">
+                <div align="right">
+                    <kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionSource}" />
+                </div>
+            </th>
+            <td align=left valign=middle class="datacell">
+                <kul:htmlControlAttribute 
+                    property="document.requisitionSource.requisitionSourceDescription" 
+                    attributeEntry="${documentAttributes.requisitionSource}" 
+                    readOnly="true" />
+            </td>                   
 	    </tr>
+        <tr>
+            <th align=right valign=middle class="bord-l-b">
+                <div align="right">
+                    <kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" />
+                </div>
+            </th>
+            <td align=left valign=middle class="datacell">
+                <kul:htmlControlAttribute 
+                    property="document.purchaseOrderConfirmedIndicator"
+                    attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" 
+                    readOnly="${not (fullEntryMode or amendmentEntry)}" />
+            </td> 
+            <th align=right valign=middle class="bord-l-b">&nbsp;</th>
+            <td align=left valign=middle class="datacell">&nbsp;</td>
+        </tr>
 	 </c:if>
 </table>
 
@@ -136,17 +151,6 @@
 			        </c:choose>
 		        </c:if>	        	
 	        </td>
-			<th align=right valign=middle class="bord-l-b">
-	            <div align="right">
-	            	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionSource}" />
-	            </div>
-	        </th>
-	        <td align=left valign=middle class="datacell">
-	        	<kul:htmlControlAttribute 
-	                property="document.requisitionSource.requisitionSourceDescription" 
-	                attributeEntry="${documentAttributes.requisitionSource}" 
-	                readOnly="true" />
-	        </td>	         		
 		</tr>
 	</table>
 </c:if>

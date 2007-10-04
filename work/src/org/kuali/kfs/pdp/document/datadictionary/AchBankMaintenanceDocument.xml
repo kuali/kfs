@@ -36,7 +36,7 @@
         <documentTypeName>AchBankMaintenanceDocument</documentTypeName>
         <documentTypeCode>ABNK</documentTypeCode>
 
-        <label>Ach Bank Maintenance Document</label>
+        <label>ACH Bank Maintenance Document</label>
         <shortLabel>AchBankMaintDoc</shortLabel>
 
         <summary>Ach bank maintenance document</summary>
@@ -48,7 +48,7 @@
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit Ach Bank">
+            <maintainableSection title="Edit ACH Bank">
                 <maintainableItems>
                     <maintainableField name="bankRoutingNumber" required="true" />
                     <maintainableField name="bankOfficeCode" required="true" />

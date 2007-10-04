@@ -189,6 +189,9 @@
 		<property name="organizationReversionDao">
 			<ref bean="organizationReversionDao" />
 		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
 	</bean>
 
 	<bean id="accountDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.AccountDaoOjb">

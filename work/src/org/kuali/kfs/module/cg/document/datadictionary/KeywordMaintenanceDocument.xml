@@ -49,7 +49,7 @@
             <maintainableSection title="Edit Keyword">
                 <maintainableItems>
                     <maintainableField name="routingFormKeywordDescription" required="true" />
-					<maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true">
+					<maintainableField name="dataObjectMaintenanceCodeActiveIndicator">
 						<defaultValue>true</defaultValue>
 					</maintainableField>
                     <maintainableField name="versionNumber" />

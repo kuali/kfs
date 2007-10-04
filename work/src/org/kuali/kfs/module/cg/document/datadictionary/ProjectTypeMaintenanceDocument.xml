@@ -51,7 +51,7 @@
                     <maintainableField name="projectTypeCode" required="true" />
                     <maintainableField name="projectTypeDescription" required="true" />
                     <maintainableField name="sortNumber" required="false" />
-					<maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true">
+					<maintainableField name="dataObjectMaintenanceCodeActiveIndicator">
 						<defaultValue>true</defaultValue>
 					</maintainableField>
                     <maintainableField name="versionNumber" />

@@ -51,7 +51,7 @@
                     <maintainableField name="purposeCode" required="true" />
                     <maintainableField name="purposeDescription" required="true" />
                     <maintainableField name="userSortNumber" required="false" />
-					<maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true">
+					<maintainableField name="dataObjectMaintenanceCodeActiveIndicator">
 						<defaultValue>true</defaultValue>
 					</maintainableField>
                     <maintainableField name="versionNumber" />

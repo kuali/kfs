@@ -50,7 +50,7 @@
                 <maintainableItems>
                     <maintainableField name="researchTypeCode" required="true" />
                     <maintainableField name="researchTypeDescription" required="true" />
-					<maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true">
+					<maintainableField name="dataObjectMaintenanceCodeActiveIndicator">
 						<defaultValue>true</defaultValue>
 					</maintainableField>
                     <maintainableField name="versionNumber" />

@@ -59,7 +59,7 @@
                     <maintainableField name="campusMaximumPeriod4Rate" required="false" />
                     <maintainableField name="campusMaximumPeriod5Rate" required="false" />
                     <maintainableField name="campusMaximumPeriod6Rate" required="false" />
-					<maintainableField name="active" required="true">
+					<maintainableField name="active">
 						<defaultValue>true</defaultValue>
 					</maintainableField>
                     <maintainableField name="versionNumber" />

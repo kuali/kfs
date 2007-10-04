@@ -56,7 +56,7 @@
                     <maintainableField name="fringeRateAmount" required="true"/>
                     <maintainableField name="costShareFringeRateAmount" required="true"/>
                     <maintainableField name="relatedAppointmentTypeCode" />
-					          <maintainableField name="active" required="true">
+					          <maintainableField name="active">
 						          <defaultValue>true</defaultValue>
 					          </maintainableField>
                     <maintainableField name="versionNumber" />

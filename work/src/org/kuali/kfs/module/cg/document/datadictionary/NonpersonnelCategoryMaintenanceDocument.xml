@@ -51,7 +51,7 @@
                     <maintainableField name="code" required="true" />
                     <maintainableField name="name" required="true" />
                     <maintainableField name="sortNumber" required="false" />
-					<maintainableField name="active" required="true">
+					<maintainableField name="active">
 						<defaultValue>true</defaultValue>
 					</maintainableField>
                     <maintainableField name="versionNumber" />

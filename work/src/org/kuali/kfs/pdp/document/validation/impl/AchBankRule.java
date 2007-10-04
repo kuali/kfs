@@ -73,27 +73,27 @@ public class AchBankRule extends MaintenanceDocumentRuleBase {
         LOG.info("processCustomRouteDocumentBusinessRules called");
         setupConvenienceObjects();
         
-        String typeCode = newAchBank.getBankTypeCode();
-        if (!typeCode.equals("1") && !typeCode.equals("2") && !typeCode.equals("3")) {
-            putFieldError("bankTypeCode", KFSKeyConstants.ERROR_DOCUMENT_ACHBANKMAINT_INVALID_TYPE_CODE, typeCode);
+        String officeCode = newAchBank.getBankOfficeCode();
+        if ((officeCode != null) && !officeCode.equals("O") && !officeCode.equals("B")) {
+            putFieldError("bankOfficeCode", KFSKeyConstants.ERROR_DOCUMENT_ACHBANKMAINT_INVALID_OFFICE_CODE);
             validEntry = false;
         }
         
-        String officeCode = newAchBank.getBankOfficeCode();
-        if (!officeCode.equals("O") && !typeCode.equals("B")) {
-            putFieldError("bankOfficeCode", KFSKeyConstants.ERROR_DOCUMENT_ACHBANKMAINT_INVALID_OFFICE_CODE, officeCode);
+        String typeCode = newAchBank.getBankTypeCode();
+        if ( (typeCode != null) && !typeCode.equals("0") && !typeCode.equals("1") && !typeCode.equals("2")) {
+            putFieldError("bankTypeCode", KFSKeyConstants.ERROR_DOCUMENT_ACHBANKMAINT_INVALID_TYPE_CODE);
             validEntry = false;
         }
         
         String bankInstitutionStatusCode = newAchBank.getBankInstitutionStatusCode();
-        if (!bankInstitutionStatusCode.equals("") && !bankInstitutionStatusCode.equals("1")) {
-            putFieldError("bankInstitutionStatusCode", KFSKeyConstants.ERROR_DOCUMENT_ACHBANKMAINT_INVALID_INST_STATUS_CODE, bankInstitutionStatusCode);
+        if ((bankInstitutionStatusCode != null) && !bankInstitutionStatusCode.equals("1")) {
+            putFieldError("bankInstitutionStatusCode", KFSKeyConstants.ERROR_DOCUMENT_ACHBANKMAINT_INVALID_INST_STATUS_CODE);
             validEntry = false;
         }
         
         String bankDataViewCode = newAchBank.getBankDataViewCode();
-        if (!bankDataViewCode.equals("") && !bankDataViewCode.equals("1")) {
-            putFieldError("bankDataViewCode", KFSKeyConstants.ERROR_DOCUMENT_ACHBANKMAINT_INVALID_DATA_VIEW_CODE, bankDataViewCode);
+        if ((bankDataViewCode != null) && !bankDataViewCode.equals("1")) {
+            putFieldError("bankDataViewCode", KFSKeyConstants.ERROR_DOCUMENT_ACHBANKMAINT_INVALID_DATA_VIEW_CODE);
             validEntry = false;
         }
         

@@ -226,7 +226,11 @@ public class BalanceForwardRuleHelper {
      * 
      * @param balance
      */
-    public void processGeneralForwardBalance(Balance balance, OriginEntryGroup closedPriorYearAccountGroup, OriginEntryGroup unclosedPriorYearAccountGroup) {
+    public void processGeneralForwardBalance(Balance balance, OriginEntryGroup closedPriorYearAccountGroup, OriginEntryGroup unclosedPriorYearAccountGroup) throws FatalErrorException {
+        if (ObjectUtils.isNull(balance.getPriorYearAccount())) {
+            throw new FatalErrorException("COULD NOT RETRIEVE INFORMATION ON ACCOUNT "+balance.getChartOfAccountsCode()+"-"+balance.getAccountNumber());
+        }
+        
         if ((null == balance.getAccountNumber() && null == state.getAccountNumberHold()) || (null != balance.getAccountNumber() && balance.getAccountNumber().equals(state.getAccountNumberHold()))) {
 
             // 954 004770 ADD 1 TO WS-SEQ-NBR
@@ -1171,11 +1175,11 @@ public class BalanceForwardRuleHelper {
 
             state.incrementSequenceClosedCount();
 
-            if (0 == state.getSequenceWriteCount() % 1000) {
+            if (0 == state.getSequenceClosedCount() % 1000) {
 
                 // 1424 DISPLAY ' SEQUENTIAL RECORDS WRITTEN = ' SEQ-CHECK-CNT
 
-                LOG.info("  SEQUENTIAL RECORDS WRITTEN = " + state.getSequenceWriteCount());
+                LOG.info("  CLOSED SEQUENTIAL RECORDS WRITTEN = " + state.getSequenceClosedCount());
 
                 // 1425 END-IF
 

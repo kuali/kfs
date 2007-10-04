@@ -1036,9 +1036,13 @@ public class YearEndServiceImpl implements YearEndService {
         Iterator<Balance> generalBalances = balanceService.findGeneralBalancesToForwardForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear());
         while (generalBalances.hasNext()) {
             balance = generalBalances.next();
-            balanceForwardRuleHelper.processGeneralForwardBalance(balance, balanceForwardsClosedPriorYearAccountGroup, balanceForwardsUnclosedPriorYearAccountGroup);
-            if (balanceForwardRuleHelper.getState().getGlobalSelectCount() % 1000 == 0) {
-                persistenceService.clearCache();
+            try {
+                balanceForwardRuleHelper.processGeneralForwardBalance(balance, balanceForwardsClosedPriorYearAccountGroup, balanceForwardsUnclosedPriorYearAccountGroup);
+                if (balanceForwardRuleHelper.getState().getGlobalSelectCount() % 1000 == 0) {
+                    persistenceService.clearCache();
+                }
+            } catch (FatalErrorException fee) {
+                LOG.info(fee.getMessage());
             }
         }
 
@@ -1049,7 +1053,7 @@ public class YearEndServiceImpl implements YearEndService {
             balanceForwardRuleHelper.processCumulativeForwardBalance(balance, balanceForwardsClosedPriorYearAccountGroup, balanceForwardsUnclosedPriorYearAccountGroup);
             if (balanceForwardRuleHelper.getState().getGlobalSelectCount() % 1000 == 0) {
                 persistenceService.clearCache();
-        }
+            }
         }
 
     }

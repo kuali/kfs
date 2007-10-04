@@ -87,8 +87,8 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
             if (hasInitiateAuthorization(d, user)) {
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
 
-                // contract manager can only be changed prior to routing
-                editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.CONTRACT_MANAGER_CHANGEABLE, "TRUE");
+                // contract manager and manual status change can only happen prior to routing
+                editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.PRE_ROUTE_CHANGEABLE, "TRUE");
             }
         }
         else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
@@ -147,6 +147,12 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
                 }
             }
         }
+        if (po.isDocumentStoppedInRouteNode(NodeDetailEnum.INTERNAL_PURCHASING_REVIEW)) {
+            flags.setCanSave(true);
+            // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
+            this.setAnnotateFlag(flags);
+        }
+        
         return flags;
     }
 }

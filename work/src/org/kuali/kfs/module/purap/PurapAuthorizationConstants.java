@@ -37,7 +37,7 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String LOCK_INTERNAL_PURCHASING_ENTRY = "lockInternalPurchasingEntry";
         public static final String DISPLAY_RETRANSMIT_TAB = "displayRetransmitTab";
         public static final String AMENDMENT_ENTRY = "amendmentEntry";
-        public static final String CONTRACT_MANAGER_CHANGEABLE = "contractManagerChangeable";
+        public static final String PRE_ROUTE_CHANGEABLE = "preRouteChangeable";
     }
 
     public static class PaymentRequestEditMode extends EditMode {

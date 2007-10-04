@@ -27,7 +27,10 @@
 <c:if test="${empty editableFundingSource}">
 	<c:set var="editableFundingSource" value="false" />
 </c:if>
-<c:set var="contractManagerChangeMode" value="${(not empty KualiForm.editingMode['contractManagerChangeable'])}" />
+<c:if test="${empty amendmentEntry}">
+	<c:set var="amendmentEntry" value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
+</c:if>
+<c:set var="preRouteChangeMode" value="${(not empty KualiForm.editingMode['preRouteChangeable'])}" />
 
 <div class="h2-container">
 	<h2><c:out value="${detailSectionLabel}"/></h2>
@@ -45,17 +48,13 @@
                 property="document.contractManager.contractManagerName" 
                 attributeEntry="${documentAttributes.contractManager.contractManagerName}" 
                 readOnly="true" />
-                
-                
-            <c:if test="${contractManagerChangeMode}" >
+            <c:if test="${preRouteChangeMode}" >
 	            <kul:lookup
 	            	boClassName="org.kuali.module.vendor.bo.ContractManager"
 	            	fieldConversions="contractManagerName:document.contractManager.contractManagerName,contractManagerCode:document.contractManagerCode" />
-	        </c:if>
-	        	        
+	        </c:if>	        	        
         </td>
-        
-        
+         
         <th align=right valign=middle class="bord-l-b">
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.fundingSourceCode}" /></div>
         </th>
@@ -81,8 +80,8 @@
 	                attributeEntry="${documentAttributes.purchaseOrderPreviousIdentifier}" 
 	                readOnly="${not (fullEntryMode or amendmentEntry)}" />
 	        </td>
-            <th align=right valign=middle class="bord-l-b">
-                <div align="right">
+	        <th align=right valign=middle class="bord-l-b">
+	            <div align="right">
                     <kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionSource}" />
                 </div>
             </th>
@@ -96,22 +95,22 @@
         <tr>
             <th align=right valign=middle class="bord-l-b">
                 <div align="right">
-                    <kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" />
-                </div>
-            </th>
-            <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute 
-                    property="document.purchaseOrderConfirmedIndicator"
-                    attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" 
+	            	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" />
+	            </div>
+	        </th>
+	        <td align=left valign=middle class="datacell">
+	        	<kul:htmlControlAttribute 
+	                property="document.purchaseOrderConfirmedIndicator"
+	                attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" 
                     readOnly="${not (fullEntryMode or amendmentEntry)}" />
-            </td> 
+	        </td> 
             <th align=right valign=middle class="bord-l-b">&nbsp;</th>
             <td align=left valign=middle class="datacell">&nbsp;</td>
-        </tr>
+	    </tr>
 	 </c:if>
 </table>
 
-<c:if test="${purchaseOrder}">
+<c:if test="${purchaseOrder and preRouteChangeMode}">
 	<div class="h2-container">
 	    <h2>Status Changes</h2>
 	</div>
@@ -124,33 +123,31 @@
 	            </div>
 	        </th>
 	        <td align=left valign=middle class="datacell">
-	        	<c:if test="${fullEntryMode}">
-	        		<c:choose>
-	        			<c:when test="${KualiForm.document.statusCode == 'INPR'}">
-			        		&nbsp;<input type=radio name="document.statusChange" value="INPR" checked/>&nbsp;NONE&nbsp;
+				<c:choose>
+					<c:when test="${KualiForm.document.statusCode == 'INPR'}">
+			        		&nbsp;<input type=radio name="document.statusChange" value="INPR" checked />&nbsp;None&nbsp;
 			        	</c:when>
-			        	<c:otherwise>
-			        		&nbsp;<input type=radio name="document.statusChange" value="INPR"/>&nbsp;NONE&nbsp;
+					<c:otherwise>
+			        		&nbsp;<input type=radio name="document.statusChange" value="INPR" />&nbsp;None&nbsp;
 			        	</c:otherwise>
-			        </c:choose>
-			        <c:choose>
-			        	<c:when test="${KualiForm.document.statusCode == 'WDPT'}">
-			        		<input type=radio name="document.statusChange" value="WDPT" checked/>&nbsp;Department&nbsp;
+				</c:choose>
+				<c:choose>
+					<c:when test="${KualiForm.document.statusCode == 'WDPT'}">
+						<input type=radio name="document.statusChange" value="WDPT" checked />&nbsp;Department&nbsp;
 			        	</c:when>
-			        	<c:otherwise>
-			        		<input type=radio name="document.statusChange" value="WDPT" />&nbsp;Department&nbsp;
+					<c:otherwise>
+						<input type=radio name="document.statusChange" value="WDPT" />&nbsp;Department&nbsp;
 			        	</c:otherwise>
-			        </c:choose>
-			        <c:choose>
-			        	<c:when test="${KualiForm.document.statusCode == 'WVEN'}">
-			        		<input type=radio name="document.statusChange" value="WVEN" checked/>&nbsp;Vendor&nbsp;
+				</c:choose>
+				<c:choose>
+					<c:when test="${KualiForm.document.statusCode == 'WVEN'}">
+						<input type=radio name="document.statusChange" value="WVEN" checked />&nbsp;Vendor&nbsp;
 			        	</c:when>
-			        	<c:otherwise>
-			        		<input type=radio name="document.statusChange" value="WVEN" />&nbsp;Vendor&nbsp;
+					<c:otherwise>
+						<input type=radio name="document.statusChange" value="WVEN" />&nbsp;Vendor&nbsp;
 			        	</c:otherwise>
-			        </c:choose>
-		        </c:if>	        	
-	        </td>
+				</c:choose>
+			</td>
 		</tr>
 	</table>
 </c:if>

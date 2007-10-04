@@ -82,12 +82,16 @@
         </table>
         <table cellpadding="0" class="datatable">
           <tr>
-            <td width="20%" align="left" valign="middle" > Total Debits/Blanks: </td> 
+            <td width="20%" align="left" valign="middle" > Total Debits: </td> 
             <td align="right" valign="middle"> <fmt:formatNumber value="${KualiForm.document.correctionDebitTotalAmount}" groupingUsed="true" minFractionDigits="2"/></td>
           </tr>
           <tr>
             <td width="20%" align="left" valign="middle" > Total Credits: </td> 
             <td align="right" valign="middle"> <fmt:formatNumber value="${KualiForm.document.correctionCreditTotalAmount}" groupingUsed="true" minFractionDigits="2"/></td>
+          </tr>
+          <tr>
+            <td width="20%" align="left" valign="middle" > Total No DB/CR: </td> 
+            <td align="right" valign="middle"> <fmt:formatNumber value="${KualiForm.document.correctionBudgetTotalAmount}" groupingUsed="true" minFractionDigits="2"/></td>
           </tr>
           <tr>
             <td width="20%" align="left" valign="middle" > Rows output: </td> 

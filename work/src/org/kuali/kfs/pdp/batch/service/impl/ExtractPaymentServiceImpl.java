@@ -52,8 +52,6 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         LOG.debug("extractAchPayments() started");
 
         // Get the process ID
-
-        // TODO This is broken
         String pids = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class,PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID);
         pids = pids.trim();
 
@@ -64,9 +62,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
             throw new IllegalArgumentException("Unable to convert the process ID to a number");
         }
 
-        // TODO This is broken
-        String filename = null;
-        // directoryName + kualiConfigurationService.getApplicationParameterValue(PdpConstants.PDP_APPLICATION, PdpConstants.ApplicationParameterKeys.ACH_EXTRACT_FILE);
+        String filename = directoryName + parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.ACH_EXTRACT_FILE);
 
         // Open file
         BufferedWriter outputStream = null;
@@ -119,9 +115,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
         // Get the process ID
         
-        // TODO This is broken
-        String pids = null; 
-            // kualiConfigurationService.getApplicationParameterValue(PdpConstants.PDP_APPLICATION, PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID);
+        String pids = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID);
         pids = pids.trim();
 
         Integer processId = null;
@@ -136,9 +130,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
             throw new IllegalArgumentException("Invalid process ID");
         }
 
-        // TODO This is broken
-        String filename = null; 
-            // directoryName + kualiConfigurationService.getApplicationParameterValue(PdpConstants.PDP_APPLICATION, PdpConstants.ApplicationParameterKeys.CHECK_EXTRACT_FILE);
+        String filename = directoryName + parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.CHECK_EXTRACT_FILE);
 
         LOG.debug("extractChecks() filename: " + filename);
 
@@ -320,5 +312,9 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
     public void setPaymentGroupService(PaymentGroupService pgs) {
         paymentGroupService = pgs;
+    }
+
+    public void setProcessDao(ProcessDao pd) {
+        processDao = pd;
     }
 }

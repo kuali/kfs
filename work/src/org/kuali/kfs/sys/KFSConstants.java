@@ -217,7 +217,7 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
         public static final String OBJECT_LEVEL_PARAM_SUFFIX = "OBJECT_LEVELS_BY_ORGANIZATION_REVERSION_CATEGORY";
         public static final String OBJECT_TYPE_PARAM_SUFFIX = "OBJECT_TYPES_BY_ORGANIZATION_REVERSION_CATEGORY";
         public static final String OBJECT_SUB_TYPE_PARAM_SUFFIX = "OBJECT_SUB_TYPES_BY_ORGANIZATION_REVERSION_CATEGORY";
-        public static final String IS_EXPENSE_PARAM = "ORGANIZATION_REVERSION_CATEGORY_IS_EXPENSE";
+        public static final String IS_EXPENSE_PARAM = "EXTENDED_DEFINITIONS_EXPENSE_CATEGORIES";
     }
 
     // CR doc properties

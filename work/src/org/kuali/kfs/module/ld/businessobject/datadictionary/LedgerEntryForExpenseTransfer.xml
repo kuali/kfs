@@ -156,7 +156,7 @@
 
         <attributes>
             <attributeReference name="universityFiscalPeriodCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="universityFiscalPeriodCode" />
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="universityFiscalYear" />
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
             <attributeReference name="accountNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="accountNumber"/>
             <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="subAccountNumber" />            
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="chartOfAccountsCode"/>

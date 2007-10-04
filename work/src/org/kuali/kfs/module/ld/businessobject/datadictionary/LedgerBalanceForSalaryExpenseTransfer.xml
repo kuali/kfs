@@ -158,33 +158,8 @@
 
 
             <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber"/>
-            <!--attribute name="positionNumber" forceUppercase="true">
-                <label>Position Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>positionNumber</summary>
-                <description>positionNumber description...</description>
-			</attribute-->
-
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.kfs.bo.Options" sourceAttributeName="universityFiscalYear">
-                <shortLabel>Fiscal Year</shortLabel>
-            </attributeReference>
-
-            <!--attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <label>Fiscal Year</label>
-                <shortLabel>Fiscal Year</shortLabel>
-                <description>Identifies the Fiscal Year to which the balances apply.</description>
-            </attributeReference-->
-
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
             <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" />          
-
 			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
 			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" />
 			<attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">

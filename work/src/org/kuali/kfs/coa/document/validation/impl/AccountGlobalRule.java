@@ -243,8 +243,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
     protected boolean checkAccountUsers(AccountGlobalDetail detail, UniversalUser newFiscalOfficer, UniversalUser newManager, UniversalUser newSupervisor) {
         boolean success = true;
 
-        // only need to do this check if at least one of the user fields is
-        // non null
+        // only need to do this check if at least one of the user fields is non null
         if (newSupervisor != null || newFiscalOfficer != null || newManager != null) {
             int index = 0;
             // loop over all AccountGlobalDetail records
@@ -257,31 +256,23 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
                 }
                 // only need to check if they are not being overridden by the change document
                 if (newSupervisor != null) {
-                    if (newFiscalOfficer == null) {
-                        if (areTwoUsersTheSame(newSupervisor, detail.getAccount().getAccountFiscalOfficerUser())) {
-                            success = false;
-                            putFieldError("accountGlobalDetails[" + index + "].accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_FISCAL_OFFICER);
-                        }
+                    if (areTwoUsersTheSame(newSupervisor, detail.getAccount().getAccountFiscalOfficerUser())) {
+                        success = false;
+                        putFieldError("accountGlobalDetails[" + index + "].accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_FISCAL_OFFICER);
                     }
-                    if (newManager == null) {
-                        if (areTwoUsersTheSame(newSupervisor, detail.getAccount().getAccountManagerUser())) {
-                            success = false;
-                            putFieldError("accountGlobalDetails[" + index + "].accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_ACCT_MGR);
-                        }
+                    if (areTwoUsersTheSame(newSupervisor, detail.getAccount().getAccountManagerUser())) {
+                        success = false;
+                        putFieldError("accountGlobalDetails[" + index + "].accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_ACCT_MGR);
                     }
                 }
                 else { // changing the supervisor
-                    if (newFiscalOfficer != null) {
-                        if (areTwoUsersTheSame(detail.getAccount().getAccountSupervisoryUser(), newFiscalOfficer)) {
-                            success = false;
-                            putFieldError("accountGlobalDetails[" + index + "].accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_FISCAL_OFFICER);
-                        }
+                    if (areTwoUsersTheSame(detail.getAccount().getAccountSupervisoryUser(), newFiscalOfficer)) {
+                        success = false;
+                        putFieldError("accountGlobalDetails[" + index + "].accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_FISCAL_OFFICER);
                     }
-                    if (newManager != null) {
-                        if (areTwoUsersTheSame(detail.getAccount().getAccountSupervisoryUser(), newManager)) {
-                            success = false;
-                            putFieldError("accountGlobalDetails[" + index + "].accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_ACCT_MGR);
-                        }
+                    if (areTwoUsersTheSame(detail.getAccount().getAccountSupervisoryUser(), newManager)) {
+                        success = false;
+                        putFieldError("accountGlobalDetails[" + index + "].accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_ACCT_MGR);
                     }
                 }
             }

@@ -587,35 +587,43 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             return;
         }
         for (PurApItem item : document.getItems()) {
-            if ( (item.getExtendedPrice()!=null) && 
-                 KualiDecimal.ZERO.compareTo(item.getExtendedPrice()) != 0 ) {
-                //TODO: is this the best sort to use?
-                //                Collections.sort( (List)item.getSourceAccountingLines() );
-
-                KualiDecimal accountTotal = KualiDecimal.ZERO;
-                PurApAccountingLine lastAccount = null;
-
-                for (PurApAccountingLine account : item.getSourceAccountingLines()) {
-                    BigDecimal pct = new BigDecimal(account.getAccountLinePercent().toString()).divide(new BigDecimal(100));
-                    account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(item.getExtendedPrice().toString()))));
-                    accountTotal = accountTotal.add(account.getAmount());
-                    lastAccount = account;
-                }
-
-                // put excess on last account
-                if ( lastAccount != null ) {
-                  KualiDecimal difference = item.getExtendedPrice().subtract(accountTotal);
-                  lastAccount.setAmount(lastAccount.getAmount().add(difference));
-                }
-              } else {
-                //zero out if extended price is zero
-                  for (PurApAccountingLine account : item.getSourceAccountingLines()) {
-                      account.setAmount(KualiDecimal.ZERO);
-                }
-              }
-            }
-  
+            updateItemAccountAmounts(item);
         }
+  
+    }
+
+    /**
+     * This method updates a single items account amounts
+     * @param item
+     */
+    public void updateItemAccountAmounts(PurApItem item) {
+        if ( (item.getExtendedPrice()!=null) && 
+             KualiDecimal.ZERO.compareTo(item.getExtendedPrice()) != 0 ) {
+            //TODO: is this the best sort to use?
+            //                Collections.sort( (List)item.getSourceAccountingLines() );
+
+            KualiDecimal accountTotal = KualiDecimal.ZERO;
+            PurApAccountingLine lastAccount = null;
+
+            for (PurApAccountingLine account : item.getSourceAccountingLines()) {
+                BigDecimal pct = new BigDecimal(account.getAccountLinePercent().toString()).divide(new BigDecimal(100));
+                account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(item.getExtendedPrice().toString()))));
+                accountTotal = accountTotal.add(account.getAmount());
+                lastAccount = account;
+            }
+
+            // put excess on last account
+            if ( lastAccount != null ) {
+              KualiDecimal difference = item.getExtendedPrice().subtract(accountTotal);
+              lastAccount.setAmount(lastAccount.getAmount().add(difference));
+            }
+          } else {
+            //zero out if extended price is zero
+              for (PurApAccountingLine account : item.getSourceAccountingLines()) {
+                  account.setAmount(KualiDecimal.ZERO);
+            }
+          }
+    }
 
     public List<PurApAccountingLine> getAccountsFromItem(PurApItem item) {
         // TODO Auto-generated method stub

@@ -682,9 +682,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                     item.setSourceAccountingLines(distributedAccounts);
                 }
             }
+            //update the item
+            purapAccountingService.updateItemAccountAmounts(item);
         }
-        // update again now that distribute is finished.
-        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequestDocument);
+        //TODO: delete the following line for a performance gain (update is done on lines that are changed)
+        // update again now that distribute is finished. (Note: we may not need this anymore now that I added updateItem line above
+        purapAccountingService.updateAccountAmounts(paymentRequestDocument);
     }
 
     /**

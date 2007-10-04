@@ -64,6 +64,7 @@ public interface PurapAccountingService {
     public List<SourceAccountingLine> generateSummaryIncludeItemTypesAndNoZeroTotals(List<PurApItem> items, Set includedItemTypeCodes);
     
     public void updateAccountAmounts(PurchasingAccountsPayableDocument document);
+    public void updateItemAccountAmounts(PurApItem item);
     
     public List<PurApAccountingLine> getAccountsFromItem(PurApItem item);
 }

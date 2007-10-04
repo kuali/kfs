@@ -232,9 +232,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      */
     public boolean processPaymentInfoValidation(PurchasingDocument purDocument) {
         boolean valid = true;
+        GlobalVariables.getErrorMap().addToErrorPath(PurapConstants.PAYMENT_INFO_ERRORS);
         valid &= checkBeginDateBeforeEndDate(purDocument);
-
-        if (ObjectUtils.isNotNull(purDocument.getPurchaseOrderBeginDate()) || ObjectUtils.isNotNull(purDocument.getPurchaseOrderEndDate())) {
+        if (valid && (ObjectUtils.isNotNull(purDocument.getPurchaseOrderBeginDate()) || ObjectUtils.isNotNull(purDocument.getPurchaseOrderEndDate()))) {
             if (ObjectUtils.isNotNull(purDocument.getPurchaseOrderBeginDate()) && ObjectUtils.isNull(purDocument.getPurchaseOrderEndDate())) {
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_END_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_NO_END_DATE);
                 valid &= false;
@@ -253,10 +253,11 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 valid &= false;
             }
         }
-        else if (ObjectUtils.isNotNull(purDocument.getRecurringPaymentTypeCode())) {
+        else if (valid && ObjectUtils.isNotNull(purDocument.getRecurringPaymentTypeCode())) {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_RECURRING_TYPE_NO_DATE);
             valid &= false;
         }
+        GlobalVariables.getErrorMap().removeFromErrorPath(PurapConstants.PAYMENT_INFO_ERRORS);
         return valid;
     }
 

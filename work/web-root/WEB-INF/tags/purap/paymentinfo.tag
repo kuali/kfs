@@ -23,7 +23,7 @@
 
 <c:set var="amendmentEntry" value="${(!empty KualiForm.editingMode['amendmentEntry'])}" />
 
-<kul:tab tabTitle="Payment Info" defaultOpen="false">
+<kul:tab tabTitle="Payment Info" defaultOpen="false" tabErrorKey="${PurapConstants.PAYMENT_INFO_TAB_ERRORS}">
     <div class="tab-container" align=center>
         <div class="h2-container">
             <h2>Payment Info</h2>

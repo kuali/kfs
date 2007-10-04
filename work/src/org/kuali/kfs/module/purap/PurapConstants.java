@@ -167,6 +167,8 @@ public class PurapConstants extends JstlConstants {
     public static final String ACCOUNT_DISTRIBUTION_ERROR_KEY = "accountDistribution";
     public static final String RELATED_DOCS_TAB_ERRORS = "";
     public static final String PAYMENT_HISTORY_TAB_ERRORS = "";
+    public static final String PAYMENT_INFO_ERRORS = "document.paymentInfo";
+    public static final String PAYMENT_INFO_TAB_ERRORS = "document.paymentInfo*";
 
     // PO/Quotes Tab Constants
     public static final String QUOTE_TAB_ERRORS = "document.quote*,quote*,purchaseOrderVendorQuotes*";

@@ -46,13 +46,13 @@
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit Fund Group Code">
+            <maintainableSection title="Edit Nonpersonnel Sub Category">
                 <maintainableItems>
                     <maintainableField name="code" required="true" />
                     <maintainableField name="name" required="true" />
                     <maintainableField name="nonpersonnelMtdcExcludedIndicator" required="false" />
                     <maintainableField name="nonpersonnelModularExcludedIndicator" required="false" />
-					<maintainableField name="active" required="true">
+					<maintainableField name="active" >
 						<defaultValue>true</defaultValue>
 					</maintainableField>
                     <maintainableField name="versionNumber" />

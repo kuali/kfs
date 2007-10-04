@@ -38,7 +38,7 @@
 <c:set var="depositTitle">
     <bean:write name="KualiForm" property="${depositPropertyBase}.depositTypeCode" /> Deposit
 </c:set>
-<c:if test="${depositType != Constants.DepositConstants.DEPOSIT_TYPE_FINAL}">
+<c:if test="${depositType != KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL}">
     <c:set var="depositTitle" value="${depositTitle} ${depositIndex + 1}" />
 </c:if>
 
@@ -121,7 +121,7 @@
     </tr>
     
     <%-- currency/coin details --%>
-    <c:if test="${depositType == Constants.DepositConstants.DEPOSIT_TYPE_FINAL && !empty deposit.depositedCurrency && !empty deposit.depositedCoin}">
+    <c:if test="${depositType == KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL && !empty deposit.depositedCurrency && !empty deposit.depositedCoin}">
       <tr>
         <td colspan="4" class="tab-subhead">
           Currency/Coin Details
@@ -202,7 +202,7 @@
     </c:if>
 
     <%-- deposit footer --%>
-    <c:if test="${(depositType == Constants.DepositConstants.DEPOSIT_TYPE_FINAL && allowCancelDeposits) || allowAdditionalDeposits}">
+    <c:if test="${(depositType == KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL && allowCancelDeposits) || allowAdditionalDeposits}">
         <tr>
             <td colspan="4" class="subhead" style="text-align: center">
                 <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" style="border: none" property="methodToCall.cancelDeposit.line${depositIndex}" alt="close" title="close"/>

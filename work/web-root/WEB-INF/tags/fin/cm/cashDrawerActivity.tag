@@ -20,8 +20,8 @@
 <c:set var="dummyAttributes" value="${DataDictionary.DummyBusinessObject.attributes}" />
 <c:set var="cashDrawerAttributes" value="${DataDictionary.CashDrawer.attributes}" />
 
-<c:set var="allowOpen" value="${(KualiForm.editingMode[AuthorizationConstants.EditMode.FULL_ENTRY]) && (KualiForm.document.rawCashDrawerStatus == Constants.CashDrawerConstants.STATUS_CLOSED)}" />
-<c:set var="allowRefresh" value="${KualiForm.document.rawCashDrawerStatus != Constants.CashDrawerConstants.STATUS_CLOSED}" />
+<c:set var="allowOpen" value="${(KualiForm.editingMode[AuthorizationConstants.EditMode.FULL_ENTRY]) && (KualiForm.document.rawCashDrawerStatus == KFSConstants.CashDrawerConstants.STATUS_CLOSED)}" />
+<c:set var="allowRefresh" value="${KualiForm.document.rawCashDrawerStatus != KFSConstants.CashDrawerConstants.STATUS_CLOSED}" />
 
 <c:set var="drawer" value="${KualiForm.document.cashDrawer}" />
 
@@ -62,13 +62,13 @@
                 				</td>
                 				<td colspan=2>
                     				<kul:htmlControlAttribute property="document.cashDrawerStatus" attributeEntry="${cmDocAttributes.cashDrawerStatus}" readOnly="true"/>
-                    				<c:if test="${KualiForm.document.rawCashDrawerStatus == Constants.CashDrawerConstants.STATUS_OPEN}">
+                    				<c:if test="${KualiForm.document.rawCashDrawerStatus == KFSConstants.CashDrawerConstants.STATUS_OPEN}">
                         				(opened at ${KualiForm.cashDrawerSummary.timeOpened})
                     				</c:if>
                 				</td>
             			</tr>
 
-            			<c:if test="${KualiForm.document.rawCashDrawerStatus != Constants.CashDrawerConstants.STATUS_CLOSED && KualiForm.cashDrawerSummary.remainingSumTotal != null}">
+            			<c:if test="${KualiForm.document.rawCashDrawerStatus != KFSConstants.CashDrawerConstants.STATUS_CLOSED && KualiForm.cashDrawerSummary.remainingSumTotal != null}">
                 				<tr>
                     				<td colspan=5 class="tab-subhead">Cash Drawer Activity: <html:hidden property="cashDrawerSummary.overallReceiptStats.receiptCount" write="true" /> available Cash Receipts</td>
                 				</tr>
@@ -130,8 +130,8 @@
         			</table>
 			</td>
 			<td width="50%" valign="top">
-				<cm:cashDrawerCurrencyCoin cashDrawerProperty="document.cashDrawer" readOnly="true" showCashDrawerSummary="${KualiForm.document.rawCashDrawerStatus != Constants.CashDrawerConstants.STATUS_CLOSED && KualiForm.cashDrawerSummary.cashDrawerTotal != null}" />
-        <c:if test="${KualiForm.editingMode[AuthorizationConstants.EditMode.FULL_ENTRY] and KualiForm.document.rawCashDrawerStatus eq Constants.CashDrawerConstants.STATUS_CLOSED}">
+				<cm:cashDrawerCurrencyCoin cashDrawerProperty="document.cashDrawer" readOnly="true" showCashDrawerSummary="${KualiForm.document.rawCashDrawerStatus != KFSConstants.CashDrawerConstants.STATUS_CLOSED && KualiForm.cashDrawerSummary.cashDrawerTotal != null}" />
+        <c:if test="${KualiForm.editingMode[AuthorizationConstants.EditMode.FULL_ENTRY] and KualiForm.document.rawCashDrawerStatus eq KFSConstants.CashDrawerConstants.STATUS_CLOSED}">
           <div style="padding: 10px; text-align: center;">
             <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_correctcash.gif" style="border: none" property="methodToCall.correctCashDrawer" title="Correct Cash Drawer" alt="Correct Cash Drawer" />
           </div>

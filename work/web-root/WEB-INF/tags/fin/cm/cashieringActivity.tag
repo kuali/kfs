@@ -15,10 +15,10 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="isDrawerOpen" value="${(KualiForm.editingMode[AuthorizationConstants.EditMode.FULL_ENTRY]) && (KualiForm.document.rawCashDrawerStatus == Constants.CashDrawerConstants.STATUS_OPEN)}" />
+<c:set var="isDrawerOpen" value="${(KualiForm.editingMode[AuthorizationConstants.EditMode.FULL_ENTRY]) && (KualiForm.document.rawCashDrawerStatus == KFSConstants.CashDrawerConstants.STATUS_OPEN)}" />
 
 <c:if test="${isDrawerOpen}">
-	<kul:tab tabTitle="Cashiering Transactions" defaultOpen="true" tabErrorKey="${Constants.CashManagementConstants.CASH_MANAGEMENT_ERRORS}" >
+	<kul:tab tabTitle="Cashiering Transactions" defaultOpen="true" tabErrorKey="${KFSConstants.CashManagementConstants.CASH_MANAGEMENT_ERRORS}" >
 		<div class="tab-container" align="center">
 			<cm:cashieringTransaction />
       <p style="padding: 10px">

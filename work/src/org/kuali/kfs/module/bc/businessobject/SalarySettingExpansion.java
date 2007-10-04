@@ -52,12 +52,15 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
     private BigDecimal appointmentRequestedFteQuantityTotal;
     private KualiDecimal percentChangeTotal;
      
+    private List pendingBudgetConstructionAppointmentFunding;
+
     /**
      * Default constructor.
      */
     public SalarySettingExpansion() {
         super();
         zeroTotals();
+        setPendingBudgetConstructionAppointmentFunding(new TypedArrayList(PendingBudgetConstructionAppointmentFunding.class));
 
     }
 
@@ -164,5 +167,31 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
         this.percentChangeTotal = percentChangeTotal;
     }
 
+    /**
+     * Gets the pendingBudgetConstructionAppointmentFunding attribute. 
+     * @return Returns the pendingBudgetConstructionAppointmentFunding.
+     */
+    public List<PendingBudgetConstructionAppointmentFunding> getPendingBudgetConstructionAppointmentFunding() {
+        return pendingBudgetConstructionAppointmentFunding;
+    }
+
+    /**
+     * Sets the pendingBudgetConstructionAppointmentFunding attribute value.
+     * @param pendingBudgetConstructionAppointmentFunding The pendingBudgetConstructionAppointmentFunding to set.
+     */
+    public void setPendingBudgetConstructionAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFunding) {
+        this.pendingBudgetConstructionAppointmentFunding = pendingBudgetConstructionAppointmentFunding;
+    }
+
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+//        return super.buildListOfDeletionAwareLists();
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(this.getPendingBudgetConstructionAppointmentFunding());
+        return managedLists;
+    }
   
 }

@@ -349,6 +349,8 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+
+<!-- should not be needed and would be a problem since it uses the candidate key relationship without documentNumber
 	<collection-descriptor name="pendingBudgetConstructionAppointmentFunding" element-class-ref="org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<orderby name="positionNumber" sort="ASC" />
 		<inverse-foreignkey field-ref="universityFiscalYear" />
@@ -358,6 +360,7 @@
 		<inverse-foreignkey field-ref="financialObjectCode" />
 		<inverse-foreignkey field-ref="financialSubObjectCode" />
 	</collection-descriptor>
+-->
 	<collection-descriptor name="budgetConstructionMonthly" element-class-ref="org.kuali.module.budget.bo.BudgetConstructionMonthly" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<inverse-foreignkey field-ref="documentNumber" />
 		<inverse-foreignkey field-ref="universityFiscalYear" />

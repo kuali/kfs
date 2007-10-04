@@ -67,7 +67,6 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
     private ObjectType objectType;
 
     private List budgetConstructionMonthly;
-    private List pendingBudgetConstructionAppointmentFunding;
     
     //TODO These are only used by PBGLExpenditureLines so should probably put these in an extension class
     // These are not defined under ojb since not all expenditure line objects have these
@@ -81,7 +80,6 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
 	 */
 	public PendingBudgetConstructionGeneralLedger() {
         setBudgetConstructionMonthly(new TypedArrayList(BudgetConstructionMonthly.class));
-        setPendingBudgetConstructionAppointmentFunding(new TypedArrayList(PendingBudgetConstructionAppointmentFunding.class));
         setPercentChange(null);
 
 	}
@@ -353,23 +351,6 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
 		this.budgetConstructionMonthly = budgetConstructionMonthly;
 	}
 
-	/**
-     * Gets the pendingBudgetConstructionAppointmentFunding attribute. 
-     * @return Returns the pendingBudgetConstructionAppointmentFunding.
-     */
-    public List<PendingBudgetConstructionAppointmentFunding> getPendingBudgetConstructionAppointmentFunding() {
-        return pendingBudgetConstructionAppointmentFunding;
-    }
-
-    /**
-     * Sets the pendingBudgetConstructionAppointmentFunding attribute value.
-     * @param pendingBudgetConstructionAppointmentFunding The pendingBudgetConstructionAppointmentFunding to set.
-     * @deprecated
-     */
-    public void setPendingBudgetConstructionAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFunding) {
-        this.pendingBudgetConstructionAppointmentFunding = pendingBudgetConstructionAppointmentFunding;
-    }
-
     /**
 	 * Gets the financialObject attribute.
 	 * 
@@ -566,17 +547,6 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
     }
 
     
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
-     */
-    @Override
-    public List buildListOfDeletionAwareLists() {
-//        return super.buildListOfDeletionAwareLists();
-        List managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.add(this.getPendingBudgetConstructionAppointmentFunding());
-        return managedLists;
-    }
-
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

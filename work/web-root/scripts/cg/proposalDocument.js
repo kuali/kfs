@@ -135,6 +135,9 @@ function loadPersonInfo( userIdFieldName, universalIdFieldName, userNameFieldNam
                 if ( data != null && typeof data == 'object' ) {
                     setRecipientValue( universalIdFieldName, data.personUniversalIdentifier );
                     setRecipientValue( userNameFieldName, data.personName );
+                    if (userIdFieldName=='document.budget.projectDirector.universalUser.personUserIdentifier') {
+                         setRecipientValue( 'document.budget.budgetProjectDirectorUniversalIdentifier', data.personUniversalIdentifier );
+                    }
                 } else {
                     clearRecipients( universalIdFieldName );
                     setRecipientValue( userNameFieldName, wrapError( "person not found" ), true );

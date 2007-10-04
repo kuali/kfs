@@ -56,8 +56,9 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
     private boolean correctionFileDelete; // false if the file should be processed by scrubber, true if the file should not be
                                             // processed by scrubber
     private Integer correctionRowCount; // Row count in output group
-    private KualiDecimal correctionDebitTotalAmount; // Debit/Budget amount total in output group
+    private KualiDecimal correctionDebitTotalAmount; // Debit amount total in output group
     private KualiDecimal correctionCreditTotalAmount; // Credit amount total in output group
+    private KualiDecimal correctionBudgetTotalAmount; // Budget amount total in output group
     private String correctionInputFileName; // File name if uploaded
     private String correctionOutputFileName; // Not used
     private String correctionScriptText; // Not used
@@ -297,6 +298,14 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
 
     public void setCorrectionCreditTotalAmount(KualiDecimal correctionCreditTotalAmount) {
         this.correctionCreditTotalAmount = correctionCreditTotalAmount;
+    }
+
+    public KualiDecimal getCorrectionBudgetTotalAmount() {
+        return correctionBudgetTotalAmount;
+    }
+
+    public void setCorrectionBudgetTotalAmount(KualiDecimal correctionBudgetTotalAmount) {
+        this.correctionBudgetTotalAmount = correctionBudgetTotalAmount;
     }
 
     public String getCorrectionInputFileName() {

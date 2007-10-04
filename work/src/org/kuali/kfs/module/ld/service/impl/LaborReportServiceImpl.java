@@ -231,7 +231,7 @@ public class LaborReportServiceImpl implements LaborReportService {
 
         ledgerEntries = laborOriginEntryService.getSummaryByGroupId(g);
 
-        ledgerReport.generateReport(ledgerEntries, runDate, "Labor Ledger Report", "labor_scrubber_ledger" + documentNumber, reportsDirectory);
+        ledgerReport.generateReport(ledgerEntries, runDate, "Labor Ledger Report", "labor_scrubber_ledger_" + documentNumber, reportsDirectory);
     }
 
     /**

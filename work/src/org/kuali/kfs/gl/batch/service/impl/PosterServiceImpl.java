@@ -548,8 +548,9 @@ public class PosterServiceImpl implements PosterService {
             flexibleOffsetAccountService.updateOffset(e);
         }
         catch (InvalidFlexibleOffsetException ex) {
-            // TODO This should be a report thing, not an exception
-            throw new IllegalArgumentException(ex.getMessage());
+            List warnings = new ArrayList();
+            warnings.add("FAILED TO GENERATE FLEXIBLE OFFSETS " + ex.getMessage());
+            reportErrors.put(e, warnings);
         }
 
         originEntryService.createEntry(e, group);

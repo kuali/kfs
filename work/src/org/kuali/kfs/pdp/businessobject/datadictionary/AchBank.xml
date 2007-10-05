@@ -21,7 +21,7 @@
     <businessObject businessObjectClass="org.kuali.module.pdp.bo.AchBank">
 
         <inquiry>
-            <title>Ach Bank Inquiry</title>
+            <title>ACH Bank Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="bankRoutingNumber" />
@@ -44,9 +44,9 @@
         </inquiry>
         
         <lookup>
-            <title>Ach Bank Lookup</title>
+            <title>ACH Bank Lookup</title>
 
-            <instructions>Lookup an Ach Bank</instructions>
+            <instructions>Lookup an ACH Bank</instructions>
 
             <defaultSort attributeName="bankRoutingNumber" sortAscending="true" />
 

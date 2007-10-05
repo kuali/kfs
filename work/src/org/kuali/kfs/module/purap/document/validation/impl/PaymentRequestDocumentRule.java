@@ -355,10 +355,10 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
      */
     public boolean validateTotals(PaymentRequestDocument document) {
         boolean valid = true;
-        List<String> allowsNegativeRule = SpringContext.getBean(ParameterService.class).getParameterValues(PaymentRequestDocument.class, PurapConstants.ITEM_ALLOWS_NEGATIVE);
+        List excludeDiscount = new ArrayList();
+        excludeDiscount.add(PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE);
         if ((ObjectUtils.isNull(document.getVendorInvoiceAmount())) || 
-            (this.getTotalExcludingItemTypes(document.getItems(), allowsNegativeRule).compareTo(document.getVendorInvoiceAmount()) != 0 && !document.isUnmatchedOverride())) {
-            
+            (this.getTotalExcludingItemTypes(document.getItems(), excludeDiscount).compareTo(document.getVendorInvoiceAmount()) != 0 && !document.isUnmatchedOverride())) {
             if (!GlobalVariables.getMessageList().contains(PurapKeyConstants.WARNING_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID)) {
                 GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID);
                 valid = false;

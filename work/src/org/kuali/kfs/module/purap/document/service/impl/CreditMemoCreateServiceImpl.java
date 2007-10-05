@@ -96,6 +96,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
      */
     protected void populateDocumentFromPreq(CreditMemoDocument cmDocument, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
         PaymentRequestDocument paymentRequestDocument = SpringContext.getBean(PaymentRequestService.class).getPaymentRequestById(cmDocument.getPaymentRequestIdentifier());
+        cmDocument.getDocumentHeader().setOrganizationDocumentNumber(paymentRequestDocument.getDocumentHeader().getOrganizationDocumentNumber());
         cmDocument.setPaymentRequestDocument(paymentRequestDocument);
         cmDocument.setPurchaseOrderDocument(paymentRequestDocument.getPurchaseOrderDocument());
 
@@ -144,6 +145,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
     protected void populateDocumentFromPO(CreditMemoDocument cmDocument, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
         PurchaseOrderDocument purchaseOrderDocument = (SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier()));
         cmDocument.setPurchaseOrderDocument(purchaseOrderDocument);
+        cmDocument.getDocumentHeader().setOrganizationDocumentNumber(purchaseOrderDocument.getDocumentHeader().getOrganizationDocumentNumber());
 
         cmDocument.setVendorHeaderGeneratedIdentifier(purchaseOrderDocument.getVendorHeaderGeneratedIdentifier());
         cmDocument.setVendorDetailAssignedIdentifier(purchaseOrderDocument.getVendorDetailAssignedIdentifier());

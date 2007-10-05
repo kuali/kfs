@@ -721,6 +721,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public void populatePaymentRequestFromPurchaseOrder(PurchaseOrderDocument po, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
         this.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());
+        this.getDocumentHeader().setOrganizationDocumentNumber(po.getDocumentHeader().getOrganizationDocumentNumber());
         this.setPostingYear(po.getPostingYear());
         this.setVendorCustomerNumber(po.getVendorCustomerNumber());
         if (po.getPurchaseOrderCostSource() != null ){

@@ -101,7 +101,6 @@ public class BudgetParametersAction extends BudgetAction {
         referenceObjects.add("budgetAgency");
         referenceObjects.add("federalPassThroughAgency");
         referenceObjects.add("projectDirector");
-        referenceObjects.add("universalUser");
         referenceObjects.add("nonpersonnelItems");
         referenceObjects.add("personnel");
         referenceObjects.add("modularBudget");

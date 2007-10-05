@@ -116,9 +116,6 @@
     <reference-descriptor name="projectDirector" class-ref="org.kuali.module.cg.bo.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="budgetProjectDirectorUniversalIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="universalUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="budgetProjectDirectorUniversalIdentifier" />
-    </reference-descriptor>
 
     <reference-descriptor name="budgetAgency" class-ref="org.kuali.module.cg.bo.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="budgetAgencyNumber" />

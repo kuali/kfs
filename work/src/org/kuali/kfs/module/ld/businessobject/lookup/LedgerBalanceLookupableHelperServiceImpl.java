@@ -465,12 +465,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
             columnTitle = getDataDictionaryService().getCollectionLabel(getBusinessObjectClass(), attributeName);
         }
         col.setColumnTitle(columnTitle);
-        if (getBusinessObjectDictionaryService().getLookupResultFieldNames(getBusinessObjectClass()).contains(attributeName)) {
-            col.setMaxLength(getBusinessObjectDictionaryService().getLookupResultFieldMaxLength(getBusinessObjectClass(), attributeName));
-        }
-        else {
-            col.setMaxLength(getDataDictionaryService().getAttributeMaxLength(getBusinessObjectClass(), attributeName));
-        }
+        col.setMaxLength(getDataDictionaryService().getAttributeMaxLength(getBusinessObjectClass(), attributeName));
 
         Class formatterClass = getDataDictionaryService().getAttributeFormatter(getBusinessObjectClass(), attributeName);
         Formatter formatter = null;

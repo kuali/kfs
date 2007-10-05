@@ -132,26 +132,34 @@
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
                 <field attributeName="subAccountNumber" />
+                
                 <field attributeName="financialBalanceTypeCode" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialSubObjectCode" />
                 <field attributeName="financialObjectTypeCode" />
+
                 <field attributeName="transactionDebitCreditCode" />
                 <field attributeName="transactionLedgerEntryAmount" />
+                
                 <field attributeName="financialDocumentTypeCode" />
                 <field attributeName="documentNumber" />
+
                 <field attributeName="financialSystemOriginationCode" />
                 <field attributeName="transactionLedgerEntryDescription" />
                 <field attributeName="transactionPostingDate" />
+                                                              
                 <field attributeName="projectCode" />               
                 <field attributeName="transactionDate" />
                 <field attributeName="transactionDateTimeStamp" />
+
                 <field attributeName="transactionEncumbranceUpdateCode" />
                 <field attributeName="transactionEntryOffsetCode" />
                 <field attributeName="transactionEntryProcessedTimestamp" />
+                                
                 <field attributeName="referenceFinancialDocumentNumber" />
                 <field attributeName="referenceFinancialDocumentTypeCode" />
                 <field attributeName="referenceFinancialSystemOriginationCode" />
+                
                 <field attributeName="positionNumber" />
                 <field attributeName="earnCode" />
                 <field attributeName="emplid" />
@@ -179,15 +187,14 @@
         <attributes>
 			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
 			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" />
+
             <attributeReference name="earnCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="earnCode"/>
             <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
             <attributeReference name="employeeRecord" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="employeeRecord" />			
 			<attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code"/>
-			
             <attributeReference name="documentNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="documentNumber">
                 <shortLabel>Doc. Number</shortLabel>
 			</attributeReference>
-			
 			<attributeReference name="financialDocumentTypeCode" sourceClassName="org.kuali.core.bo.DocumentType" sourceAttributeName="financialDocumentTypeCode"/>
 			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />			
 			<attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code" />
@@ -202,47 +209,42 @@
             <attributeReference name="laborLedgerOriginalChartOfAccountsCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="laborLedgerOriginalChartOfAccountsCode" />				
             <attributeReference name="laborLedgerOriginalFinancialObjectCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="laborLedgerOriginalFinancialObjectCode" />				
             <attributeReference name="laborLedgerOriginalFinancialSubObjectCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="laborLedgerOriginalFinancialSubObjectCode" />				
-            <attributeReference name="laborLedgerOriginalSubAccountNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="laborLedgerOriginalSubAccountNumber" />
-            
+            <attributeReference name="laborLedgerOriginalSubAccountNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="laborLedgerOriginalSubAccountNumber" />				
 			<attributeReference name="organizationDocumentNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="organizationDocumentNumber">				
                 <shortLabel>Org. Doc. Number</shortLabel>
-			</attributeReference>	
-						
+			</attributeReference>				
             <attributeReference name="organizationReferenceId" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="organizationReferenceId">
                 <shortLabel>Org Ref ID</shortLabel>
-			</attributeReference>	
-						
+			</attributeReference>				
             <attributeReference name="payGroup" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="payGroup">
                 <shortLabel>Pay Group</shortLabel>
 			</attributeReference>
-			
             <attributeReference name="payPeriodEndDate" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="payPeriodEndDate">
                 <shortLabel>Pay Period End Date</shortLabel>
-			</attributeReference>		
-					
+			</attributeReference>				
             <attributeReference name="payrollEndDateFiscalPeriodCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="payrollEndDateFiscalPeriodCode">
                 <shortLabel>Pay Per</shortLabel>
-			</attributeReference>		
-				
+			</attributeReference>			
             <attributeReference name="payrollEndDateFiscalYear" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="payrollEndDateFiscalYear">
                 <shortLabel>Pay FY</shortLabel>
 			</attributeReference>
-            <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber" />	
-            		
-			<attributeReference name="projectCode" sourceClassName="org.kuali.module.chart.bo.ProjectCode" sourceAttributeName="code"/>	
-						
+            <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber" />			
+			<attributeReference name="projectCode" sourceClassName="org.kuali.module.chart.bo.ProjectCode" sourceAttributeName="code"/>				
             <attribute name="referenceFinancialDocumentNumber" forceUppercase="true">
                 <label>Reference Document Number</label>
                 <shortLabel>Ref Doc Number</shortLabel>
+
                 <maxLength>14</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
+
                 <control>
                     <text size="16" />
                 </control>
+
                 <summary>referenceFinancialDocumentNumber</summary>
                 <description>referenceFinancialDocumentNumber description...</description>
 			</attribute>
-			
+
 			<attributeReference name="referenceFinancialDocumentTypeCode" sourceClassName="org.kuali.core.bo.DocumentType" sourceAttributeName="financialDocumentTypeCode">
 				<label>Reference Document Type Code</label>
                 <shortLabel>Ref Doc Type Code</shortLabel>
@@ -252,142 +254,157 @@
                 <label>Reference Origin Code</label>
                 <shortLabel>Ref Origin Code</shortLabel>
 			</attributeReference>	
-			
             <attributeReference name="runIdentifier" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="runIdentifier">
                 <label>Run Identifier</label>
                 <shortLabel>Run ID</shortLabel>			
-			</attributeReference>
-					
+			</attributeReference>				
             <attributeReference name="salaryAdministrationPlan" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="salaryAdministrationPlan">
                 <label>Salary Administration Plan</label>
                 <shortLabel>Sal Admin Plan</shortLabel>				
-			</attributeReference>
-							
+			</attributeReference>				
             <attributeReference name="setid" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="setid" />
-            
             <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" />
-            
+
             <attributeReference name="transactionDate" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionDate">
                 <shortLabel>Transaction Date</shortLabel>
-		    </attributeReference>
-		    							
-            <attributeReference name="transactionDateTimeStamp" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionDateTimeStamp" />	
-            			
+		    </attributeReference>								
+            <attributeReference name="transactionDateTimeStamp" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionDateTimeStamp" />				
             <attributeReference name="transactionDebitCreditCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionDebitCreditCode">				
                 <label>Transaction Debit Credit Code</label>
                 <shortLabel>Debit Credit Code</shortLabel>
-			</attributeReference>	
-					
+			</attributeReference>			
             <attributeReference name="transactionEncumbranceUpdateCode" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="transactionEncumbranceUpdateCode">				
                 <label>Transaction Encumbrance Update Code</label>
                 <shortLabel>Encumbrance Update Code</shortLabel>
-		    </attributeReference>	
-		    							
+		    </attributeReference>								
             <attribute name="transactionEntryOffsetCode" forceUppercase="true">
                 <label>Transaction Entry Offset Code</label>
                 <shortLabel>Entry Offset Code</shortLabel>
+
                 <maxLength>1</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
+
                 <control>
                     <text size="3" />
                 </control>
+
                 <summary>transactionEntryOffsetCode</summary>
                 <description>transactionEntryOffsetCode description...</description>
 			</attribute>
-			
+
             <attribute name="transactionEntryProcessedTimestamp" forceUppercase="true">
                 <label>Transaction Entry Processed Timestamp</label>
                 <shortLabel>Timestamp</shortLabel>
+
                 <maxLength>7</maxLength>
                 <validationPattern><date /></validationPattern>
+
                 <control>
                     <text size="9" />
                 </control>
+
                 <summary>transactionEntryProcessedTimestamp</summary>
                 <description>transactionEntryProcessedTimestamp description...</description>
 			</attribute>
-			
+
             <attribute name="transactionLedgerEntryAmount" forceUppercase="true">
                 <label>Transaction Ledger Entry Amount</label>
                 <shortLabel>Amount</shortLabel>
+
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
+
                 <control>
                     <text size="21" />
                 </control>
+
                 <summary>transactionLedgerEntryAmount</summary>
                 <description>transactionLedgerEntryAmount description...</description>
 			</attribute>
-			
+
             <attribute name="transactionLedgerEntryDescription" forceUppercase="true">
                 <label>Transaction Ledger Entry Description</label>
                 <shortLabel>Description</shortLabel>
+
                 <maxLength>40</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
+
                 <control>
                     <text size="42" />
                 </control>
+
                 <summary>transactionLedgerEntryDescription</summary>
                 <description>transactionLedgerEntryDescription description...</description>
 			</attribute>
-			
+
             <attribute name="transactionLedgerEntrySequenceNumber" forceUppercase="true">
                 <label>Transaction Ledger Entry Sequence Number</label>
                 <shortLabel>Sequence Number</shortLabel>
+
                 <maxLength>5</maxLength>
                 <validationPattern><numeric /></validationPattern>
+
                 <control>
                     <text size="7" />
                 </control>
+
                 <summary>transactionLedgerEntrySequenceNumber</summary>
                 <description>transactionLedgerEntrySequenceNumber description...</description>
 			</attribute>
-			
+
             <attribute name="transactionPostingDate" forceUppercase="true">
                 <label>Transaction Posting Date</label>
                 <shortLabel>Posting Date</shortLabel>
+
                 <maxLength>7</maxLength>
                 <validationPattern><date /></validationPattern>
+
                 <control>
                     <text size="9" />
                 </control>
+
                 <summary>transactionPostingDate</summary>
                 <description>transactionPostingDate description...</description>
 			</attribute>
-			
+
             <attribute name="transactionTotalHours" forceUppercase="true">
                 <label>Transaction Total Hours</label>
                 <shortLabel>Hours</shortLabel>
+
                 <maxLength>9</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
+
                 <control>
                     <text size="11" />
                 </control>
+
                 <summary>transactionTotalHours</summary>
                 <description>transactionTotalHours description...</description>
 			</attribute>
-			
+
 			<attributeReference name="universityFiscalPeriodCode" sourceClassName="org.kuali.module.chart.bo.AccountingPeriod" sourceAttributeName="universityFiscalPeriodCode">				
                 <label>Fiscal Period</label>
                 <shortLabel>Period</shortLabel>				
 			</attributeReference>
-			
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.kfs.bo.Options" sourceAttributeName="universityFiscalYear" />	
-            		
+
+         <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
+
             <attribute name="documentHeader.financialDocumentStatusCode" forceUppercase="false">
 				<label>Pending Entry Approved Indicator</label>
                 <shortLabel>Pending Entry Approved Indicator</shortLabel>
+
                 <maxLength>2</maxLength>
                 <control>
                     <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.ApprovedDocumentIndicatorValuesFinder" />
                 </control>
+
                 <summary>Pending Entry Approved Indicator indicates whether a LLPE is approved or not.</summary>
                 <description>Radioboxes that allow the user to include or exclude Pending Ledger Entries from the results. Options include: Approved Only or All. When a financial transaction E-Doc is initiated, Pending Ledger Entries are created. These entries remain in the Pending Ledger Entry table until they are posted.</description>
+
                 <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
             </attribute>
             
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-            
         </attributes>
     </businessObject>
 </dictionaryEntry>

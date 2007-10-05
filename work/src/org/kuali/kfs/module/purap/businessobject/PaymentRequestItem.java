@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
@@ -69,15 +70,21 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 
         //clear amount and desc on below the line - we probably don't need that null 
         //itemType check but it's there just in case remove if it causes problems
-        if(ObjectUtils.isNotNull(this.getItemType())&&
-           !this.getItemType().isItemTypeAboveTheLineIndicator()) {
+        // also do this if of type service, kulpurap - 1242
+        if( (ObjectUtils.isNotNull(this.getItemType()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator()) ) {
             //setting unit price to be null to be more consistent with other below the line
             this.setItemUnitPrice(null);
-            this.setItemDescription("");
-        }
+            
+            //if below the line item
+            if( !this.getItemType().isItemTypeAboveTheLineIndicator() ){
+                this.setItemDescription("");
+            }
+        }        
+
         //copy custom
         this.purchaseOrderItemUnitPrice = poi.getItemUnitPrice();
         this.purchaseOrderCommodityCode = poi.getPurchaseOrderCommodityCd();
+        
         //set doc fields
         this.setPurapDocumentIdentifier(preq.getPurapDocumentIdentifier());
         this.paymentRequest = preq;
@@ -110,15 +117,21 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 
         //clear amount and desc on below the line - we probably don't need that null 
         //itemType check but it's there just in case remove if it causes problems
-        if(ObjectUtils.isNotNull(this.getItemType())&&
-           !this.getItemType().isItemTypeAboveTheLineIndicator()) {
+        // also do this if of type service, kulpurap - 1242
+        if( (ObjectUtils.isNotNull(this.getItemType()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator()) ) {
             //setting unit price to be null to be more consistent with other below the line
             this.setItemUnitPrice(null);
-            this.setItemDescription("");
+            
+            //if below the line item
+            if( !this.getItemType().isItemTypeAboveTheLineIndicator() ){
+                this.setItemDescription("");
+            }
         }        
+        
         //copy custom
-        this.purchaseOrderItemUnitPrice = poi.getItemUnitPrice();
+        this.purchaseOrderItemUnitPrice = poi.getItemUnitPrice();                
         this.purchaseOrderCommodityCode = poi.getPurchaseOrderCommodityCd();
+        
         //set doc fields
         this.setPurapDocumentIdentifier(preq.getPurapDocumentIdentifier());
         this.paymentRequest = preq;

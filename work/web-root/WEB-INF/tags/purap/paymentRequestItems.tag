@@ -120,7 +120,7 @@
 			        <kul:htmlControlAttribute
 				        attributeEntry="${itemAttributes.itemQuantity}"
 				        property="document.item[${ctr}].itemQuantity"
-				        readOnly="${not (fullEntryMode)}" />
+				        readOnly="${ not (fullEntryMode) or (PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE eq KualiForm.document.items[ctr].itemType.itemTypeCode) }" />				        
 				</div>
 			</td>
 			<td class="infoline">
@@ -128,7 +128,7 @@
 			        <kul:htmlControlAttribute
 				        attributeEntry="${itemAttributes.itemUnitPrice}"
 				        property="document.item[${ctr}].itemUnitPrice"
-				        readOnly="${not (fullEntryMode)}" />
+				        readOnly="${not (fullEntryMode) or (PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE eq KualiForm.document.items[ctr].itemType.itemTypeCode) }" />
 				</div>
 			</td>
 			<td class="infoline">

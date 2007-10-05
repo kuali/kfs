@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.util.PurApItemUtils;
 
 public abstract class AccountsPayableItemBase extends PurApItemBase implements AccountsPayableItem {
@@ -86,8 +87,7 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
      * @return Returns the extendedPrice.
      */
     public KualiDecimal getExtendedPrice() {
-        if(!this.getItemType().isItemTypeAboveTheLineIndicator() &&
-           ObjectUtils.isNotNull(this.getItemUnitPrice())) {
+        if(ObjectUtils.isNotNull(this.getItemUnitPrice()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator() ){
            extendedPrice = new KualiDecimal(this.getItemUnitPrice().toString());
         }
         

@@ -20,11 +20,14 @@ import java.util.Map;
 
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
+import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
+import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.module.labor.bo.LedgerEntry;
 
 /**
  * The LaborInquiryOptionsService interface provides hooks for Pending Ledger and Consilidation options for balance inquiries.
  */
-public interface LaborInquiryOptionsService {
+public interface LaborInquiryOptionsService{
    
     /**
      * The expected name of the consolidation option field name
@@ -73,7 +76,17 @@ public interface LaborInquiryOptionsService {
      * @param isConsolidated indicate if the collection balances have been consolidated
      * @see org.kuali.module.labor.bo.LedgerBalance
      */
-    public void updateLedgerBalanceByPendingLedgerEntry(Collection balanceCollection, Map fieldValues, String pendingEntryOption, boolean isConsolidated);
+    public void updateLedgerBalanceByPendingLedgerEntry(Collection<LedgerBalance> balanceCollection, Map fieldValues, String pendingEntryOption, boolean isConsolidated);
+    
+    /**
+     * update a given balance collection with the pending entry obtained from the given field values and pending entry option
+     * @param balanceCollection the given ledger balance collection
+     * @param fieldValues the given field values
+     * @param pendingEntryOption the given pending entry option: all, approved or none
+     * @param isConsolidated indicate if the collection balances have been consolidated
+     * @see org.kuali.module.labor.bo.LedgerBalance
+     */
+    public void updateCurrentFundsByPendingLedgerEntry(Collection<AccountStatusCurrentFunds> balanceCollection, Map fieldValues, String pendingEntryOption, boolean isConsolidated);
 
     /**
      * update a given ledger entry collection with the pending entry obtained from the given field values and pending entry option
@@ -82,7 +95,7 @@ public interface LaborInquiryOptionsService {
      * @param pendingEntryOption the given pending entry option: all, approved or none
      * @see org.kuali.module.labor.bo.LedgerEntry
      */
-    public void updateLedgerEntryByPendingLedgerEntry(Collection entryCollection, Map fieldValues, String pendingEntryOption);
+    public void updateLedgerEntryByPendingLedgerEntry(Collection<LedgerEntry> entryCollection, Map fieldValues, String pendingEntryOption);
  
     /**
      * Get the Pending Entry Option selected 

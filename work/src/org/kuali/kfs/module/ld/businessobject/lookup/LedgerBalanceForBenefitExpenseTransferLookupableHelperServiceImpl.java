@@ -36,18 +36,10 @@ import org.springframework.transaction.annotation.Transactional;
  * The class is the front-end for the balance inquiry of Ledger Balance For Benefit Expense Transfer processing.
  */
 @Transactional
-public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl extends LedgerBalanceLookupableHelperServiceImpl {
+public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl extends LedgerBalanceForExpenseTransferLookupableHelperServiceImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl.class);
 
     private OptionsService optionsService;
-
-    /**
-     * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
-     */
-    @Override
-    public String getInquiryUrl(BusinessObject bo, String propertyName) {
-        return (new LedgerBalanceForExpenseTransferInquirableImpl()).getInquiryUrl(bo, propertyName);
-    }
 
     /**
      * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)

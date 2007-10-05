@@ -86,8 +86,8 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
      * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findLedgerBalance(java.util.Collection,
      *      org.kuali.module.labor.bo.LaborTransaction)
      */
-    public LedgerBalance findLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, LaborTransaction transaction, List<String> keyList) {
-        for (LedgerBalance ledgerBalance : ledgerBalanceCollection) {
+    public <T extends LedgerBalance> T findLedgerBalance(Collection<T> ledgerBalanceCollection, LaborTransaction transaction, List<String> keyList) {
+        for (T ledgerBalance : ledgerBalanceCollection) {
             boolean found = ObjectUtil.compareObject(ledgerBalance, transaction, keyList);
             if (found) {
                 return ledgerBalance;
@@ -100,8 +100,8 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
      * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findLedgerBalance(java.util.Collection,
      *      org.kuali.module.labor.bo.LaborTransaction)
      */
-    public LedgerBalance findLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, LaborTransaction transaction) {
-        for (LedgerBalance ledgerBalance : ledgerBalanceCollection) {
+    public <T extends LedgerBalance> T findLedgerBalance(Collection<T> ledgerBalanceCollection, LaborTransaction transaction) {
+        for (T ledgerBalance : ledgerBalanceCollection) {
             boolean found = ObjectUtil.compareObject(ledgerBalance, transaction, ledgerBalance.getPrimaryKeyList());
             if (found) {
                 return ledgerBalance;
@@ -114,12 +114,14 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
      * @see org.kuali.module.labor.service.LaborLedgerBalanceService#updateLedgerBalance(org.kuali.module.labor.bo.LedgerBalance,
      *      org.kuali.module.labor.bo.LaborTransaction)
      */
-    public void updateLedgerBalance(LedgerBalance ledgerBalance, LaborTransaction transaction) {
+    public <T extends LedgerBalance> void updateLedgerBalance(T ledgerBalance, LaborTransaction transaction) {
         String debitCreditCode = transaction.getTransactionDebitCreditCode();
         KualiDecimal amount = transaction.getTransactionLedgerEntryAmount();
         amount = DebitCreditUtil.getNumericAmount(amount, debitCreditCode);
+        System.out.println("before:" + amount);
 
         ledgerBalance.addAmount(transaction.getUniversityFiscalPeriodCode(), amount);
+        System.out.println("after:" + ledgerBalance.getMonth4Amount());
     }
 
     /**

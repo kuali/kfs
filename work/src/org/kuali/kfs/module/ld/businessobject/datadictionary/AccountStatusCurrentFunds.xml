@@ -25,7 +25,7 @@
             <title>Account Status (Current Funds) Balance Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-				<field attributeName="month1Amount" />
+				<field attributeName="annualActualAmount" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -69,7 +69,7 @@
 				<field attributeName="positionNumber" />				
 				<field attributeName="personName" />
 				<field attributeName="july1BudgetAmount" />
-				<field attributeName="month1Amount" />
+				<field attributeName="annualActualAmount" />
 				<field attributeName="outstandingEncum" />
 				<field attributeName="variance" />
             </resultFields>
@@ -120,7 +120,7 @@
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 			
-            <attributeReference name="month1Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attributeReference name="annualActualAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>YTD Actual</label>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>

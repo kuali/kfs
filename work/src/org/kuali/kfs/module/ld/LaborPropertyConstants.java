@@ -26,6 +26,7 @@ public class LaborPropertyConstants {
     public static final String JULY_1_BUDGET_AMOUNT = "july1BudgetAmount";
     public static final String JULY_1_BUDGET_FTE_QUANTITY = "july1BudgetFteQuantity";
     public static final String JULY_1_BUDGET_TIME_PERCENT = "july1BudgetTimePercent";
+    public static final String ANNUAL_ACTUAL_AMOUNT = "annualActualAmount";
 
     public enum AccountingPeriodProperties {
         JULY     (KFSPropertyConstants.MONTH1_AMOUNT, KFSConstants.MONTH1),

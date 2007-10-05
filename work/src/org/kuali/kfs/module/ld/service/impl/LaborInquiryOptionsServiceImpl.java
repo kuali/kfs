@@ -24,6 +24,7 @@ import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.web.Constant;
+import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.bo.LedgerEntry;
@@ -123,8 +124,7 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
      * @see org.kuali.module.labor.service.LaborInquiryOptionsService#updateLedgerBalanceByPendingLedgerEntry(java.util.Collection,
      *      java.util.Map, java.lang.String, boolean)
      */
-    public void updateLedgerBalanceByPendingLedgerEntry(Collection balanceCollection, Map fieldValues, String pendingEntryOption, boolean isConsolidated) {
-
+    public void updateLedgerBalanceByPendingLedgerEntry(Collection<LedgerBalance> balanceCollection, Map fieldValues, String pendingEntryOption, boolean isConsolidated) {
         // determine if search results need to be updated by pending ledger entries
         if (Constant.ALL_PENDING_ENTRY.equals(pendingEntryOption)) {
             updateCollection(balanceCollection, fieldValues, false, isConsolidated, LedgerBalance.class);
@@ -135,11 +135,24 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
     }
 
     /**
+     * @see org.kuali.module.labor.service.LaborInquiryOptionsService#updateCurrentFundsByPendingLedgerEntry(java.util.Collection,
+     *      java.util.Map, java.lang.String, boolean)
+     */
+    public void updateCurrentFundsByPendingLedgerEntry(Collection<AccountStatusCurrentFunds> balanceCollection, Map fieldValues, String pendingEntryOption, boolean isConsolidated) {
+        // determine if search results need to be updated by pending ledger entries
+        if (Constant.ALL_PENDING_ENTRY.equals(pendingEntryOption)) {
+            updateCollection(balanceCollection, fieldValues, false, isConsolidated, AccountStatusCurrentFunds.class);
+        }
+        else if (Constant.APPROVED_PENDING_ENTRY.equals(pendingEntryOption)) {
+            updateCollection(balanceCollection, fieldValues, true, isConsolidated, AccountStatusCurrentFunds.class);
+        }
+    }
+
+    /**
      * @see org.kuali.module.labor.service.LaborInquiryOptionsService#updateByPendingLedgerEntry(java.util.Collection,
      *      java.util.Map, java.lang.String, boolean)
      */
-    public void updateLedgerEntryByPendingLedgerEntry(Collection entryCollection, Map fieldValues, String pendingEntryOption) {
-
+    public void updateLedgerEntryByPendingLedgerEntry(Collection<LedgerEntry> entryCollection, Map fieldValues, String pendingEntryOption) {
         // determine if search results need to be updated by pending ledger entries
         if (Constant.ALL_PENDING_ENTRY.equals(pendingEntryOption)) {
             updateCollection(entryCollection, fieldValues, false, false, LedgerEntry.class);
@@ -172,15 +185,23 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
             }
 
             if (LedgerBalance.class.isAssignableFrom(clazz)) {
-                LedgerBalance ledgerBalance = laborLedgerBalanceService.findLedgerBalance(entryCollection, pendingEntry);
-                if (ledgerBalance == null) {
-                    ledgerBalance = laborLedgerBalanceService.addLedgerBalance(entryCollection, pendingEntry);
-                }
-                else {
+                try {
+                    LedgerBalance ledgerBalance = laborLedgerBalanceService.findLedgerBalance(entryCollection, pendingEntry);
+                    if (ledgerBalance == null) {
+
+                        Object newLedgerBalance = clazz.newInstance();
+                        ObjectUtil.buildObject(newLedgerBalance, pendingEntry);
+
+                        ledgerBalance = (LedgerBalance) newLedgerBalance;
+                        entryCollection.add(ledgerBalance);
+                    }
                     laborLedgerBalanceService.updateLedgerBalance(ledgerBalance, pendingEntry);
+                    ledgerBalance.getDummyBusinessObject().setConsolidationOption(isConsolidated ? Constant.CONSOLIDATION : Constant.DETAIL);
+                    ledgerBalance.getDummyBusinessObject().setPendingEntryOption(isApproved ? Constant.APPROVED_PENDING_ENTRY : Constant.ALL_PENDING_ENTRY);
                 }
-                ledgerBalance.getDummyBusinessObject().setConsolidationOption(isConsolidated ? Constant.CONSOLIDATION : Constant.DETAIL);
-                ledgerBalance.getDummyBusinessObject().setPendingEntryOption(isApproved ? Constant.APPROVED_PENDING_ENTRY : Constant.ALL_PENDING_ENTRY);
+                catch (Exception e) {
+                    LOG.error("cannot create a new object of type: " + clazz.getName() + "/n" + e);
+                }
             }
             else if (LedgerEntry.class.isAssignableFrom(clazz)) {
                 LedgerEntry ledgerEntry = new LedgerEntry();

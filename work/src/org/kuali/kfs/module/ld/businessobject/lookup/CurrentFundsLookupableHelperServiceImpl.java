@@ -108,11 +108,11 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         Collection<AccountStatusCurrentFunds> searchResultsCollection = buildCurrentFundsCollection(toList(laborDao.getCurrentFunds(fieldValues, isConsolidated)), isConsolidated, pendingEntryOption);
 
         // update search results according to the selected pending entry option
-        laborInquiryOptionsService.updateLedgerEntryByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption);
+        laborInquiryOptionsService.updateCurrentFundsByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated);
 
         // gets the July1st budget amount column.
         Collection<July1PositionFunding> july1PositionFundings = laborDao.getJuly1(fieldValues);
-        this.AddJuly1BalanceAmount(searchResultsCollection, july1PositionFundings, isConsolidated);
+        this.updateJuly1BalanceAmount(searchResultsCollection, july1PositionFundings, isConsolidated);
 
         // sort list if default sort column given
         List searchResults = (List) searchResultsCollection;
@@ -130,13 +130,12 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
      * @param july1PositionFundings collection of current funds with july1st budget amounts
      * @param isConsolidated
      */
-    private void AddJuly1BalanceAmount(Collection<AccountStatusCurrentFunds> searchResultsCollection, Collection<July1PositionFunding> july1PositionFundings, boolean isConsolidated) {
+    private void updateJuly1BalanceAmount(Collection<AccountStatusCurrentFunds> searchResultsCollection, Collection<July1PositionFunding> july1PositionFundings, boolean isConsolidated) {
         for (July1PositionFunding july1PositionFunding : july1PositionFundings) {
             for (AccountStatusCurrentFunds accountStatus : searchResultsCollection) {
                 boolean found = ObjectUtil.compareObject(accountStatus, july1PositionFunding, accountStatus.getKeyFieldList(isConsolidated));
                 if (found) {
                     accountStatus.setJuly1BudgetAmount(accountStatus.getJuly1BudgetAmount().add(july1PositionFunding.getJuly1BudgetAmount()));
-                    accountStatus.setVariance(accountStatus.getJuly1BudgetAmount().subtract(accountStatus.getMonth1Amount().add(accountStatus.getOutstandingEncum())));
                 }
             }
         }

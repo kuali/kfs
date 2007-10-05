@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.web.Constant;
+import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.bo.LedgerBalance;
 
 /**
@@ -60,7 +60,7 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
     protected Map getUserDefinedAttributeMap() {
 
         Map userDefinedAttributeMap = new HashMap();
-        userDefinedAttributeMap.put(KFSPropertyConstants.MONTH1_AMOUNT, "");
+        userDefinedAttributeMap.put(LaborPropertyConstants.ANNUAL_ACTUAL_AMOUNT, "");
         return userDefinedAttributeMap;
     }
 

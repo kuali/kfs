@@ -33,8 +33,8 @@ import org.kuali.module.labor.dao.LaborDao;
 public class AccountStatusCurrentFunds extends LedgerBalance {
     private String personName;
     private KualiDecimal outstandingEncum;
-    private LaborDao laborDao;
     private KualiDecimal july1BudgetAmount;
+    private KualiDecimal annualActualAmount;
     private KualiDecimal variance;
 
     /**
@@ -46,6 +46,7 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
         this.setOutstandingEncum(KualiDecimal.ZERO);
         this.setVariance(KualiDecimal.ZERO);
         this.setJuly1BudgetAmount(KualiDecimal.ZERO);
+        this.setAnnualActualAmount(KualiDecimal.ZERO);
     }
 
     /**
@@ -118,7 +119,7 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
      * @return
      */
     public KualiDecimal getVariance() {
-        return this.variance;
+        return this.getJuly1BudgetAmount().subtract(getAnnualActualAmount()).subtract(getOutstandingEncum());
     }
 
     /**
@@ -154,5 +155,21 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
         primaryKeyList.add(KFSPropertyConstants.POSITION_NUMBER);
         primaryKeyList.add(KFSPropertyConstants.EMPLID);
         return primaryKeyList;
+    }
+
+    /**
+     * Gets the annualActualAmount attribute. 
+     * @return Returns the annualActualAmount.
+     */
+    public KualiDecimal getAnnualActualAmount() {
+        return this.getAccountLineAnnualBalanceAmount().add(this.getContractsGrantsBeginningBalanceAmount());
+    }
+
+    /**
+     * Sets the annualActualAmount attribute value.
+     * @param annualActualAmount The annualActualAmount to set.
+     */
+    public void setAnnualActualAmount(KualiDecimal annualActualAmount) {
+        this.annualActualAmount = annualActualAmount;
     }
 }

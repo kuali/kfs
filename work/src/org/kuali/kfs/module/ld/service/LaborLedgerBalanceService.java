@@ -59,7 +59,7 @@ public interface LaborLedgerBalanceService {
      * @param keyList the given list of keys that need to be compared
      * @return a matching ledger balance from the given ledger balance
      */
-    public LedgerBalance findLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, LaborTransaction transaction, List<String> keyList);
+    public <T extends LedgerBalance> T findLedgerBalance(Collection<T> ledgerBalanceCollection, LaborTransaction transaction, List<String> keyList);
 
     /**
      * find a ledger balance from the given ledger balance collection with the given transaction information
@@ -68,7 +68,7 @@ public interface LaborLedgerBalanceService {
      * @param transaction the given transaction information
      * @return a matching ledger balance from the given ledger balance
      */
-    public LedgerBalance findLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, LaborTransaction transaction);
+    public <T extends LedgerBalance> T findLedgerBalance(Collection<T> ledgerBalanceCollection, LaborTransaction transaction);
 
     /**
      * convert the given transaction information into a ledger balance and add it into the given ledger balance collection with
@@ -85,7 +85,7 @@ public interface LaborLedgerBalanceService {
      * @param ledgerBalance the given ledger balance
      * @param transaction the given transaction information
      */
-    public void updateLedgerBalance(LedgerBalance ledgerBalance, LaborTransaction transaction);
+    public <T extends LedgerBalance> void updateLedgerBalance(T ledgerBalance, LaborTransaction transaction);
 
     /**
      * find the funding by employee

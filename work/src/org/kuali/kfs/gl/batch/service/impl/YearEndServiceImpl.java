@@ -1158,7 +1158,7 @@ public class YearEndServiceImpl implements YearEndService {
 
                     // build and save an additional pair of origin entries to carry forward the encumbrance.
 
-                    OriginEntryOffsetPair costShareBeginningBalanceEntryPair = EncumbranceClosingOriginEntryFactory.createCostShareBeginningBalanceEntryOffsetPair(encumbrance, beginningBalanceEntryPair.getEntry().getTransactionDebitCreditCode());
+                    OriginEntryOffsetPair costShareBeginningBalanceEntryPair = EncumbranceClosingOriginEntryFactory.createCostShareBeginningBalanceEntryOffsetPair(encumbrance, beginningBalanceEntryPair.getEntry().getTransactionDebitCreditCode(), (Date) jobParameters.get(GLConstants.ColumnNames.UNIV_DT));
 
                     if (!costShareBeginningBalanceEntryPair.isFatalErrorFlag()) {
 

@@ -17,6 +17,7 @@ package org.kuali.module.gl.batch.closing.year.util;
 
 import java.sql.Date;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
@@ -52,9 +53,12 @@ public class EncumbranceClosingOriginEntryFactory {
      * @param debitCreditCode
      * @return a cost share entry/offset pair to carry forward the given encumbrance.
      */
-    static final public OriginEntryOffsetPair createCostShareBeginningBalanceEntryOffsetPair(Encumbrance encumbrance, String debitCreditCode) {
+    static final public OriginEntryOffsetPair createCostShareBeginningBalanceEntryOffsetPair(Encumbrance encumbrance, String debitCreditCode, Date transactionDate) {
 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        OffsetDefinitionService offsetDefinitionService = SpringContext.getBean(OffsetDefinitionService.class);
+        ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
+        
         final String GL_ACLO = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE);
         final String GL_ORIGINATION_CODE = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE);
 
@@ -79,37 +83,31 @@ public class EncumbranceClosingOriginEntryFactory {
 
         // The subAccountNumber is set to dashes in the OriginEntryFull constructor.
         if (KFSConstants.EMPTY_STRING.equals(encumbrance.getSubAccountNumber().trim())) {
-
             entry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
-
         }
 
-        entry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_COST_SHARE_ENCUMBRANCE);
         entry.setFinancialObjectCode(encumbrance.getObjectCode());
         entry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+        entry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_COST_SHARE_ENCUMBRANCE);
+        
+        ObjectCode finObjCode = objectCodeService.getByPrimaryId(encumbrance.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialObjectCode());
+        entry.setFinancialObjectTypeCode(finObjCode.getFinancialObjectTypeCode());
+        
+        entry.setUniversityFiscalPeriodCode(KFSConstants.PERIOD_CODE_BEGINNING_BALANCE);
         entry.setTransactionLedgerEntrySequenceNumber(new Integer(0));
+        entry.setDocumentNumber(encumbrance.getDocumentNumber());
+        entry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_COST_SHARE_ENCUMBRANCE);
 
-        if (null == debitCreditCode || KFSConstants.EMPTY_STRING.equals(debitCreditCode.trim())) {
-
-            if (encumbrance.getAccountLineEncumbranceAmount().isPositive()) {
-
+        KualiDecimal delta = encumbrance.getAccountLineEncumbranceAmount().subtract(encumbrance.getAccountLineEncumbranceClosedAmount());
+        if (delta.isPositive()) {
                 entry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
-
-            }
-
+                entry.setTransactionLedgerEntryAmount(delta);
+        } else {
+            entry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+            entry.setTransactionLedgerEntryAmount(delta.negated());
         }
-
-        // If the debit/credit code is set on the
-        if (null == debitCreditCode || KFSConstants.EMPTY_STRING.equals(debitCreditCode.trim())) {
-
-            if (encumbrance.getAccountLineEncumbranceAmount().isNegative()) {
-
-                entry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
-                entry.setTransactionLedgerEntryAmount(encumbrance.getAccountLineEncumbranceAmount().negated());
-
-            }
-
-        }
+        entry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_DOCUMENT_CD);
+        entry.setTransactionDate(transactionDate);
 
         pair.setEntry(entry);
 
@@ -118,13 +116,16 @@ public class EncumbranceClosingOriginEntryFactory {
         OriginEntryFull offset = new OriginEntryFull(encumbrance.getDocumentTypeCode(), encumbrance.getOriginCode());
         final String GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = parameterService.getParameterValue(EncumbranceForwardStep.class, GLConstants.EncumbranceClosingOriginEntry.GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
         offset.setTransactionLedgerEntryDescription(GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
-
+        
+        offset.setUniversityFiscalYear(new Integer(encumbrance.getUniversityFiscalYear().intValue() + 1));
+        offset.setChartOfAccountsCode(a21SubAccount.getCostShareChartOfAccountCode());
+        offset.setAccountNumber(a21SubAccount.getCostShareSourceAccountNumber());
+        offset.setSubAccountNumber(a21SubAccount.getCostShareSourceSubAccountNumber());
+        if (KFSConstants.EMPTY_STRING.equals(encumbrance.getSubAccountNumber().trim())) {
+            entry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+        }
         // Lookup the offset definition for the explicit entry we just created.
-        // SpringContext is used because this method is static.
-        OffsetDefinitionService offsetDefinitionService = SpringContext.getBean(OffsetDefinitionService.class);
-        LOG.debug("finding offset definition for: "+entry.getUniversityFiscalYear()+" "+entry.getChartOfAccountsCode()+" "+encumbrance.getDocumentTypeCode()+" "+encumbrance.getBalanceTypeCode());
         OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), encumbrance.getDocumentTypeCode(), encumbrance.getBalanceTypeCode());
-
         // Set values from the offset definition if it was found.
         if (null != offsetDefinition) {
 
@@ -138,37 +139,30 @@ public class EncumbranceClosingOriginEntryFactory {
             return pair;
 
         }
-
+        offset.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_COST_SHARE_ENCUMBRANCE);
         // Validate the object code for the explicit entry.
-        // SpringContext is used because this method is static.
-        ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
-        ObjectCode objectCode = objectCodeService.getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), offset.getFinancialObjectCode());
-
+        ObjectCode objectCode = objectCodeService.getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialObjectCode());
         if (null != objectCode) {
-
             offset.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
-
         }
         else {
-
             LOG.info("FATAL ERROR: One of the following errors occurred (no way to know exactly which):\n\t" + "- NO OBJECT FOR OBJECT ON OFSD\n\t" + "- ERROR ACCESSING OBJECT TABLE");
             pair.setFatalErrorFlag(true);
             return pair;
-
         }
-
-        // If the explicit entry is a credit, make the offset a debit and vice/versa.
-        if (KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode())) {
-
-            offset.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
-
+        offset.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
+        offset.setUniversityFiscalPeriodCode(KFSConstants.PERIOD_CODE_BEGINNING_BALANCE);
+        offset.setDocumentNumber(encumbrance.getDocumentNumber());
+        offset.setTransactionLedgerEntrySequenceNumber(new Integer(0));
+        if (delta.isPositive()) {
+            offset.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+            offset.setTransactionLedgerEntryAmount(delta);
         }
         else {
-
-            offset.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
-
+            offset.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+            offset.setTransactionLedgerEntryAmount(delta.negated());
         }
-
+        
         offset.setTransactionEncumbranceUpdateCode(null);
         offset.setOrganizationDocumentNumber(null);
         offset.setProjectCode(KFSConstants.getDashProjectCode());

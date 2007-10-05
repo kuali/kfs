@@ -108,7 +108,7 @@ public class ForwardEncumbranceTest extends OriginEntryTestBase {
         
         assertTrue(helper.isEncumbranceEligibleForCostShare(entryPair.getEntry(), entryPair.getOffset(), encumbrance, ENCUMBRANCE_FIXTURE.COST_SHARE_ENCUMBRANCE.getObjectType()));
         
-        OriginEntryOffsetPair costShareEntryPair = EncumbranceClosingOriginEntryFactory.createCostShareBeginningBalanceEntryOffsetPair(encumbrance, entryPair.getEntry().getTransactionDebitCreditCode());
+        OriginEntryOffsetPair costShareEntryPair = EncumbranceClosingOriginEntryFactory.createCostShareBeginningBalanceEntryOffsetPair(encumbrance, entryPair.getEntry().getTransactionDebitCreditCode(), new java.sql.Date(new GregorianCalendar().getTimeInMillis()));
         LOG.info(costShareEntryPair.getEntry().getLine());
         LOG.info(costShareEntryPair.getOffset().getLine());
         

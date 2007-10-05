@@ -238,6 +238,9 @@ public class CashManagementAction extends KualiDocumentActionBase {
         // update the form
         cmForm.removeDepositHelper(depositIndex);
 
+        // open the CashDrawer so that user can add new deposits
+        cmDoc.getCashDrawer().setStatusCode(KFSConstants.CashDrawerConstants.STATUS_OPEN);
+        
         // display status message
         GlobalVariables.getMessageList().add(CashManagement.STATUS_DEPOSIT_CANCELED);
 

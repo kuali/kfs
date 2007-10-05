@@ -98,91 +98,91 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="accountType" class-ref="org.kuali.module.chart.bo.AcctType" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="accountType" class-ref="org.kuali.module.chart.bo.AcctType" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="accountTypeCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="accountPhysicalCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="accountPhysicalCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="accountPhysicalCampusCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="accountState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="accountState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="accountStateCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="subFundGroup" class-ref="org.kuali.module.chart.bo.SubFundGroup" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="subFundGroup" class-ref="org.kuali.module.chart.bo.SubFundGroup" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="subFundGroupCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="financialHigherEdFunction" class-ref="org.kuali.module.chart.bo.HigherEdFunction" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialHigherEdFunction" class-ref="org.kuali.module.chart.bo.HigherEdFunction" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="financialHigherEdFunctionCd" />
     </reference-descriptor>
 
-    <reference-descriptor name="accountRestrictedStatus" class-ref="org.kuali.module.chart.bo.RestrictedStatus" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="accountRestrictedStatus" class-ref="org.kuali.module.chart.bo.RestrictedStatus" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="accountRestrictedStatusCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="reportsToAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="reportsToAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="reportsToChartOfAccountsCode" />
         <foreignkey field-ref="reportsToAccountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="continuationAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="continuationAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="continuationFinChrtOfAcctCd" />
         <foreignkey field-ref="continuationAccountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="endowmentIncomeAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="endowmentIncomeAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="endowmentIncomeAcctFinCoaCd" />
         <foreignkey field-ref="endowmentIncomeAccountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="endowmentIncomeChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="endowmentIncomeChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="endowmentIncomeAcctFinCoaCd" />
     </reference-descriptor>
 
-    <reference-descriptor name="contractControlAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="contractControlAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="contractControlFinCoaCode" />
         <foreignkey field-ref="contractControlAccountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="incomeStreamAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="incomeStreamAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="incomeStreamFinancialCoaCode" />
         <foreignkey field-ref="incomeStreamAccountNumber" />
     </reference-descriptor>
 
 
-    <reference-descriptor name="acctIndirectCostRcvyType" class-ref="org.kuali.module.chart.bo.codes.ICRTypeCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="acctIndirectCostRcvyType" class-ref="org.kuali.module.chart.bo.codes.ICRTypeCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="acctIndirectCostRcvyTypeCd" />
     </reference-descriptor>
 
-    <reference-descriptor name="indirectCostRecoveryAcct" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="indirectCostRecoveryAcct" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="indirectCostRcvyFinCoaCode" />
         <foreignkey field-ref="indirectCostRecoveryAcctNbr" />
     </reference-descriptor>
 
-    <reference-descriptor name="cfda" class-ref="org.kuali.module.cg.bo.Cfda" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="cfda" class-ref="org.kuali.module.cg.bo.Cfda" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="accountCfdaNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="postalZipCode" class-ref="org.kuali.kfs.bo.PostalZipCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="postalZipCode" class-ref="org.kuali.kfs.bo.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="accountZipCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="budgetRecordingLevel" class-ref="org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="budgetRecordingLevel" class-ref="org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="budgetRecordingLevelCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="sufficientFundsCode" class-ref="org.kuali.module.chart.bo.codes.SufficientFundsCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="sufficientFundsCode" class-ref="org.kuali.module.chart.bo.codes.SufficientFundsCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="accountSufficientFundsCode" />
     </reference-descriptor>
 
@@ -230,15 +230,15 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
-    <reference-descriptor name="universityBudgetOfficeFunction" class-ref="org.kuali.module.chart.bo.UniversityBudgetOfficeFunction" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="universityBudgetOfficeFunction" class-ref="org.kuali.module.chart.bo.UniversityBudgetOfficeFunction" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="finUnivBdgtOfficeFunctionCd" />
     </reference-descriptor>
 
-    <reference-descriptor name="federalFunction" class-ref="org.kuali.module.chart.bo.FederalFunction" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="federalFunction" class-ref="org.kuali.module.chart.bo.FederalFunction" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="financialFederalFunctionCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="aicpaFunction" class-ref="org.kuali.module.chart.bo.AicpaFunction" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="aicpaFunction" class-ref="org.kuali.module.chart.bo.AicpaFunction" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="finAicpaFunctionCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -276,15 +276,15 @@
     <field-descriptor name="fundGroupBudgetAdjustmentRestrictionLevelCode" column="FND_GRP_BA_RSTR_LVL_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="accountRestrictedStatusCode" column="ACCT_RSTRC_STAT_CD" jdbc-type="VARCHAR" />
     
-    <reference-descriptor name="fundGroup" class-ref="org.kuali.module.chart.bo.FundGroup" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="fundGroup" class-ref="org.kuali.module.chart.bo.FundGroup" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="fundGroupCode" />
     </reference-descriptor>
     
-    <reference-descriptor name="subFundGroupType" class-ref="org.kuali.module.chart.bo.SubFundGroupType" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="subFundGroupType" class-ref="org.kuali.module.chart.bo.SubFundGroupType" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="subFundGroupTypeCode" />
     </reference-descriptor>    
     
-    <reference-descriptor name="accountRestrictedStatus" class-ref="org.kuali.module.chart.bo.RestrictedStatus" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="accountRestrictedStatus" class-ref="org.kuali.module.chart.bo.RestrictedStatus" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="accountRestrictedStatusCode" />
     </reference-descriptor>
    
@@ -297,7 +297,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="programCode" column="PGM_CD" jdbc-type="VARCHAR" />
 
-    <reference-descriptor name="program" class-ref="org.kuali.module.chart.bo.Program" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="program" class-ref="org.kuali.module.chart.bo.Program" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="programCode" />
     </reference-descriptor>
 
@@ -323,11 +323,11 @@
     <field-descriptor name="active" column="PROJ_ACTIVE_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="projectDescription" column="PROJECT_DESC" jdbc-type="VARCHAR" />
 
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
@@ -352,51 +352,51 @@
     <field-descriptor name="icrIncomeFinancialObjectCode" column="ICR_INC_FIN_OBJ_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="icrExpenseFinancialObjectCd" column="ICR_EXP_FIN_OBJ_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="fundBalanceObjectCode" column="FND_BAL_OBJ_CD" jdbc-type="VARCHAR" />
-    <reference-descriptor name="finAccountsPayableObject" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="finAccountsPayableObject" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="finAccountsPayableObjectCode" />
     </reference-descriptor>
-    <reference-descriptor name="incBdgtEliminationsFinObj" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="incBdgtEliminationsFinObj" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="incBdgtEliminationsFinObjCd" />
     </reference-descriptor>
-    <reference-descriptor name="expBdgtEliminationsFinObj" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="expBdgtEliminationsFinObj" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="expBdgtEliminationsFinObjCd" />
     </reference-descriptor>
-    <reference-descriptor name="finExternalEncumbranceObj" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="finExternalEncumbranceObj" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="finExternalEncumbranceObjCd" />
     </reference-descriptor>
-    <reference-descriptor name="finInternalEncumbranceObj" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="finInternalEncumbranceObj" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="finInternalEncumbranceObjCd" />
     </reference-descriptor>
-    <reference-descriptor name="finPreEncumbranceObject" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="finPreEncumbranceObject" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="finPreEncumbranceObjectCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialCashObject" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialCashObject" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialCashObjectCode" />
     </reference-descriptor>
-    <reference-descriptor name="icrIncomeFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="icrIncomeFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="icrIncomeFinancialObjectCode" />
     </reference-descriptor>
-    <reference-descriptor name="icrExpenseFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="icrExpenseFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="icrExpenseFinancialObjectCd" />
     </reference-descriptor>
-    <reference-descriptor name="finAccountsReceivableObj" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="finAccountsReceivableObj" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="finAccountsReceivableObjCode" />
     </reference-descriptor>
-    <reference-descriptor name="fundBalanceObject" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="fundBalanceObject" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="fundBalanceObjectCode" />
     </reference-descriptor>
-    <reference-descriptor name="reportsToChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="reportsToChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="reportsToChartOfAccountsCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -420,37 +420,37 @@
     <field-descriptor name="nextYearFinancialObjectCode" column="NXT_YR_FIN_OBJ_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <reference-descriptor name="financialBudgetAggregation" class-ref="org.kuali.module.chart.bo.codes.BudgetAggregationCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialBudgetAggregation" class-ref="org.kuali.module.chart.bo.codes.BudgetAggregationCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="financialBudgetAggregationCd" />
     </reference-descriptor>
-    <reference-descriptor name="finObjMandatoryTrnfrelim" class-ref="org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="finObjMandatoryTrnfrelim" class-ref="org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="finObjMandatoryTrnfrelimCd" />
     </reference-descriptor>
-    <reference-descriptor name="financialFederalFunded" class-ref="org.kuali.module.chart.bo.codes.FederalFundedCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialFederalFunded" class-ref="org.kuali.module.chart.bo.codes.FederalFundedCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="financialFederalFundedCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialObjectLevel" class-ref="org.kuali.module.chart.bo.ObjLevel" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialObjectLevel" class-ref="org.kuali.module.chart.bo.ObjLevel" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectLevelCode" />
     </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="reportsToChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="reportsToChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="reportsToChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="reportsToFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="reportsToFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="reportsToChartOfAccountsCode" />
         <foreignkey field-ref="reportsToFinancialObjectCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialObjectType" class-ref="org.kuali.module.chart.bo.ObjectType" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialObjectType" class-ref="org.kuali.module.chart.bo.ObjectType" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="financialObjectTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialObjectSubType" class-ref="org.kuali.module.chart.bo.ObjSubTyp" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialObjectSubType" class-ref="org.kuali.module.chart.bo.ObjSubTyp" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="financialObjectSubTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 
@@ -474,38 +474,38 @@
     <field-descriptor name="financialFederalFundedCode" column="FIN_FED_FUNDED_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="nextYearFinancialObjectCode" column="NXT_YR_FIN_OBJ_CD" jdbc-type="VARCHAR" />
 
-    <reference-descriptor name="financialBudgetAggregation" class-ref="org.kuali.module.chart.bo.codes.BudgetAggregationCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialBudgetAggregation" class-ref="org.kuali.module.chart.bo.codes.BudgetAggregationCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="financialBudgetAggregationCd" />
     </reference-descriptor>
-    <reference-descriptor name="finObjMandatoryTrnfrelim" class-ref="org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="finObjMandatoryTrnfrelim" class-ref="org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="finObjMandatoryTrnfrelimCd" />
     </reference-descriptor>
-    <reference-descriptor name="financialFederalFunded" class-ref="org.kuali.module.chart.bo.codes.FederalFundedCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialFederalFunded" class-ref="org.kuali.module.chart.bo.codes.FederalFundedCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="financialFederalFundedCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="financialObjectLevel" class-ref="org.kuali.module.chart.bo.ObjLevel" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialObjectLevel" class-ref="org.kuali.module.chart.bo.ObjLevel" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectLevelCode" />
     </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="reportsToChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="reportsToChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="reportsToChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="reportsToFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="reportsToFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="reportsToChartOfAccountsCode" />
         <foreignkey field-ref="reportsToFinancialObjectCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialObjectType" class-ref="org.kuali.module.chart.bo.ObjectType" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialObjectType" class-ref="org.kuali.module.chart.bo.ObjectType" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="financialObjectTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialObjectSubType" class-ref="org.kuali.module.chart.bo.ObjSubTyp" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialObjectSubType" class-ref="org.kuali.module.chart.bo.ObjSubTyp" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="financialObjectSubTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 </class-descriptor>
@@ -522,25 +522,25 @@
     <field-descriptor name="finReportOrganizationCode" column="FIN_RPT_ORG_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="financialReportingCode" column="FIN_RPT_CD" jdbc-type="VARCHAR" />
 
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="org" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="org" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="financialReportChartCode" />
         <foreignkey field-ref="finReportOrganizationCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="financialReportChart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="financialReportChart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="financialReportChartCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="reportingCode" class-ref="org.kuali.module.chart.bo.ReportingCodes" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="reportingCode" class-ref="org.kuali.module.chart.bo.ReportingCodes" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="financialReportChartCode" />
         <foreignkey field-ref="finReportOrganizationCode" />
         <foreignkey field-ref="financialReportingCode" />
@@ -567,21 +567,21 @@
     <field-descriptor name="financialSubObjectCdshortNm" column="FIN_SUBOBJ_SHRT_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="financialSubObjectActiveIndicator" column="FIN_SUBOBJ_ACTV_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 
-    <reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
@@ -598,21 +598,21 @@
     <field-descriptor name="financialSubObjectCdshortNm" column="FIN_SUBOBJ_SHRT_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="financialSubObjectActiveIndicator" column="FIN_SUBOBJ_ACTV_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 
-    <reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
@@ -673,7 +673,7 @@
     <field-descriptor name="basicAccountingCategoryCode" column="ACCTG_CTGRY_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <reference-descriptor name="basicAccountingCategory" class-ref="org.kuali.module.chart.bo.BasicAccountingCategory" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="basicAccountingCategory" class-ref="org.kuali.module.chart.bo.BasicAccountingCategory" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="basicAccountingCategoryCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -688,11 +688,11 @@
     <field-descriptor name="financialReportingSortCode" column="FIN_REPORT_SORT_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <reference-descriptor name="financialConsolidationObject" class-ref="org.kuali.module.chart.bo.ObjectCons" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialConsolidationObject" class-ref="org.kuali.module.chart.bo.ObjectCons" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialConsolidationObjectCode" />
     </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -707,10 +707,10 @@
     <field-descriptor name="finConsolidationObjActiveIndicator" column="FIN_CONOBJ_ACTV_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="financialEliminationsObjectCode" column="FIN_ELIM_OBJ_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="financialReportingSortCode" column="FIN_REPORT_SORT_CD" jdbc-type="VARCHAR" />
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialEliminationsObject" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialEliminationsObject" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialEliminationsObjectCode" />
     </reference-descriptor>
@@ -744,51 +744,51 @@
     <field-descriptor name="organizationLine1Address" column="ORG_LN1_ADDR" jdbc-type="VARCHAR" />
     <field-descriptor name="organizationLine2Address" column="ORG_LN2_ADDR" jdbc-type="VARCHAR" />
 
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="organizationDefaultAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="organizationDefaultAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationDefaultAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="responsibilityCenter" class-ref="org.kuali.module.chart.bo.ResponsibilityCenter" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="responsibilityCenter" class-ref="org.kuali.module.chart.bo.ResponsibilityCenter" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="responsibilityCenterCode" />
     </reference-descriptor>
-    <reference-descriptor name="organizationPhysicalCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="organizationPhysicalCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="organizationPhysicalCampusCode" />
     </reference-descriptor>
-    <reference-descriptor name="organizationType" class-ref="org.kuali.module.chart.bo.OrgType" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="organizationType" class-ref="org.kuali.module.chart.bo.OrgType" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="organizationTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="reportsToOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="reportsToOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="reportsToChartOfAccountsCode" />
         <foreignkey field-ref="reportsToOrganizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="reportsToChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="reportsToChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="reportsToChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="organizationPlantAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="organizationPlantAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="organizationPlantChartCode" />
         <foreignkey field-ref="organizationPlantAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="campusPlantAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="campusPlantAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="campusPlantChartCode" />
         <foreignkey field-ref="campusPlantAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="organizationPlantChart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="organizationPlantChart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="organizationPlantChartCode" />
     </reference-descriptor>
-    <reference-descriptor name="campusPlantChart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="campusPlantChart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="campusPlantChartCode" />
     </reference-descriptor>
-    <reference-descriptor name="postalZip" class-ref="org.kuali.kfs.bo.PostalZipCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="postalZip" class-ref="org.kuali.kfs.bo.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="organizationZipCode" />
     </reference-descriptor>
 	<reference-descriptor name="organizationExtension" class-ref="org.kuali.module.chart.bo.OrganizationExtension" auto-retrieve="true" auto-update="true" auto-delete="true" proxy="false">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />
 	</reference-descriptor>
-    <reference-descriptor name="organizationCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="organizationCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="organizationCountryCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -807,14 +807,14 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
-    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="documentType" class-ref="org.kuali.core.bo.DocumentType" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="documentType" class-ref="org.kuali.core.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="financialDocumentTypeCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -836,16 +836,16 @@
     <field-descriptor name="financialReportsToReportingCode" column="FIN_RPTS_TO_RPT_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
-    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="org" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="org" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="reportingCodes" class-ref="org.kuali.module.chart.bo.ReportingCodes" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="reportingCodes" class-ref="org.kuali.module.chart.bo.ReportingCodes" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
         <foreignkey field-ref="financialReportsToReportingCode" />
@@ -883,39 +883,39 @@
     <field-descriptor name="awardIndrCostRcvyRatePct" column="AWRD_ICR_RATE_PCT" jdbc-type="DECIMAL"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
-    <reference-descriptor name="financialBalanceTyp" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialBalanceTyp" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="balanceTypeCode" />
     </reference-descriptor>
 
     <!-- Dont't use following reference objects because Chart, Account, Sub-Acct, etc. may contain special characters.  RO 2/8/06
-        <reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+        <reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectCode" />
         </reference-descriptor>
-        <reference-descriptor name="financialSubObject" class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+        <reference-descriptor name="financialSubObject" class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="financialObjectCode" />
         <foreignkey field-ref="financialSubObjectCode" />
         </reference-descriptor>
-        <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" 	auto-update="false" auto-delete="false" proxy="true">
+        <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" 	auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         </reference-descriptor>
-        <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+        <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
         </reference-descriptor>
-        <reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" 	auto-update="false" auto-delete="false" proxy="true">
+        <reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" 	auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="subAccountNumber" />
         </reference-descriptor>
-        <reference-descriptor name="offsetBalanceSheetObjectCode" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="false">
+        <reference-descriptor name="offsetBalanceSheetObjectCode" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="false">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="offsetBalanceSheetObjectCodeNumber" />
@@ -933,25 +933,25 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" />
 
-    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="financialBalanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialBalanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="financialBalanceTypeCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="financialDocumentType" class-ref="org.kuali.core.bo.DocumentType" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialDocumentType" class-ref="org.kuali.core.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="financialDocumentTypeCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -1012,78 +1012,78 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
 
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="accountType" class-ref="org.kuali.module.chart.bo.AcctType" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="accountType" class-ref="org.kuali.module.chart.bo.AcctType" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="accountTypeCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="accountPhysicalCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="accountPhysicalCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="accountPhysicalCampusCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="accountState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="accountState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="accountStateCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="subFundGroup" class-ref="org.kuali.module.chart.bo.SubFundGroup" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="subFundGroup" class-ref="org.kuali.module.chart.bo.SubFundGroup" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="subFundGroupCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="financialHigherEdFunction" class-ref="org.kuali.module.chart.bo.HigherEdFunction" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialHigherEdFunction" class-ref="org.kuali.module.chart.bo.HigherEdFunction" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="financialHigherEdFunctionCd" />
     </reference-descriptor>
 
-    <reference-descriptor name="accountRestrictedStatus" class-ref="org.kuali.module.chart.bo.RestrictedStatus" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="accountRestrictedStatus" class-ref="org.kuali.module.chart.bo.RestrictedStatus" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="accountRestrictedStatusCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="reportsToAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="reportsToAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="reportsToChartOfAccountsCode" />
         <foreignkey field-ref="reportsToAccountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="continuationAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="continuationAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="continuationFinChrtOfAcctCd" />
         <foreignkey field-ref="continuationAccountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="endowmentIncomeAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="endowmentIncomeAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="endowmentIncomeAcctFinCoaCd" />
         <foreignkey field-ref="endowmentIncomeAccountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="contractControlAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="contractControlAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="contractControlFinCoaCode" />
         <foreignkey field-ref="contractControlAccountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="incomeStreamAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="incomeStreamAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="incomeStreamFinancialCoaCode" />
         <foreignkey field-ref="incomeStreamAccountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="indirectCostRecoveryAcct" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="indirectCostRecoveryAcct" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="indirectCostRcvyFinCoaCode" />
         <foreignkey field-ref="indirectCostRecoveryAcctNbr" />
     </reference-descriptor>
 
-    <reference-descriptor name="postalZipCode" class-ref="org.kuali.kfs.bo.PostalZipCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="postalZipCode" class-ref="org.kuali.kfs.bo.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="accountZipCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="budgetRecordingLevel" class-ref="org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="budgetRecordingLevel" class-ref="org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="budgetRecordingLevelCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="sufficientFundsCode" class-ref="org.kuali.module.chart.bo.codes.SufficientFundsCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="sufficientFundsCode" class-ref="org.kuali.module.chart.bo.codes.SufficientFundsCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="accountSufficientFundsCode" />
     </reference-descriptor>
 
@@ -1121,39 +1121,39 @@
     <field-descriptor name="costShareSourceAccountNumber" column="CST_SHRSRCACCT_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="costShareSourceSubAccountNumber" column="CST_SRCSUBACCT_NBR" jdbc-type="VARCHAR" />
 
-    <reference-descriptor name="icrTypeCode" class-ref="org.kuali.module.chart.bo.codes.ICRTypeCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="icrTypeCode" class-ref="org.kuali.module.chart.bo.codes.ICRTypeCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="indirectCostRecoveryTypeCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="indirectCostRecoveryChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="indirectCostRecoveryChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="indirectCostRecoveryChartOfAccountsCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="indirectCostRecoveryAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="indirectCostRecoveryAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="indirectCostRecoveryChartOfAccountsCode" />
         <foreignkey field-ref="indirectCostRecoveryAccountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="costShareChartOfAccount" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="costShareChartOfAccount" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="costShareChartOfAccountCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="costShareAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="costShareAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="costShareChartOfAccountCode" />
         <foreignkey field-ref="costShareSourceAccountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="costShareSourceSubAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="costShareSourceSubAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="costShareChartOfAccountCode" />
         <foreignkey field-ref="costShareSourceAccountNumber" />
         <foreignkey field-ref="costShareSourceSubAccountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
@@ -1177,7 +1177,7 @@
     <field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR" />
 
-    <reference-descriptor name="building" class-ref="org.kuali.kfs.bo.Building" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="building" class-ref="org.kuali.kfs.bo.Building" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="campusCode" />
         <foreignkey field-ref="buildingCode" />
     </reference-descriptor>
@@ -1190,17 +1190,17 @@
     <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="financialObjectChartOfAccount" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="financialObjectChartOfAccount" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="financialObjectChartOfAccountCode" />
     </reference-descriptor>
-    <reference-descriptor name="objectCodeCurrent" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="objectCodeCurrent" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="financialObjectChartOfAccountCode" />
         <foreignkey field-ref="financialObjectCode" />
     </reference-descriptor>
@@ -1212,13 +1212,13 @@
     <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="indirectCostRecoveryType" class-ref="org.kuali.module.chart.bo.codes.ICRTypeCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="indirectCostRecoveryType" class-ref="org.kuali.module.chart.bo.codes.ICRTypeCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="accountIndirectCostRecoveryTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="objectCodeCurrent" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="objectCodeCurrent" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectCode" />
     </reference-descriptor>
@@ -1235,29 +1235,29 @@
     <field-descriptor name="carryForwardByObjectCodeIndicator" column="CF_BY_OBJ_CD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="cashReversionFinancialChartOfAccountsCode" column="CSH_RVRSNFINCOA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="cashReversionAccountNumber" column="CSH_RVRSN_ACCT_NBR" jdbc-type="VARCHAR" />
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="cashReversionAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="cashReversionAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="cashReversionFinancialChartOfAccountsCode" />
         <foreignkey field-ref="cashReversionAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="budgetReversionAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="budgetReversionAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="budgetReversionChartOfAccountsCode" />
         <foreignkey field-ref="budgetReversionAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="budgetReversionChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="budgetReversionChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="budgetReversionChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="cashReversionFinancialChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="cashReversionFinancialChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="cashReversionFinancialChartOfAccountsCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 
@@ -1279,26 +1279,26 @@
     <field-descriptor name="organizationReversionCode" column="ORG_RVRSN_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="organizationReversionObjectCode" column="ORG_RVRSN_OBJ_CD" jdbc-type="VARCHAR" />
 
-    <reference-descriptor name="organizationReversionObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="organizationReversionObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationReversionObjectCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="organizationReversionCategory" class-ref="org.kuali.module.chart.bo.OrganizationReversionCategory" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="organizationReversionCategory" class-ref="org.kuali.module.chart.bo.OrganizationReversionCategory" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="organizationReversionCategoryCode" />
     </reference-descriptor>
 
@@ -1324,21 +1324,21 @@
   <field-descriptor name="cashReversionFinancialChartOfAccountsCode" column="CSH_RVRSNFINCOA_CD" jdbc-type="VARCHAR" />
   <field-descriptor name="cashReversionAccountNumber" column="CSH_RVRSN_ACCT_NBR" jdbc-type="VARCHAR" />
   
-  <reference-descriptor name="cashReversionAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false">
+  <reference-descriptor name="cashReversionAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false">
     <foreignkey field-ref="cashReversionFinancialChartOfAccountsCode" />
     <foreignkey field-ref="cashReversionAccountNumber" />
   </reference-descriptor>
-  <reference-descriptor name="budgetReversionAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false">
+  <reference-descriptor name="budgetReversionAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false">
     <foreignkey field-ref="budgetReversionChartOfAccountsCode" />
     <foreignkey field-ref="budgetReversionAccountNumber" />
   </reference-descriptor>
-  <reference-descriptor name="budgetReversionChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+  <reference-descriptor name="budgetReversionChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
     <foreignkey field-ref="budgetReversionChartOfAccountsCode" />
   </reference-descriptor>
-  <reference-descriptor name="cashReversionFinancialChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+  <reference-descriptor name="cashReversionFinancialChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
     <foreignkey field-ref="cashReversionFinancialChartOfAccountsCode" />
   </reference-descriptor>
-  <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="false" auto-delete="false">
+  <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="false">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
   
@@ -1360,7 +1360,7 @@
   <field-descriptor name="organizationReversionCode" column="ORG_RVRSN_CD" jdbc-type="VARCHAR" />
   <field-descriptor name="organizationReversionObjectCode" column="ORG_RVRSN_OBJ_CD" jdbc-type="VARCHAR" />
   
-  <reference-descriptor name="organizationReversionCategory" class-ref="org.kuali.module.chart.bo.OrganizationReversionCategory" auto-retrieve="true" auto-update="false" auto-delete="false">
+  <reference-descriptor name="organizationReversionCategory" class-ref="org.kuali.module.chart.bo.OrganizationReversionCategory" auto-retrieve="true" auto-update="none" auto-delete="false">
     <foreignkey field-ref="organizationReversionCategoryCode" />
   </reference-descriptor>
   
@@ -1373,10 +1373,10 @@
   <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
   <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
   
-  <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+  <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
     <foreignkey field-ref="chartOfAccountsCode" />
   </reference-descriptor>
-  <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="false" auto-delete="false">
+  <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="false">
     <foreignkey field-ref="chartOfAccountsCode" />
     <foreignkey field-ref="organizationCode" />
   </reference-descriptor>
@@ -1392,7 +1392,7 @@
     <field-descriptor name="budgetRolloverIndicator" column="BDGT_ROLLOVER_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="universityFiscalPeriodEndDate" column="UNIV_FSCPD_END_DT" jdbc-type="DATE" />
 
-    <reference-descriptor name="options" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="options" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 </class-descriptor>
@@ -1442,53 +1442,53 @@
     <field-descriptor name="accountSufficientFundsCode" column="ACCT_SF_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="pendingAcctSufficientFundsIndicator" column="ACCT_PND_SF_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="accountSearchCriteriaTxt" column="ACCT_SRCH_CRTA_TXT" jdbc-type="VARCHAR" />
-    <reference-descriptor name="financialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="financialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="subFundGroup" class-ref="org.kuali.module.chart.bo.SubFundGroup" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="subFundGroup" class-ref="org.kuali.module.chart.bo.SubFundGroup" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="subFundGroupCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="financialHigherEdFunction" class-ref="org.kuali.module.chart.bo.HigherEdFunction" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialHigherEdFunction" class-ref="org.kuali.module.chart.bo.HigherEdFunction" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="financialHigherEdFunctionCd" />
     </reference-descriptor>
 
-    <reference-descriptor name="accountState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="accountState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="accountStateCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="continuationFinChrtOfAcct" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="continuationFinChrtOfAcct" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="continuationFinChrtOfAcctCd" />
     </reference-descriptor>
-    <reference-descriptor name="continuationAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="continuationAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="continuationFinChrtOfAcctCd" />
         <foreignkey field-ref="continuationAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="incomeStreamAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="incomeStreamAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="incomeStreamFinancialCoaCode" />
         <foreignkey field-ref="incomeStreamAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="incomeStreamFinancialCoa" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="incomeStreamFinancialCoa" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="incomeStreamFinancialCoaCode" />
     </reference-descriptor>
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="postalZipCode" class-ref="org.kuali.kfs.bo.PostalZipCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="postalZipCode" class-ref="org.kuali.kfs.bo.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="accountZipCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="sufficientFundsCode" class-ref="org.kuali.module.chart.bo.codes.SufficientFundsCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="sufficientFundsCode" class-ref="org.kuali.module.chart.bo.codes.SufficientFundsCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="accountSufficientFundsCode" />
     </reference-descriptor>
     <collection-descriptor name="accountGlobalDetails" element-class-ref="org.kuali.module.chart.bo.AccountGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true" proxy="true">
@@ -1504,10 +1504,10 @@
     <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
@@ -1520,11 +1520,11 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="accountManagerRouteOptionIndicator" column="ACCT_MGR_RTE_OPTN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -1540,7 +1540,7 @@
     <field-descriptor name="accountDelegatePrimaryRoutingIndicator" column="ACCT_DLGT_PRMRT_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="accountDelegateStartDate" column="ACCT_DLGT_START_DT" jdbc-type="DATE" />
 
-    <reference-descriptor name="documentType" class-ref="org.kuali.core.bo.DocumentType" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="documentType" class-ref="org.kuali.core.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="financialDocumentTypeCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -1565,45 +1565,45 @@
 	<field-descriptor name="finObjMandatoryTrnfrOrElimCd" column="FOBJ_MNXFR_ELIM_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialFederalFundedCode" column="FIN_FED_FUNDED_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="nextYearFinancialObjectCode" column="NXT_YR_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="financialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="false" auto-delete="false">
+	<reference-descriptor name="financialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="false">
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="false" auto-delete="false">
+	<reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="false">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="financialObjectCode" />
 	</reference-descriptor>
-	<reference-descriptor name="reportsToFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="false" auto-delete="false">
+	<reference-descriptor name="reportsToFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="false">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="reportsToChartOfAccountsCode" />
 		<foreignkey field-ref="reportsToFinancialObjectCode" />
 	</reference-descriptor>
-	<reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="false" auto-delete="false">
+	<reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="false">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
-	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
-	<reference-descriptor name="reportsToChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+	<reference-descriptor name="reportsToChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
 		<foreignkey field-ref="reportsToChartOfAccountsCode" />
 	</reference-descriptor>
-	<reference-descriptor name="financialObjectType" class-ref="org.kuali.module.chart.bo.ObjectType" auto-retrieve="true" auto-update="false" auto-delete="false">
+	<reference-descriptor name="financialObjectType" class-ref="org.kuali.module.chart.bo.ObjectType" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="financialObjectTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialObjectSubType" class-ref="org.kuali.module.chart.bo.ObjSubTyp" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="financialObjectSubType" class-ref="org.kuali.module.chart.bo.ObjSubTyp" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="financialObjectSubTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialObjectLevel" class-ref="org.kuali.module.chart.bo.ObjLevel" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialObjectLevel" class-ref="org.kuali.module.chart.bo.ObjLevel" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectLevelCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialBudgetAggregation" class-ref="org.kuali.module.chart.bo.codes.BudgetAggregationCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialBudgetAggregation" class-ref="org.kuali.module.chart.bo.codes.BudgetAggregationCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="financialBudgetAggregationCd" />
     </reference-descriptor>
-    <reference-descriptor name="finObjMandatoryTrnfrelim" class-ref="org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="finObjMandatoryTrnfrelim" class-ref="org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="finObjMandatoryTrnfrOrElimCd" />
     </reference-descriptor>
-    <reference-descriptor name="financialFederalFunded" class-ref="org.kuali.module.chart.bo.codes.FederalFundedCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
+    <reference-descriptor name="financialFederalFunded" class-ref="org.kuali.module.chart.bo.codes.FederalFundedCode" auto-retrieve="true" auto-update="none" auto-delete="false" proxy="true">
         <foreignkey field-ref="financialFederalFundedCode" />
     </reference-descriptor>
 	<collection-descriptor name="objectCodeGlobalDetails" element-class-ref="org.kuali.module.chart.bo.ObjectCodeGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true" proxy="true">
@@ -1619,7 +1619,7 @@
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -1635,13 +1635,13 @@
   	<field-descriptor name="financialSubObjectCodeShortName" column="FIN_SUBOBJ_SHRT_NM" jdbc-type="VARCHAR" />
   	<field-descriptor name="financialSubObjectActiveIndicator" column="FIN_SUBOBJ_ACTV_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 	
-	<reference-descriptor name="financialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="false" auto-delete="false">
+	<reference-descriptor name="financialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="false">
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="false" auto-delete="false">
+	<reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="false">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
-	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
 	
@@ -1667,15 +1667,15 @@
     <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectCode" />
     </reference-descriptor>
-    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="false">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
-	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
 </class-descriptor>
@@ -1693,10 +1693,10 @@
     <field-descriptor name="accountDelegatePrimaryRoutingIndicator" column="ACCT_DLGT_PRMRT_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="accountDelegateStartDate" column="ACCT_DLGT_START_DT" jdbc-type="DATE" />
   	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="documentType" class-ref="org.kuali.core.bo.DocumentType" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="documentType" class-ref="org.kuali.core.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="financialDocumentTypeCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -1707,11 +1707,11 @@
 	<field-descriptor name="organizationRoutingModelName" column="ORG_RTNG_MDL_NM" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="false" auto-delete="false">
+	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="false">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />
 	</reference-descriptor>
-	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
     <collection-descriptor name="organizationRoutingModel" element-class-ref="org.kuali.module.chart.bo.OrganizationRoutingModel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true" proxy="true">
@@ -1750,42 +1750,42 @@
     <field-descriptor name="organizationCountryCode" column="ORG_CNTRY_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="organizationLine1Address" column="ORG_LN1_ADDR" jdbc-type="VARCHAR" />
     <field-descriptor name="organizationLine2Address" column="ORG_LN2_ADDR" jdbc-type="VARCHAR" />
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="organizationDefaultAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="organizationDefaultAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationDefaultAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="organizationPhysicalCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="organizationPhysicalCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="organizationPhysicalCampusCode" />
     </reference-descriptor>
-    <reference-descriptor name="reportsToOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="reportsToOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="reportsToChartOfAccountsCode" />
         <foreignkey field-ref="reportsToOrganizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="reportsToChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="reportsToChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="reportsToChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="organizationPlantAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="organizationPlantAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="organizationPlantChartCode" />
         <foreignkey field-ref="organizationPlantAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="campusPlantAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="campusPlantAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="campusPlantChartCode" />
         <foreignkey field-ref="campusPlantAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="organizationPlantChart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="organizationPlantChart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="organizationPlantChartCode" />
     </reference-descriptor>
-    <reference-descriptor name="campusPlantChart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="campusPlantChart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="campusPlantChartCode" />
     </reference-descriptor>
-    <reference-descriptor name="organizationCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="organizationCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="organizationCountryCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -1835,14 +1835,14 @@
 	<field-descriptor name="hrmsIuOccupationalUnitAllowedFlag" column="IU_OCC_UN_ALLOW_FL" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="fiscalApproverUniversalId" column="ORG_FSCL_APRVR_UID" jdbc-type="VARCHAR" />
     <field-descriptor name="hrmsLastUpdateDate" column="LAST_UPDATE_DATE" jdbc-type="TIMESTAMP" />
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" proxy="true" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" proxy="true" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="hrmsIuCampus" class-ref="org.kuali.core.bo.Campus" proxy="true" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="hrmsIuCampus" class-ref="org.kuali.core.bo.Campus" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="false">
         <foreignkey field-ref="hrmsIuCampusCode" />
     </reference-descriptor>
 </class-descriptor>

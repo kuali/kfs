@@ -329,7 +329,7 @@
     <field-descriptor name="epicPaymentCancelledExtractedDate" column="PDP_EPIC_PMT_CNCL_EXTRT_TS" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="epicPaymentPaidExtractedDate" column="PDP_EPIC_PMT_PD_EXTRT_TS" jdbc-type="TIMESTAMP"/>
 
-    <reference-descriptor name="achAccountNumber" class-ref="org.kuali.module.pdp.bo.AchAccountNumber" auto-retrieve="true" auto-update=true" auto-delete="true">
+    <reference-descriptor name="achAccountNumber" class-ref="org.kuali.module.pdp.bo.AchAccountNumber" auto-retrieve="true" auto-update="true" auto-delete="true">
       <foreignkey field-ref="id"/>
     </reference-descriptor>
 

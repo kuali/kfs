@@ -114,10 +114,12 @@ public class ParameterServiceImpl implements ParameterService {
 
     public List<ParameterDetailType> getNonDatabaseDetailTypes() {
         if (components.isEmpty()) {
+            Map<String, ParameterDetailType> uniqueParameterDetailTypeMap = new HashMap<String, ParameterDetailType>();
             dataDictionaryService.getDataDictionary().forceCompleteDataDictionaryLoad();
             for (BusinessObjectEntry businessObjectEntry : dataDictionaryService.getDataDictionary().getBusinessObjectEntries().values()) {
+                ParameterDetailType parameterDetailType = getParameterDetailType(businessObjectEntry.getBusinessObjectClass());
                 try {
-                    components.add(getParameterDetailType(businessObjectEntry.getBusinessObjectClass()));
+                    uniqueParameterDetailTypeMap.put(parameterDetailType.getParameterDetailTypeCode(), parameterDetailType);
                 }
                 catch (Exception e) {
                     LOG.error("The getDataDictionaryAndSpringComponents method of ParameterUtils encountered an exception while trying to create the detail type for business object class: " + businessObjectEntry.getBusinessObjectClass(), e);
@@ -125,8 +127,9 @@ public class ParameterServiceImpl implements ParameterService {
             }
             for (DocumentEntry documentEntry : dataDictionaryService.getDataDictionary().getDocumentEntries().values()) {
                 if (documentEntry instanceof TransactionalDocumentEntry) {
+                    ParameterDetailType parameterDetailType = getParameterDetailType(documentEntry.getDocumentClass());
                     try {
-                        components.add(getParameterDetailType(documentEntry.getDocumentClass()));
+                        uniqueParameterDetailTypeMap.put(parameterDetailType.getParameterDetailTypeCode(), parameterDetailType);
                     }
                     catch (Exception e) {
                         LOG.error("The getDataDictionaryAndSpringComponents method of ParameterUtils encountered an exception while trying to create the detail type for transactional document class: " + documentEntry.getDocumentClass(), e);
@@ -134,13 +137,15 @@ public class ParameterServiceImpl implements ParameterService {
                 }
             }
             for (Step step : SpringContext.getBeansOfType(Step.class).values()) {
+                ParameterDetailType parameterDetailType = getParameterDetailType(step.getClass());
                 try {
-                    components.add(getParameterDetailType(step.getClass()));
+                    uniqueParameterDetailTypeMap.put(parameterDetailType.getParameterDetailTypeCode(), parameterDetailType);
                 }
                 catch (Exception e) {
                     LOG.error("The getDataDictionaryAndSpringComponents method of ParameterUtils encountered an exception while trying to create the detail type for step class: " + step.getClass(), e);
                 }
             }
+            components.addAll(uniqueParameterDetailTypeMap.values());
         }
         return Collections.unmodifiableList(components);
     }

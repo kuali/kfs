@@ -40,25 +40,25 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
-    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="processingFinChartOfAcct" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="processingFinChartOfAcct" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="false" auto-delete="false">
         <foreignkey field-ref="processingFinChartOfAcctCd" />
     </reference-descriptor>
 
-    <reference-descriptor name="org" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="org" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="false" auto-delete="false">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="processingOrg" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="processingOrg" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="false" auto-delete="false">
         <foreignkey field-ref="processingFinChartOfAcctCd" />
         <foreignkey field-ref="processingOrganizationCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="organizationRemitToState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="organizationRemitToState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="false" auto-delete="false">
         <foreignkey field-ref="organizationRemitToStateCode" />
     </reference-descriptor>
 

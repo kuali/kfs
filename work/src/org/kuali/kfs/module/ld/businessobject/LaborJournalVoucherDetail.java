@@ -32,6 +32,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine {
     private String laborLedgerOriginalFinancialSubObjectCode;
     private String hrmsCompany;
     private String setid;
+    private String encumbranceUpdateCode;
 
     private Options payrollEndDateOptions;
     private AccountingPeriod payrollEndDateFiscalPeriod;
@@ -447,6 +448,14 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine {
      */
     public void setPayrollEndDateFiscalYear(Integer payrollEndDateFiscalYear) {
         this.payrollEndDateFiscalYear = payrollEndDateFiscalYear;
+    }
+
+    public String getEncumbranceUpdateCode() {
+        return encumbranceUpdateCode;
+    }
+
+    public void setEncumbranceUpdateCode(String encumbranceUpdateCode) {
+        this.encumbranceUpdateCode = encumbranceUpdateCode;
     }
 
 }

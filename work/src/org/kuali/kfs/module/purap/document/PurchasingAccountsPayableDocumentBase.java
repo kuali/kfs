@@ -109,6 +109,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     // STATIC
     public transient String[] belowTheLineTypes;
+    
+    // workaround for purapOjbCollectionHelper - remove when merged into rice
+    public boolean allowDeleteAwareCollection = false;
 
     // CONSTRUCTORS
     public PurchasingAccountsPayableDocumentBase() {
@@ -127,12 +130,16 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         //Need this here so that it happens before the GL work is done
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
         
-        //These next 3 lines are temporary changes so that we can use PurApOjbCollectionHelper for release 2.
-        //But these 3 lines will not be necessary anymore if the changes in PurApOjbCollectionHelper is
+        //These next 5 lines are temporary changes so that we can use PurApOjbCollectionHelper for release 2.
+        //But these 5 lines will not be necessary anymore if the changes in PurApOjbCollectionHelper is
         //merge into Rice. KULPURAP-1370 is the related jira.
+        this.allowDeleteAwareCollection = true;
         DocumentDaoOjb docDao = SpringContext.getBean(DocumentDaoOjb.class);
         PurchasingAccountsPayableDocumentBase retrievedDocument = (PurchasingAccountsPayableDocumentBase)docDao.findByDocumentHeaderId(this.getClass(), this.getDocumentNumber());
+        retrievedDocument.allowDeleteAwareCollection = true;
         SpringContext.getBean(PurApOjbCollectionHelper.class).processCollections(docDao, this, retrievedDocument);
+        this.allowDeleteAwareCollection = false;
+        retrievedDocument.allowDeleteAwareCollection = false;
         
     }
 
@@ -781,7 +788,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
 
-        managedLists.add(this.getItems());
+        if(allowDeleteAwareCollection) {
+            managedLists.add(this.getItems());
+        }
 
         return managedLists;
     }

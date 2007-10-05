@@ -416,6 +416,10 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         if (ObjectUtils.isNotNull(po.getPurapDocumentIdentifier())) {
             po.refreshDocumentBusinessObject();
         }
+        //FIXME: temporary workaround see KULPURAP-1397
+        for (org.kuali.core.bo.Note note : (java.util.List<org.kuali.core.bo.Note>)po.getDocumentBusinessObject().getBoNotes()) {
+            note.refreshReferenceObject("attachment");
+        }
     }
 
 }

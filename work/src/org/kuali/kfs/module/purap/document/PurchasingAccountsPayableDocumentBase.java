@@ -136,10 +136,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         this.allowDeleteAwareCollection = true;
         DocumentDaoOjb docDao = SpringContext.getBean(DocumentDaoOjb.class);
         PurchasingAccountsPayableDocumentBase retrievedDocument = (PurchasingAccountsPayableDocumentBase)docDao.findByDocumentHeaderId(this.getClass(), this.getDocumentNumber());
-        retrievedDocument.allowDeleteAwareCollection = true;
+        if(retrievedDocument!=null) {
+            retrievedDocument.allowDeleteAwareCollection = true;
+        }
         SpringContext.getBean(PurApOjbCollectionHelper.class).processCollections(docDao, this, retrievedDocument);
         this.allowDeleteAwareCollection = false;
-        retrievedDocument.allowDeleteAwareCollection = false;
+        if(retrievedDocument!=null) {
+            retrievedDocument.allowDeleteAwareCollection = false;
+        }
         
     }
 

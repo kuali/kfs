@@ -197,7 +197,7 @@
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPaymentTermsCode}" 
 	                    property="document.vendorPaymentTermsCode" 
-	                    extraReadOnlyProperty="document.vendorPaymentTerms.vendorPaymentTermsDescription"
+                        extraReadOnlyProperty="document.vendorDetail.vendorPaymentTerms.vendorPaymentTermsDescription"
 	                    readOnly="${not (fullEntryMode or amendmentEntry) or displayRequisitionFields}" />
 	                </td>
 				</c:if>	

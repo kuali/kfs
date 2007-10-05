@@ -387,7 +387,11 @@
                 <shortLabel>Period</shortLabel>				
 			</attributeReference>
 
-         <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+                <label>Fiscal Year</label>
+                <shortLabel>Fiscal Year</shortLabel>
+                <description>Identifies the Fiscal Year to which the balances apply.</description>
+            </attributeReference>
 
             <attribute name="documentHeader.financialDocumentStatusCode" forceUppercase="false">
 				<label>Pending Entry Approved Indicator</label>

@@ -224,7 +224,7 @@
 				<summary>Payroll Date Fiscal Period Code</summary>
 			</attributeReference>
 
-			<attributeReference name="payrollEndDateFiscalYear" sourceClassName="org.kuali.kfs.bo.Options" sourceAttributeName="universityFiscalYear">
+			<attributeReference name="payrollEndDateFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
 				<label>Payroll Date Fiscal Year</label>
 				<shortLabel>Pay FY</shortLabel>
 				<summary>Payroll Date Fiscal Year</summary>

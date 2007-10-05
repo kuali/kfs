@@ -118,10 +118,7 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
         String debitCreditCode = transaction.getTransactionDebitCreditCode();
         KualiDecimal amount = transaction.getTransactionLedgerEntryAmount();
         amount = DebitCreditUtil.getNumericAmount(amount, debitCreditCode);
-        System.out.println("before:" + amount);
-
         ledgerBalance.addAmount(transaction.getUniversityFiscalPeriodCode(), amount);
-        System.out.println("after:" + ledgerBalance.getMonth4Amount());
     }
 
     /**

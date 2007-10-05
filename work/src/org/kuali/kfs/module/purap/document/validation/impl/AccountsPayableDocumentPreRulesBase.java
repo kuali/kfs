@@ -15,6 +15,9 @@
  */
 package org.kuali.module.purap.rules;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -101,8 +104,8 @@ public class AccountsPayableDocumentPreRulesBase extends PreRulesContinuationBas
      */
     private boolean validateInvoiceTotalsAreMismatched(AccountsPayableDocument accountsPayableDocument){
         boolean mismatched = false;
-        
-        if (accountsPayableDocument.getGrandTotal().compareTo(accountsPayableDocument.getInitialAmount()) != 0 && !accountsPayableDocument.isUnmatchedOverride()) {        
+        String[] excludeArray = {PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE};
+        if (accountsPayableDocument.getTotalDollarAmountAllItems(excludeArray).compareTo(accountsPayableDocument.getInitialAmount()) != 0 && !accountsPayableDocument.isUnmatchedOverride()) {        
             mismatched = true;
         }
         

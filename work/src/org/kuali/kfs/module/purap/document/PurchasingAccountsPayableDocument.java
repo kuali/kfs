@@ -128,4 +128,6 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
     
     public boolean isDocumentStoppedInRouteNode(NodeDetails nodeDetails);
     
+    public KualiDecimal getTotalDollarAmountAllItems(String[] excludedTypes);
+    
 }

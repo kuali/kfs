@@ -44,6 +44,17 @@
 <c:set var="amendmentEntry"
 	value="${(!empty KualiForm.editingMode['amendmentEntry'])}" />
 
+<c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
+
+<c:choose>
+    <c:when test= "${fn:contains(documentType, 'PurchaseOrder')}">
+        <c:set var="isATypeOfPODoc" value="true" />
+    </c:when>
+    <c:otherwise>
+        <c:set var="isATypeOfPODoc" value="false" />
+    </c:otherwise>
+</c:choose>
+
 <tr>
 	<td colspan="11" class="subhead"><span class="subhead-left"><c:out value="${overrideTitle}" /></span></td>
 </tr>
@@ -96,6 +107,15 @@
 			    <html:hidden property="document.item[${ctr}].itemType.active" /> 
 			    <html:hidden property="document.item[${ctr}].itemType.quantityBasedGeneralLedgerIndicator" />
  			    <html:hidden property="document.item[${ctr}].itemType.itemTypeAboveTheLineIndicator" />
+                <c:if test="${isATypeOfPODoc}">
+                    <html:hidden property="document.item[${ctr}].itemActiveIndicator" />
+                    <html:hidden property="document.item[${ctr}].itemInvoicedTotalQuantity" />
+                    <html:hidden property="document.item[${ctr}].itemInvoicedTotalAmount" />
+                    <html:hidden property="document.item[${ctr}].itemReceivedTotalQuantity" />
+                    <html:hidden property="document.item[${ctr}].itemReturnedTotalQuantity" />
+                    <html:hidden property="document.item[${ctr}].itemOutstandingEncumberedQuantity" />
+                    <html:hidden property="document.item[${ctr}].itemOutstandingEncumberedAmount" />
+                </c:if> 
  				<c:forTokens var="hiddenField" items="${extraHiddenItemFields}" delims=",">
  					<html:hidden property="document.item[${ctr}].${hiddenField}" />
  				</c:forTokens>		    

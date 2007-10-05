@@ -502,8 +502,8 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
         po.setSourceAccountingLines(encumbranceAccounts);
         generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(po);
+        saveGLEntries(po.getGeneralLedgerPendingEntries());
         LOG.debug("generateEntriesApproveAmendPo() gl entries created; exit method");
-
     }
     
     

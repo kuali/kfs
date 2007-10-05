@@ -235,6 +235,12 @@
 
 					    <c:if test="${isATypeOfPODoc}">
 						    <html:hidden property="document.item[${ctr}].itemActiveIndicator" />
+                            <html:hidden property="document.item[${ctr}].itemInvoicedTotalQuantity" />
+                            <html:hidden property="document.item[${ctr}].itemInvoicedTotalAmount" />
+                            <html:hidden property="document.item[${ctr}].itemReceivedTotalQuantity" />
+                            <html:hidden property="document.item[${ctr}].itemReturnedTotalQuantity" />
+                            <html:hidden property="document.item[${ctr}].itemOutstandingEncumberedQuantity" />
+                            <html:hidden property="document.item[${ctr}].itemOutstandingEncumberedAmount" />
   					    </c:if> 
 					    <html:hidden property="document.item[${ctr}].itemType.active" />
 					    <html:hidden property="document.item[${ctr}].itemType.quantityBasedGeneralLedgerIndicator" />

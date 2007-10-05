@@ -196,12 +196,14 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-        if (!getDocumentHeader().getWorkflowDocument().stateIsProcessed() && !getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-            super.prepareForSave(event);
-        }
-        else {
-            //if doc is PROCESSED or FINAL, saving should not be creating GL entries
-            setGeneralLedgerPendingEntries(new ArrayList());
+        if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT.equals(getDocumentHeader().getWorkflowDocument().getDocumentType())) {
+            if (!getDocumentHeader().getWorkflowDocument().stateIsProcessed() && !getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                super.prepareForSave(event);
+            }
+            else {
+                //if doc is PROCESSED or FINAL, saving should not be creating GL entries
+                setGeneralLedgerPendingEntries(new ArrayList());
+            }
         }
     }
 

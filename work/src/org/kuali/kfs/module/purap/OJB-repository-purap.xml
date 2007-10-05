@@ -40,28 +40,28 @@
     <field-descriptor name="accountLinePercent" column="ACLN_PCT" jdbc-type="DECIMAL"/>
     <field-descriptor name="itemAccountOutstandingEncumbranceAmount" column="ITM_ACCT_OSTND_ENCUM_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="amount" column="ACLN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-    <reference-descriptor name="purchaseOrderItem" class-ref="org.kuali.module.purap.bo.PurchaseOrderItem" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderItem" class-ref="org.kuali.module.purap.bo.PurchaseOrderItem" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
         <foreignkey field-ref="itemIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="objectCode" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="objectCode" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectCode" />
     </reference-descriptor>
-    <reference-descriptor name="subObjectCode" class-ref="org.kuali.module.chart.bo.SubObjCdCurrent" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="subObjectCode" class-ref="org.kuali.module.chart.bo.SubObjCdCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="financialObjectCode" />
         <foreignkey field-ref="financialSubObjectCode" />
     </reference-descriptor>
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
-        <reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true"   auto-update="link" auto-delete="none" proxy="true">
+        <reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true"   auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="subAccountNumber" />
@@ -94,13 +94,13 @@
     <field-descriptor name="externalOrganizationB2bProductReferenceNumber" column="EXT_ORG_B2B_PROD_REF_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="externalOrganizationB2bProductTypeName" column="EXT_ORG_B2B_PROD_TYP_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="itemAssignedToTradeInIndicator" column="ITM_ASND_TO_TRADE_IN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-    <reference-descriptor name="itemType" class-ref="org.kuali.module.purap.bo.ItemType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="itemType" class-ref="org.kuali.module.purap.bo.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="itemTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="capitalAssetTransactionType" class-ref="org.kuali.module.purap.bo.CapitalAssetTransactionType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="capitalAssetTransactionType" class-ref="org.kuali.module.purap.bo.CapitalAssetTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetTransactionTypeCode" />
     </reference-descriptor>
     
@@ -165,10 +165,10 @@
     <field-descriptor name="deliveryToPhoneNumber" column="DLVY_TO_PHN_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="deliveryRequiredDate" column="DLVY_REQ_DT" jdbc-type="DATE"/>
     <field-descriptor name="deliveryInstructionText" column="DLVY_INSTRC_TXT" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="carrier" class-ref="org.kuali.module.purap.bo.Carrier" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="carrier" class-ref="org.kuali.module.purap.bo.Carrier" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="carrierCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="deliveryCampusCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -200,13 +200,13 @@
     <field-descriptor name="externalOrganizationB2bProductReferenceNumber" column="EXT_ORG_B2B_PROD_REF_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="externalOrganizationB2bProductTypeName" column="EXT_ORG_B2B_PROD_TYP_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="itemAssignedToTradeInIndicator" column="ITM_ASND_TO_TRADE_IN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="requisition" class-ref="org.kuali.module.purap.document.RequisitionDocument" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="requisition" class-ref="org.kuali.module.purap.document.RequisitionDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purapDocumentIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="capitalAssetTransactionType" class-ref="org.kuali.module.purap.bo.CapitalAssetTransactionType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="capitalAssetTransactionType" class-ref="org.kuali.module.purap.bo.CapitalAssetTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetTransactionTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="itemType" class-ref="org.kuali.module.purap.bo.ItemType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="itemType" class-ref="org.kuali.module.purap.bo.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="itemTypeCode" />
     </reference-descriptor>
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.module.purap.bo.RequisitionAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -302,14 +302,14 @@
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
-    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.RequisitionStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.RequisitionStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="statusCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
     <collection-descriptor name="statusHistories" proxy="true" element-class-ref="org.kuali.module.purap.bo.RequisitionStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -322,52 +322,52 @@
     </collection-descriptor>
 
     <!-- COMMON TO REQ AND PO DOCUMENTS -->
-    <reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="fundingSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="requisitionSource" class-ref="org.kuali.module.purap.bo.RequisitionSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="requisitionSource" class-ref="org.kuali.module.purap.bo.RequisitionSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="requisitionSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderTransmissionMethod" class-ref="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderTransmissionMethod" class-ref="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderTransmissionMethodCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderCostSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryRequiredDateReason" class-ref="org.kuali.module.purap.bo.DeliveryRequiredDateReason" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="deliveryRequiredDateReason" class-ref="org.kuali.module.purap.bo.DeliveryRequiredDateReason" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="deliveryRequiredDateReasonCode" />
     </reference-descriptor>
-    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="recurringPaymentTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="deliveryCampusCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundOrgChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
         <foreignkey field-ref="nonInstitutionFundOrganizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
         <foreignkey field-ref="nonInstitutionFundAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorContract" class-ref="org.kuali.module.vendor.bo.VendorContract" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorContract" class-ref="org.kuali.module.vendor.bo.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -429,10 +429,10 @@
     <field-descriptor name="newStatusCode" column="NEW_REQS_STAT_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="statusHistoryTimestamp" column="REQS_STATHST_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="statusHistoryUserIdentifier" column="REQS_STATHST_USR_ID" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="oldStatus" class-ref="org.kuali.module.purap.bo.RequisitionStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="oldStatus" class-ref="org.kuali.module.purap.bo.RequisitionStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="oldStatusCode" />
     </reference-descriptor>
-    <reference-descriptor name="newStatus" class-ref="org.kuali.module.purap.bo.RequisitionStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="newStatus" class-ref="org.kuali.module.purap.bo.RequisitionStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="newStatusCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -541,10 +541,10 @@
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
-    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="statusCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
@@ -554,72 +554,72 @@
     </collection-descriptor>
 
     <!-- COMMON TO REQ AND PO DOCUMENTS -->
-    <reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="fundingSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="requisitionSource" class-ref="org.kuali.module.purap.bo.RequisitionSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="requisitionSource" class-ref="org.kuali.module.purap.bo.RequisitionSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="requisitionSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderTransmissionMethod" class-ref="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderTransmissionMethod" class-ref="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderTransmissionMethodCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderCostSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryRequiredDateReason" class-ref="org.kuali.module.purap.bo.DeliveryRequiredDateReason" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="deliveryRequiredDateReason" class-ref="org.kuali.module.purap.bo.DeliveryRequiredDateReason" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="deliveryRequiredDateReasonCode" />
     </reference-descriptor>
-    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="recurringPaymentTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="deliveryCampusCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundOrgChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
         <foreignkey field-ref="nonInstitutionFundOrganizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
         <foreignkey field-ref="nonInstitutionFundAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorContract" class-ref="org.kuali.module.vendor.bo.VendorContract" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorContract" class-ref="org.kuali.module.vendor.bo.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
-    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
     
     <!-- SPECIFIC TO PO DOCUMENT -->
-    <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
     </reference-descriptor>
-    <reference-descriptor name="recurringPaymentFrequency" class-ref="org.kuali.module.purap.bo.RecurringPaymentFrequency" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="recurringPaymentFrequency" class-ref="org.kuali.module.purap.bo.RecurringPaymentFrequency" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="recurringPaymentFrequencyCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.vendor.bo.PaymentTermType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.vendor.bo.PaymentTermType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorPaymentTermsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.module.vendor.bo.ShippingTitle" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.module.vendor.bo.ShippingTitle" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingTitleCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingPaymentTermsCode" />
     </reference-descriptor>
     <collection-descriptor name="purchaseOrderVendorStipulations" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorStipulation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -644,7 +644,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderIdentifier" />
     </reference-descriptor -->
 </class-descriptor>
@@ -753,10 +753,10 @@
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
-    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="statusCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
@@ -766,72 +766,72 @@
     </collection-descriptor>
 
     <!-- COMMON TO REQ AND PO DOCUMENTS -->
-    <reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="fundingSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="requisitionSource" class-ref="org.kuali.module.purap.bo.RequisitionSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="requisitionSource" class-ref="org.kuali.module.purap.bo.RequisitionSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="requisitionSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderTransmissionMethod" class-ref="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderTransmissionMethod" class-ref="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderTransmissionMethodCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderCostSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryRequiredDateReason" class-ref="org.kuali.module.purap.bo.DeliveryRequiredDateReason" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="deliveryRequiredDateReason" class-ref="org.kuali.module.purap.bo.DeliveryRequiredDateReason" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="deliveryRequiredDateReasonCode" />
     </reference-descriptor>
-    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="recurringPaymentTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="deliveryCampusCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundOrgChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
         <foreignkey field-ref="nonInstitutionFundOrganizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
         <foreignkey field-ref="nonInstitutionFundAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorContract" class-ref="org.kuali.module.vendor.bo.VendorContract" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorContract" class-ref="org.kuali.module.vendor.bo.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
-    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
     
     <!-- SPECIFIC TO PO DOCUMENT -->
-    <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
     </reference-descriptor>
-    <reference-descriptor name="recurringPaymentFrequency" class-ref="org.kuali.module.purap.bo.RecurringPaymentFrequency" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="recurringPaymentFrequency" class-ref="org.kuali.module.purap.bo.RecurringPaymentFrequency" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="recurringPaymentFrequencyCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.vendor.bo.PaymentTermType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.vendor.bo.PaymentTermType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorPaymentTermsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.module.vendor.bo.ShippingTitle" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.module.vendor.bo.ShippingTitle" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingTitleCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingPaymentTermsCode" />
     </reference-descriptor>
     <collection-descriptor name="purchaseOrderVendorStipulations" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorStipulation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -856,7 +856,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderIdentifier" />
     </reference-descriptor -->
 </class-descriptor>
@@ -965,10 +965,10 @@
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
-    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="statusCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
@@ -978,72 +978,72 @@
     </collection-descriptor>
 
     <!-- COMMON TO REQ AND PO DOCUMENTS -->
-    <reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="fundingSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="requisitionSource" class-ref="org.kuali.module.purap.bo.RequisitionSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="requisitionSource" class-ref="org.kuali.module.purap.bo.RequisitionSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="requisitionSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderTransmissionMethod" class-ref="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderTransmissionMethod" class-ref="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderTransmissionMethodCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderCostSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryRequiredDateReason" class-ref="org.kuali.module.purap.bo.DeliveryRequiredDateReason" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="deliveryRequiredDateReason" class-ref="org.kuali.module.purap.bo.DeliveryRequiredDateReason" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="deliveryRequiredDateReasonCode" />
     </reference-descriptor>
-    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="recurringPaymentTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="deliveryCampusCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundOrgChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
         <foreignkey field-ref="nonInstitutionFundOrganizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
         <foreignkey field-ref="nonInstitutionFundAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorContract" class-ref="org.kuali.module.vendor.bo.VendorContract" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorContract" class-ref="org.kuali.module.vendor.bo.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
-    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
     
     <!-- SPECIFIC TO PO DOCUMENT -->
-    <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
     </reference-descriptor>
-    <reference-descriptor name="recurringPaymentFrequency" class-ref="org.kuali.module.purap.bo.RecurringPaymentFrequency" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="recurringPaymentFrequency" class-ref="org.kuali.module.purap.bo.RecurringPaymentFrequency" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="recurringPaymentFrequencyCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.vendor.bo.PaymentTermType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.vendor.bo.PaymentTermType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorPaymentTermsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.module.vendor.bo.ShippingTitle" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.module.vendor.bo.ShippingTitle" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingTitleCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingPaymentTermsCode" />
     </reference-descriptor>
     <collection-descriptor name="purchaseOrderVendorStipulations" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorStipulation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -1068,7 +1068,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderIdentifier" />
     </reference-descriptor -->
 </class-descriptor>
@@ -1177,10 +1177,10 @@
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
-    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="statusCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
@@ -1190,72 +1190,72 @@
     </collection-descriptor>
 
     <!-- COMMON TO REQ AND PO DOCUMENTS -->
-    <reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="fundingSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="requisitionSource" class-ref="org.kuali.module.purap.bo.RequisitionSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="requisitionSource" class-ref="org.kuali.module.purap.bo.RequisitionSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="requisitionSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderTransmissionMethod" class-ref="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderTransmissionMethod" class-ref="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderTransmissionMethodCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderCostSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryRequiredDateReason" class-ref="org.kuali.module.purap.bo.DeliveryRequiredDateReason" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="deliveryRequiredDateReason" class-ref="org.kuali.module.purap.bo.DeliveryRequiredDateReason" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="deliveryRequiredDateReasonCode" />
     </reference-descriptor>
-    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="recurringPaymentTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="deliveryCampusCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundOrgChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
         <foreignkey field-ref="nonInstitutionFundOrganizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
         <foreignkey field-ref="nonInstitutionFundAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorContract" class-ref="org.kuali.module.vendor.bo.VendorContract" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorContract" class-ref="org.kuali.module.vendor.bo.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
-    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
     
     <!-- SPECIFIC TO PO DOCUMENT -->
-    <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
     </reference-descriptor>
-    <reference-descriptor name="recurringPaymentFrequency" class-ref="org.kuali.module.purap.bo.RecurringPaymentFrequency" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="recurringPaymentFrequency" class-ref="org.kuali.module.purap.bo.RecurringPaymentFrequency" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="recurringPaymentFrequencyCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.vendor.bo.PaymentTermType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.vendor.bo.PaymentTermType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorPaymentTermsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.module.vendor.bo.ShippingTitle" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.module.vendor.bo.ShippingTitle" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingTitleCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingPaymentTermsCode" />
     </reference-descriptor>
     <collection-descriptor name="purchaseOrderVendorStipulations" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorStipulation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -1280,7 +1280,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderIdentifier" />
     </reference-descriptor -->
 </class-descriptor>
@@ -1389,10 +1389,10 @@
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
-    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="statusCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
@@ -1402,72 +1402,72 @@
     </collection-descriptor>
 
     <!-- COMMON TO REQ AND PO DOCUMENTS -->
-    <reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="fundingSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="requisitionSource" class-ref="org.kuali.module.purap.bo.RequisitionSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="requisitionSource" class-ref="org.kuali.module.purap.bo.RequisitionSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="requisitionSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderTransmissionMethod" class-ref="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderTransmissionMethod" class-ref="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderTransmissionMethodCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderCostSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryRequiredDateReason" class-ref="org.kuali.module.purap.bo.DeliveryRequiredDateReason" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="deliveryRequiredDateReason" class-ref="org.kuali.module.purap.bo.DeliveryRequiredDateReason" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="deliveryRequiredDateReasonCode" />
     </reference-descriptor>
-    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="recurringPaymentTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="deliveryCampusCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundOrgChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
         <foreignkey field-ref="nonInstitutionFundOrganizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
         <foreignkey field-ref="nonInstitutionFundAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorContract" class-ref="org.kuali.module.vendor.bo.VendorContract" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorContract" class-ref="org.kuali.module.vendor.bo.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
-    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
     
     <!-- SPECIFIC TO PO DOCUMENT -->
-    <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
     </reference-descriptor>
-    <reference-descriptor name="recurringPaymentFrequency" class-ref="org.kuali.module.purap.bo.RecurringPaymentFrequency" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="recurringPaymentFrequency" class-ref="org.kuali.module.purap.bo.RecurringPaymentFrequency" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="recurringPaymentFrequencyCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.vendor.bo.PaymentTermType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.vendor.bo.PaymentTermType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorPaymentTermsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.module.vendor.bo.ShippingTitle" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.module.vendor.bo.ShippingTitle" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingTitleCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingPaymentTermsCode" />
     </reference-descriptor>
     <collection-descriptor name="purchaseOrderVendorStipulations" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorStipulation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -1492,7 +1492,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderIdentifier" />
     </reference-descriptor -->
 </class-descriptor>
@@ -1601,10 +1601,10 @@
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
-    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="statusCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
@@ -1614,72 +1614,72 @@
     </collection-descriptor>
 
     <!-- COMMON TO REQ AND PO DOCUMENTS -->
-    <reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="fundingSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="requisitionSource" class-ref="org.kuali.module.purap.bo.RequisitionSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="requisitionSource" class-ref="org.kuali.module.purap.bo.RequisitionSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="requisitionSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderTransmissionMethod" class-ref="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderTransmissionMethod" class-ref="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderTransmissionMethodCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderCostSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryRequiredDateReason" class-ref="org.kuali.module.purap.bo.DeliveryRequiredDateReason" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="deliveryRequiredDateReason" class-ref="org.kuali.module.purap.bo.DeliveryRequiredDateReason" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="deliveryRequiredDateReasonCode" />
     </reference-descriptor>
-    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="recurringPaymentTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="deliveryCampusCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundOrgChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
         <foreignkey field-ref="nonInstitutionFundOrganizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
         <foreignkey field-ref="nonInstitutionFundAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorContract" class-ref="org.kuali.module.vendor.bo.VendorContract" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorContract" class-ref="org.kuali.module.vendor.bo.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
-    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
     
     <!-- SPECIFIC TO PO DOCUMENT -->
-    <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
     </reference-descriptor>
-    <reference-descriptor name="recurringPaymentFrequency" class-ref="org.kuali.module.purap.bo.RecurringPaymentFrequency" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="recurringPaymentFrequency" class-ref="org.kuali.module.purap.bo.RecurringPaymentFrequency" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="recurringPaymentFrequencyCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.vendor.bo.PaymentTermType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.vendor.bo.PaymentTermType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorPaymentTermsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.module.vendor.bo.ShippingTitle" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.module.vendor.bo.ShippingTitle" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingTitleCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingPaymentTermsCode" />
     </reference-descriptor>
     <collection-descriptor name="purchaseOrderVendorStipulations" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorStipulation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -1704,7 +1704,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderIdentifier" />
     </reference-descriptor -->
 </class-descriptor>
@@ -1813,10 +1813,10 @@
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
-    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="statusCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
@@ -1826,72 +1826,72 @@
     </collection-descriptor>
 
     <!-- COMMON TO REQ AND PO DOCUMENTS -->
-    <reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="fundingSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="requisitionSource" class-ref="org.kuali.module.purap.bo.RequisitionSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="requisitionSource" class-ref="org.kuali.module.purap.bo.RequisitionSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="requisitionSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderTransmissionMethod" class-ref="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderTransmissionMethod" class-ref="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderTransmissionMethodCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderCostSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryRequiredDateReason" class-ref="org.kuali.module.purap.bo.DeliveryRequiredDateReason" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="deliveryRequiredDateReason" class-ref="org.kuali.module.purap.bo.DeliveryRequiredDateReason" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="deliveryRequiredDateReasonCode" />
     </reference-descriptor>
-    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="recurringPaymentTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="deliveryCampusCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundOrgChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
         <foreignkey field-ref="nonInstitutionFundOrganizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
         <foreignkey field-ref="nonInstitutionFundAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorContract" class-ref="org.kuali.module.vendor.bo.VendorContract" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorContract" class-ref="org.kuali.module.vendor.bo.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
-    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
     
     <!-- SPECIFIC TO PO DOCUMENT -->
-    <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
     </reference-descriptor>
-    <reference-descriptor name="recurringPaymentFrequency" class-ref="org.kuali.module.purap.bo.RecurringPaymentFrequency" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="recurringPaymentFrequency" class-ref="org.kuali.module.purap.bo.RecurringPaymentFrequency" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="recurringPaymentFrequencyCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.vendor.bo.PaymentTermType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.vendor.bo.PaymentTermType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorPaymentTermsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.module.vendor.bo.ShippingTitle" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.module.vendor.bo.ShippingTitle" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingTitleCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingPaymentTermsCode" />
     </reference-descriptor>
     <collection-descriptor name="purchaseOrderVendorStipulations" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorStipulation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -1916,7 +1916,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderIdentifier" />
     </reference-descriptor -->
 </class-descriptor>
@@ -2025,10 +2025,10 @@
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
-    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="statusCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
@@ -2038,72 +2038,72 @@
     </collection-descriptor>
 
     <!-- COMMON TO REQ AND PO DOCUMENTS -->
-    <reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="fundingSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="requisitionSource" class-ref="org.kuali.module.purap.bo.RequisitionSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="requisitionSource" class-ref="org.kuali.module.purap.bo.RequisitionSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="requisitionSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderTransmissionMethod" class-ref="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderTransmissionMethod" class-ref="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderTransmissionMethodCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderCostSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryRequiredDateReason" class-ref="org.kuali.module.purap.bo.DeliveryRequiredDateReason" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="deliveryRequiredDateReason" class-ref="org.kuali.module.purap.bo.DeliveryRequiredDateReason" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="deliveryRequiredDateReasonCode" />
     </reference-descriptor>
-    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="recurringPaymentTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="deliveryCampusCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundOrgChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
         <foreignkey field-ref="nonInstitutionFundOrganizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
         <foreignkey field-ref="nonInstitutionFundAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="nonInstitutionFundChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="nonInstitutionFundChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorContract" class-ref="org.kuali.module.vendor.bo.VendorContract" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorContract" class-ref="org.kuali.module.vendor.bo.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
-    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
     
     <!-- SPECIFIC TO PO DOCUMENT -->
-    <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
     </reference-descriptor>
-    <reference-descriptor name="recurringPaymentFrequency" class-ref="org.kuali.module.purap.bo.RecurringPaymentFrequency" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="recurringPaymentFrequency" class-ref="org.kuali.module.purap.bo.RecurringPaymentFrequency" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="recurringPaymentFrequencyCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.vendor.bo.PaymentTermType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.vendor.bo.PaymentTermType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorPaymentTermsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.module.vendor.bo.ShippingTitle" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.module.vendor.bo.ShippingTitle" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingTitleCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingPaymentTermsCode" />
     </reference-descriptor>
     <collection-descriptor name="purchaseOrderVendorStipulations" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorStipulation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -2128,7 +2128,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderIdentifier" />
     </reference-descriptor -->
 </class-descriptor>
@@ -2191,14 +2191,14 @@
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.PaymentRequestStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.PaymentRequestStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="statusCode" />
     </reference-descriptor>
-    <reference-descriptor name="processingCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="processingCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="processingCampusCode" />
     </reference-descriptor>
     <collection-descriptor name="statusHistories" proxy="true" element-class-ref="org.kuali.module.purap.bo.PaymentRequestStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -2209,28 +2209,28 @@
         <orderby name="itemLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
     </collection-descriptor>
-<!--<reference-descriptor name="purchaseOrderDocument" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="link" auto-delete="none">
+<!--<reference-descriptor name="purchaseOrderDocument" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderIdentifier" />
     </reference-descriptor>
 -->
-    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingPaymentTermsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.vendor.bo.PaymentTermType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.vendor.bo.PaymentTermType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorPaymentTermsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
-    <reference-descriptor name="paymentRequestCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="paymentRequestCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="paymentRequestCostSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="recurringPaymentType" class-ref="org.kuali.module.purap.bo.RecurringPaymentType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="recurringPaymentTypeCode" />
     </reference-descriptor>
 
     <!-- Do not set this collection to auto save or delete; it needs to be saved by a specific process in the GL entry creation (hjs) -->
-   <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="link" auto-delete="none">
+   <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <query-customizer class="org.kuali.kfs.dao.ojb.OjbQueryCustomizer">
             <attribute attribute-name="documentNumber" attribute-value="parent.documentNumber" />
@@ -2281,10 +2281,10 @@
     <field-descriptor name="newStatusCode" column="NEW_PMT_RQST_STAT_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="statusHistoryTimestamp" column="PMT_RQST_STATHST_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="statusHistoryUserIdentifier" column="PMT_RQST_STATHST_USR_ID" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="oldStatus" class-ref="org.kuali.module.purap.bo.PaymentRequestStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="oldStatus" class-ref="org.kuali.module.purap.bo.PaymentRequestStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="oldStatusCode" />
     </reference-descriptor>
-    <reference-descriptor name="newStatus" class-ref="org.kuali.module.purap.bo.PaymentRequestStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="newStatus" class-ref="org.kuali.module.purap.bo.PaymentRequestStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="newStatusCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -2303,11 +2303,11 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -2333,7 +2333,7 @@
     <field-descriptor name="billingCountryCode" column="BILL_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="billingPhoneNumber" column="BILL_PHN_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="billingCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="billingCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="billingCampusCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -2355,7 +2355,7 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="itemIdentifier" column="PO_ITM_ID" jdbc-type="INTEGER" index="true"/>
     <field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT"/>
-    <reference-descriptor name="purchaseOrderItem" class-ref="org.kuali.module.purap.bo.PurchaseOrderItem" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderItem" class-ref="org.kuali.module.purap.bo.PurchaseOrderItem" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
         <foreignkey field-ref="itemIdentifier" />
     </reference-descriptor>
@@ -2379,7 +2379,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="accountsPayableThresholdNotToExceedAmount" column="AP_THRSHLD_NO_EXCD_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -2392,14 +2392,14 @@
     <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="accountNumber" column="ACCT_NBR" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="negativePaymentRequestApprovalLimitAmount" column="NEG_PMT_RQST_APRVL_LMT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
@@ -2420,26 +2420,26 @@
     <field-descriptor name="amount" column="ITM_ACCT_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="accountLinePercent" column="ACLN_PCT" jdbc-type="DECIMAL"/>
     <field-descriptor name="disencumberedAmount" column="DISENC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-    <reference-descriptor name="paymentRequestItem" class-ref="org.kuali.module.purap.bo.PaymentRequestItem" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="paymentRequestItem" class-ref="org.kuali.module.purap.bo.PaymentRequestItem" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="itemIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true"   auto-update="link" auto-delete="none" proxy="true">
+    <reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true"   auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="subAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="objectCode" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="objectCode" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectCode" />
     </reference-descriptor>
-    <reference-descriptor name="subObjectCode" class-ref="org.kuali.module.chart.bo.SubObjCdCurrent" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="subObjectCode" class-ref="org.kuali.module.chart.bo.SubObjCdCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="financialObjectCode" />
@@ -2468,10 +2468,10 @@
     <field-descriptor name="itemAssignedToTradeInIndicator" column="ITM_ASND_TO_TRADE_IN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="itemOutstandingInvoiceQuantity" column="ITM_OSTND_INV_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="itemOutstandingInvoiceAmount" column="ITM_OSTND_INV_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" /> 
-    <reference-descriptor name="paymentRequest" class-ref="org.kuali.module.purap.document.PaymentRequestDocument" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="paymentRequest" class-ref="org.kuali.module.purap.document.PaymentRequestDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purapDocumentIdentifier" />
     </reference-descriptor>
-        <reference-descriptor name="itemType" class-ref="org.kuali.module.purap.bo.ItemType" auto-retrieve="true" auto-update="link" auto-delete="none">
+        <reference-descriptor name="itemType" class-ref="org.kuali.module.purap.bo.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="itemTypeCode" />
     </reference-descriptor>
     
@@ -2493,10 +2493,10 @@
     <field-descriptor name="newStatusCode" column="NEW_PO_STAT_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="statusHistoryTimestamp" column="PO_STATHST_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="statusHistoryUserIdentifier" column="PO_STATHST_USR_ID" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="oldStatus" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="oldStatus" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="oldStatusCode" />
     </reference-descriptor>
-    <reference-descriptor name="newStatus" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="newStatus" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="newStatusCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -2515,28 +2515,28 @@
     <field-descriptor name="organizationReferenceId" column="ORG_REFERENCE_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="accountLinePercent" column="ACLN_PCT" jdbc-type="DECIMAL"/>
     <field-descriptor name="amount" column="ACLN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-    <reference-descriptor name="requisitionItem" class-ref="org.kuali.module.purap.bo.RequisitionItem" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="requisitionItem" class-ref="org.kuali.module.purap.bo.RequisitionItem" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="itemIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="objectCode" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="objectCode" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectCode" />
     </reference-descriptor>
-    <reference-descriptor name="subObjectCode" class-ref="org.kuali.module.chart.bo.SubObjCdCurrent" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="subObjectCode" class-ref="org.kuali.module.chart.bo.SubObjCdCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="financialObjectCode" />
         <foreignkey field-ref="financialSubObjectCode" />
     </reference-descriptor>
     
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true"   auto-update="link" auto-delete="none" proxy="true">
+    <reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true"   auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="subAccountNumber" />
@@ -2549,7 +2549,7 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="requisitionItemIdentifier" column="REQS_ITM_ID" jdbc-type="INTEGER" index="true"/>
     <field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" index="true"/>
-    <reference-descriptor name="requisitionItem" class-ref="org.kuali.module.purap.bo.RequisitionItem" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="requisitionItem" class-ref="org.kuali.module.purap.bo.RequisitionItem" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="requisitionItemIdentifier" />
     </reference-descriptor>
 </class-descriptor>
@@ -2570,7 +2570,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="requisitionIdentifier" column="REQS_ID" jdbc-type="INTEGER"/>
-    <reference-descriptor name="restrictedMaterial" class-ref="org.kuali.module.purap.bo.RestrictedMaterial" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="restrictedMaterial" class-ref="org.kuali.module.purap.bo.RestrictedMaterial" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="restrictedMaterialCode" />
     </reference-descriptor>
     <reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -2596,11 +2596,11 @@
     <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderQuoteList" class-ref="org.kuali.module.purap.bo.PurchaseOrderQuoteList" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderQuoteList" class-ref="org.kuali.module.purap.bo.PurchaseOrderQuoteList" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderQuoteListIdentifier" />
     </reference-descriptor>
 </class-descriptor>
@@ -2632,10 +2632,10 @@
     <reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderQuoteStatus" class-ref="org.kuali.module.purap.bo.PurchaseOrderQuoteStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderQuoteStatus" class-ref="org.kuali.module.purap.bo.PurchaseOrderQuoteStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderQuoteStatusCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -2709,14 +2709,14 @@
     <field-descriptor name="invoiceShipToCityName" column="INV_SHP_TO_CTY_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceShipToPostalCode" column="INV_SHP_TO_PSTL_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoicePurchaseOrderNumber" column="INV_PO_NBR" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="invoiceHeaderInformation" class-ref="org.kuali.module.purap.bo.ElectronicInvoiceRejectReason" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="invoiceHeaderInformation" class-ref="org.kuali.module.purap.bo.ElectronicInvoiceRejectReason" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="invoiceHeaderInformationIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="accountsPayableElectronicInvoiceLoadSummary" class-ref="org.kuali.module.purap.bo.ElectronicInvoiceLoadSummary" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="accountsPayableElectronicInvoiceLoadSummary" class-ref="org.kuali.module.purap.bo.ElectronicInvoiceLoadSummary" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="accountsPayableElectronicInvoiceLoadSummaryIdentifier" />
         <foreignkey field-ref="vendorDunsNumber" />
     </reference-descriptor>
-    <reference-descriptor name="epicPurchaseOrderDeliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="epicPurchaseOrderDeliveryCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="epicPurchaseOrderDeliveryCampusCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -2728,10 +2728,10 @@
     <field-descriptor name="invoiceHeaderInformationIdentifier" column="INV_HDR_INFO_ID" jdbc-type="INTEGER" index="true"/>
     <field-descriptor name="invoiceRejectReasonTypeCode" column="INV_RJT_REAS_TYP_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="invoiceRejectReasonDescription" column="INV_RJT_REAS_DESC" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="invoiceHeaderInformation" class-ref="org.kuali.module.purap.bo.ElectronicInvoiceHeaderInformation" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="invoiceHeaderInformation" class-ref="org.kuali.module.purap.bo.ElectronicInvoiceHeaderInformation" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="invoiceHeaderInformationIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="invoiceRejectReasonType" class-ref="org.kuali.module.purap.bo.ElectronicInvoiceRejectTypeCode" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="invoiceRejectReasonType" class-ref="org.kuali.module.purap.bo.ElectronicInvoiceRejectTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="invoiceRejectReasonTypeCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -2792,7 +2792,7 @@
     <field-descriptor name="invoiceReferenceItemCountryCode" column="INV_REF_ITM_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceReferenceItemCountryName" column="INV_REF_ITM_CNTRY_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceCatalogNumber" column="INV_CATLG_NBR" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="invoiceHeaderInformation" class-ref="org.kuali.module.purap.bo.ElectronicInvoiceHeaderInformation" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="invoiceHeaderInformation" class-ref="org.kuali.module.purap.bo.ElectronicInvoiceHeaderInformation" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="invoiceHeaderInformationIdentifier" />
     </reference-descriptor>
 </class-descriptor>
@@ -2815,10 +2815,10 @@
     <field-descriptor name="capitalAssetManagementTypeIndicator" column="CM_TYP_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="capitalAssetManagementSystemIdentifier" column="CM_SYS_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="capitalAssetManagementComplexSystemDescription" column="CM_CMPLX_SYS_DESC" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentHeaderIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="capitalAssetManagementStatus" class-ref="org.kuali.module.purap.bo.CapitalAssetManagementStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="capitalAssetManagementStatus" class-ref="org.kuali.module.purap.bo.CapitalAssetManagementStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetManagementStatusCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -2839,7 +2839,7 @@
     <field-descriptor name="capitalAssetManagementItemStateCode" column="CM_ITM_ST_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="capitalAssetManagementItemPostalCode" column="CM_ITM_PSTL_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="capitalAssetManagementItemCountryCode" column="CM_ITM_CNTRY_CD" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="capitalAssetManagementItem" class-ref="org.kuali.module.purap.bo.CapitalAssetManagementItem" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="capitalAssetManagementItem" class-ref="org.kuali.module.purap.bo.CapitalAssetManagementItem" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetManagementItemIdentifier" />
     </reference-descriptor>
 </class-descriptor>
@@ -2857,7 +2857,7 @@
     <field-descriptor name="capitalAssetManagementItemManufacturerIsVendorIndicator" column="CM_ITM_MFR_IS_VNDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="capitalAssetManagementItemManufacturerName" column="CM_ITM_MFR_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="capitalAssetManagementItemModelDescription" column="CM_ITM_MDL_DESC" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="capitalAssetManagementDocument" class-ref="org.kuali.module.purap.bo.CapitalAssetManagement" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="capitalAssetManagementDocument" class-ref="org.kuali.module.purap.bo.CapitalAssetManagement" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetManagementDocumentIdentifier" />
     </reference-descriptor>
 </class-descriptor>
@@ -2885,7 +2885,7 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="capitalAssetManagementDocumentIdentifier" column="CM_DOC_ID" jdbc-type="INTEGER" index="true"/>
     <field-descriptor name="capitalAssetManagementSystemDescription" column="CM_SYS_DESC" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="capitalAssetManagementDocument" class-ref="org.kuali.module.purap.bo.CapitalAssetManagement" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="capitalAssetManagementDocument" class-ref="org.kuali.module.purap.bo.CapitalAssetManagement" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetManagementDocumentIdentifier" />
     </reference-descriptor>
 </class-descriptor>
@@ -2896,10 +2896,10 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="organizationAutomaticPurchaseOrderLimit" column="ORG_AUTO_PO_LMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
@@ -2920,13 +2920,13 @@
     <field-descriptor name="purchasingDepartmentStateCode" column="PUR_DEPT_ST_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchasingDepartmentZipCode" column="PUR_DEPT_ZIP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchasingDepartmentCountryCode" column="PUR_DEPT_CNTRY_CD" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="campusCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchasingDepartmentState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchasingDepartmentState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchasingDepartmentStateCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchasingDepartmentCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchasingDepartmentCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchasingDepartmentCountryCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -2937,13 +2937,13 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER"/>
-    <reference-descriptor name="assignContractManagerDocument" class-ref="org.kuali.module.purap.document.AssignContractManagerDocument" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="assignContractManagerDocument" class-ref="org.kuali.module.purap.document.AssignContractManagerDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-    <reference-descriptor name="requisition" class-ref="org.kuali.module.purap.document.RequisitionDocument" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="requisition" class-ref="org.kuali.module.purap.document.RequisitionDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="requisitionIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -3012,10 +3012,10 @@
     <field-descriptor name="buildingOverrideAddressCityName" column="BLDG_OVRD_ADDR_CTY_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="buildingOverrideAddressStateCode" column="BLDG_OVRD_ADDR_ST_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="buildingOverrideAddressZipCode" column="BLDG_OVRD_ADDR_ZIP_CD" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="campusCode" />
     </reference-descriptor>
-    <reference-descriptor name="building" class-ref="org.kuali.kfs.bo.Building" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="building" class-ref="org.kuali.kfs.bo.Building" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="campusCode" />
         <foreignkey field-ref="buildingCode" />
     </reference-descriptor>
@@ -3032,10 +3032,10 @@
     <field-descriptor name="buildingLookupAddressCityName" column="BLDG_OVRD_ADDR_CTY_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="buildingLookupAddressStateCode" column="BLDG_OVRD_ADDR_ST_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="buildingLookupAddressZipCode" column="BLDG_OVRD_ADDR_ZIP_CD" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="campusCode" />
     </reference-descriptor>
-    <reference-descriptor name="building" class-ref="org.kuali.kfs.bo.Building" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="building" class-ref="org.kuali.kfs.bo.Building" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="campusCode" />
         <foreignkey field-ref="buildingCode" />
     </reference-descriptor>
@@ -3090,25 +3090,25 @@
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
 <!--
-    <reference-descriptor name="purchaseOrderDocument" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="purchaseOrderDocument" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="paymentRequestDocument" class-ref="org.kuali.module.purap.document.PaymentRequestDocument" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="paymentRequestDocument" class-ref="org.kuali.module.purap.document.PaymentRequestDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="paymentRequestIdentifier" />
     </reference-descriptor>
 -->
-    <reference-descriptor name="processingCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="processingCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="processingCampusCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
-    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.CreditMemoStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.CreditMemoStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="statusCode" />
     </reference-descriptor>
     <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.CreditMemoItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -3116,7 +3116,7 @@
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
     </collection-descriptor>
 
-   <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="link" auto-delete="none">
+   <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <query-customizer class="org.kuali.kfs.dao.ojb.OjbQueryCustomizer">
             <attribute attribute-name="documentNumber" attribute-value="parent.documentNumber" />
@@ -3137,21 +3137,21 @@
     <field-descriptor name="itemIdentifier" column="CRDT_MEMO_ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="CRDT_MEMO_ITM_ID"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="purapDocumentIdentifier" column="CRDT_MEMO_ID" jdbc-type="INTEGER" index="true"/>
+    <field-descriptor name="purapDocumentIdentifier" column="CRDT_MEMO_ID" jdbc-type="INTEGER" index="true"/>
     <field-descriptor name="itemLineNumber" column="ITM_LN_NBR" jdbc-type="INTEGER" index="true"/>
     <field-descriptor name="itemTypeCode" column="ITM_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="itemQuantity" column="ITM_CRDT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="itemQuantity" column="ITM_CRDT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="itemUnitPrice" column="ITM_UNT_PRC" jdbc-type="DECIMAL"/>
-	<field-descriptor name="extendedPrice" column="ITM_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="extendedPrice" column="ITM_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="itemAssignedToTradeInIndicator" column="ITM_ASND_TO_TRADE_IN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="itemDescription" column="ITM_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="poInvoicedTotalQuantity" column="PO_INV_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="poUnitPrice" column="PO_UNT_PRC" jdbc-type="DECIMAL"/>
-	<field-descriptor name="poExtendedPrice" column="PO_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="preqInvoicedTotalQuantity" column="PMT_RQST_INV_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="preqUnitPrice" column="PMT_RQST_UNT_PRC" jdbc-type="DECIMAL"/>
-	<field-descriptor name="preqExtendedPrice" column="PMT_RQST_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-    <reference-descriptor name="itemType" class-ref="org.kuali.module.purap.bo.ItemType" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <field-descriptor name="poInvoicedTotalQuantity" column="PO_INV_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="poUnitPrice" column="PO_UNT_PRC" jdbc-type="DECIMAL"/>
+    <field-descriptor name="poExtendedPrice" column="PO_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="preqInvoicedTotalQuantity" column="PMT_RQST_INV_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="preqUnitPrice" column="PMT_RQST_UNT_PRC" jdbc-type="DECIMAL"/>
+    <field-descriptor name="preqExtendedPrice" column="PMT_RQST_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+    <reference-descriptor name="itemType" class-ref="org.kuali.module.purap.bo.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="itemTypeCode" />
     </reference-descriptor>
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.module.purap.bo.CreditMemoAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -3170,16 +3170,16 @@
     <field-descriptor name="newStatusCode" column="CRDT_MEMO_NEW_STAT_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="statusHistoryTimestamp" column="CRDT_MEMO_STATHST_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="statusHistoryUserIdentifier" column="CRDT_MEMO_STATHST_USR_ID" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="oldStatus" class-ref="org.kuali.module.purap.bo.CreditMemoStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="oldStatus" class-ref="org.kuali.module.purap.bo.CreditMemoStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="oldStatusCode" />
     </reference-descriptor>
-    <reference-descriptor name="newStatus" class-ref="org.kuali.module.purap.bo.CreditMemoStatus" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="newStatus" class-ref="org.kuali.module.purap.bo.CreditMemoStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="newStatusCode" />
     </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.CreditMemoAccount" table="AP_CRDT_MEMO_ACCT_T">
-	<field-descriptor name="accountIdentifier" column="CRDT_MEMO_ACCT_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="CRDT_MEMO_ACCT_ID"/>
+    <field-descriptor name="accountIdentifier" column="CRDT_MEMO_ACCT_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="CRDT_MEMO_ACCT_ID"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="itemIdentifier" column="CRDT_MEMO_ITM_ID" jdbc-type="INTEGER" index="true"/>
@@ -3190,28 +3190,28 @@
     <field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="organizationReferenceId" column="ORG_REFERENCE_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="amount" column="ITM_ACCT_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="amount" column="ITM_ACCT_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="accountLinePercent" column="ACLN_PCT" jdbc-type="DECIMAL"/>
-    <reference-descriptor name="creditMemoItem" class-ref="org.kuali.module.purap.bo.CreditMemoItem" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="creditMemoItem" class-ref="org.kuali.module.purap.bo.CreditMemoItem" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="itemIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true"   auto-update="link" auto-delete="none" proxy="true">
+    <reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true"   auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="subAccountNumber" />
     </reference-descriptor>
-        <reference-descriptor name="objectCode" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="link" auto-delete="none">
+        <reference-descriptor name="objectCode" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectCode" />
     </reference-descriptor>
-    <reference-descriptor name="subObjectCode" class-ref="org.kuali.module.chart.bo.SubObjCdCurrent" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="subObjectCode" class-ref="org.kuali.module.chart.bo.SubObjCdCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="financialObjectCode" />
@@ -3269,64 +3269,64 @@
     <field-descriptor name="acctSufficientFundsFinObjCd" column="ACCT_SF_FINOBJ_CD" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="transactionEntryOffsetIndicator" column="TRN_ENTR_OFST_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="transactionEntryProcessedTs" column="TRNENTR_PROCESS_TM" jdbc-type="DATE" />
-    <reference-descriptor name="accountingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="accountingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="universityFiscalPeriodCode" />
     </reference-descriptor>
-    <reference-descriptor name="documentType" class-ref="org.kuali.core.bo.DocumentType" auto-retrieve="true" auto-update="link" auto-delete="none" proxy="true">
+    <reference-descriptor name="documentType" class-ref="org.kuali.core.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="financialDocumentTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="link" auto-delete="none" proxy="true">
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="link" auto-delete="none" proxy="true">
+    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="link" auto-delete="none" proxy="true">
+    <reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="subAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none" proxy="true">
+    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="link" auto-delete="none" proxy="true">
+    <reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialSubObject" class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="financialSubObject" class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="financialObjectCode" />
         <foreignkey field-ref="financialSubObjectCode" />
     </reference-descriptor>
-    <reference-descriptor name="balanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="link" auto-delete="none" proxy="true">
+    <reference-descriptor name="balanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="financialBalanceTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="objectType" class-ref="org.kuali.module.chart.bo.ObjectType" auto-retrieve="true" auto-update="link" auto-delete="none" proxy="true">
+    <reference-descriptor name="objectType" class-ref="org.kuali.module.chart.bo.ObjectType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="financialObjectTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="a21SubAccount" class-ref="org.kuali.module.chart.bo.A21SubAccount" auto-retrieve="true" auto-update="link" auto-delete="none" proxy="true">
+    <reference-descriptor name="a21SubAccount" class-ref="org.kuali.module.chart.bo.A21SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="subAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="option" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="link" auto-delete="none" proxy="true">
+    <reference-descriptor name="option" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
-    <reference-descriptor name="originationCode" class-ref="org.kuali.kfs.bo.OriginationCode" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="originationCode" class-ref="org.kuali.kfs.bo.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="financialSystemOriginationCode" />
     </reference-descriptor>
-    <reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
-    <reference-descriptor name="referenceOriginationCode" class-ref="org.kuali.kfs.bo.OriginationCode" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="referenceOriginationCode" class-ref="org.kuali.kfs.bo.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="referenceFinancialSystemOriginationCode" />
     </reference-descriptor>
-    <reference-descriptor name="referenceDocumentType" class-ref="org.kuali.core.bo.DocumentType" auto-retrieve="true" auto-update="link" auto-delete="none" proxy="true">
+    <reference-descriptor name="referenceDocumentType" class-ref="org.kuali.core.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="referenceFinancialDocumentTypeCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -3346,26 +3346,26 @@
     <field-descriptor name="amount" column="ITM_ACCT_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="accountLinePercent" column="ACLN_PCT" jdbc-type="DECIMAL"/>
     <field-descriptor name="disencumberedAmount" column="DISENC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-    <reference-descriptor name="paymentRequest" class-ref="org.kuali.module.purap.document.PaymentRequestDocument" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="paymentRequest" class-ref="org.kuali.module.purap.document.PaymentRequestDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purapDocumentIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true"   auto-update="link" auto-delete="none" proxy="true">
+    <reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true"   auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="subAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="objectCode" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="objectCode" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectCode" />
     </reference-descriptor>
-    <reference-descriptor name="subObjectCode" class-ref="org.kuali.module.chart.bo.SubObjCdCurrent" auto-retrieve="true" auto-update="link" auto-delete="none">
+    <reference-descriptor name="subObjectCode" class-ref="org.kuali.module.chart.bo.SubObjCdCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="financialObjectCode" />

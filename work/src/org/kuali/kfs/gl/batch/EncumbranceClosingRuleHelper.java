@@ -157,6 +157,7 @@ public class EncumbranceClosingRuleHelper {
      * @throws FatalErrorException
      */
     public boolean isEncumbranceEligibleForCostShare(OriginEntryFull entry, OriginEntryFull offset, Encumbrance encumbrance, String objectTypeCode) throws FatalErrorException {
+        LOG.info("entering isEncumbranceEligibleForCostShare");
 
         PriorYearAccount priorYearAccount = priorYearAccountService.getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber());
 
@@ -201,20 +202,19 @@ public class EncumbranceClosingRuleHelper {
 
         //String[] expenseObjectCodeTypes = kualiConfigurationService.getParameterValues(KFSConstants.GL_NAMESPACE, AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER.EXPENSE_OBJECT_TYPE_CODES);
         ObjectTypeService objectTypeService = (ObjectTypeService)SpringContext.getBean(ObjectTypeService.class);
-        List<String> objectTypes = objectTypeService.getCurrentYearBasicExpenseObjectTypes();
-        objectTypes.add( objectTypeService.getCurrentYearExpenseTransferObjectType());
-        String[] expenseObjectCodeTypes = objectTypes.toArray(new String[0]);
+        List<String> expenseObjectCodeTypes = objectTypeService.getCurrentYearBasicExpenseObjectTypes();
+        expenseObjectCodeTypes.add( objectTypeService.getCurrentYearExpenseTransferObjectType());
         
         String[] encumbranceBalanceTypeCodes = new String[] { KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE, KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE, KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE };
 
         // the object type code must be an expense and the encumbrance balance type code must correspond to an internal, external or
         // pre-encumbrance
-        if (!(ArrayUtils.contains(expenseObjectCodeTypes, objectTypeCode) && ArrayUtils.contains(encumbranceBalanceTypeCodes, encumbrance.getBalanceTypeCode()))) {
+        if (!expenseObjectCodeTypes.contains(objectTypeCode) || !ArrayUtils.contains(encumbranceBalanceTypeCodes, encumbrance.getBalanceTypeCode())) {
 
             return false;
 
         }
-        else {
+        else if (!encumbrance.getSubAccountNumber().equals(KFSConstants.getDashSubAccountNumber())){
 
             A21SubAccount a21SubAccount = a21SubAccountService.getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber(), encumbrance.getSubAccountNumber());
 
@@ -229,6 +229,8 @@ public class EncumbranceClosingRuleHelper {
             // everything is valid, return true if the a21 sub account is a cost share sub-account
             return KFSConstants.COST_SHARE.equals(a21SubAccount.getSubAccountTypeCode());
 
+        } else {
+            return false;
         }
 
     }

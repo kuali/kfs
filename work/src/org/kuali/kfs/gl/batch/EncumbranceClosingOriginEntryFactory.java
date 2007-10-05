@@ -62,7 +62,7 @@ public class EncumbranceClosingOriginEntryFactory {
 
         // Generate the entry ...
 
-        OriginEntryFull entry = new OriginEntryFull(GL_ACLO, GL_ORIGINATION_CODE);
+        OriginEntryFull entry = new OriginEntryFull(encumbrance.getDocumentTypeCode(), encumbrance.getOriginCode());
 
         String description = encumbrance.getTransactionEncumbranceDescription();
         description += "FR-" + encumbrance.getChartOfAccountsCode() + encumbrance.getAccountNumber();
@@ -72,6 +72,7 @@ public class EncumbranceClosingOriginEntryFactory {
         A21SubAccountService a21SubAccountService = SpringContext.getBean(A21SubAccountService.class);
         A21SubAccount a21SubAccount = a21SubAccountService.getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber(), encumbrance.getSubAccountNumber());
 
+        entry.setUniversityFiscalYear(new Integer(encumbrance.getUniversityFiscalYear().intValue() + 1));
         entry.setChartOfAccountsCode(a21SubAccount.getCostShareChartOfAccountCode());
         entry.setAccountNumber(a21SubAccount.getCostShareSourceAccountNumber());
         entry.setSubAccountNumber(a21SubAccount.getCostShareSourceSubAccountNumber());
@@ -84,6 +85,7 @@ public class EncumbranceClosingOriginEntryFactory {
         }
 
         entry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_COST_SHARE_ENCUMBRANCE);
+        entry.setFinancialObjectCode(encumbrance.getObjectCode());
         entry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         entry.setTransactionLedgerEntrySequenceNumber(new Integer(0));
 
@@ -113,14 +115,15 @@ public class EncumbranceClosingOriginEntryFactory {
 
         // And now the offset ...
 
-        OriginEntryFull offset = new OriginEntryFull(GL_ACLO, GL_ORIGINATION_CODE);
+        OriginEntryFull offset = new OriginEntryFull(encumbrance.getDocumentTypeCode(), encumbrance.getOriginCode());
         final String GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = parameterService.getParameterValue(EncumbranceForwardStep.class, GLConstants.EncumbranceClosingOriginEntry.GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
         offset.setTransactionLedgerEntryDescription(GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
 
         // Lookup the offset definition for the explicit entry we just created.
         // SpringContext is used because this method is static.
         OffsetDefinitionService offsetDefinitionService = SpringContext.getBean(OffsetDefinitionService.class);
-        OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialDocumentTypeCode(), entry.getFinancialBalanceTypeCode());
+        LOG.debug("finding offset definition for: "+entry.getUniversityFiscalYear()+" "+entry.getChartOfAccountsCode()+" "+encumbrance.getDocumentTypeCode()+" "+encumbrance.getBalanceTypeCode());
+        OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), encumbrance.getDocumentTypeCode(), encumbrance.getBalanceTypeCode());
 
         // Set values from the offset definition if it was found.
         if (null != offsetDefinition) {
@@ -139,7 +142,7 @@ public class EncumbranceClosingOriginEntryFactory {
         // Validate the object code for the explicit entry.
         // SpringContext is used because this method is static.
         ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
-        ObjectCode objectCode = objectCodeService.getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialObjectCode());
+        ObjectCode objectCode = objectCodeService.getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), offset.getFinancialObjectCode());
 
         if (null != objectCode) {
 
@@ -192,13 +195,10 @@ public class EncumbranceClosingOriginEntryFactory {
     static final public OriginEntryOffsetPair createBeginningBalanceEntryOffsetPair(Encumbrance encumbrance, Integer closingFiscalYear, Date transactionDate) {
 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        final String GL_ACLO = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE);
-        final String GL_ORIGINATION_CODE = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE);
-
         OriginEntryOffsetPair pair = new OriginEntryOffsetPair();
 
         // Build the entry ...
-        OriginEntryFull entry = new OriginEntryFull(GL_ACLO, GL_ORIGINATION_CODE);
+        OriginEntryFull entry = new OriginEntryFull(encumbrance.getDocumentTypeCode(), encumbrance.getOriginCode());
 
         Integer thisFiscalYear = new Integer(closingFiscalYear.intValue() + 1);
         entry.setUniversityFiscalYear(thisFiscalYear);
@@ -251,8 +251,6 @@ public class EncumbranceClosingOriginEntryFactory {
 
         entry.setFinancialBalanceTypeCode(encumbrance.getBalanceTypeCode());
         entry.setUniversityFiscalPeriodCode(KFSConstants.PERIOD_CODE_BEGINNING_BALANCE);
-        entry.setFinancialDocumentTypeCode(encumbrance.getDocumentTypeCode());
-        entry.setFinancialSystemOriginationCode(encumbrance.getOriginCode());
         entry.setDocumentNumber(encumbrance.getDocumentNumber());
         entry.setTransactionLedgerEntrySequenceNumber(new Integer(1));
         entry.setTransactionLedgerEntryDescription(encumbrance.getTransactionEncumbranceDescription());

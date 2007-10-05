@@ -53,9 +53,7 @@ public class OffsetDefinitionRule extends MaintenanceDocumentRuleBase {
      * @return boolean
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        checkDocTypeAndFinancialObjCode(document);
-        checkDocTypeActiveFinancialObjCode(document);
-        return true;
+        return checkDocTypeActiveFinancialObjCode(document);
     }
 
     /**
@@ -65,24 +63,7 @@ public class OffsetDefinitionRule extends MaintenanceDocumentRuleBase {
      * @return boolean
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        boolean success = true;
-        success &= checkDocTypeAndFinancialObjCode(document);
-        success &= checkDocTypeActiveFinancialObjCode(document);
-        return true;
-    }
-
-    private boolean checkDocTypeAndFinancialObjCode(MaintenanceDocument document) {
-        boolean success = true;
-        // we need to check to see if the values are in the right range and then
-        // see if the ObjectCode is the right value
-        if ((ObjectUtils.isNotNull(newDefinition.getFinancialObject()) && StringUtils.isNotEmpty(newDefinition.getFinancialObject().getFinancialObjectSubTypeCode()) && !newDefinition.getFinancialObject().getFinancialObjectSubTypeCode().equalsIgnoreCase("AR")) || StringUtils.isEmpty(newDefinition.getFinancialObjectCode())) {
-            if (SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(OffsetDefinition.class, KFSConstants.ChartApcParms.VALID_DOCUMENT_TYPES_BY_OBJECT_SUB_TYPE, newDefinition.getFinancialObject().getFinancialObjectSubTypeCode(), newDefinition.getFinancialDocumentTypeCode())) {
-                putFieldError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_OFFSETDEFMAINT_INVALID_OBJ_CODE_FOR_DOCTYPE, new String[] { newDefinition.getFinancialObjectCode(), SpringContext.getBean(ParameterService.class).getConstrainedValuesString(OffsetDefinition.class, KFSConstants.ChartApcParms.VALID_DOCUMENT_TYPES_BY_OBJECT_SUB_TYPE, newDefinition.getFinancialObject().getFinancialObjectSubTypeCode()) });
-                success &= false;
-            }
-        }
-
-        return success;
+        return checkDocTypeActiveFinancialObjCode(document);
     }
 
     private boolean checkDocTypeActiveFinancialObjCode(MaintenanceDocument document) {

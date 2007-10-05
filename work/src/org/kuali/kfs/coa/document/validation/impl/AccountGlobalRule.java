@@ -26,6 +26,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.GlobalVariables;
@@ -37,6 +38,7 @@ import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountGlobal;
 import org.kuali.module.chart.bo.AccountGlobalDetail;
+import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.service.SubFundGroupService;
 
@@ -89,6 +91,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
         checkContractsAndGrants();
         checkExpirationDate(document);
         checkOnlyOneChartErrorWrapper(newAccountGlobal.getAccountGlobalDetails());
+        checkFiscalOfficerIsValidKualiUser(newAccountGlobal.getAccountFiscalOfficerSystemIdentifier());
         // checkFundGroup(document);
         // checkSubFundGroup(document);
 
@@ -109,6 +112,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
         success &= checkContractsAndGrants();
         success &= checkExpirationDate(document);
         success &= checkAccountDetails(document, newAccountGlobal.getAccountGlobalDetails());
+        success &= checkFiscalOfficerIsValidKualiUser(newAccountGlobal.getAccountFiscalOfficerSystemIdentifier());
         // success &= checkFundGroup(document);
         // success &= checkSubFundGroup(document);
 
@@ -343,6 +347,28 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
         }
 
         return success;
+    }
+    
+    /**
+     * This method insures the fiscal officer is a valid Kuali User
+     * 
+     * @param fiscalOfficerUserId
+     * @return
+     */
+    protected boolean checkFiscalOfficerIsValidKualiUser(String fiscalOfficerUserId) {
+        boolean result = true;
+        try {
+            UniversalUser fiscalOfficer = getUniversalUserService().getUniversalUser(fiscalOfficerUserId);
+            if (fiscalOfficer != null && !fiscalOfficer.isActiveForModule(ChartUser.MODULE_ID)) {
+                result = false;
+                putFieldError("accountFiscalOfficerUser.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_BE_KUALI_USER);
+            }
+        }
+        catch (UserNotFoundException e) {
+            result = false;
+        }
+
+        return result;
     }
 
     /**

@@ -236,20 +236,21 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
         // non null
         if (newSupervisor != null || newFiscalOfficer != null || newManager != null) {
             // loop over all AccountGlobalDetail records
+            int index = 0;
             for (AccountGlobalDetail detail : doc.getAccountGlobalDetails()) {
-                success &= checkAccountUsers(detail, newFiscalOfficer, newManager, newSupervisor);
+                success &= checkAccountUsers(detail, newFiscalOfficer, newManager, newSupervisor, index);
+                index++;
             }
         }
 
         return success;
     }
 
-    protected boolean checkAccountUsers(AccountGlobalDetail detail, UniversalUser newFiscalOfficer, UniversalUser newManager, UniversalUser newSupervisor) {
+    protected boolean checkAccountUsers(AccountGlobalDetail detail, UniversalUser newFiscalOfficer, UniversalUser newManager, UniversalUser newSupervisor, int index) {
         boolean success = true;
 
         // only need to do this check if at least one of the user fields is non null
         if (newSupervisor != null || newFiscalOfficer != null || newManager != null) {
-            int index = 0;
             // loop over all AccountGlobalDetail records
             detail.refreshReferenceObject("account");
             if (detail.getAccount() != null) {
@@ -283,7 +284,6 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
             else {
                 LOG.warn("AccountGlobalDetail object has null account object:" + detail.getChartOfAccountsCode() + "-" + detail.getAccountNumber());
             }
-            index++;
         }
 
         return success;

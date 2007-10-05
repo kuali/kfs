@@ -128,7 +128,7 @@ public class KraConstants extends JstlConstants {
     public static final String CREATE_PROPOSAL_PROJECT_TYPES = "CREATE_PROPOSAL_PROJECT_TYPES";
     public static final String PROJECT_TYPES = "PROJECT_TYPES";
 
-    public static final String ROUTING_FORM_COST_SHARE_PERMISSION_CODE = "COST_SHARE_ROUTING_CODE";
+    public static final String ROUTING_FORM_COST_SHARE_PERMISSION_CODE = "ROUTE_TO_COST_SHARE_ORGANIZATIONS_IND";
 
     public static final String PERSON_ROLE_CODE_CO_PROJECT_DIRECTOR = "PERSON_ROLE_CODE_CO_PROJECT_DIRECTOR";
     public static final String PERSON_ROLE_CODE_CONTACT_PERSON = "PERSON_ROLE_CODE_CONTACT_PERSON";

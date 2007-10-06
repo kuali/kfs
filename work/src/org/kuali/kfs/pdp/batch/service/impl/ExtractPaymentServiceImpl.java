@@ -18,10 +18,13 @@ package org.kuali.module.pdp.service.impl;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.pdp.PdpConstants;
@@ -40,10 +43,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExtractPaymentServiceImpl.class);
 
+    public DateTimeService dateTimeService;
     public ParameterService parameterService;
     public PaymentGroupService paymentGroupService;
     public String directoryName;
     public ProcessDao processDao;
+
+    // Set this to true to run this process without updating the database.  This
+    // should stay false for production.
+    public static boolean testMode = false;
 
     /**
      * @see org.kuali.module.pdp.service.ExtractPaymentService#extractAchPayments()
@@ -111,6 +119,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     public void extractChecks() {
         LOG.debug("extractChecks() started");
 
+        Date processDate = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         // Get the process ID
@@ -126,7 +135,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         }
 
         PaymentProcess p = processDao.get(processId);
-        if ( p != null ) {
+        if ( p == null ) {
             throw new IllegalArgumentException("Invalid process ID");
         }
 
@@ -145,13 +154,19 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
             Iterator iter = paymentGroupService.getByProcessIdDisbursementType(processId, PdpConstants.DisbursementTypeCodes.CHECK);
             while (iter.hasNext()) {
                 PaymentGroup pg = (PaymentGroup)iter.next();
+                if ( ! testMode ) {
+                    pg.setDisbursementDate(new Timestamp(processDate.getTime()));
+                    pg.setLastUpdate(new Timestamp(processDate.getTime()));
+                    paymentGroupService.save(pg);
+                }
+
                 writeOpenTagAttribute(os, 2, "check", "disbursementNbr", pg.getDisbursementNbr().toString());
 
                 // Write check level information
 
                 writeBank(os,4,pg.getBank());
 
-                writeTag(os, 4, "disbursementDate", pg.getDisbursementDate().toString());
+                writeTag(os, 4, "disbursementDate", sdf.format(processDate));
                 writeTag(os, 4, "netAmount", pg.getNetPaymentAmount().toString());
 
                 writePayee(os,4,pg);
@@ -189,7 +204,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
                     writeOpenTag(os, 6, "notes");
                     for (Iterator i = pd.getNotes().iterator(); i.hasNext();) {
-                        PaymentNoteText note = (PaymentNoteText)iterator.next();
+                        PaymentNoteText note = (PaymentNoteText)i.next();
                         writeTag(os,8,"note",note.getCustomerNoteText());
                     }
                     writeCloseTag(os, 6, "notes");
@@ -220,27 +235,27 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     private static String SPACES = "                                                       ";
 
     private void writeTag(BufferedWriter os,int indent,String tag,String data) throws IOException {
-        os.write(SPACES.substring(indent));
+        os.write(SPACES.substring(0,indent));
         os.write("<" + tag + ">" + data + "</" + tag + ">\n");
     }
 
     private void writeOpenTag(BufferedWriter os,int indent,String tag) throws IOException {
-        os.write(SPACES.substring(indent));
+        os.write(SPACES.substring(0,indent));
         os.write("<" + tag + ">\n");
     }
 
     private void writeOpenTagAttribute(BufferedWriter os,int indent,String tag,String attr,String attrVal) throws IOException {
-        os.write(SPACES.substring(indent));
+        os.write(SPACES.substring(0,indent));
         os.write("<" + tag + " " + attr + "=\"" + attrVal + "\">\n");
     }
 
     private void writeOpenTagAttribute(BufferedWriter os,int indent,String tag,String attr1,String attr1Val,String attr2,String attr2Val) throws IOException {
-        os.write(SPACES.substring(indent));
+        os.write(SPACES.substring(0,indent));
         os.write("<" + tag + " " + attr1 + "=\"" + attr1Val + "\" " + attr2 + "=\"" + attr2Val + "\">\n");
     }
 
     private void writeCloseTag(BufferedWriter os,int indent,String tag) throws IOException {
-        os.write(SPACES.substring(indent));
+        os.write(SPACES.substring(0,indent));
         os.write("</" + tag + ">\n");
     }
 
@@ -257,17 +272,17 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         writeTag(os,indent + 2,"orgCode",cp.getOrgCode());
         writeTag(os,indent + 2,"subUnitCode",cp.getSubUnitCode());
         writeOpenTag(os, indent + 2, "checkHeaderNoteLines");
-        if ( cp.getAdditionalCheckNoteTextLine1() != null ) {
-            writeTag(os,indent + 4,"note",cp.getAdditionalCheckNoteTextLine1());
+        if ( cp.getCheckHeaderNoteTextLine1() != null ) {
+            writeTag(os,indent + 4,"note",cp.getCheckHeaderNoteTextLine1());
         }
-        if ( cp.getAdditionalCheckNoteTextLine2() != null ) {
-            writeTag(os,indent + 4,"note",cp.getAdditionalCheckNoteTextLine2());
+        if ( cp.getCheckHeaderNoteTextLine2() != null ) {
+            writeTag(os,indent + 4,"note",cp.getCheckHeaderNoteTextLine2());
         }
-        if ( cp.getAdditionalCheckNoteTextLine3() != null ) {
-            writeTag(os,indent + 4,"note",cp.getAdditionalCheckNoteTextLine3());
+        if ( cp.getCheckHeaderNoteTextLine3() != null ) {
+            writeTag(os,indent + 4,"note",cp.getCheckHeaderNoteTextLine3());
         }
-        if ( cp.getAdditionalCheckNoteTextLine4() != null ) {
-            writeTag(os,indent + 4,"note",cp.getAdditionalCheckNoteTextLine4());
+        if ( cp.getCheckHeaderNoteTextLine4() != null ) {
+            writeTag(os,indent + 4,"note",cp.getCheckHeaderNoteTextLine4());
         }
         writeCloseTag(os, indent + 2, "checkHeaderNoteLines");
         writeOpenTag(os, indent + 2, "additionalCheckNoteLines");
@@ -288,7 +303,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     }
 
     private void writePayee(BufferedWriter os,int indent,PaymentGroup pg) throws IOException {
-        os.write(SPACES.substring(indent));
+        os.write(SPACES.substring(0,indent));
         os.write("<payee id=\"" + pg.getPayeeId() + "\" type=\"" + pg.getPayeeIdTypeCd() + "\">\n");
         writeTag(os,indent + 2,"payeeName",pg.getPayeeName());
         writeTag(os,indent + 2,"line1Address",pg.getLine1Address());
@@ -316,5 +331,9 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
     public void setProcessDao(ProcessDao pd) {
         processDao = pd;
+    }
+
+    public void setDateTimeService(DateTimeService dts) {
+        dateTimeService = dts;
     }
 }

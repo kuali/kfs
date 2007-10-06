@@ -646,7 +646,7 @@
     <!-- collection references -->
     <!--  common collection references -->
     <!--  one sided document, so we only need to deal with the source lines -->
-    <collection-descriptor name="sourceAccountingLines" proxy="false" element-class-ref="org.kuali.module.financial.bo.VoucherSourceAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="sourceAccountingLines" element-class-ref="org.kuali.module.financial.bo.VoucherSourceAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="sequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
 				<query-customizer class="org.kuali.kfs.dao.ojb.OjbQueryCustomizer">
@@ -1107,7 +1107,7 @@
         <foreignkey field-ref="financialDocumentDepositLineNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="cashReceiptHeader" class-ref="org.kuali.module.financial.bo.CashReceiptHeader" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <reference-descriptor name="cashReceiptHeader" class-ref="org.kuali.module.financial.bo.CashReceiptHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="financialDocumentCashReceiptNumber" />
     </reference-descriptor>
 </class-descriptor>
@@ -2066,7 +2066,7 @@
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-    <collection-descriptor name="sourceAccountingLines" proxy="false" element-class-ref="org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="sourceAccountingLines" element-class-ref="org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="sequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
 				<query-customizer class="org.kuali.kfs.dao.ojb.OjbQueryCustomizer">
@@ -2074,7 +2074,7 @@
 				</query-customizer>
     </collection-descriptor>
 
-    <collection-descriptor name="targetAccountingLines" proxy="false" element-class-ref="org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="targetAccountingLines" element-class-ref="org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="sequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
 				<query-customizer class="org.kuali.kfs.dao.ojb.OjbQueryCustomizer">
@@ -2102,7 +2102,7 @@
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-    <collection-descriptor name="sourceAccountingLines" proxy="false" element-class-ref="org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="sourceAccountingLines" element-class-ref="org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="sequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
 				<query-customizer class="org.kuali.kfs.dao.ojb.OjbQueryCustomizer">
@@ -2110,7 +2110,7 @@
 				</query-customizer>
     </collection-descriptor>
 
-    <collection-descriptor name="targetAccountingLines" proxy="false" element-class-ref="org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="targetAccountingLines" element-class-ref="org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="sequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
 				<query-customizer class="org.kuali.kfs.dao.ojb.OjbQueryCustomizer">

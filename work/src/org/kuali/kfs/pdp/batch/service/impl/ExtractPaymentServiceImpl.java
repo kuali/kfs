@@ -54,7 +54,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
     // Set this to true to run this process without updating the database.  This
     // should stay false for production.
-    public static boolean testMode = true;
+    public static boolean testMode = false;
 
     /**
      * @see org.kuali.module.pdp.service.ExtractPaymentService#extractAchPayments()

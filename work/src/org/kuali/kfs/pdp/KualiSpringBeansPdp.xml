@@ -156,7 +156,9 @@
 		<property name="achBankDao" ref="pdpAchBankDao"/>
 	</bean>
 
-	<bean id="pdpAchService" class="org.kuali.module.pdp.service.impl.AchServiceJdbc"/>
+	<bean id="pdpAchService" class="org.kuali.module.pdp.service.impl.AchServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService"/>
+	</bean>
 
 	<bean id="pdpBankService" class="org.kuali.module.pdp.service.impl.BankServiceImpl">
 		<property name="bankDao" ref="pdpBankDao"/>

@@ -37,6 +37,7 @@
 <c:set var="amendmentEntry" value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 <c:set var="editPreExtract"	value="${(not empty KualiForm.editingMode['editPreExtract'])}" />
 <c:set var="currentUserCampusCode" value="${UserSession.universalUser.campusCode}" />
+<c:set var="extraPrefix" value="${displayPurchaseOrderFields or displayPaymentRequestFields ? 'document' : 'document.vendorDetail'}" /> 
 
 <kul:tab tabTitle="Vendor" defaultOpen="${not (displayRequisitionFields or displayPurchaseOrderFields)}" tabErrorKey="${PurapConstants.VENDOR_ERRORS}">
     <div class="tab-container" align=center>
@@ -197,7 +198,7 @@
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPaymentTermsCode}" 
 	                    property="document.vendorPaymentTermsCode" 
-                        extraReadOnlyProperty="document.vendorDetail.vendorPaymentTerms.vendorPaymentTermsDescription"
+	                    extraReadOnlyProperty="${extraPrefix}.vendorPaymentTerms.vendorPaymentTermsDescription"
 	                    readOnly="${not (fullEntryMode or amendmentEntry) or displayRequisitionFields}" />
 	                </td>
 				</c:if>	
@@ -221,7 +222,7 @@
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingTitleCode}" 
 	                    property="document.vendorShippingTitleCode" 
-	                    extraReadOnlyProperty="document.vendorDetail.vendorShippingTitle.vendorShippingTitleDescription"
+	                    extraReadOnlyProperty="${extraPrefix}.vendorShippingTitle.vendorShippingTitleDescription"
 	                    readOnly="${not (fullEntryMode or amendmentEntry) or not displayPurchaseOrderFields}" />
 	                </td>
                 </c:if>
@@ -245,7 +246,7 @@
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" 
 	                    property="document.vendorShippingPaymentTermsCode" 
-	                    extraReadOnlyProperty="document.vendorDetail.vendorShippingPaymentTerms.vendorShippingPaymentTermsDescription"
+						extraReadOnlyProperty="${extraPrefix}.vendorShippingPaymentTerms.vendorShippingPaymentTermsDescription"
 	                    readOnly="${not (fullEntryMode or amendmentEntry) or not displayPurchaseOrderFields}" />
 	                </td>
 				</c:if>

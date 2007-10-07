@@ -54,7 +54,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
     // Set this to true to run this process without updating the database.  This
     // should stay false for production.
-    public static boolean testMode = false;
+    public static boolean testMode = true;
 
     /**
      * @see org.kuali.module.pdp.service.ExtractPaymentService#extractAchPayments()
@@ -102,7 +102,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                 writeTag(os, 4, "disbursementDate", sdf.format(processDate));
                 writeTag(os, 4, "netAmount", pg.getNetPaymentAmount().toString());
 
-                writePayee(os,4,pg);
+                writePayeeAch(os,4,pg);
                 writeTag(os, 4,"customerUnivNbr",pg.getCustomerIuNbr());
                 writeTag(os, 4,"paymentDate",sdf.format(pg.getPaymentDate()));
 
@@ -360,7 +360,15 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         writeCloseTag(os, indent, "customerProfile");
     }
 
+    private void writePayeeAch(BufferedWriter os,int indent,PaymentGroup pg) throws IOException {
+        writePayeeInformation(os, indent, pg, true);
+    }
+
     private void writePayee(BufferedWriter os,int indent,PaymentGroup pg) throws IOException {
+        writePayeeInformation(os, indent, pg, false);
+    }
+
+    private void writePayeeInformation(BufferedWriter os,int indent,PaymentGroup pg,boolean includeAch) throws IOException {    
         os.write(SPACES.substring(0,indent));
         os.write("<payee id=\"" + pg.getPayeeId() + "\" type=\"" + pg.getPayeeIdTypeCd() + "\">\n");
         writeTag(os,indent + 2,"payeeName",pg.getPayeeName());
@@ -372,6 +380,11 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         writeTag(os,indent + 2,"state",pg.getState());
         writeTag(os,indent + 2,"zipCd",pg.getZipCd());
         writeTag(os,indent + 2,"country",pg.getCountry());
+        if ( includeAch ) {
+            writeTag(os,indent + 2,"achBankRoutingNbr",pg.getAchBankRoutingNbr());
+            writeTag(os,indent + 2,"achBankAccountNbr",pg.getAchAccountNumber().getAchBankAccountNbr());
+            writeTag(os,indent + 2,"achAccountType",pg.getAchAccountType());
+        }
         writeCloseTag(os,indent,"payee");
     }
 

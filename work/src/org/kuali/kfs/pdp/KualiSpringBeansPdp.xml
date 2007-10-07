@@ -142,6 +142,7 @@
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 		<property name="processDao" ref="pdpProcessDao"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
+		<property name="referenceService" ref="pdpReferenceService"/>
 	</bean>
 
 	<bean id="pdpExtractGlTransactionService" class="org.kuali.module.pdp.service.impl.ExtractGlTransactionServiceImpl">

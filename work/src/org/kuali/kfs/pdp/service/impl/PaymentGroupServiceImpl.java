@@ -53,6 +53,15 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     }
 
     /**
+     * @see org.kuali.module.pdp.service.PaymentGroupService#getByDisbursementTypeStatusCode(java.lang.String, java.lang.String)
+     */
+    public Iterator getByDisbursementTypeStatusCode(String disbursementType,String paymentStatusCode) {
+        LOG.debug("getByDisbursementTypeStatusCode() started");
+
+        return paymentGroupDao.getByDisbursementTypeStatusCode(disbursementType,paymentStatusCode);
+    }
+
+    /**
      * @see org.kuali.module.pdp.service.PaymentGroupService#getByProcessId(java.lang.Integer)
      */
     public Iterator getByProcessId(Integer pid) {

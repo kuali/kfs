@@ -74,6 +74,7 @@ public class PdpConstants {
 
     public static class DisbursementTypeCodes {
         public static String CHECK = "CHCK";
+        public static String ACH = "ACH";
     }
 
     public static class PaymentStatusCodes {
@@ -82,5 +83,6 @@ public class PdpConstants {
         public static String CANCEL_DISBURSEMENT = "CDIS";
         public static String CANCEL_PAYMENT = "CPAY";
         public static String EXTRACTED = "EXTR";
+        public static String PENDING_ACH = "PACH";
     }
 }

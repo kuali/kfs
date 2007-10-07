@@ -69,6 +69,22 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
     }
 
     /**
+     * @see org.kuali.module.pdp.dao.PaymentGroupDao#getByDisbursementTypeStatusCode(java.lang.String, java.lang.String)
+     */
+    public Iterator getByDisbursementTypeStatusCode(String disbursementType,String paymentStatusCode) {
+        LOG.debug("getByDisbursementTypeStatusCode() started");
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("disbursementTypeCode", disbursementType);
+        criteria.addEqualTo("paymentStatusCode", paymentStatusCode);
+
+        QueryByCriteria qbc = new QueryByCriteria(PaymentGroup.class,criteria);
+        qbc.addOrderBy("disbursementNbr",true);
+
+        return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
+    }
+
+    /**
      * @see org.kuali.module.pdp.dao.PaymentGroupDao#getByProcessId(java.lang.Integer)
      */
     public Iterator getByProcessId(Integer pid) {

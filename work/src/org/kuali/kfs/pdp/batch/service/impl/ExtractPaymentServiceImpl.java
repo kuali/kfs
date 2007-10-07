@@ -34,15 +34,18 @@ import org.kuali.module.pdp.bo.PaymentDetail;
 import org.kuali.module.pdp.bo.PaymentGroup;
 import org.kuali.module.pdp.bo.PaymentNoteText;
 import org.kuali.module.pdp.bo.PaymentProcess;
+import org.kuali.module.pdp.bo.PaymentStatus;
 import org.kuali.module.pdp.dao.ProcessDao;
 import org.kuali.module.pdp.service.ExtractPaymentService;
 import org.kuali.module.pdp.service.PaymentGroupService;
+import org.kuali.module.pdp.service.ReferenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExtractPaymentServiceImpl.class);
 
+    public ReferenceService referenceService;
     public DateTimeService dateTimeService;
     public ParameterService parameterService;
     public PaymentGroupService paymentGroupService;
@@ -59,38 +62,96 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     public void extractAchPayments() {
         LOG.debug("extractAchPayments() started");
 
-        // Get the process ID
-        String pids = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class,PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID);
-        pids = pids.trim();
-
-        Integer processId = null;
-        try {
-            processId = Integer.parseInt(pids);
-        } catch (NumberFormatException nfe) {
-            throw new IllegalArgumentException("Unable to convert the process ID to a number");
-        }
+        Date processDate = dateTimeService.getCurrentDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        PaymentStatus extractedStatus = (PaymentStatus)referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.EXTRACTED);
 
         String filename = directoryName + parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.ACH_EXTRACT_FILE);
+        LOG.debug("extractAchPayments() filename = " + filename);
 
         // Open file
-        BufferedWriter outputStream = null;
+        BufferedWriter os = null;
 
         try {
-            outputStream = new BufferedWriter(new FileWriter(filename));
+            os = new BufferedWriter(new FileWriter(filename));
+            os.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+            writeOpenTag(os, 0, "achPayments");
 
-            // Get all of the ach payments
-            //    Get more info about it
-            //    Write all the info into the file
-            //    Update the extract timestamp/indicator
-            // Send email
+            Iterator iter = paymentGroupService.getByDisbursementTypeStatusCode(PdpConstants.DisbursementTypeCodes.ACH,PdpConstants.PaymentStatusCodes.PENDING_ACH);
+            while (iter.hasNext()) {
+                PaymentGroup pg = (PaymentGroup)iter.next();
+                if ( ! testMode ) {
+                    pg.setDisbursementDate(new Timestamp(processDate.getTime()));
+                    pg.setLastUpdate(new Timestamp(processDate.getTime()));
+                    pg.setPaymentStatus(extractedStatus);
+                    paymentGroupService.save(pg);
+                }
+
+                writeOpenTagAttribute(os, 2, "ach", "disbursementNbr", pg.getDisbursementNbr().toString());
+                PaymentProcess paymentProcess = pg.getProcess();
+                writeTag(os, 4, "processCampus",paymentProcess.getCampus());
+                writeTag(os, 4, "processId", paymentProcess.getId().toString());
+
+                // Disbursement Type Code: Ò22Ó Deposit Funds into Checking Account
+                //              Ò32Ó Deposit Funds into Savings Account
+                //              Ò27Ó Withdraw Funds From Checking Account
+                //              Ò37Ó Withdraw Funds From Savings Account
+
+                writeBank(os,4,pg.getBank());
+
+                writeTag(os, 4, "disbursementDate", sdf.format(processDate));
+                writeTag(os, 4, "netAmount", pg.getNetPaymentAmount().toString());
+
+                writePayee(os,4,pg);
+                writeTag(os, 4,"customerUnivNbr",pg.getCustomerIuNbr());
+                writeTag(os, 4,"paymentDate",sdf.format(pg.getPaymentDate()));
+
+                // Write customer profile information
+                CustomerProfile cp = pg.getBatch().getCustomerProfile();
+                writeCustomerProfile(os,4,cp);
+
+                // Write all payment level information
+                writeOpenTag(os,4, "payments");
+                List pdList = pg.getPaymentDetails();
+                for (Iterator iterator = pdList.iterator(); iterator.hasNext();) {
+                    PaymentDetail pd = (PaymentDetail)iterator.next();
+                    writeOpenTag(os, 4, "payment");
+
+                    // Write detail info
+                    writeTag(os,6,"purchaseOrderNbr",pd.getPurchaseOrderNbr());
+                    writeTag(os,6,"invoiceNbr",pd.getInvoiceNbr());
+                    writeTag(os,6,"requisitionNbr",pd.getRequisitionNbr());
+                    writeTag(os,6,"custPaymentDocNbr",pd.getCustPaymentDocNbr());
+                    writeTag(os,6,"invoiceDate",sdf.format(pd.getInvoiceDate()));
+
+                    writeTag(os,6,"origInvoiceAmount",pd.getOrigInvoiceAmount().toString());
+                    writeTag(os,6,"netPaymentAmount",pd.getNetPaymentAmount().toString());
+                    writeTag(os,6,"invTotDiscountAmount",pd.getInvTotDiscountAmount().toString());
+                    writeTag(os,6,"invTotShipAmount",pd.getInvTotShipAmount().toString());
+                    writeTag(os,6,"invTotOtherDebitAmount",pd.getInvTotOtherDebitAmount().toString());
+                    writeTag(os,6,"invTotOtherCreditAmount",pd.getInvTotOtherCreditAmount().toString());
+
+                    writeOpenTag(os, 6, "notes");
+                    for (Iterator i = pd.getNotes().iterator(); i.hasNext();) {
+                        PaymentNoteText note = (PaymentNoteText)i.next();
+                        writeTag(os,8,"note",note.getCustomerNoteText());
+                    }
+                    writeCloseTag(os, 6, "notes");
+
+                    writeCloseTag(os,4,"payment");
+                }
+                writeCloseTag(os,4,"payments");
+                writeCloseTag(os,2,"ach");
+            }
+            writeCloseTag(os,0,"achPayments");
         } catch (IOException ie) {
-            LOG.error("extractAchPayments() Problem reading file:  "+ filename,ie);
+            LOG.error("extractChecks() Problem reading file:  "+ filename,ie);
             throw new IllegalArgumentException("Error writing to output file: " + ie.getMessage());
         } finally {
             // Close file
-            if (outputStream != null) {
+            if (os != null) {
                 try {
-                    outputStream.close();
+                    os.close();
                 } catch (IOException ie) {
                     // Not much we can do now
                 }
@@ -140,7 +201,6 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         }
 
         String filename = directoryName + parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.CHECK_EXTRACT_FILE);
-
         LOG.debug("extractChecks() filename: " + filename);
 
         // Open file
@@ -215,8 +275,6 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                 writeCloseTag(os,2,"check");
             }
             writeCloseTag(os,0,"checks");
-
-            // Send email
         } catch (IOException ie) {
             LOG.error("extractChecks() Problem reading file:  "+ filename,ie);
             throw new IllegalArgumentException("Error writing to output file: " + ie.getMessage());
@@ -335,5 +393,9 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
     public void setDateTimeService(DateTimeService dts) {
         dateTimeService = dts;
+    }
+
+    public void setReferenceService(ReferenceService rs) {
+        referenceService = rs;
     }
 }

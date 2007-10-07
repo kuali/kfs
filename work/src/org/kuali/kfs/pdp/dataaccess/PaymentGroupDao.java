@@ -38,6 +38,15 @@ public interface PaymentGroupDao {
      */
     public Iterator getByProcessIdDisbursementType(Integer pid,String disbursementType);
 
+    /**
+     * Get all the payment groups for a specific disbursement type & status code
+     * 
+     * @param disbursementType
+     * @param paymentStatusCode
+     * @return
+     */
+    public Iterator getByDisbursementTypeStatusCode(String disbursementType,String paymentStatusCode);
+
     public Iterator getByProcessId(Integer pid);
     public Iterator getByProcess(PaymentProcess p);
     public void save(PaymentGroup pg);

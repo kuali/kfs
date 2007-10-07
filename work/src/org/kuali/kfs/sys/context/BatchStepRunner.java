@@ -15,15 +15,12 @@
  */
 package org.kuali.kfs.context;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.UserSession;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.BatchSpringContext;
-import org.kuali.kfs.batch.Step;
+import org.kuali.kfs.batch.Job;
 import org.kuali.kfs.service.ParameterService;
 
 public class BatchStepRunner {
@@ -44,63 +41,21 @@ public class BatchStepRunner {
             else {
                 stepNames = new String[] { args[0] };
             }
-
-            String jobName = KFSConstants.BATCH_STEP_RUNNER_JOB_NAME;
-            if (args.length >= 2) {
-                jobName = args[1];
+            ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+            String jobName = args.length >= 2 ? args[1] : KFSConstants.BATCH_STEP_RUNNER_JOB_NAME;
+            LOG.info("Executing job: " + jobName + " steps: " + Arrays.toString(stepNames));
+            for (int i = 0; i < stepNames.length; ++i) {
+                if (!Job.runStep(parameterService, jobName, i, BatchSpringContext.getStep(stepNames[i]))) {
+                    System.exit(4);
+                }
             }
-            for (int i = 0; i < stepNames.length; i++) {
-                runStep(stepNames[i], jobName);
-            }
+            LOG.info("Finished executing job: " + jobName + " steps: " + Arrays.toString(stepNames));
             System.exit(0);
         }
         catch (Throwable t) {
             System.err.println("ERROR: Exception caught: ");
             t.printStackTrace(System.err);
             System.exit(8);
-        }
-    }
-
-    private static void runStep(String stepName, String jobName) throws Exception {
-        GlobalVariables.setErrorMap(new ErrorMap());
-        GlobalVariables.setMessageList(new ArrayList<Object>());
-        String stepUserParameter = "USER";
-        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        LOG.debug("runStep() Retrieving step " + stepName);
-        Step step = BatchSpringContext.getStep(stepName);
-        try {
-            if (parameterService.parameterExists(step.getClass(), stepUserParameter)) {
-                GlobalVariables.setUserSession(new UserSession(parameterService.getParameterValue(step.getClass(), stepUserParameter)));
-            }
-            else {
-                GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
-            }
-        }
-        catch (Exception ex) {
-            // database may not be created yet, if performing the initial import - handle the database error which results
-            LOG.warn("error checking application parameter", ex);
-        }
-        String stepRunIndicatorParameter = "RUN_IND";
-        boolean skipStep = false;
-        try {
-            skipStep = parameterService.parameterExists(step.getClass(), stepRunIndicatorParameter) && !parameterService.getIndicatorParameter(step.getClass(), stepRunIndicatorParameter);
-        }
-        catch (Exception ex) {
-            // database may not be created yet, if performing the initial import - handle the database error which results
-            LOG.warn("error checking application parameter", ex);
-        }
-        if (skipStep) {
-            LOG.info("runStep() Skipping step " + stepName + " due to flag turned off");
-        }
-        else {
-            LOG.info("runStep() Running step " + stepName);
-            if (step.execute(jobName)) {
-                LOG.info("runStep() Step successful - continue");
-            }
-            else {
-                LOG.info("runStep() Step successful - stop job");
-                System.exit(4);
-            }
         }
     }
 }

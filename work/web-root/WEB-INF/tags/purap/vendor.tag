@@ -35,9 +35,8 @@
 
 <c:set var="vendorReadOnly" value="${(not empty KualiForm.editingMode['lockVendorEntry'])}" />
 <c:set var="amendmentEntry" value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
-<c:set var="editPreExtract"	value="${(not empty KualiForm.editingMode['editPreExtract'])}" />
+<c:set var="editPreExtract" value="${(not empty KualiForm.editingMode['editPreExtract'])}" />
 <c:set var="currentUserCampusCode" value="${UserSession.universalUser.campusCode}" />
-<c:set var="extraPrefix" value="${displayPurchaseOrderFields or displayPaymentRequestFields ? 'document' : 'document.vendorDetail'}" /> 
 
 <kul:tab tabTitle="Vendor" defaultOpen="${not (displayRequisitionFields or displayPurchaseOrderFields)}" tabErrorKey="${PurapConstants.VENDOR_ERRORS}">
     <div class="tab-container" align=center>
@@ -192,17 +191,17 @@
                     </td>
                 </c:if>
                 <c:if test="${not displayCreditMemoFields}">                                                 
-	                <th align=right valign=middle class="bord-l-b">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPaymentTermsCode}" /></div>
-	                </th>
-	                <td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPaymentTermsCode}" 
-	                    property="document.vendorPaymentTermsCode" 
-	                    extraReadOnlyProperty="${extraPrefix}.vendorPaymentTerms.vendorPaymentTermsDescription"
-	                    readOnly="${not (fullEntryMode or amendmentEntry) or displayRequisitionFields}" />
-	                </td>
-				</c:if>	
-				<c:if test="${displayCreditMemoFields}">
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPaymentTermsCode}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPaymentTermsCode}" 
+                        property="document.vendorPaymentTermsCode" 
+                        extraReadOnlyProperty="document.vendorDetail.vendorPaymentTerms.vendorPaymentTermsDescription"
+                        readOnly="${not (fullEntryMode or amendmentEntry) or displayRequisitionFields}" />
+                    </td>
+                </c:if> 
+                <c:if test="${displayCreditMemoFields}">
                     <th align=right valign=middle class="bord-l-b">&nbsp;</th>
                     <td align=left valign=middle class="datacell">&nbsp;</td>
                 </c:if>                    
@@ -216,15 +215,15 @@
                     </td>
                 </c:if>                                                 
                 <c:if test="${not displayCreditMemoFields}">
-	                <th align=right valign=middle class="bord-l-b">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorShippingTitleCode}" /></div>
-	                </th>
-	                <td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingTitleCode}" 
-	                    property="document.vendorShippingTitleCode" 
-	                    extraReadOnlyProperty="${extraPrefix}.vendorShippingTitle.vendorShippingTitleDescription"
-	                    readOnly="${not (fullEntryMode or amendmentEntry) or not displayPurchaseOrderFields}" />
-	                </td>
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorShippingTitleCode}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingTitleCode}" 
+                        property="document.vendorShippingTitleCode" 
+                        extraReadOnlyProperty="document.vendorDetail.vendorShippingTitle.vendorShippingTitleDescription"
+                        readOnly="${not (fullEntryMode or amendmentEntry) or not displayPurchaseOrderFields}" />
+                    </td>
                 </c:if>
                 <c:if test="${displayCreditMemoFields}">
                     <th align=right valign=middle class="bord-l-b">&nbsp;</th>
@@ -240,20 +239,20 @@
                     </td>
                 </c:if> 
                 <c:if test="${not displayCreditMemoFields}">                                                
-	                <th align=right valign=middle class="bord-l-b">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" /></div>
-	                </th>
-	                <td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" 
-	                    property="document.vendorShippingPaymentTermsCode" 
-						extraReadOnlyProperty="${extraPrefix}.vendorShippingPaymentTerms.vendorShippingPaymentTermsDescription"
-	                    readOnly="${not (fullEntryMode or amendmentEntry) or not displayPurchaseOrderFields}" />
-	                </td>
-				</c:if>
-				<c:if test="${displayCreditMemoFields}">
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" 
+                        property="document.vendorShippingPaymentTermsCode" 
+                        extraReadOnlyProperty="document.vendorDetail.vendorShippingPaymentTerms.vendorShippingPaymentTermsDescription"
+                        readOnly="${not (fullEntryMode or amendmentEntry) or not displayPurchaseOrderFields}" />
+                    </td>
+                </c:if>
+                <c:if test="${displayCreditMemoFields}">
                     <th align=right valign=middle class="bord-l-b">&nbsp;</th>
                     <td align=left valign=middle class="datacell">&nbsp;</td>
-                </c:if>    	                
+                </c:if>                     
             </tr> 
 
             <c:if test="${displayRequisitionFields or displayPurchaseOrderFields}">

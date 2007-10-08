@@ -22,6 +22,7 @@ import java.lang.StringBuffer;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -45,6 +46,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.chart.bo.OrganizationReversion;
@@ -64,8 +66,16 @@ import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.util.KFSUtils;
 
-
-
+/*
+ *   this stuff is here support the inhibitCascading routine that should probably go into PersistenceStructureService
+ */
+import org.apache.ojb.broker.metadata.ClassDescriptor;
+import org.apache.ojb.broker.metadata.ClassNotPersistenceCapableException; 
+import org.apache.ojb.broker.metadata.CollectionDescriptor; 
+import org.apache.ojb.broker.metadata.DescriptorRepository; 
+import org.apache.ojb.broker.metadata.ObjectReferenceDescriptor;
+import org.apache.ojb.broker.metadata.MetadataManager;
+/****************************************************************************************************************************************************/
 
 
 public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb
@@ -205,6 +215,13 @@ implements FiscalYearMakersDao {
         // the objects participating MUST match the object list
         // configured in the XML
         
+        //  added October, 2007, to remove all OJB auto-update and auto-delete codes 
+        //  which would alter the delete and copy order set by the XML-encoded parent-child relationships
+        //  this code changes the settings in memory for this run only
+        //  this implies that fiscal year makers should run in its own container, with no
+        //  other jobs which might depend on the auto-xxx settings.
+        turnOffCascades();
+        
         /*************************************************************
          *                 AccountingPeriod                          *
          *************************************************************/
@@ -281,6 +298,23 @@ implements FiscalYearMakersDao {
                }
             };
         addCopyAction(BenefitsCalculation.class,copyActionBenCalc); 
+
+        /*************************************************************
+         *                     IcrAutomatedEntry                     *
+         *************************************************************/
+         FiscalYearMakersCopyAction copyActionIcrAuto =
+             new FiscalYearMakersCopyAction()
+             {
+                public void copyMethod(Integer BaseYear, boolean replaceMode)
+                {
+                  MakersMethods<IcrAutomatedEntry> makersMethod =
+                      new MakersMethods<IcrAutomatedEntry>();
+                  makersMethod.makeMethod(IcrAutomatedEntry.class,
+                                          BaseYear,
+                                          replaceMode);
+                }
+             };
+         addCopyAction(IcrAutomatedEntry.class,copyActionIcrAuto); 
 
         /*************************************************************
          *                       LaborObject                         *
@@ -453,13 +487,27 @@ implements FiscalYearMakersDao {
           FiscalYearMakersCopyAction copyActionSubObjCd =
               new FiscalYearMakersCopyAction()
               {
+              FiscalYearMakersFilterAction filterSubObjectCode =
+                  new FiscalYearMakersFilterAction()
+                  {
+                     public Criteria customCriteriaMethod()
+                     {
+                         // this method allows us to add any filters needed on the current
+                         // year rows--for example, we might not want any marked deleted.
+                         // for SubObjectCode, we don't want any invalid objects
+                         Criteria criteriaID = new Criteria();
+                         criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_ACTIVE_INDICATOR,true);
+                         return criteriaID;        
+                     }
+                  };
                  public void copyMethod(Integer BaseYear, boolean replaceMode)
                  {
                    MakersMethods<SubObjCd> makersMethod =
                        new MakersMethods<SubObjCd>();
                    makersMethod.makeMethod(SubObjCd.class,
                                            BaseYear,
-                                           replaceMode);
+                                           replaceMode,
+                                           filterSubObjectCode);
                  }
               };
           addCopyAction(SubObjCd.class,copyActionSubObjCd); 
@@ -1017,13 +1065,6 @@ implements FiscalYearMakersDao {
                   continue;
                 }
                 // store the result
-                //@@TODO: temporary code
-                if (ojbMappedClass.getName().compareTo("org.kuali.module.chart.bo.OrganizationReversionDetail") == 0)
-                {
-                    LOG.warn(String.format("\n        --> about to store row %d",
-                             rowsRead));
-                }
-                //@@TODO:
                 getPersistenceBrokerTemplate().store(ourBO);
                 rowsWritten = rowsWritten+1;
             }
@@ -1093,9 +1134,10 @@ implements FiscalYearMakersDao {
                T ourBO = oldYearObjects.next();
                for (int i = 1; i < keyFields.length; i++)
                {
-                   
-                   hashChecker.append((String) PropertyUtils.getSimpleProperty(ourBO,
-                                       keyFields[i]));
+                   // 10/2007 some primary keys may not be strings: 
+                   // we assume that the same value of a non-string will be converted to a string consistently
+                   hashChecker.append(PropertyUtils.getSimpleProperty(ourBO,
+                                       keyFields[i].toString()));
           }
                //TODO:
                //if (rowsRead%1007 == 1)
@@ -1854,10 +1896,163 @@ implements FiscalYearMakersDao {
         return ((Integer)((Double)(actualCount.floatValue()*(1.45))).intValue());
     }
 
+    private void turnOffCascades()
+    {
+        //
+        //  this routine is designed to solve a problem caused by auto-xxx settings in the OJB-repostiory
+        //  auto-update or auto-delete settings other than "none" will cause row(s) for a linked object to be written or 
+        //  deleted as soon as the row for the linking object is.  this circumvents our parent-child paradigm by which we
+        //  ensure deletes and copies are done in an order that will not violate referential integrity constraints.
+        //  for example, suppose a parent A is linked to a child B, which has auto-update="object".  B may have an RI 
+        //  constraint on C, while A has nothing to do with C.  our copy order will allow A to be copied before C.  auto-update="object"
+        //  copies row(s) from B at the same time a row from A is copied.  since no rows from C have been copied yet (C follows A
+        //  in the copy order, the attempt to store the rows of B will violate RI--the required rows from C are not in the DB yet.
+        //  (an example as of October, 2007 is A = OrganizationReversion, B = OrganizationReversionDetail, and C = ObjectCode)
+        //  
+        //  this routine dynamically switches off the auto-update and auto-delete in the OJB repository loaded in memory.  this should
+        //  affect only the current run, makes no permanent changes, and will not affect the performance of any documents.  the 
+        //  assumption is that this code is running in its own Java container, which will go away when the run is complete.
+        //
+        for (Map.Entry<String,ArrayList<Class>> childMap : childParentMap.entrySet())
+        {
+           // set up a window into the OJB persistence sturcture
+           PersistenceStructureWindow persistenceStructureWindow = new PersistenceStructureWindow(); 
+           // get the class from the child name 
+           Class childClass = makerObjectsList.get(childMap.getKey());
+           ArrayList<Class> parentList = childMap.getValue();
+           for (int i = 0; i < parentList.size(); i++ )
+           {
+               Class parentClass = parentList.get(i);
+               persistenceStructureWindow.inhibitCascading(childClass, parentClass);
+               persistenceStructureWindow.inhibitCascading(parentClass, childClass);
+           }
+        }
+        
+    }
 
+/****************************************************************************************************************************************************
+ * 
+ *   these classes belong in the persistence structure service.  pending that, we use them here because we need them.  we indicate below which
+ *   should be public and which should not.  
+ *   this should only be used in BATCH, where nothing that needs to auto-update or auto-delete is likely to access the parent-child objects.
+ *   for fiscal year makers, this condition is met.  for batch routines that use a plug-in or create and store documents, it may not be.
+ * 
+ ****************************************************************************************************************************************************/    
+    private class PersistenceStructureWindow
+    {
+      private DescriptorRepository descriptorRepository;
+      
+      public PersistenceStructureWindow ()
+      {
+          MetadataManager metadataManager = MetadataManager.getInstance();
+          descriptorRepository = metadataManager.getGlobalRepository();
+          
+      }
+      
+      public void inhibitCascading (Class referencingClass, Class targetClass)
+      {
+        /* this mehtod should be public in the persistence structure service */
+        /* it looks for reference descriptors and collection descriptors in the source class that refer to 
+         * the target class and specify an auto-delete or auto-update.  it turns those functions off for the
+         * remainder of the batch run.
+         */
+         /* a given class will not have a 1:1 reference and a 1:m reference to the same target class */ 
+         if  (fixReferences(referencingClass, targetClass)) 
+         {
+             return;
+         }
+         fixCollections(referencingClass, targetClass);
+      }
+
+      private ClassDescriptor getOJBDescriptor (Class boClass)
+      {
+          ClassDescriptor classDescriptor = null;
+          try
+          {
+            classDescriptor = descriptorRepository.getDescriptorFor(boClass);
+          }
+          catch (ClassNotPersistenceCapableException ex)
+          {
+              LOG.warn(String.format("\n\nClass %s is non-presistable\n--> %s",
+                       boClass.getName(),ex.getMessage()));
+              // we'll just let things go at this point and hope for the best with RI
+              return classDescriptor;
+          }
+            return classDescriptor;
+      }
+      
+      private boolean fixReferences (Class referencingClass, Class targetClass)
+      {
+          ClassDescriptor classDescriptor = getOJBDescriptor(referencingClass);
+          if (classDescriptor == null)
+          {
+              // class isn't persistable--no reason to continue
+              return true;
+          }
+          Collection<ObjectReferenceDescriptor> referenceIDAttributes = classDescriptor.getObjectReferenceDescriptors(false);
+          for (ObjectReferenceDescriptor objReferenceDescriptor : referenceIDAttributes)
+          {
+             if (targetClass.getName().compareTo(objReferenceDescriptor.getItemClassName()) == 0)
+             {
+                 LOG.info(String.format("\n\nfound reference to %s in %s",
+                          targetClass.getName(),referencingClass.getName()));
+                 
+                 if (objReferenceDescriptor.getCascadingDelete() != ObjectReferenceDescriptor.CASCADE_NONE)
+                 {
+                     objReferenceDescriptor.setCascadingDelete(ObjectReferenceDescriptor.CASCADE_NONE);
+                     LOG.warn(String.format("reset auto-delete for %s in %s",
+                              targetClass.getName(),referencingClass.getName()));          
+                 }
+                 if (objReferenceDescriptor.getCascadingStore() != ObjectReferenceDescriptor.CASCADE_NONE)
+                 {
+                     objReferenceDescriptor.setCascadingStore(ObjectReferenceDescriptor.CASCADE_NONE);
+                     LOG.warn(String.format("reset auto-update for %s in %s",
+                              targetClass.getName(),referencingClass.getName()));          
+                 }
+                 return true;
+                 // a given class will not have a reference-id and a collection-ref-id to the same target class
+             }
+          }
+          return false;
+      }
+      
+      private boolean fixCollections (Class referencingClass, Class targetClass)
+      {
+          ClassDescriptor classDescriptor = getOJBDescriptor(referencingClass);
+          if (classDescriptor == null)
+          {
+              // class isn't persistable--no reason to continue
+              return true;
+          }
+          Collection<CollectionDescriptor>  collectionIDAttributes = classDescriptor.getCollectionDescriptors(false);
+          for (CollectionDescriptor collectionDescriptor : collectionIDAttributes)
+          {
+              if (targetClass.getName().compareTo(collectionDescriptor.getItemClassName()) == 0)
+              {
+                  LOG.info(String.format("\n\nfound collection reference to %s in %s",
+                           targetClass.getName(),referencingClass.getName()));
+                  
+                  if (collectionDescriptor.getCascadingDelete() != CollectionDescriptor.CASCADE_NONE)
+                  {
+                      collectionDescriptor.setCascadingDelete(CollectionDescriptor.CASCADE_NONE);
+                      LOG.warn(String.format("reset auto-delete for %s in %s",
+                               targetClass.getName(),referencingClass.getName()));          
+                  }
+                  if (collectionDescriptor.getCascadingStore() != CollectionDescriptor.CASCADE_NONE)
+                  {
+                      collectionDescriptor.setCascadingStore(CollectionDescriptor.CASCADE_NONE);
+                      LOG.warn(String.format("reset auto-update for %s in %s",
+                               targetClass.getName(),referencingClass.getName()));          
+                  }
+                  return true;
+                  // a given class will not have a reference-id and a collection-ref-id to the same target class
+              }
+           }
+          return false;
+      }
+    }
     
-    
-//  this is a junk inner class that allows us to return two things from a method
+//  this is a handy junk inner class that allows us to return two things from a method
  private class ReturnedPair<S,T>
  {
      S firstObject;

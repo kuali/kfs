@@ -1353,7 +1353,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         
         /* global function code restrictions */
         if (accountNumberAllowed) {
-            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, FUNCTION_CODE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getAccount().getFinancialHigherEdFunctionCd());
+            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, HIGHER_ED_FUNCTIONS_PARM_NM, accountingLine.getAccount().getFinancialHigherEdFunctionCd());
             // accountNumberAllowed is true now
             accountNumberAllowed = evaluateAndAddError(evaluator, getErrorMessageKey(evaluator), errorKey, "Function code");
         }

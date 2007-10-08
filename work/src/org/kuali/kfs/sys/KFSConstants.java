@@ -627,6 +627,8 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
         public static final String STATUS_CLOSED = "C";
         public static final String STATUS_OPEN = "O";
         public static final String STATUS_LOCKED = "L";
+        
+        public static final String CASH_DRAWER_PREFIX = "KUALI_BRSR_"; 
     }
 
     public static class CashReceiptConstants {
@@ -1020,6 +1022,15 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
             DASH_SUB_ACCOUNT_NUMBER = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntryFull.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER), '-');
         }
         return DASH_SUB_ACCOUNT_NUMBER;
+    }
+    
+    private static String SPACE_SUB_ACCOUNT_NUMBER = null;
+
+    public static String getSpaceSubAccountNumber() {
+        if (SPACE_SUB_ACCOUNT_NUMBER == null) {
+            SPACE_SUB_ACCOUNT_NUMBER = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntryFull.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER), ' ');
+        }
+        return SPACE_SUB_ACCOUNT_NUMBER;
     }
 
     private static String DASH_PROJECT_CODE = null;

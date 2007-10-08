@@ -17,8 +17,11 @@ package org.kuali.module.gl.batch.closing.year.util;
 
 import java.sql.Date;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterService;
@@ -69,7 +72,15 @@ public class EncumbranceClosingOriginEntryFactory {
         OriginEntryFull entry = new OriginEntryFull(encumbrance.getDocumentTypeCode(), encumbrance.getOriginCode());
 
         String description = encumbrance.getTransactionEncumbranceDescription();
-        description += "FR-" + encumbrance.getChartOfAccountsCode() + encumbrance.getAccountNumber();
+        String fromDesc = "FR-" + encumbrance.getChartOfAccountsCode() + encumbrance.getAccountNumber();
+        int descLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntryFull.class, KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC);
+        if (description.length() + fromDesc.length() < descLength) {
+            description += StringUtils.leftPad(fromDesc, (descLength - (description.length() + fromDesc.length())));
+        } else if (description.length() + fromDesc.length() > descLength) {
+            description += description.substring(0, (descLength - fromDesc.length())) + fromDesc;
+        } else {
+            description += fromDesc;
+        }
         entry.setTransactionLedgerEntryDescription(description);
 
         // SpringContext is used because this method is static.
@@ -83,7 +94,7 @@ public class EncumbranceClosingOriginEntryFactory {
 
         // The subAccountNumber is set to dashes in the OriginEntryFull constructor.
         if (KFSConstants.EMPTY_STRING.equals(encumbrance.getSubAccountNumber().trim())) {
-            entry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+            entry.setSubAccountNumber(KFSConstants.getSpaceSubAccountNumber());
         }
 
         entry.setFinancialObjectCode(encumbrance.getObjectCode());
@@ -122,10 +133,10 @@ public class EncumbranceClosingOriginEntryFactory {
         offset.setAccountNumber(a21SubAccount.getCostShareSourceAccountNumber());
         offset.setSubAccountNumber(a21SubAccount.getCostShareSourceSubAccountNumber());
         if (KFSConstants.EMPTY_STRING.equals(encumbrance.getSubAccountNumber().trim())) {
-            entry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+            entry.setSubAccountNumber(KFSConstants.getSpaceSubAccountNumber());
         }
         // Lookup the offset definition for the explicit entry we just created.
-        OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), encumbrance.getDocumentTypeCode(), encumbrance.getBalanceTypeCode());
+        OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialDocumentTypeCode(), entry.getFinancialBalanceTypeCode());
         // Set values from the offset definition if it was found.
         if (null != offsetDefinition) {
 
@@ -166,6 +177,7 @@ public class EncumbranceClosingOriginEntryFactory {
         offset.setTransactionEncumbranceUpdateCode(null);
         offset.setOrganizationDocumentNumber(null);
         offset.setProjectCode(KFSConstants.getDashProjectCode());
+        offset.setTransactionDate(transactionDate);
         offset.setOrganizationReferenceId(null);
         offset.setReferenceFinancialDocumentTypeCode(null);
         offset.setReferenceFinancialSystemOriginationCode(null);

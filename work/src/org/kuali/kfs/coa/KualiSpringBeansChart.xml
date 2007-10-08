@@ -442,6 +442,9 @@
             <entry key="org.kuali.module.chart.bo.AccountingPeriod">
               <value>org.kuali.module.chart.bo.AccountingPeriod</value>
             </entry>    
+            <entry key="org.kuali.module.chart.bo.IcrAutomatedEntry">
+              <value>org.kuali.module.chart.bo.IcrAutomatedEntry</value>
+            </entry>    
             <entry key="org.kuali.module.gl.bo.UniversityDate">
               <value>org.kuali.module.gl.bo.UniversityDate</value>
             </entry>    
@@ -496,6 +499,11 @@
               </list>
             </entry>
             <entry key="org.kuali.module.chart.bo.AccountingPeriod">
+              <list>
+                <value>org.kuali.kfs.bo.Options</value>
+              </list>
+            </entry>
+            <entry key="org.kuali.module.chart.bo.IcrAutomatedEntry">
               <list>
                 <value>org.kuali.kfs.bo.Options</value>
               </list>

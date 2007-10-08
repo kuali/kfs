@@ -47,7 +47,16 @@ public class ParameterEvaluatorImpl implements ParameterEvaluator {
     }
     
     public String getParameterValuesForMessage() {
-        return configurationService.getParameterValues(parameter).toString().replace("[", "").replace("]", "");
+        StringBuilder buf = new StringBuilder();
+        String[] values = configurationService.getParameterValues(parameter);
+        for (int i = 0; i < values.length; i++) {
+            buf.append(values[i]);
+            if (i != values.length - 1) {
+                // don't print comma if the last value
+                buf.append(", ");
+            }
+        }
+        return buf.toString();
     }
 
     public void setConfigurationService(KualiConfigurationService configurationService) {

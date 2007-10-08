@@ -397,6 +397,13 @@
             		This is not persisted in the database as a separate field.</description>
             </attribute>
 
+            <attributeReference name="internalPurchasingLimit" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>Internal Purchasing Limit</label>
+                <shortLabel>Internal Purchasing Limit</shortLabel>
+                <summary>internalPurchasingLimit</summary>
+                <description>internalPurchasingLimit description...</description>
+            </attributeReference>
+
         </attributes>
 
         <summary>Document used for creating POs.</summary>

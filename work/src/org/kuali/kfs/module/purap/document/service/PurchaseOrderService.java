@@ -42,7 +42,7 @@ public interface PurchaseOrderService {
 
     public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients);
 
-    public KualiDecimal getInternalPurchasingDollarLimit(PurchasingDocumentBase po, String chartCode, String orgCode);
+    public KualiDecimal getInternalPurchasingDollarLimit(PurchasingDocumentBase po);
 
     public boolean printPurchaseOrderQuoteRequestsListPDF(PurchaseOrderDocument po, ByteArrayOutputStream baosPDF);
 

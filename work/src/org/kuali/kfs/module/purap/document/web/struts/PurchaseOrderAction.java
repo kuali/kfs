@@ -1224,6 +1224,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderForm form = (PurchaseOrderForm)kualiDocumentFormBase;
         PurchaseOrderDocument po = (PurchaseOrderDocument)form.getDocument();
         form.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());
+        
+        po.setInternalPurchasingLimit(SpringContext.getBean(PurchaseOrderService.class).getInternalPurchasingDollarLimit(po));
     }
 
 }

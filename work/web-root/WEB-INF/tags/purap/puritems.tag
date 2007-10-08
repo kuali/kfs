@@ -461,7 +461,9 @@
 					</div>
 			    </c:if> 
 			    <c:if test="${!displayRequisitionFields}"> 
-			        Internal Purchasing Limit:
+                    <div align="right">
+                        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.PurchaseOrderDocument.attributes.internalPurchasingLimit}" />
+                    </div>
                 </c:if>
             </th>
 			<td align=right valign=middle class="datacell">
@@ -470,12 +472,18 @@
 				        <kul:htmlControlAttribute
 					        attributeEntry="${DataDictionary.RequisitionDocument.attributes.organizationAutomaticPurchaseOrderLimit}"
 					        property="document.organizationAutomaticPurchaseOrderLimit"
-					        readOnly="true" />
+					        readOnly="true" />&nbsp;
 					</div>
 				    <html:hidden property="document.organizationAutomaticPurchaseOrderLimit" />
 			    </c:if> 
 			    <c:if test="${!displayRequisitionFields}">
-				    <div align="right">&nbsp;<!-- TODO - get limit --></div>
+                    <div align="right">
+                        <kul:htmlControlAttribute
+                            attributeEntry="${DataDictionary.PurchaseOrderDocument.attributes.internalPurchasingLimit}"
+                            property="document.internalPurchasingLimit"
+                            readOnly="true" />&nbsp;
+                    </div>
+                    <html:hidden property="document.internalPurchasingLimit" />
 			    </c:if>
 			</td>
 			<td colspan=3 class="datacell">&nbsp;</td>

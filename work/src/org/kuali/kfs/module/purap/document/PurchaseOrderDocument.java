@@ -119,6 +119,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private String purchaseOrderRetransmissionMethodCode;
     private String retransmitHeader;
     private Integer purchaseOrderQuoteListIdentifier;
+    private KualiDecimal internalPurchasingLimit;
     
     // REFERENCE OBJECTS
     private PurchaseOrderVendorChoice purchaseOrderVendorChoice;
@@ -990,6 +991,14 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
      * @deprecated
      */
     public void setStatusDescription(String statusDescription) {
+    }
+
+    public KualiDecimal getInternalPurchasingLimit() {
+        return internalPurchasingLimit;
+    }
+
+    public void setInternalPurchasingLimit(KualiDecimal internalPurchasingLimit) {
+        this.internalPurchasingLimit = internalPurchasingLimit;
     }
 
 }

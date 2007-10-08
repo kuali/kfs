@@ -336,9 +336,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return poDocument;
     }
 
-    public KualiDecimal getInternalPurchasingDollarLimit(PurchasingDocumentBase document, String chartCode, String orgCode) {
+    public KualiDecimal getInternalPurchasingDollarLimit(PurchasingDocumentBase document) {
         if ((document.getVendorContract() != null) && (document.getContractManager() != null)) {
-            KualiDecimal contractDollarLimit = vendorService.getApoLimitFromContract(document.getVendorContract().getVendorContractGeneratedIdentifier(), chartCode, orgCode);
+            KualiDecimal contractDollarLimit = vendorService.getApoLimitFromContract(document.getVendorContract().getVendorContractGeneratedIdentifier(), document.getChartOfAccountsCode(), document.getOrganizationCode());
             KualiDecimal contractManagerLimit = document.getContractManager().getContractManagerDelegationDollarLimit();
             if ((contractDollarLimit != null) && (contractManagerLimit != null)) {
                 if (contractDollarLimit.compareTo(contractManagerLimit) > 0) {
@@ -357,7 +357,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             return document.getContractManager().getContractManagerDelegationDollarLimit();
         }
         else if ((document.getVendorContract() != null) && (document.getContractManager() == null)) {
-            return purapService.getApoLimit(document.getVendorContract().getVendorContractGeneratedIdentifier(), chartCode, orgCode);
+            return purapService.getApoLimit(document.getVendorContract().getVendorContractGeneratedIdentifier(), document.getChartOfAccountsCode(), document.getOrganizationCode());
         }
         else {
             String errorMsg = "No internal purchase order dollar limit found for purchase order '" + document.getPurapDocumentIdentifier() + "'.";

@@ -40,7 +40,6 @@ public interface ParameterService {
     @Deprecated
     public boolean evaluateConstrainedValue(Parameter allowParameter, Parameter denyParameter, String constrainingValue, String constrainedValue);
     
-    @Deprecated
     public ParameterEvaluator getParameterEvaluator(Class componentClass, String allowParameterName, String denyParameterName, String constrainingValue, String constrainedValue);
     
     @Deprecated

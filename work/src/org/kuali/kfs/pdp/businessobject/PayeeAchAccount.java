@@ -23,7 +23,8 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
 	private String payeeIdentifierTypeCode;
 	private String psdTransactionCode;
 	private boolean active;
-
+    private String bankAccountTypeCode;
+    
     private AchBank bankRouting;
     
 	/**
@@ -327,6 +328,22 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
 	}
 
     /**
+     * Gets the bankAccountTypeCode attribute. 
+     * @return Returns the bankAccountTypeCode.
+     */
+    public String getBankAccountTypeCode() {
+        return bankAccountTypeCode;
+    }
+
+    /**
+     * Sets the bankAccountTypeCode attribute value.
+     * @param bankAccountTypeCode The bankAccountTypeCode to set.
+     */
+    public void setBankAccountTypeCode(String bankAccountTypeCode) {
+        this.bankAccountTypeCode = bankAccountTypeCode;
+    }    
+    
+    /**
      * Gets the bankRouting attribute. 
      * @return Returns the bankRouting.
      */
@@ -353,4 +370,5 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
         }
         return m;
     }
+
 }

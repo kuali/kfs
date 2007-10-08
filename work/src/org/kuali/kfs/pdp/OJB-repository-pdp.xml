@@ -570,6 +570,7 @@
 	<field-descriptor name="payeeIdentifierTypeCode" column="PAYEE_ID_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="psdTransactionCode" column="PSD_TRN_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="bankAccountTypeCode" column="BNK_ACCT_TYP_CD" jdbc-type="VARCHAR"/>
 	<reference-descriptor name="bankRouting" class-ref="org.kuali.module.pdp.bo.AchBank" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="bankRoutingNumber" />
 	</reference-descriptor>

@@ -331,7 +331,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 //                    Map primaryKeys = new HashMap();
 //                    primaryKeys.put(PurapPropertyConstants.PURAP_DOC_ID, getRequisitionIdentifier());
 //                    RequisitionDocument req = (RequisitionDocument) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(RequisitionDocument.class, primaryKeys);
-                    workflowDocument.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, NodeDetailEnum.ADHOC_REVIEW.getName(), 0, 
+                    workflowDocument.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, null, 0, 
                             "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier(), new NetworkIdVO(req.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId()), 
                             "Requisition Routed By User", true);
                     String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());

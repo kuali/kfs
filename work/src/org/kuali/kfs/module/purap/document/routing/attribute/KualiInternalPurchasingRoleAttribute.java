@@ -20,7 +20,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiGroupService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
@@ -40,6 +45,7 @@ import edu.iu.uis.eden.routetemplate.ResolvedQualifiedRole;
 import edu.iu.uis.eden.routetemplate.Role;
 import edu.iu.uis.eden.routetemplate.RuleExtension;
 import edu.iu.uis.eden.routetemplate.UnqualifiedRoleAttribute;
+import edu.iu.uis.eden.user.UserService;
 import edu.iu.uis.eden.workgroup.GroupNameId;
 
 /**
@@ -82,18 +88,41 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
     @Override
     public boolean isMatch(DocumentContent docContent, List<RuleExtension> ruleExtensions) {
         String documentNumber = docContent.getRouteContext().getDocument().getRouteHeaderId().toString();
+        String authenticationId = "(not found)";
         try {
-            // get the document id number from the routeContext doc content
-            PurchasingDocumentBase document = (PurchasingDocumentBase) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
-            document.refreshNonUpdateableReferences();
-            KualiDecimal internalPurchasingLimit = SpringContext.getBean(PurchaseOrderService.class).getInternalPurchasingDollarLimit(document, document.getChartOfAccountsCode(), document.getOrganizationCode());
-
-            return ((ObjectUtils.isNull(internalPurchasingLimit)) || (internalPurchasingLimit.compareTo(KualiWorkflowUtils.getFinancialDocumentTotalAmount(docContent.getDocument())) < 0));
+            authenticationId = docContent.getRouteContext().getDocument().getRoutedByUser().getAuthenticationUserId().getAuthenticationId();
+            if (StringUtils.isNotEmpty(authenticationId)) {
+                String contractManagersGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.WorkflowParameters.PurchaseOrderDocument.CONTRACT_MANAGERS_WORKGROUP_NAME);
+                if (!SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(authenticationId.toUpperCase()).isMember(contractManagersGroupName)) {
+                        // get the document id number from the routeContext doc content
+                        PurchasingDocumentBase document = (PurchasingDocumentBase) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
+                        document.refreshNonUpdateableReferences();
+                        KualiDecimal internalPurchasingLimit = SpringContext.getBean(PurchaseOrderService.class).getInternalPurchasingDollarLimit(document, document.getChartOfAccountsCode(), document.getOrganizationCode());
+            
+                        return ((ObjectUtils.isNull(internalPurchasingLimit)) || (internalPurchasingLimit.compareTo(KualiWorkflowUtils.getFinancialDocumentTotalAmount(docContent.getDocument())) < 0));
+                }
+                return false;
+            }
+            else {
+                String errorMsg = "Error while processing doc id '" + documentNumber + "'... Authentication Id not found from routed by user.";
+                LOG.error(errorMsg);
+                throw new RuntimeException(errorMsg);
+            }
+        }
+        catch (EdenUserNotFoundException u) {
+            String errorMsg = "Error trying to get routed by user from doc id '" + documentNumber + "'";
+            LOG.error(errorMsg, u);
+            throw new RuntimeException(errorMsg, u);
         }
         catch (WorkflowException we) {
             String errorMsg = "Error trying to get document using doc id '" + documentNumber + "'";
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
+        }
+        catch (UserNotFoundException e) {
+            String errorMsg = "Error while processing doc id '" + documentNumber + "'... User not found using Authentication Id '" + authenticationId + "'";
+            LOG.error(errorMsg, e);
+            throw new RuntimeException(errorMsg, e);
         }
     }
 

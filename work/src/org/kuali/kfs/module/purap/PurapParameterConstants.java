@@ -69,6 +69,7 @@ public class PurapParameterConstants implements ParameterKeyConstants {
             // Config parameter group names
             public static final String CG_RESTRICTED_OBJECT_CODE_RULE_PARM_NM = "PurAp.CG_Restricted_Object_Codes";
             // Workgroups
+            public static final String CONTRACT_MANAGERS_WORKGROUP_NAME = "CONTRACT_MANAGERS_GROUP";
             public static final String INTERNAL_PURCHASING_WORKGROUP_NAME = "INTERNAL_PURCHASING_REVIEWERS_GROUP";
         }
     }

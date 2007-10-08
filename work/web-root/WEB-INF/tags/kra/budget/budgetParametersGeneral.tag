@@ -57,9 +57,9 @@
     	<html:hidden property="document.budget.projectDirectorToBeNamedIndicator"/>
     	<html:hidden property="document.budget.budgetProjectDirectorUniversalIdentifier" /> 
     	<html:hidden property="document.budget.projectDirector.universalUser.personName"/>
-      <html:text property="document.budget.projectDirector.universalUser.personUserIdentifier" onblur="personIDLookup('document.budget.projectDirector.universalUser.personUserIdentifier')"/>
       <html:hidden property="document.budget.projectDirector.universalUser.personUniversalIdentifier"/>
       <html:hidden property="document.budget.projectDirector.personUniversalIdentifier"/>
+      <html:text property="document.budget.projectDirector.universalUser.personUserIdentifier" onblur="personIDLookup('document.budget.projectDirector.universalUser.personUserIdentifier')"/>
     	<c:if test="${KualiForm.document.budget.projectDirectorToBeNamedIndicator}">TO BE NAMED</c:if>
     	<c:if test="${!viewOnly}">
 	    	<kul:lookup boClassName="org.kuali.module.cg.bo.ProjectDirector" fieldConversions="universalUser.personUniversalIdentifier:document.budget.budgetProjectDirectorUniversalIdentifier,universalUser.personName:document.budget.projectDirector.universalUser.personName," tabindexOverride="5000" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.budget.projectDirectorToBeNamedIndicator=true" anchor="General" />
@@ -68,7 +68,7 @@
              <c:if test="${!empty KualiForm.document.budget.projectDirector.universalUser.personUserIdentifier}">
                  <c:choose>
 					<c:when test="${empty KualiForm.document.budget.projectDirector.universalUser.personName}">
-						<span style='color: red;'><c:out value="director not found" /> </span>
+						<span style='color: red;'><c:out value="person not found" /> </span>
 					</c:when>
 					<c:otherwise>
 						<c:out value="${KualiForm.document.budget.projectDirector.universalUser.personName}" />
@@ -96,9 +96,9 @@
     <td>
     	<html:hidden property="document.budget.agencyToBeNamedIndicator" />
     	<!-- <html:hidden property="document.budget.budgetAgencyNumber" /> --> 
-        <kul:htmlControlAttribute property="document.budget.budgetAgencyNumber" attributeEntry="${routingFormAttributes.routingFormAgency}" readOnly="${viewOnly}" onblur="onblur_agencyNumber('document.budget.budgetAgencyNumber','budgetAgency');"/>
     	<html:hidden property="document.budget.budgetAgency.fullName"/>
     	<html:hidden property="document.budget.budgetAgency.agencyTypeCode" styleId="document.budget.budgetAgency.agencyTypeCode"/>
+        <kul:htmlControlAttribute property="document.budget.budgetAgencyNumber" attributeEntry="${routingFormAttributes.routingFormAgency}" readOnly="${viewOnly}" onblur="onblur_agencyNumber('document.budget.budgetAgencyNumber','budgetAgency');"/>
     	<c:if test="${KualiForm.document.budget.agencyToBeNamedIndicator}">TO BE NAMED</c:if>
     	<c:if test="${!viewOnly}">
     		<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" lookupParameters="document.budget.budgetAgencyNumber:agencyNumber,document.budget.budgetAgency.fullName:fullName" fieldConversions="agencyNumber:document.budget.budgetAgencyNumber,fullName:document.budget.budgetAgency.fullName" tabindexOverride="5100" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.budget.agencyToBeNamedIndicator=true" anchor="General" />
@@ -107,7 +107,7 @@
              <c:if test="${!empty KualiForm.document.budget.budgetAgencyNumber}">
                  <c:choose>
 					<c:when test="${empty KualiForm.document.budget.budgetAgency.fullName}">
-						<span style='color: red;'><c:out value="agency not found" /> </span>
+						<span style='color: red;'><c:out value="budget agency not found" /> </span>
 					</c:when>
 					<c:otherwise>
 						<c:out value="${KualiForm.document.budget.budgetAgency.fullName}" />
@@ -138,7 +138,7 @@
 	             <c:if test="${!empty KualiForm.document.budget.federalPassThroughAgencyNumber}">
 	                 <c:choose>
 						<c:when test="${empty KualiForm.document.budget.federalPassThroughAgency.fullName}">
-							<span style='color: red;'><c:out value="agency not found" /> </span>
+							<span style='color: red;'><c:out value="federal pass through agency not found" /> </span>
 						</c:when>
 						<c:otherwise>
 							<c:out value="${KualiForm.document.budget.federalPassThroughAgency.fullName}" />

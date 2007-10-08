@@ -81,7 +81,7 @@
 					             <c:if test="${!empty KualiForm.document.agencyFederalPassThroughNumber}">
 					                 <c:choose>
 										<c:when test="${empty KualiForm.document.federalPassThroughAgency.fullName}">
-											<span style='color: red;'><c:out value="agency not found" /> </span>
+											<span style='color: red;'><c:out value="federal pass through agency not found" /> </span>
 										</c:when>
 										<c:otherwise>
 											<c:out value="${KualiForm.document.federalPassThroughAgency.fullName}" />
@@ -155,10 +155,10 @@
 
                 <td align=left valign=middle >
 			    	<html:hidden property="document.routingFormCatalogOfFederalDomesticAssistanceNumber" />
-			    	<html:text property="document.cfda.cfdaNumber" onblur="cfdaLookup('document.cfda.cfdaNumber')"/>
 			    	<html:hidden property="document.cfda.cfdaProgramTitleName" />
+			    	<html:text property="document.cfda.cfdaNumber" onblur="cfdaLookup('document.cfda.cfdaNumber')"/>
 			    	<c:if test="${!viewOnly}">
-			    	    <c:if test="${empty KualiForm.document.routingFormCatalogOfFederalDomesticAssistanceNumber}">&nbsp;</c:if>
+			    	    <!--  <c:if test="${empty KualiForm.document.routingFormCatalogOfFederalDomesticAssistanceNumber}">&nbsp;</c:if> -->
 			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Cfda" lookupParameters="document.routingFormCatalogOfFederalDomesticAssistanceNumber:cfdaNumber" fieldConversions="cfdaNumber:document.routingFormCatalogOfFederalDomesticAssistanceNumber,cfdaNumber:document.cfda.cfdaNumber,cfdaProgramTitleName:document.cfda.cfdaProgramTitleName" anchor="${currentTabIndex}" />
                 	</c:if>
 		          <div id="document.cfda.cfdaProgramTitleName.div" >

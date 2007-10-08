@@ -116,10 +116,10 @@
                           <kul:htmlControlAttribute property="newNonpersonnel[${i}].budgetNonpersonnelDescription" attributeEntry="${budgetNonpersonnel.budgetNonpersonnelDescription}" readOnly="${viewOnly}" />
                         </c:when>
                         <c:otherwise>
-                          <c:if test="${empty KualiForm.newNonpersonnelList[i].subcontractorNumber}">&nbsp;</c:if>
+                          <!-- <c:if test="${empty KualiForm.newNonpersonnelList[i].subcontractorNumber}">&nbsp;</c:if> -->
                           <!-- <html:hidden property="newNonpersonnel[${i}].subcontractorNumber" /> -->
-            <kul:htmlControlAttribute property="newNonpersonnel[${i}].subcontractorNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorNumber}" onblur="onblur_subcontractorNumber_nonPersonnel('newNonpersonnel[${i}].subcontractorNumber','', 'budgetNonpersonnelDescription')"/>
                          <html:hidden property="newNonpersonnel[${i}].budgetNonpersonnelDescription" />
+            <kul:htmlControlAttribute property="newNonpersonnel[${i}].subcontractorNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorNumber}" onblur="onblur_subcontractorNumber_nonPersonnel('newNonpersonnel[${i}].subcontractorNumber','', 'budgetNonpersonnelDescription')"/>
                           <kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" fieldConversions="subcontractorNumber:newNonpersonnel[${i}].subcontractorNumber,subcontractorName:newNonpersonnel[${i}].budgetNonpersonnelDescription" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newNonpersonnel[${i}].subcontractorNumber=484&newNonpersonnel[${i}].budgetNonpersonnelDescription=TO BE NAMED" anchor="NonPersonnel"/>
           
                       <div id="newNonpersonnel[${i}].budgetNonpersonnelDescription.div" >

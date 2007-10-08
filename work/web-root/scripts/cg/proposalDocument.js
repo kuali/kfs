@@ -73,6 +73,9 @@ function singleKeyLookupDiff( dwrFunction, primaryKeyField, boName, propertyName
     if (primaryKeyValue == "") {
         clearRecipients( targetFieldName );
     } else {
+        if (boName=="") {
+           boName="subcontractor"
+        }
         dwrFunction( primaryKeyValue, makeDwrSingleReply( boName, propertyName, targetFieldName));
     }
 }
@@ -92,11 +95,11 @@ function makeDwrSingleReply( boName, propertyName, targetFieldName ) {
                     removeFpt(boName);                   
                 }
             } else {
-                setRecipientValue( targetFieldName, wrapError( friendlyBoName + " not found" ), true );
+                setRecipientNotFoundValue( targetFieldName, wrapError( friendlyBoName + " not found" ), true );
             }
         },
         errorHandler:function(errorMessage) {
-            setRecipientValue( targetFieldName, wrapError( friendlyBoName + " not found" ), true );
+            setRecipientNotFoundValue( targetFieldName, wrapError( friendlyBoName + " not found" ), true );
         }
     };
 }
@@ -140,11 +143,11 @@ function loadPersonInfo( userIdFieldName, universalIdFieldName, userNameFieldNam
                     }
                 } else {
                     clearRecipients( universalIdFieldName );
-                    setRecipientValue( userNameFieldName, wrapError( "person not found" ), true );
+                    setRecipientNotFoundValue( userNameFieldName, wrapError( "person not found" ), true );
                 } },
             errorHandler:function( errorMessage ) {
                 clearRecipients( universalIdFieldName );
-                setRecipientValue( userNameFieldName, wrapError( "person not found" ), true );
+                setRecipientNotFoundValue( userNameFieldName, wrapError( "person not found" ), true );
             }
         };
         ProjectDirectorService.getByPersonUserIdentifier( userId, dwrReply );
@@ -174,11 +177,11 @@ function loadBudgetInfo( documentNumberField, budgetNameFieldName, budgetDocumen
                     setRecipientValue( budgetNameFieldName, data.budgetName );
                 } else {
                     clearRecipients( budgetDocumentNumberFieldName );
-                    setRecipientValue( budgetNameFieldName, wrapError( "budget document not found" ), true );
+                    setRecipientNotFoundValue( budgetNameFieldName, wrapError( "budget document not found" ), true );
                 } },
             errorHandler:function( errorMessage ) {
                 clearRecipients( budgetDocumentNumberFieldName );
-                setRecipientValue( budgetNameFieldName, wrapError( "budget document not found" ), true );
+                setRecipientNotFoundValue( budgetNameFieldName, wrapError( "budget document not found" ), true );
             }
         };
         BudgetService.getByPrimaryId( documentNumber, dwrReply );
@@ -210,11 +213,11 @@ function loadCfdaInfo( cfdaField, titleNameFieldName, routingFormCfdaFieldName )
                     setRecipientValue( titleNameFieldName, data.cfdaProgramTitleName );
                 } else {
                     clearRecipients( routingFormCfdaFieldName );
-                    setRecipientValue( titleNameFieldName, wrapError( "Cfda not found" ), true );
+                    setRecipientNotFoundValue( titleNameFieldName, wrapError( "cfda not found" ), true );
                 } },
             errorHandler:function( errorMessage ) {
                 clearRecipients( routingFormCfdaFieldName );
-                setRecipientValue( titleNameFieldName, wrapError( "Cfda not found" ), true );
+                setRecipientNotFoundValue( titleNameFieldName, wrapError( "cfda not found" ), true );
             }
         };
         CfdaService.getByPrimaryId( cfdaNumber, dwrReply );
@@ -383,4 +386,18 @@ function restoreFpt(boName) {
     newdiv.innerHTML=addedHtml;
 	pDiv.appendChild(newdiv);
 	             
+}
+
+function setRecipientNotFoundValue(recipientBase, value, isError ) {
+    // Trim because leading whitespace from copyright comment interferes with putting value into objectTypeCode input field.
+    clearRecipients(recipientBase);
+    value = value.toString().trim();
+    var containerDiv = document.getElementById(recipientBase + divSuffix);
+    if (containerDiv) {
+		if (value == '') {
+			DWRUtil.setValue( containerDiv.id, "&nbsp;" );
+		} else {
+			DWRUtil.setValue( containerDiv.id, value, isError?null:{escapeHtml:true} );
+		}
+	}
 }

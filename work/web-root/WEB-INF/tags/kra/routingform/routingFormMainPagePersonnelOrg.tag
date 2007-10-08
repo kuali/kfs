@@ -59,9 +59,9 @@
                 <td class="infoline">
                   <html:hidden property="newRoutingFormProjectDirector.personToBeNamedIndicator" />
                   <html:hidden property="newRoutingFormProjectDirector.personUniversalIdentifier" />
-                  <html:text property="newRoutingFormProjectDirector.user.personUserIdentifier" onblur="personIDLookup('newRoutingFormProjectDirector.user.personUserIdentifier')"/>                  
                   <html:hidden property="newRoutingFormProjectDirector.user.personName"/>
-                  <c:if test="${empty KualiForm.newRoutingFormProjectDirector.personUniversalIdentifier && !KualiForm.newRoutingFormProjectDirector.personToBeNamedIndicator}">&nbsp;</c:if>
+                  <html:text property="newRoutingFormProjectDirector.user.personUserIdentifier" onblur="personIDLookup('newRoutingFormProjectDirector.user.personUserIdentifier')"/>                  
+                  <!-- <c:if test="${empty KualiForm.newRoutingFormProjectDirector.personUniversalIdentifier && !KualiForm.newRoutingFormProjectDirector.personToBeNamedIndicator}">&nbsp;</c:if> -->
 		    	  <c:if test="${KualiForm.newRoutingFormProjectDirector.personToBeNamedIndicator}">TO BE NAMED</c:if>
                   <c:if test="${!viewOnly}">
                     <kul:lookup boClassName="org.kuali.module.cg.bo.ProjectDirector" fieldConversions="universalUser.personUniversalIdentifier:newRoutingFormProjectDirector.personUniversalIdentifier,universalUser.personName:newRoutingFormProjectDirector.user.personName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newRoutingFormProjectDirector.personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
@@ -151,9 +151,9 @@
                   <html:hidden property="document.routingFormPersonnel[${status.index}].personEmailAddress" />
                   <th scope="row"><div align="center">${personIndex}</div></th>
                   <td>
-                    <html:text property="document.routingFormPersonnel[${status.index}].user.personUserIdentifier" onblur="personIDLookup('document.routingFormPersonnel[${status.index}].user.personUserIdentifier')"/>                  
                     <html:hidden property="document.routingFormPersonnel[${status.index}].user.personName" />
-                    <c:if test="${empty person.personUniversalIdentifier && !person.personToBeNamedIndicator}">&nbsp;</c:if>
+                    <html:text property="document.routingFormPersonnel[${status.index}].user.personUserIdentifier" onblur="personIDLookup('document.routingFormPersonnel[${status.index}].user.personUserIdentifier')"/>                  
+                    <!-- <c:if test="${empty person.personUniversalIdentifier && !person.personToBeNamedIndicator}">&nbsp;</c:if> -->
 		    	    <c:if test="${person.personToBeNamedIndicator}">TO BE NAMED</c:if>
                     <c:if test="${!viewOnly}">
                       <c:choose>
@@ -253,9 +253,9 @@
                 <td class="infoline">
                   <html:hidden property="newRoutingFormOtherPerson.personToBeNamedIndicator" />
                   <html:hidden property="newRoutingFormOtherPerson.personUniversalIdentifier" />
-                  <html:text property="newRoutingFormOtherPerson.user.personUserIdentifier" onblur="personIDLookup('newRoutingFormOtherPerson.user.personUserIdentifier')"/>                  
                   <html:hidden  property="newRoutingFormOtherPerson.user.personName"/>
-                  <c:if test="${empty KualiForm.newRoutingFormOtherPerson.personUniversalIdentifier && !KualiForm.newRoutingFormOtherPerson.personToBeNamedIndicator}">&nbsp;</c:if>
+                  <html:text property="newRoutingFormOtherPerson.user.personUserIdentifier" onblur="personIDLookup('newRoutingFormOtherPerson.user.personUserIdentifier')"/>                  
+                  <!--  <c:if test="${empty KualiForm.newRoutingFormOtherPerson.personUniversalIdentifier && !KualiForm.newRoutingFormOtherPerson.personToBeNamedIndicator}">&nbsp;</c:if> -->
             <c:if test="${KualiForm.newRoutingFormOtherPerson.personToBeNamedIndicator}">TO BE NAMED</c:if>
                   <c:if test="${!viewOnly}">
                     <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:newRoutingFormOtherPerson.personUniversalIdentifier,personName:newRoutingFormOtherPerson.user.personName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newRoutingFormOtherPerson.personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
@@ -345,9 +345,9 @@
                   <html:hidden property="document.routingFormPersonnel[${status.index}].personEmailAddress" />
                   <th scope="row"><div align="center">${otherPersonIndex}</div></th>
                   <td>
-                    <html:text property="document.routingFormPersonnel[${status.index}].user.personUserIdentifier" onblur="personIDLookup('document.routingFormPersonnel[${status.index}].user.personUserIdentifier')"/>                  
                     <html:hidden property="document.routingFormPersonnel[${status.index}].user.personName" />
-                    <c:if test="${empty person.personUniversalIdentifier && !person.personToBeNamedIndicator}">&nbsp;</c:if>
+                    <html:text property="document.routingFormPersonnel[${status.index}].user.personUserIdentifier" onblur="personIDLookup('document.routingFormPersonnel[${status.index}].user.personUserIdentifier')"/>                  
+                    <!-- <c:if test="${empty person.personUniversalIdentifier && !person.personToBeNamedIndicator}">&nbsp;</c:if> -->
               <c:if test="${person.personToBeNamedIndicator}">TO BE NAMED</c:if>
                     <c:if test="${!viewOnly}">
                       <c:choose>

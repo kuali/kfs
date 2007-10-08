@@ -94,6 +94,9 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_DV_INCORRECT_OBJ_SUB_TYPE_WITH_PAYMENT_REASON = "error.document.dv.incorrectObjSubTypeWithPaymentReason";
     public static final String ERROR_DOCUMENT_EXPENSE_ON_INCOME_SIDE = "error.document.incorrectExpenseOnIncomeSide";
     public static final String ERROR_DOCUMENT_INCOME_ON_EXPENSE_SIDE = "error.document.incorrectIncomeOnExpenseSide";
+    public static final String ERROR_DOCUMENT_INVALID_VALUE = "error.document.invalid.value";
+    public static final String ERROR_ALLOWED_VALUES = "error.allowedValues";
+    public static final String ERROR_DENIED_VALUES = "error.deniedValues";
     public static final String ERROR_DOCUMENT_INCORRECT_OBJ_CODE = "error.document.incorrectObjCode";
     public static final String ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_OBJ_TYPE = "error.document.incorrectObjCodeWithObjType";
     public static final String ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE = "error.document.incorrectObjCodeWithSubType";

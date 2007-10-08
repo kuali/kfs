@@ -32,6 +32,7 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.purap.PurapConstants;
@@ -517,28 +518,10 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
      */
     public boolean validateObjectCode(CreditMemoDocument cmDocument, PurApAccountingLine account) {
         boolean valid = true;
-
-        account.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
         ObjectCode objectCode = account.getObjectCode();
 
-        String objectCodeLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(account.getClass(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-
-        // check object type restrictions
-        valid = executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(CreditMemoDocument.class, PurapRuleConstants.RESTRICTED_OBJECT_TYPE_PARM_NM), objectCode.getFinancialObjectTypeCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
-
-        // check object consolidation restrictions
-        valid &= executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(CreditMemoDocument.class, PurapRuleConstants.RESTRICTED_OBJECT_CONSOLIDATION_PARM_NM), objectCode.getFinancialObjectLevel().getConsolidatedObjectCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
-
-        // check object level restrictions
-        valid &= executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(CreditMemoDocument.class, PurapRuleConstants.RESTRICTED_OBJECT_LEVEL_PARM_NM), objectCode.getFinancialObjectLevelCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
-
-        // check object level by object type restrictions
-        valid &= executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(CreditMemoDocument.class, PurapRuleConstants.VALID_OBJECT_LEVELS_BY_OBJECT_TYPE_PARM_NM), SpringContext.getBean(ParameterService.class).getParameter(CreditMemoDocument.class, PurapRuleConstants.INVALID_OBJECT_LEVELS_BY_OBJECT_TYPE_PARM_NM), objectCode.getFinancialObjectTypeCode(), objectCode.getFinancialObjectLevelCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
-
-        // check object sub type restrictions
-        valid &= executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(CreditMemoDocument.class, PurapRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_PARM_NM), objectCode.getFinancialObjectSubTypeCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
-
-        return valid;
+        ParameterEvaluator parameterEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(CreditMemoDocument.class, PurapRuleConstants.VALID_OBJECT_LEVELS_BY_OBJECT_TYPE_PARM_NM, PurapRuleConstants.INVALID_OBJECT_LEVELS_BY_OBJECT_TYPE_PARM_NM, objectCode.getFinancialObjectTypeCode(), objectCode.getFinancialObjectLevelCode());
+        return parameterEvaluator.evaluateAndAddError(getErrorMessageKey(parameterEvaluator), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, "Object level");
     }
 
     /**

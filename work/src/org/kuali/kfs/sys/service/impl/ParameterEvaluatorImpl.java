@@ -19,83 +19,73 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Parameter;
-import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.service.ParameterEvaluator;
 
 public class ParameterEvaluatorImpl implements ParameterEvaluator {
-    private KualiConfigurationService configurationService;
     private Parameter parameter;
+    private boolean constraintIsAllow;
     private String constrainedValue;
-    private String constrainingValue;
+    private List<String> values;
 
     public boolean evaluationSucceeds() {
-        if (StringUtils.isBlank(constrainingValue)) {
-            return configurationService.succeedsRule(parameter, constrainedValue);
+        if (constraintIsAllow()) {
+            return values.contains(constrainedValue);
         }
-        return configurationService.evaluateConstrainedParameter(parameter, constrainingValue, constrainedValue);
+        else {
+            return !values.contains(constrainedValue);
+        }
+    }
+
+    public boolean evaluateAndAddError(String errorMessageKey, String errorFieldName, String errorParameterLabel) {
+        if (!evaluationSucceeds()) {
+            GlobalVariables.getErrorMap().putError(errorFieldName, errorMessageKey, new String[] { errorParameterLabel, constrainedValue, getName(), getModuleAndComponent(), getParameterValuesForMessage() });
+        }
+        return evaluationSucceeds();
     }
 
     public boolean constraintIsAllow() {
-        return configurationService.isAllowedRule(parameter);
+        return constraintIsAllow;
     }
 
     public List<String> getParameterValues() {
-        if (StringUtils.isBlank(constrainingValue)) {
-            return configurationService.getParameterValuesAsList(parameter);
-        }
-        return configurationService.getConstrainedValues(parameter, constrainingValue);
-    }
-    
-    public String getParameterValuesForMessage() {
-        StringBuilder buf = new StringBuilder();
-        String[] values = configurationService.getParameterValues(parameter);
-        for (int i = 0; i < values.length; i++) {
-            buf.append(values[i]);
-            if (i != values.length - 1) {
-                // don't print comma if the last value
-                buf.append(", ");
-            }
-        }
-        return buf.toString();
+        return values;
     }
 
-    public void setConfigurationService(KualiConfigurationService configurationService) {
-        this.configurationService = configurationService;
+    public String getParameterValuesForMessage() {
+        String parameterValues = values.toString().replace("[", "").replace("]", "");
+        return StringUtils.substringBefore(parameterValues, ",");
+    }
+
+    public String getName() {
+        return parameter.getParameterName();
+    }
+
+    public String getValue() {
+        return parameter.getParameterValue();
+    }
+
+    public String toString() {
+        return new StringBuffer("ParameterEvaluator").append("\n\tParameter: ").append("module=").append(parameter.getParameterNamespaceCode()).append(", component=").append(parameter.getParameterDetailTypeCode()).append(", name=").append(parameter.getParameterName()).append(", value=").append(parameter.getParameterValue()).append("\n\tConstraint Is Allow: ").append(constraintIsAllow).append("\n\tConstrained Value: ").append(constrainedValue).append("\n\tValues: ").append(values.toString()).toString();
+    }
+
+    private String getModuleAndComponent() {
+        return parameter.getParameterNamespaceCode() + ": " + parameter.getParameterDetailTypeCode();
     }
 
     public void setConstrainedValue(String constrainedValue) {
         this.constrainedValue = constrainedValue;
     }
 
-    public String getConstrainedValue() {
-        return constrainedValue;
-    }
-
-    public void setConstrainingValue(String constrainingValue) {
-        this.constrainingValue = constrainingValue;
-    }
-
-    public String getConstrainingValue() {
-        return constrainingValue;
+    public void setConstraintIsAllow(boolean constraintIsAllow) {
+        this.constraintIsAllow = constraintIsAllow;
     }
 
     public void setParameter(Parameter parameter) {
         this.parameter = parameter;
     }
-    
-    public String getParameterName() {
-        return parameter.getParameterName();
-    }
-    
-    public String getParameterNamespaceAndComponent() {
-        return parameter.getParameterNamespaceCode() + "/" + parameter.getParameterDetailTypeCode();
-    }
-    
-    public boolean evaluationTrivallySucceeds() {
-        if (!evaluationSucceeds()) {
-            return false;
-        }
-        List<String> values = getParameterValues();
-        return values.size() == 0 || (values.size() == 1 && "".equals(values.get(0)));
+
+    public void setValues(List<String> values) {
+        this.values = values;
     }
 }

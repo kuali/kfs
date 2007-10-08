@@ -85,7 +85,7 @@ public interface DisbursementVoucherRuleConstants extends ParameterKeyConstants 
     public static final String OBJECT_LEVEL_GLOBAL_RESTRICTION_PARM_NM = "OBJECT_LEVELS";
     public static final String OBJECT_SUB_TYPE_GLOBAL_RESTRICTION_PARM_NM = "OBJECT_SUB_TYPES";
     public static final String SUB_FUND_GLOBAL_RESTRICTION_PARM_NM = "SUB_FUND_GROUPS";
-    public static final String HIGHER_ED_FUNCTIONS_PARM_NM = "HIGHER_ED_FUNCTIONS";
+    public static final String FUNCTION_CODE_GLOBAL_RESTRICTION_PARM_NM = "HIGHER_ED_FUNCTIONS";
     
     public static final String INVALID_DOC_LOC_BY_PAYMENT_REASON_PARM = "INVALID_DOCUMENTATION_LOCATIONS_BY_PAYMENT_REASON";
     public static final String INVALID_OBJ_LEVEL_BY_PAYMENT_REASON_PARM = "INVALID_OBJECT_LEVELS_BY_PAYMENT_REASON";

@@ -565,12 +565,12 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         String taxTypeCode = vendorDetail.getVendorHeader().getVendorTaxTypeCode();
         if (StringUtils.isNotEmpty(ownershipTypeCode) && StringUtils.isNotEmpty(taxTypeCode)) {
             if (VendorConstants.TAX_TYPE_FEIN.equals(taxTypeCode)) {
-                if (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(VendorDetail.class, VendorParameterConstants.PURAP_FEIN_ALLOWED_OWNERSHIP_TYPES, ownershipTypeCode)) {
+                if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(VendorDetail.class, VendorParameterConstants.PURAP_FEIN_ALLOWED_OWNERSHIP_TYPES, ownershipTypeCode).evaluationSucceeds()) {
                     valid &= false;
                 }
             }
             else if (VendorConstants.TAX_TYPE_SSN.equals(taxTypeCode)) {
-                if (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(VendorDetail.class, VendorParameterConstants.PURAP_SSN_ALLOWED_OWNERSHIP_TYPES, ownershipTypeCode)) {
+                if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(VendorDetail.class, VendorParameterConstants.PURAP_SSN_ALLOWED_OWNERSHIP_TYPES, ownershipTypeCode).evaluationSucceeds()) {
                     valid &= false;
                 }
             }

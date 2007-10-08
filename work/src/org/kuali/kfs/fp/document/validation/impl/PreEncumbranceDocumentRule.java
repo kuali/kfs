@@ -98,30 +98,6 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
         }
         return valid;
     }
-
-    /**
-     * @see FinancialDocumentRuleBase#isObjectTypeAllowed(org.kuali.core.bo.AccountingLine)
-     */
-    @Override
-    public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
-        ParameterEvaluator combinedEvaluator = getObjectTypeEvaluator(getFinancialObjectTypeCode(accountingLine));
-        
-        if (combinedEvaluator.evaluationSucceeds()) {
-            return super.isObjectTypeAllowed(accountingLine);
-        }
-        else {
-            AttributeReference direct = createObjectCodeAttributeReference(accountingLine);
-            AttributeReference indirect = createObjectTypeAttributeReference(accountingLine);
-            putIndirectError(combinedEvaluator, direct, indirect);
-            return false;
-        }
-    }
-
-    protected ParameterEvaluator getObjectTypeEvaluator(String objectTypeCode) {
-        ParameterEvaluator globalEvaluator = getGlobalObjectTypeRuleEvaluator(objectTypeCode);
-        ParameterEvaluator docEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(PreEncumbranceDocument.class, RESTRICTED_OBJECT_TYPE_CODES, objectTypeCode);
-        return SpringContext.getBean(ParameterService.class).mergeEvaluators(globalEvaluator, docEvaluator);
-    }
     
     /**
      * Pre Encumbrance document specific business rule checks for the "route document" event.

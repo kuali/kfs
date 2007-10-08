@@ -327,7 +327,7 @@ public class RoutingFormServiceImpl implements RoutingFormService {
         // There could be multiple types on the RF, but only one of them will pass this rule, and that's the one that should be used
         // to populate the Proposal field.
         for (RoutingFormProjectType routingFormProjectType : routingFormDocument.getRoutingFormProjectTypes()) {
-            if (parameterService.evaluateConstrainedValue(RoutingFormDocument.class, KraConstants.CREATE_PROPOSAL_PROJECT_TYPES, routingFormProjectType.getProjectTypeCode())) {
+            if (parameterService.getParameterEvaluator(RoutingFormDocument.class, KraConstants.CREATE_PROPOSAL_PROJECT_TYPES, routingFormProjectType.getProjectTypeCode()).evaluationSucceeds()) {
                 proposal.setProposalAwardTypeCode(routingFormProjectType.getProjectTypeCode());
                 break;
             }

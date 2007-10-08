@@ -390,9 +390,6 @@
 		<property name="balanceService">
 			<ref bean="glBalanceService" />
 		</property>
-		<property name="organizationReversionSelection">
-			<ref bean="glOrganizationReversionSelection" />
-		</property>
 		<property name="originEntryGroupService">
 			<ref bean="originEntryGroupService" />
 		</property>
@@ -503,8 +500,6 @@
 		</property>
 		<property name="directoryName" value="${reports.directory}"/>
 	</bean>
-
-	<bean id="glOrganizationReversionSelection" class="org.kuali.module.gl.service.impl.orgreversion.OrganizationReversionSelectionImpl" />
 
 	<bean id="glCashOrganizationReversionCategoryLogic" class="org.kuali.module.gl.service.impl.orgreversion.CashOrganizationReversionCategoryLogic" />
 	

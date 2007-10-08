@@ -17,7 +17,6 @@ package org.kuali.kfs.service;
 
 import java.util.List;
 
-import org.kuali.core.bo.Parameter;
 import org.kuali.core.bo.ParameterDetailType;
 
 public interface ParameterService {
@@ -25,56 +24,27 @@ public interface ParameterService {
 
     public boolean getIndicatorParameter(Class componentClass, String parameterName);
 
-	@Deprecated
-    public List<String> getParameterValues(Class componentClass, String parameterName);
-
-    @Deprecated
-    public boolean evaluateConstrainedValue(Class componentClass, String parameterName, String constrainedValue);
-
-    @Deprecated
-    public boolean evaluateConstrainedValue(Parameter parameter, String constrainedValue);
-    
-    @Deprecated
-    public boolean evaluateConstrainedValue(Class componentClass, String allowConstraintParameterName, String denyConstraintParameterName, String constrainingValue, String constrainedValue);
-    
-    @Deprecated
-    public boolean evaluateConstrainedValue(Parameter allowParameter, Parameter denyParameter, String constrainingValue, String constrainedValue);
-    
-    public ParameterEvaluator getParameterEvaluator(Class componentClass, String allowParameterName, String denyParameterName, String constrainingValue, String constrainedValue);
-    
-    @Deprecated
-    public boolean evaluateConstrainedValue(Class componentClass, String parameterName, String constrainingValue, String constrainedValue);
-        
     public String getParameterValue(Class componentClass, String parameterName);
     
-    public List<String> getConstrainedParameterValues(Class componentClass, String parameterName, String constrainingValue);
+    public String getParameterValue(Class componentClass, String parameterName, String constrainingValue);
+
+    public List<String> getParameterValues(Class componentClass, String parameterName);
+
+    public List<String> getParameterValues(Class componentClass, String parameterName, String constrainingValue);
+
+    public ParameterEvaluator getParameterEvaluator(Class componentClass, String parameterName);
 
     public ParameterEvaluator getParameterEvaluator(Class componentClass, String parameterName, String constrainedValue);
-    
+
     public ParameterEvaluator getParameterEvaluator(Class componentClass, String parameterName, String constrainingValue, String constrainedValue);
 
+    public ParameterEvaluator getParameterEvaluator(Class componentClass, String allowParameterName, String denyParameterName, String constrainingValue, String constrainedValue);
+    
     public List<ParameterEvaluator> getParameterEvaluators(Class componentClass, String constrainedValue);
 
-    @Deprecated
-    public List<String> deriveConstrainedValues(Class componentClass, String parameterName, String constrainingValue);
-
-    @Deprecated
-    public List<String> deriveConstrainedValues(Parameter parameter, String constrainingValue);
-    
     public List<ParameterEvaluator> getParameterEvaluators(Class componentClass, String constrainingValue, String constrainedValue);
-
-    @Deprecated
-    public String getConstrainedValuesString(Class componentClass, String parameterName, String constrainingValue);
-
-    @Deprecated
-    public List<Parameter> getParameters(Class componentClass);
-
-    @Deprecated
-    public Parameter getParameter(Class componentClass, String parameterName);
 
     public List<ParameterDetailType> getNonDatabaseDetailTypes();
 
-    public void clearCache(Class componentClass, String parameterName);
-    
-    public ParameterEvaluator mergeEvaluators(ParameterEvaluator evaluator1, ParameterEvaluator evaluator2);
+    public void setParameterForTesting(Class componentClass, String parameterName, String parameterText);
 }

@@ -337,7 +337,7 @@ public class RoutingFormAuditRule {
                 }
             }
 
-            if (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(RoutingFormDocument.class, KraConstants.PROJECT_TYPES, projectTypesString)) {
+            if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(RoutingFormDocument.class, KraConstants.PROJECT_TYPES, projectTypesString).evaluationSucceeds()) {
                 valid = false;
                 auditErrors.add(new AuditError("document.routingFormProjectTypes", KraKeyConstants.AUDIT_MAIN_PAGE_PROJECT_TYPE_INVALID, "mainpage.anchor3"));
             }

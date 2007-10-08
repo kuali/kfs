@@ -21,7 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
@@ -49,7 +48,6 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.service.OrgReversionUnitOfWorkService;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
-import org.kuali.module.gl.service.OrganizationReversionSelection;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.util.FatalErrorException;
@@ -62,7 +60,6 @@ public class OrganizationReversionProcess {
     // Services
     private OrganizationReversionService organizationReversionService;
     private BalanceService balanceService;
-    private OrganizationReversionSelection organizationReversionSelection;
     private OriginEntryGroupService originEntryGroupService;
     private OriginEntryService originEntryService;
     private PersistenceService persistenceService;
@@ -121,14 +118,13 @@ public class OrganizationReversionProcess {
         this.FUND_REVERTED_FROM_MESSAGE = configurationService.getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_REVERTED_FROM);
     }
 
-    public OrganizationReversionProcess(OriginEntryGroup outputGroup, boolean endOfYear, OrganizationReversionService ors, BalanceService bs, OrganizationReversionSelection orgrs, OriginEntryGroupService oegs, OriginEntryService oes, PersistenceService ps, DateTimeService dts, OrganizationReversionCategoryLogic corc, PriorYearAccountService pyas, OrgReversionUnitOfWorkService oruows, Map jobParameters, Map<String, Integer> organizationReversionCounts) {
+    public OrganizationReversionProcess(OriginEntryGroup outputGroup, boolean endOfYear, OrganizationReversionService ors, BalanceService bs, OriginEntryGroupService oegs, OriginEntryService oes, PersistenceService ps, DateTimeService dts, OrganizationReversionCategoryLogic corc, PriorYearAccountService pyas, OrgReversionUnitOfWorkService oruows, Map jobParameters, Map<String, Integer> organizationReversionCounts) {
         this();
 
         this.outputGroup = outputGroup;
         this.endOfYear = endOfYear;
         balanceService = bs;
         organizationReversionService = ors;
-        organizationReversionSelection = orgrs;
         originEntryGroupService = oegs;
         originEntryService = oes;
         persistenceService = ps;

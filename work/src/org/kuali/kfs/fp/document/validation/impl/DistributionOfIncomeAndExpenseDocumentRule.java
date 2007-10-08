@@ -15,19 +15,9 @@
  */
 package org.kuali.module.financial.rules;
 
-import org.kuali.core.bo.Parameter;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.service.ParameterEvaluator;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
 
 /**
  * This class holds document specific business rules for the Distribution of Income and Expense. It overrides methods in the base
@@ -42,54 +32,6 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends AccountingDocume
      */
     public boolean isDebit(AccountingDocument FinancialDocument, AccountingLine accountingLine) {
         return IsDebitUtils.isDebitConsideringSectionAndTypePositiveOnly(this, FinancialDocument, accountingLine);
-    }
-
-    /**
-     * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
-     */
-    @Override
-    public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
-        boolean valid = super.isObjectSubTypeAllowed(accountingLine);
-        if (valid) {
-            String objectSubTypeCode = accountingLine.getObjectCode().getFinancialObjectSubTypeCode();
-
-            ObjectCode objectCode = accountingLine.getObjectCode();
-            if (ObjectUtils.isNull(objectCode)) {
-                accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
-            }
-            
-            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DistributionOfIncomeAndExpenseDocument.class, RESTRICTED_SUB_TYPE_GROUP_CODES, objectSubTypeCode);
-            valid = evaluator.evaluationSucceeds();
-
-            if (!valid) {
-                reportError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.DistributionOfIncomeAndExpense.ERROR_DOCUMENT_DI_INVALID_OBJ_SUB_TYPE, objectCode.getFinancialObjectCode(), objectSubTypeCode);
-            }
-        }
-        return valid;
-    }
-
-    /**
-     * @see org.kuali.core.rule.AccountingLineRule#isObjectTypeAllowed(org.kuali.core.bo.AccountingLine)
-     */
-    @Override
-    public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
-        boolean valid = super.isObjectTypeAllowed(accountingLine);
-
-        if (valid) {
-
-            ObjectCode objectCode = accountingLine.getObjectCode();
-
-            String objectTypeCode = objectCode.getFinancialObjectTypeCode();
-            
-            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DistributionOfIncomeAndExpenseDocument.class, RESTRICTED_OBJECT_TYPE_CODES, objectTypeCode);
-            valid = evaluator.evaluationSucceeds();
-            if (!valid) {
-                // add message
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.DistributionOfIncomeAndExpense.ERROR_DOCUMENT_DI_INVALID_OBJECT_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectTypeCode });
-            }
-        }
-
-        return valid;
     }
 
     /**

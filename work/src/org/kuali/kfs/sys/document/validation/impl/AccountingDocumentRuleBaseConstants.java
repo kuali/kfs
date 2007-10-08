@@ -38,6 +38,10 @@ public interface AccountingDocumentRuleBaseConstants {
     public static final class APPLICATION_PARAMETER {
         public static final String RESTRICTED_OBJECT_CODES = "OBJECT_CODES";
         public static final String RESTRICTED_OBJECT_TYPE_CODES = "OBJECT_TYPES";
+        public static final String RESTRICTED_OBJECT_SUB_TYPE_CODES = "OBJECT_SUB_TYPES";
+        public static final String RESTRICTED_OBJECT_LEVELS = "OBJECT_LEVELS";
+        public static final String RESTRICTED_OBJECT_CONSOLIDATIONS = "OBJECT_CONSOLIDATIONS";
+        public static final String RESTRICTED_FUND_GROUP_CODES = "FUND_GROUPS";
         public static final String RESTRICTED_SUB_FUND_GROUP_CODES = "SUB_FUND_GROUPS";
         public static final String MANDATORY_TRANSFER_SUBTYPE_CODES = "MANDATORY_TRANSFER_OBJECT_SUB_TYPES";
         public static final String NONMANDATORY_TRANSFER_SUBTYPE_CODES = "NON_MANDATORY_TRANSFER_OBJECT_SUB_TYPES";

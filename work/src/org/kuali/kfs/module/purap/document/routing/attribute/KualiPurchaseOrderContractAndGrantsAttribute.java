@@ -30,7 +30,6 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.Parameter;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.LookupService;
@@ -39,6 +38,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -162,13 +162,12 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
         ruleSubFundGroupCode = LookupUtils.forceUppercase(SubFundGroup.class, KFSPropertyConstants.SUB_FUND_GROUP_CODE, ruleSubFundGroupCode);
         Set<AccountContainer> accountContainers = populateFromDocContent(docContent);
 
-        Parameter parameterRulesByChart = SpringContext.getBean(ParameterService.class).getParameter(PurchaseOrderDocument.class, PurapParameterConstants.WorkflowParameters.PurchaseOrderDocument.CG_RESTRICTED_OBJECT_CODE_RULE_PARM_NM);
         for (AccountContainer accountContainer : accountContainers) {
             // check to see if account is a C&G account
             if (accountContainer.account.isForContractsAndGrants()) {
                 // check the restricted object code in rule table (object codes listed in the table should route via this attribute)
-                boolean ruleSucceeds = SpringContext.getBean(KualiConfigurationService.class).evaluateConstrainedParameter(parameterRulesByChart, accountContainer.account.getChartOfAccountsCode(), accountContainer.objectCode.getFinancialObjectCode());
-                if (!ruleSucceeds) {
+                ParameterEvaluator parameterRulesByChart = SpringContext.getBean(ParameterService.class).getParameterEvaluator(PurchaseOrderDocument.class, PurapParameterConstants.WorkflowParameters.PurchaseOrderDocument.CG_RESTRICTED_OBJECT_CODE_RULE_PARM_NM, PurapParameterConstants.WorkflowParameters.PurchaseOrderDocument.NO_CG_RESTRICTED_OBJECT_CODE_RULE_PARM_NM, accountContainer.account.getChartOfAccountsCode(), accountContainer.objectCode.getFinancialObjectCode());
+                if (parameterRulesByChart.evaluationSucceeds()) {
                     if (StringUtils.isBlank(accountContainer.account.getSubFundGroupCode())) {
                         // sub fund is blank
                         String errorMsg = "SubFund not found for account '" + accountContainer.account.getChartOfAccountsCode() + "-" + accountContainer.account.getAccountNumber() + "'";

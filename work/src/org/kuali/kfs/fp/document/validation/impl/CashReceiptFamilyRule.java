@@ -18,11 +18,9 @@ package org.kuali.module.financial.rules;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Parameter;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -32,12 +30,7 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.service.ParameterEvaluator;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.ObjLevel;
-import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.CashDrawer;
-import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.document.CashReceiptFamilyBase;
 import org.kuali.module.financial.service.CashDrawerService;
 import org.kuali.module.financial.service.CashReceiptService;
@@ -119,104 +112,7 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
 
         return isValid;
     }
-
-    /**
-     * Overrides to perform the universal rule in the super class in addition to CashReceipt specific rules. This method leverages
-     * the APC for checking restricted object type values.
-     * 
-     * @see org.kuali.core.rule.AccountingLineRule#isObjectTypeAllowed(org.kuali.core.bo.AccountingLine)
-     */
-    @Override
-    public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
-        boolean valid = true;
-
-        valid &= super.isObjectTypeAllowed(accountingLine);
-
-        if (valid) {
-            ObjectCode objectCode = accountingLine.getObjectCode();
-            if (ObjectUtils.isNull(objectCode)) {
-                accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
-            }
-            
-            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(CashReceiptDocument.class, RESTRICTED_OBJECT_TYPE_CODES, objectCode.getFinancialObjectTypeCode());
-            if (!evaluator.evaluationSucceeds()) {
-                valid = false;
-
-                // add message
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectTypeCode() });
-            }
-        }
-
-        return valid;
-    }
-
-    /**
-     * Overrides to validate specific object codes for the Cash Receipt document. This method leverages the APC for checking
-     * restricted object consolidation values.
-     * 
-     * @see org.kuali.core.rule.AccountingLineRule#isObjectConsolidationAllowed(org.kuali.core.bo.AccountingLine)
-     */
-    @Override
-    public boolean isObjectConsolidationAllowed(AccountingLine accountingLine) {
-        boolean valid = true;
-
-        valid &= super.isObjectConsolidationAllowed(accountingLine);
-
-        if (valid) {
-            ObjectCode objectCode = accountingLine.getObjectCode();
-            if (ObjectUtils.isNull(objectCode)) {
-                accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
-            }
-
-            ObjLevel objectLevel = objectCode.getFinancialObjectLevel();
-            if (ObjectUtils.isNull(objectCode)) {
-                accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
-            }
-
-            String consolidatedObjectCode = objectLevel.getConsolidatedObjectCode();
-            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(CashReceiptDocument.class, RESTRICTED_CONSOLIDATED_OBJECT_CODES, consolidatedObjectCode);
-
-            if (!evaluator.evaluationSucceeds()) {
-                valid = false;
-
-                // add message
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_CONSOLIDATED_OBJECT_CODE, new String[] { objectCode.getFinancialObjectCode(), objectLevel.getFinancialObjectLevelCode(), consolidatedObjectCode });
-            }
-        }
-
-        return valid;
-    }
-
-    /**
-     * Overrides to perform the universal rule in the super class in addition to CashReceipt specific rules. This method leverages
-     * the APC for checking restricted object sub type values.
-     * 
-     * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
-     */
-    @Override
-    public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
-        boolean valid = true;
-
-        valid &= super.isObjectSubTypeAllowed(accountingLine);
-
-        if (valid) {
-            ObjectCode objectCode = accountingLine.getObjectCode();
-            if (ObjectUtils.isNull(objectCode)) {
-                accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
-            }
-
-            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(CashReceiptDocument.class, RESTRICTED_OBJECT_SUB_TYPE_CODES, objectCode.getFinancialObjectSubTypeCode());
-            if (!evaluator.evaluationSucceeds()) {
-                valid = false;
-
-                // add message
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_OBJECT_SUB_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectSubTypeCode() });
-            }
-        }
-
-        return valid;
-    }
-
+    
     /**
      * Cash receipt documents do not utilize the target accounting line list. A CR doc is one sided, so this method should always
      * return true.

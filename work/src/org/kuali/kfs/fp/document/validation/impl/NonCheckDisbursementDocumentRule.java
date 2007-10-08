@@ -15,17 +15,10 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.kfs.KFSKeyConstants.NonCheckDisbursement.ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_CONSOLIDATION_CODE;
-import static org.kuali.kfs.KFSKeyConstants.NonCheckDisbursement.ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_SUB_TYPE_CODE;
 import static org.kuali.kfs.KFSKeyConstants.NonCheckDisbursement.ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE;
-import static org.kuali.kfs.KFSKeyConstants.NonCheckDisbursement.ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_SUB_FUND_GROUP;
 import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.REFERENCE_NUMBER;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
-import static org.kuali.module.financial.rules.NonCheckDisbursementDocumentRuleConstants.RESTRICTED_CONSOLIDATION_CODES;
-import static org.kuali.module.financial.rules.NonCheckDisbursementDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
-import static org.kuali.module.financial.rules.NonCheckDisbursementDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
-import static org.kuali.module.financial.rules.NonCheckDisbursementDocumentRuleConstants.RESTRICTED_SUB_FUND_GROUP_TYPE_CODES;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
@@ -41,6 +34,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.financial.document.NonCheckDisbursementDocument;
 
 /**
  * Business rule(s) applicable to NonCheckDisbursement documents.
@@ -156,95 +150,6 @@ public class NonCheckDisbursementDocumentRule extends AccountingDocumentRuleBase
         }
 
         return description;
-    }
-
-    /**
-     * Overrides to perform the universal rule in the super class in addition to Non-Check Disbursement specific rules. This method
-     * leverages the APC for checking restricted object type values.
-     * 
-     * @see org.kuali.core.rule.AccountingLineRule#isObjectTypeAllowed(org.kuali.core.bo.AccountingLine)
-     */
-    @Override
-    public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
-        boolean valid = super.isObjectTypeAllowed(accountingLine);
-
-        ObjectCode objectCode = accountingLine.getObjectCode();
-
-        if (valid) {
-            valid = succeedsRule(RESTRICTED_OBJECT_TYPE_CODES, objectCode.getFinancialObjectTypeCode());
-        }
-
-        if (!valid) {
-            // add message
-            GlobalVariables.getErrorMap().putError(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectTypeCode() });
-        }
-
-        return valid;
-    }
-
-    /**
-     * Overrides to perform the universal rule in the super class in addition to Non-Check Disbursement specific rules. This method
-     * leverages the APC for checking restricted object sub type values.
-     * 
-     * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
-     */
-    @Override
-    public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
-        boolean valid = super.isObjectSubTypeAllowed(accountingLine);
-
-        ObjectCode objectCode = accountingLine.getObjectCode();
-
-        if (valid) {
-            valid = succeedsRule(RESTRICTED_OBJECT_SUB_TYPE_CODES, objectCode.getFinancialObjectSubTypeCode());
-        }
-
-        if (!valid) {
-            // add message
-            GlobalVariables.getErrorMap().putError(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_SUB_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectSubTypeCode() });
-        }
-
-        return valid;
-    }
-
-    /**
-     * @see FinancialDocumentRuleBase#isSubFundGroupAllowed(AccountingLine accountingLine)
-     */
-    @Override
-    public boolean isSubFundGroupAllowed(AccountingLine accountingLine) {
-        boolean valid = super.isSubFundGroupAllowed(accountingLine);
-
-        String subFundGroupTypeCode = accountingLine.getAccount().getSubFundGroup().getSubFundGroupTypeCode();
-        ObjectCode objectCode = accountingLine.getObjectCode();
-
-        if (valid) {
-            valid = succeedsRule(RESTRICTED_SUB_FUND_GROUP_TYPE_CODES, subFundGroupTypeCode);
-        }
-
-        if (!valid) {
-            // add message
-            GlobalVariables.getErrorMap().putError(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_SUB_FUND_GROUP, new String[] { objectCode.getFinancialObjectCode(), subFundGroupTypeCode });
-        }
-
-        return valid;
-    }
-
-    /**
-     * @see FinancialDocumentRuleBase#isObjectConsolidationAllowed(AccountingLine accountingLine)
-     */
-    @Override
-    public boolean isObjectConsolidationAllowed(AccountingLine accountingLine) {
-        boolean valid = true;
-
-        ObjectCode objectCode = accountingLine.getObjectCode();
-        String consolidationCode = objectCode.getFinancialObjectLevel().getFinancialConsolidationObjectCode();
-        valid &= succeedsRule(RESTRICTED_CONSOLIDATION_CODES, consolidationCode);
-
-        if (!valid) {
-            // add message
-            GlobalVariables.getErrorMap().putError(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_CONSOLIDATION_CODE, new String[] { objectCode.getFinancialObjectCode(), consolidationCode });
-        }
-
-        return valid;
     }
 
     /**

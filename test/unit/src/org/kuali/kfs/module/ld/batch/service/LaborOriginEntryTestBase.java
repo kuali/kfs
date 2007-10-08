@@ -220,7 +220,7 @@ public class LaborOriginEntryTestBase extends KualiTestBase {
     }
 
     protected void setApplicationConfigurationFlag(Class componentClass, String name, boolean value) throws Exception {
-        TestUtils.setSystemParameter(componentClass, name, value ? "Y" : "N", true, false);
+        TestUtils.setSystemParameter(componentClass, name, value ? "Y" : "N");
     }
 
 

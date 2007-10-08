@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.kuali.core.bo.Parameter;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -36,6 +36,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OffsetDefinitionService;
@@ -60,7 +61,6 @@ import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.service.LaborReportService;
 import org.kuali.module.labor.util.ReportRegistry;
-import org.springframework.util.StringUtils;
 
 /**
  * This class has the logic for the scrubber. It is required because the scrubber process needs instance variables. Instance
@@ -86,8 +86,6 @@ public class LaborScrubberProcess {
     private PersistenceService persistenceService;
     private LaborReportService laborReportService;
     private ScrubberValidator scrubberValidator;
-
-    private Map<String, Parameter> parameters;
 
     /* These are all different forms of the run date for this job */
     private Date runDate;
@@ -144,11 +142,6 @@ public class LaborScrubberProcess {
         this.persistenceService = persistenceService;
         this.laborReportService = laborReportService;
         this.scrubberValidator = scrubberValidator;
-
-        parameters = new HashMap<String, Parameter>();
-        for (Parameter parameter : SpringContext.getBean(ParameterService.class).getParameters(ScrubberStep.class)) {
-            parameters.put(parameter.getParameterName(), parameter);
-        }
 
         cutoffHour = null;
         cutoffMinute = null;
@@ -379,9 +372,9 @@ public class LaborScrubberProcess {
 
                 KualiDecimal transactionAmount = scrubbedEntry.getTransactionLedgerEntryAmount();
 
-                Parameter offsetFiscalPeriods = getParameter(GLConstants.GlScrubberGroupRules.OFFSET_FISCAL_PERIOD_CODES);
+                ParameterEvaluator offsetFiscalPeriods = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ScrubberStep.class, GLConstants.GlScrubberGroupRules.OFFSET_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
 
-                if (scrubbedEntry.getBalanceType().isFinancialOffsetGenerationIndicator() && kualiConfigurationService.succeedsRule(offsetFiscalPeriods, scrubbedEntry.getUniversityFiscalPeriodCode())) {
+                if (scrubbedEntry.getBalanceType().isFinancialOffsetGenerationIndicator() && offsetFiscalPeriods.evaluationSucceeds()) {
                     if (scrubbedEntry.isDebit()) {
                         unitOfWork.offsetAmount = unitOfWork.offsetAmount.add(transactionAmount);
                     }
@@ -396,13 +389,14 @@ public class LaborScrubberProcess {
                     subAccountTypeCode = scrubbedEntry.getA21SubAccount().getSubAccountTypeCode();
                 }
 
-                Parameter costShareObjectTypeCodes = getParameter(GLConstants.GlScrubberGroupRules.COST_SHARE_OBJ_TYPE_CODES);
-                Parameter costShareEncBalanceTypeCodes = getParameter(GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_BAL_TYP_CODES);
-                Parameter costShareEncFiscalPeriodCodes = getParameter(GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_FISCAL_PERIOD_CODES);
-                Parameter costShareEncDocTypeCodes = getParameter(GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_DOC_TYPE_CODES);
-                Parameter costShareFiscalPeriodCodes = getParameter(GLConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES);
+                ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+                ParameterEvaluator costShareObjectTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GLConstants.GlScrubberGroupRules.COST_SHARE_OBJ_TYPE_CODES, scrubbedEntry.getFinancialObjectTypeCode());
+                ParameterEvaluator costShareEncBalanceTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_BAL_TYP_CODES, scrubbedEntry.getFinancialBalanceTypeCode());
+                ParameterEvaluator costShareEncFiscalPeriodCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
+                ParameterEvaluator costShareEncDocTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode().trim());
+                ParameterEvaluator costShareFiscalPeriodCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GLConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
 
-                if (kualiConfigurationService.succeedsRule(costShareObjectTypeCodes, scrubbedEntry.getFinancialObjectTypeCode()) && kualiConfigurationService.succeedsRule(costShareEncBalanceTypeCodes, scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntry.getAccount().isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && kualiConfigurationService.succeedsRule(costShareEncFiscalPeriodCodes, scrubbedEntry.getUniversityFiscalPeriodCode()) && kualiConfigurationService.succeedsRule(costShareEncDocTypeCodes, scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
+                if (costShareObjectTypeCodes.evaluationSucceeds() && costShareEncBalanceTypeCodes.evaluationSucceeds() && scrubbedEntry.getAccount().isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && costShareEncFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
 
                     // TODO: Check
                     /*
@@ -411,7 +405,7 @@ public class LaborScrubberProcess {
                      * saveValidTransaction = false; saveErrorTransaction = true; }
                      */}
 
-                if (kualiConfigurationService.succeedsRule(costShareObjectTypeCodes, scrubbedEntry.getFinancialObjectTypeCode()) && scrubbedEntry.getOption().getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntry.getAccount().isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && kualiConfigurationService.succeedsRule(costShareFiscalPeriodCodes, scrubbedEntry.getUniversityFiscalPeriodCode()) && kualiConfigurationService.succeedsRule(costShareEncDocTypeCodes, scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
+                if (costShareObjectTypeCodes.evaluationSucceeds() && scrubbedEntry.getOption().getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntry.getAccount().isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && costShareFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
                     if (scrubbedEntry.isDebit()) {
                         scrubCostShareAmount = scrubCostShareAmount.subtract(transactionAmount);
                     }
@@ -419,8 +413,6 @@ public class LaborScrubberProcess {
                         scrubCostShareAmount = scrubCostShareAmount.add(transactionAmount);
                     }
                 }
-
-                Parameter otherDocTypeCodes = getParameter(GLConstants.GlScrubberGroupRules.OFFSET_DOC_TYPE_CODES);
 
                 // TODO: Check
                 /*
@@ -485,14 +477,6 @@ public class LaborScrubberProcess {
             }
         }
         return false;
-    }
-
-    private Parameter getParameter(String param) {
-        Parameter p = parameters.get(param);
-        if (p == null) {
-            throw new IllegalArgumentException("LaborScubberProcess couldn't find ScrubberStep parameter: " + param);
-        }
-        return p;
     }
 
     /**
@@ -563,7 +547,7 @@ public class LaborScrubberProcess {
      */
     private boolean ifNullAddTransactionErrorAndReturnFalse(Object glObject, String errorMessage, String errorValue, int type) {
         if (glObject == null) {
-            if (StringUtils.hasText(errorMessage)) {
+            if (StringUtils.isNotBlank(errorMessage)) {
                 addTransactionError(errorMessage, errorValue, type);
             }
             else {
@@ -670,7 +654,7 @@ public class LaborScrubberProcess {
     }
 
     protected void setCutoffTime(String cutoffTime) {
-        if (!StringUtils.hasText(cutoffTime)) {
+        if (StringUtils.isBlank(cutoffTime)) {
             LOG.debug("Cutoff time is blank");
             unsetCutoffTimeForPreviousDay();
         }
@@ -753,14 +737,12 @@ public class LaborScrubberProcess {
     }
 
     protected void initCutoffTime() {
-        Parameter cutoffParam = parameters.get(GLConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME);
-        String cutoffTime = null;
-        if (cutoffParam == null) {
+        String cutoffTime = SpringContext.getBean(ParameterService.class).getParameterValue(ScrubberStep.class, GLConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME);
+        if (StringUtils.isBlank(cutoffTime)) {
             LOG.debug("Cutoff time system parameter not found");
             unsetCutoffTimeForPreviousDay();
             return;
         }
-        cutoffTime = cutoffParam.getParameterValue();
         setCutoffTime(cutoffTime);
     }
 

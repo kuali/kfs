@@ -210,7 +210,7 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
      * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
      */
     @Override
-    public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
+    public boolean isObjectSubTypeAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine) {
         accountingLine.refreshReferenceObject("objectCode");
         String objectSubTypeCode = accountingLine.getObjectCode().getFinancialObjectSubTypeCode();
 
@@ -236,8 +236,8 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
      * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
      */
     @Override
-    public boolean isObjectCodeAllowed(AccountingLine accountingLine) {
-        boolean isObjectCodeAllowed = super.isObjectCodeAllowed(accountingLine);
+    public boolean isObjectCodeAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        boolean isObjectCodeAllowed = super.isObjectCodeAllowed(accountingDocument, accountingLine);
 
         if (!isIncome(accountingLine) && !isExpense(accountingLine)) {
             GlobalVariables.getErrorMap().putError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_TOF_INVALID_OBJECT_TYPE_CODES, new String[] { accountingLine.getObjectCode().getFinancialObjectTypeCode(), accountingLine.getObjectCode().getFinancialObjectSubTypeCode() });

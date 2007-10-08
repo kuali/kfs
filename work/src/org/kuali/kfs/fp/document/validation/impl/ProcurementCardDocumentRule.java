@@ -21,13 +21,6 @@ import static org.kuali.kfs.KFSConstants.ZERO;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_BALANCE_CONSIDERING_SOURCE_AND_TARGET_AMOUNTS;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_PC_TRANSACTION_TOTAL_ACCTING_LINE_TOTAL_NOT_EQUAL;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_ZERO_AMOUNT;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.ACCOUNT_NUMBER_GLOBAL_RESTRICTION_PARM_NM;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.FUNCTION_CODE_GLOBAL_RESTRICTION_PARM_NM;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.OBJECT_CONSOLIDATION_GLOBAL_RESTRICTION_PARM_NM;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.OBJECT_LEVEL_GLOBAL_RESTRICTION_PARM_NM;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.OBJECT_SUB_TYPE_GLOBAL_RESTRICTION_PARM_NM;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.OBJECT_TYPE_GLOBAL_RESTRICTION_PARM_NM;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.SUB_FUND_GLOBAL_RESTRICTION_PARM_NM;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -46,7 +39,6 @@ import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.rules.AccountingLineRuleUtil;
 import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
@@ -153,24 +145,6 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
             errors.putError(errorKey, KFSKeyConstants.ERROR_INACTIVE, "object code");
             objectCodeAllowed = false;
         }
-
-        /* check object type global restrictions */
-        if (objectCodeAllowed) {
-            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ProcurementCardDocument.class, OBJECT_TYPE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getObjectCode().getFinancialObjectTypeCode());
-            objectCodeAllowed = evaluateAndAddError(evaluator, getErrorMessageKey(evaluator), errorKey, "Object type");
-        }
-        
-        /* check object sub type global restrictions */
-        objectCodeAllowed = objectCodeAllowed && evaluateAccountingLineObjectSubType(accountingLine, ProcurementCardDocument.class, OBJECT_SUB_TYPE_GLOBAL_RESTRICTION_PARM_NM, errorKey);
-        
-        /* check object level global restrictions */
-        objectCodeAllowed = objectCodeAllowed && evaluateAccountingLineObjectLevel(accountingLine, ProcurementCardDocument.class, OBJECT_LEVEL_GLOBAL_RESTRICTION_PARM_NM, errorKey);
-        
-        /* check object consolidation global restrictions */
-        if (objectCodeAllowed) {
-            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ProcurementCardDocument.class, OBJECT_CONSOLIDATION_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialConsolidationObjectCode());
-            objectCodeAllowed = evaluateAndAddError(evaluator, getErrorMessageKey(evaluator), errorKey, "Object consolidation code");
-        }
         
         /* get mcc restriction from transaction */
         String mccRestriction = "";
@@ -192,7 +166,7 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
             ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ProcurementCardDocument.class,
                     ProcurementCardDocumentRuleConstants.VALID_OBJECTS_BY_MCC_CODE_PARM_NM, ProcurementCardDocumentRuleConstants.INVALID_OBJECTS_BY_MCC_CODE_PARM_NM,
                     mccRestriction, accountingLine.getFinancialObjectCode());
-            objectCodeAllowed = evaluateAndAddError(evaluator, getErrorMessageKey(evaluator), errorKey, "Object code");
+            objectCodeAllowed = evaluator.evaluateAndAddError(getErrorMessageKey(evaluator), errorKey, "Object code");
         }
         
         /* check object sub type is in permitted list for mcc */
@@ -200,7 +174,7 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
             ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ProcurementCardDocument.class,
                     ProcurementCardDocumentRuleConstants.VALID_OBJ_SUB_TYPE_BY_MCC_CODE_PARM_NM, ProcurementCardDocumentRuleConstants.INVALID_OBJ_SUB_TYPE_BY_MCC_CODE_PARM_NM,
                     mccRestriction, accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
-            objectCodeAllowed = evaluateAndAddError(evaluator, getErrorMessageKey(evaluator), errorKey, "Object sub type code");
+            objectCodeAllowed = evaluator.evaluateAndAddError(getErrorMessageKey(evaluator), errorKey, "Object sub type code");
         }
         return objectCodeAllowed;
     }
@@ -224,21 +198,6 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
             return false;
         }
 
-        /* global account number restrictions */
-        if (accountNumberAllowed) {
-            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ProcurementCardDocument.class, ACCOUNT_NUMBER_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getAccountNumber());
-            accountNumberAllowed = evaluateAndAddError(evaluator, getErrorMessageKey(evaluator), errorKey, AccountingLineRuleUtil.getAccountLabel());
-        }
-        
-        /* global sub fund restrictions */
-        accountNumberAllowed = accountNumberAllowed && evaluateAccountingLineSubFundGroup(accountingLine, ProcurementCardDocument.class, SUB_FUND_GLOBAL_RESTRICTION_PARM_NM, errorKey);
-        
-        /* global function code restrictions */
-        if (accountNumberAllowed) {
-            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ProcurementCardDocument.class, FUNCTION_CODE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getAccount().getFinancialHigherEdFunctionCd());
-            accountNumberAllowed = evaluateAndAddError(evaluator, getErrorMessageKey(evaluator), errorKey, "Function code");
-        }
-        
         return accountNumberAllowed;
     }
 

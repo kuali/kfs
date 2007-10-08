@@ -283,14 +283,8 @@ public class TestUtils {
     /**
      * This sets a given system parameter and clears the method cache for retrieving the parameter.
      */
-    public static void setSystemParameter(Class componentClass, String parameterName, String parameterText, boolean isIndicator, boolean isMultipleValue) throws Exception {
-        Parameter parameter = (Parameter) SpringContext.getBean(ParameterService.class).getParameter(componentClass, parameterName);
-        if (parameter == null) {
-            throw new RuntimeException("TestUtils.setSystemParameter()--system parameter not found: " + componentClass + "/" + parameterName);
-        }
-        parameter.setParameterValue(parameterText);
-        SpringContext.getBean(BusinessObjectService.class).save(parameter);
-        SpringContext.getBean(ParameterService.class).clearCache(componentClass, parameterName);
+    public static void setSystemParameter(Class componentClass, String parameterName, String parameterText) throws Exception {
+        SpringContext.getBean(ParameterService.class).setParameterForTesting(componentClass, parameterName, parameterText);
     }
 
     /**

@@ -15,20 +15,13 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.module.financial.rules.ServiceBillingDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Parameter;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.service.ParameterEvaluator;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.financial.document.ServiceBillingDocument;
 
 /**
  * Business rule(s) applicable to Service Billing documents. They differ from {@link InternalBillingDocumentRule} by not routing for
@@ -69,16 +62,6 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
             return false;
         }
         return true;
-    }
-
-    /**
-     * @see org.kuali.module.financial.rules.InternalBillingDocumentRule#getObjectTypeRule()
-     */
-    @Override
-    protected ParameterEvaluator getObjectTypeEvaluator(String objectTypeCode) {
-        ParameterEvaluator superEvaluator = super.getObjectTypeEvaluator(objectTypeCode);
-        ParameterEvaluator docEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ServiceBillingDocument.class,RESTRICTED_OBJECT_TYPE_CODES, objectTypeCode);
-        return SpringContext.getBean(ParameterService.class).mergeEvaluators(superEvaluator, docEvaluator);
     }
 
     /**

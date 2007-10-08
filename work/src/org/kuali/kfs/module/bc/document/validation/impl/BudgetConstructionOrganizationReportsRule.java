@@ -127,7 +127,7 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
             // Check the Org Type of the Org business object to see if it is the root (reports to self)
 
             if (ObjectUtils.isNotNull(tempOrg)) {
-                if (SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(Org.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode())) {
+                if (SpringContext.getBean(ParameterService.class).getParameterEvaluator(Org.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode()).evaluationSucceeds()) {
                     orgMustReportToSelf = true;
                 }
             }

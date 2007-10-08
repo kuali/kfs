@@ -125,7 +125,7 @@ public class BatchInputServiceSystemParametersTest extends KualiTestBase {
      * Changes the text for the batch input active system parameter, stores and clears cache.
      */
     private final void setActiveSystemParameter(String parameterText, boolean multiValue) throws Exception {
-        TestUtils.setSystemParameter(ParameterConstants.NERVOUS_SYSTEM_BATCH.class, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME, parameterText, false, multiValue);
+        TestUtils.setSystemParameter(ParameterConstants.NERVOUS_SYSTEM_BATCH.class, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME, parameterText);
     }
 
 }

@@ -23,32 +23,21 @@ import org.kuali.core.bo.Parameter;
 public interface ParameterEvaluator {
     public boolean evaluationSucceeds();
 
-    public boolean constraintIsAllow();
+    public boolean evaluateAndAddError(String errorMessageKey, String errorFieldName, String errorParameterLabel);
 
-    public List<String> getParameterValues();
+    public boolean constraintIsAllow();
 
     public String getParameterValuesForMessage();
 
+    public String getName();
+
+    public String getValue();
+
     public void setParameter(Parameter parameter);
+    
+    public void setConstraintIsAllow(boolean constraintIsAllow);
 
     public void setConstrainedValue(String constrainedValue);
 
-    public String getConstrainedValue();
-    
-    public void setConstrainingValue(String constrainingValue);
-
-    public String getConstrainingValue();
-    
-    public String getParameterName();
-    
-    public String getParameterNamespaceAndComponent();
-    
-    /**
-     * Returns whether evaluation of the parameter was done trivially, that is, regardless of the constraining/constrained values
-     * passed into this evaluator, the evaluator would have succeeded.
-     * 
-     * This often occurs when the parameter value is blank.
-     * @return
-     */
-    public boolean evaluationTrivallySucceeds();
+    public void setValues(List<String> values);
 }

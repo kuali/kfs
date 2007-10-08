@@ -167,8 +167,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
      * @throws ApplicationParameterException if the CCR offset BankAccount is not defined in the APC.
      */
     private BankAccount getOffsetBankAccount() {
-        ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(CreditCardReceiptDocument.class, CreditCardReceiptDocumentRuleConstants.CASH_OFFSET_BANK_ACCOUNT, "");
-        final String[] parameterValues = evaluator.getParameterValues().toArray(new String[] {});
+        final String[] parameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(CreditCardReceiptDocument.class, CreditCardReceiptDocumentRuleConstants.CASH_OFFSET_BANK_ACCOUNT).toArray(new String[]{});
         if (parameterValues.length != 2) {
             throw new RuntimeException(CreditCardReceiptDocument.class.getSimpleName() + "/" + CreditCardReceiptDocumentRuleConstants.CASH_OFFSET_BANK_ACCOUNT + ": invalid parameter format: must be 'bankCode;bankAccountNumber'");
         }

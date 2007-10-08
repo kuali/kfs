@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
@@ -29,8 +31,6 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.RiceConstants;
-import org.kuali.core.bo.Parameter;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
@@ -38,10 +38,11 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
+import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.service.ObjectTypeService;
-import org.kuali.module.chart.service.OrganizationReversionService;
 import org.kuali.module.chart.service.SubFundGroupService;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.BalanceForwardStep;
@@ -398,11 +399,11 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         // TODO abyrne will create jira - this parm doesn't exist
         // return parameterService.getParameterValues(KFSConstants.GL_NAMESPACE, KFSConstants.Components.,
         // "EncumbranceDrillDownBalanceTypes");
-        
+
         ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
         List<String> encumberanceBalanceTypeCodeList = objectTypeService.getCurrentYearEncumbranceBalanceTypes();
-        encumberanceBalanceTypeCodeList.add( objectTypeService.getCurrentYearCostShareEncumbranceBalanceType() );
-        return encumberanceBalanceTypeCodeList;        
+        encumberanceBalanceTypeCodeList.add(objectTypeService.getCurrentYearCostShareEncumbranceBalanceType());
+        return encumberanceBalanceTypeCodeList;
     }
 
     /**
@@ -684,32 +685,44 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         return filteredBalances;
     }
 
+    private static final String PARAMETER_PREFIX = "SELECTION_";
+
     /**
      * @see org.kuali.module.gl.dao.BalanceDao#findOrganizationReversionBalancesForFiscalYear(java.lang.Integer, boolean)
      */
     public Iterator<Balance> findOrganizationReversionBalancesForFiscalYear(Integer year, boolean endOfYear) {
         LOG.debug("findOrganizationReversionBalancesForFiscalYear() started");
-        OrganizationReversionService organizationReversionService = SpringContext.getBean(OrganizationReversionService.class);
-        Map<Integer, Parameter> rules = (endOfYear ? organizationReversionService.getEndOfYearSelectionRules() : organizationReversionService.getBeginningOfYearSelectionRules());
-
         Criteria c = new Criteria();
         c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
-        for (Map.Entry<Integer, Parameter> parameter: rules.entrySet()) {
-            Parameter currentRule = parameter.getValue();
-            if (currentRule != null) {
-                String propertyName = StringUtils.substringBefore(currentRule.getParameterValue(), "=");
-                List<String> ruleValues = Arrays.asList(StringUtils.substringAfter(currentRule.getParameterValue(), "=").split(";"));
-                if (propertyName != null && propertyName.length() > 0 && ruleValues.size() > 0 && !StringUtils.isBlank(ruleValues.get(0))) {
-                    if (RiceConstants.APC_ALLOWED_OPERATOR.equals(currentRule.getParameterConstraintCode())) {
-                        c.addIn(propertyName, ruleValues);
-                    }
-                    else {
-                        c.addNotIn(propertyName, ruleValues);
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        Map<Integer, String> parsedRules = new TreeMap<Integer, String>();
+        int i = 1;
+        boolean moreParams = true;
+        while (moreParams) {
+            if (parameterService.parameterExists(OrganizationReversion.class, PARAMETER_PREFIX + i)) {
+                ParameterEvaluator parameterEvaluator = parameterService.getParameterEvaluator(OrganizationReversion.class, PARAMETER_PREFIX + i);
+                String currentRule = parameterEvaluator.getValue();
+                if (!endOfYear) {
+                    currentRule = currentRule.replaceAll("account\\.", "priorYearAccount.");
+                }
+                if (StringUtils.isNotBlank(currentRule)) {
+                    String propertyName = StringUtils.substringBefore(currentRule, "=");
+                    List<String> ruleValues = Arrays.asList(StringUtils.substringAfter(currentRule, "=").split(";"));
+                    if (propertyName != null && propertyName.length() > 0 && ruleValues.size() > 0 && !StringUtils.isBlank(ruleValues.get(0))) {
+                        if (parameterEvaluator.constraintIsAllow()) {
+                            c.addIn(propertyName, ruleValues);
+                        }
+                        else {
+                            c.addNotIn(propertyName, ruleValues);
+                        }
                     }
                 }
             }
+            else {
+                moreParams = false;
+            }
+            i++;
         }
-
         QueryByCriteria query = QueryFactory.newQuery(Balance.class, c);
         query.addOrderByAscending(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         query.addOrderByAscending(KFSPropertyConstants.ACCOUNT_NUMBER);
@@ -721,7 +734,6 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
-
 
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;

@@ -20,11 +20,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
-import java.util.Map.Entry;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Parameter;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.OrganizationReversion;
@@ -40,8 +36,6 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionServiceImpl.class);
 
     private OrganizationReversionDao organizationReversionDao;
-    private ParameterService parameterService;
-    private static final String ORDERING_NUMBER_RULE_SEPERATOR = "_";
 
     /**
      * @see org.kuali.module.chart.service.OrganizationReversionService#getByPrimaryId(java.lang.Integer, java.lang.String,
@@ -89,38 +83,7 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
         return organizationReversionDao.getCategories();
     }
 
-    /**
-     * @see org.kuali.module.chart.service.OrganizationReversionService#getBeginningOfYearSelectionRules()
-     */
-    public Map<Integer, Parameter> getBeginningOfYearSelectionRules() {
-        Map<Integer, Parameter> rules = this.getEndOfYearSelectionRules();
-        for (Entry<Integer, Parameter> entry : rules.entrySet()) {
-            Parameter param = entry.getValue();
-            param.setParameterValue(param.getParameterValue().replaceAll("account\\.", "priorYearAccount."));
-        }
-        return rules;
-    }
-
-    /**
-     * @see org.kuali.module.chart.service.OrganizationReversionService#getEndOfYearSelectionRules()
-     */
-    public Map<Integer, Parameter> getEndOfYearSelectionRules() {
-        Map<Integer, Parameter> parsedRules = new TreeMap<Integer, Parameter>();
-        // get the selection rule parameters
-        for (Parameter parameter : parameterService.getParameters(OrganizationReversion.class)) {
-            if (parameter.getParameterName().startsWith("SELECTION")) {
-                parsedRules.put(new Integer(StringUtils.substringAfter(parameter.getParameterName(), ORDERING_NUMBER_RULE_SEPERATOR)), parameter);
-            }
-        }
-        return parsedRules;
-    }
-
     public void setOrganizationReversionDao(OrganizationReversionDao orDao) {
         organizationReversionDao = orDao;
     }
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
 }

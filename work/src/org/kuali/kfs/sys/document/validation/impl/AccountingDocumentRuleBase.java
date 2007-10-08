@@ -19,7 +19,6 @@ import static org.kuali.kfs.KFSConstants.ACCOUNTING_LINE_ERRORS;
 import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
 import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_ACTUAL;
 import static org.kuali.kfs.KFSConstants.BLANK_SPACE;
-import static org.kuali.kfs.KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME;
 import static org.kuali.kfs.KFSConstants.SOURCE_ACCOUNTING_LINE_ERRORS;
 import static org.kuali.kfs.KFSConstants.SOURCE_ACCOUNTING_LINE_ERROR_PATTERN;
 import static org.kuali.kfs.KFSConstants.TARGET_ACCOUNTING_LINE_ERRORS;
@@ -29,14 +28,10 @@ import static org.kuali.kfs.KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_AD
 import static org.kuali.kfs.KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_ACCOUNTINGLINE_LASTACCESSIBLE_DELETE;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_APC_INDIRECT_ALLOWED_MULTIPLE;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_APC_INDIRECT_DENIED_MULTIPLE;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_FORMAT;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_MAX_LENGTH;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_BALANCE;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_FUND_GROUP_SET_DOES_NOT_BALANCE;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_OPTIONAL_ONE_SIDED_DOCUMENT_REQUIRED_NUMBER_OF_ACCOUNTING_LINES_NOT_MET;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_SINGLE_ACCOUNTING_LINE_SECTION_TOTAL_CHANGED;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_SOURCE_SECTION_NO_ACCOUNTING_LINES;
@@ -44,14 +39,16 @@ import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_TARGET_SECTION_NO_ACC
 import static org.kuali.kfs.KFSKeyConstants.ERROR_INVALID_FORMAT;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_INVALID_NEGATIVE_AMOUNT_NON_CORRECTION;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_MAX_LENGTH;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_REQUIRED;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_ZERO_AMOUNT;
-import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE;
+import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER.RESTRICTED_FUND_GROUP_CODES;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER.RESTRICTED_OBJECT_CODES;
+import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER.RESTRICTED_OBJECT_CONSOLIDATIONS;
+import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER.RESTRICTED_OBJECT_LEVELS;
+import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER.RESTRICTED_OBJECT_SUB_TYPE_CODES;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER.RESTRICTED_OBJECT_TYPE_CODES;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER.RESTRICTED_SUB_FUND_GROUP_CODES;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,10 +56,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceKeyConstants;
-import org.kuali.core.bo.Parameter;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
@@ -73,7 +68,6 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
@@ -83,6 +77,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
@@ -103,7 +98,6 @@ import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.gl.service.SufficientFundsService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -116,6 +110,18 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingDocumentRuleBase.class);
 
     /**
+     * @return the error key for the operator
+     */
+    protected String getErrorMessageKey(ParameterEvaluator evaluator) {
+        if (evaluator.constraintIsAllow()) {
+            return KFSKeyConstants.ERROR_APPLICATION_PARAMETERS_ALLOWED_RESTRICTION;
+        }
+        else {
+            return KFSKeyConstants.ERROR_APPLICATION_PARAMETERS_DENIED_RESTRICTION;
+        }
+    }
+
+    /**
      * Indicates what is being done to an accounting line. This allows the same method to be used for different actions.
      */
     public enum AccountingLineAction {
@@ -126,33 +132,6 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         AccountingLineAction(String accessabilityErrorKey) {
             this.accessibilityErrorKey = accessabilityErrorKey;
         }
-    }
-
-    protected boolean executeParameterRestriction(Parameter parameter, String restrictedFieldValue, String errorField, String errorParameter) {
-        boolean rulePassed = true;
-
-        if (parameter != null) {
-            if (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(parameter, restrictedFieldValue)) {
-                GlobalVariables.getErrorMap().putError(errorField, getKualiConfigurationService().getErrorMessageKey(parameter), new String[] { errorParameter, restrictedFieldValue, parameter.getParameterName(), parameter.getParameterNamespaceCode(), parameter.getParameterValue() });
-                rulePassed = false;
-            }
-        }
-
-        return rulePassed;
-    }
-
-    protected boolean executeParameterRestriction(Parameter allowParameter, Parameter denyParameter, String constrainingValue, String restrictedFieldValue, String errorField, String errorParameter) {
-        boolean rulePassed = true;
-
-        if (allowParameter != null && denyParameter != null) {
-            if (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue( allowParameter, denyParameter, constrainingValue, restrictedFieldValue)) {
-                Parameter ruleToUseInError = (allowParameter !=null)?allowParameter:denyParameter;
-                GlobalVariables.getErrorMap().putError(errorField, getKualiConfigurationService().getErrorMessageKey(allowParameter), new String[] { errorParameter, restrictedFieldValue, ruleToUseInError.getParameterName(), ruleToUseInError.getParameterNamespaceCode(), ruleToUseInError.getParameterValue() });
-                rulePassed = false;
-            }
-        }
-
-        return rulePassed;
     }
 
     // Inherited Document Specific Business Rules
@@ -328,6 +307,38 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
         LOG.debug("processCustomUpdateAccountingLineBusinessRules(AccountingDocument, AccountingLine, AccountingLine) - end");
         return true;
+    }
+
+    /**
+     * Wrapper around global errorMap.put call, to allow better logging
+     * 
+     * @param propertyName
+     * @param errorKey
+     * @param errorParams
+     */
+    protected void reportError(String propertyName, String errorKey, String... errorParams) {
+        LOG.debug("reportError(String, String, String) - start");
+
+        GlobalVariables.getErrorMap().putError(propertyName, errorKey, errorParams);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("rule failure at " + ExceptionUtils.describeStackLevels(1, 2));
+        }
+    }
+    
+    /**
+     * Adds a global error for a missing required property. This is used for properties, such as reference origin code, which cannot
+     * be required by the DataDictionary validation because not all documents require them.
+     * 
+     * @param boe
+     * @param propertyName
+     */
+    public static void putRequiredPropertyError(BusinessObjectEntry boe, String propertyName) {
+        LOG.debug("putRequiredPropertyError(BusinessObjectEntry, String) - start");
+
+        String label = boe.getAttributeDefinition(propertyName).getShortLabel();
+        GlobalVariables.getErrorMap().putError(propertyName, KFSKeyConstants.ERROR_REQUIRED, label);
+
+        LOG.debug("putRequiredPropertyError(BusinessObjectEntry, String) - end");
     }
 
     /**
@@ -569,25 +580,25 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
             if (valid) { // the following checks assume existence, so if the above method failed, we don't want to call these
                 // Check the object code to see if it's restricted or not
-                valid &= isObjectCodeAllowed(accountingLine);
+                valid &= isObjectCodeAllowed(financialDocument, accountingLine);
 
                 // Check the object code type allowances
-                valid &= isObjectTypeAllowed(accountingLine);
+                valid &= isObjectTypeAllowed(financialDocument, accountingLine);
 
                 // Check the object sub-type code allowances
-                valid &= isObjectSubTypeAllowed(accountingLine);
+                valid &= isObjectSubTypeAllowed(financialDocument, accountingLine);
 
                 // Check the object level allowances
-                valid &= isObjectLevelAllowed(accountingLine);
+                valid &= isObjectLevelAllowed(financialDocument, accountingLine);
 
                 // Check the object consolidation allowances
-                valid &= isObjectConsolidationAllowed(accountingLine);
+                valid &= isObjectConsolidationAllowed(financialDocument, accountingLine);
 
                 // Check the sub fund group allowances
-                valid &= isSubFundGroupAllowed(accountingLine);
+                valid &= isSubFundGroupAllowed(financialDocument, accountingLine);
 
                 // Check the fund group allowances
-                valid &= isFundGroupAllowed(accountingLine);
+                valid &= isFundGroupAllowed(financialDocument, accountingLine);
             }
         }
 
@@ -781,33 +792,6 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
         LOG.debug("retrievePersistedDocument(AccountingDocument) - end");
         return persistedDocument;
-    }
-
-    /**
-     * This method builds out the error message for when totals have changed.
-     * 
-     * @param propertyName
-     * @param sectionTitle
-     * @param persistedSourceLineTotal
-     * @param currentSourceLineTotal
-     * @deprecated KULEDOCS-1488: It was requested that we no longer display the name of the associated section in the error
-     *             message, so this method was replaced with buildTotalChangeErrorMessage(String, KualiDecimal, KualiDecimal).
-     * @see TransactionDocumentRuleBase.buildTotalChangeErrorMessage(String, KualiDecimal, KualiDecimal)
-     */
-    private void buildTotalChangeErrorMessage(String propertyName, String sectionTitle, KualiDecimal persistedSourceLineTotal, KualiDecimal currentSourceLineTotal) {
-        LOG.debug("buildTotalChangeErrorMessage(String, String, KualiDecimal, KualiDecimal) - start");
-
-        String persistedTotal = (String) new CurrencyFormatter().format(persistedSourceLineTotal);
-        String currentTotal = (String) new CurrencyFormatter().format(currentSourceLineTotal);
-
-        if (StringUtils.isBlank(sectionTitle)) {
-            GlobalVariables.getErrorMap().putError(propertyName, ERROR_DOCUMENT_SINGLE_ACCOUNTING_LINE_SECTION_TOTAL_CHANGED, new String[] { persistedTotal, currentTotal });
-        }
-        else {
-            GlobalVariables.getErrorMap().putError(propertyName, ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED, new String[] { sectionTitle, persistedTotal, currentTotal });
-        }
-
-        LOG.debug("buildTotalChangeErrorMessage(String, String, KualiDecimal, KualiDecimal) - end");
     }
 
     /**
@@ -1231,28 +1215,75 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return boolean True if the use of the object code is allowed.
      */
-    public boolean isObjectCodeAllowed(AccountingLine accountingLine) {
-        LOG.debug("isObjectCodeAllowed(AccountingLine) - start");
+    public boolean isObjectCodeAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        return isAccountingLineValueAllowed(accountingDocument.getClass(), accountingLine, RESTRICTED_OBJECT_CODES, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accountingLine.getFinancialObjectCode());
+    }
 
-        String objectCode = accountingLine.getFinancialObjectCode();
+    private boolean isAccountingLineValueAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine, String parameterName, String propertyName) {
+        return isAccountingLineValueAllowed(accountingDocument.getClass(), accountingLine, parameterName, propertyName, propertyName);
+    }
 
-        // Parameter restrictedObjectCodes =
-        // SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(KUALI_TRANSACTION_PROCESSING_GLOBAL_RULES_SECURITY_GROUPING,
-        // RESTRICTED_OBJECT_CODES);
-
-        ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, RESTRICTED_OBJECT_CODES, objectCode);
-        
-        if (!evaluator.evaluationSucceeds()) {
-            String objectCodeInfo = objectCode + " - " + accountingLine.getObjectCode().getFinancialObjectCodeShortName();
-            GlobalVariables.getErrorMap().putError(FINANCIAL_OBJECT_CODE_PROPERTY_NAME, ERROR_DOCUMENT_INCORRECT_OBJ_CODE, new String[] { objectCodeInfo });
-
-            LOG.debug("isObjectCodeAllowed(AccountingLine) - end");
-            return false;
+    private boolean isAccountingLineValueAllowed(Class documentClass, AccountingLine accountingLine, String parameterName, String propertyName, String userEnteredPropertyName) {
+        boolean isAllowed = true;
+        ParameterEvaluator globalEvaluator = null;
+        ParameterEvaluator documentSpecificEvaluator = null;
+        String exceptionMessage = "Invalue property name provided to AccountingDocumentRuleBase isAccountingLineValueAllowed method: " + propertyName;
+        try {
+            String propertyValue = (String) PropertyUtils.getProperty(accountingLine, propertyName);
+            if (SpringContext.getBean(ParameterService.class).parameterExists(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName)) {
+                globalEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName, propertyValue);
+            }
+            if (SpringContext.getBean(ParameterService.class).parameterExists(documentClass, parameterName)) {
+                documentSpecificEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(documentClass, parameterName, propertyValue);
+            }
+            StringBuffer allowedList = new StringBuffer();
+            StringBuffer deniedList = new StringBuffer();
+            if ((globalEvaluator != null) && !globalEvaluator.evaluationSucceeds()) {
+                isAllowed = false;
+                if (globalEvaluator.constraintIsAllow()) {
+                    allowedList.append(globalEvaluator.getParameterValuesForMessage());
+                }
+                else {
+                    deniedList.append(globalEvaluator.getParameterValuesForMessage());
+                }
+            }
+            if ((documentSpecificEvaluator != null) && !documentSpecificEvaluator.evaluationSucceeds()) {
+                isAllowed = false;
+                if (documentSpecificEvaluator.constraintIsAllow()) {
+                    if (StringUtils.isNotBlank(allowedList.toString())) {
+                        allowedList.append(", ");
+                    }
+                    allowedList.append(globalEvaluator.getParameterValuesForMessage());
+                }
+                else {
+                    if (StringUtils.isNotBlank(deniedList.toString())) {
+                        deniedList.append(", ");
+                    }
+                    deniedList.append(documentSpecificEvaluator.getParameterValuesForMessage());
+                }
+            }
+            if (!isAllowed) {
+                StringBuffer errorMessageSuffix = new StringBuffer();
+                if (StringUtils.isNotBlank(allowedList.toString())) {
+                    errorMessageSuffix.append("The following ").append(SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SourceAccountingLine.class, propertyName)).append("s").append(" are allowed: ").append(allowedList.toString()).append(".  ");
+                }
+                if (StringUtils.isNotBlank(deniedList.toString())) {
+                    errorMessageSuffix.append("The following ").append(SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SourceAccountingLine.class, propertyName)).append("s").append(" are not allowed: ").append(deniedList.toString()).append(".  ");
+                }
+                errorMessageSuffix.append("Please provide a different ").append(SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SourceAccountingLine.class, userEnteredPropertyName)).append(".");
+                GlobalVariables.getErrorMap().putError(propertyName, KFSKeyConstants.ERROR_DOCUMENT_INVALID_VALUE, new String[] { SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SourceAccountingLine.class, propertyName), propertyValue, errorMessageSuffix.toString() });
+            }
         }
-        else {
-            LOG.debug("isObjectCodeAllowed(AccountingLine) - end");
-            return true;
+        catch (IllegalAccessException e) {
+            throw new RuntimeException(exceptionMessage, e);
         }
+        catch (InvocationTargetException e) {
+            throw new RuntimeException(exceptionMessage, e);
+        }
+        catch (NoSuchMethodException e) {
+            throw new RuntimeException(exceptionMessage, e);
+        }
+        return isAllowed;
     }
 
     /**
@@ -1262,86 +1293,8 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return boolean
      */
-    public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
-        LOG.debug("isObjectTypeAllowed(AccountingLine) - start");
-
-        ParameterEvaluator evaluator = getGlobalObjectTypeRuleEvaluator(getFinancialObjectTypeCode(accountingLine));
-        boolean returnboolean = evaluator.evaluationSucceeds();
-        if (!returnboolean) {
-            AttributeReference direct = createObjectCodeAttributeReference(accountingLine);
-            AttributeReference indirect = createObjectTypeAttributeReference(accountingLine);
-            
-            putIndirectError(evaluator, direct, indirect);
-        }
-        LOG.debug("isObjectTypeAllowed(AccountingLine) - end");
-        return returnboolean;
-    }
-
-    /**
-     * Returns the financial object type code to use when validating an accounting line 
-     * @param accountingLine
-     * @return
-     */
-    protected String getFinancialObjectTypeCode(AccountingLine accountingLine) {
-        return accountingLine.getObjectCode().getFinancialObjectTypeCode();
-    }
-    
-    /**
-     * Returns the global rule restricting object type codes.
-     * 
-     * @param objectTypeCode the object type code that we're evaluating
-     * @return the object type code evaluator
-     */
-    protected ParameterEvaluator getGlobalObjectTypeRuleEvaluator(String objectTypeCode) {
-        LOG.debug("getGlobalObjectTypeRule() - start");
-        
-        ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class,
-                RESTRICTED_OBJECT_TYPE_CODES, objectTypeCode);
-        LOG.debug("getGlobalObjectTypeRule() - end");
-        return evaluator;
-    }
-
-    /**
-     * Returns the global rule restricting sub fund group codes.
-     * 
-     * @param subFundGroupCode the sub fund group code being evaluated
-     * @return the sub fund group code evaluator
-     */
-    protected ParameterEvaluator getGlobalSubFundGroupRule(String subFundGroupCode) {
-        LOG.debug("getGlobalSubFundGroupRule() - start");
-
-        ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class,
-                RESTRICTED_SUB_FUND_GROUP_CODES, subFundGroupCode);
-        LOG.debug("getGlobalSubFundGroupRule() - end");
-        return evaluator;
-    }
-
-    /**
-     * Creates an AttributeReference for the ObjectCode of the given AccountingLine.
-     * 
-     * @param accountingLine
-     * @return an AttributeReference for the ObjectCode of the given AccountingLine.
-     */
-    protected static AttributeReference createObjectCodeAttributeReference(AccountingLine accountingLine) {
-        LOG.debug("createObjectCodeAttributeReference(AccountingLine) - start");
-
-        AttributeReference returnAttributeReference = new AttributeReference(SourceAccountingLine.class, FINANCIAL_OBJECT_CODE, accountingLine.getFinancialObjectCode());
-        LOG.debug("createObjectCodeAttributeReference(AccountingLine) - end");
-        return returnAttributeReference;
-    }
-
-    /**
-     * Creates an AttributeReference for the object type code of the ObjectCode of the given AccountingLine.
-     * 
-     * @param accountingLine
-     * @return an AttributeReference for the object type code of the ObjectCode of the given AccountingLine.
-     */
-    protected static AttributeReference createObjectTypeAttributeReference(AccountingLine accountingLine) {
-        LOG.debug("createObjectTypeAttributeReference(AccountingLine) - start");
-
-        AttributeReference returnAttributeReference = new AttributeReference(ObjectCode.class, FINANCIAL_OBJECT_TYPE_CODE, accountingLine.getObjectCode().getFinancialObjectTypeCode());
-        LOG.debug("createObjectTypeAttributeReference(AccountingLine) - end");
-        return returnAttributeReference;
+    public boolean isObjectTypeAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        return isAccountingLineValueAllowed(accountingDocument.getClass(), accountingLine, RESTRICTED_OBJECT_TYPE_CODES, "objectCode.financialObjectTypeCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
     }
 
     /**
@@ -1351,11 +1304,8 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return boolean
      */
-    public boolean isFundGroupAllowed(AccountingLine accountingLine) {
-        LOG.debug("isFundGroupAllowed(AccountingLine) - start");
-
-        LOG.debug("isFundGroupAllowed(AccountingLine) - end");
-        return true;
+    public boolean isFundGroupAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        return isAccountingLineValueAllowed(accountingDocument.getClass(), accountingLine, RESTRICTED_FUND_GROUP_CODES, "account.subFundGroup.fundGroupCode", "accountNumber");
     }
 
     /**
@@ -1365,33 +1315,10 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return boolean
      */
-    public boolean isSubFundGroupAllowed(AccountingLine accountingLine) {
-        LOG.debug("isSubFundGroupAllowed(AccountingLine) - start");
-
-        // TODO: warren is this a problem b/c we're not using the sub fund group code???
-        ParameterEvaluator evaluator = getGlobalSubFundGroupRule(getSubFundGroupCode(accountingLine));
-        boolean returnboolean = evaluator.evaluationSucceeds();
-        if (!returnboolean) {
-            AttributeReference direct = createObjectCodeAttributeReference(accountingLine);
-            AttributeReference indirect = createObjectTypeAttributeReference(accountingLine);
-            
-            putIndirectError(evaluator, direct, indirect);
-        }
-        //boolean returnboolean = indirectRuleSucceeds(getGlobalSubFundGroupRule(getSubFundGroupCode(accountingLine)), direct, indirect);
-        LOG.debug("isSubFundGroupAllowed(AccountingLine) - end");
-        return returnboolean;
+    public boolean isSubFundGroupAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        return isAccountingLineValueAllowed(accountingDocument.getClass(), accountingLine, RESTRICTED_SUB_FUND_GROUP_CODES, "account.subFundGroupCode", "accountNumber");
     }
 
-    /**
-     * Returns the sub fund group code of an accounting line
-     * 
-     * @param accountingLine
-     * @return
-     */
-    protected String getSubFundGroupCode(AccountingLine accountingLine) {
-       return accountingLine.getAccount().getSubFundGroupCode();
-   }
-   
     /**
      * This method checks to see if the object sub-type code for the accouting line's object code is allowed. The common
      * implementation allows any object sub-type code.
@@ -1399,11 +1326,8 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return boolean True if the use of the object code's object sub type code is allowed; false otherwise.
      */
-    public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
-        LOG.debug("isObjectSubTypeAllowed(AccountingLine) - start");
-
-        LOG.debug("isObjectSubTypeAllowed(AccountingLine) - end");
-        return true;
+    public boolean isObjectSubTypeAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        return isAccountingLineValueAllowed(accountingDocument.getClass(), accountingLine, RESTRICTED_OBJECT_SUB_TYPE_CODES, "objectCode.financialObjectSubTypeCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
     }
 
     /**
@@ -1413,11 +1337,8 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return boolean True if the use of the object code's object sub type code is allowed; false otherwise.
      */
-    public boolean isObjectLevelAllowed(AccountingLine accountingLine) {
-        LOG.debug("isObjectLevelAllowed(AccountingLine) - start");
-
-        LOG.debug("isObjectLevelAllowed(AccountingLine) - end");
-        return true;
+    public boolean isObjectLevelAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        return isAccountingLineValueAllowed(accountingDocument.getClass(), accountingLine, RESTRICTED_OBJECT_LEVELS, "objectCode.financialObjectLevelCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
     }
 
     /**
@@ -1427,11 +1348,8 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return boolean True if the use of the object code's object sub type code is allowed; false otherwise.
      */
-    public boolean isObjectConsolidationAllowed(AccountingLine accountingLine) {
-        LOG.debug("isObjectConsolidationAllowed(AccountingLine) - start");
-
-        LOG.debug("isObjectConsolidationAllowed(AccountingLine) - end");
-        return true;
+    public boolean isObjectConsolidationAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        return isAccountingLineValueAllowed(accountingDocument.getClass(), accountingLine, RESTRICTED_OBJECT_CONSOLIDATIONS, "objectCode.financialObjectLevel.financialConsolidationObjectCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
     }
 
     /**
@@ -1682,8 +1600,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
             // creating an evaluator to just format the fund codes into a nice string
             ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(componentClass, parameterName, "");
-            GlobalVariables.getErrorMap().putError("document.sourceAccountingLines", ERROR_DOCUMENT_FUND_GROUP_SET_DOES_NOT_BALANCE,
-                    new String[] { tranDoc.getSourceAccountingLinesSectionTitle(), tranDoc.getTargetAccountingLinesSectionTitle(), evaluator.getParameterValuesForMessage()});
+            GlobalVariables.getErrorMap().putError("document.sourceAccountingLines", ERROR_DOCUMENT_FUND_GROUP_SET_DOES_NOT_BALANCE, new String[] { tranDoc.getSourceAccountingLinesSectionTitle(), tranDoc.getTargetAccountingLinesSectionTitle(), evaluator.getParameterValuesForMessage() });
         }
 
         LOG.debug("isFundGroupSetBalanceValid(AccountingDocument, String[]) - end");
@@ -1724,83 +1641,6 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
         LOG.debug("buildFundGroupCodeBalancingErrorMessage(String[]) - end");
         return balancingFundGroups;
-    }
-
-    /**
-     * Wrapper around global errorMap.put call, to allow better logging
-     * 
-     * @param propertyName
-     * @param errorKey
-     * @param errorParams
-     */
-    protected void reportError(String propertyName, String errorKey, String... errorParams) {
-        LOG.debug("reportError(String, String, String) - start");
-
-        GlobalVariables.getErrorMap().putError(propertyName, errorKey, errorParams);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("rule failure at " + ExceptionUtils.describeStackLevels(1, 2));
-        }
-    }
-
-    /**
-     * Checks whether a rule about an indirect attribute succeeds. If the rule fails, a global error is added for the direct
-     * reference, and debug logged.
-     * 
-     * @param parameterRule the rule to check
-     * @param direct a field that the user input (e.g., an object code)
-     * @param indirect a dependent field that the rule checks (e.g., the object type of the object code)
-     * @return whether the rule succeeds
-     */
-    /*protected static boolean indirectRuleSucceeds(Parameter parameterRule, AttributeReference direct, AttributeReference indirect) {
-        LOG.debug("indirectRuleSucceeds(KualiParameterRule, AttributeReference, AttributeReference) - start");
-        KualiConfigurationService configService = SpringContext.getBean(KualiConfigurationService.class);
-        if (configService.succeedsRule(parameterRule, indirect.getValueString())) {
-            LOG.debug("indirectRuleSucceeds(KualiParameterRule, AttributeReference, AttributeReference) - end");
-            return true;
-        }
-        else {
-            String[] errorParameters = { parameterRule.getParameterName(), ExceptionUtils.describeStackLevel(1), direct.getLabel(), direct.getValueString(), indirect.getLabel(), indirect.getValueString(), parameterRule.getParameterValue() };
-            GlobalVariables.getErrorMap().putError(direct.getPropertyName(), getIndirectErrorKey(parameterRule), errorParameters);
-            LOG.debug("APC rule failure " + Arrays.asList(errorParameters));
-            return false;
-        }
-    }*/
-
-    protected void putIndirectError(ParameterEvaluator evaluator, AttributeReference direct, AttributeReference indirect) {
-        String[] errorParameters = { evaluator.getParameterName(), ExceptionUtils.describeStackLevel(1), direct.getLabel(), direct.getValueString(), indirect.getLabel(), indirect.getValueString(), evaluator.getParameterValuesForMessage() };
-        GlobalVariables.getErrorMap().putError(direct.getPropertyName(), getIndirectErrorKey(evaluator), errorParameters);
-    }
-    
-    /**
-     * Gets a key to a generic error message appropriate for the indirect use of the given APC rule.
-     * 
-     * An "indirect use" refers to the validation of an attribute of an attribute.  For example, on some documents, only object codes with a given object type code are allowed.
-     *  
-     * @param parameterRule
-     * @return error key
-     */
-    private static String getIndirectErrorKey(ParameterEvaluator parameterEvaluator) {
-        LOG.debug("getIndirectErrorKey(ParameterEvaluator) - start");
-
-        String returnString = parameterEvaluator.constraintIsAllow() ? ERROR_APC_INDIRECT_ALLOWED_MULTIPLE : ERROR_APC_INDIRECT_DENIED_MULTIPLE;
-        LOG.debug("getIndirectErrorKey(ParameterEvaluator) - end");
-        return returnString;
-    }
-
-    /**
-     * Adds a global error for a missing required property. This is used for properties, such as reference origin code, which cannot
-     * be required by the DataDictionary validation because not all documents require them.
-     * 
-     * @param boe
-     * @param propertyName
-     */
-    public static void putRequiredPropertyError(BusinessObjectEntry boe, String propertyName) {
-        LOG.debug("putRequiredPropertyError(BusinessObjectEntry, String) - start");
-
-        String label = boe.getAttributeDefinition(propertyName).getShortLabel();
-        GlobalVariables.getErrorMap().putError(propertyName, ERROR_REQUIRED, label);
-
-        LOG.debug("putRequiredPropertyError(BusinessObjectEntry, String) - end");
     }
 
     /**
@@ -2097,41 +1937,5 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
             LOG.debug("disallowErrorCorrectionDocumentCheck(AccountingDocumentRuleBase, AccountingDocument) - end");
         }
-    }
-    
-    protected boolean evaluateAndAddError(ParameterEvaluator evaluator, String errorMessageKey, String errorFieldName, String errorParameterLabel) {
-        boolean returnVal = evaluator.evaluationSucceeds();
-        if (!returnVal) {
-            GlobalVariables.getErrorMap().putError(errorFieldName, errorMessageKey, 
-                    new String[] { errorParameterLabel, evaluator.getConstrainedValue(), evaluator.getParameterName(), evaluator.getParameterNamespaceAndComponent(), evaluator.getParameterValuesForMessage() });
-        }
-        return returnVal;
-    }
-    
-    /**
-     * @return the error key for the operator
-     */
-    protected String getErrorMessageKey(ParameterEvaluator evaluator) {
-        if (evaluator.constraintIsAllow()) {
-            return RiceKeyConstants.ERROR_APPLICATION_PARAMETERS_ALLOWED_RESTRICTION;
-        }
-        else {
-            return RiceKeyConstants.ERROR_APPLICATION_PARAMETERS_DENIED_RESTRICTION;
-        }
-    }
-    
-    protected boolean evaluateAccountingLineObjectSubType(AccountingLine accountingLine, Class documentClass, String paramName, String errorFieldName) {
-        ParameterEvaluator objectSubTypeEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(documentClass, paramName, accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
-        return evaluateAndAddError(objectSubTypeEvaluator, getErrorMessageKey(objectSubTypeEvaluator), errorFieldName, AccountingLineRuleUtil.getObjectSubTypeCodeLabel());
-    }
-    
-    protected boolean evaluateAccountingLineObjectLevel(AccountingLine accountingLine, Class documentClass, String paramName, String errorFieldName) {
-        ParameterEvaluator objectLevelEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(documentClass, paramName, accountingLine.getObjectCode().getFinancialObjectLevelCode());
-        return evaluateAndAddError(objectLevelEvaluator, getErrorMessageKey(objectLevelEvaluator), errorFieldName, "Object level");
-    }
-    
-    protected boolean evaluateAccountingLineSubFundGroup(AccountingLine accountingLine, Class documentClass, String paramName, String errorFieldName) {
-        ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(documentClass, paramName, accountingLine.getAccount().getSubFundGroupCode());
-        return evaluateAndAddError(evaluator, getErrorMessageKey(evaluator), errorFieldName, AccountingLineRuleUtil.getSubFundGroupCodeLabel());
     }
 }

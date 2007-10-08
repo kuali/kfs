@@ -555,14 +555,11 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
 
         String errorKey = KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE;
 
-        /* check object sub type global restrictions */
-        objectCodeAllowed = objectCodeAllowed && evaluateAccountingLineObjectSubType(accountingLine, BudgetAdjustmentDocument.class, RESTRICTED_OBJECT_SUB_TYPE_CODES, errorKey);
-
         /* check object code is in permitted list for payment reason */
         if (objectCodeAllowed) {
             ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(BudgetAdjustmentDocument.class, RESTRICTED_OBJECT_CODES, accountingLine.getFinancialObjectCode());
             // objectCodeAllowed is true now
-            objectCodeAllowed = evaluateAndAddError(evaluator, getErrorMessageKey(evaluator), errorKey, AccountingLineRuleUtil.getObjectCodeLabel());
+            objectCodeAllowed = evaluator.evaluateAndAddError(getErrorMessageKey(evaluator), errorKey, AccountingLineRuleUtil.getObjectCodeLabel());
         }
         
         return objectCodeAllowed;

@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.service.ParameterService;
@@ -39,7 +38,6 @@ import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.service.OrgReversionUnitOfWorkService;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 import org.kuali.module.gl.service.OrganizationReversionProcessService;
-import org.kuali.module.gl.service.OrganizationReversionSelection;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ReportService;
@@ -56,7 +54,6 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
     private OrganizationReversionService organizationReversionService;
     private ParameterService parameterService;
     private BalanceService balanceService;
-    private OrganizationReversionSelection organizationReversionSelection;
     private OriginEntryGroupService originEntryGroupService;
     private OriginEntryService originEntryService;
     private PersistenceService persistenceService;
@@ -76,10 +73,6 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
-    }
-
-    public void setOrganizationReversionSelection(OrganizationReversionSelection organizationReversionSelection) {
-        this.organizationReversionSelection = organizationReversionSelection;
     }
 
     public void setOrganizationReversionService(OrganizationReversionService organizationReversionService) {
@@ -126,8 +119,7 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
     public void organizationReversionProcessEndOfYear(OriginEntryGroup outputGroup, Map jobParameters, Map<String, Integer> organizationReversionCounts) {
         LOG.debug("organizationReversionProcessEndOfYear() started");
 
-        this.organizationReversionSelection.setEndOfYear(true);
-        OrganizationReversionProcess orp = new OrganizationReversionProcess(outputGroup, true, organizationReversionService, balanceService, organizationReversionSelection, originEntryGroupService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic, priorYearAccountService, orgReversionUnitOfWorkService, jobParameters, organizationReversionCounts);
+        OrganizationReversionProcess orp = new OrganizationReversionProcess(outputGroup, true, organizationReversionService, balanceService, originEntryGroupService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic, priorYearAccountService, orgReversionUnitOfWorkService, jobParameters, organizationReversionCounts);
 
         orp.organizationReversionProcess();
     }
@@ -135,8 +127,7 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
     public void organizationReversionProcessBeginningOfYear(OriginEntryGroup outputGroup, Map jobParameters, Map<String, Integer> organizationReversionCounts) {
         LOG.debug("organizationReversionProcessEndOfYear() started");
 
-        this.organizationReversionSelection.setEndOfYear(false);
-        OrganizationReversionProcess orp = new OrganizationReversionProcess(outputGroup, false, organizationReversionService, balanceService, organizationReversionSelection, originEntryGroupService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic, priorYearAccountService, orgReversionUnitOfWorkService, jobParameters, organizationReversionCounts);
+        OrganizationReversionProcess orp = new OrganizationReversionProcess(outputGroup, false, organizationReversionService, balanceService, originEntryGroupService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic, priorYearAccountService, orgReversionUnitOfWorkService, jobParameters, organizationReversionCounts);
 
         orp.organizationReversionProcess();
     }

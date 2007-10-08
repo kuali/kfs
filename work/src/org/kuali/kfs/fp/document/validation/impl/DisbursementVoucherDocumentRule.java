@@ -18,14 +18,9 @@ package org.kuali.module.financial.rules;
 import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
 
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Parameter;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
@@ -35,7 +30,6 @@ import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.DocumentAuthorizationService;
-import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
@@ -61,7 +55,6 @@ import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.module.financial.bo.NonResidentAlienTaxPercent;
 import org.kuali.module.financial.bo.Payee;
-import org.kuali.module.financial.bo.PaymentReasonCode;
 import org.kuali.module.financial.bo.TravelCompanyCode;
 import org.kuali.module.financial.bo.WireCharge;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
@@ -350,9 +343,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * @return
      */
     public boolean isTravelNonEmplPaymentReason(DisbursementVoucherDocument disbursementVoucherDocument) {
-        ParameterEvaluator travelNonEmplPaymentReasonEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(
-                DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM,
-                disbursementVoucherDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
+        ParameterEvaluator travelNonEmplPaymentReasonEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, disbursementVoucherDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
         return travelNonEmplPaymentReasonEvaluator.evaluationSucceeds();
     }
 
@@ -363,12 +354,10 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * @return
      */
     public boolean isTravelPrepaidPaymentReason(DisbursementVoucherDocument disbursementVoucherDocument) {
-        ParameterEvaluator travelNonEmplPaymentReasonEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(
-                DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.PREPAID_TRAVEL_PAY_REASONS_PARM_NM,
-                disbursementVoucherDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
+        ParameterEvaluator travelNonEmplPaymentReasonEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.PREPAID_TRAVEL_PAY_REASONS_PARM_NM, disbursementVoucherDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
         return travelNonEmplPaymentReasonEvaluator.evaluationSucceeds();
     }
-    
+
     /**
      * Override to change the doc type based on payment method. This is needed to pick up different offset definitions.
      * 
@@ -923,70 +912,23 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * @param errorParameter
      * @return
      */
-    private boolean executePaymentReasonRestriction(String allowedParameterName, String disallowedParameterName, String paymentReasonCode,
-            String restrictedFieldValue, String errorField, String errorParameter, CodeDescriptionFormatter restrictedFieldDescFormatter) {
-        ParameterEvaluator allowedEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class,
-                allowedParameterName, paymentReasonCode, restrictedFieldValue);
-        ParameterEvaluator disallowedEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class,
-                disallowedParameterName, paymentReasonCode, restrictedFieldValue);
-        
-
-        boolean allowSucceeded = allowedEvaluator.evaluationSucceeds();
-        boolean disallowedSucceeded = disallowedEvaluator.evaluationSucceeds();
-        if (allowSucceeded && disallowedSucceeded) {
-            return true;
-        }
-        
-        if (!allowedEvaluator.constraintIsAllow() || disallowedEvaluator.constraintIsAllow()) {
-            // the parameters' allow flags aren't right, so throw exception.
-            LOG.error("The allow/disallow flags on the parameters aren't set correctly. namespace/component:" + allowedEvaluator.getParameterNamespaceAndComponent() +
-                    " allow param name: " + allowedParameterName + " disallow param name: " + disallowedParameterName);
-            throw new RuntimeException("The allow/disallow flags on the parameters aren't set correctly. namespace/component:" + allowedEvaluator.getParameterNamespaceAndComponent() +
-                    " allow param name: " + allowedParameterName + " disallow param name: " + disallowedParameterName);
-        }
-        
-        List<String> evaluatorValues = null;
-        String errorMsgKey;
-        
-        // build the list of allowed values sans the disallowed values
-        if (allowedEvaluator.evaluationTrivallySucceeds()) {
-            // only the disallow rule failed
-            
-            // no real value in the allow evaluator, so build a list of all disallowed values 
-            evaluatorValues = disallowedEvaluator.getParameterValues();
-            errorMsgKey = KFSKeyConstants.ERROR_PAYMENT_REASON_DENIED_RESTRICTION;
-        }
-        else {
-            // build a list of all allowed values by adding the allowed values and taking away the unallowed values
-            evaluatorValues = allowedEvaluator.getParameterValues();
-            evaluatorValues.removeAll(disallowedEvaluator.getParameterValues());
-            
-            if (evaluatorValues.isEmpty()) {
-                // sanity check
-                // this is bad if we have no valid values left after we get rid of all the disallowed values
-                LOG.error("System parameters may not have been configured correctly because the allowed/denied parameter combination do not allow for any values: Classname " + 
-                        DisbursementVoucherDocument.class + " allow param name: " + allowedParameterName + " disallow param name: " + disallowedParameterName);
+    private boolean executePaymentReasonRestriction(String allowedParameterName, String disallowedParameterName, String paymentReasonCode, String restrictedFieldValue, String errorField, String errorParameter, CodeDescriptionFormatter restrictedFieldDescFormatter) {
+        ParameterEvaluator parameterEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, allowedParameterName, disallowedParameterName, restrictedFieldValue, paymentReasonCode);
+        if (!parameterEvaluator.evaluationSucceeds()) {
+            String failedParameterName;
+            String errorMsgKey;
+            if (parameterEvaluator.constraintIsAllow()) {
+                failedParameterName = allowedParameterName;
+                errorMsgKey = KFSKeyConstants.ERROR_PAYMENT_REASON_ALLOWED_RESTRICTION;
             }
-            
-            errorMsgKey = KFSKeyConstants.ERROR_PAYMENT_REASON_ALLOWED_RESTRICTION;
+            else {
+                failedParameterName = disallowedParameterName;
+                errorMsgKey = KFSKeyConstants.ERROR_PAYMENT_REASON_DENIED_RESTRICTION;
+            }
+            GlobalVariables.getErrorMap().putError(errorField, errorMsgKey, new String[] { errorParameter, restrictedFieldValue, failedParameterName, parameterEvaluator.getParameterValuesForMessage(), "Payment reason", paymentReasonCode });
+            return false;
         }
-
-        String failedRuleName;
-        if (!allowSucceeded && !disallowedSucceeded) {
-            failedRuleName = allowedParameterName + " and " + disallowedParameterName;
-        }
-        else if (!allowSucceeded) {
-            failedRuleName = allowedParameterName;
-        }
-        else {
-            failedRuleName = disallowedParameterName;
-        }
-        
-        String printableEvaluatorValues = evaluatorValues.toString().replace("[", "").replace("]", "");
-        
-        GlobalVariables.getErrorMap().putError(errorField, errorMsgKey, 
-                new String[] { errorParameter, restrictedFieldValue, failedRuleName, printableEvaluatorValues, "Payment reason", paymentReasonCode,});
-        return false;
+        return true;
     }
 
     /**
@@ -998,23 +940,20 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         String errorFieldName = KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE;
 
         String documentationLocationCode = document.getDisbursementVoucherDocumentationLocationCode();
-        
+
         // payment reason restrictions
-        executePaymentReasonRestriction(DisbursementVoucherRuleConstants.VALID_DOC_LOC_BY_PAYMENT_REASON_PARM, DisbursementVoucherRuleConstants.INVALID_DOC_LOC_BY_PAYMENT_REASON_PARM, 
-                document.getDvPayeeDetail().getDisbVchrPaymentReasonCode(), documentationLocationCode, errorFieldName, "Documentation location", new DocumentationLocationCodeDescriptionFormatter());
+        executePaymentReasonRestriction(DisbursementVoucherRuleConstants.VALID_DOC_LOC_BY_PAYMENT_REASON_PARM, DisbursementVoucherRuleConstants.INVALID_DOC_LOC_BY_PAYMENT_REASON_PARM, document.getDvPayeeDetail().getDisbVchrPaymentReasonCode(), documentationLocationCode, errorFieldName, "Documentation location", new DocumentationLocationCodeDescriptionFormatter());
 
         // alien indicator restrictions
         if (document.getDvPayeeDetail().isDisbVchrAlienPaymentCode()) {
             ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, ALIEN_INDICATOR_CHECKED_PARM_NM, documentationLocationCode);
-            evaluateAndAddError(evaluator, getErrorMessageKey(evaluator), errorFieldName, "Documentation location");
+            evaluator.evaluateAndAddError(getErrorMessageKey(evaluator), errorFieldName, "Documentation location");
         }
 
         // initiator campus code restrictions
         String initiatorCampusCode = ((ChartUser) getInitiator(document).getModuleUser(ChartUser.MODULE_ID)).getOrganization().getOrganizationPhysicalCampusCode();
-        ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, 
-                DisbursementVoucherRuleConstants.VALID_DOC_LOC_BY_CAMPUS_PARM, DisbursementVoucherRuleConstants.INVALID_DOC_LOC_BY_CAMPUS_PARM,
-                initiatorCampusCode, documentationLocationCode);
-        evaluateAndAddError(evaluator, getErrorMessageKey(evaluator), errorFieldName, "Documentation location");
+        ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.VALID_DOC_LOC_BY_CAMPUS_PARM, DisbursementVoucherRuleConstants.INVALID_DOC_LOC_BY_CAMPUS_PARM, initiatorCampusCode, documentationLocationCode);
+        evaluator.evaluateAndAddError(getErrorMessageKey(evaluator), errorFieldName, "Documentation location");
     }
 
     /**
@@ -1030,7 +969,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         // restrictions on payment reason when alien indicator is checked
         if (document.getDvPayeeDetail().isDisbVchrAlienPaymentCode()) {
             ParameterEvaluator alienPaymentReasonsEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, ALIEN_PAYMENT_REASONS_PARM_NM, paymentReasonCode);
-            evaluateAndAddError(alienPaymentReasonsEvaluator, getErrorMessageKey(alienPaymentReasonsEvaluator), errorFieldName, "Payment reason");
+            alienPaymentReasonsEvaluator.evaluateAndAddError(getErrorMessageKey(alienPaymentReasonsEvaluator), errorFieldName, "Payment reason");
         }
 
         // check revolving fund restrictions
@@ -1146,11 +1085,9 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         }
 
         /* check payment reason is allowed for payee type */
-        ParameterEvaluator paymentReasonsByTypeEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, 
-                DisbursementVoucherRuleConstants.VALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM, DisbursementVoucherRuleConstants.INVALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM,
-                DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_PAYEE, document.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
-        evaluateAndAddError(paymentReasonsByTypeEvaluator, getErrorMessageKey(paymentReasonsByTypeEvaluator), KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, "Payment reason code");
-        
+        ParameterEvaluator paymentReasonsByTypeEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.VALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM, DisbursementVoucherRuleConstants.INVALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_PAYEE, document.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
+        paymentReasonsByTypeEvaluator.evaluateAndAddError(getErrorMessageKey(paymentReasonsByTypeEvaluator), KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, "Payment reason code");
+
         /* for payees with tax type ssn, check employee restrictions */
         if (TAX_TYPE_SSN.equals(dvPayee.getTaxpayerTypeCode())) {
             if (isActiveEmployeeSSN(dvPayee.getTaxIdNumber()) || true) {
@@ -1207,11 +1144,9 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         }
 
         /* check payment reason is allowed for employee type */
-        ParameterEvaluator paymentReasonsForPayeeTypeEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, 
-                DisbursementVoucherRuleConstants.VALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM, DisbursementVoucherRuleConstants.INVALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM,
-                DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE, document.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
-        evaluateAndAddError(paymentReasonsForPayeeTypeEvaluator, getErrorMessageKey(paymentReasonsForPayeeTypeEvaluator), KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, "Payment reason code");
-        
+        ParameterEvaluator paymentReasonsForPayeeTypeEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.VALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM, DisbursementVoucherRuleConstants.INVALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE, document.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
+        paymentReasonsForPayeeTypeEvaluator.evaluateAndAddError(getErrorMessageKey(paymentReasonsForPayeeTypeEvaluator), KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, "Payment reason code");
+
         errors.removeFromErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
     }
 
@@ -1259,8 +1194,8 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * @param accountingLine
      * @return boolean
      */
-    public boolean validateObjectCode(AccountingDocument FinancialDocument, AccountingLine accountingLine) {
-        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) FinancialDocument;
+    public boolean validateObjectCode(AccountingDocument financialDocument, AccountingLine accountingLine) {
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) financialDocument;
         ErrorMap errors = GlobalVariables.getErrorMap();
 
         String errorKey = KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
@@ -1276,20 +1211,6 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
             errors.putError(errorKey, KFSKeyConstants.ERROR_INACTIVE, "object code");
             objectCodeAllowed = false;
         }
-
-        /* check object type global restrictions */
-        if (objectCodeAllowed) {
-            ParameterEvaluator objectTypeEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, OBJECT_TYPE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getObjectCode().getFinancialObjectTypeCode());
-            // objectCodeAllowed's true right now
-            objectCodeAllowed = evaluateAndAddError(objectTypeEvaluator, getErrorMessageKey(objectTypeEvaluator), errorKey, "Object type");
-        }
-        
-        
-        /* check object sub type global restrictions */
-        objectCodeAllowed = objectCodeAllowed && evaluateAccountingLineObjectSubType(accountingLine, DisbursementVoucherDocument.class, OBJECT_SUB_TYPE_GLOBAL_RESTRICTION_PARM_NM, errorKey);
-        
-        /* check object level global restrictions */
-        objectCodeAllowed = objectCodeAllowed && evaluateAccountingLineObjectLevel(accountingLine, DisbursementVoucherDocument.class, OBJECT_LEVEL_GLOBAL_RESTRICTION_PARM_NM, errorKey);
         
         String documentPaymentReason = dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
         if (StringUtils.isBlank(documentPaymentReason)) {
@@ -1305,21 +1226,17 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         // TODO: check if these are the same as the parameters above...
         /* check payment reason is valid for object code */
         if (objectCodeAllowed) {
-            ParameterEvaluator paymentReasonsByObjCodeEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class,
-                    DisbursementVoucherRuleConstants.VALID_PAYMENT_REASONS_BY_OBJ_CODE_PARM, DisbursementVoucherRuleConstants.INVALID_PAYMENT_REASONS_BY_OBJ_CODE_PARM,
-                    accountingLine.getFinancialObjectCode(), dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
+            ParameterEvaluator paymentReasonsByObjCodeEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.VALID_PAYMENT_REASONS_BY_OBJ_CODE_PARM, DisbursementVoucherRuleConstants.INVALID_PAYMENT_REASONS_BY_OBJ_CODE_PARM, accountingLine.getFinancialObjectCode(), dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
             // objectCodeAllowed's true right now
-            objectCodeAllowed = evaluateAndAddError(paymentReasonsByObjCodeEvaluator, getErrorMessageKey(paymentReasonsByObjCodeEvaluator), errorKey, "Payment reason code");
+            objectCodeAllowed = paymentReasonsByObjCodeEvaluator.evaluateAndAddError(getErrorMessageKey(paymentReasonsByObjCodeEvaluator), errorKey, "Payment reason code");
         }
         /* check payment reason is valid for object level */
         if (objectCodeAllowed) {
-            ParameterEvaluator paymentReasonsByObjectLevelEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, 
-                    DisbursementVoucherRuleConstants.VALID_PAYMENT_REASONS_BY_OBJ_LEVEL_PARM, DisbursementVoucherRuleConstants.INVALID_PAYMENT_REASONS_BY_OBJ_LEVEL_PARM,
-                    accountingLine.getObjectCode().getFinancialObjectLevelCode(), dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
+            ParameterEvaluator paymentReasonsByObjectLevelEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.VALID_PAYMENT_REASONS_BY_OBJ_LEVEL_PARM, DisbursementVoucherRuleConstants.INVALID_PAYMENT_REASONS_BY_OBJ_LEVEL_PARM, accountingLine.getObjectCode().getFinancialObjectLevelCode(), dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
             // objectCodeAllowed's true right now
-            objectCodeAllowed = evaluateAndAddError(paymentReasonsByObjectLevelEvaluator, getErrorMessageKey(paymentReasonsByObjectLevelEvaluator), errorKey, "Payment reason code");
+            objectCodeAllowed = paymentReasonsByObjectLevelEvaluator.evaluateAndAddError(getErrorMessageKey(paymentReasonsByObjectLevelEvaluator), errorKey, "Payment reason code");
         }
-        
+
         return objectCodeAllowed;
     }
 
@@ -1330,8 +1247,8 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * @param accountingLine
      * @return boolean
      */
-    public boolean validateAccountNumber(AccountingDocument FinancialDocument, AccountingLine accountingLine) {
-        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) FinancialDocument;
+    public boolean validateAccountNumber(AccountingDocument financialDocument, AccountingLine accountingLine) {
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) financialDocument;
         ErrorMap errors = GlobalVariables.getErrorMap();
 
         String errorKey = KFSPropertyConstants.ACCOUNT_NUMBER;
@@ -1342,22 +1259,13 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
             return false;
         }
 
-        /* global sub fund restrictions */
-        accountNumberAllowed = accountNumberAllowed && evaluateAccountingLineSubFundGroup(accountingLine, DisbursementVoucherDocument.class, SUB_FUND_GLOBAL_RESTRICTION_PARM_NM, errorKey);
-        
-        if (accountNumberAllowed) {
-            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, SUB_FUND_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getAccount().getSubFundGroupCode());
-            // accountNumberAllowed is true now
-            accountNumberAllowed = evaluateAndAddError(evaluator, getErrorMessageKey(evaluator), errorKey, "Sub fund code");
-        }
-        
         /* global function code restrictions */
         if (accountNumberAllowed) {
-            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, HIGHER_ED_FUNCTIONS_PARM_NM, accountingLine.getAccount().getFinancialHigherEdFunctionCd());
+            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, FUNCTION_CODE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getAccount().getFinancialHigherEdFunctionCd());
             // accountNumberAllowed is true now
-            accountNumberAllowed = evaluateAndAddError(evaluator, getErrorMessageKey(evaluator), errorKey, "Function code");
+            accountNumberAllowed = evaluator.evaluateAndAddError(getErrorMessageKey(evaluator), errorKey, "Function code");
         }
-        
+
         String documentPaymentReason = dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
         if (StringUtils.isBlank(documentPaymentReason)) {
             return accountNumberAllowed;
@@ -1368,13 +1276,11 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         /* check object sub type is allowed for sub fund code */
         if (accountNumberAllowed) {
-            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class,
-                    DisbursementVoucherRuleConstants.VALID_OBJECT_SUB_TYPES_BY_SUB_FUND_GROUP_PARM, DisbursementVoucherRuleConstants.INVALID_OBJECT_SUB_TYPES_BY_SUB_FUND_GROUP_PARM,
-                    accountingLine.getAccount().getSubFundGroupCode(), accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
+            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.VALID_OBJECT_SUB_TYPES_BY_SUB_FUND_GROUP_PARM, DisbursementVoucherRuleConstants.INVALID_OBJECT_SUB_TYPES_BY_SUB_FUND_GROUP_PARM, accountingLine.getAccount().getSubFundGroupCode(), accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
             // accountNumberAllowed is true now
-            accountNumberAllowed = evaluateAndAddError(evaluator, getErrorMessageKey(evaluator), errorKey, "Object sub type");
+            accountNumberAllowed = evaluator.evaluateAndAddError(getErrorMessageKey(evaluator), errorKey, "Object sub type");
         }
-        
+
         return accountNumberAllowed;
     }
 

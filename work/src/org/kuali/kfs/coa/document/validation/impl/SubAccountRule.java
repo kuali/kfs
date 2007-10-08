@@ -31,6 +31,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
@@ -288,9 +289,10 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
             newSubAccount.getA21SubAccount().refresh();
         }
 
+        ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(SubAccount.class, KFSConstants.ChartApcParms.CG_ALLOWED_SUBACCOUNT_TYPE_CODES, newSubAccount.getA21SubAccount().getSubAccountTypeCode());
         // C&G A21 Type field must be in the allowed values
-        if (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(SubAccount.class, KFSConstants.ChartApcParms.CG_ALLOWED_SUBACCOUNT_TYPE_CODES, newSubAccount.getA21SubAccount().getSubAccountTypeCode())) {
-            putFieldError("a21SubAccount.subAccountTypeCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_INVALI_SUBACCOUNT_TYPE_CODES, SpringContext.getBean(ParameterService.class).getConstrainedValuesString(SubAccount.class, KFSConstants.ChartApcParms.CG_ALLOWED_SUBACCOUNT_TYPE_CODES, newSubAccount.getA21SubAccount().getSubAccountTypeCode()));
+        if (!evaluator.evaluationSucceeds()) {
+            putFieldError("a21SubAccount.subAccountTypeCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_INVALI_SUBACCOUNT_TYPE_CODES, evaluator.getParameterValuesForMessage());
             success &= false;
         }
 

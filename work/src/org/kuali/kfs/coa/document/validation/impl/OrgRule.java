@@ -324,7 +324,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     }
 
     private boolean getOrgMustReportToSelf(Org organization) {
-        return SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(Org.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, organization.getOrganizationTypeCode());
+        return SpringContext.getBean(ParameterService.class).getParameterEvaluator(Org.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, organization.getOrganizationTypeCode()).evaluationSucceeds();
     }
 
     protected boolean checkSimpleRules(MaintenanceDocument document) {
@@ -412,7 +412,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
                             continueSearch = false;
                         }
                         // stop the search if we reach an org that must report to itself
-                        if (continueSearch && SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(Org.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode())) {
+                        if (continueSearch && SpringContext.getBean(ParameterService.class).getParameterEvaluator(Org.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode()).evaluationSucceeds()) {
                             continueSearch = false;
                         }
 
@@ -456,7 +456,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         if (ObjectUtils.isNotNull(newOrg.getOrganizationTypeCode())) {
             organizationTypeCode = newOrg.getOrganizationTypeCode();
-            if (SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(Org.class, KFSConstants.ChartApcParms.DEFAULT_ACCOUNT_NOT_REQUIRED_ORG_TYPES, newOrg.getOrganizationTypeCode())) {
+            if (SpringContext.getBean(ParameterService.class).getParameterEvaluator(Org.class, KFSConstants.ChartApcParms.DEFAULT_ACCOUNT_NOT_REQUIRED_ORG_TYPES, newOrg.getOrganizationTypeCode()).evaluationSucceeds()) {
                 exemptOrganizationTypeCode = true;
             }
         }

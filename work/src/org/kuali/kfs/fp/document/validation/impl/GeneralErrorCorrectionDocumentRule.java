@@ -40,6 +40,7 @@ import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 import org.kuali.module.gl.document.CorrectionDocument;
 
 /**
@@ -195,32 +196,6 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
     }
 
     /**
-     * Overrides to perform the universal rule in the super class in addition to General Error Correction specific rules. This
-     * method leverages the APC for checking restricted object type values.
-     * 
-     * @see org.kuali.core.rule.AccountingLineRule#isObjectTypeAllowed(org.kuali.core.bo.AccountingLine)
-     */
-    @Override
-    public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
-        boolean valid = true;
-
-        valid &= super.isObjectTypeAllowed(accountingLine);
-
-        if (valid) {
-            ObjectCode objectCode = accountingLine.getObjectCode();
-
-            if (failsRule(RESTRICTED_OBJECT_TYPE_CODES, objectCode.getFinancialObjectTypeCode())) {
-                valid = false;
-
-                // add message
-                GlobalVariables.getErrorMap().putError(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectTypeCode() });
-            }
-        }
-
-        return valid;
-    }
-
-    /**
      * This method checks that values exist in the two reference fields ENCUMBRANCE.
      * 
      * @param accountingLine
@@ -247,32 +222,6 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
             putRequiredPropertyError(boe, REFERENCE_NUMBER);
             valid = false;
         }
-        return valid;
-    }
-
-    /**
-     * Overrides to perform the universal rule in the super class in addition to General Error Correction specific rules. This
-     * method leverages the APC for checking restricted object sub type values.
-     * 
-     * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
-     */
-    @Override
-    public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
-        boolean valid = true;
-
-        valid &= super.isObjectSubTypeAllowed(accountingLine);
-
-        if (valid) {
-            ObjectCode objectCode = accountingLine.getObjectCode();
-
-            if (failsRule(RESTRICTED_OBJECT_SUB_TYPE_CODES, objectCode.getFinancialObjectSubTypeCode())) {
-                valid = false;
-
-                // add message
-                GlobalVariables.getErrorMap().putError(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_SUB_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectSubTypeCode() });
-            }
-        }
-
         return valid;
     }
 }

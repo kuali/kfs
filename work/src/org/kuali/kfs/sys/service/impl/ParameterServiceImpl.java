@@ -17,11 +17,13 @@ package org.kuali.kfs.service.impl;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.KualiModule;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.Parameter;
@@ -65,67 +67,47 @@ public class ParameterServiceImpl implements ParameterService {
         return "Y".equals(getParameter(componentClass, parameterName).getParameterValue());
     }
 
-    public List<String> getParameterValues(Class componentClass, String parameterName) {
-        return configurationService.getParameterValuesAsList(getNamespace(componentClass), getDetailType(componentClass), parameterName);
-    }
-    
-    public boolean evaluateConstrainedValue(Class componentClass, String parameterName, String constrainedValue) {
-        return configurationService.succeedsRule(getNamespace(componentClass), getDetailType(componentClass), parameterName, constrainedValue);
-    }
-    
-    public boolean evaluateConstrainedValue(Parameter parameter, String constrainedValue) {
-        return configurationService.succeedsRule(parameter, constrainedValue);
-    }
-
-    public boolean evaluateConstrainedValue(Class componentClass, String parameterName, String constrainingValue, String constrainedValue) {
-        return configurationService.evaluateConstrainedParameter(getNamespace(componentClass), getDetailType(componentClass), parameterName, constrainingValue, constrainedValue);
-    }
-
-    public boolean evaluateConstrainedValue(Class componentClass, String allowConstraintParameterName, String denyConstraintParameterName, String constrainingValue, String constrainedValue) {
-        return configurationService.evaluateConstrainedParameter(getNamespace(componentClass), getDetailType(componentClass), allowConstraintParameterName, denyConstraintParameterName, constrainingValue, constrainedValue);
-    }
-    
-    public boolean evaluateConstrainedValue(Parameter allowParameter, Parameter denyParameter, String constrainingValue, String constrainedValue) {
-        return configurationService.evaluateConstrainedParameter(allowParameter, denyParameter, constrainingValue, constrainedValue);
-    }
-    
     public String getParameterValue(Class componentClass, String parameterName) {
         return getParameter(componentClass, parameterName).getParameterValue();
     }
-    
-    public List<String> getConstrainedParameterValues(Class componentClass, String parameterName, String constrainingValue) {
-        ParameterEvaluator evaluator = getParameterEvaluator(componentClass, parameterName, constrainingValue, "");
-        return evaluator.getParameterValues();
+
+    public String getParameterValue(Class componentClass, String parameterName, String constrainingValue) {
+        List<String> parameterValues = getParameterValues(componentClass, parameterName, constrainingValue);
+        if (parameterValues.size() == 1) {
+            return parameterValues.get(0);
+        }
+        return null;
+    }
+
+    public List<String> getParameterValues(Class componentClass, String parameterName) {
+        return configurationService.getParameterValues(getParameter(componentClass, parameterName));
+    }
+
+    public List<String> getParameterValues(Class componentClass, String parameterName, String constrainingValue) {
+        return getParameterValues(getParameter(componentClass, parameterName), constrainingValue);
+    }
+
+    public ParameterEvaluator getParameterEvaluator(Class componentClass, String parameterName) {
+        return getParameterEvaluator(getParameter(componentClass, parameterName));
     }
 
     public ParameterEvaluator getParameterEvaluator(Class componentClass, String parameterName, String constrainedValue) {
         return getParameterEvaluator(getParameter(componentClass, parameterName), constrainedValue);
     }
 
-    public List<String> deriveConstrainedValues(Class componentClass, String parameterName, String constrainingValue) {
-        return configurationService.getConstrainedValues(getNamespace(componentClass), getDetailType(componentClass), parameterName, constrainingValue);
-    }
-    
     public ParameterEvaluator getParameterEvaluator(Class componentClass, String parameterName, String constrainingValue, String constrainedValue) {
-        Parameter parameter = getParameter(componentClass, parameterName);
-        return getParameterEvaluator(parameter, constrainingValue, constrainedValue);
+        return getParameterEvaluator(getParameter(componentClass, parameterName), constrainingValue, constrainedValue);
     }
-    
+
     public ParameterEvaluator getParameterEvaluator(Class componentClass, String allowParameterName, String denyParameterName, String constrainingValue, String constrainedValue) {
         Parameter allowParameter = getParameter(componentClass, allowParameterName);
         Parameter denyParameter = getParameter(componentClass, denyParameterName);
-
-        return getParameterEvaluator(configurationService.getParameterValuesAsList(allowParameter).isEmpty() ? denyParameter : allowParameter, constrainingValue, constrainedValue);
+        if (!getParameterValues(allowParameter, constrainingValue).isEmpty() && !getParameterValues(denyParameter, constrainingValue).isEmpty()) {
+            throw new IllegalArgumentException("The getParameterEvaluator(Class componentClass, String allowParameterName, String denyParameterName, String constrainingValue, String constrainedValue) method of ParameterServiceImpl does not facilitate evaluation of combination allow and deny parameters that both have values for the constraining value: " + allowParameterName + " / " + denyParameterName + " / " + constrainingValue);
+        }
+        return getParameterEvaluator(getParameterValues(denyParameter, constrainingValue).isEmpty() ? allowParameter : denyParameter, constrainingValue, constrainedValue);
     }
 
-    public List<String> deriveConstrainedValues(Parameter parameter, String constrainingValue) {
-        return configurationService.getConstrainedValues(parameter, constrainingValue);
-    }
-    
-    public String getConstrainedValuesString(Class componentClass, String parameterName, String constrainingValue) {
-        return deriveConstrainedValues(componentClass, parameterName, constrainingValue).toString().replace("[", "").replace("]", "");
-    }
-    
     public List<ParameterEvaluator> getParameterEvaluators(Class componentClass, String constrainedValue) {
         List<ParameterEvaluator> parameterEvaluators = new ArrayList<ParameterEvaluator>();
         for (Parameter parameter : getParameters(componentClass)) {
@@ -188,7 +170,10 @@ public class ParameterServiceImpl implements ParameterService {
         }
     }
 
-    public void clearCache(Class componentClass, String parameterName) {
+    public void setParameterForTesting(Class componentClass, String parameterName, String parameterText) {
+        Parameter parameter = (Parameter) getParameter(componentClass, parameterName);
+        parameter.setParameterValue(parameterText);
+        SpringContext.getBean(BusinessObjectService.class).save(parameter);
         try {
             removeCachedMethod(KualiConfigurationService.class.getMethod("getParameterValues", new Class[] { String.class, String.class, String.class }), new Object[] { getNamespace(componentClass), getDetailType(componentClass), parameterName });
             removeCachedMethod(KualiConfigurationService.class.getMethod("getParameterValuesAsList", new Class[] { String.class, String.class, String.class }), new Object[] { getNamespace(componentClass), getDetailType(componentClass), parameterName });
@@ -196,7 +181,7 @@ public class ParameterServiceImpl implements ParameterService {
             removeCachedMethod(KualiConfigurationService.class.getMethod("getParameterValue", new Class[] { String.class, String.class, String.class }), new Object[] { getNamespace(componentClass), getDetailType(componentClass), parameterName });
         }
         catch (Exception e) {
-            throw new RuntimeException(new StringBuffer("The clearCache of ParameterServiceImpl failed: ").append(componentClass).append(" / ").append(parameterName).toString(), e);
+            throw new RuntimeException(new StringBuffer("The setParameterForTesting of ParameterServiceImpl failed: ").append(componentClass).append(" / ").append(parameterName).toString(), e);
         }
     }
 
@@ -235,16 +220,23 @@ public class ParameterServiceImpl implements ParameterService {
         throw new IllegalArgumentException("The getDetailedType method of ParameterUtils requires TransactionalDocument, BusinessObject, or Step class");
     }
 
-    private ParameterEvaluator getParameterEvaluator(Parameter parameter, String constrainedValue) {
+    private ParameterEvaluator getParameterEvaluator(Parameter parameter) {
         ParameterEvaluator parameterEvaluator = SpringContext.getBean(ParameterEvaluator.class);
         parameterEvaluator.setParameter(parameter);
+        parameterEvaluator.setConstraintIsAllow(configurationService.constraintIsAllow(parameter));
+        parameterEvaluator.setValues(configurationService.getParameterValues(parameter));
+        return parameterEvaluator;
+    }
+
+    private ParameterEvaluator getParameterEvaluator(Parameter parameter, String constrainedValue) {
+        ParameterEvaluator parameterEvaluator = getParameterEvaluator(parameter);
         parameterEvaluator.setConstrainedValue(constrainedValue);
         return parameterEvaluator;
     }
 
     private ParameterEvaluator getParameterEvaluator(Parameter parameter, String constrainingValue, String constrainedValue) {
         ParameterEvaluator parameterEvaluator = getParameterEvaluator(parameter, constrainedValue);
-        parameterEvaluator.setConstrainingValue(constrainingValue);
+        parameterEvaluator.setValues(getParameterValues(parameter, constrainingValue));
         return parameterEvaluator;
     }
 
@@ -255,7 +247,7 @@ public class ParameterServiceImpl implements ParameterService {
         return detailType;
     }
 
-    public Parameter getParameter(Class componentClass, String parameterName) {
+    private Parameter getParameter(Class componentClass, String parameterName) {
         Parameter parameter = configurationService.getParameter(getNamespace(componentClass), getDetailType(componentClass), parameterName);
         if (parameter == null) {
             throw new IllegalArgumentException("The getParameter method of ParameterServiceImpl requires a componentClass and parameterName that correspond to an existing parameter");
@@ -263,8 +255,21 @@ public class ParameterServiceImpl implements ParameterService {
         return parameter;
     }
 
-    public List<Parameter> getParameters(Class componentClass) {
-        return configurationService.getParametersByDetailType(getNamespace(componentClass), getDetailType(componentClass));
+    private List<String> getParameterValues(Parameter parameter, String constrainingValue) {
+        List<String> constraintValuePairs = configurationService.getParameterValues(parameter);
+        for (String pair : constraintValuePairs) {
+            if (constrainingValue.equals(StringUtils.substringBefore(pair, "="))) {
+                return Arrays.asList(StringUtils.substringAfter(pair, "=").split(","));
+            }
+        }
+        return Collections.EMPTY_LIST;
+    }
+
+    private List<Parameter> getParameters(Class componentClass) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("parameterNamespaceCode", getNamespace(componentClass));
+        fieldValues.put("parameterDetailTypeCode", getDetailType(componentClass));
+        return configurationService.getParameters(fieldValues);
     }
 
     public void setConfigurationService(KualiConfigurationService configurationService) {
@@ -281,10 +286,5 @@ public class ParameterServiceImpl implements ParameterService {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }
-    
-    public ParameterEvaluator mergeEvaluators(ParameterEvaluator evaluator1, ParameterEvaluator evaluator2) {
-        ParameterEvaluator mergedEvaluator = new MergedParameterEvaluatorImpl(evaluator1, evaluator2);
-        return mergedEvaluator;
     }
 }

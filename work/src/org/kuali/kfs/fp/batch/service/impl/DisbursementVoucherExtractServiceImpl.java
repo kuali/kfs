@@ -434,7 +434,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             String dvdCampusCode = element.getCampusCode();
             DisbursementVoucherPayeeDetail dvpd = element.getDvPayeeDetail();
             if (dvpd != null) {
-                List<String> campusCodes = parameterService.getConstrainedParameterValues(DisbursementVoucherDocument.class, CAMPUS_BY_PAYMENT_REASON_PARAM, dvpd.getDisbVchrPaymentReasonCode());
+                List<String> campusCodes = parameterService.getParameterValues(DisbursementVoucherDocument.class, CAMPUS_BY_PAYMENT_REASON_PARAM, dvpd.getDisbVchrPaymentReasonCode());
                 if (campusCodes.size() > 0 && StringUtils.isNotBlank(campusCodes.get(0))) {
                     dvdCampusCode = campusCodes.get(0);
                 }
@@ -457,7 +457,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
             DisbursementVoucherPayeeDetail dvpd = element.getDvPayeeDetail();
             if (dvpd != null) {
-                List<String> campusCodes = parameterService.getConstrainedParameterValues(DisbursementVoucherDocument.class, CAMPUS_BY_PAYMENT_REASON_PARAM, dvpd.getDisbVchrPaymentReasonCode());
+                List<String> campusCodes = parameterService.getParameterValues(DisbursementVoucherDocument.class, CAMPUS_BY_PAYMENT_REASON_PARAM, dvpd.getDisbVchrPaymentReasonCode());
                 if (campusCodes.size() > 0 && StringUtils.isNotBlank(campusCodes.get(0))) {
                     dvdCampusCode = campusCodes.get(0);
                 }

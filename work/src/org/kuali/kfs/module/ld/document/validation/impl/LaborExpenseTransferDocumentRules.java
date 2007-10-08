@@ -45,6 +45,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.module.labor.document.LaborExpenseTransferDocument;
 import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule;
@@ -54,13 +55,6 @@ import org.kuali.module.labor.util.ObjectUtil;
  * Business rule(s) applicable to Labor Expense Transfer documents.
  */
 public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBase implements GenerateLaborLedgerPendingEntriesRule<LaborLedgerPostingDocument> {
-    /**
-     * Constructs a LaborExpenseTransferDocumentRules.java.
-     */
-    public LaborExpenseTransferDocumentRules() {
-        super();
-    }
-
     /**
      * Updates an accounting line
      * 

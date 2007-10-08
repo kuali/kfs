@@ -45,8 +45,6 @@ import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.service.OrgReversionUnitOfWorkService;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 import org.kuali.module.gl.service.OrganizationReversionProcessService;
-import org.kuali.module.gl.service.OrganizationReversionSelection;
-import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.impl.OrganizationReversionMockService;
 import org.kuali.test.ConfigureContext;
 
@@ -59,7 +57,6 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
     private OrganizationReversionService organizationReversionService;
     private BalanceService balanceService;
-    private OrganizationReversionSelection organizationReversionSelection;
     private OrganizationReversionCategoryLogic cashOrganizationReversionCategoryLogic;
     private OrganizationReversionProcessService organizationReversionProcessService;
     private PriorYearAccountService priorYearAccountService;
@@ -170,7 +167,6 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
         organizationReversionService = orgRevServiceBeans.get("glOrganizationReversionMockService");
         DateTimeService dtService = SpringContext.getBean(DateTimeService.class);
         balanceService = SpringContext.getBean(BalanceService.class);
-        organizationReversionSelection = SpringContext.getBean(OrganizationReversionSelection.class);
         cashOrganizationReversionCategoryLogic = SpringContext.getBean(CashOrganizationReversionCategoryLogic.class);
         priorYearAccountService = SpringContext.getBean(PriorYearAccountService.class);
         orgReversionUnitOfWorkService = SpringContext.getBean(OrgReversionUnitOfWorkService.class);
@@ -182,7 +178,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
         Map jobParameters = organizationReversionProcessService.getJobParameters();
         Map<String, Integer> organizationReversionCounts = new HashMap<String, Integer>();
         
-        orgRevProcess = new OrganizationReversionProcess(null, false, organizationReversionService, balanceService, organizationReversionSelection, originEntryGroupService, originEntryService, persistenceService, dtService, cashOrganizationReversionCategoryLogic, priorYearAccountService, orgReversionUnitOfWorkService, jobParameters, organizationReversionCounts);
+        orgRevProcess = new OrganizationReversionProcess(null, false, organizationReversionService, balanceService, originEntryGroupService, originEntryService, persistenceService, dtService, cashOrganizationReversionCategoryLogic, priorYearAccountService, orgReversionUnitOfWorkService, jobParameters, organizationReversionCounts);
         orgRevProcess.initializeProcess();
     }
 

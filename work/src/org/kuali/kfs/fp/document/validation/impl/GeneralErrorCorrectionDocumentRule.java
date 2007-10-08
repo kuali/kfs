@@ -37,6 +37,7 @@ import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
+import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.gl.document.CorrectionDocument;
@@ -183,7 +184,8 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
     protected boolean isObjectTypeAndObjectSubTypeAllowed(ObjectCode code) {
         boolean retval = true;
 
-        if (!SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(CorrectionDocument.class, COMBINED_RESTRICTED_OBJECT_TYPE_CODES, code.getFinancialObjectTypeCode(), code.getFinancialObjectSubTypeCode())) {
+        ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(CorrectionDocument.class, COMBINED_RESTRICTED_OBJECT_TYPE_CODES, code.getFinancialObjectTypeCode(), code.getFinancialObjectSubTypeCode());
+        if (!evaluator.evaluationSucceeds()) {
             // add message
             GlobalVariables.getErrorMap().putError(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_TYPE_CODE_WITH_SUB_TYPE_CODE, new String[] { code.getFinancialObjectCode(), code.getFinancialObjectTypeCode(), code.getFinancialObjectSubTypeCode() });
             retval = false;

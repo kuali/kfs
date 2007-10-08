@@ -138,8 +138,7 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
      * @return boolean
      */
     private boolean isFundGroupsBalanceValid(TransferOfFundsDocument tofDoc) {
-        String[] fundGroupCodes = SpringContext.getBean(ParameterService.class).getParameterValues(TransferOfFundsDocument.class, APPLICATION_PARAMETER.FUND_GROUP_BALANCING_SET).toArray(new String[]{});
-        return isFundGroupSetBalanceValid(tofDoc, fundGroupCodes);
+        return isFundGroupSetBalanceValid(tofDoc, TransferOfFundsDocument.class, APPLICATION_PARAMETER.FUND_GROUP_BALANCING_SET);
     }
 
     /**

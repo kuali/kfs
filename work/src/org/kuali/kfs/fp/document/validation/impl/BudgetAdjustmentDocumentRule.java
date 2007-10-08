@@ -65,6 +65,7 @@ import org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.rules.AccountingLineRuleUtil;
 import org.kuali.kfs.service.OptionsService;
+import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
@@ -546,8 +547,8 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
      * @param accountingLine
      * @return boolean
      */
-    public boolean validateObjectCode(AccountingDocument FinancialDocument, AccountingLine accountingLine) {
-        BudgetAdjustmentDocument baDocument = (BudgetAdjustmentDocument) FinancialDocument;
+    public boolean validateObjectCode(AccountingDocument financialDocument, AccountingLine accountingLine) {
+        BudgetAdjustmentDocument baDocument = (BudgetAdjustmentDocument) financialDocument;
         ErrorMap errors = GlobalVariables.getErrorMap();
 
         boolean objectCodeAllowed = true;
@@ -555,11 +556,15 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
         String errorKey = KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE;
 
         /* check object sub type global restrictions */
-        objectCodeAllowed = objectCodeAllowed && executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(BudgetAdjustmentDocument.class, RESTRICTED_OBJECT_SUB_TYPE_CODES), accountingLine.getObjectCode().getFinancialObjectSubTypeCode(), errorKey, AccountingLineRuleUtil.getObjectSubTypeCodeLabel());
+        objectCodeAllowed = objectCodeAllowed && evaluateAccountingLineObjectSubType(accountingLine, BudgetAdjustmentDocument.class, RESTRICTED_OBJECT_SUB_TYPE_CODES, errorKey);
 
         /* check object code is in permitted list for payment reason */
-        objectCodeAllowed = objectCodeAllowed && executeParameterRestriction(SpringContext.getBean(ParameterService.class).getParameter(BudgetAdjustmentDocument.class, RESTRICTED_OBJECT_CODES), accountingLine.getFinancialObjectCode(), errorKey, AccountingLineRuleUtil.getObjectCodeLabel());
-
+        if (objectCodeAllowed) {
+            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(BudgetAdjustmentDocument.class, RESTRICTED_OBJECT_CODES, accountingLine.getFinancialObjectCode());
+            // objectCodeAllowed is true now
+            objectCodeAllowed = evaluateAndAddError(evaluator, getErrorMessageKey(evaluator), errorKey, AccountingLineRuleUtil.getObjectCodeLabel());
+        }
+        
         return objectCodeAllowed;
     }
 

@@ -39,7 +39,9 @@ import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
 import org.kuali.kfs.rules.AttributeReference;
 import org.kuali.kfs.service.HomeOriginationService;
+import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.financial.document.InternalBillingDocument;
 import org.kuali.module.financial.document.PreEncumbranceDocument;
 
 
@@ -102,16 +104,25 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
      */
     @Override
     public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
-        Parameter combinedRule = getKualiConfigurationService().mergeParameters(getGlobalObjectTypeRule(), SpringContext.getBean(ParameterService.class).getParameter(PreEncumbranceDocument.class, RESTRICTED_OBJECT_TYPE_CODES));
-        AttributeReference direct = createObjectCodeAttributeReference(accountingLine);
-        AttributeReference indirect = createObjectTypeAttributeReference(accountingLine);
-        boolean allowed = indirectRuleSucceeds(combinedRule, direct, indirect);
-        if (allowed) {
-            allowed &= super.isObjectTypeAllowed(accountingLine);
+        ParameterEvaluator combinedEvaluator = getObjectTypeEvaluator(getFinancialObjectTypeCode(accountingLine));
+        
+        if (combinedEvaluator.evaluationSucceeds()) {
+            return super.isObjectTypeAllowed(accountingLine);
         }
-        return allowed;
+        else {
+            AttributeReference direct = createObjectCodeAttributeReference(accountingLine);
+            AttributeReference indirect = createObjectTypeAttributeReference(accountingLine);
+            putIndirectError(combinedEvaluator, direct, indirect);
+            return false;
+        }
     }
 
+    protected ParameterEvaluator getObjectTypeEvaluator(String objectTypeCode) {
+        ParameterEvaluator globalEvaluator = getGlobalObjectTypeRuleEvaluator(objectTypeCode);
+        ParameterEvaluator docEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(PreEncumbranceDocument.class, RESTRICTED_OBJECT_TYPE_CODES, objectTypeCode);
+        return SpringContext.getBean(ParameterService.class).mergeEvaluators(globalEvaluator, docEvaluator);
+    }
+    
     /**
      * Pre Encumbrance document specific business rule checks for the "route document" event.
      * 

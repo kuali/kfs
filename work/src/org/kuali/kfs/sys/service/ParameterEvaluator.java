@@ -1,0 +1,54 @@
+/*
+ * Copyright 2007 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kfs.service;
+
+import java.util.List;
+
+import org.kuali.core.bo.Parameter;
+
+
+public interface ParameterEvaluator {
+    public boolean evaluationSucceeds();
+
+    public boolean constraintIsAllow();
+
+    public List<String> getParameterValues();
+
+    public String getParameterValuesForMessage();
+
+    public void setParameter(Parameter parameter);
+
+    public void setConstrainedValue(String constrainedValue);
+
+    public String getConstrainedValue();
+    
+    public void setConstrainingValue(String constrainingValue);
+
+    public String getConstrainingValue();
+    
+    public String getParameterName();
+    
+    public String getParameterNamespaceAndComponent();
+    
+    /**
+     * Returns whether evaluation of the parameter was done trivially, that is, regardless of the constraining/constrained values
+     * passed into this evaluator, the evaluator would have succeeded.
+     * 
+     * This often occurs when the parameter value is blank.
+     * @return
+     */
+    public boolean evaluationTrivallySucceeds();
+}

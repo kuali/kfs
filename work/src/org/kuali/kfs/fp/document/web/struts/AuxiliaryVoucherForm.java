@@ -29,6 +29,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.service.AccountingPeriodService;
@@ -195,7 +196,8 @@ public class AuxiliaryVoucherForm extends VoucherForm {
 
                 java.sql.Date currentDate = new java.sql.Date(new java.util.Date().getTime());
 
-                result = parameterService.evaluateConstrainedValue(AuxiliaryVoucherDocument.class, AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES, period.getUniversityFiscalPeriodCode());
+                ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(AuxiliaryVoucherDocument.class, AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES, period.getUniversityFiscalPeriodCode(), period.getUniversityFiscalPeriodCode());
+                result = evaluator.evaluationSucceeds();
                 if (result) {
                     result = (period.getUniversityFiscalYear().equals(dateService.getCurrentFiscalYear()));
                     if (result) {

@@ -31,6 +31,7 @@ import org.kuali.core.document.Copyable;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -41,6 +42,8 @@ import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.rule.AccountingLineRule;
+import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.service.ObjectTypeService;
@@ -55,6 +58,7 @@ import org.kuali.module.financial.bo.DisbursementVoucherWireTransfer;
 import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.lookup.keyvalues.DisbursementVoucherDocumentationLocationValuesFinder;
 import org.kuali.module.financial.lookup.keyvalues.PaymentMethodValuesFinder;
+import org.kuali.module.financial.rules.DisbursementVoucherDocumentRule;
 import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 import org.kuali.module.financial.service.DisbursementVoucherTaxService;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
@@ -764,6 +768,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * should not be persisted.
      */
     private void cleanDocumentData() {
+        // TODO: warren: this method ain't called!!!  maybe this should be called by prepare for save above
         if (!DisbursementVoucherRuleConstants.PAYMENT_METHOD_WIRE.equals(this.getDisbVchrPaymentMethodCode()) && !DisbursementVoucherRuleConstants.PAYMENT_METHOD_DRAFT.equals(this.getDisbVchrPaymentMethodCode())) {
             SpringContext.getBean(BusinessObjectService.class).delete(dvWireTransfer);
             dvWireTransfer = null;
@@ -774,14 +779,14 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             dvNonResidentAlienTax = null;
         }
 
-        List<String> travelNonEmplPaymentReasonCodes = SpringContext.getBean(ParameterService.class).getParameterValues(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM);
-        if (!travelNonEmplPaymentReasonCodes.contains(dvPayeeDetail.getDisbVchrPaymentReasonCode())) {
+        DisbursementVoucherDocumentRule dvDocRule = (DisbursementVoucherDocumentRule) SpringContext.getBean(KualiRuleService.class).getBusinessRulesInstance(this, DisbursementVoucherDocumentRule.class);
+        
+        if (!dvDocRule.isTravelNonEmplPaymentReason(this)) {
             SpringContext.getBean(BusinessObjectService.class).delete(dvNonEmployeeTravel);
             dvNonEmployeeTravel = null;
         }
 
-        List<String> travelPrepaidPaymentReasonCodes = SpringContext.getBean(ParameterService.class).getParameterValues(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.PREPAID_TRAVEL_PAY_REASONS_PARM_NM);
-        if (!travelPrepaidPaymentReasonCodes.contains(dvPayeeDetail.getDisbVchrPaymentReasonCode())) {
+        if (!dvDocRule.isTravelPrepaidPaymentReason(this)) {
             SpringContext.getBean(BusinessObjectService.class).delete(dvPreConferenceDetail);
             dvPreConferenceDetail = null;
         }

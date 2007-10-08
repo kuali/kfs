@@ -35,6 +35,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.rules.AttributeReference;
+import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -163,7 +164,8 @@ public class InternalBillingDocumentRule extends AccountingDocumentRuleBase {
      * @return whether the given AccountingLine's ObjectCode is a capital one.
      */
     private boolean isCapitalObject(AccountingLine accountingLine) {
-        return SpringContext.getBean(ParameterService.class).evaluateConstrainedValue(InternalBillingDocument.class, CAPITAL_OBJECT_SUB_TYPE_CODES, accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
+        ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(InternalBillingDocument.class, CAPITAL_OBJECT_SUB_TYPE_CODES, accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
+        return evaluator.evaluationSucceeds();
     }
 
     /**
@@ -204,21 +206,26 @@ public class InternalBillingDocumentRule extends AccountingDocumentRuleBase {
      */
     @Override
     public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
-        Parameter combinedRule = getObjectTypeRule();
-        AttributeReference direct = createObjectCodeAttributeReference(accountingLine);
-        AttributeReference indirect = createObjectTypeAttributeReference(accountingLine);
-        boolean allowed = indirectRuleSucceeds(combinedRule, direct, indirect);
-        if (allowed) {
-            allowed &= super.isObjectTypeAllowed(accountingLine);
+        ParameterEvaluator combinedEvaluator = getObjectTypeEvaluator(getFinancialObjectTypeCode(accountingLine));
+        
+        if (combinedEvaluator.evaluationSucceeds()) {
+            return super.isObjectTypeAllowed(accountingLine);
         }
-        return allowed;
+        else {
+            AttributeReference direct = createObjectCodeAttributeReference(accountingLine);
+            AttributeReference indirect = createObjectTypeAttributeReference(accountingLine);
+            putIndirectError(combinedEvaluator, direct, indirect);
+            return false;
+        }
     }
 
     /**
      * @return the object type APC rule for IB
      */
-    protected Parameter getObjectTypeRule() {
-        return getKualiConfigurationService().mergeParameters(getGlobalObjectTypeRule(), SpringContext.getBean(ParameterService.class).getParameter(InternalBillingDocument.class, RESTRICTED_OBJECT_TYPE_CODES));
+    protected ParameterEvaluator getObjectTypeEvaluator(String objectTypeCode) {
+        ParameterEvaluator globalEvaluator = getGlobalObjectTypeRuleEvaluator(objectTypeCode);
+        ParameterEvaluator docEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(InternalBillingDocument.class, RESTRICTED_OBJECT_TYPE_CODES, objectTypeCode);
+        return SpringContext.getBean(ParameterService.class).mergeEvaluators(globalEvaluator, docEvaluator);
     }
 
     /**
@@ -230,10 +237,13 @@ public class InternalBillingDocumentRule extends AccountingDocumentRuleBase {
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
         boolean allowed = super.isObjectSubTypeAllowed(accountingLine);
         if (allowed) {
-            Parameter parameterRule = SpringContext.getBean(ParameterService.class).getParameter(InternalBillingDocument.class, RESTRICTED_OBJECT_SUB_TYPE_CODES);
-            AttributeReference direct = createObjectCodeAttributeReference(accountingLine);
-            AttributeReference indirect = new AttributeReference(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_SUB_TYPE_CODE, accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
-            allowed &= indirectRuleSucceeds(parameterRule, direct, indirect);
+            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(InternalBillingDocument.class, RESTRICTED_OBJECT_SUB_TYPE_CODES, accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
+            if (!evaluator.evaluationSucceeds()) {
+                AttributeReference direct = createObjectCodeAttributeReference(accountingLine);
+                AttributeReference indirect = new AttributeReference(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_SUB_TYPE_CODE, accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
+                putIndirectError(evaluator, direct, indirect);
+                allowed = false;
+            }
         }
         return allowed;
     }
@@ -248,10 +258,13 @@ public class InternalBillingDocumentRule extends AccountingDocumentRuleBase {
     public boolean isObjectLevelAllowed(AccountingLine accountingLine) {
         boolean allowed = super.isObjectLevelAllowed(accountingLine);
         if (allowed) {
-            Parameter parameterRule = SpringContext.getBean(ParameterService.class).getParameter(InternalBillingDocument.class, RESTRICTED_OBJECT_LEVEL_CODES);
-            AttributeReference direct = createObjectCodeAttributeReference(accountingLine);
-            AttributeReference indirect = new AttributeReference(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, accountingLine.getObjectCode().getFinancialObjectLevelCode());
-            allowed &= indirectRuleSucceeds(parameterRule, direct, indirect);
+            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(InternalBillingDocument.class, RESTRICTED_OBJECT_LEVEL_CODES, accountingLine.getObjectCode().getFinancialObjectLevelCode());
+            if (!evaluator.evaluationSucceeds()) {
+                AttributeReference direct = createObjectCodeAttributeReference(accountingLine);
+                AttributeReference indirect = new AttributeReference(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, accountingLine.getObjectCode().getFinancialObjectLevelCode());
+                putIndirectError(evaluator, direct, indirect);
+                allowed = false;
+            }
         }
         return allowed;
     }
@@ -265,10 +278,14 @@ public class InternalBillingDocumentRule extends AccountingDocumentRuleBase {
     public boolean isFundGroupAllowed(AccountingLine accountingLine) {
         boolean allowed = super.isFundGroupAllowed(accountingLine);
         if (allowed) {
-            Parameter parameterRule = SpringContext.getBean(ParameterService.class).getParameter(InternalBillingDocument.class, RESTRICTED_FUND_GROUP_CODES);
-            AttributeReference direct = createAccountNumberAttributeReference(accountingLine);
-            AttributeReference indirect = new AttributeReference(SubFundGroup.class, KFSPropertyConstants.FUND_GROUP_CODE, accountingLine.getAccount().getSubFundGroup().getFundGroupCode());
-            allowed &= indirectRuleSucceeds(parameterRule, direct, indirect);
+            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(InternalBillingDocument.class, 
+                    RESTRICTED_FUND_GROUP_CODES, accountingLine.getAccount().getSubFundGroup().getFundGroupCode());
+            if (!evaluator.evaluationSucceeds()) {
+                AttributeReference direct = createAccountNumberAttributeReference(accountingLine);
+                AttributeReference indirect = new AttributeReference(SubFundGroup.class, KFSPropertyConstants.FUND_GROUP_CODE, accountingLine.getAccount().getSubFundGroup().getFundGroupCode());
+                putIndirectError(evaluator, direct, indirect);
+                allowed = false;
+            }
             // This calls for double indirection, but I'm not sure if such an error message would be more user friendly.
         }
         return allowed;
@@ -294,10 +311,13 @@ public class InternalBillingDocumentRule extends AccountingDocumentRuleBase {
     public boolean isSubFundGroupAllowed(AccountingLine accountingLine) {
         boolean allowed = super.isSubFundGroupAllowed(accountingLine);
         if (allowed) {
-            Parameter parameterRule = SpringContext.getBean(ParameterService.class).getParameter(InternalBillingDocument.class, RESTRICTED_SUB_FUND_GROUP_CODES);
-            AttributeReference direct = createAccountNumberAttributeReference(accountingLine);
-            AttributeReference indirect = new AttributeReference(Account.class, KFSPropertyConstants.SUB_FUND_GROUP_CODE, accountingLine.getAccount().getSubFundGroupCode());
-            allowed &= indirectRuleSucceeds(parameterRule, direct, indirect);
+            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(InternalBillingDocument.class, RESTRICTED_SUB_FUND_GROUP_CODES, accountingLine.getAccount().getSubFundGroupCode());
+            if (!evaluator.evaluationSucceeds()) {
+                AttributeReference direct = createAccountNumberAttributeReference(accountingLine);
+                AttributeReference indirect = new AttributeReference(Account.class, KFSPropertyConstants.SUB_FUND_GROUP_CODE, accountingLine.getAccount().getSubFundGroupCode());
+                putIndirectError(evaluator, direct, indirect);
+                allowed = false;
+            }
         }
         return allowed;
     }

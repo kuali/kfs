@@ -31,6 +31,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.financial.bo.Check;
@@ -180,12 +181,14 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
      */
     private boolean validateAccountAndObjectCode(AccountingLine accountingLine, boolean source, boolean newLine, int index) {
         boolean isValid = true;
-        Parameter objCdAndAccountRule = SpringContext.getBean(ParameterService.class).getParameter(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES);
+        // not evaluating, just want to retrieve the evaluator to get the values of the parameter
+        ParameterEvaluator valuesGetter = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES, "");
+        
         // get the object code and account
         String objCd = accountingLine.getFinancialObjectCode();
         String account = accountingLine.getAccountNumber();
         if (!StringUtils.isEmpty(objCd) && !StringUtils.isEmpty(account)) {
-            String[] params = getKualiConfigurationService().getParameterValues(objCdAndAccountRule);
+            String[] params = valuesGetter.getParameterValues().toArray(new String[valuesGetter.getParameterValues().size()]);
             boolean acctsMatched = false;
             for (int i = 0; i < params.length; i++) {
                 String paramAcct = params[i].split(":")[0];
@@ -195,7 +198,8 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
             }
             if (acctsMatched) {
                 String compare = account + ":" + objCd;
-                if (getKualiConfigurationService().failsRule(objCdAndAccountRule, compare)) {
+                ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES, compare);
+                if (!evaluator.evaluationSucceeds()) {
                     isValid = false;
                 }
             }

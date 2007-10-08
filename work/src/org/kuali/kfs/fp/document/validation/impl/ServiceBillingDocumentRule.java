@@ -26,6 +26,7 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.document.ServiceBillingDocument;
 
@@ -74,8 +75,10 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
      * @see org.kuali.module.financial.rules.InternalBillingDocumentRule#getObjectTypeRule()
      */
     @Override
-    protected Parameter getObjectTypeRule() {
-        return getKualiConfigurationService().mergeParameters(super.getObjectTypeRule(), SpringContext.getBean(ParameterService.class).getParameter(ServiceBillingDocument.class,RESTRICTED_OBJECT_TYPE_CODES));
+    protected ParameterEvaluator getObjectTypeEvaluator(String objectTypeCode) {
+        ParameterEvaluator superEvaluator = super.getObjectTypeEvaluator(objectTypeCode);
+        ParameterEvaluator docEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ServiceBillingDocument.class,RESTRICTED_OBJECT_TYPE_CODES, objectTypeCode);
+        return SpringContext.getBean(ParameterService.class).mergeEvaluators(superEvaluator, docEvaluator);
     }
 
     /**

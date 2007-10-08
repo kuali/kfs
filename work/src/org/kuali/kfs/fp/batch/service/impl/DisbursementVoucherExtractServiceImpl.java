@@ -425,23 +425,20 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     private Set<String> getCampusListByDocumentStatusCode(String statusCode) {
         LOG.debug("getCampusListByDocumentStatusCode() started");
 
-        // Get the campus overide values
-        Parameter campusByPaymentReasonConstraint = parameterService.getParameter(DisbursementVoucherDocument.class, CAMPUS_BY_PAYMENT_REASON_PARAM);
-
         Set<String> campusSet = new HashSet<String>();
 
         Collection docs = disbursementVoucherDao.getDocumentsByHeaderStatus(statusCode);
         for (Iterator iter = docs.iterator(); iter.hasNext();) {
             DisbursementVoucherDocument element = (DisbursementVoucherDocument) iter.next();
 
-            String campusCode = element.getCampusCode();
+            String dvdCampusCode = element.getCampusCode();
             DisbursementVoucherPayeeDetail dvpd = element.getDvPayeeDetail();
             if (dvpd != null) {
-                List<String> campusCodes = parameterService.deriveConstrainedValues(campusByPaymentReasonConstraint, dvpd.getDisbVchrPaymentReasonCode());
+                List<String> campusCodes = parameterService.getConstrainedParameterValues(DisbursementVoucherDocument.class, CAMPUS_BY_PAYMENT_REASON_PARAM, dvpd.getDisbVchrPaymentReasonCode());
                 if (campusCodes.size() > 0 && StringUtils.isNotBlank(campusCodes.get(0))) {
-                    campusCode = campusCodes.get(0);
+                    dvdCampusCode = campusCodes.get(0);
                 }
-                campusSet.add(campusCode);
+                campusSet.add(dvdCampusCode);
             }
         }
         return campusSet;
@@ -449,9 +446,6 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
     private Collection<DisbursementVoucherDocument> getListByDocumentStatusCodeCampus(String statusCode, String campusCode) {
         LOG.debug("getListByDocumentStatusCodeCampus() started");
-
-        // Get the campus overide values
-        Parameter campusByPaymentReasonConstraint = parameterService.getParameter(DisbursementVoucherDocument.class, CAMPUS_BY_PAYMENT_REASON_PARAM);
 
         Collection<DisbursementVoucherDocument> list = new ArrayList<DisbursementVoucherDocument>();
 
@@ -463,7 +457,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
             DisbursementVoucherPayeeDetail dvpd = element.getDvPayeeDetail();
             if (dvpd != null) {
-                List<String> campusCodes = parameterService.deriveConstrainedValues(campusByPaymentReasonConstraint, dvpd.getDisbVchrPaymentReasonCode());
+                List<String> campusCodes = parameterService.getConstrainedParameterValues(DisbursementVoucherDocument.class, CAMPUS_BY_PAYMENT_REASON_PARAM, dvpd.getDisbVchrPaymentReasonCode());
                 if (campusCodes.size() > 0 && StringUtils.isNotBlank(campusCodes.get(0))) {
                     dvdCampusCode = campusCodes.get(0);
                 }

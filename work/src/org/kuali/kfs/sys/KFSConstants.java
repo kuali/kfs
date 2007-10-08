@@ -514,8 +514,6 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
     public static final String NAVIGATE_TO = "navigateTo.";
     public static final String HEADER_DISPATCH = "headerDispatch.";
 
-    public static final String APC_ALLOWED_OPERATOR = "A";
-    public static final String APC_DENIED_OPERATOR = "D";
     // country
     public static final String COUNTRY_CODE_UNITED_STATES = "US";
 

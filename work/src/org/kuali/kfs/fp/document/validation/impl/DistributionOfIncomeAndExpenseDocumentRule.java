@@ -24,6 +24,7 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
+import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
@@ -50,15 +51,15 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends AccountingDocume
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
         boolean valid = super.isObjectSubTypeAllowed(accountingLine);
         if (valid) {
-            Parameter rule = SpringContext.getBean(ParameterService.class).getParameter(DistributionOfIncomeAndExpenseDocument.class, RESTRICTED_SUB_TYPE_GROUP_CODES);
             String objectSubTypeCode = accountingLine.getObjectCode().getFinancialObjectSubTypeCode();
 
             ObjectCode objectCode = accountingLine.getObjectCode();
             if (ObjectUtils.isNull(objectCode)) {
                 accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
             }
-
-            valid = !getKualiConfigurationService().failsRule(rule, objectSubTypeCode);
+            
+            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DistributionOfIncomeAndExpenseDocument.class, RESTRICTED_SUB_TYPE_GROUP_CODES, objectSubTypeCode);
+            valid = evaluator.evaluationSucceeds();
 
             if (!valid) {
                 reportError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.DistributionOfIncomeAndExpense.ERROR_DOCUMENT_DI_INVALID_OBJ_SUB_TYPE, objectCode.getFinancialObjectCode(), objectSubTypeCode);
@@ -75,13 +76,13 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends AccountingDocume
         boolean valid = super.isObjectTypeAllowed(accountingLine);
 
         if (valid) {
-            Parameter rule = SpringContext.getBean(ParameterService.class).getParameter(DistributionOfIncomeAndExpenseDocument.class, RESTRICTED_OBJECT_TYPE_CODES);
 
             ObjectCode objectCode = accountingLine.getObjectCode();
 
             String objectTypeCode = objectCode.getFinancialObjectTypeCode();
-
-            valid = !getKualiConfigurationService().failsRule(rule, objectTypeCode);
+            
+            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DistributionOfIncomeAndExpenseDocument.class, RESTRICTED_OBJECT_TYPE_CODES, objectTypeCode);
+            valid = evaluator.evaluationSucceeds();
             if (!valid) {
                 // add message
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.DistributionOfIncomeAndExpense.ERROR_DOCUMENT_DI_INVALID_OBJECT_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectTypeCode });

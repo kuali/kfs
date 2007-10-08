@@ -27,8 +27,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.lookup.keyvalues.KeyValuesFinder;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation;
 import org.kuali.module.financial.bo.PaymentReasonCode;
@@ -103,9 +105,9 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
                 alien = parameterService.getParameterValue(DisbursementVoucherDocument.class, DV_COVER_SHEET_TEMPLATE_ALIEN_PARM_NM);
                 lines = parameterService.getParameterValue(DisbursementVoucherDocument.class, DV_COVER_SHEET_TEMPLATE_LINES_PARM_NM);
             }
-            // retrieve data for travel payment reasons
-            List<String> travelNonEmplPaymentReasonCodes = parameterService.getParameterValues(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM);
-            if (travelNonEmplPaymentReasonCodes.contains(document.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
+            // determine if non-employee travel payment reasons
+            DisbursementVoucherDocumentRule dvDocRule = (DisbursementVoucherDocumentRule) SpringContext.getBean(KualiRuleService.class).getBusinessRulesInstance(document, DisbursementVoucherDocumentRule.class);
+            if (dvDocRule.isTravelNonEmplPaymentReason(document)) {
                 bar = parameterService.getParameterValue(DisbursementVoucherDocument.class, DV_COVER_SHEET_TEMPLATE_BAR_PARM_NM);
                 rlines = parameterService.getParameterValue(DisbursementVoucherDocument.class, DV_COVER_SHEET_TEMPLATE_RLINES_PARM_NM);
             }

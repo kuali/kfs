@@ -29,6 +29,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.RiceConstants;
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
@@ -699,7 +700,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
                 String propertyName = StringUtils.substringBefore(currentRule.getParameterValue(), "=");
                 List<String> ruleValues = Arrays.asList(StringUtils.substringAfter(currentRule.getParameterValue(), "=").split(";"));
                 if (propertyName != null && propertyName.length() > 0 && ruleValues.size() > 0 && !StringUtils.isBlank(ruleValues.get(0))) {
-                    if (KFSConstants.APC_ALLOWED_OPERATOR.equals(currentRule.getParameterConstraintCode())) {
+                    if (RiceConstants.APC_ALLOWED_OPERATOR.equals(currentRule.getParameterConstraintCode())) {
                         c.addIn(propertyName, ruleValues);
                     }
                     else {

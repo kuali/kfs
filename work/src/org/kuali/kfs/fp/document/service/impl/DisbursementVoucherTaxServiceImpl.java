@@ -185,7 +185,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
         if (!(new KualiDecimal(0).equals(document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent()))) {
             String federalTaxChart = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.FEDERAL_TAX_PARM_PREFIX + DisbursementVoucherRuleConstants.TAX_PARM_CHART_SUFFIX);
             String federalTaxAccount = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.FEDERAL_TAX_PARM_PREFIX + DisbursementVoucherRuleConstants.TAX_PARM_ACCOUNT_SUFFIX);
-            String federalTaxObjectCode = parameterService.deriveConstrainedValues(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.FEDERAL_TAX_PARM_PREFIX + DisbursementVoucherRuleConstants.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, document.getDvNonResidentAlienTax().getIncomeClassCode()).get(0);
+            String federalTaxObjectCode = parameterService.getConstrainedParameterValues(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.FEDERAL_TAX_PARM_PREFIX + DisbursementVoucherRuleConstants.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, document.getDvNonResidentAlienTax().getIncomeClassCode()).get(0);
             if (StringUtils.isBlank(federalTaxChart) || StringUtils.isBlank(federalTaxAccount) || StringUtils.isBlank(federalTaxObjectCode)) {
                 LOG.error("Unable to retrieve federal tax parameters.");
                 throw new RuntimeException("Unable to retrieve federal tax parameters.");
@@ -209,7 +209,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
         if (!(new KualiDecimal(0).equals(document.getDvNonResidentAlienTax().getStateIncomeTaxPercent()))) {
             String stateTaxChart = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.STATE_TAX_PARM_PREFIX + DisbursementVoucherRuleConstants.TAX_PARM_CHART_SUFFIX);
             String stateTaxAccount = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.STATE_TAX_PARM_PREFIX + DisbursementVoucherRuleConstants.TAX_PARM_ACCOUNT_SUFFIX);
-            String stateTaxObjectCode = parameterService.deriveConstrainedValues(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.STATE_TAX_PARM_PREFIX + DisbursementVoucherRuleConstants.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, document.getDvNonResidentAlienTax().getIncomeClassCode()).get(0);
+            String stateTaxObjectCode = parameterService.getConstrainedParameterValues(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.STATE_TAX_PARM_PREFIX + DisbursementVoucherRuleConstants.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, document.getDvNonResidentAlienTax().getIncomeClassCode()).get(0);
 
             if (StringUtils.isBlank(stateTaxChart) || StringUtils.isBlank(stateTaxAccount) || StringUtils.isBlank(stateTaxObjectCode)) {
                 LOG.error("Unable to retrieve state tax parameters.");

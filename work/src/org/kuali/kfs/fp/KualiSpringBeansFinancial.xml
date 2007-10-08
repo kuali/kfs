@@ -231,6 +231,14 @@
 		</property>
 	</bean>
 
+	<bean id="disbursementVoucherPreDisbursementProcessorExtractJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="disbursementVoucherPreDisbursementProcessorExtractStep" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="disbursementVoucherPreDisbursementProcessorExtractStep" class="org.kuali.module.financial.batch.DvToPdpExtractStep" parent="step">
 		<property name="disbursementVoucherExtractService">
 			<ref bean="disbursementVoucherExtractService" />

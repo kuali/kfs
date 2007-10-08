@@ -115,6 +115,47 @@
 
 	<bean id="pdpAchBankDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.AchBankDaoOjb"/>
 
+
+	<bean id="pdpLoadFederalReserveBankDataJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pdpLoadFederalReserveBankDataStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pdpExtractGlTransactionsStepJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pdpExtractGlTransactionsStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pdpExtractAchPaymentsJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pdpExtractAchPaymentsStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pdpExtractCancelledChecksJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pdpExtractCancelledChecksStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pdpExtractChecksJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pdpExtractCancelledChecksStep" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="pdpLoadFederalReserveBankDataStep" class="org.kuali.module.pdp.batch.LoadFederalReserveBankDataStep" parent="step">
 		<property name="achBankService" ref="pdpAchBankService"/>
 		<property name="directoryName" value="${staging.directory}/PDP/"/>

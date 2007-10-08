@@ -406,7 +406,7 @@
         </property>
     </bean>
 
-	<bean id="processPdPCancelsAndPaidStep" class="org.kuali.module.purap.batch.ProcessPdPCancelsAndPaidStep" parent="step">
+	<bean id="processPdpCancelsAndPaidStep" class="org.kuali.module.purap.batch.ProcessPdPCancelsAndPaidStep" parent="step">
 		<property name="processPdpCancelPaidService">
 			<ref bean="processPdpCancelPaidService"/>
 		</property>
@@ -424,6 +424,30 @@
 		</property>
 	</bean>
 
+	<bean id="processPdpCancelsAndPaidJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="processPdpCancelsAndPaidStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="purchasingPreDisbursementImmediatesExtractJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="purchasingPreDisbursementImmediatesExtractStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="purchasingPreDisbursementExtractJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="purchasingPreDisbursementExtractStep" />
+			</list>
+		</property>
+	</bean>
+
     <bean id="autoApprovePaymentRequestsJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -431,7 +455,6 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="purApOjbCollectionHelper" class="org.kuali.module.purap.util.PurApOjbCollectionHelper" />
-	
 </beans>

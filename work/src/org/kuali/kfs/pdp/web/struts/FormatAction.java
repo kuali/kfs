@@ -97,19 +97,19 @@ public class FormatAction extends BaseAction {
             ActionErrors ae = new ActionErrors();
             ae.add("global",new ActionMessage("format.bank.missing",nbfce.getCustomerProfile()));
             saveErrors(request,ae);
-            return mapping.findForward("pdp_error");
+            return mapping.findForward("pdp_message");
         } catch (DisbursementRangeExhaustedException e) {
             LOG.error("executeLogic() Disbursement Range Exhausted Exception", e);
             ActionErrors ae = new ActionErrors();
             ae.add("global",new ActionMessage("format.disb.exhausted"));
             saveErrors(request,ae);
-            return mapping.findForward("pdp_error");
+            return mapping.findForward("pdp_message");
         } catch (MissingDisbursementRangeException e) {
             LOG.error("executeLogic() Missing Disbursment Number Range", e);
             ActionMessages ae = new ActionMessages();
             ae.add("global",new ActionMessage("format.disb.missing"));
             saveErrors(request,ae);
-            return mapping.findForward("pdp_error");
+            return mapping.findForward("pdp_message");
         }
     }
 }

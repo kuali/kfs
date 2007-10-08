@@ -94,13 +94,12 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
             if (StringUtils.isNotEmpty(authenticationId)) {
                 String contractManagersGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.WorkflowParameters.PurchaseOrderDocument.CONTRACT_MANAGERS_WORKGROUP_NAME);
                 if (!SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(authenticationId.toUpperCase()).isMember(contractManagersGroupName)) {
-            // get the document id number from the routeContext doc content
-            PurchasingDocumentBase document = (PurchasingDocumentBase) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
-            document.refreshNonUpdateableReferences();
-            KualiDecimal internalPurchasingLimit = SpringContext.getBean(PurchaseOrderService.class).getInternalPurchasingDollarLimit(document);
-
-            return ((ObjectUtils.isNull(internalPurchasingLimit)) || (internalPurchasingLimit.compareTo(KualiWorkflowUtils.getFinancialDocumentTotalAmount(docContent.getDocument())) < 0));
-        }
+                    // get the document id number from the routeContext doc content
+                    PurchasingDocumentBase document = (PurchasingDocumentBase) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
+                    document.refreshNonUpdateableReferences();
+                    KualiDecimal internalPurchasingLimit = SpringContext.getBean(PurchaseOrderService.class).getInternalPurchasingDollarLimit(document);
+                    return ((ObjectUtils.isNull(internalPurchasingLimit)) || (internalPurchasingLimit.compareTo(KualiWorkflowUtils.getFinancialDocumentTotalAmount(docContent.getDocument())) < 0));
+                }
                 return false;
             }
             else {
@@ -123,7 +122,7 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
             String errorMsg = "Error while processing doc id '" + documentNumber + "'... User not found using Authentication Id '" + authenticationId + "'";
             LOG.error(errorMsg, e);
             throw new RuntimeException(errorMsg, e);
-    }
+        }
     }
 
     /**

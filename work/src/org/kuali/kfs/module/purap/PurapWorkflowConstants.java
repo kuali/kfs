@@ -45,7 +45,7 @@ public class PurapWorkflowConstants {
     
     public static class RequisitionDocument {
         public enum NodeDetailEnum implements NodeDetails {
-            ADHOC_REVIEW (DOC_ADHOC_NODE_NAME, null, null),
+            ADHOC_REVIEW (DOC_ADHOC_NODE_NAME, null, PurapConstants.RequisitionStatuses.CANCELLED),
             CONTENT_REVIEW("Content Review", PurapConstants.RequisitionStatuses.AWAIT_CONTENT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CONTENT),
             SUB_ACCOUNT_REVIEW (KualiWorkflowUtils.RouteLevelNames.SUB_ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_SUB_ACCT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SUB_ACCT),
             ACCOUNT_REVIEW (KualiWorkflowUtils.RouteLevelNames.ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_FISCAL_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_FISCAL),
@@ -102,7 +102,7 @@ public class PurapWorkflowConstants {
 
     public static class PurchaseOrderDocument {
         public enum NodeDetailEnum implements NodeDetails {
-            ADHOC_REVIEW (DOC_ADHOC_NODE_NAME, null, null),
+            ADHOC_REVIEW (DOC_ADHOC_NODE_NAME, null, PurapConstants.PurchaseOrderStatuses.CANCELLED),
             INTERNAL_PURCHASING_REVIEW ("Internal Purchasing Review", PurapConstants.PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW, PurapConstants.PurchaseOrderStatuses.DAPRVD_PURCHASING),
             CONTRACTS_AND_GRANTS_REVIEW ("Contracts and Grants Review", PurapConstants.PurchaseOrderStatuses.AWAIT_CONTRACTS_GRANTS_REVIEW, PurapConstants.PurchaseOrderStatuses.DAPRVD_CONTRACTS_GRANTS),
             BUDGET_OFFICE_REVIEW ("Budget Office Review", PurapConstants.PurchaseOrderStatuses.AWAIT_BUDGET_REVIEW, PurapConstants.PurchaseOrderStatuses.DAPRVD_BUDGET),

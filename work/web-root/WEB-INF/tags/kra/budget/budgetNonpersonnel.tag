@@ -81,7 +81,7 @@
                           <kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetNonpersonnel.attributes.budgetNonpersonnelDescription}" skipHelpUrl="true" noColon="true" />
                         </c:when>
                         <c:otherwise>
-                          Name
+                          * Name
                         </c:otherwise>
                       </c:choose>
                     </div>

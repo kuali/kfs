@@ -59,9 +59,9 @@
     	<html:hidden property="document.budget.projectDirector.universalUser.personName"/>
       <html:hidden property="document.budget.projectDirector.universalUser.personUniversalIdentifier"/>
       <html:hidden property="document.budget.projectDirector.personUniversalIdentifier"/>
-      <html:text property="document.budget.projectDirector.universalUser.personUserIdentifier" onblur="personIDLookup('document.budget.projectDirector.universalUser.personUserIdentifier')"/>
-    	<c:if test="${KualiForm.document.budget.projectDirectorToBeNamedIndicator}">TO BE NAMED</c:if>
-    	<c:if test="${!viewOnly}">
+      <c:if test="${!viewOnly}">
+        <html:text property="document.budget.projectDirector.universalUser.personUserIdentifier" onblur="personIDLookup('document.budget.projectDirector.universalUser.personUserIdentifier')"/>
+      	<c:if test="${KualiForm.document.budget.projectDirectorToBeNamedIndicator}">TO BE NAMED</c:if>
 	    	<kul:lookup boClassName="org.kuali.module.cg.bo.ProjectDirector" fieldConversions="universalUser.personUniversalIdentifier:document.budget.budgetProjectDirectorUniversalIdentifier,universalUser.personName:document.budget.projectDirector.universalUser.personName," tabindexOverride="5000" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.budget.projectDirectorToBeNamedIndicator=true" anchor="General" />
     	</c:if>
           <div id="document.budget.projectDirector.universalUser.personName.div" >

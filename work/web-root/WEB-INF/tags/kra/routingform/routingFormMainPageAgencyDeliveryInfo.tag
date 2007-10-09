@@ -39,21 +39,22 @@
 			    	<html:hidden property="document.routingFormAgency.agency.fullName" styleId="document.routingFormAgency.agency.fullName" /> 
     				<html:hidden property="document.routingFormAgency.agency.agencyTypeCode" styleId="document.routingFormAgency.agency.agencyTypeCode"/>
 			    	<c:if test="${empty KualiForm.document.routingFormAgency.agencyNumber && !KualiForm.document.routingFormAgencyToBeNamedIndicator}"></c:if>
-  			    	<c:if test="${KualiForm.document.routingFormAgencyToBeNamedIndicator}">TO BE NAMED</c:if>
+  			    <c:if test="${KualiForm.document.routingFormAgencyToBeNamedIndicator}">TO BE NAMED</c:if>
 			    	<c:if test="${!viewOnly and !budgetLinked}">
-                	    <kul:htmlControlAttribute property="document.routingFormAgency.agencyNumber" attributeEntry="${routingFormAttributes.routingFormAgency}" readOnly="${viewOnly}" onblur="onblur_agencyNumber('document.routingFormAgency.agencyNumber','agency')"/>
-			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" lookupParameters="document.routingFormAgency.agencyNumber:agencyNumber,document.routingFormAgency.agency.fullName:fullName" fieldConversions="agencyNumber:document.routingFormAgency.agencyNumber,fullName:document.routingFormAgency.agency.fullName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.routingFormAgencyToBeNamedIndicator=true" anchor="${currentTabIndex}" />
-	                    <div id="document.routingFormAgency.agency.fullName.div" >
-	                        <c:if test="${!empty KualiForm.document.routingFormAgency.agencyNumber}">
-	                        	<c:choose>
-									<c:when test="${empty KualiForm.document.routingFormAgency.agency.fullName}">
-										<span style='color: red;'><c:out value="agency not found" /> </span>
-									</c:when>
-									<c:otherwise>
-										<c:out value="${KualiForm.document.routingFormAgency.agency.fullName}" />
-									</c:otherwise>
+               <kul:htmlControlAttribute property="document.routingFormAgency.agencyNumber" attributeEntry="${routingFormAttributes.routingFormAgency}" readOnly="${viewOnly}" onblur="onblur_agencyNumber('document.routingFormAgency.agencyNumber','agency')"/>
+               <kul:lookup boClassName="org.kuali.module.cg.bo.Agency" lookupParameters="document.routingFormAgency.agencyNumber:agencyNumber,document.routingFormAgency.agency.fullName:fullName" fieldConversions="agencyNumber:document.routingFormAgency.agencyNumber,fullName:document.routingFormAgency.agency.fullName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.routingFormAgencyToBeNamedIndicator=true" anchor="${currentTabIndex}" />
+            </c:if>
+	          <div id="document.routingFormAgency.agency.fullName.div" >
+	          <c:if test="${!empty KualiForm.document.routingFormAgency.agencyNumber}">
+	            <c:choose>
+							  <c:when test="${empty KualiForm.document.routingFormAgency.agency.fullName}">
+								  <span style='color: red;'><c:out value="agency not found" /> </span>
+								</c:when>
+								<c:otherwise>
+								  <c:out value="${KualiForm.document.routingFormAgency.agency.fullName}" />
+								</c:otherwise>
 							</c:choose>                        
-	                        </c:if>
+
 	                    </div>
                 	</c:if>
                 </td>

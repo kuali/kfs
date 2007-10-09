@@ -40,7 +40,7 @@ public interface PurchaseOrderService {
 
     public PurchaseOrderDocument createAndSavePotentialChangeDocument(String documentNumber, String docType, String newDocumentStatusCode);
 
-    public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients);
+    public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String newDocumentStatusCode);
 
     public KualiDecimal getInternalPurchasingDollarLimit(PurchasingDocumentBase po);
 
@@ -64,13 +64,21 @@ public interface PurchaseOrderService {
 
     public void setCurrentAndPendingIndicatorsForDisapprovedPODocuments(PurchaseOrderDocument newPO);
 
+    public void setCurrentAndPendingIndicatorsForCancelledPODocuments(PurchaseOrderDocument newPO);
+    
+    public void setCurrentAndPendingIndicatorsForCancelledReopenPODocuments(PurchaseOrderDocument newPO);
+    
+    public void setCurrentAndPendingIndicatorsForDisapprovedReopenPODocuments(PurchaseOrderDocument newPO);
+    
+    public void setCurrentAndPendingIndicatorsForCancelledRemoveHoldPODocuments(PurchaseOrderDocument newPO);
+    
+    public void setCurrentAndPendingIndicatorsForDisapprovedRemoveHoldPODocuments(PurchaseOrderDocument newPO);
+    
     public PurchaseOrderDocument getOldestPurchaseOrder(PurchaseOrderDocument po, PurchaseOrderDocument documentBusinessObject);
 
     public ArrayList<Note> getPurchaseOrderNotes(Integer id);
 
     //public void sendFYItoWorkgroup(PurchaseOrderDocument po, String annotation, Long workgroupId);
-
-    public void cancelAmendment(PurchaseOrderDocument document);
 
     public ArrayList<PurchaseOrderQuoteStatus> getPurchaseOrderQuoteStatusCodes();
 

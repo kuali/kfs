@@ -108,7 +108,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
                     if (ObjectUtils.isNull(req.getContractManagerCode()) && req.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN)) {
                         //only update REQ if code is empty and status is correct
                         req.setContractManagerCode(detail.getContractManagerCode());
-                        SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(req, PurapConstants.RequisitionStatuses.CLOSED, this.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
+                        SpringContext.getBean(PurapService.class).updateStatus(req, PurapConstants.RequisitionStatuses.CLOSED);
                         SpringContext.getBean(RequisitionService.class).saveDocumentWithoutValidation(req);
                         SpringContext.getBean(PurchaseOrderService.class).createPurchaseOrderDocument(req, this.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
 

@@ -56,21 +56,18 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
 
             //set purap status and status history and status history note
-            SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.PurchaseOrderStatuses.OPEN );
+            SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.OPEN );
 
             SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }
         // DOCUMENT DISAPPROVED
         else if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedPODocuments(this);
-            SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }
         // DOCUMENT CANCELED
         else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
             // TODO delyea - is this the correct status.... does it affect counts/reporting?
-            SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.PurchaseOrderStatuses.CANCELLED);
-            SpringContext.getBean(PurchaseOrderService.class).cancelAmendment(this);
-            SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
+            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledPODocuments(this);
         }
     }
 

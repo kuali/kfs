@@ -38,6 +38,7 @@ import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.bo.AccountsPayableItem;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.OrganizationParameter;
@@ -59,10 +60,7 @@ import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.vendor.service.VendorService;
 
-import edu.iu.uis.eden.KEWServiceLocator;
 import edu.iu.uis.eden.exception.WorkflowException;
-import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
-import edu.iu.uis.eden.routeheader.RouteHeaderService;
 
 public class PurapServiceImpl implements PurapService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapServiceImpl.class);
@@ -89,25 +87,6 @@ public class PurapServiceImpl implements PurapService {
         this.purApWorkflowIntegrationService = purApWorkflowIntegrationService;
     }
     
-    /**
-     * This method updates the status and status history for a purap document, passing in a note for the status history.
-     */
-    public boolean updateStatusAndStatusHistory(PurchasingAccountsPayableDocument document,String statusToSet, String userId) {
-        LOG.debug("updateStatusAndStatusHistory(): entered method.");
-        boolean success = true;
-        if (ObjectUtils.isNotNull(document) && ObjectUtils.isNotNull(statusToSet)) {
-            success &= this.updateStatusHistory(document, statusToSet, userId);
-            success &= this.updateStatus(document, statusToSet);
-            return success;
-        }
-        else {
-            return false;
-        }
-    }
-
-    public boolean updateStatusAndStatusHistory(PurchasingAccountsPayableDocument document, String statusToSet) {
-        return updateStatusAndStatusHistory(document, statusToSet, null);
-    }
 
     /**
      * This method updates the status for a purap document.
@@ -118,37 +97,6 @@ public class PurapServiceImpl implements PurapService {
             String oldStatus = document.getStatusCode();
             document.setStatusCode(newStatus);
             LOG.debug("Status of document #" + document.getDocumentNumber() + " has been changed from " + oldStatus + " to " + newStatus);
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    /**
-     * This method updates the status history for a purap document.
-     * 
-     * @param document The document whose status history needs to be updated.
-     * @param newStatus The new status code in String form
-     * @return True on success.
-     */
-    public boolean updateStatusHistory( PurchasingAccountsPayableDocument document, String newStatus, String userId) {
-        LOG.debug("updateStatusHistory(): entered method.");
-        if (ObjectUtils.isNotNull(document) || ObjectUtils.isNotNull(newStatus)) {
-            String oldStatus = document.getStatusCode();
-            try {
-                RouteHeaderService routeHeaderService = (RouteHeaderService) KEWServiceLocator.getService(KEWServiceLocator.DOC_ROUTE_HEADER_SRV);
-                DocumentRouteHeaderValue drhv = routeHeaderService.getRouteHeader(document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-                if (userId == null) {
-                    userId = purApWorkflowIntegrationService.getLastUserId(drhv);
-                }
-                document.addToStatusHistories( oldStatus, newStatus, userId ); 
-            }
-            catch (WorkflowException we) {
-                //do something
-            }
-            LOG.debug("StatusHistory record for document #"+document.getDocumentNumber()+" has added to show change from "
-                    +oldStatus+" to "+newStatus);
             return true;
         }
         else {
@@ -466,12 +414,15 @@ public class PurapServiceImpl implements PurapService {
      */
     public void processCloseReopenPo(AccountsPayableDocumentBase apDocument, String docType) {
         String action = null;
+        String newStatus = null;
         // setup text for note that will be created, will either be closed or reopened
         if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT.equals(docType)) {
             action = "closed";
+            newStatus = PurchaseOrderStatuses.PENDING_CLOSE;
         }
         else if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT.equals(docType)) {
             action = "reopened";
+            newStatus = PurchaseOrderStatuses.PENDING_REOPEN;
         }
         else {
             String errorMessage = "Method processCloseReopenPo called using ID + '" + apDocument.getPurapDocumentIdentifier() + "' and invalid doc type '" + docType + "'";
@@ -479,7 +430,8 @@ public class PurapServiceImpl implements PurapService {
             throw new RuntimeException(errorMessage);
         }
 
-        SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(apDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, assemblePurchaseOrderNote(apDocument, docType, action), new ArrayList());
+        
+        SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(apDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, assemblePurchaseOrderNote(apDocument, docType, action), new ArrayList(), newStatus);
 
         /*
          * if we made it here, route document has not errored out, so set appropriate indicator depending on what is being

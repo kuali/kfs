@@ -39,6 +39,7 @@ import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.module.purap.service.PurchaseOrderService;
 
 public class PurchaseOrderReopenDocumentRule extends PurchasingDocumentRuleBase {
 
@@ -76,7 +77,9 @@ public class PurchaseOrderReopenDocumentRule extends PurchasingDocumentRuleBase 
         else {
             // TODO: Get this from Business Rules.
             // Check the PO status.
-            if (!StringUtils.equalsIgnoreCase(document.getStatusCode(), PurapConstants.PurchaseOrderStatuses.CLOSED)) {
+            PurchaseOrderDocument currentPO = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurapDocumentIdentifier());
+            if (!StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurapConstants.PurchaseOrderStatuses.CLOSED) &&
+                !StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurapConstants.PurchaseOrderStatuses.PENDING_REOPEN)) {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_INCORRECT, PurapConstants.PurchaseOrderStatuses.CLOSED);
             }

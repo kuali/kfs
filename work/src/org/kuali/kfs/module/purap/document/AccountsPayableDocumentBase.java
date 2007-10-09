@@ -16,7 +16,6 @@
 package org.kuali.module.purap.document;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -25,21 +24,15 @@ import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.rule.event.RouteDocumentEvent;
-import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.bo.AccountsPayableItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
-import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 
@@ -171,7 +164,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
                         if (ObjectUtils.isNotNull(nodeDetailEnum)) {
                             String statusCode = nodeDetailEnum.getAwaitingStatusCode();
                             if (StringUtils.isNotBlank(statusCode)) {
-                                SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, statusCode);
+                                SpringContext.getBean(PurapService.class).updateStatus(this, statusCode);
                                 saveDocumentFromPostProcessing();
                             }
                             else {

@@ -79,7 +79,8 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
             
             // TODO: Get this from Business Rules.
             // The PO must be in OPEN status.
-            if (!StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.OPEN)) {
+            if (!StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.PENDING_CLOSE) &&
+                !StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.OPEN)) {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_NOT_REQUIRED_STATUS, PurchaseOrderStatuses.OPEN );
             }

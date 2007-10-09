@@ -633,14 +633,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return newPurchaseOrderChangeDocument;
     }
     
-    public PurchaseOrderDocument createAndSavePotentialChangeDocument(String documentNumber, String docType, String newDocumentStatusCode) {
+    public PurchaseOrderDocument createAndSavePotentialChangeDocument(String documentNumber, String docType, String currentDocumentStatusCode) {
         PurchaseOrderDocument currentDocument = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(documentNumber);
         try {
             PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);
             if (ObjectUtils.isNotNull(newDocument)) {
+                newDocument.setStatusCode(PurchaseOrderStatuses.CHANGE_IN_PROCESS);
                 // set status if needed
-                if (StringUtils.isNotBlank(newDocumentStatusCode)) {
-                    newDocument.setStatusCode(newDocumentStatusCode);
+                if (StringUtils.isNotBlank(currentDocumentStatusCode)) {
+                    purapService.updateStatus(currentDocument, currentDocumentStatusCode );
                 }
                 try {
                     documentService.saveDocument(newDocument);
@@ -669,10 +670,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
 
-    public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients) {
+    public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String currentDocumentStatusCode) {
         PurchaseOrderDocument currentDocument = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(documentNumber);
+        purapService.updateStatus(currentDocument, currentDocumentStatusCode );
         try {
             PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);
+            newDocument.setStatusCode(PurchaseOrderStatuses.CHANGE_IN_PROCESS);
             if (ObjectUtils.isNotNull(newDocument)) {
                 try {
                     documentService.routeDocument(newDocument, annotation, adhocRoutingRecipients);
@@ -701,10 +704,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
 
-    public void cancelAmendment(PurchaseOrderDocument document) {
-        updateCurrentDocumentForNoPendingAction(document);
-    }
-    
     private String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
         String[] nodeNames = wd.getNodeNames();
         if ((nodeNames == null) || (nodeNames.length == 0)) {
@@ -736,7 +735,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         if (POTransmissionMethods.PRINT.equals(po.getPurchaseOrderTransmissionMethodCode())) {
             String newStatusCode = PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.get(po.getPurchaseOrderTransmissionMethodCode());
             LOG.debug("setupDocumentForPendingFirstTransmission() Purchase Order Transmission Type is '" + po.getPurchaseOrderTransmissionMethodCode() + "' setting status to '" + newStatusCode + "'");
-            purapService.updateStatusAndStatusHistory(po, newStatusCode);
+            purapService.updateStatus(po, newStatusCode);
         }
         else {
             if (hasActionRequestForDocumentTransmission) {
@@ -766,7 +765,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 throw new RuntimeException("Document does not have status code '" + PurchaseOrderStatuses.OPEN + "' on it but value of initial open date is " + po.getPurchaseOrderInitialOpenDate());
             }
             LOG.debug("attemptSetupOfInitialOpenOfDocument() Set up document to use status code '" + PurchaseOrderStatuses.OPEN + "'");
-            purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.OPEN);
+            purapService.updateStatus(po, PurchaseOrderStatuses.OPEN);
             saveDocumentNoValidation(po);
             documentWasSaved = true;
         }
@@ -869,6 +868,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         // First, we set the indicators for the oldPO to : Current = N and Pending = N
         oldPO.setPurchaseOrderCurrentIndicator(false);
         oldPO.setPendingActionIndicator(false);
+        
+        //If the document numbers between the oldPO and the newPO are different, then this is a PO change document.
+        if (!oldPO.getDocumentNumber().equals(newPO.getDocumentNumber())) {
+            //set the status and status history of the oldPO to retired version
+            purapService.updateStatus(oldPO, PurapConstants.PurchaseOrderStatuses.RETIRED_VERSION );
+        }
+        
         saveDocumentNoValidationUsingClearErrorMap(oldPO);
         // Now, we set the "new PO" indicators so that Current = Y and Pending = N
         newPO.setPurchaseOrderCurrentIndicator(true);
@@ -876,7 +882,27 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     public void setCurrentAndPendingIndicatorsForDisapprovedPODocuments(PurchaseOrderDocument newPO) {
-        updateCurrentDocumentForNoPendingAction(newPO);
+        updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.DISAPPROVED_CHANGE, PurapConstants.PurchaseOrderStatuses.OPEN);
+    }
+
+    public void setCurrentAndPendingIndicatorsForCancelledPODocuments(PurchaseOrderDocument newPO) {
+        updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.CANCELLED_CHANGE, PurapConstants.PurchaseOrderStatuses.OPEN);
+    }
+    
+    public void setCurrentAndPendingIndicatorsForCancelledReopenPODocuments(PurchaseOrderDocument newPO) {
+        updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.CANCELLED_CHANGE, PurapConstants.PurchaseOrderStatuses.CLOSED);
+    }
+    
+    public void setCurrentAndPendingIndicatorsForDisapprovedReopenPODocuments(PurchaseOrderDocument newPO) {
+        updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.DISAPPROVED_CHANGE, PurapConstants.PurchaseOrderStatuses.CLOSED);
+    }
+    
+    public void setCurrentAndPendingIndicatorsForCancelledRemoveHoldPODocuments(PurchaseOrderDocument newPO) {
+        updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.CANCELLED_CHANGE, PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD);
+    }
+    
+    public void setCurrentAndPendingIndicatorsForDisapprovedRemoveHoldPODocuments(PurchaseOrderDocument newPO) {
+        updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.DISAPPROVED_CHANGE, PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD);
     }
     
     private void updateCurrentDocumentForNoPendingAction(PurchaseOrderDocument newPO) {
@@ -884,9 +910,23 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(newPO.getPurapDocumentIdentifier());
         // Set the Pending indicator for the oldPO to N
         oldPO.setPendingActionIndicator(false);
+        //set the status and status history of the oldPO to retired version
+        purapService.updateStatus(oldPO, PurapConstants.PurchaseOrderStatuses.OPEN );
         saveDocumentNoValidationUsingClearErrorMap(oldPO);
+        saveDocumentNoValidationUsingClearErrorMap(newPO);
     }
 
+    private void updateCurrentDocumentForNoPendingAction(PurchaseOrderDocument newPO, String newPOStatus, String oldPOStatus) {
+        // Get the "current PO" that's in the database, i.e. the PO row that contains current indicator = Y
+        PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(newPO.getPurapDocumentIdentifier());
+        // Set the Pending indicator for the oldPO to N
+        oldPO.setPendingActionIndicator(false);
+        purapService.updateStatus(oldPO, oldPOStatus );
+        purapService.updateStatus(newPO, newPOStatus );
+        saveDocumentNoValidationUsingClearErrorMap(oldPO);
+        saveDocumentNoValidationUsingClearErrorMap(newPO);
+    }
+    
     public ArrayList<PurchaseOrderQuoteStatus> getPurchaseOrderQuoteStatusCodes() {
         ArrayList poQuoteStatuses = new TypedArrayList(PurchaseOrderQuoteStatus.class);
         poQuoteStatuses = (ArrayList) businessObjectService.findAll(PurchaseOrderQuoteStatus.class);

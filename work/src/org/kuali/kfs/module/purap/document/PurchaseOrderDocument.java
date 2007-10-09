@@ -51,14 +51,12 @@ import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.bo.PurchaseOrderStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.RecurringPaymentFrequency;
 import org.kuali.module.purap.bo.RequisitionItem;
-import org.kuali.module.purap.bo.RequisitionStatusHistory;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -339,7 +337,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                     NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(nodeName);
                     if (ObjectUtils.isNotNull(currentNode)) {
                         if (StringUtils.isNotBlank(currentNode.getDisapprovedStatusCode())) {
-                            SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, currentNode.getDisapprovedStatusCode());
                             SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
                             return;
                         }
@@ -350,7 +347,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                 // DOCUMENT CANCELED
                 else if (workflowDocument.stateIsCanceled()) {
                     // TODO PURAP/delyea - what status to use if this cancel is a super user cancel while ENROUTE?
-                    SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.PurchaseOrderStatuses.CANCELLED);
                     SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
                 }
             }
@@ -390,7 +386,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                             if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(
                                     reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ})) {
                                 // if an approve or complete request will be created then we need to set the status as awaiting for the new node
-                                SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, newStatusCode);
+                                SpringContext.getBean(PurapService.class).updateStatus(this, newStatusCode);
                                 SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
                             }
                         }
@@ -695,15 +691,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.retransmitHeader = retransmitHeader;
     }
 
-    /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String, java.lang.String, java.lang.String)
-     */
-    public void addToStatusHistories( String oldStatus, String newStatus, String userId ) {
-        PurchaseOrderStatusHistory posh = new PurchaseOrderStatusHistory( oldStatus, newStatus, userId );
-        posh.setDocumentHeaderIdentifier(this.documentHeader.getDocumentNumber());
-        this.getStatusHistories().add( posh );
-    }
-    
     /**
      * Gets the pendingActionIndicator attribute. 
      * @return Returns the pendingActionIndicator.

@@ -216,7 +216,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public boolean autoApprovePaymentRequest(PaymentRequestDocument doc, KualiDecimal defaultMinimumLimit) {
         if (isEligibleForAutoApproval(doc, defaultMinimumLimit)) {
             try {
-                purapService.updateStatusAndStatusHistory(doc, PaymentRequestStatuses.AUTO_APPROVED);
+                purapService.updateStatus(doc, PaymentRequestStatuses.AUTO_APPROVED);
                 documentService.blanketApproveDocument(doc, "auto-approving: Total is below threshold.", null);
             }
             catch (WorkflowException we) {
@@ -883,7 +883,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         catch (Exception e) {
             throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE + " " + e);
         }
-        purapService.updateStatusAndStatusHistory(paymentRequest, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE);
+        purapService.updateStatus(paymentRequest, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE);
         this.saveDocumentWithoutValidation(paymentRequest);
         LOG.debug("cancelExtractedPaymentRequest() PREQ " + paymentRequest.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
         LOG.debug("cancelExtractedPaymentRequest() ended");
@@ -1010,7 +1010,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         PaymentRequestDocument preqDocument = (PaymentRequestDocument) apDoc;
         if (preqDocument.isReopenPurchaseOrderIndicator()) {
             String docType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT;
-            SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(preqDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Credit Memo " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList());
+            purchaseOrderService.createAndRoutePotentialChangeDocument(preqDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Credit Memo " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList(), PurapConstants.PurchaseOrderStatuses.PENDING_REOPEN);
         }
     }
 
@@ -1047,7 +1047,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
 
         if (StringUtils.isNotBlank(cancelledStatusCode)) {
-            purapService.updateStatusAndStatusHistory(preqDoc, cancelledStatusCode);
+            purapService.updateStatus(preqDoc, cancelledStatusCode);
             saveDocumentWithoutValidation(preqDoc);
             return cancelledStatusCode;
         }

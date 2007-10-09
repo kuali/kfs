@@ -45,7 +45,6 @@ import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestItem;
-import org.kuali.module.purap.bo.PaymentRequestStatusHistory;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.RecurringPaymentType;
@@ -606,14 +605,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String, java.lang.String, java.lang.String)
-     */
-    public void addToStatusHistories( String oldStatus, String newStatus, String userId ) {
-        PaymentRequestStatusHistory prsh = new PaymentRequestStatusHistory( oldStatus, newStatus, userId );
-        this.getStatusHistories().add( prsh );
-    }
-    
-    /**
      * Perform logic needed to initiate PREQ Document
      */
     public void initiateDocument() {
@@ -872,7 +863,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             // DOCUMENT PROCESSED
             if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
                 if (!PaymentRequestStatuses.AUTO_APPROVED.equals(getStatusCode())) {
-                    SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
+                    SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
                     populateDocumentForRouting();
                     SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(this);
                     return;
@@ -907,7 +898,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 if (ObjectUtils.isNotNull(currentNode)) {
                     String cancelledStatusCode = currentNode.getDisapprovedStatusCode();
                     if (StringUtils.isNotBlank(cancelledStatusCode)) {
-                        SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, cancelledStatusCode);
+                        SpringContext.getBean(PurapService.class).updateStatus(this, cancelledStatusCode);
                         SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(this);
                         return;
                     }

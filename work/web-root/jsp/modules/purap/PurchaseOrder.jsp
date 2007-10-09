@@ -124,13 +124,6 @@
     <purap:paymentHistory
             documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
 
-    <purap:statushistory 
-        documentAttributes="${DataDictionary.PurchaseOrderStatusHistory.attributes}">
-          <html:messages id="warnings" property="statusHistoryWarning" message="true">
-            &nbsp;&nbsp;&nbsp;<bean:write name="warnings"/><br><br>
-          </html:messages>       
-    </purap:statushistory>
-
     <gl:generalLedgerPendingEntries />
 
     <kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true">

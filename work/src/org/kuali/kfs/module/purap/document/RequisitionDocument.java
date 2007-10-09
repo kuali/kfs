@@ -54,7 +54,6 @@ import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurapUser;
 import org.kuali.module.purap.bo.RequisitionAccount;
 import org.kuali.module.purap.bo.RequisitionItem;
-import org.kuali.module.purap.bo.RequisitionStatusHistory;
 import org.kuali.module.purap.bo.RequisitionView;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -270,7 +269,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     private void updateStatusAndStatusHistoryAndSave(String statusCode) {
-        SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, statusCode);
+        SpringContext.getBean(PurapService.class).updateStatus(this, statusCode);
         SpringContext.getBean(RequisitionService.class).saveDocumentWithoutValidation(this);
     }
 
@@ -344,15 +343,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             String errorMsg = "Workflow Error found checking actions requests on document with id " + getDocumentNumber() + ". *** WILL NOT UPDATE PURAP STATUS ***";
             LOG.warn(errorMsg, e);
         }
-    }
-
-    /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String,
-     *      java.lang.String, java.lang.String)
-     */
-    public void addToStatusHistories( String oldStatus, String newStatus, String userId ) {
-        RequisitionStatusHistory rsh = new RequisitionStatusHistory( oldStatus, newStatus, userId );
-        this.getStatusHistories().add(rsh);
     }
 
     // SETTERS AND GETTERS

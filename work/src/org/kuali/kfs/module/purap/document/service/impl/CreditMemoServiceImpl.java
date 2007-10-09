@@ -419,7 +419,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         }
 
         if (StringUtils.isNotBlank(cancelledStatusCode)) {
-            purapService.updateStatusAndStatusHistory(cmDoc, cancelledStatusCode);
+            purapService.updateStatus(cmDoc, cancelledStatusCode);
             saveDocumentWithoutValidation(cmDoc);
             return cancelledStatusCode;
         }
@@ -578,7 +578,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         CreditMemoDocument cmDocument = (CreditMemoDocument) apDoc;
         if (cmDocument.isReopenPurchaseOrderIndicator()) {
             String docType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
-            SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(cmDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Payment Request " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList());
+            SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(cmDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, "reopened by Payment Request " + apDoc.getPurapDocumentIdentifier() + "cancel", new ArrayList(), PurapConstants.PurchaseOrderStatuses.PENDING_CLOSE);
         }
     }
 

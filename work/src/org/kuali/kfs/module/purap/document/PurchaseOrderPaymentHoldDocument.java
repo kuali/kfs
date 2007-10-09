@@ -51,17 +51,16 @@ public class PurchaseOrderPaymentHoldDocument extends PurchaseOrderDocument {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
             //set purap status and status history and status history note
             //TODO: Once we have a note available here, add the note to the next line.
-            SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD );
+            SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD );
             SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }
         // DOCUMENT DISAPPROVED
         else if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedPODocuments(this);
-            SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }
         // DOCUMENT CANCELED
         else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-            // TODO code
+            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledPODocuments(this);
         }        
     }
 

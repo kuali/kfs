@@ -30,7 +30,6 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.bo.PurchaseOrderStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
@@ -207,6 +206,17 @@ public class PurapConstants extends JstlConstants {
         public static final String QUOTE = "QUOT";
         public static final String VOID = "VOID";
         public static final String AMENDMENT = "AMND";
+        
+        public static final String RETIRED_VERSION = "RTVN";
+        public static final String CHANGE_IN_PROCESS = "CGIN";
+        public static final String CANCELLED_CHANGE = "CNCG";
+        public static final String DISAPPROVED_CHANGE = "DACG";
+        public static final String PENDING_VOID = "VOPE";
+        public static final String PENDING_PAYMENT_HOLD = "PHPE";
+        public static final String PENDING_RETRANSMIT = "RTPE";
+        public static final String PENDING_CLOSE = "CLPE";
+        public static final String PENDING_REOPEN = "ROPE";
+        public static final String PENDING_REMOVE_HOLD = "RHPE";
         
         public static final Set<String> INCOMPLETE_STATUSES = new HashSet<String>();
         static {
@@ -633,7 +643,6 @@ public class PurapConstants extends JstlConstants {
         returnMap.put(RicePropertyConstants.DOCUMENT_NUMBER, null);
         returnMap.put(PurapPropertyConstants.ITEM_IDENTIFIER, PurchaseOrderItem.class);
         returnMap.put(PurapPropertyConstants.ACCOUNT_IDENTIFIER, PurchaseOrderAccount.class);
-        returnMap.put(PurapPropertyConstants.STATUS_HISTORY_IDENTIFIER, PurchaseOrderStatusHistory.class);
         returnMap.put(PurapPropertyConstants.PURCHASE_ORDER_VENDOR_QUOTE_IDENTIFIER, PurchaseOrderVendorQuote.class);
         returnMap.put("relatedRequisitionViews", PurchasingAccountsPayableDocumentBase.class);
         returnMap.put("relatedPurchaseOrderViews", PurchasingAccountsPayableDocumentBase.class);

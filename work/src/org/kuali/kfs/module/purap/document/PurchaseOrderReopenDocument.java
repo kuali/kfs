@@ -116,17 +116,16 @@ public class PurchaseOrderReopenDocument extends PurchaseOrderDocument {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
 
             //set purap status and status history and status history note
-            SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.PurchaseOrderStatuses.OPEN );
+            SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.OPEN );
             SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }
         // DOCUMENT DISAPPROVED
         else if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
-            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedPODocuments(this);
-            SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
+            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedReopenPODocuments(this);
         }
         // DOCUMENT CANCELED
         else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-            // TODO code
+            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledReopenPODocuments(this);
         }
 
     }

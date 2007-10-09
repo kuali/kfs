@@ -39,6 +39,7 @@ import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.module.purap.service.PurchaseOrderService;
 
 public class PurchaseOrderVoidDocumentRule extends PurchasingDocumentRuleBase {
 
@@ -74,9 +75,11 @@ public class PurchaseOrderVoidDocumentRule extends PurchasingDocumentRuleBase {
             throw new ValidationException("Purchase Order Void document was null on validation.");
         }
         else {
-            // TODO: Get this from Business Rules.
+            PurchaseOrderDocument currentPO = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurapDocumentIdentifier());
             // The PO must be in OPEN status.
-            if (!StringUtils.equalsIgnoreCase(document.getStatusCode(), PurchaseOrderStatuses.OPEN)) {
+            if (!StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.OPEN) &&
+                !StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.PENDING_VOID) &&
+                !StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.PENDING_PRINT)) {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_NOT_REQUIRED_STATUS, PurchaseOrderStatuses.OPEN);
             }

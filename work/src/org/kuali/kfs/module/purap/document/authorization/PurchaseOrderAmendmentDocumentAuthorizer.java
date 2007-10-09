@@ -40,21 +40,11 @@ public class PurchaseOrderAmendmentDocumentAuthorizer extends PurchaseOrderDocum
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
 
         KualiWorkflowDocument workflowDocument = d.getDocumentHeader().getWorkflowDocument();
-        if (((PurchasingAccountsPayableDocument)d).getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.AMENDMENT) &&
+        if (((PurchasingAccountsPayableDocument)d).getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CHANGE_IN_PROCESS) &&
             (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
             editMode = PurapAuthorizationConstants.PurchaseOrderEditMode.AMENDMENT_ENTRY;
         }
         editModeMap.put(editMode, "TRUE");
         return editModeMap;
     }
-    /* I don't think we need this.
-    @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-        if (hasInitiateAuthorization(document, user)) {
-            flags.setCanRoute(true);
-        }
-        return flags;
-    }
-    */
 }

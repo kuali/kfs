@@ -28,13 +28,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 public interface PurapService {
 
-    public boolean updateStatusAndStatusHistory( PurchasingAccountsPayableDocument document, String statusToSet);
-
-    public boolean updateStatusAndStatusHistory( PurchasingAccountsPayableDocument document, String statusToSet, String userId);
-    
     public boolean updateStatus( PurchasingAccountsPayableDocument document, String statusToSet);
-    
-    public boolean updateStatusHistory(PurchasingAccountsPayableDocument document, String statusToSet, String userId);
     
     public List getRelatedViews(Class clazz, Integer accountsPayablePurchasingDocumentLinkIdentifier);
 

@@ -63,13 +63,6 @@
 		<purap:relatedDocuments documentAttributes="${DataDictionary.RelatedDocuments.attributes}"/>
            	
 	    <purap:paymentHistory documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
-        
-	    <purap:statushistory 
-	        documentAttributes="${DataDictionary.CreditMemoStatusHistory.attributes}">
-	          <html:messages id="warnings" property="statusHistoryWarning" message="true">
-	            &nbsp;&nbsp;&nbsp;<bean:write name="warnings"/><br><br>
-	          </html:messages>       
-	    </purap:statushistory>
 	
 	    <gl:generalLedgerPendingEntries />
 

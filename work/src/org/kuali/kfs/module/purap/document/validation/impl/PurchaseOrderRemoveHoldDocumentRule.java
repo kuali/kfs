@@ -33,6 +33,7 @@ import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.service.PurchaseOrderService;
 
 /**
  * This class is purposely not extending PurchaseOrderDocumentRule becuase it does not need to since it does not allow the PO to be
@@ -72,9 +73,10 @@ public class PurchaseOrderRemoveHoldDocumentRule extends TransactionalDocumentRu
             throw new ValidationException("Purchase Order Remove Hold document was null on validation.");
         }
         else {
-            // TODO: Get this from Business Rules.
+            PurchaseOrderDocument currentPO = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurapDocumentIdentifier());
             // Check the PO status
-            if (!StringUtils.equalsIgnoreCase(document.getStatusCode(), PurchaseOrderStatuses.PAYMENT_HOLD)) {
+            if (!StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.PAYMENT_HOLD) &&
+                !StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.PENDING_REMOVE_HOLD)) {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_NOT_REQUIRED_STATUS, PurchaseOrderStatuses.PAYMENT_HOLD);
             }

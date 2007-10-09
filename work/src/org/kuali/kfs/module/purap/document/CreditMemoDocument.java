@@ -41,7 +41,6 @@ import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.CreditMemoItem;
-import org.kuali.module.purap.bo.CreditMemoStatusHistory;
 import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.AccountsPayableService;
@@ -186,7 +185,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         try {
             // DOCUMENT PROCESSED
             if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-                SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.CreditMemoStatuses.COMPLETE);
+                SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.CreditMemoStatuses.COMPLETE);
                 SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(this);
 
                 return;
@@ -246,15 +245,6 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      */
     public void saveDocumentFromPostProcessing() {
         SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(this);
-    }
-
-    /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String,
-     *      java.lang.String, java.lang.String)
-     */
-    public void addToStatusHistories(String oldStatus, String newStatus, String userId) {
-        CreditMemoStatusHistory cmsh = new CreditMemoStatusHistory(oldStatus, newStatus, userId);
-        getStatusHistories().add(cmsh);
     }
 
     /**

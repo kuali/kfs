@@ -75,7 +75,7 @@ public class ForwardEncumbranceTest extends OriginEntryTestBase {
             GregorianCalendar lastYear = new GregorianCalendar();
             lastYear.add(Calendar.YEAR, -1);
             e.setTransactionEncumbranceDate(new java.sql.Date(lastYear.getTimeInMillis()));
-            e.setTransactionEncumbranceDescription("MONKEYS-R-US");
+            e.setTransactionEncumbranceDescription("MONKEYS-R-US IS THE NEWEST AND GREATEST STORE IN THE ENTIRE TRI-STATE AREA");
             e.setAccountLineEncumbranceAmount(new KualiDecimal(1000));
             e.setAccountLineEncumbranceClosedAmount(KualiDecimal.ZERO);
             return e;

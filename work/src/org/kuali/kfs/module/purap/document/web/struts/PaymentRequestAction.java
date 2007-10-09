@@ -38,6 +38,7 @@ import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.rule.event.CalculateAccountsPayableEvent;
 import org.kuali.module.purap.service.PaymentRequestService;
+import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.util.PurQuestionCallback;
 import org.kuali.module.purap.web.struts.form.AccountsPayableFormBase;
 import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
@@ -98,6 +99,9 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         //force calculation
         preqForm.setCalculated(false);
 
+        //sort below the line
+        SpringContext.getBean(PurapService.class).sortBelowTheLine(paymentRequestDocument);
+        
         //update the counts on the form
         preqForm.updateItemCounts();
         

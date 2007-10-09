@@ -35,6 +35,7 @@ import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.rule.event.CalculateAccountsPayableEvent;
 import org.kuali.module.purap.service.CreditMemoService;
+import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.util.PurQuestionCallback;
 import org.kuali.module.purap.web.struts.form.AccountsPayableFormBase;
 import org.kuali.module.purap.web.struts.form.CreditMemoForm;
@@ -74,6 +75,9 @@ public class CreditMemoAction extends AccountsPayableActionBase {
 
         // perform validation of init tab
         SpringContext.getBean(CreditMemoService.class).populateAndSaveCreditMemo(creditMemoDocument);
+        
+        //sort below the line (doesn't really need to be done on CM, but will help if we ever bring btl from other docs)
+        SpringContext.getBean(PurapService.class).sortBelowTheLine(creditMemoDocument);
         
         //update the counts on the form
         cmForm.updateItemCounts();

@@ -276,12 +276,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
                 String documentTypeClassName = purapDocument.getClass().getName();
                 String[] documentTypeArray = StringUtils.split(documentTypeClassName, ".");
                 String documentType = documentTypeArray[documentTypeArray.length - 1];
-                if (cmDocument.isSourceDocumentPaymentRequest()) {
-                    valid &= valideBelowTheLineValues(documentType, "FromPaymentRequest", item);
-                }
-                else if (cmDocument.isSourceDocumentPurchaseOrder()) {
-                    valid &= valideBelowTheLineValues(documentType, "FromPurchaseOrder", item);
-                }
+                valid &= validateBelowTheLineValues(documentType, item);
             }
         }
 

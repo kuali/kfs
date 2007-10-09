@@ -156,7 +156,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
                 GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
                 // only do this check for below the line items
                 if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
-                    valid &= valideBelowTheLineValues(documentType, null, item);
+                    valid &= validateBelowTheLineValues(documentType, item);
                 }
                 GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
 
@@ -176,7 +176,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         return valid;
     }
 
-    protected boolean valideBelowTheLineValues(String documentType, String fromSourceDocument, PurApItem item) {
+    protected boolean validateBelowTheLineValues(String documentType, PurApItem item) {
         boolean valid = true;
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         try {
@@ -199,7 +199,8 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
                 }
             }
             if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNonZero() && StringUtils.isEmpty(item.getItemDescription())) {
-                if (parameterService.getIndicatorParameter(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION)) {
+                if (parameterService.parameterExists(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION) && parameterService.getParameterEvaluator(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION, item.getItemTypeCode()).evaluationSucceeds()) {
+//                if (parameterService.getIndicatorParameter(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION)) {
                     valid = false;
                     GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, "The item description of " + item.getItemType().getItemTypeDescription(), "empty");
                 }

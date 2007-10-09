@@ -31,8 +31,6 @@ import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConst
 import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_7_PERIOD_CODE;
 import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_8_PERIOD_CODE;
 import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_9_PERIOD_CODE;
-import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.RESTRICTED_OBJECT_CODES;
-import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
 import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.TRANSFER_OBJECT_CODE_PARM_NM;
 import static org.kuali.module.financial.rules.TransferOfFundsDocumentRuleConstants.TRANSFER_OF_FUNDS_DOC_TYPE_CODE;
 
@@ -65,7 +63,6 @@ import org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.rules.AccountingLineRuleUtil;
 import org.kuali.kfs.service.OptionsService;
-import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
@@ -101,9 +98,6 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
 
         LOG.debug("beginning monthly lines validation ");
         allow = allow && validateMonthlyLines(FinancialDocument, accountingLine);
-
-        LOG.debug("beginning object code validation ");
-        allow = allow && validateObjectCode(FinancialDocument, accountingLine);
 
         LOG.debug("beginning account number validation ");
         allow = allow && validateAccountNumber(FinancialDocument, accountingLine);
@@ -538,31 +532,6 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
         }
 
         return isAdjustmentAllowed;
-    }
-
-    /**
-     * Checks object codes restrictions, including restrictions in parameters table.
-     * 
-     * @param FinancialDocument
-     * @param accountingLine
-     * @return boolean
-     */
-    public boolean validateObjectCode(AccountingDocument financialDocument, AccountingLine accountingLine) {
-        BudgetAdjustmentDocument baDocument = (BudgetAdjustmentDocument) financialDocument;
-        ErrorMap errors = GlobalVariables.getErrorMap();
-
-        boolean objectCodeAllowed = true;
-
-        String errorKey = KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE;
-
-        /* check object code is in permitted list for payment reason */
-        if (objectCodeAllowed) {
-            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(BudgetAdjustmentDocument.class, RESTRICTED_OBJECT_CODES, accountingLine.getFinancialObjectCode());
-            // objectCodeAllowed is true now
-            objectCodeAllowed = evaluator.evaluateAndAddError(getErrorMessageKey(evaluator), errorKey, AccountingLineRuleUtil.getObjectCodeLabel());
-        }
-        
-        return objectCodeAllowed;
     }
 
     /**

@@ -76,6 +76,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         LaborOriginEntry laborOriginEntry = (LaborOriginEntry) originEntry;
         LaborOriginEntry laborScrubbedEntry = (LaborOriginEntry) scrubbedEntry;
+        
+        scrubberValidator.setReferenceLookup(referenceLookup.get());
 
         // For labor scrubber.
 

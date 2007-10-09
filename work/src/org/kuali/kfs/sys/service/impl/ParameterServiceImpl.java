@@ -169,10 +169,12 @@ public class ParameterServiceImpl implements ParameterService {
         parameter.setParameterValue(parameterText);
         SpringContext.getBean(BusinessObjectService.class).save(parameter);
         try {
-            removeCachedMethod(KualiConfigurationService.class.getMethod("getParameterValues", new Class[] { String.class, String.class, String.class }), new Object[] { getNamespace(componentClass), getDetailType(componentClass), parameterName });
-            removeCachedMethod(KualiConfigurationService.class.getMethod("getParameterValuesAsList", new Class[] { String.class, String.class, String.class }), new Object[] { getNamespace(componentClass), getDetailType(componentClass), parameterName });
-            removeCachedMethod(KualiConfigurationService.class.getMethod("getParameterValuesAsSet", new Class[] { String.class, String.class, String.class }), new Object[] { getNamespace(componentClass), getDetailType(componentClass), parameterName });
-            removeCachedMethod(KualiConfigurationService.class.getMethod("getParameterValue", new Class[] { String.class, String.class, String.class }), new Object[] { getNamespace(componentClass), getDetailType(componentClass), parameterName });
+            String namespace = getNamespace(componentClass);
+            String detailType = getDetailType(componentClass);
+            removeCachedMethod(KualiConfigurationService.class.getMethod("getParameter", new Class[] { String.class, String.class, String.class }), new Object[] { namespace, detailType, parameterName });
+            removeCachedMethod(KualiConfigurationService.class.getMethod("getIndicatorParameter", new Class[] { String.class, String.class, String.class }), new Object[] { namespace, detailType, parameterName });
+            removeCachedMethod(KualiConfigurationService.class.getMethod("getParameterValues", new Class[] { String.class, String.class, String.class }), new Object[] { namespace, detailType, parameterName });
+            removeCachedMethod(KualiConfigurationService.class.getMethod("getParameterValue", new Class[] { String.class, String.class, String.class }), new Object[] { namespace, detailType, parameterName });
         }
         catch (Exception e) {
             throw new RuntimeException(new StringBuffer("The setParameterForTesting of ParameterServiceImpl failed: ").append(componentClass).append(" / ").append(parameterName).toString(), e);

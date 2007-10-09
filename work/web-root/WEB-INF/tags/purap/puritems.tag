@@ -24,6 +24,7 @@
               for the existing misc items." %>
 
 <c:set var="amendmentEntry"	value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
+<c:set var="amendmentEntryWithUnpaidPreqOrCM" value="${(amendmentEntry && (KualiForm.document.containsUnpaidPaymentRequestsOrCreditMemos))}" />
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
 
 <c:choose>
@@ -270,32 +271,32 @@
 					    <kul:htmlControlAttribute
 						    attributeEntry="${itemAttributes.itemQuantity}"
 						    property="document.item[${ctr}].itemQuantity"
-						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}" />
+						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" />
 					</td>
 					<td class="infoline">
 					    <kul:htmlControlAttribute
 						    attributeEntry="${itemAttributes.itemUnitOfMeasureCode}"
 						    property="document.item[${ctr}].itemUnitOfMeasureCode"
-						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}" />
+						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" />
 				    </td>
 					<td class="infoline">
 					    <kul:htmlControlAttribute
 						    attributeEntry="${itemAttributes.itemCatalogNumber}"
 						    property="document.item[${ctr}].itemCatalogNumber"
-						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}" />
+						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" />
 				    </td>
 					<td class="infoline">
 					    <kul:htmlControlAttribute
 						    attributeEntry="${itemAttributes.itemDescription}"
 						    property="document.item[${ctr}].itemDescription"
-						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}" />
+						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" />
 					</td>
 					<td class="infoline">
 					    <div align="right">
 					        <kul:htmlControlAttribute
 						        attributeEntry="${itemAttributes.itemUnitPrice}"
 						        property="document.item[${ctr}].itemUnitPrice"
-						        readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}" />
+						        readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" />
 						</div>
 					</td>
 					<td class="infoline">
@@ -311,7 +312,7 @@
 						    <kul:htmlControlAttribute
 							    attributeEntry="${itemAttributes.itemRestrictedIndicator}"
 							    property="document.item[${ctr}].itemRestrictedIndicator"
-							    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}" />
+							    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" />
 					    </div>
 						</td>
 					</c:if>
@@ -321,7 +322,7 @@
                                 <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" property="newPurchasingItemLine.itemAssignedToTradeInIndicator" readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}" />
                             </div>
                         </td -->
-					<c:if test="${(fullEntryMode or (amendmentEntry and itemLine.versionNumber == null))}">
+					<c:if test="${(fullEntryMode or (amendmentEntry and itemLine.itemInvoicedTotalAmount == null))}">
 						<td class="infoline">
 						    <div align="center">
 						        <html:image
@@ -332,16 +333,25 @@
 							</div>
 						</td>
 					</c:if>
-					<c:if test="${amendmentEntry and itemLine.canInactivateItem}">
-						<td class="infoline">
-						    <div align="center">
-						        <html:image
-							        property="methodToCall.inactivateItem.line${ctr}"
-						    	    src="${ConfigProperties.externalizable.images.url}tinybutton-inactivate.gif"
-							        alt="Inactivate Item ${ctr+1}" title="Inactivate Item ${ctr+1}"
-							        styleClass="tinybutton" />
-					        </div>
-					    </td>
+					<c:if test="${amendmentEntry}">
+					    <c:choose>
+					        <c:when test="${(itemLine.canInactivateItem and itemLine.itemInvoicedTotalAmount != null)}">
+						        <td class="infoline">
+						            <div align="center">
+						                <html:image
+							                property="methodToCall.inactivateItem.line${ctr}"
+				   		    	            src="${ConfigProperties.externalizable.images.url}tinybutton-inactivate.gif"
+							                alt="Inactivate Item ${ctr+1}" title="Inactivate Item ${ctr+1}"
+							                styleClass="tinybutton" />
+					                </div>
+					            </td>
+					        </c:when>
+					        <c:otherwise>
+					            <c:if test="${(itemLine.itemInvoicedTotalAmount != null and itemLine.itemActiveIndicator)}">
+					                <td class="infoline">&nbsp;</td>
+					            </c:if>
+					        </c:otherwise>
+					    </c:choose>
 					</c:if>
 					<c:choose>
 					    <c:when test="${(isATypeOfPODoc and ! itemLine.itemActiveIndicator)}">
@@ -369,34 +379,38 @@
 				</tr>
 
 <!-- TODO PHASE 2b: Remove "suppressCams" and "overrideTitle" attributes -->
-				<c:if test="${(amendmentEntry and itemLine.itemActiveIndicator)}">
-				    <c:set target="${KualiForm.accountingLineEditingMode}" property="fullEntry" value="true" />
-					<purap:puraccountingLineCams
-						editingMode="${KualiForm.accountingLineEditingMode}"
-						editableAccounts="${KualiForm.editableAccounts}"
-						sourceAccountingLinesOnly="true"
-						optionalFields="accountLinePercent"
-						extraHiddenFields=",accountIdentifier,itemIdentifier,amount"
-						accountingLineAttributes="${accountingLineAttributes}"
-						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
-						hideFields="amount" accountingAddLineIndex="${ctr}"
-						itemsAttributes="${itemAttributes}"
-						camsAttributes="${camsAttributes}" ctr="${ctr}"
-                        suppressCams="true" overrideTitle="Item Accounting Lines" />
-				</c:if>
-				<c:if test="${(amendmentEntry and !itemLine.itemActiveIndicator)}">
-				    <c:set target="${KualiForm.editingMode}" property="viewOnly" value="true" />
-					<purap:puraccountingLineCams editingMode="${KualiForm.editingMode}"
-						editableAccounts="${KualiForm.editableAccounts}"
-						sourceAccountingLinesOnly="true"
-						optionalFields="accountLinePercent"
-						extraHiddenFields=",accountIdentifier,itemIdentifier,amount"
-						accountingLineAttributes="${accountingLineAttributes}"
-						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
-						hideFields="amount" accountingAddLineIndex="${ctr}"
-						itemsAttributes="${itemAttributes}"
-						camsAttributes="${camsAttributes}" ctr="${ctr}"
-                        suppressCams="true" overrideTitle="Item Accounting Lines" />
+                <c:if test="${amendmentEntry}">
+                    <c:choose>
+	    			    <c:when test="${(itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)) )}">
+		    		        <c:set target="${KualiForm.accountingLineEditingMode}" property="fullEntry" value="true" />
+			    		    <purap:puraccountingLineCams
+    			    			editingMode="${KualiForm.accountingLineEditingMode}"
+	    			    		editableAccounts="${KualiForm.editableAccounts}"
+		    			    	sourceAccountingLinesOnly="true"
+			    			    optionalFields="accountLinePercent"
+    				    		extraHiddenFields=",accountIdentifier,itemIdentifier,amount"
+	    				    	accountingLineAttributes="${accountingLineAttributes}"
+		    				    accountPrefix="document.item[${ctr}]." hideTotalLine="true"
+			        			hideFields="amount" accountingAddLineIndex="${ctr}"
+				        		itemsAttributes="${itemAttributes}"
+					        	camsAttributes="${camsAttributes}" ctr="${ctr}"
+                                suppressCams="true" overrideTitle="Item Accounting Lines" />
+    				    </c:when>
+	        			<c:otherwise>
+		        		    <c:set target="${KualiForm.editingMode}" property="viewOnly" value="true" />
+			        		<purap:puraccountingLineCams editingMode="${KualiForm.editingMode}"
+				        		editableAccounts="${KualiForm.editableAccounts}"
+					        	sourceAccountingLinesOnly="true"
+						        optionalFields="accountLinePercent"
+		    				    extraHiddenFields=",accountIdentifier,itemIdentifier,amount"
+    			    			accountingLineAttributes="${accountingLineAttributes}"
+	    			    		accountPrefix="document.item[${ctr}]." hideTotalLine="true"
+		    			    	hideFields="amount" accountingAddLineIndex="${ctr}"
+			    			    itemsAttributes="${itemAttributes}"
+				    		    camsAttributes="${camsAttributes}" ctr="${ctr}"
+                                suppressCams="true" overrideTitle="Item Accounting Lines" />
+				        </c:otherwise>
+				    </c:choose>
 				</c:if>
 				<c:if test="${(!amendmentEntry)}">
 					<c:if test="${!empty KualiForm.editingMode['allowItemEntry'] && (KualiForm.editingMode['allowItemEntry'] == itemLine.itemIdentifier)}" >

@@ -84,7 +84,7 @@ public class EncumbranceClosingOriginEntryFactory {
             fromDesc = sb.toString();
             description += fromDesc;
         } else if ((description.length() + fromDesc.length()) > descLength) {
-            description += description.substring(0, (descLength - fromDesc.length())) + fromDesc;
+            description = description.substring(0, (descLength - fromDesc.length())) + fromDesc;
         } else {
             description += fromDesc;
         }
@@ -159,7 +159,7 @@ public class EncumbranceClosingOriginEntryFactory {
         }
         offset.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_COST_SHARE_ENCUMBRANCE);
         // Validate the object code for the explicit entry.
-        ObjectCode objectCode = objectCodeService.getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialObjectCode());
+        ObjectCode objectCode = objectCodeService.getByPrimaryId(offset.getUniversityFiscalYear(), offset.getChartOfAccountsCode(), offset.getFinancialObjectCode());
         if (null != objectCode) {
             offset.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
         }
@@ -168,7 +168,6 @@ public class EncumbranceClosingOriginEntryFactory {
             pair.setFatalErrorFlag(true);
             return pair;
         }
-        offset.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
         offset.setUniversityFiscalPeriodCode(KFSConstants.PERIOD_CODE_BEGINNING_BALANCE);
         offset.setDocumentNumber(encumbrance.getDocumentNumber());
         offset.setTransactionLedgerEntrySequenceNumber(new Integer(0));

@@ -54,13 +54,7 @@ public class ParameterServiceImpl implements ParameterService {
     private Class parameterEvaluatorClass;
 
     public boolean parameterExists(Class componentClass, String parameterName) {
-        try {
-            getParameter(componentClass, parameterName);
-            return true;
-        }
-        catch (IllegalArgumentException e) {
-            return false;
-        }
+        return configurationService.parameterExists(getNamespace(componentClass), getDetailType(componentClass), parameterName);
     }
 
     public boolean getIndicatorParameter(Class componentClass, String parameterName) {

@@ -33,6 +33,7 @@
   <html:hidden property="document.cashReceiptHeader.workgroupName" />
   <html:hidden property="document.cashReceiptHeader.objectId" />
   <html:hidden property="document.cashReceiptHeader.versionNumber" />
+  <html:hidden property="document.cashReceiptHeader.depositDate" />
 	<html:hidden property="checkTotal" />
 	<c:set var="docStatusMessage"
 		value="${KualiForm.financialDocumentStatusMessage}" />

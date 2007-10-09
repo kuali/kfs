@@ -128,7 +128,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      */
     boolean validateEmptyItemWithAccounts(PurchaseOrderItem item, String identifierString) {
         boolean valid = true;
-        if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE) && item.isItemDetailEmpty() && !item.isAccountListEmpty()) {
+        if (item.getItemType().isItemTypeAboveTheLineIndicator() && item.isItemDetailEmpty() && !item.isAccountListEmpty()) {
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_ALLOWED, identifierString);
         }
@@ -143,7 +143,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      */
     boolean validateItemUnitOfMeasure(PurchaseOrderItem item, String identifierString) {
         boolean valid = true;
-        if (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ITEM_CODE) && StringUtils.isEmpty(item.getItemUnitOfMeasureCode())) {
+        if (item.getItemType().isQuantityBasedGeneralLedgerIndicator() && StringUtils.isEmpty(item.getItemUnitOfMeasureCode())) {
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_UNIT_OF_MEASURE_REQUIRED, identifierString);
         }

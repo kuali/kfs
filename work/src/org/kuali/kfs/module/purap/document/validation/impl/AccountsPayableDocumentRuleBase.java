@@ -63,15 +63,15 @@ public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccounts
        
         for (PurApItem item : purapDocument.getItems()) {
             String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
-            if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) {
-                valid &= validateItemTypeItems((PaymentRequestItem) item, identifierString);
+            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                valid &= validateAboveTheLineItems((PaymentRequestItem) item, identifierString);
             }
         }
         
         return valid;
     }
 
-    private boolean validateItemTypeItems(PaymentRequestItem item, String identifierString) {
+    private boolean validateAboveTheLineItems(PaymentRequestItem item, String identifierString) {
         boolean valid = true;
 
         // Currently Invoice Unit Price is not allowed to be NULL on screen; 

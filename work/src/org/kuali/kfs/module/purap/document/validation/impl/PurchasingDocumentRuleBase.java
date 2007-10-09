@@ -195,7 +195,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         boolean valid = true;
         PurchasingItemBase purItem = (PurchasingItemBase) item;
         // Validations for item type "ITEM"
-        if (purItem.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) {
+        if (purItem.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
             if (StringUtils.isEmpty(purItem.getItemUnitOfMeasureCode())) {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ZERO, ItemFields.UNIT_OF_MEASURE + " in ", identifierString);
@@ -213,11 +213,11 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     private boolean validateItemQuantity(PurApItem item, String identifierString) {
         boolean valid = true;
         PurchasingItemBase purItem = (PurchasingItemBase) item;
-        if (purItem.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ITEM_CODE) && (ObjectUtils.isNull(purItem.getItemQuantity()) || (ObjectUtils.isNotNull(purItem.getItemQuantity()) && purItem.getItemQuantity().isZero()))) {
+        if (purItem.getItemType().isQuantityBasedGeneralLedgerIndicator() && (ObjectUtils.isNull(purItem.getItemQuantity()) || (ObjectUtils.isNotNull(purItem.getItemQuantity()) && purItem.getItemQuantity().isZero()))) {
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, KFSKeyConstants.ERROR_REQUIRED, ItemFields.QUANTITY + " in " + identifierString);
         }
-        else if (purItem.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_SERVICE_CODE) && ObjectUtils.isNotNull(purItem.getItemQuantity())) {
+        else if (purItem.getItemType().isAmountBasedGeneralLedgerIndicator() && ObjectUtils.isNotNull(purItem.getItemQuantity())) {
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ALLOWED);
         }

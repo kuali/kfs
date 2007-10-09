@@ -100,7 +100,7 @@ public class EncumbranceClosingOriginEntryFactory {
         entry.setSubAccountNumber(a21SubAccount.getCostShareSourceSubAccountNumber());
 
         // The subAccountNumber is set to dashes in the OriginEntryFull constructor.
-        if (KFSConstants.EMPTY_STRING.equals(entry.getSubAccountNumber().trim())) {
+        if (entry.getSubAccountNumber() == null || KFSConstants.EMPTY_STRING.equals(entry.getSubAccountNumber().trim())) {
             entry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }
 
@@ -139,8 +139,8 @@ public class EncumbranceClosingOriginEntryFactory {
         offset.setChartOfAccountsCode(a21SubAccount.getCostShareChartOfAccountCode());
         offset.setAccountNumber(a21SubAccount.getCostShareSourceAccountNumber());
         offset.setSubAccountNumber(a21SubAccount.getCostShareSourceSubAccountNumber());
-        if (KFSConstants.EMPTY_STRING.equals(entry.getSubAccountNumber().trim())) {
-            entry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+        if (offset.getSubAccountNumber() == null || KFSConstants.EMPTY_STRING.equals(offset.getSubAccountNumber().trim())) {
+            offset.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }
         // Lookup the offset definition for the explicit entry we just created.
         OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialDocumentTypeCode(), entry.getFinancialBalanceTypeCode());

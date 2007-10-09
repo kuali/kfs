@@ -29,6 +29,10 @@
 	<kul:hiddenDocumentFields />
 	<html:hidden property="document.nextCheckSequenceId" />
 	<html:hidden property="document.checkEntryMode" />
+  <html:hidden property="document.cashReceiptHeader.documentNumber" />
+  <html:hidden property="document.cashReceiptHeader.workgroupName" />
+  <html:hidden property="document.cashReceiptHeader.objectId" />
+  <html:hidden property="document.cashReceiptHeader.versionNumber" />
 	<html:hidden property="checkTotal" />
 	<c:set var="docStatusMessage"
 		value="${KualiForm.financialDocumentStatusMessage}" />

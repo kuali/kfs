@@ -30,6 +30,7 @@ import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.core.web.ui.Column;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.service.CorrectionDocumentService;
@@ -605,5 +606,15 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         setHtmlFormAction("generalLedgerCorrection");
     }
 
+    /**
+     * Adds the origin entry max file size to the list of max file sizes.
+     * 
+     * @see org.kuali.core.web.struts.pojo.PojoFormBase#customInitMaxUploadSizes()
+     */
+    @Override
+    protected void customInitMaxUploadSizes() {
+        super.customInitMaxUploadSizes();
+        addMaxUploadSize(SpringContext.getBean(ParameterService.class).getParameterValue(CorrectionDocument.class, KFSConstants.ORIGIN_ENTRY_IMPORT_MAX_FILE_SIZE_PARM_NM));
+    }
     
 }

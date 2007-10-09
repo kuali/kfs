@@ -34,11 +34,6 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
     // special user used in the post-processor
     public static final String SYSTEM_USER = "KULUSER";
 
-    public static final String PARAM_MAINTENANCE_VIEW_MODE = "maintenanceViewMode";
-    public static final String PARAM_MAINTENANCE_VIEW_MODE_MAINTENANCE = "maintenance";
-    public static final String PARAM_MAINTENANCE_VIEW_MODE_LOOKUP = "lookup";
-    public static final String PARAM_MAINTENANCE_VIEW_MODE_INQUIRY = "inquiry";
-
     public static final String ENVIRONMENT_KEY = "environment";
     public static final String VERSION_KEY = "version";
     public static final String LOG4J_SETTINGS_FILE_KEY = "log4j.settings.file";
@@ -694,6 +689,9 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
 
     public static final String MAINTENANCE_ADMIN_WORKGROUP_PARM_NM = "MAINTENANCE_ADMIN_GROUP";
 
+    public static final String ACCOUNTING_LINE_IMPORT_MAX_FILE_SIZE_PARM_NM = "MAX_FILE_SIZE_ACCOUNTING_LINE_IMPORT";
+    public static final String ORIGIN_ENTRY_IMPORT_MAX_FILE_SIZE_PARM_NM = "MAX_FILE_SIZE_ORIGIN_ENTRY_IMPORT";
+    
     public static class ChartApcParms {
 
         public static final String FISCAL_YEAR_MAKER_REPLACE_MODE = "OVERRIDE_TARGET_YEAR_DATA_IND";

@@ -55,7 +55,6 @@ public class RequisitionDocumentTest extends KualiTestBase {
     private Document getDocumentParameterFixture() throws Exception {
     	RequisitionDocumentFixture reqDocFixture = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS;
     	return reqDocFixture.createRequisitionDocument(PurchasingAccountsPayableDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS);
-//        return DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), RequisitionDocument.class);
     }
 
     private List<RequisitionItemAccountsFixture> getItemParametersFromFixtures() {

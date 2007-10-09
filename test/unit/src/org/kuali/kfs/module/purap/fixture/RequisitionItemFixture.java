@@ -25,6 +25,7 @@ public enum RequisitionItemFixture {
             false)
     ;
     
+    private PurApItemFixture defaultItemFixture = PurApItemFixture.BASIC_QTY_ITEM_1;
     private boolean itemRestrictedIndicator;
 
     
@@ -33,6 +34,7 @@ public enum RequisitionItemFixture {
         this.itemRestrictedIndicator = itemRestrictedIndicator;
         
     }
+
     /**
      * 
      * TODO: ckirschenman (would it make more sense to attach the incoming fixture to the fixture definition above?)
@@ -44,6 +46,16 @@ public enum RequisitionItemFixture {
         item.setItemRestrictedIndicator(itemRestrictedIndicator);
         return item;
     }
+
+    /**
+     * 
+     * @return
+     */
+    public PurApItem createRequisitionItem() {
+        return createRequisitionItem(defaultItemFixture);
+    }
+
+    
     
     /**
      * 

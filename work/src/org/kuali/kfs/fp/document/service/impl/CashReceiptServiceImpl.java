@@ -23,16 +23,21 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.CashieringTransaction;
 import org.kuali.module.financial.bo.CoinDetail;
@@ -44,6 +49,7 @@ import org.kuali.module.financial.service.CashReceiptService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
+import edu.iu.uis.eden.workgroup.WorkgroupService;
 
 @Transactional
 public class CashReceiptServiceImpl implements CashReceiptService {
@@ -52,6 +58,8 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     private WorkflowDocumentService workflowDocumentService;
     private CashManagementDao cashManagementDao;
     private CashDrawerService cashDrawerService;
+    private ParameterService parameterService;
+    private KualiGroupService kualiGroupService;
 
     /**
      * @see org.kuali.module.financial.service.CashReceiptService#getCashReceiptVerificationUnitWorkgroupNameByCampusCode(java.lang.String)
@@ -63,7 +71,15 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             throw new IllegalArgumentException("invalid (blank) campusCode");
         }
 
-        vunit = KFSConstants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
+        vunit = parameterService.getParameterValue(CashReceiptDocument.class, "VERIFICATION_UNIT_GROUP_PREFIX")+campusCode;
+        
+        KualiGroup group = null;
+        try {
+            group = kualiGroupService.getByGroupName(vunit);
+        }
+        catch (GroupNotFoundException e) {
+            throw new IllegalArgumentException(vunit+" does not have a corresponding workgroup");
+        }
 
         return vunit;
     }
@@ -80,9 +96,31 @@ public class CashReceiptServiceImpl implements CashReceiptService {
         }
 
         // pretend that a lookup is actually happening
-        campusCode = KFSConstants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE;
+        campusCode = unitName.replace(parameterService.getParameterValue(CashReceiptDocument.class, "VERIFICATION_UNIT_GROUP_PREFIX"), "").toUpperCase();
+        
+        if (!verifyCampus(campusCode)) {
+            throw new IllegalArgumentException("The campus "+campusCode+" does not exist");
+        }
 
         return campusCode;
+    }
+
+
+    /**
+     * This method...
+     * @param campusCode
+     */
+    private boolean verifyCampus(String campusCode) {
+        Iterator campiiIter = businessObjectService.findAll(Campus.class).iterator();
+        boolean foundCampus = false;
+        while (campiiIter.hasNext() && !foundCampus) {
+            Campus campus = (Campus)campiiIter.next();
+            if (campus.getCampusCode().equals(campusCode)) {
+                foundCampus = true;
+            }
+        }
+        return foundCampus;
+        
     }
 
 
@@ -96,10 +134,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             throw new IllegalArgumentException("invalid (null) user");
         }
 
-        // pretend that a lookup is actually happening
-        unitName = KFSConstants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
-
-        return unitName;
+        return getCashReceiptVerificationUnitForCampusCode(user.getCampusCode());
     }
 
 
@@ -309,6 +344,42 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      */
     public void setCashDrawerService(CashDrawerService cashDrawerService) {
         this.cashDrawerService = cashDrawerService;
+    }
+
+
+    /**
+     * Gets the kualiGroupService attribute. 
+     * @return Returns the kualiGroupService.
+     */
+    public KualiGroupService getKualiGroupService() {
+        return kualiGroupService;
+    }
+
+
+    /**
+     * Sets the kualiGroupService attribute value.
+     * @param kualiGroupService The kualiGroupService to set.
+     */
+    public void setKualiGroupService(KualiGroupService kualiGroupService) {
+        this.kualiGroupService = kualiGroupService;
+    }
+
+
+    /**
+     * Gets the parameterService attribute. 
+     * @return Returns the parameterService.
+     */
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+
+    /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
     
     

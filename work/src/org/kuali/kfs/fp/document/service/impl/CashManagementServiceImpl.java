@@ -247,17 +247,12 @@ public class CashManagementServiceImpl implements CashManagementService {
             dh.setFinancialDocumentStatusCode(statusCode);
             documentService.updateDocument(crDoc);
 
-            CashReceiptHeader crHeader = new CashReceiptHeader();
-            crHeader.setDocumentNumber(crDoc.getDocumentNumber());
-            crHeader.setCashReceiptDocument(crDoc);
-            crHeader.setWorkgroupName(cashManagementDoc.getWorkgroupName());
-
             DepositCashReceiptControl dcc = new DepositCashReceiptControl();
-            dcc.setFinancialDocumentCashReceiptNumber(crHeader.getDocumentNumber());
+            dcc.setFinancialDocumentCashReceiptNumber(crDoc.getCashReceiptHeader().getDocumentNumber());
             dcc.setFinancialDocumentDepositNumber(deposit.getDocumentNumber());
             dcc.setFinancialDocumentDepositLineNumber(deposit.getFinancialDocumentDepositLineNumber());
 
-            dcc.setCashReceiptHeader(crHeader);
+            dcc.setCashReceiptHeader(crDoc.getCashReceiptHeader());
             dcc.setDeposit(deposit);
 
             dccList.add(dcc);

@@ -25,11 +25,13 @@ import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.financial.bo.CashReceiptHeader;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.bo.CoinDetail;
@@ -69,6 +71,8 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     
     private CurrencyDetail currencyDetail;
     private CoinDetail coinDetail;
+    
+    private CashReceiptHeader cashReceiptHeader;
 
     /**
      * Initializes the array lists and line incrementers.
@@ -76,7 +80,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     public CashReceiptDocument() {
         super();
 
-        setCampusLocationCode(KFSConstants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE);
+        setCampusLocationCode(GlobalVariables.getUserSession().getUniversalUser().getCampusCode());
         currencyDetail = new CurrencyDetail();
         coinDetail = new CoinDetail();
     }
@@ -457,6 +461,22 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         return (CoinDetail)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CoinDetail.class, getCashDetailPrimaryKey());
     }
     
+    /**
+     * Gets the cashReceiptHeader attribute. 
+     * @return Returns the cashReceiptHeader.
+     */
+    public CashReceiptHeader getCashReceiptHeader() {
+        return cashReceiptHeader;
+    }
+
+    /**
+     * Sets the cashReceiptHeader attribute value.
+     * @param cashReceiptHeader The cashReceiptHeader to set.
+     */
+    public void setCashReceiptHeader(CashReceiptHeader cashReceiptHeader) {
+        this.cashReceiptHeader = cashReceiptHeader;
+    }
+
     /**
      * Generate the primary key for a currency or coin detail related to this document
      * @return a map with a representation of the proper primary key

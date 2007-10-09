@@ -147,6 +147,11 @@ public class CashManagementDocumentAuthorizer extends DocumentAuthorizerBase {
     public void canInitiate(String documentTypeName, UniversalUser user) throws DocumentTypeAuthorizationException {
         try {
             super.canInitiate(documentTypeName, user);
+            // to initiate, you have to be a member of the bursar's group for your campus
+            String unitName = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForUser(user);
+            if (!user.isMember(unitName)) {
+                throw new DocumentTypeAuthorizationException(user.getPersonUserIdentifier(), "initiate", documentTypeName);
+            }
         }
         catch (DocumentInitiationAuthorizationException e) {
             throw new DocumentTypeAuthorizationException(user.getPersonUserIdentifier(), "add deposits to", documentTypeName);

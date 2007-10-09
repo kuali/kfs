@@ -218,6 +218,12 @@
 		<property name="cashDrawerService">
 			<ref bean="cashDrawerService" />
 		</property>
+		<property name="kualiGroupService">
+			<ref bean="kualiGroupService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
 	</bean>
 	
 	<bean id="procurementCardDocumentJob" parent="scheduledJobDescriptor">

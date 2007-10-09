@@ -752,6 +752,10 @@
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
+    
+    <reference-descriptor name="cashReceiptHeader" class-ref="org.kuali.module.financial.bo.CashReceiptHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+    	<foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
 
     <reference-descriptor name="accountingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="postingYear" />

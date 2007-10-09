@@ -37,6 +37,7 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
+import org.kuali.module.financial.bo.CashReceiptHeader;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CoinDetail;
 import org.kuali.module.financial.bo.CurrencyDetail;
@@ -316,6 +317,10 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
         String verificationUnit = crs.getCashReceiptVerificationUnitForUser(GlobalVariables.getUserSession().getUniversalUser());
         String campusCode = crs.getCampusCodeForCashReceiptVerificationUnit(verificationUnit);
         crDoc.setCampusLocationCode(campusCode);
+        
+        crDoc.setCashReceiptHeader(new CashReceiptHeader());
+        crDoc.getCashReceiptHeader().setDocumentNumber(crDoc.getDocumentNumber());
+        crDoc.getCashReceiptHeader().setWorkgroupName(verificationUnit);
         
         /* initialize currency and coin detail */
         CurrencyDetail currencyDetail = new CurrencyDetail();

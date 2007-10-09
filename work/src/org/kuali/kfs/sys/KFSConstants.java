@@ -622,8 +622,6 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
         public static final String STATUS_CLOSED = "C";
         public static final String STATUS_OPEN = "O";
         public static final String STATUS_LOCKED = "L";
-        
-        public static final String CASH_DRAWER_PREFIX = "KUALI_BRSR_"; 
     }
 
     public static class CashReceiptConstants {

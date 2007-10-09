@@ -211,7 +211,7 @@ public class ParameterConstants {
     public final class FINANCIAL_PROCESSING_LOOKUP {
     }
 
-    @NAMESPACE(namespace = FINANCIAL_PROCESSING_NAMESPACE)
+    @NAMESPACE(namespace = FINANCIAL_SYSTEM_NAMESPACE)
     @COMPONENT(component = BATCH_COMPONENT)
     public final class FINANCIAL_PROCESSING_BATCH {
     }

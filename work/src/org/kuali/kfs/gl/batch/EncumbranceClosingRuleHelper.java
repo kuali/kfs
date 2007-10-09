@@ -157,8 +157,6 @@ public class EncumbranceClosingRuleHelper {
      * @throws FatalErrorException
      */
     public boolean isEncumbranceEligibleForCostShare(OriginEntryFull entry, OriginEntryFull offset, Encumbrance encumbrance, String objectTypeCode) throws FatalErrorException {
-        LOG.info("entering isEncumbranceEligibleForCostShare");
-
         PriorYearAccount priorYearAccount = priorYearAccountService.getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber());
 
         // the sub fund group for the prior year account must exist.

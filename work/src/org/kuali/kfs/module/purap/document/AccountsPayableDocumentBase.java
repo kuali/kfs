@@ -84,6 +84,10 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         setUnmatchedOverride(false);
     }
 
+    protected void removeGeneralLedgerPendingEntries() {
+        //do not delete entries for PREQ or CM (hjs)
+    }
+
     public boolean requiresAccountsPayableReviewRouting() {
         return !approvalAtAccountsPayableReviewAllowed();
     }

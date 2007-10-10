@@ -68,6 +68,7 @@
                     <sortAttribute attributeName="accountNumber" />
                     <sortAttribute attributeName="subAccountNumber" />
                 	<sortAttribute attributeName="financialObjectCode" />
+                	<sortAttribute attributeName="positionNumber" />
                 </sortAttributes>
             </defaultSort>
 

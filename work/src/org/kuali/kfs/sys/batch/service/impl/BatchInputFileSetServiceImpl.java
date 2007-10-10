@@ -187,7 +187,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
 
-        List<String> activeInputTypes = SpringContext.getBean(ParameterService.class).getParameterValues(ParameterConstants.FINANCIAL_PROCESSING_BATCH.class, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME);
+        List<String> activeInputTypes = SpringContext.getBean(ParameterService.class).getParameterValues(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME);
 
         boolean activeBatchType = false;
         if (activeInputTypes.size() > 0 && activeInputTypes.contains(batchInputFileSetType.getFileSetTypeIdentifer())) {

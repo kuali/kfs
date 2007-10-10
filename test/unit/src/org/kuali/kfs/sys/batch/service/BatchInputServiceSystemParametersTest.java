@@ -66,7 +66,7 @@ public class BatchInputServiceSystemParametersTest extends KualiTestBase {
      * Verifies system parameters needed by the batch upload process exist in the db.
      */
     public final void testSystemParametersExist() throws Exception {
-        List<String> activeFileTypes = parameterService.getParameterValues(ParameterConstants.NERVOUS_SYSTEM_BATCH.class, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME);
+        List<String> activeFileTypes = parameterService.getParameterValues(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME);
         assertTrue("system parameter " + SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME + " is not setup or contains no file types", activeFileTypes != null && activeFileTypes.size() > 0 && StringUtils.isNotBlank(activeFileTypes.get(0)));
 
         String pcdoUploadWorkgroup = parameterService.getParameterValue(pcdoBatchInputFileType.getUploadWorkgroupParameterComponent(), KFSConstants.SystemGroupParameterNames.FILE_TYPE_WORKGROUP_PARAMETER_NAME);
@@ -125,7 +125,7 @@ public class BatchInputServiceSystemParametersTest extends KualiTestBase {
      * Changes the text for the batch input active system parameter, stores and clears cache.
      */
     private final void setActiveSystemParameter(String parameterText, boolean multiValue) throws Exception {
-        TestUtils.setSystemParameter(ParameterConstants.NERVOUS_SYSTEM_BATCH.class, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME, parameterText);
+        TestUtils.setSystemParameter(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME, parameterText);
     }
 
 }

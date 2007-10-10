@@ -50,6 +50,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.chart.service.ObjectTypeService;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.LaborConstants;
@@ -69,6 +70,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerBalanceDaoOjb.class);
     private KualiConfigurationService kualiConfigurationService;
 
+    private BalanceTypService balanceTypService;
     /**
      * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#findBalancesForFiscalYear(java.lang.Integer)
      */
@@ -169,25 +171,17 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
             String propertyValue = (String) localFieldValues.get(propertyName);
             if (KFSConstants.AGGREGATE_ENCUMBRANCE_BALANCE_TYPE_CODE.equals(propertyValue)) {
                 localFieldValues.remove(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-                criteria.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, this.getEncumbranceBalanceTypeCodeList());
+                
+                // parse the university fiscal year since it's a required field from the lookups
+                String universityFiscalYearStr = (String) localFieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+                Integer universityFiscalYear = new Integer(universityFiscalYearStr);
+
+                criteria.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypService.getEncumbranceBalanceTypes(universityFiscalYear));
             }
         }
 
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(localFieldValues, new LedgerBalance()));
         return criteria;
-    }
-
-    private List<String> getEncumbranceBalanceTypeCodeList() {
-        // todo abyre is going to create jira for this
-        // String[] balanceTypesAsArray =
-        // SpringContext.getBean(ParameterService.class).getParameterValues(KFSConstants.GL_NAMESPACE,
-        // KFSConstants.Components.BALANCE_INQUIRY_AVAILABLE_BALANCES, "EncumbranceDrillDownBalanceTypes" );
-        // return Arrays.asList(balanceTypesAsArray);
-        
-        ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
-        List<String> encumberanceBalanceTypeCodeList = objectTypeService.getCurrentYearEncumbranceBalanceTypes();
-        encumberanceBalanceTypeCodeList.add( objectTypeService.getCurrentYearCostShareEncumbranceBalanceType() );
-        return encumberanceBalanceTypeCodeList;
     }
 
     /**
@@ -407,5 +401,9 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    public void setBalanceTypService(BalanceTypService balanceTypService) {
+        this.balanceTypService = balanceTypService;
     }
 }

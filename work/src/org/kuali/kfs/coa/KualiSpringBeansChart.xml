@@ -153,6 +153,12 @@
 		<property name="balanceTypeDao">
 			<ref bean="balanceTypeDao" />
 		</property>
+		<property name="optionsDao">
+            <ref bean="optionsDao" />
+        </property>
+        <property name="universityDateService">
+            <ref bean="universityDateService" />
+        </property>
 	</bean>
 
 	<bean id="accountingPeriodService" class="org.kuali.module.chart.service.impl.AccountingPeriodServiceImpl">

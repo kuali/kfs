@@ -15,14 +15,20 @@
  */
 package org.kuali.module.chart.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.kuali.core.util.spring.Cached;
 import org.kuali.core.util.spring.Logged;
+import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.dao.OptionsDao;
 import org.kuali.kfs.service.KualiCodeService;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.dao.BalanceTypeDao;
 import org.kuali.module.chart.service.BalanceTypService;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -38,7 +44,10 @@ public class BalanceTypServiceImpl implements BalanceTypService {
 
     private KualiCodeService kualiCodeService;
     private BalanceTypeDao balanceTypeDao;
-
+    
+    private UniversityDateService universityDateService;
+    private OptionsDao optionsDao;
+    
     /**
      * @see org.kuali.module.chart.service.BalanceTypService#getActualBalanceTyp()
      */
@@ -81,5 +90,44 @@ public class BalanceTypServiceImpl implements BalanceTypService {
 
     public void setBalanceTypeDao(BalanceTypeDao balanceTypeDao) {
         this.balanceTypeDao = balanceTypeDao;
+    }
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
+    }
+
+    public void setOptionsDao(OptionsDao optionsDao) {
+        this.optionsDao = optionsDao;
+    }
+    
+    public String getCostShareEncumbranceBalanceType(Integer universityFiscalYear) {
+        return optionsDao.getByPrimaryId(universityFiscalYear).getCostShareEncumbranceBalanceTypeCd();
+    }
+
+    public List<String> getEncumbranceBalanceTypes(Integer universityFiscalYear) {
+        Options option = optionsDao.getByPrimaryId(universityFiscalYear);
+        List<String> encumberanceBalanceTypes = new ArrayList<String>();
+        encumberanceBalanceTypes.add(option.getExtrnlEncumFinBalanceTypCd());
+        encumberanceBalanceTypes.add(option.getIntrnlEncumFinBalanceTypCd());
+        encumberanceBalanceTypes.add(option.getPreencumbranceFinBalTypeCd());
+        encumberanceBalanceTypes.add(option.getCostShareEncumbranceBalanceTypeCd());
+        return encumberanceBalanceTypes;
+    }
+
+    public String getCurrentYearCostShareEncumbranceBalanceType() {
+        return getCostShareEncumbranceBalanceType(universityDateService.getCurrentFiscalYear());
+    }
+
+    public List<String> getCurrentYearEncumbranceBalanceTypes() {
+        return getEncumbranceBalanceTypes(universityDateService.getCurrentFiscalYear());
+    }
+
+    public List<String> getContinuationAccountBypassBalanceTypeCodes(Integer universityFiscalYear) {
+        Options option = optionsDao.getByPrimaryId(universityFiscalYear);
+        List<String> continuationAccountBypassBalanceTypes = new ArrayList<String>();
+        continuationAccountBypassBalanceTypes.add(option.getExtrnlEncumFinBalanceTypCd());
+        continuationAccountBypassBalanceTypes.add(option.getIntrnlEncumFinBalanceTypCd());
+        continuationAccountBypassBalanceTypes.add(option.getPreencumbranceFinBalTypeCd());
+        return continuationAccountBypassBalanceTypes;
     }
 }

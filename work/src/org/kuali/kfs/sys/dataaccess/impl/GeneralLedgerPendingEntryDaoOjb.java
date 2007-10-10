@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -39,6 +40,7 @@ import org.kuali.kfs.dao.GeneralLedgerPendingEntryDao;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.util.KFSUtils;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.chart.service.ObjectTypeService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.Balance;
@@ -61,7 +63,8 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     private final static String OBJECT_TYPE_FIN_OBJECT_TYPE_DEBITCREDIT_CD = "objectType.finObjectTypeDebitcreditCd";
 
     private ParameterService parameterService;
-
+    private BalanceTypService balanceTypService;
+    
     /**
      * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#getTransactionSummary(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.util.Collection, java.util.Collection, java.lang.String, boolean)
@@ -581,7 +584,16 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
             String propertyValue = (String) fieldValues.get(propertyName);
             if (KFSConstants.AGGREGATE_ENCUMBRANCE_BALANCE_TYPE_CODE.equals(propertyValue)) {
                 localFieldValues.remove(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-                criteria.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, this.getEncumbranceBalanceTypeCodeList());
+                
+                // parse the fiscal year (it's not a required field on the lookup screens
+                String universityFiscalYearStr = (String) localFieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+                if (StringUtils.isNotBlank(universityFiscalYearStr)) {
+                    Integer universityFiscalYear = new Integer(universityFiscalYearStr);
+                    criteria.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypService.getEncumbranceBalanceTypes(universityFiscalYear));
+                }
+                else {
+                    criteria.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypService.getEncumbranceBalanceTypes());
+                }
             }
         }
 
@@ -598,18 +610,6 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(localFieldValues, businessObject));
         return criteria;
-    }
-
-    private List<String> getEncumbranceBalanceTypeCodeList() {
-        // todo - abyrne will create a jira
-        // String[] balanceTypesAsArray = parameterService.getParameterValues(KFSConstants.GL_NAMESPACE,
-        // KFSConstants.Components.BALANCE_INQUIRY_AVAILABLE_BALANCES, "EncumbranceDrillDownBalanceTypes");
-        // return Arrays.asList(balanceTypesAsArray);
-        
-        ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
-        List<String> encumberanceBalanceTypeCodeList = objectTypeService.getCurrentYearEncumbranceBalanceTypes();
-        encumberanceBalanceTypeCodeList.add( objectTypeService.getCurrentYearCostShareEncumbranceBalanceType() );
-        return encumberanceBalanceTypeCodeList;        
     }
 
     public Collection findPendingEntries(Map fieldValues, boolean isApproved) {
@@ -649,5 +649,9 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
             LOG.debug("Wrong object type" + e);
         }
         return entryObject;
+    }
+
+    public void setBalanceTypService(BalanceTypService balanceTypService) {
+        this.balanceTypService = balanceTypService;
     }
 }

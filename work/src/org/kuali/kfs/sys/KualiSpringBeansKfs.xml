@@ -206,6 +206,9 @@
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>
+		<property name="balanceTypService">
+			<ref bean="balanceTypService" />
+		</property>
 	</bean>
 
 	<bean id="homeOriginationService" class="org.kuali.kfs.service.impl.HomeOriginationServiceImpl">

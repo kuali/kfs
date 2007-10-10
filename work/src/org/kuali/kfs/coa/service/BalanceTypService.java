@@ -16,6 +16,7 @@
 package org.kuali.module.chart.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 
@@ -55,4 +56,36 @@ public interface BalanceTypService {
      * @return A fully populated object instance.
      */
     public BalanceTyp getBalanceTypByCode(String code);
+    
+    
+    /**
+     * Returns the list of encumbrance-related balance types from options table for a given university fiscal year
+     * @param universityFiscalYear
+     * @return
+     */
+    public List<String> getEncumbranceBalanceTypes(Integer universityFiscalYear);
+    
+    /**
+     * Returns the cost share encumberance balance type from options table for a given university fiscal year
+     * @param universityFiscalYear
+     * @return
+     */
+    public String getCostShareEncumbranceBalanceType(Integer universityFiscalYear);   
+    
+    
+    /**
+     * Returns the list of encumbrance-related balance types from options table for the current university fiscal year
+     * @param universityFiscalYear
+     * @return
+     */
+    public List<String> getCurrentYearEncumbranceBalanceTypes();
+    
+    /**
+     * Returns the cost share encumberance balance type from options table for the current university fiscal year
+     * @param universityFiscalYear
+     * @return
+     */
+    public String getCurrentYearCostShareEncumbranceBalanceType();
+    
+    public List<String> getContinuationAccountBypassBalanceTypeCodes(Integer universityFiscalYear);    
 }

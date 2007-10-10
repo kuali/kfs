@@ -39,6 +39,7 @@ public interface ObjectTypeService {
      */
     public List<String> getBasicExpenseObjectTypes(Integer universityFiscalYear);
     
+    public List<String> getExpenseObjectTypes(Integer universityFiscalYear);
     
     /**
      * Returns the expense transfer object type from options table for a given university fiscal year
@@ -69,41 +70,20 @@ public interface ObjectTypeService {
     public String getIncomeTransferObjectType(Integer universityFiscalYear);
     
     /**
-     * Returns the list of encumbrance-related balance types from options table for a given university fiscal year
-     * @param universityFiscalYear
-     * @return
-     */
-    public List<String> getEncumbranceBalanceTypes(Integer universityFiscalYear);
-    
-    /**
-     * Returns the cost share encumberance balance type from options table for a given university fiscal year
-     * @param universityFiscalYear
-     * @return
-     */
-    public String getCostShareEncumbranceBalanceType(Integer universityFiscalYear);   
-    
-    
-    /**
-     * Returns the list of encumbrance-related balance types from options table for the current university fiscal year
-     * @param universityFiscalYear
-     * @return
-     */
-    public List<String> getCurrentYearEncumbranceBalanceTypes();
-    
-    /**
-     * Returns the cost share encumberance balance type from options table for the current university fiscal year
-     * @param universityFiscalYear
-     * @return
-     */
-    public String getCurrentYearCostShareEncumbranceBalanceType(); 
-    
-    /**
      * Returns a list of basic expense objects from options table for the current university fiscal year
      * @param universityFiscalYear
      * @return
      */
     public List<String> getCurrentYearBasicExpenseObjectTypes();
     
+    /**
+     * Returns a list of basic expense objects from options table for the current university fiscal year.  Normally, this
+     * method returns the same values as getCurrentYearBasicExpenseObjectTypes, but also has the expenseTransferObjectType value.
+     * 
+     * @param universityFiscalYear
+     * @return
+     */
+    public List<String> getCurrentYearExpenseObjectTypes();
     
     /**
      * Returns the expense transfer object type from options table for the current university fiscal year

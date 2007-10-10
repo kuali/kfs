@@ -198,10 +198,8 @@ public class EncumbranceClosingRuleHelper {
 
         }
 
-        //String[] expenseObjectCodeTypes = kualiConfigurationService.getParameterValues(KFSConstants.GL_NAMESPACE, AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER.EXPENSE_OBJECT_TYPE_CODES);
         ObjectTypeService objectTypeService = (ObjectTypeService)SpringContext.getBean(ObjectTypeService.class);
-        List<String> expenseObjectCodeTypes = objectTypeService.getCurrentYearBasicExpenseObjectTypes();
-        expenseObjectCodeTypes.add( objectTypeService.getCurrentYearExpenseTransferObjectType());
+        List<String> expenseObjectCodeTypes = objectTypeService.getCurrentYearExpenseObjectTypes();
         
         String[] encumbranceBalanceTypeCodes = new String[] { KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE, KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE, KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE };
 

@@ -198,8 +198,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
         }
 
         ObjectTypeService objectTypeService = (ObjectTypeService)SpringContext.getBean(ObjectTypeService.class);
-        List<String> expenseObjectTypes = objectTypeService.getCurrentYearBasicExpenseObjectTypes();
-        expenseObjectTypes.add( objectTypeService.getCurrentYearExpenseTransferObjectType() );
+        List<String> expenseObjectTypes = objectTypeService.getCurrentYearExpenseObjectTypes();
         
         if (KFSConstants.SF_TYPE_CASH_AT_ACCOUNT.equals(item.getAccount().getAccountSufficientFundsCode()) && !item.getFinancialObject().getChartOfAccounts().getFinancialCashObjectCode().equals(item.getFinancialObject().getFinancialObjectCode())) {
             LOG.debug("hasSufficientFundsOnItem() SF checking is cash and transaction is not cash");

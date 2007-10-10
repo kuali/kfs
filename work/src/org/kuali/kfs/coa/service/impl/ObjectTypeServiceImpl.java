@@ -81,6 +81,17 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
         return basicExpenseObjectTypes;
     }
 
+    public List<String> getExpenseObjectTypes(Integer universityFiscalYear) {
+        List<String> expenseObjectTypes = new ArrayList<String>();
+        Options option = optionsDao.getByPrimaryId(universityFiscalYear);
+        expenseObjectTypes.add(option.getFinObjTypeExpenditureexpCd());
+        expenseObjectTypes.add(option.getFinObjTypeExpendNotExpCode());
+        expenseObjectTypes.add(option.getFinObjTypeExpNotExpendCode());
+        expenseObjectTypes.add(option.getFinancialObjectTypeTransferExpenseCd());
+        
+        return expenseObjectTypes;
+    }
+    
     public List<String> getBasicIncomeObjectTypes(Integer universityFiscalYear) {
         
         List<String> basicIncomeObjectTypes = new ArrayList<String>();
@@ -108,6 +119,10 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
         return getBasicExpenseObjectTypes(universityDateService.getCurrentFiscalYear() );
     }
 
+    public List<String> getCurrentYearExpenseObjectTypes() {
+        return getExpenseObjectTypes(universityDateService.getCurrentFiscalYear());
+    }
+    
     public List<String> getCurrentYearBasicIncomeObjectTypes() {
         return getBasicIncomeObjectTypes(universityDateService.getCurrentFiscalYear());
     }
@@ -169,24 +184,4 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
         return cumulativeBalanceForwardsObjectTypes;
     }
 
-    public String getCostShareEncumbranceBalanceType(Integer universityFiscalYear) {
-        return optionsDao.getByPrimaryId(universityFiscalYear).getCostShareEncumbranceBalanceTypeCd();
-    }
-
-    public List<String> getEncumbranceBalanceTypes(Integer universityFiscalYear) {
-        Options option = optionsDao.getByPrimaryId(universityFiscalYear);
-        List<String> encumberanceBalanceTypes = new ArrayList<String>();
-        encumberanceBalanceTypes.add(option.getExtrnlEncumFinBalanceTypCd());
-        encumberanceBalanceTypes.add(option.getIntrnlEncumFinBalanceTypCd());
-        encumberanceBalanceTypes.add(option.getPreencumbranceFinBalTypeCd());
-        return encumberanceBalanceTypes;
-    }
-
-    public String getCurrentYearCostShareEncumbranceBalanceType() {
-        return getCostShareEncumbranceBalanceType(universityDateService.getCurrentFiscalYear());
-    }
-
-    public List<String> getCurrentYearEncumbranceBalanceTypes() {
-        return getEncumbranceBalanceTypes(universityDateService.getCurrentFiscalYear());
-    }
 }

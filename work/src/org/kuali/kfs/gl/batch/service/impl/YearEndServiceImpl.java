@@ -105,8 +105,7 @@ public class YearEndServiceImpl implements YearEndService {
         varFiscalYear = (Integer) nominalClosingJobParameters.get(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR);
 
         ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
-        List<String> objectTypes = objectTypeService.getBasicExpenseObjectTypes(varFiscalYear);
-        objectTypes.add(objectTypeService.getExpenseTransferObjectType(varFiscalYear));
+        List<String> objectTypes = objectTypeService.getExpenseObjectTypes(varFiscalYear);
         String[] expenseObjectCodeTypes = objectTypes.toArray(new String[0]);
 
         // 682 003690 DISPLAY "NET_EXP_OBJECT_CD" UPON ENVIRONMENT-NAME.

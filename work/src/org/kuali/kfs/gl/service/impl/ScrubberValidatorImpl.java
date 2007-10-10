@@ -47,6 +47,7 @@ import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.service.AccountService;
+import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.chart.service.ObjectTypeService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.GLConstants;
@@ -75,7 +76,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private OriginationCodeService originationCodeService;
     private PersistenceStructureService persistenceStructureService;
     private ThreadLocal<OriginEntryLookupService> referenceLookup = new ThreadLocal<OriginEntryLookupService>();
-
+    private BalanceTypService balanceTypService;
+    
     public static final String DATE_FORMAT_STRING = "yyyy-MM-dd";
 
     private static String[] debitOrCredit = new String[] { KFSConstants.GL_DEBIT_CODE, KFSConstants.GL_CREDIT_CODE };
@@ -277,7 +279,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         String[] continuationAccountBypassOriginationCodes = parameterService.getParameterValues(ScrubberStep.class, GLConstants.GlScrubberGroupRules.CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES).toArray(new String[] {});
         
         ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
-        String[] continuationAccountBypassBalanceTypeCodes = objectTypeService.getCurrentYearEncumbranceBalanceTypes().toArray(new String[] {});
+        String[] continuationAccountBypassBalanceTypeCodes = balanceTypService.getContinuationAccountBypassBalanceTypeCodes(universityRunDate.getUniversityFiscalYear()).toArray(new String[] {});
         String[] continuationAccountBypassDocumentTypeCodes = parameterService.getParameterValues(ScrubberStep.class, GLConstants.GlScrubberGroupRules.CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES).toArray(new String[] {});
 
         // Has an expiration date or is closed
@@ -951,5 +953,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    public void setBalanceTypService(BalanceTypService balanceTypService) {
+        this.balanceTypService = balanceTypService;
     }
 }

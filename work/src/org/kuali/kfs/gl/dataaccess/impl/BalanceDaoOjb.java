@@ -42,6 +42,7 @@ import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.OrganizationReversion;
+import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.chart.service.ObjectTypeService;
 import org.kuali.module.chart.service.SubFundGroupService;
 import org.kuali.module.gl.GLConstants;
@@ -57,6 +58,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
     private ParameterService parameterService;
     private OptionsService optionsService;
+    private BalanceTypService balanceTypService;
 
     /**
      * @see org.kuali.module.gl.dao.BalanceDao#getGlSummary(int, java.util.List)
@@ -387,23 +389,17 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
             String propertyValue = (String) localFieldValues.get(propertyName);
             if (KFSConstants.AGGREGATE_ENCUMBRANCE_BALANCE_TYPE_CODE.equals(propertyValue)) {
                 localFieldValues.remove(KFSPropertyConstants.BALANCE_TYPE_CODE);
-                criteria.addIn(KFSPropertyConstants.BALANCE_TYPE_CODE, this.getEncumbranceBalanceTypeCodeList());
+                
+                // the year should be part of the results for both the cash balance and regular balance lookupables
+                String universityFiscalYearStr = (String) localFieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+                Integer universityFiscalYear = new Integer(universityFiscalYearStr);
+                
+                criteria.addIn(KFSPropertyConstants.BALANCE_TYPE_CODE, balanceTypService.getEncumbranceBalanceTypes(universityFiscalYear));
             }
         }
 
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(localFieldValues, new Balance()));
         return criteria;
-    }
-
-    private List<String> getEncumbranceBalanceTypeCodeList() {
-        // TODO abyrne will create jira - this parm doesn't exist
-        // return parameterService.getParameterValues(KFSConstants.GL_NAMESPACE, KFSConstants.Components.,
-        // "EncumbranceDrillDownBalanceTypes");
-
-        ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
-        List<String> encumberanceBalanceTypeCodeList = objectTypeService.getCurrentYearEncumbranceBalanceTypes();
-        encumberanceBalanceTypeCodeList.add(objectTypeService.getCurrentYearCostShareEncumbranceBalanceType());
-        return encumberanceBalanceTypeCodeList;
     }
 
     /**
@@ -741,5 +737,9 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    public void setBalanceTypService(BalanceTypService balanceTypService) {
+        this.balanceTypService = balanceTypService;
     }
 }

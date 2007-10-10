@@ -125,8 +125,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         FlexibleOffsetAccountService flexibleOffsetAccountService = SpringContext.getBean(FlexibleOffsetAccountService.class);
 
         ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
-        List<String> expenseObjectTypes = objectTypeService.getCurrentYearBasicExpenseObjectTypes();
-        expenseObjectTypes.add(objectTypeService.getCurrentYearExpenseTransferObjectType());
+        List<String> expenseObjectTypes = objectTypeService.getCurrentYearExpenseObjectTypes();
 
         for (GeneralLedgerPendingEntry ple : this.getGeneralLedgerPendingEntries()) {
             if (expenseObjectTypes.contains(ple.getFinancialObjectTypeCode())) {

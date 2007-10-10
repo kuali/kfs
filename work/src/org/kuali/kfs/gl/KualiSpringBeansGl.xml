@@ -642,6 +642,9 @@
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService"/>
 		</property>
+		<property name="balanceTypService">
+			<ref bean="balanceTypService" />
+		</property>
 	</bean>
 
 	<bean id="glScrubberProcessObjectCodeOverride" class="org.kuali.module.gl.service.impl.ScrubberProcessObjectCodeOverrideImpl">
@@ -1030,6 +1033,9 @@
 		</property>
 		<property name="optionsService">
 			<ref bean="optionsService" />
+		</property>
+		<property name="balanceTypService">
+			<ref bean="balanceTypService" />
 		</property>
 	</bean>
 

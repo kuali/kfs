@@ -48,8 +48,7 @@ public class PosterOutputSummaryEntry implements Comparable {
         KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         
         ObjectTypeService objectTypeService = (ObjectTypeService)SpringContext.getBean(ObjectTypeService.class);
-        List<String> objectTypes = objectTypeService.getCurrentYearBasicExpenseObjectTypes();
-        objectTypes.add( objectTypeService.getCurrentYearExpenseTransferObjectType() );
+        List<String> objectTypes = objectTypeService.getCurrentYearExpenseObjectTypes();
         objectTypes.add( objectTypeService.getCurrentYearAssetObjectType());        
         
         assetExpenseObjectTypeCodes =  objectTypes.toArray(new String[0]); 

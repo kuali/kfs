@@ -72,8 +72,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         LOG.debug("getExpenseSummary() started");
 
         ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
-        List<String> objectTypes = objectTypeService.getBasicExpenseObjectTypes(universityFiscalYear);
-        objectTypes.add(objectTypeService.getExpenseTransferObjectType(universityFiscalYear));
+        List<String> objectTypes = objectTypeService.getExpenseObjectTypes(universityFiscalYear);
 
         Options options = optionsService.getOptions(universityFiscalYear);
 
@@ -91,8 +90,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         LOG.debug("getEncumbranceSummary() started");
 
         ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
-        List<String> objectTypes = objectTypeService.getBasicExpenseObjectTypes(universityFiscalYear);
-        objectTypes.add(objectTypeService.getExpenseTransferObjectType(universityFiscalYear));
+        List<String> objectTypes = objectTypeService.getExpenseObjectTypes(universityFiscalYear);
 
         Options options = optionsService.getOptions(universityFiscalYear);
 
@@ -112,8 +110,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         LOG.debug("getBudgetSummary() started");
 
         ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
-        List<String> objectTypes = objectTypeService.getBasicExpenseObjectTypes(universityFiscalYear);
-        objectTypes.add(objectTypeService.getExpenseTransferObjectType(universityFiscalYear));
+        List<String> objectTypes = objectTypeService.getExpenseObjectTypes(universityFiscalYear);
 
         Options options = optionsService.getOptions(universityFiscalYear);
 

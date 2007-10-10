@@ -54,9 +54,6 @@
             <reference attributeName="financialObject" attributeToHighlightOnFail="financialObjectCode" />
             <reference attributeName="financialBalanceType" attributeToHighlightOnFail="financialBalanceTypeCode" />
         </defaultExistenceChecks>
-        <applyApcRules>
-            <apcRule attributeName="financialObjectCode" parameterNamespace="KFS-CA" parameterName="OffsetDefinition.FinancialObjectCode" errorMessage="error.document.offsetDefinitionMaintenance.invalidFinancialObjectCode" />
-        </applyApcRules>
         <maintainableSections>
             <maintainableSection title="Edit Offset Definition">
                 <maintainableItems>

@@ -333,7 +333,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public boolean validatePayDateNotOverThresholdDaysAway(PaymentRequestDocument document) {
         boolean valid = true;
         int thresholdDays = PurapConstants.PREQ_PAY_DATE_DAYS_BEFORE_WARNING;
-        if (SpringContext.getBean(PurapService.class).isDateMoreThanANumberOfDaysAway(
+        if ((document.getPaymentRequestPayDate()!=null) && SpringContext.getBean(PurapService.class).isDateMoreThanANumberOfDaysAway(
                 document.getPaymentRequestPayDate(),thresholdDays)) {
             if ( ObjectUtils.isNull(GlobalVariables.getMessageList())) {
                 GlobalVariables.setMessageList(new ArrayList());

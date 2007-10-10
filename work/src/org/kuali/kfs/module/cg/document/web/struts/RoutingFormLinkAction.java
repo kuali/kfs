@@ -26,6 +26,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -83,6 +84,8 @@ public class RoutingFormLinkAction extends RoutingFormAction {
             //service method to link budget data
             SpringContext.getBean(RoutingFormService.class).linkImportBudgetDataToRoutingForm(routingForm.getRoutingFormDocument(), routingForm.getRoutingFormDocument().getRoutingFormBudgetNumber(), routingForm.getPeriodBudgetOverviewFormHelpers());
 
+            // TODO : set federal passthrough agency, so when it return to main page for the first time, it can be displayed properly ?
+            SpringContext.getBean(PersistenceService.class).retrieveReferenceObject(routingForm.getRoutingFormDocument(), "federalPassThroughAgency");
             //save the new budget data into the RF
             super.save(mapping, form, request, response);
             

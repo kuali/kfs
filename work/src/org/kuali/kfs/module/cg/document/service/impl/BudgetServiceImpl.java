@@ -625,12 +625,12 @@ public class BudgetServiceImpl implements BudgetService {
         this.dateTimeService = dateTimeService;
     }
 
-    public Budget getByPrimaryId(String documentNumber) {
+    public String getDisplayName(String documentNumber) {
         Budget budget=(Budget) businessObjectService.findByPrimaryKey(Budget.class, mapPrimaryKeys(documentNumber));
-        if (budget!=null && StringUtils.isBlank(budget.getBudgetName())) {
-            budget.setBudgetName("Budget Name is empty");
+        if (budget==null) {
+            return "budget document not found";
         }
-        return budget;
+        return "PD: "+budget.getProjectDirector().getUniversalUser().getPersonName()+"   Agency: "+budget.getBudgetAgency().getFullName();
     }
 
     private Map<String, Object> mapPrimaryKeys(String documentNumber) {

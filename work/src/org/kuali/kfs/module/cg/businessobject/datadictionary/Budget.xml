@@ -54,8 +54,8 @@
                 <field attributeName="budgetParentTrackNumber" />
                 <field attributeName="electronicResearchAdministrationGrantNumber" />
                 <field attributeName="budgetTypeCodeText" />
-                <field attributeName="universalUser.personUserIdentifier" />               
-                <field attributeName="universalUser.personName" forceInquiry="true" />
+                <field attributeName="projectDirector.universalUser.personUserIdentifier" />               
+                <field attributeName="projectDirector.universalUser.personName" forceInquiry="true" />
                 <field attributeName="budgetAgency.agencyNumber" />
                 <field attributeName="budgetAgency.fullName" />
             </resultFields>
@@ -338,6 +338,31 @@
 
                 <summary>Project Director ...</summary>
                 <description>Project Director ...</description>
+            </attributeReference>
+            <attributeReference name="projectDirector.universalUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
+                <label>Project Director UserID</label>
+                <shortLabel>UserID</shortLabel>
+                <required>false</required>
+                <control>
+                    <kualiUser universalIdAttributeName="budgetProjectDirectorUniversalIdentifier" userIdAttributeName="universalUser.personUserIdentifier" personNameAttributeName="universalUser.personName" />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The username of the Project Director for the Budget. </description>
+            </attributeReference>
+
+            <attributeReference name="projectDirector.universalUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
+                <label>Project Director Name</label>
+                <shortLabel>Name</shortLabel>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The Name of the Project Director.</description>
             </attributeReference>
 
             <attributeReference name="universalUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">

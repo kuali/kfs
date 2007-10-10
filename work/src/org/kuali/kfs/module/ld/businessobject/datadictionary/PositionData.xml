@@ -97,9 +97,6 @@
                 <control>
                     <text size="3" />
                 </control>
-
-                <summary>budgetedPosition</summary>
-                <description>budgetedPosition description...</description>
 			</attribute>
 
             <attribute name="businessUnit" forceUppercase="true">
@@ -112,9 +109,6 @@
                 <control>
                     <text size="7" />
                 </control>
-
-                <summary>businessUnit</summary>
-                <description>businessUnit description...</description>
 			</attribute>
 
             <attribute name="departmentId" forceUppercase="true">
@@ -127,9 +121,6 @@
                 <control>
                     <text size="12" />
                 </control>
-
-                <summary>departmentId</summary>
-                <description>departmentId description...</description>
 			</attribute>
 
             <attribute name="description" forceUppercase="true">
@@ -142,9 +133,6 @@
                 <control>
                     <text size="32" />
                 </control>
-
-                <summary>description</summary>
-                <description>description description...</description>
 			</attribute>
 
             <attribute name="effectiveDate" forceUppercase="true">
@@ -157,9 +145,6 @@
                 <control>
                     <text size="9" />
                 </control>
-
-                <summary>effectiveDate</summary>
-                <description>effectiveDate description...</description>
 			</attribute>
 
             <attribute name="jobCode" forceUppercase="true">
@@ -172,9 +157,6 @@
                 <control>
                     <text size="8" />
                 </control>
-
-                <summary>jobCode</summary>
-                <description>jobCode description...</description>
 			</attribute>
 
             <attribute name="positionEffectiveStatus" forceUppercase="true">
@@ -187,9 +169,6 @@
                 <control>
                     <text size="3" />
                 </control>
-
-                <summary>positionEffectiveStatus</summary>
-                <description>positionEffectiveStatus description...</description>
 			</attribute>
 
             <attribute name="positionFullTimeEquivalency" forceUppercase="true">
@@ -202,9 +181,6 @@
                 <control>
                     <text size="5" />
                 </control>
-
-                <summary>positionFullTimeEquivalency</summary>
-                <description>positionFullTimeEquivalency description...</description>
 			</attribute>
 
             <attribute name="positionGradeDefault" forceUppercase="true">
@@ -217,9 +193,6 @@
                 <control>
                     <text size="5" />
                 </control>
-
-                <summary>positionGradeDefault</summary>
-                <description>positionGradeDefault description...</description>
 			</attribute>
 
             <attribute name="positionNumber" forceUppercase="true">
@@ -232,9 +205,6 @@
                 <control>
                     <text size="10" />
                 </control>
-
-                <summary>positionNumber</summary>
-                <description>positionNumber description...</description>
 			</attribute>
 
             <attribute name="positionRegularTemporary" forceUppercase="true">
@@ -247,9 +217,6 @@
                 <control>
                     <text size="3" />
                 </control>
-
-                <summary>positionRegularTemporary</summary>
-                <description>positionRegularTemporary description...</description>
 			</attribute>
 
             <attribute name="positionSalaryPlanDefault" forceUppercase="true">
@@ -262,9 +229,6 @@
                 <control>
                     <text size="6" />
                 </control>
-
-                <summary>positionSalaryPlanDefault</summary>
-                <description>positionSalaryPlanDefault description...</description>
 			</attribute>
 
             <attribute name="positionStatus" forceUppercase="true">
@@ -277,9 +241,6 @@
                 <control>
                     <text size="3" />
                 </control>
-
-                <summary>positionStatus</summary>
-                <description>positionStatus description...</description>
 			</attribute>
 
             <attribute name="shortDescription" forceUppercase="true">
@@ -292,9 +253,6 @@
                 <control>
                     <text size="12" />
                 </control>
-
-                <summary>shortDescription</summary>
-                <description>shortDescription description...</description>
 			</attribute>
 
             <attribute name="standardHoursDefault" forceUppercase="true">
@@ -307,9 +265,6 @@
                 <control>
                     <text size="8" />
                 </control>
-
-                <summary>standardHoursDefault</summary>
-                <description>standardHoursDefault description...</description>
 			</attribute>
 
             <attribute name="standardHoursFrequency" forceUppercase="true">
@@ -322,9 +277,6 @@
                 <control>
                     <text size="7" />
                 </control>
-
-                <summary>standardHoursFrequency</summary>
-                <description>standardHoursFrequency description...</description>
 			</attribute>
 
             <attribute name="statusDate" forceUppercase="true">
@@ -337,16 +289,11 @@
                 <control>
                     <text size="9" />
                 </control>
-
-                <summary>statusDate</summary>
-                <description>statusDate description...</description>
 			</attribute>
 			
 			<attributeReference name="dummyBusinessObject.linkButtonOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="linkButtonOption">
                 <label>Position Funding</label>
                 <shortLabel>Position Funding</shortLabel>
-                <summary>Lookup Position Funding</summary>
-                <description>Lookup Position Funding ...</description>
             </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

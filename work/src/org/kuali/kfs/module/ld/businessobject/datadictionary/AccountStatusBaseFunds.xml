@@ -78,7 +78,6 @@
             <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <label>Fiscal Year</label>
                 <shortLabel>Fiscal Year</shortLabel>
-                <description>Identifies the Fiscal Year to which the balances apply.</description>
             </attributeReference>
 			
             <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" />          
@@ -100,22 +99,16 @@
 			<attributeReference name="baseCSFVarianceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Base Budget/CSF Variance</label>
                 <shortLabel>Base Budget/CSF Variance</shortLabel>
-                <summary>baseCSFVarianceAmount</summary>
-                <description>baseCSFVarianceAmount description</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
             
 			<attributeReference name="baseBudgetAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Adjusted Base Budget Amount</label>
                 <shortLabel>Base Budget</shortLabel>
-                <summary>Adjusted Base Budget Amount</summary>
-                <description>Adjusted Base Budget Amount description</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>            
 
-            <attributeReference name="dummyBusinessObject.consolidationOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="consolidationOption">
-                <description>Radioboxes that specify either Consolidation or Detail balances. If Detail is selected, balances are displayed by Chart, Account Number, Sub-Account Number, Object Code, and Sub-Object Code. If Consolidation is selected, the amounts are aggregated by Chart, Account Number, and Object Code.</description>
-            </attributeReference>
+            <attributeReference name="dummyBusinessObject.consolidationOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="consolidationOption"/>
 
         </attributes>
     </businessObject>

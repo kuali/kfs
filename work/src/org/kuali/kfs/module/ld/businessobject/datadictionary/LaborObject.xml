@@ -86,9 +86,6 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary>detailPositionRequiredIndicator</summary>
-                <description>detailPositionRequiredIndicator description...</description>
 			</attribute>
 
 			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
@@ -106,9 +103,6 @@
                 <control>
                     <text size="3" />
                 </control>
-
-                <summary>financialObjectFringeOrSalaryCode</summary>
-                <description>financialObjectFringeOrSalaryCode description...</description>
 			</attribute>
 
             <attribute name="financialObjectHoursRequiredIndicator" forceUppercase="true">
@@ -120,9 +114,6 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary>financialObjectHoursRequiredIndicator</summary>
-                <description>financialObjectHoursRequiredIndicator description...</description>
 			</attribute>
 
             <attribute name="financialObjectPayTypeCode" forceUppercase="true">
@@ -135,9 +126,6 @@
                 <control>
                     <text size="3" />
                 </control>
-
-                <summary>financialObjectPayTypeCode</summary>
-                <description>financialObjectPayTypeCode description...</description>
 			</attribute>
 
             <attributeReference name="positionObjectGroupCode" sourceClassName="org.kuali.module.labor.bo.PositionObjectGroup" sourceAttributeName="positionObjectGroupCode"/>			

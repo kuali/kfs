@@ -98,9 +98,6 @@
                 <control>
                     <text size="24" />
                 </control>
-
-                <summary>positionFringeBenefitPercent</summary>
-                <description>positionFringeBenefitPercent description...</description>
 			</attribute>
 
           <attributeReference name="versionNumber" 

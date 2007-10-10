@@ -68,9 +68,6 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary>positionBenefitRetirementIndicator</summary>
-                <description>positionBenefitRetirementIndicator description...</description>
 			</attribute>
 
             <attribute name="positionBenefitTypeCode" forceUppercase="true">
@@ -83,9 +80,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>positionBenefitTypeCode</summary>
-                <description>positionBenefitTypeCode description...</description>
 			</attribute>
 
             <attribute name="positionBenefitTypeDescription" forceUppercase="true">
@@ -97,9 +91,6 @@
                 <control>
                     <text size="42" />
                 </control>
-
-                <summary>positionBenefitTypeDescription</summary>
-                <description>positionBenefitTypeDescription description...</description>
 			</attribute>
 
           <attributeReference name="versionNumber" 

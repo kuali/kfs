@@ -92,9 +92,6 @@
                 <control>
                     <text size="21" />
                 </control>
-
-                <summary>accountLineAnnualBalanceAmount</summary>
-                <description>accountLineAnnualBalanceAmount description...</description>
 			</attribute>
 
             <attribute name="beginningAndContractsAndGrantsAmount" forceUppercase="true">
@@ -107,9 +104,6 @@
                 <control>
                     <text size="21" />
                 </control>
-
-                <summary>beginningAndContractsAndGrantsAmount</summary>
-                <description>beginningAndContractsAndGrantsAmount description...</description>
 			</attribute>
 
             <attribute name="emplid" forceUppercase="true">
@@ -122,9 +116,6 @@
                 <control>
                     <text size="13" />
                 </control>
-
-                <summary>emplid</summary>
-                <description>emplid description...</description>
 			</attribute>
 
             <attribute name="financialObjectCode" forceUppercase="true">
@@ -137,9 +128,6 @@
                 <control>
                     <text size="6" />
                 </control>
-
-                <summary>financialObjectCode</summary>
-                <description>financialObjectCode description...</description>
 			</attribute>
 
             <attribute name="financialSubObjectCode" forceUppercase="true">
@@ -152,9 +140,6 @@
                 <control>
                     <text size="5" />
                 </control>
-
-                <summary>financialSubObjectCode</summary>
-                <description>financialSubObjectCode description...</description>
 			</attribute>
 
             <attribute name="july1BudgetAmount" forceUppercase="true">
@@ -167,9 +152,6 @@
                 <control>
                     <text size="21" />
                 </control>
-
-                <summary>july1BudgetAmount</summary>
-                <description>july1BudgetAmount description...</description>
 			</attribute>
 
             <attribute name="personUniversalIdentifier" forceUppercase="true">
@@ -182,9 +164,6 @@
                 <control>
                     <text size="12" />
                 </control>
-
-                <summary>personUniversalIdentifier</summary>
-                <description>personUniversalIdentifier description...</description>
 			</attribute>
 
             <attribute name="positionNumber" forceUppercase="true">
@@ -197,9 +176,6 @@
                 <control>
                     <text size="10" />
                 </control>
-
-                <summary>positionNumber</summary>
-                <description>positionNumber description...</description>
 			</attribute>
 
             <attribute name="subAccountNumber" forceUppercase="true">
@@ -212,9 +188,6 @@
                 <control>
                     <text size="7" />
                 </control>
-
-                <summary>subAccountNumber</summary>
-                <description>subAccountNumber description...</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

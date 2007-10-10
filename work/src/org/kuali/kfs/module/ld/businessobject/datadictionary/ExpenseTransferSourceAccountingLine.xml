@@ -33,9 +33,6 @@
 				<control>
 					<text size="13" />
 				</control>
-
-				<summary>Empl ID</summary>
-				<description>Employee ID</description>
 			</attribute>     
 
             <attributeReference name="payrollEndDateFiscalPeriodCode"
@@ -43,7 +40,6 @@
                 sourceAttributeName="universityFiscalAccountingPeriod" >
                 <label>Payroll End Date Fiscal Period Code</label>
                 <shortLabel>Pay Per</shortLabel>
-                <summary>Payroll End Date Fiscal Period Code</summary>
             </attributeReference>
 
             <attributeReference name="payrollEndDateFiscalYear"
@@ -51,7 +47,6 @@
                 sourceAttributeName="postingYear" >
                 <label>Payroll End Date Fiscal Year</label>
                 <shortLabel>Pay FY</shortLabel>
-                <summary>Payroll End Date Fiscal Year</summary>
 			</attributeReference>
 
             <attribute name="payrollTotalHours" forceUppercase="true">
@@ -64,9 +59,6 @@
                 <control>
                     <text size="11" />
                 </control>
-
-                <summary>payrollTotalHours</summary>
-                <description>payrollTotalHours description...</description>
 			</attribute>
 
             <attribute name="positionNumber" forceUppercase="true">
@@ -79,9 +71,6 @@
                 <control>
                     <text size="10" />
                 </control>
-
-                <summary>positionNumber</summary>
-                <description>positionNumber description...</description>
 			</attribute>
 
             &accountingLineBaseAttributes;

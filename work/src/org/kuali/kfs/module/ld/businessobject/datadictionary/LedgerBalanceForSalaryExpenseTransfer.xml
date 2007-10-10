@@ -111,9 +111,6 @@
                 <control>
                     <hidden />
                 </control>
-
-                <summary>financialObjectFringeOrSalaryCode</summary>
-                <description>financialObjectFringeOrSalaryCode description...</description>
 			</attribute>
 
             <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier">
@@ -137,10 +134,6 @@
                 <control>
                     <kualiUser universalIdAttributeName="ledgerPerson.personUniversalIdentifier" userIdAttributeName="ledgerPerson.personUserIdentifier" personNameAttributeName="ledgerPerson.personName" />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Employee User Name</description>
             </attributeReference>
 
             <attributeReference name="ledgerPerson.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
@@ -150,10 +143,6 @@
                 <control>
                     <hidden />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Employee Name</description>
             </attributeReference>
 
 
@@ -162,7 +151,6 @@
 	        <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <label>Fiscal Year</label>
                 <shortLabel>Fiscal Year</shortLabel>
-                <description>Identifies the Fiscal Year to which the balances apply.</description>
             </attributeReference>
 			
             <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" />          
@@ -180,24 +168,18 @@
             <attributeReference name="accountLineAnnualBalanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Account Line Annual Balance Amount</label>
                 <shortLabel>Account Line Annual Balance Amount</shortLabel>
-                <summary>accountLineAnnualBalanceAmount</summary>
-                <description>accountLineAnnualBalanceAmount description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
             <attributeReference name="financialBeginningBalanceLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Beginning Balance Line Amount</label>
                 <shortLabel>Beginning Balance Line Amount</shortLabel>
-                <summary>BeginningBalanceLineAmount</summary>
-                <description>beginningBalanceLineAmount description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
             <attributeReference name="contractsGrantsBeginningBalanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Contracts Grants Beginning Balance Amount</label>
                 <shortLabel>CG Amount</shortLabel>
-                <summary>contractsGrantsBeginningBalanceAmount</summary>
-                <description>contractsGrantsBeginningBalanceAmount description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
@@ -269,8 +251,6 @@
             <attributeReference name="transactionDateTimeStamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Transaction Entry Processed</label>
                 <shortLabel>Entry Processed</shortLabel>
-                <summary>transactionEntryProcessed</summary>
-                <description>transactionEntryProcessed description...</description>
             </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
@@ -278,8 +258,6 @@
             <attributeReference name="dummyBusinessObject.genericAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Year End Close</label>
                 <shortLabel>Year End Close</shortLabel>
-                <summary>Year End Close</summary>
-                <description>Year End Close Amount...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
         </attributes>

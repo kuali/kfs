@@ -131,6 +131,8 @@
                 <label>Fiscal Year</label>
                 <shortLabel>FY</shortLabel>
                 <required>true</required>
+                <summary>University Fiscal Year</summary>
+                <description>Indicates what fiscal year this options applies to.</description>
             </attributeReference>
 
             <attribute name="universityFiscalYearName" forceUppercase="true">
@@ -145,6 +147,9 @@
                 <control>
                     <text size="10" />
                 </control>
+
+                <summary>Fiscal Year Name</summary>
+                <description>The name of the fiscal year in format like: 2005-2006</description>
             </attribute>
 
             <attribute name="universityFiscalYearStartYr" forceUppercase="true">
@@ -159,6 +164,9 @@
                 <control>
                     <text size="4" />
                 </control>
+
+                <summary>Fiscal Year Start Year</summary>
+                <description>Fiscal Year Start Year.</description>
             </attribute>
 
             <attribute name="universityFiscalYearStartMo" forceUppercase="true">
@@ -173,6 +181,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Fiscal Year Start Month</summary>
+                <description>Fiscal Year Start Month.</description>
             </attribute>
 
 
@@ -180,12 +191,16 @@
                 <label>Beginning Balances Loaded Indicator</label>
                 <shortLabel>Begin Bal. Loaded Ind</shortLabel>
                 <required>true</required>
+                <summary>Beginning Balances Loaded Indicator</summary>
+                <description>Beginning Balances Loaded Indicator</description>
             </attributeReference>
 
             <attributeReference name="budgetCheckingOptionsCode" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Budget Checking Options Code</label>
                 <shortLabel>Budget Option Code</shortLabel>
                 <required>true</required>
+                <summary>Budget Checking Options Code</summary>
+                <description>Budget Checking Options Code</description>
             </attributeReference>
 
             <attributeReference name="universityFinChartOfAcctCd" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
@@ -208,6 +223,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Actual Balance Type</summary>
+                <description>Actual Balance Type</description>
             </attribute>
 
             <attribute name="extrnlEncumFinBalanceTypCd" forceUppercase="true">
@@ -222,6 +240,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>External Encumbrance Balance Type</summary>
+                <description>External Encumbrance Balance Type</description>
             </attribute>
 
             <attribute name="intrnlEncumFinBalanceTypCd" forceUppercase="true">
@@ -236,6 +257,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Internal Encumbrance Balance Type</summary>
+                <description>Internal Encumbrance Balance Type</description>
             </attribute>
 
             <attribute name="preencumbranceFinBalTypeCd" forceUppercase="true">
@@ -250,6 +274,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Pre-Encumbrance Balance Type</summary>
+                <description>Pre-Encumbrance Balance Type</description>
             </attribute>
 
             <attribute name="eliminationsFinBalanceTypeCd" forceUppercase="true">
@@ -264,6 +291,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Eliminations Balance Type</summary>
+                <description>Eliminations Balance Type</description>
             </attribute>
 
             <attribute name="budgetCheckingBalanceTypeCd" forceUppercase="true">
@@ -278,6 +308,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Budget Checking Balance Type</summary>
+                <description>Budget Checking Balance Type</description>
             </attribute>
 
             <attribute name="finObjTypeExpenditureexpCd" forceUppercase="true">
@@ -292,6 +325,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Expenditure/Expense Object Type</summary>
+                <description>Expenditure/Expense Object Type</description>
             </attribute>
 
             <attribute name="finObjTypeExpendNotExpCode" forceUppercase="true">
@@ -306,6 +342,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Expenditure Not Expense Object Type</summary>
+                <description>Expenditure Not Expense Object Type</description>
             </attribute>
 
             <attribute name="finObjTypeExpNotExpendCode" forceUppercase="true">
@@ -320,6 +359,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Expense Not Expenditure Object Type</summary>
+                <description>Expense Not Expenditure Object Type</description>
             </attribute>
 
             <attribute name="finObjectTypeIncomecashCode" forceUppercase="true">
@@ -334,6 +376,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Income/Cash Object Type</summary>
+                <description>Income/Cash Object Type</description>
             </attribute>
 
             <attribute name="finObjTypeIncomeNotCashCd" forceUppercase="true">
@@ -348,6 +393,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Income Not Cash Object Type</summary>
+                <description>Income Not Cash Object Type</description>
             </attribute>
 
             <attribute name="finObjTypeCshNotIncomeCd" forceUppercase="true">
@@ -362,6 +410,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Cash Not Income Object Type</summary>
+                <description>Cash Not Income Object Type</description>
             </attribute>
 
             <attribute name="financialObjectTypeAssetsCd" forceUppercase="true">
@@ -376,6 +427,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Assets Object Type</summary>
+                <description>Assets Object Type</description>
             </attribute>
 
             <attribute name="finObjectTypeLiabilitiesCode" forceUppercase="true">
@@ -390,6 +444,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Liabilities Object Type</summary>
+                <description>Liabilities Object Type</description>
             </attribute>
 
             <attribute name="finObjectTypeFundBalanceCd" forceUppercase="true">
@@ -404,6 +461,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Fund Balance Object Type</summary>
+                <description>Fund Balance Object Type.</description>
             </attribute>
 
             <attribute name="costShareEncumbranceBalanceTypeCd" forceUppercase="true">
@@ -418,6 +478,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Cost Share Encumbrance Balance Type</summary>
+                <description>Cost Share Encumbrance Balance Type.</description>
             </attribute>
 
             <attribute name="baseBudgetFinancialBalanceTypeCd" forceUppercase="true">
@@ -432,6 +495,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Base Budget Balance Type</summary>
+                <description>Base Budget Balance Type.</description>
             </attribute>
 
             <attribute name="monthlyBudgetFinancialBalanceTypeCd" forceUppercase="true">
@@ -446,6 +512,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Monthly Budget Balance Type</summary>
+                <description>Monthly Budget Balance Type.</description>
             </attribute>
 
             <attribute name="financialObjectTypeTransferIncomeCd" forceUppercase="true">
@@ -460,6 +529,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Transfer In Object Type</summary>
+                <description>Transfer In Object Type.</description>
             </attribute>
 
             <attribute name="financialObjectTypeTransferExpenseCd" forceUppercase="true">
@@ -474,6 +546,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Transfer Out Object Type</summary>
+                <description>Transfer Out Object Type.</description>
             </attribute>
 
             <attribute name="nominalFinancialBalanceTypeCd" forceUppercase="true">
@@ -488,9 +563,14 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Nominal Closing Balances Balance Type</summary>
+                <description>Nominal Closing Balances Balance Type.</description>
             </attribute>
 
+
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
 
         </attributes>
     </businessObject>

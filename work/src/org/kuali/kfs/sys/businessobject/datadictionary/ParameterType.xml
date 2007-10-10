@@ -67,6 +67,10 @@
                 <control>
                     <text size="6" />
                 </control>
+                <summary>Code identifying the parameter type.</summary>
+                <description>
+                    Code identifying the parameter type.
+                </description>
             </attribute>
             <attribute name="name" forceUppercase="false">
                 <label>Parameter Type Name</label>
@@ -79,6 +83,10 @@
                 <control>
                     <text size="40" />
                 </control>
+                <summary>The name of the parameter type.</summary>
+                <description>
+                    The name of the parameter type.
+                </description>
             </attribute>
             <attribute name="codeAndDescription" forceUppercase="false">
                 <label>Parameter Type</label>
@@ -91,10 +99,24 @@
                 <control>
                     <text size="40" />
                 </control>
+                <summary>The name of the parameter type.</summary>
+                <description>
+                    The name of the parameter type.
+                </description>
             </attribute>
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
-            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+            <attributeReference name="active"
+                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceAttributeName="activeIndicator"
+            >
+            </attributeReference>
+            <attributeReference name="objectId"
+                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceAttributeName="objectId"
+            />
+            <attributeReference name="versionNumber"
+                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceAttributeName="versionNumber"
+            />
         </attributes>
     </businessObject>
 </dictionaryEntry>

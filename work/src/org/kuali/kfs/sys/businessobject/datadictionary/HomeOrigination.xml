@@ -61,6 +61,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Home Origination Code</summary>
+                <description>The code uniquely identify a Home Origination.</description>
             </attributeReference>
 
 

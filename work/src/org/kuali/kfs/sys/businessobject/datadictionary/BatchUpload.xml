@@ -29,6 +29,9 @@
                 <control>
                     <hidden/>
                 </control>
+
+                <summary>File Type</summary>
+                <description>Identifies the batch job associated with the file type.</description>
             </attribute>
 
             <attribute name="fileUserIdentifer" forceUppercase="false">
@@ -40,6 +43,9 @@
                 <control>
                     <text size="10"/>
                 </control>
+
+                <summary>File Ident.</summary>
+                <description>Text to appended to the save file name for later identification.</description>
             </attribute>
             
             <attribute name="existingFileName" forceUppercase="false">
@@ -51,6 +57,9 @@
                 <control>
             		<text size="15"/>
                 </control>
+
+                <summary>Up Files</summary>
+                <description>List of files existing on server.</description>
             </attribute>
         </attributes>
     </businessObject>

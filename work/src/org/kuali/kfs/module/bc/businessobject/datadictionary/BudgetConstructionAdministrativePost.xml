@@ -68,6 +68,9 @@
                 <control>
                     <text size="17" />
                 </control>
+
+                <summary>administrativePost</summary>
+                <description>administrativePost description...</description>
 			</attribute>
 
             <attribute name="emplid" forceUppercase="true">
@@ -80,6 +83,9 @@
                 <control>
                     <text size="13" />
                 </control>
+
+                <summary>emplid</summary>
+                <description>emplid description...</description>
 			</attribute>
 
             <attribute name="positionNumber" forceUppercase="true">
@@ -92,6 +98,9 @@
                 <control>
                     <text size="10" />
                 </control>
+
+                <summary>positionNumber</summary>
+                <description>positionNumber description...</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

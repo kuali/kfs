@@ -82,6 +82,9 @@
                 <control>
                     <text size="12" />
                 </control>
+
+                <summary>departmentIdentifier</summary>
+                <description>departmentIdentifier description...</description>
 			</attribute>
 
             <attribute name="effectiveDate" forceUppercase="true">
@@ -94,6 +97,9 @@
                 <control>
                     <text size="9" />
                 </control>
+
+                <summary>effectiveDate</summary>
+                <description>effectiveDate description...</description>
 			</attribute>
 
             <attribute name="effectiveSequence" forceUppercase="true">
@@ -106,6 +112,9 @@
                 <control>
                     <text size="5" />
                 </control>
+
+                <summary>effectiveSequence</summary>
+                <description>effectiveSequence description...</description>
 			</attribute>
 
             <attribute name="emplid" forceUppercase="true">
@@ -118,6 +127,9 @@
                 <control>
                     <text size="13" />
                 </control>
+
+                <summary>emplid</summary>
+                <description>emplid description...</description>
 			</attribute>
 
             <attribute name="employeeRecord" forceUppercase="true">
@@ -130,6 +142,9 @@
                 <control>
                     <text size="5" />
                 </control>
+
+                <summary>employeeRecord</summary>
+                <description>employeeRecord description...</description>
 			</attribute>
 
             <attribute name="employeeStatus" forceUppercase="true">
@@ -142,6 +157,9 @@
                 <control>
                     <text size="3" />
                 </control>
+
+                <summary>employeeStatus</summary>
+                <description>employeeStatus description...</description>
 			</attribute>
 
             <attribute name="personUniversalIdentifier" forceUppercase="true">
@@ -154,6 +172,9 @@
                 <control>
                     <text size="12" />
                 </control>
+
+                <summary>personUniversalIdentifier</summary>
+                <description>personUniversalIdentifier description...</description>
 			</attribute>
 
             <attribute name="positionNumber" forceUppercase="true">
@@ -166,6 +187,9 @@
                 <control>
                     <text size="10" />
                 </control>
+
+                <summary>positionNumber</summary>
+                <description>positionNumber description...</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

@@ -133,23 +133,35 @@
             <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <label>Fiscal Year</label>
                 <shortLabel>Fiscal Year</shortLabel>
+                <description>Identifies the Fiscal Year to which the balances apply.</description>
             </attributeReference>
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <control>
                     <text size="2" />
                 </control>
+                <description>The Chart of Accounts for an Account Number. Kuali accommodates more than one Chart of Accounts. Each chart has its own set of Account Numbers, Object Codes, and Organizations.</description>
             </attributeReference>
 
-            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber"/>
+            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+                <description>An identifier for a pool of funds assigned to a specific division for a stated purpose.</description>
+            </attributeReference>
 
-            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber"/>
+            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
+                <description>A code that partitions an Account Number into greater detail. Sub-Accounts take on most of the attributes of the Account Number to which they report.</description>
+            </attributeReference>
 
-            <attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode"/>
+            <attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
+                <description>The list of codes (commonly known as Income, Expense, Asset, Liability, and Fund Balance) used to identify the nature of a financial transaction.</description>
+            </attributeReference>
 
-            <attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode"/>
+            <attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
+                <description>A code that partitions an Object Code into greater detail. Sub-Object Codes take on most of the attributes of the Object Code to which they report.</description>
+            </attributeReference>
 
-            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber"/>
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber">
+                <description>The system generated Document Number attached to the accounting transaction. Used for tracking purposes.</description>
+            </attributeReference>
 
             <attributeReference name="transactionLedgerEntrySequenceNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId" />
 
@@ -160,11 +172,15 @@
                 <control>
                     <text size="2" />
                 </control>
+                <summary>Balance Type</summary>
+                <description>Balance type categorizes transactions and balances into Budget, Actual or Encumbrance. There may be various types of each category.</description>
             </attributeReference>
 
             <attributeReference name="transactionDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Transaction Date</label>
                 <shortLabel>Date</shortLabel>
+                <summary>transactionDate</summary>
+                <description>transactionDate description...</description>
             </attributeReference>
 
             <attribute name="transactionLedgerEntryDescription" forceUppercase="false">
@@ -174,6 +190,8 @@
                 <control>
                     <text size="40" />
                 </control>
+                <summary>transactionLedgerEntryDescription</summary>
+                <description>transactionLedgerEntryDescription description...</description>
             </attribute>
 
             <attribute name="organizationReferenceId" forceUppercase="false">
@@ -183,13 +201,21 @@
                 <control>
                     <text size="10" />
                 </control>
+                <summary>Organization Reference Id</summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
             </attribute>
 
-            <attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code"/>
+            <attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code">
+                <description>Designates whether and Object Code is either Income, Expense, Asset, Liability, or Fund Balance.</description>
+            </attributeReference>
 
             <attributeReference name="transactionLedgerEntryAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Transaction Ledger Entry Amount</label>
                 <shortLabel>Amount</shortLabel>
+                <summary>transactionLedgerEntryAmount</summary>
+                <description>transactionLedgerEntryAmount description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
@@ -200,6 +226,8 @@
                 <control>
                     <text size="3" />
                 </control>
+                <summary>referenceOriginCode</summary>
+                <description>The code corresponding to the system which created the General Ledger entry, e.g., 01 = Kuali Financial System (KFS).</description>
             </attribute>
 
             <attribute name="referenceFinancialDocumentTypeCode" forceUppercase="true">
@@ -209,6 +237,8 @@
                 <control>
                     <text size="5" />
                 </control>
+                <summary>Financial document type code.</summary>
+                <description>The code that represents the particular type of document being process, e.g., CR = Cash Receipts, JV = Journal Voucher, and DV = Disbursement Voucher.</description>
             </attribute>
 
             <attribute name="referenceFinancialDocumentNumber" forceUppercase="false">
@@ -218,11 +248,15 @@
                 <control>
                     <text size="11" />
                 </control>
+                <summary>referenceDocumentNumber</summary>
+                <description>Typically the document number for the preceding transaction in the chain of events. Example: for a purchase requistion this would typically be the purchase order number.</description>
             </attribute>
 
             <attributeReference name="transactionEntryOffsetIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Transaction Entry Offset Code</label>
                 <shortLabel>Entry Offset Ind.</shortLabel>
+                <summary>transactionEntryOffsetCode</summary>
+                <description>transactionEntryOffsetCode description...</description>
             </attributeReference>
 
             <attribute name="transactionEncumbranceUpdateCode" forceUppercase="true">
@@ -232,11 +266,15 @@
                 <control>
                     <text size="3" />
                 </control>
+                <summary>encumbranceUpdateCode</summary>
+                <description>encumbranceUpdateCode description...</description>
             </attribute>
 
             <attributeReference name="financialDocumentReversalDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Document Reversal Date</label>
                 <shortLabel>Doc. Reversal Date</shortLabel>
+                <summary>documentReversalDate</summary>
+                <description>documentReversalDate description...</description>
             </attributeReference>
 			
             <attributeReference name="universityFiscalPeriodCode" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="universityFiscalAccountingPeriod">
@@ -246,6 +284,8 @@
                 <control>
                     <text size="2" />
                 </control>
+                <summary>University Fiscal Accounting Period</summary>
+                <description>One of a prescribed list of Accounting Periods to which accounting transactions may post.</description>
             </attributeReference>
             
             <attribute name="organizationDocumentNumber" forceUppercase="false">
@@ -255,6 +295,8 @@
                 <control>
                     <text size="12" />
                 </control>
+                <summary>organizationDocumentNumber</summary>
+                <description>Contains a Document Number assigned to the transaction by the originating department. This number is not the same as the Document Number assigned by the Kuali Financial System (KFS).</description>
             </attribute>
 
             <attribute name="financialSystemOriginationCode" forceUppercase="false">
@@ -264,6 +306,8 @@
                 <control>
                     <text size="3" />
                 </control>
+                <summary>originCode</summary>
+                <description>originCode description...</description>
             </attribute>
 
             <attribute name="financialDocumentTypeCode" forceUppercase="true">
@@ -273,6 +317,8 @@
                 <control>
                     <text size="4" />
                 </control>
+                <summary>Financial document type code.</summary>
+                <description>The code that represents the particular type of document being process, e.g., CR = Cash Receipts, JV = Journal Voucher, and DV = Disbursement Voucher.</description>
             </attribute>
 
             <attribute name="transactionDebitCreditCode" forceUppercase="true">
@@ -282,6 +328,8 @@
                 <control>
                     <text size="2" />
                 </control>
+                <summary>The debit/credit code.</summary>
+                <description>This flags a financial transaction as either a debit or credit.</description>
             </attribute>
 
             <attributeReference name="acctSufficientFundsFinObjCd" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />
@@ -293,6 +341,8 @@
             <attributeReference name="transactionEntryProcessedTs" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Transaction Entry Processed</label>
                 <shortLabel>Entry Processed</shortLabel>
+                <summary>transactionEntryProcessed</summary>
+                <description>transactionEntryProcessed description...</description>
             </attributeReference>
             
             <attribute name="documentHeader.financialDocumentStatusCode" forceUppercase="false">
@@ -303,6 +353,9 @@
                 <control>
                     <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.ApprovedDocumentIndicatorValuesFinder" />
                 </control>
+
+                <summary>Pending Entry approved Indicator indicates whether a GLPE is approved or not.</summary>
+                <description>Radioboxes that allow the user to include or exclude Pending Ledger Entries from the results. Options include: Approved Only or All. When a financial transaction E-Doc is initiated, Pending Ledger Entries are created. These entries remain in the Pending Ledger Entry table until they are posted to the General Ledger.</description>
 
                 <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
             </attribute>

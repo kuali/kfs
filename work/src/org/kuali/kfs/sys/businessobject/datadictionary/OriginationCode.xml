@@ -100,6 +100,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Origination Code</summary>
+                <description>The origination code uniquely identify an Origination.</description>
             </attribute>
 
             <attribute name="nextFinancialDocumentNumber" forceUppercase="false">
@@ -114,6 +117,9 @@
                 <control>
                     <text size="9" />
                 </control>
+
+                <summary>Next Document Number</summary>
+                <description>Next Document Number...</description>
             </attribute>
 
             <attribute name="financialSystemServerName" forceUppercase="false">
@@ -128,6 +134,9 @@
                 <control>
                     <text size="20" />
                 </control>
+
+                <summary>Server Name</summary>
+                <description>Server Name...</description>
             </attribute>
 
             <attribute name="financialSystemDatabaseName" forceUppercase="false">
@@ -142,6 +151,9 @@
                 <control>
                     <text size="15" />
                 </control>
+
+                <summary>Database Name</summary>
+                <description>Database Name...</description>
             </attribute>
 
             <attribute name="financialSystemDatabaseDesc" forceUppercase="false">
@@ -156,6 +168,9 @@
                 <control>
                     <text size="40" />
                 </control>
+
+                <summary>Database Description</summary>
+                <description>Database Description...</description>
             </attribute>
 
             <attribute name="nextCapitalAssetNumber" forceUppercase="false">
@@ -170,6 +185,9 @@
                 <control>
                     <text size="12" />
                 </control>
+
+                <summary>Next Capital Asset Number</summary>
+                <description>Next Capital Asset Number...</description>
             </attribute>
 
             <attribute name="nextNonCapitalAssetNumber" forceUppercase="false">
@@ -184,6 +202,9 @@
                 <control>
                     <text size="12" />
                 </control>
+
+                <summary>Next Non-Capital Asset Number</summary>
+                <description>Next Non-Capital Asset Number...</description>
             </attribute>
 
             <attribute name="nextCgProposalNumber" forceUppercase="false">
@@ -198,6 +219,9 @@
                 <control>
                     <text size="12" />
                 </control>
+
+                <summary>Next CG Proposal Number</summary>
+                <description>Next CG Proposal Number...</description>
             </attribute>
 
             <attribute name="nextContractsAndGrantsAgencyNumber" forceUppercase="false">
@@ -212,6 +236,9 @@
                 <control>
                     <text size="5" />
                 </control>
+
+                <summary>Next Contract and Grants Agency Number</summary>
+                <description>Next Contract and Grands Agency Number...</description>
             </attribute>
 
             <attribute name="nextContractsAndGrantsSubcontractorNumber" forceUppercase="false">
@@ -226,6 +253,9 @@
                 <control>
                     <text size="5" />
                 </control>
+
+                <summary>Next Contract and Grants Subcontractor Number</summary>
+                <description>Next Contract and Grants Subcontractor Number...</description>
             </attribute>
 
             <attribute name="nextDisbVchrPayeeIdNbr" forceUppercase="false">
@@ -240,6 +270,9 @@
                 <control>
                     <text size="12" />
                 </control>
+
+                <summary>Next Disbursement Voucher Payee Id Number</summary>
+                <description>Next Disbursement Voucher Payee Id Number...</description>
             </attribute>
 
             <attribute name="nextFdocAttachmentIdentifier" forceUppercase="false">
@@ -254,6 +287,9 @@
                 <control>
                     <text size="12" />
                 </control>
+
+                <summary>Next Attachment Identifier</summary>
+                <description>Next Attachment Identifier...</description>
             </attribute>
 
             <attribute name="acctRcvbNextCustomerNumber" forceUppercase="false">
@@ -268,6 +304,9 @@
                 <control>
                     <text size="12" />
                 </control>
+
+                <summary>Next Accounts Receivable Customer Number</summary>
+                <description>Next Accounts Receivable Customer Number...</description>
             </attribute>
 
             <attribute name="financialDocumentNextItemIdentifier" forceUppercase="false">
@@ -282,6 +321,9 @@
                 <control>
                     <text size="12" />
                 </control>
+
+                <summary>Next Item Identifier</summary>
+                <description>Next Item Identifier...</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

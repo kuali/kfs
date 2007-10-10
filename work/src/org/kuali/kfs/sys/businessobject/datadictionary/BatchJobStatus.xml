@@ -61,6 +61,9 @@
                 <control>
                     <text size="20" />
                 </control>
+
+                <summary>Job Name</summary>
+                <description>Job Name description...</description>
 			</attribute>
 
             <attribute name="group" forceUppercase="false">
@@ -72,6 +75,9 @@
                 <control>
                     <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.SchedulerGroupValuesFinder" />
                 </control>
+
+                <summary>Job Group</summary>
+                <description>Job Group description...</description>
 			</attribute>
 
             <attribute name="dependencyList" forceUppercase="false">
@@ -83,6 +89,9 @@
                 <control>
                     <text size="40" />
                 </control>
+
+                <summary>Dependencies</summary>
+                <description>Dependencies description...</description>
 			</attribute>
 
             <attribute name="stepList" forceUppercase="false">
@@ -94,6 +103,9 @@
                 <control>
                     <text size="40" />
                 </control>
+
+                <summary>Steps</summary>
+                <description>Steps description...</description>
 			</attribute>
 
             <attribute name="nextRunDate" forceUppercase="false">
@@ -105,6 +117,9 @@
                 <control>
                     <text size="40" />
                 </control>
+
+                <summary>Next Run Time</summary>
+                <description>Next Run Time description...</description>
                 <formatterClass>org.kuali.core.web.format.TimestampAMPMFormatter</formatterClass>
 			</attribute>
 
@@ -117,6 +132,9 @@
                 <control>
                     <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.ScheduledJobStatusValuesFinder" />
                 </control>
+
+                <summary>Job Status</summary>
+                <description>Job Status description...</description>
 			</attribute>
 
         </attributes>

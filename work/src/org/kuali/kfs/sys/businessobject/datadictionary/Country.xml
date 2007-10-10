@@ -70,6 +70,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>Postal Country Code</summary>
+                <description>The code uniquely identify a country.</description>
             </attribute>
 
             <attribute name="postalCountryName" forceUppercase="true">
@@ -82,11 +85,16 @@
                 <control>
                     <text size="40" />
                 </control>
+
+                <summary>Postal Country Name</summary>
+                <description>Postal Country Name...</description>
             </attribute>
 
             <attributeReference name="postalCountryRestrictedIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
                 <label>Country Restricted Indicator</label>
                 <shortLabel>Indicator</shortLabel>
+                <summary>Indicator for whether this is a postal country restricted.</summary>
+                <description>This is the indicator for whether this country is a postal country restricted.</description>
             </attributeReference>
             
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

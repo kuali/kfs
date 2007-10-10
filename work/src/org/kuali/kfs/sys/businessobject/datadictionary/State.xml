@@ -71,6 +71,9 @@
                 <control>
                     <text size="2" />
                 </control>
+
+                <summary>State Abbreviation</summary>
+                <description>The two digit code for a state</description>
             </attribute>
 
             <attribute name="postalStateName" forceUppercase="true">
@@ -85,6 +88,9 @@
                 <control>
                     <text size="25" />
                 </control>
+
+                <summary>State Name</summary>
+                <description>The name assigned to this state.</description>
             </attribute>
 
             <attribute name="codeAndDescription" forceUppercase="false">
@@ -96,6 +102,10 @@
                 <control>
                     <text size="45" />
                 </control>
+
+                <summary>State Code</summary>
+                <description>State Code</description>
+
             </attribute>
             
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

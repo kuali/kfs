@@ -27,9 +27,9 @@ public class ItemType extends PersistableBusinessObjectBase {
 
 	private String itemTypeCode;
 	private String itemTypeDescription;
-	private boolean active;
     private boolean quantityBasedGeneralLedgerIndicator;
     private boolean itemTypeAboveTheLineIndicator;
+	private boolean active;
     
 	/**
 	 * Default constructor.
@@ -58,7 +58,6 @@ public class ItemType extends PersistableBusinessObjectBase {
 		this.itemTypeCode = itemTypeCode;
 	}
 
-
 	/**
 	 * Gets the itemTypeDescription attribute.
 	 * 
@@ -78,38 +77,6 @@ public class ItemType extends PersistableBusinessObjectBase {
 	public void setItemTypeDescription(String itemTypeDescription) {
 		this.itemTypeDescription = itemTypeDescription;
 	}
-
-    /**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
-    public boolean isActive() {
-        return active;
-    }
-
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    /**
-     * Gets the itemTypeAboveTheLineIndicator attribute. 
-     * @return Returns the itemTypeAboveTheLineIndicator.
-     */
-    public boolean isItemTypeAboveTheLineIndicator() {
-        return itemTypeAboveTheLineIndicator;
-    }
-
-    /**
-     * Sets the itemTypeAboveTheLineIndicator attribute value.
-     * @param itemTypeAboveTheLineIndicator The itemTypeAboveTheLineIndicator to set.
-     */
-    public void setItemTypeAboveTheLineIndicator(boolean itemTypeAboveTheLineIndicator) {
-        this.itemTypeAboveTheLineIndicator = itemTypeAboveTheLineIndicator;
-    }
 
     /**
      * Gets the negative value of the quantityBasedGeneralLedgerIndicator attribute which
@@ -135,6 +102,38 @@ public class ItemType extends PersistableBusinessObjectBase {
      */
     public void setQuantityBasedGeneralLedgerIndicator(boolean quantityBasedGeneralLedgerIndicator) {
         this.quantityBasedGeneralLedgerIndicator = quantityBasedGeneralLedgerIndicator;
+    }
+
+    /**
+     * Gets the itemTypeAboveTheLineIndicator attribute. 
+     * @return Returns the itemTypeAboveTheLineIndicator.
+     */
+    public boolean isItemTypeAboveTheLineIndicator() {
+        return itemTypeAboveTheLineIndicator;
+    }
+
+    /**
+     * Sets the itemTypeAboveTheLineIndicator attribute value.
+     * @param itemTypeAboveTheLineIndicator The itemTypeAboveTheLineIndicator to set.
+     */
+    public void setItemTypeAboveTheLineIndicator(boolean itemTypeAboveTheLineIndicator) {
+        this.itemTypeAboveTheLineIndicator = itemTypeAboveTheLineIndicator;
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

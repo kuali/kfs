@@ -27,6 +27,8 @@
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="itemTypeCode" />
                 <field attributeName="itemTypeDescription" />
+                <field attributeName="quantityBasedGeneralLedgerIndicator" />
+                <field attributeName="itemTypeAboveTheLineIndicator" />
                 <field attributeName="active" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -45,12 +47,16 @@
             <lookupFields>
                 <lookupField attributeName="itemTypeCode" required="false" />
                 <lookupField attributeName="itemTypeDescription" required="false" />
+                <lookupField attributeName="quantityBasedGeneralLedgerIndicator" required="false" />
+                <lookupField attributeName="itemTypeAboveTheLineIndicator" required="false" />
                 <lookupField attributeName="active" required="false" />
-             </lookupFields>
+            </lookupFields>           
 
             <resultFields>
                 <field attributeName="itemTypeCode" />
                 <field attributeName="itemTypeDescription" />
+                <field attributeName="quantityBasedGeneralLedgerIndicator" />
+                <field attributeName="itemTypeAboveTheLineIndicator" />
                 <field attributeName="active" />
             </resultFields>
         </lookup>
@@ -88,6 +94,51 @@
                 <summary>itemTypeDescription</summary>
                 <description>itemTypeDescription description...</description>
 			</attribute>
+
+<!--
+            <attribute name="quantityBasedGeneralLedgerIndicator" forceUppercase="false">
+                <label>Quantity Based General Ledger Indicator</label>
+                <shortLabel>Quantity Based</shortLabel>
+
+                <maxLength>1</maxLength>
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>Quantity Based General Ledger Indicator indicates whether an item has quantity or not.</summary>
+                <description>This attribute is used to describe whether the associated item has quantity or not.</description>
+
+                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
+            </attribute>
+
+            <attribute name="itemTypeAboveTheLineIndicator" forceUppercase="false">
+                <label>Item Type Above The Line Indicator</label>
+                <shortLabel>Above Line</shortLabel>
+
+                <maxLength>1</maxLength>
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>Item Type Above The Line Indicator indicates whether an item is above the line or not.</summary>
+                <description>This attribute is used to describe whether the associated item is above the line or not.</description>
+
+                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
+            </attribute>
+-->
+            <attributeReference name="quantityBasedGeneralLedgerIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" > 
+                <label>Quantity Based General Ledger Indicator</label>
+                <shortLabel>Quantity Based</shortLabel>
+                <summary>Quantity Based General Ledger Indicator indicates whether an item has quantity or not.</summary>
+                <description>This attribute is used to describe whether the associated item has quantity or not.</description>
+            </attributeReference>
+
+            <attributeReference name="itemTypeAboveTheLineIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" >           
+                <label>Item Type Above The Line Indicator</label>
+                <shortLabel>Above Line</shortLabel>
+                <summary>Item Type Above The Line Indicator indicates whether an item is above the line or not.</summary>
+                <description>This attribute is used to describe whether the associated item is above the line or not.</description>
+            </attributeReference>
 
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 

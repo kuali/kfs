@@ -50,6 +50,8 @@
                 <maintainableItems>
                     <maintainableField name="itemTypeCode" required="true" />
                 	<maintainableField name="itemTypeDescription" required="true" />
+                	<maintainableField name="quantityBasedGeneralLedgerIndicator" />
+                	<maintainableField name="itemTypeAboveTheLineIndicator" />
                 	<maintainableField name="active" >
                 		<defaultValue>true</defaultValue>
                 	</maintainableField>

@@ -487,6 +487,7 @@ implements FiscalYearMakersDao {
           FiscalYearMakersCopyAction copyActionSubObjCd =
               new FiscalYearMakersCopyAction()
               {
+              /*  not for phase II
               FiscalYearMakersFilterAction filterSubObjectCode =
                   new FiscalYearMakersFilterAction()
                   {
@@ -500,14 +501,18 @@ implements FiscalYearMakersDao {
                          return criteriaID;        
                      }
                   };
+                 */
                  public void copyMethod(Integer BaseYear, boolean replaceMode)
                  {
                    MakersMethods<SubObjCd> makersMethod =
                        new MakersMethods<SubObjCd>();
                    makersMethod.makeMethod(SubObjCd.class,
                                            BaseYear,
+                                           replaceMode);
+                   /*  not for phase II
                                            replaceMode,
                                            filterSubObjectCode);
+                    */
                  }
               };
           addCopyAction(SubObjCd.class,copyActionSubObjCd); 
@@ -1896,6 +1901,18 @@ implements FiscalYearMakersDao {
         return ((Integer)((Double)(actualCount.floatValue()*(1.45))).intValue());
     }
 
+    private PersistenceStructureWindow persistenceStructureWindow = null;
+    
+    public void resetCascades()
+    {
+        // turnOffCascades should always be called, but if it hasn't been, there is no need to call this
+        if (persistenceStructureWindow == null)
+        {
+            return;
+        };
+        persistenceStructureWindow.restoreCascading();
+    }
+    
     private void turnOffCascades()
     {
         //
@@ -1913,10 +1930,10 @@ implements FiscalYearMakersDao {
         //  affect only the current run, makes no permanent changes, and will not affect the performance of any documents.  the 
         //  assumption is that this code is running in its own Java container, which will go away when the run is complete.
         //
+        // set up the window into the OJB persistence structure
+        persistenceStructureWindow = new PersistenceStructureWindow(); 
         for (Map.Entry<String,ArrayList<Class>> childMap : childParentMap.entrySet())
         {
-           // set up a window into the OJB persistence sturcture
-           PersistenceStructureWindow persistenceStructureWindow = new PersistenceStructureWindow(); 
            // get the class from the child name 
            Class childClass = makerObjectsList.get(childMap.getKey());
            ArrayList<Class> parentList = childMap.getValue();
@@ -1941,6 +1958,14 @@ implements FiscalYearMakersDao {
     private class PersistenceStructureWindow
     {
       private DescriptorRepository descriptorRepository;
+
+      // these save enough information from the repository so we can restore the auto-xxx fields we change
+      // the size of the hashmaps should be more than sufficient to change 16-17 tables
+      // we shouldn't have to change anywhere close to that many
+      private HashMap<CollectionDescriptor,String[]> collectionStore            = new HashMap<CollectionDescriptor,String[]>(25);
+      private HashMap<CollectionDescriptor,String[]> collectionDelete           = new HashMap<CollectionDescriptor,String[]>(25);
+      private HashMap<ObjectReferenceDescriptor,String[]> objectReferenceStore  = new HashMap<ObjectReferenceDescriptor,String[]>(25);
+      private HashMap<ObjectReferenceDescriptor,String[]> objectReferenceDelete = new HashMap<ObjectReferenceDescriptor,String[]>(25);
       
       public PersistenceStructureWindow ()
       {
@@ -1994,20 +2019,28 @@ implements FiscalYearMakersDao {
           {
              if (targetClass.getName().compareTo(objReferenceDescriptor.getItemClassName()) == 0)
              {
-                 LOG.info(String.format("\n\nfound reference to %s in %s",
+                 LOG.debug(String.format("\n\nfound reference to %s in %s",
                           targetClass.getName(),referencingClass.getName()));
                  
                  if (objReferenceDescriptor.getCascadingDelete() != ObjectReferenceDescriptor.CASCADE_NONE)
                  {
+                     // we want to issue a message whenever we toggle--so store three things
+                     String[] infoString = {targetClass.getName(),referencingClass.getName(),
+                                            objReferenceDescriptor.getCascadeAsString(objReferenceDescriptor.getCascadingDelete())};
+                     objectReferenceDelete.put(objReferenceDescriptor,infoString);
                      objReferenceDescriptor.setCascadingDelete(ObjectReferenceDescriptor.CASCADE_NONE);
-                     LOG.warn(String.format("reset auto-delete for %s in %s",
-                              targetClass.getName(),referencingClass.getName()));          
+                     LOG.warn(String.format("\nreset auto-delete = %s\nfor %s in %s",
+                              infoString[2],targetClass.getName(),referencingClass.getName()));          
                  }
                  if (objReferenceDescriptor.getCascadingStore() != ObjectReferenceDescriptor.CASCADE_NONE)
                  {
+                     // we want to issue a message whenever we toggle--so store three things
+                     String[] infoString = {targetClass.getName(),referencingClass.getName(),
+                             objReferenceDescriptor.getCascadeAsString(objReferenceDescriptor.getCascadingStore())};
+                     objectReferenceStore.put(objReferenceDescriptor,infoString); 
                      objReferenceDescriptor.setCascadingStore(ObjectReferenceDescriptor.CASCADE_NONE);
-                     LOG.warn(String.format("reset auto-update for %s in %s",
-                              targetClass.getName(),referencingClass.getName()));          
+                     LOG.warn(String.format("\nreset auto-update = %s\nfor %s in %s",
+                              infoString[2],targetClass.getName(),referencingClass.getName()));          
                  }
                  return true;
                  // a given class will not have a reference-id and a collection-ref-id to the same target class
@@ -2029,26 +2062,78 @@ implements FiscalYearMakersDao {
           {
               if (targetClass.getName().compareTo(collectionDescriptor.getItemClassName()) == 0)
               {
-                  LOG.info(String.format("\n\nfound collection reference to %s in %s",
+                  LOG.debug(String.format("\n\nfound collection reference to %s in %s",
                            targetClass.getName(),referencingClass.getName()));
                   
                   if (collectionDescriptor.getCascadingDelete() != CollectionDescriptor.CASCADE_NONE)
                   {
+                      // we want to issue a message whenever we toggle--so store three things
+                      String[] infoString = {targetClass.getName(),referencingClass.getName(),
+                                             collectionDescriptor.getCascadeAsString(collectionDescriptor.getCascadingDelete())};
+                      collectionDelete.put(collectionDescriptor,infoString);
                       collectionDescriptor.setCascadingDelete(CollectionDescriptor.CASCADE_NONE);
-                      LOG.warn(String.format("reset auto-delete for %s in %s",
-                               targetClass.getName(),referencingClass.getName()));          
+                      LOG.warn(String.format("\nreset auto-delete = %s \nfor %s in %s",
+                               infoString[2],targetClass.getName(),referencingClass.getName()));          
                   }
                   if (collectionDescriptor.getCascadingStore() != CollectionDescriptor.CASCADE_NONE)
                   {
+                      // we want to issue a message whenever we toggle--so store three things
+                      String[] infoString = {targetClass.getName(),referencingClass.getName(),
+                              collectionDescriptor.getCascadeAsString(collectionDescriptor.getCascadingStore())};
+                      collectionStore.put(collectionDescriptor,infoString); 
                       collectionDescriptor.setCascadingStore(CollectionDescriptor.CASCADE_NONE);
-                      LOG.warn(String.format("reset auto-update for %s in %s",
-                               targetClass.getName(),referencingClass.getName()));          
+                      LOG.warn(String.format("\nreset auto-update = %s \nfor %s in %s",
+                               infoString[2],targetClass.getName(),referencingClass.getName()));          
                   }
                   return true;
                   // a given class will not have a reference-id and a collection-ref-id to the same target class
               }
            }
           return false;
+      }
+      
+      public void restoreCascading()
+      {
+        // auto deletes in collections
+        for (Map.Entry<CollectionDescriptor,String[]> restoreTargets : collectionDelete.entrySet())
+        {
+            String[] infoString = restoreTargets.getValue();
+            CollectionDescriptor collectionDesc = restoreTargets.getKey();
+            collectionDesc.setCascadingDelete(infoString[2]);
+            LOG.warn(String.format("\nauto-delete reset to %s\nfor %s in %s",
+                     collectionDesc.getCascadeAsString(collectionDesc.getCascadingDelete()),
+                     infoString[0],infoString[1]));
+        }
+        // auto updates in collections
+        for (Map.Entry<CollectionDescriptor,String[]> restoreTargets : collectionStore.entrySet())
+        {
+            String[] infoString = restoreTargets.getValue();
+            CollectionDescriptor collectionDesc = restoreTargets.getKey();
+            collectionDesc.setCascadingStore(infoString[2]);
+            LOG.warn(String.format("\nauto-update reset to %s\nfor %s in %s",
+                     collectionDesc.getCascadeAsString(collectionDesc.getCascadingStore()),
+                     infoString[0],infoString[1]));
+        }
+        // auto deletes in references
+        for (Map.Entry<ObjectReferenceDescriptor,String[]> restoreTargets : objectReferenceDelete.entrySet())
+        {
+            String[] infoString = restoreTargets.getValue();
+            ObjectReferenceDescriptor objReferenceDesc = restoreTargets.getKey();
+            objReferenceDesc.setCascadingDelete(infoString[2]);
+            LOG.warn(String.format("\nauto-delete reset to %s\nfor %s in %s",
+                     objReferenceDesc.getCascadeAsString(objReferenceDesc.getCascadingDelete()),
+                     infoString[0],infoString[1]));
+        }
+        // auto updates in collections
+        for (Map.Entry<ObjectReferenceDescriptor,String[]> restoreTargets : objectReferenceStore.entrySet())
+        {
+            String[] infoString = restoreTargets.getValue();
+            ObjectReferenceDescriptor objReferenceDesc = restoreTargets.getKey();
+            objReferenceDesc.setCascadingStore(infoString[2]);
+            LOG.warn(String.format("\nauto-update reset to %s\nfor %s in %s",
+                     objReferenceDesc.getCascadeAsString(objReferenceDesc.getCascadingStore()),
+                     infoString[0],infoString[1]));
+        }
       }
     }
     

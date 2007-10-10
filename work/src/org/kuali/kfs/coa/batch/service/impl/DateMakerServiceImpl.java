@@ -60,39 +60,60 @@ public class DateMakerServiceImpl implements DateMakerService
            // we are supposed to replace what is in the target year
            fiscalYearMakersDao.deleteNewYearRows(requestYear);
        }
+       //
+       //  encapsulate this in a try structure
+       //  we need to undo any OJB structure changes we have made if there is an error
+       try
+       {
        // now, we get the copy order and call each object's copy action method
        // in turn
-       LinkedHashMap<String,FiscalYearMakersCopyAction> copyOrder =
-           fiscalYearMakersDao.setUpRun(baseYear,replaceMode);
-       for (Map.Entry<String,FiscalYearMakersCopyAction> objectToCopy :
-            copyOrder.entrySet())
-       {
-           objectToCopy.getValue().copyMethod(baseYear,replaceMode);
-       }
+         LinkedHashMap<String,FiscalYearMakersCopyAction> copyOrder =
+             fiscalYearMakersDao.setUpRun(baseYear,replaceMode);
+         for (Map.Entry<String,FiscalYearMakersCopyAction> objectToCopy :
+              copyOrder.entrySet())
+         {
+             objectToCopy.getValue().copyMethod(baseYear,replaceMode);
+         }
        //
        // some institutions want to set up two coming years at a time for certain
        // business objects.  at IU, this is the case for UniversityDate
        // to do this, RI requires that the parent classes exist for the extra year
-       if (replaceMode)
-       {
-           fiscalYearMakersDao.deleteYearAfterNewYearRowsForParents(requestYear,
-                                                UniversityDate.class);
-       }
+       //
+       //  we CANNOT delete the rows in target year +1 for the parents of UniversityDate.  we can only
+       //  copy them if they do not exist.  if we delete them, and other children for target year +1
+       //  exist, we will get a constraint violation.
+       //if (replaceMode)
+       //{
+       //    fiscalYearMakersDao.deleteYearAfterNewYearRowsForParents(requestYear,
+       //                                         UniversityDate.class);
+       //}
        // now we do the copy
-       for (Map.Entry<String,FiscalYearMakersCopyAction> objectToCopy:
-            copyOrder.entrySet())
-       {
-           if (fiscalYearMakersDao.isAParentOf(objectToCopy.getKey(),
-                                               UniversityDate.class))
-           {
-               FiscalYearMakersCopyAction classCopy =
-                   objectToCopy.getValue();
-               classCopy.copyMethod(requestYear,replaceMode);
-           }
+       // we could STILL run into a problem.  Suppose A is a parent of UniversityDate.  Suppose B is
+       // a parent of A, but not of UniversityDate.  Copying A but not B will result in a constraint
+       // violation.  there does not appear to be a good way out of this in time for phase II.
+       // (what we really need is a recursive call of some type, which will copy a table only if it has no parent)
+       // in practice, UniversityDate is keyed on universityFiscalYear, and therefore has only one
+       // parent (Options) which has no parents itself.
+         for (Map.Entry<String,FiscalYearMakersCopyAction> objectToCopy:
+              copyOrder.entrySet())
+         {
+             if (fiscalYearMakersDao.isAParentOf(objectToCopy.getKey(),
+                                                 UniversityDate.class))
+             {
+                 FiscalYearMakersCopyAction classCopy =
+                     objectToCopy.getValue();
+                 classCopy.copyMethod(requestYear,false);
+             }
+         }
+         FiscalYearMakersCopyAction universityDateCopy = 
+             copyOrder.get(UniversityDate.class.getName());
+         universityDateCopy.copyMethod(baseYear+1,true);
        }
-       FiscalYearMakersCopyAction universityDateCopy = 
-           copyOrder.get(UniversityDate.class.getName());
-       universityDateCopy.copyMethod(baseYear+1,true);
+       finally
+       {
+           // make certain we always do this
+           fiscalYearMakersDao.resetCascades();
+       }
    }
    
    public void setFiscalYearMakersDao(FiscalYearMakersDao fiscalYearMakersDao)

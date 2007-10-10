@@ -72,6 +72,13 @@ public static final boolean replaceMode=true;
     // period for the copy) is the request period for them (the target period for 
     // their copy).
     public void setLaggingCopyCycle (HashSet<String> laggingCopyCycle);
+    // auto-update or auto-delete in OJB will interfere with the copy order prescribed above.
+    // (Tables A and C may be a parents of Table B, but A may have no relation to C.  If A has
+    //  an auto-xxx on B, then B will be written when A is, even if C is later in the copy order
+    //  than A, and an RI exception will result.)  So, the code resets any auto-xxx properties
+    //  on tables involved in a fiscal-year-makers parent-child relationship.
+    //  this routine resets the original values at the end of fiscal year makers
+    public void resetCascades();
     
     
     // when the reference objects for a base fiscal period are copied into the

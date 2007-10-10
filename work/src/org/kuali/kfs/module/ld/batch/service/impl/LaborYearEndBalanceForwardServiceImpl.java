@@ -39,6 +39,7 @@ import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.service.AccountService;
@@ -292,7 +293,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @return the document type code of the transaction posted by year-end process
      */
     private String getDocumentTypeCode() {
-        return parameterService.getParameterValue(LaborYearEndBalanceForwardStep.class, GLConstants.ANNUAL_CLOSING_DOCUMENT_TYPE);
+        return parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_DOCUMENT_TYPE);
     }
 
     /**

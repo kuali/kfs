@@ -27,6 +27,7 @@ import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -301,6 +302,9 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
     }
 
     public KualiDecimal getCorrectionBudgetTotalAmount() {
+        if(ObjectUtils.isNull(correctionBudgetTotalAmount)) {
+            return new KualiDecimal(0.00);
+        }
         return correctionBudgetTotalAmount;
     }
 

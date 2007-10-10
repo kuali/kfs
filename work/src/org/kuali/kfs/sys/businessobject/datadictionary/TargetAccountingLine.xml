@@ -39,13 +39,6 @@
                 <control>
                     <text size="16" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    The transaction number on the deposit slip assigned by the bank.
-                </description>
             </attribute>
 
             <attributeReference name="sequenceNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId">
@@ -79,11 +72,6 @@
                 <control>
                     <text size="10" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The identifier of an Organization which has been associated with the Account Line.</description>
             </attribute>
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
@@ -93,9 +81,6 @@
                     <!-- If we want to go back to the drop-down list, then use this:-->
                     <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SimpleChartValuesFinder" />
                 </control>
-
-                <description>The code that identifies the Chart of Accounts for an Account. Kuali accommodates more than one Chart of Accounts.</description>
-
             </attributeReference>
 
             <attributeReference name="postingYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
@@ -115,13 +100,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    The system code for the system from which the original encumbering transaction came, selected from a pulldown list.
-                </description>
             </attribute>
 
             <attribute name="overrideCode" forceUppercase="true">
@@ -137,26 +115,16 @@
                 <control>
                     <text size="3" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    The system code for the type of override in an Accounting Line, selected from a pulldown list.
-                </description>
             </attribute>
 
             <attributeReference name="amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <required>true</required>
-                <description>The total dollar amount of check or batch of checks.</description>
             </attributeReference>
 
             <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
 			    <label>Sub-Account Code</label>
 			    <shortLabel>Sub-Account</shortLabel>
                 <required>false</required>
-                <description>The identifier to further partition the financial activity of an Account, expressed as a 5-character code</description>
-
             </attributeReference>
 
             <attribute name="referenceTypeCode" forceUppercase="true">
@@ -172,13 +140,6 @@
                 <control>
                     <text size="6" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    The system code for the type of the system from which the original encumbering transaction came, selected from a pulldown list.
-                </description>
             </attribute>
 
             <attributeReference name="projectCode" sourceClassName="org.kuali.module.chart.bo.ProjectCode" sourceAttributeName="code">
@@ -186,13 +147,10 @@
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
-                <description>The title of the project.</description>
-
             </attributeReference>
 
             <attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
                 <required>false</required>
-                <description>The code that partitions the Object Code into a greater amount of detail. SubObject Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType.</description>
             </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber">
@@ -216,11 +174,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>If it's a "C" then this accounting line is a credit, if it's a "D", then it's a debit.</description>
             </attribute>
 
             <attribute name="encumbranceUpdateCode" forceUppercase="true">
@@ -236,13 +189,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    The system code for the type of encumbrance update in an Accounting Line, selected from a pulldown list.
-                </description>
             </attribute>
 
             <attributeReference name="objectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code">
@@ -258,11 +204,6 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>This override indicates that the user has explicitly decided to use an account even though it has expired.</description>
             </attribute>
 
             <attribute name="objectBudgetOverride">
@@ -274,11 +215,6 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>This override indicates that the user has explicitly decided to use a non budgeted object code even though presence control is on for the account.</description>
             </attribute>
 
             <attribute name="financialDocumentLineDescription">
@@ -290,11 +226,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>A free-form text field that describes the purpose or function of the Accounting Line.</description>
             </attribute>
             <!-- items for Sales Tax Collection -->
             <attribute name="salesTaxRequired">
@@ -306,56 +237,31 @@
 			    <control>
 			        <hidden />
 			    </control>
-			
-			    <summary>
-			        <![CDATA[&nbsp;]]>
-			    </summary>
-			    <description>Added in specifically so that I can override the formatter for booleans</description>
 			</attribute>
             <attributeReference name="salesTax.chartOfAccountsCode" sourceClassName="org.kuali.module.financial.bo.SalesTax" sourceAttributeName="chartOfAccountsCode">
                 <label>Sales Tax Chart of Accounts Code</label>
                 <shortLabel>Sales Tax Chart</shortLabel>
                 <required>true</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Chart of Accounts Code that Sales Tax is collected against</description>
             </attributeReference>
             <attributeReference name="salesTax.accountNumber" sourceClassName="org.kuali.module.financial.bo.SalesTax" sourceAttributeName="accountNumber">
                 <label>Sales Tax Account Number</label>
                 <shortLabel>Sales Tax Account</shortLabel>
                 <required>true</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Account Number that Sales Tax is collected against</description>
             </attributeReference>
             <attributeReference name="salesTax.financialDocumentGrossSalesAmount" sourceClassName="org.kuali.module.financial.bo.SalesTax" sourceAttributeName="financialDocumentGrossSalesAmount">
                 <label>Gross Sales Amount</label>
                 <shortLabel>Gross Sales Amt.</shortLabel>
                 <required>true</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Gross Sales Amount to be taxed</description>
             </attributeReference>
             <attributeReference name="salesTax.financialDocumentTaxableSalesAmount" sourceClassName="org.kuali.module.financial.bo.SalesTax" sourceAttributeName="financialDocumentTaxableSalesAmount">
                 <label>Taxable Sales Amount</label>
                 <shortLabel>Taxable Sales Amt.</shortLabel>
                 <required>true</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Taxable Sales Amount to be taxed</description>
             </attributeReference>
             <attributeReference name="salesTax.financialDocumentSaleDate" sourceClassName="org.kuali.module.financial.bo.SalesTax" sourceAttributeName="financialDocumentSaleDate">
                 <label>Sale Date</label>
                 <shortLabel>Sale Date</shortLabel>
                 <required>true</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Date of Sale</description>
             </attributeReference>
         </attributes>
 

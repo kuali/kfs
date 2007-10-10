@@ -77,10 +77,6 @@
                             if ( typeof refreshAfterNamespaceChange == 'function' )  
                         -->
                 </control>
-                <summary>The namespace that the parameter is associated with.</summary>
-                <description>
-                    This value is used to categorize parameters by namespace.
-                </description>
             </attributeReference>
             <attributeReference name="parameterDetailTypeCode" sourceClassName="org.kuali.core.bo.ParameterDetailType" sourceAttributeName="parameterDetailTypeCode" >
                 <required>true</required>
@@ -97,11 +93,6 @@
                 <control>
                     <text size="50" />
                 </control>
-                <summary>The name of the parameter.</summary>
-                <description>
-                    This will be used as the identifier for the parameter. Parameter
-                    values will be accessed using this field and the namespace as the key.
-                </description>
             </attribute>
             <attribute name="parameterValue" forceUppercase="false">
                 <label>Parameter Value</label>
@@ -110,15 +101,8 @@
                 <control>
                     <textarea rows="3" cols="40" />
                 </control>
-                <summary>The text associated with this parameter.</summary>
-                <description>
-                    This field houses the actual value associated with the parameter. This
-                    is what's returned by the KualiConfigurationService.
-                </description>
             </attribute>
-            <attribute name="parameterDescription"
-                forceUppercase="false"
-            >
+            <attribute name="parameterDescription" forceUppercase="false">
                 <label>Parameter Description</label>
                 <shortLabel>Desc</shortLabel>
                 <maxLength>4000</maxLength>
@@ -126,10 +110,6 @@
                 <control>
                     <textarea rows="3" cols="40" />
                 </control>
-                <summary>The description of this parameter.</summary>
-                <description>
-                    This field houses the purpose of this parameter.
-                </description>
             </attribute>
             
             <attribute name="parameterConstraintCode" >
@@ -141,9 +121,6 @@
                 <control>
                     <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.ParameterOperatorValuesFinder" />
                 </control>
-
-                <summary>parameterConstraintCode</summary>
-                <description>parameterConstraintCode description...</description>
             </attribute>
             
             
@@ -168,25 +145,12 @@
                 <control>
                 	<workflowWorkgroup size="20"/>                    
                 </control>
-
-                <summary>
-                    ID of workgroup which can edit this parameter.
-                </summary>
-                <description>
-                    ID of workgroup which can edit this parameter.
-                </description>
             </attribute>
             
             <attributeReference name="parameterNamespace.codeAndDescription" sourceClassName="org.kuali.core.bo.ParameterNamespace" sourceAttributeName="codeAndDescription"></attributeReference>
             
-            <attributeReference name="objectId"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                sourceAttributeName="objectId"
-            />
-            <attributeReference name="versionNumber"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                sourceAttributeName="versionNumber"
-            />
+            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId"/>
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber"/>
         </attributes>
     </businessObject>
 </dictionaryEntry>

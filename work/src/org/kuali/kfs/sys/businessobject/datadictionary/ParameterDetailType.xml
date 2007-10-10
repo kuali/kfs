@@ -75,10 +75,6 @@
                 <control>
                     <text size="40" />
                 </control>
-                <summary>Code identifying the parameter Component.</summary>
-                <description>
-                    Code identifying the parameter Component.
-                </description>
             </attribute>
             <attribute name="parameterDetailTypeName" forceUppercase="false">
                 <label>Parameter Component Name</label>
@@ -91,25 +87,12 @@
                 <control>
                     <text size="50" />
                 </control>
-                <summary>The name of the parameter Component.</summary>
-                <description>
-                    The name of the parameter Component.
-                </description>
             </attribute>
             <attributeReference name="parameterNamespace.codeAndDescription" sourceClassName="org.kuali.core.bo.ParameterNamespace" sourceAttributeName="codeAndDescription"></attributeReference>
-            <attributeReference name="active"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                sourceAttributeName="activeIndicator"
-            >
-            </attributeReference>
-            <attributeReference name="objectId"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                sourceAttributeName="objectId"
-            />
-            <attributeReference name="versionNumber"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-                sourceAttributeName="versionNumber"
-            />
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
+
+            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId"/>
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
         </attributes>
     </businessObject>
 </dictionaryEntry>

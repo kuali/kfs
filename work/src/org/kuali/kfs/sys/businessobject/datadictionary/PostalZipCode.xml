@@ -76,17 +76,12 @@
                 <control>
                     <text size="15" />
                 </control>
-
-                <summary>Postal Code</summary>
-                <description>Postal Code either in 5-4 format or just 5 digits</description>
             </attribute>
 
             <attributeReference name="postalStateCode" sourceClassName="org.kuali.kfs.bo.State" sourceAttributeName="postalStateCode">
                 <label>State</label>
                 <shortLabel>State</shortLabel>
                 <required>true</required>
-                <summary>State</summary>
-                <description>Postal State Code</description>
             </attributeReference>
 
             <attribute name="postalCityName" forceUppercase="true">
@@ -101,9 +96,6 @@
                 <control>
                     <text size="35" />
                 </control>
-
-                <summary>City Name</summary>
-                <description>City Name</description>
             </attribute>
             <attribute name="buildingCode" forceUppercase="true">
                 <label>Building Code</label>
@@ -117,9 +109,6 @@
                 <control>
                     <text size="6" />
                 </control>
-
-                <summary>Building Code</summary>
-                <description>Building Code</description>
             </attribute>
             <attribute name="buildingRoomNumber" forceUppercase="false">
                 <label>Building Room Number</label>
@@ -133,9 +122,6 @@
                 <control>
                     <text size="10" />
                 </control>
-
-                <summary>Building Room Number</summary>
-                <description>Building Room Number</description>
             </attribute>
             <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
 

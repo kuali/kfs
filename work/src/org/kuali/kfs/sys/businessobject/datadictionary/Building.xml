@@ -66,9 +66,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>Campus Code</summary>
-                <description>The code uniquely identifying a particular campus.</description>
             </attribute>
 
             <attribute name="buildingCode" forceUppercase="true">
@@ -84,9 +81,6 @@
                 <control>
                     <text size="10" />
                 </control>
-
-                <summary>Building Code</summary>
-                <description>The code uniquely identifying a particular building.</description>
             </attribute>
 
             <attribute name="buildingName" forceUppercase="false">
@@ -100,9 +94,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>Building Name</summary>
-                <description>Building Name</description>
             </attribute>
             
             <attribute name="buildingStreetAddress">
@@ -115,9 +106,6 @@
             	<control>
             		<text size="40"/>
             	</control>
-            	
-            	<summary>buildingStreetAddress</summary>
-            	<description>buildingStreetAddress description...</description>
             </attribute>
             
             <attribute name="buildingAddressCityName">
@@ -130,9 +118,6 @@
             	<control>
             		<text size="37"/>
             	</control>
-            	
-            	<summary>buildingAddressCityName</summary>
-            	<description>buildingAddressCityName description...</description>
             </attribute>
             
             <attribute name="buildingAddressStateCode" forceUppercase="true">
@@ -145,9 +130,6 @@
             	<control>
             		<select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder"/>
             	</control>
-            	
-            	<summary>buildingAddressStateCode</summary>
-                <description>buildingAddressStateCode description...</description>
             </attribute>
             
             <attribute name="buildingAddressZipCode">
@@ -160,9 +142,6 @@
             	<control>
             		<text size="11"/>
             	</control>
-            	
-            	<summary>buildingAddressZipCode</summary>
-                <description>buildingAddressZipCode description...</description>
             </attribute>
             
             <attribute name="alternateBuildingCode">
@@ -175,9 +154,6 @@
             	<control>
             		<text size="4"/>
             	</control>
-            	
-            	<summary>alternateBuildingCode</summary>
-                <description>alternateBuildingCode description...</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

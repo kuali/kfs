@@ -74,9 +74,6 @@
                 <control>
                     <text size="20" />
                 </control>
-
-                <summary>Module Name</summary>
-                <description>Module Name description...</description>
 			</attribute>
 
             <attribute name="moduleCode" forceUppercase="false">
@@ -88,9 +85,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>Module Code</summary>
-                <description>Module Code description...</description>
 			</attribute>
 
             <attribute name="moduleId" forceUppercase="false">
@@ -102,9 +96,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>Module Id</summary>
-                <description>Module Id description...</description>
 			</attribute>
 
         </attributes>

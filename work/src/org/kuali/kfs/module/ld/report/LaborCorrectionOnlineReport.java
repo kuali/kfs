@@ -105,6 +105,11 @@ public class LaborCorrectionOnlineReport {
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             summary.addCell(cell);
 
+            cell = new PdfPCell(new Phrase("Total No DB/CR: " + cDocument.getCorrectionBudgetTotalAmount().toString(), textFont));
+            cell.setColspan(2);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            summary.addCell(cell);
+
             cell = new PdfPCell(new Phrase("Row Count: " + cDocument.getCorrectionRowCount(), textFont));
             cell.setColspan(2);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);

@@ -41,20 +41,7 @@
             <param name="beanName" value="agencyService" />
             <include method="getByPrimaryId" />
         </create>
-        <convert converter="bean" match="org.kuali.module.cg.bo.Cfda">
-            <param name="include" value="cfdaNumber,cfdaProgramTitleName" />
-        </convert>
-        <create creator="spring" javascript="CfdaService">
-            <param name="beanName" value="cfdaService" />
-            <include method="getByPrimaryId" />
-        </create>
-	    <convert converter="bean" match="org.kuali.module.kra.budget.bo.Budget">
-            <param name="include" value="documentNumber,budgetName" />
-        </convert>
-        <create creator="spring" javascript="BudgetService">
-            <param name="beanName" value="budgetService" />
-            <include method="getByPrimaryId" />
-        </create>
+
         
     </allow>
 </dwr>

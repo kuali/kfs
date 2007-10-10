@@ -191,7 +191,7 @@
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.routingFormRequiredCopyText}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td colspan="2" align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.routingFormAgency.routingFormRequiredCopyText" attributeEntry="${routingFormAgencyAttributes.routingFormRequiredCopyText}" readOnly="${viewOnly}"/>
-                	Submit 2 additional copies plus the number of required by your department and school.
+                	Submit 2 additional copies plus the number of copies required by your department and school.
                 </td>
               </tr>
               <tr>

@@ -948,6 +948,7 @@ public class LaborCorrectionAction extends CorrectionAction {
             document.setCorrectionOutputGroupId(null);
             document.setCorrectionCreditTotalAmount(null);
             document.setCorrectionDebitTotalAmount(null);
+            document.setCorrectionBudgetTotalAmount(null);
             document.setCorrectionRowCount(null);
             document.getCorrectionChangeGroup().clear();
 

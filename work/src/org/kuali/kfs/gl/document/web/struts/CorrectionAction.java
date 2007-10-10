@@ -482,6 +482,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             document.setCorrectionOutputGroupId(null);
             document.setCorrectionCreditTotalAmount(null);
             document.setCorrectionDebitTotalAmount(null);
+            document.setCorrectionBudgetTotalAmount(null);
             document.setCorrectionRowCount(null);
             document.getCorrectionChangeGroup().clear();
             

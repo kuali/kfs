@@ -77,7 +77,7 @@ public class PaymentDetailSearchForm extends ActionForm {
     pds.setBeginPaymentDate(GeneralUtilities.convertStringToDate(this.getBeginPaymentDate()));
     pds.setEndPaymentDate(GeneralUtilities.convertStringToDate(this.getEndPaymentDate()));
     pds.setRequisitionNbr(this.getRequisitionNbr());
-    pds.setIuIdForCustomer(this.getIuIdForCustomer());
+    pds.setCustomerInstitutionNumber(this.getIuIdForCustomer());
     pds.setProcessId(GeneralUtilities.convertStringToInteger(this.getProcessId()));
     pds.setPaymentId(GeneralUtilities.convertStringToInteger(this.getPaymentId()));
     pds.setChartCode(this.getChartCode());

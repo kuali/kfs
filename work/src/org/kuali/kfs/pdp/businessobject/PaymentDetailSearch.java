@@ -35,7 +35,7 @@ public class PaymentDetailSearch implements Serializable {
   private String paymentStatusCode;
   private String disbursementTypeCode;
   private String requisitionNbr;
-  private String iuIdForCustomer;
+  private String customerInstitutionNumber;
   private Integer processId;
   private Integer paymentId;
   private String chartCode;
@@ -293,8 +293,8 @@ public class PaymentDetailSearch implements Serializable {
   /**
    * @return Returns the iuIdForCustomer.
    */
-  public String getIuIdForCustomer() {
-    return iuIdForCustomer;
+  public String getCustomerInstitutionNumber() {
+    return customerInstitutionNumber;
   }
   /**
    * @return Returns the requisitionNbr.
@@ -305,8 +305,8 @@ public class PaymentDetailSearch implements Serializable {
   /**
    * @param iuIdForCustomer The iuIdForCustomer to set.
    */
-  public void setIuIdForCustomer(String iuIdForCustomer) {
-    this.iuIdForCustomer = iuIdForCustomer;
+  public void setCustomerInstitutionNumber(String iuIdForCustomer) {
+    this.customerInstitutionNumber = iuIdForCustomer;
   }
   /**
    * @param requisitionNbr The requisitionNbr to set.

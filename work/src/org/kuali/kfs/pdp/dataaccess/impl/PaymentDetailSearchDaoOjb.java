@@ -62,8 +62,8 @@ public class PaymentDetailSearchDaoOjb extends PlatformAwareDaoBaseOjb implement
     if ((!(pds.getPurchaseOrderNbr() == null)) && (!(pds.getPurchaseOrderNbr().equals("")))) {
       criteria.addLike("purchaseOrderNbr","%" + pds.getPurchaseOrderNbr() + "%");
     }
-    if ((!(pds.getIuIdForCustomer() == null)) && (!(pds.getIuIdForCustomer().equals("")))) {
-      criteria.addLike("paymentGroup.customerIuNbr","%" + pds.getIuIdForCustomer() + "%");
+    if ((!(pds.getCustomerInstitutionNumber() == null)) && (!(pds.getCustomerInstitutionNumber().equals("")))) {
+      criteria.addLike("paymentGroup.customerInstituionNumber","%" + pds.getCustomerInstitutionNumber() + "%");
     }      
     if ((!(pds.getPayeeName() == null)) && (!(pds.getPayeeName().equals("")))) {
       criteria.addLike("paymentGroup.payeeName","%" + pds.getPayeeName().toUpperCase() + "%");
@@ -161,8 +161,8 @@ public class PaymentDetailSearchDaoOjb extends PlatformAwareDaoBaseOjb implement
 //    if ((!(pds.getPurchaseOrderNbr() == null)) && (!(pds.getPurchaseOrderNbr().equals("")))) {
 //      criteria.addLike("purchaseOrderNbr","%" + pds.getPurchaseOrderNbr() + "%");
 //    }
-    if ((!(pds.getIuIdForCustomer() == null)) && (!(pds.getIuIdForCustomer().equals("")))) {
-      criteria.addLike("paymentGroup.customerIuNbr","%" + pds.getIuIdForCustomer() + "%");
+    if ((!(pds.getCustomerInstitutionNumber() == null)) && (!(pds.getCustomerInstitutionNumber().equals("")))) {
+      criteria.addLike("paymentGroup.customerIuNbr","%" + pds.getCustomerInstitutionNumber() + "%");
     }      
     if ((!(pds.getPayeeName() == null)) && (!(pds.getPayeeName().equals("")))) {
       criteria.addLike("paymentGroup.payeeName","%" + pds.getPayeeName().toUpperCase() + "%");

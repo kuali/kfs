@@ -76,10 +76,10 @@
 											Is Payee an IU Employee? 
 				            </th>
 				            <td align=left class="datacell">						
-											<c:if test="${PaymentDetail.paymentGroup.iuEmployee == true}" >
+											<c:if test="${PaymentDetail.paymentGroup.employee == true}" >
 												Yes
 											</c:if>
-											<c:if test="${PaymentDetail.paymentGroup.iuEmployee == false}" >
+											<c:if test="${PaymentDetail.paymentGroup.employee == false}" >
 												No
 											</c:if>
 											&nbsp;

@@ -270,7 +270,7 @@
       			Requisition Number
       		</th>
 	        <th height="32" class="thfont">
-	        	Customer Number for IU
+	        	Customer Number for Institution
 	        </th>
           <th height="32" class="thfont">
       			Pay Date
@@ -297,7 +297,7 @@
 								<c:out value="${PaymentDetail.requisitionNbr}" />&nbsp;
 							</td>
 			        <td nowrap=nowrap class="datacell">
-			        	<c:out value="${PaymentDetail.paymentGroup.customerIuNbr}"/>
+			        	<c:out value="${PaymentDetail.paymentGroup.customerInstitutionNbr}"/>
 								&nbsp;
 							</td>
 							<td nowrap=nowrap class="datacell">

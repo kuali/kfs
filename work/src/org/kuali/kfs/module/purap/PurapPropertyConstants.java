@@ -44,8 +44,6 @@ public class PurapPropertyConstants {
     
     public static final String DATA_OBJ_MAINT_CD_ACTIVE_IND = "dataObjectMaintenanceCodeActiveIndicator";
     
-    // status history
-    public static final String STATUS_HISTORY_IDENTIFIER = "statusHistoryIdentifier";
     //document fileds
     public static final String GENERAL_LEDGER_PENDING_ENTRIES = "generalLedgerPendingEntries";
     
@@ -55,7 +53,6 @@ public class PurapPropertyConstants {
     public static final String NEW_STATUS = "newStatus";
     public static final String STATUS_CODE = "statusCode";
     public static final String STATUS = "status";
-    public static final String STATUS_HISTORIES = "statusHistories";
     public static final String VENDOR_NUMBER = "vendorNumber";
 //    public static final String VENDOR_POSTAL_CODE = "document.vendorPostalCode";
     public static final String VENDOR_POSTAL_CODE = "vendorPostalCode";

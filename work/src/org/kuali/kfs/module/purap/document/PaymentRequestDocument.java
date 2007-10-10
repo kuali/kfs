@@ -880,10 +880,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                         newStatusCode = PaymentRequestStatuses.CANCELLED_IN_PROCESS;
                     }
                     if (StringUtils.isNotBlank(newStatusCode)) {
-//                        
-//                        SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, newStatusCode);
-//                        
-//                        SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(this);
                         SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, nodeName);
                         return;
                     }

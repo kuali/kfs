@@ -857,9 +857,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
         if (!po.isPurchaseOrderCurrentIndicator()) {
             ActionMessage noteMessage = new ActionMessage(PurapKeyConstants.WARNING_PURCHASE_ORDER_ALL_NOTES);
-            ActionMessage statusHistoryMessage = new ActionMessage(PurapKeyConstants.WARNING_PURCHASE_ORDER_ENTIRE_STATUS_HISTORY);
             messages.add(PurapConstants.NOTE_TAB_WARNING, noteMessage);
-            messages.add(PurapConstants.STATUS_HISTORY_TAB_WARNING, statusHistoryMessage);
         }
     }
 

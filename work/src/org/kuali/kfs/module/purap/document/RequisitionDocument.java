@@ -246,7 +246,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setInstitutionContactEmailAddress(null);
         this.setOrganizationAutomaticPurchaseOrderLimit(null);
         this.setPurchaseOrderAutomaticIndicator(false);
-        this.setStatusHistories(null);
 
         // Fill the BO Notes with an empty List.
         this.setBoNotes(new ArrayList());
@@ -268,7 +267,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.refreshNonUpdateableReferences();
     }
 
-    private void updateStatusAndStatusHistoryAndSave(String statusCode) {
+    private void updateStatusAndSave(String statusCode) {
         SpringContext.getBean(PurapService.class).updateStatus(this, statusCode);
         SpringContext.getBean(RequisitionService.class).saveDocumentWithoutValidation(this);
     }
@@ -288,7 +287,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                     newRequisitionStatus = PurapConstants.RequisitionStatuses.CLOSED;
                     SpringContext.getBean(PurchaseOrderService.class).createAutomaticPurchaseOrderDocument(this);
                 }
-                updateStatusAndStatusHistoryAndSave(newRequisitionStatus);
+                updateStatusAndSave(newRequisitionStatus);
             }
             // DOCUMENT DISAPPROVED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
@@ -296,7 +295,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                 NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(nodeName);
                 if (ObjectUtils.isNotNull(currentNode)) {
                     if (StringUtils.isNotBlank(currentNode.getDisapprovedStatusCode())) {
-                        updateStatusAndStatusHistoryAndSave(currentNode.getDisapprovedStatusCode());
+                        updateStatusAndSave(currentNode.getDisapprovedStatusCode());
                         return;
                     }
                 }
@@ -305,7 +304,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             }
             // DOCUMENT CANCELED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-                updateStatusAndStatusHistoryAndSave(RequisitionStatuses.CANCELLED);
+                updateStatusAndSave(RequisitionStatuses.CANCELLED);
             }
         }
         catch (WorkflowException e) {
@@ -330,7 +329,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                     NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(newNodeName);
                     if (ObjectUtils.isNotNull(currentNode)) {
                         if (StringUtils.isNotBlank(currentNode.getAwaitingStatusCode())) {
-                            updateStatusAndStatusHistoryAndSave(currentNode.getAwaitingStatusCode());
+                            updateStatusAndSave(currentNode.getAwaitingStatusCode());
                         }
                     }
                 }

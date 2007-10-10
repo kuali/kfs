@@ -81,7 +81,6 @@ public class PurapConstants extends JstlConstants {
     }
 
     public static final String NOTE_TAB_WARNING = "noteWarning";
-    public static final String STATUS_HISTORY_TAB_WARNING = "statusHistoryWarning";
 
     public static final String QUESTION_INDEX = "questionIndex";
     public static final String REMOVE_ACCOUNTS_QUESTION = "RemoveAccounts";
@@ -162,7 +161,6 @@ public class PurapConstants extends JstlConstants {
     public static final String ITEM_TAB_ERRORS = "document.item*,accountDistribution*,newPurchasingItemLine*";
     public static final String ITEM_TAB_ERROR_PROPERTY = ITEM_TAB_ERRORS;  // used to be "newPurchasingItemLine"
     public static final String ACCOUNT_SUMMARY_TAB_ERRORS = "document.accountSummary*";
-    public static final String STATUS_HISTORY_TAB_ERRORS = "document.statusHistories*";
     public static final String ACCOUNT_DISTRIBUTION_ERROR_KEY = "accountDistribution";
     public static final String RELATED_DOCS_TAB_ERRORS = "";
     public static final String PAYMENT_HISTORY_TAB_ERRORS = "";

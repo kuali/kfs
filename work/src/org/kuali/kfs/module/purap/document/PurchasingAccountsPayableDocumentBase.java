@@ -58,13 +58,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * Purchasing-Accounts Payable Document Base
  */
 public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDocumentBase implements PurchasingAccountsPayableDocument, AmountTotaling {
-    /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String, java.lang.String, org.kuali.core.bo.Note)
-     */
-    public void addToStatusHistories(String oldStatus, String newStatus, Note statusHistoryNote) {
-        // TODO Auto-generated method stub
-        
-    }
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingAccountsPayableDocumentBase.class);
 
@@ -87,9 +80,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private String vendorNumber;
     private Integer vendorAddressGeneratedIdentifier;
     private Boolean overrideWorkflowButtons = null;
-
-    // COMMON ELEMENTS
-    protected List statusHistories;
 
     // COLLECTIONS
     private List<PurApItem> items;
@@ -116,7 +106,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     // CONSTRUCTORS
     public PurchasingAccountsPayableDocumentBase() {
         items = new TypedArrayList(getItemClass());
-        this.statusHistories = new ManageableArrayList();
     }
 
     /**
@@ -383,14 +372,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
-    }
-
-    public List getStatusHistories() {
-        return statusHistories;
-    }
-
-    public void setStatusHistories(List statusHistories) {
-        this.statusHistories = statusHistories;
     }
 
     public VendorDetail getVendorDetail() {

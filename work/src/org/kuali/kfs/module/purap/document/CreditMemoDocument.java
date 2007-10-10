@@ -200,8 +200,6 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
                         newStatusCode = CreditMemoStatuses.CANCELLED_IN_PROCESS;
                     }
                     if (StringUtils.isNotBlank(newStatusCode)) {
-                        // SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, newStatusCode);
-                        // SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(this);
                         SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, nodeName);
                         return;
                     }

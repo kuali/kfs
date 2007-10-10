@@ -118,12 +118,12 @@ function organizationNameLookup( anyFieldOnProposalOrganization ) {
 }
 
 function personIDLookup( userIdField ) {
-   //alert("proposalDirectorIDLookup " + userIdField)
-    var elPrefix = findElPrefix( userIdField );
+    var userIdFieldName = userIdField.name;
+    var elPrefix = findElPrefix( userIdFieldName );
 	var userNameFieldName = elPrefix + ".personName";
 	var universalIdFieldName = findElPrefix( elPrefix ) + ".personUniversalIdentifier";
 	
-	loadPersonInfo( userIdField, universalIdFieldName, userNameFieldName );
+	loadPersonInfo( userIdFieldName, universalIdFieldName, userNameFieldName );
 }
 
 function loadPersonInfo( userIdFieldName, universalIdFieldName, userNameFieldName ) {
@@ -282,7 +282,7 @@ function onblur_awardIndirectCostAmount( indirectAmountField ) {
 }
 
 function accountNameLookup( anyFieldOnAwardAccount ) {
-    var elPrefix = findElPrefix( anyFieldOnAwardAccount );
+    var elPrefix = findElPrefix( anyFieldOnAwardAccount.name );
     var coaCodeField=kualiElements[elPrefix + ".chartOfAccountsCode"];
     var chartOfAccountsCode=''
     if (coaCodeField!=null) {

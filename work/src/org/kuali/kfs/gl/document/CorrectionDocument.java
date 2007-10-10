@@ -302,9 +302,6 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
     }
 
     public KualiDecimal getCorrectionBudgetTotalAmount() {
-        if(ObjectUtils.isNull(correctionBudgetTotalAmount)) {
-            return new KualiDecimal(0.00);
-        }
         return correctionBudgetTotalAmount;
     }
 

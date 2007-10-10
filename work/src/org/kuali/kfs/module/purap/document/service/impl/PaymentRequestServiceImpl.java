@@ -807,12 +807,18 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         // retrieve and save with hold indicator set to false
         PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));
-        preqDoc.setPaymentRequestedCancelIndicator(false);
-        preqDoc.setLastActionPerformedByUniversalUserId(null);
-        preqDoc.setAccountsPayableRequestCancelIdentifier(null);
+        clearRequestCancelFields(preqDoc);
         saveDocumentWithoutValidation(preqDoc);
 
         // must also save it on the incoming document
+        clearRequestCancelFields(document);
+    }
+
+    /**
+     * This method clears the request cancel fields
+     * @param document
+     */
+    private void clearRequestCancelFields(PaymentRequestDocument document) {
         document.setPaymentRequestedCancelIndicator(false);
         document.setLastActionPerformedByUniversalUserId(null);
         document.setAccountsPayableRequestCancelIdentifier(null);
@@ -1032,6 +1038,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param cmDoc
      */
     private String updateStatusByNode(String currentNodeName, PaymentRequestDocument preqDoc) {
+        //remove request cancel if necessary
+        clearRequestCancelFields(preqDoc);
+        
         // update the status on the document
 
         String cancelledStatusCode = "";

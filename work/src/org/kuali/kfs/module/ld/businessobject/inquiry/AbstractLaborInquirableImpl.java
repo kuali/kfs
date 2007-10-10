@@ -34,6 +34,7 @@ import org.kuali.kfs.inquiry.KfsInquirableImpl;
 import org.kuali.module.chart.bo.KualiSystemCode;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
+import org.kuali.module.labor.LaborConstants;
 
 /**
  * This class is the template class for the customized inqurable implementations used to generate balance inquiry screens.
@@ -280,6 +281,9 @@ public abstract class AbstractLaborInquirableImpl extends KfsInquirableImpl {
                 return true;
             }
             else if (keyName.equals(KFSPropertyConstants.POSITION_NUMBER) && keyValue.equals(KFSConstants.getDashPositionNumber())) {
+                return true;
+            }
+            else if (keyName.equals(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE) && keyValue.equals(LaborConstants.BalanceInquiries.BALANCE_TYPE_AC_AND_A21)) {
                 return true;
             }
         }

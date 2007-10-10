@@ -15,21 +15,28 @@
  */
 package org.kuali.module.labor.web.lookupable;
 
+import static org.kuali.module.labor.LaborConstants.BalanceInquiries.BALANCE_TYPE_AC_AND_A21;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.inquirable.EntryInquirableImpl;
 import org.kuali.module.gl.web.inquirable.InquirableFinancialDocument;
+import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.service.LaborInquiryOptionsService;
+import org.kuali.module.labor.util.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -67,14 +74,29 @@ public class LedgerEntryLookupableHelperServiceImpl extends AbstractLookupableHe
 
         // get the pending entry option. This method must be prior to the get search results
         String pendingEntryOption = laborInquiryOptionsService.getSelectedPendingEntryOption(fieldValues);
+        
+        // get the input balance type code
+        String balanceTypeCode = fieldValues.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        boolean isA21Balance = StringUtils.isNotEmpty(balanceTypeCode) && BALANCE_TYPE_AC_AND_A21.equals(balanceTypeCode.trim());
+        
+        if(isA21Balance){
+            fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
+        }
 
-        Collection ledgerEntries = getLookupService().findCollectionBySearch(LedgerEntry.class, fieldValues);
-
+        Collection<LedgerEntry> ledgerEntries = getLookupService().findCollectionBySearch(LedgerEntry.class, fieldValues);
         laborInquiryOptionsService.updateLedgerEntryByPendingLedgerEntry(ledgerEntries, fieldValues, pendingEntryOption);
+        
+        // add the ledger entries into the search results if the searching balance type code is A21
+        if(isA21Balance){
+            fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_A21);
+            Collection<LedgerEntry> effortLedgerEntries = getLookupService().findCollectionBySearch(LedgerEntry.class, fieldValues);
+            laborInquiryOptionsService.updateLedgerEntryByPendingLedgerEntry(effortLedgerEntries, fieldValues, pendingEntryOption);
+            
+            ledgerEntries.addAll(effortLedgerEntries);
+        }
 
         // get the actual size of all qualified search results
         Long actualSize = new Long(ledgerEntries.size());
-
         return this.buildSearchResultList(ledgerEntries, actualSize);
     }
 
@@ -95,7 +117,7 @@ public class LedgerEntryLookupableHelperServiceImpl extends AbstractLookupableHe
             Collections.sort(results, new BeanPropertyComparator(defaultSortColumns, true));
         }
         return searchResults;
-    }
+    }   
 
     /**
      * Sets the laborInquiryOptionsService attribute value.

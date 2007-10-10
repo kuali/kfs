@@ -151,10 +151,12 @@ public class ConsolidationUtil {
         // look for a matching a2 balance for each ac, if found add the amount of the ac to the a2 record, if not add the full ac record
         for (LedgerBalance actualBalance : actualBalances) {
             boolean matchFound = false;
+            actualBalance.setBalanceTypeCode(consolidatedBalanceTypeCode);
+            String actualKey = ObjectUtil.buildPropertyMap(actualBalance, actualBalance.getPrimaryKeyList()).toString();
+            
             for (LedgerBalance effortBalance : consolidatedBalances) {
                 String effortKey = ObjectUtil.buildPropertyMap(effortBalance, effortBalance.getPrimaryKeyList()).toString();
-                String actualKey = ObjectUtil.buildPropertyMap(actualBalance, actualBalance.getPrimaryKeyList()).toString();
-
+                
                 // if found matching effort record, sum the amount fields of the actual and effort
                 if (StringUtils.equals(effortKey, actualKey)) {
                     sumLedgerBalances(effortBalance, actualBalance);

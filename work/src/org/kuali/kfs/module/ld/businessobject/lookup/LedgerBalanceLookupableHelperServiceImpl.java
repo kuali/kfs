@@ -15,6 +15,8 @@
  */
 package org.kuali.module.labor.web.lookupable;
 
+import static org.kuali.module.labor.LaborConstants.BalanceInquiries.BALANCE_TYPE_AC_AND_A21;
+
 import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -104,28 +106,27 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         
         // get the input balance type code
         String balanceTypeCode = fieldValues.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-        System.out.println("balanceTypeCode" + balanceTypeCode);
+        boolean isA21Balance = StringUtils.isNotEmpty(balanceTypeCode) && BALANCE_TYPE_AC_AND_A21.equals(balanceTypeCode.trim());
        
         // get the ledger balances with actual balance type code
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
-        Integer recordCountForActualBalance = balanceService.getBalanceRecordCount(fieldValues, isConsolidated);
-        
+        if(isA21Balance){
+            fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
+        }
+        Integer recordCountForActualBalance = balanceService.getBalanceRecordCount(fieldValues, isConsolidated);        
         Iterator actualBalanceIterator = balanceService.findBalance(fieldValues, isConsolidated);
         Collection searchResultsCollection = buildBalanceCollection(actualBalanceIterator, isConsolidated, pendingEntryOption);
         laborInquiryOptionsService.updateLedgerBalanceByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated);
         
         // get the search result collection
         Integer recordCountForEffortBalance = 0;
-        if(StringUtils.isNotEmpty(balanceTypeCode) && KFSConstants.BALANCE_TYPE_A21.equals(balanceTypeCode.trim())){
+        if(isA21Balance){
             fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_A21);
             recordCountForEffortBalance = balanceService.getBalanceRecordCount(fieldValues, isConsolidated);
-            
-            System.out.println("recordCountForEffortBalance" + recordCountForEffortBalance);
             
             Iterator effortBalanceIterator = balanceService.findBalance(fieldValues, isConsolidated);
             Collection effortBalances = buildBalanceCollection(effortBalanceIterator, isConsolidated, pendingEntryOption);
             laborInquiryOptionsService.updateLedgerBalanceByPendingLedgerEntry(effortBalances, fieldValues, pendingEntryOption, isConsolidated);
-            searchResultsCollection.addAll(effortBalances);
+            searchResultsCollection = ConsolidationUtil.consolidateA2Balances(searchResultsCollection, effortBalances, BALANCE_TYPE_AC_AND_A21);
         }
 
         // get the actual size of all qualified search results

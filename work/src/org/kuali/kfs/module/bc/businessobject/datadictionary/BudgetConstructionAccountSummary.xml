@@ -95,9 +95,6 @@
                 <control>
                     <text size="21" />
                 </control>
-
-                <summary>accountLineAnnualBalanceAmount</summary>
-                <description>accountLineAnnualBalanceAmount description...</description>
 			</attribute>
 
             <attribute name="accountNumber" forceUppercase="true">
@@ -110,9 +107,6 @@
                 <control>
                     <text size="9" />
                 </control>
-
-                <summary>accountNumber</summary>
-                <description>accountNumber description...</description>
 			</attribute>
 
             <attribute name="chartOfAccountsCode" forceUppercase="true">
@@ -125,9 +119,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
 			</attribute>
 
             <attribute name="financialBeginningBalanceLineAmount" forceUppercase="true">
@@ -140,9 +131,6 @@
                 <control>
                     <text size="21" />
                 </control>
-
-                <summary>financialBeginningBalanceLineAmount</summary>
-                <description>financialBeginningBalanceLineAmount description...</description>
 			</attribute>
 
             <attribute name="fundGroupCode" forceUppercase="true">
@@ -155,9 +143,6 @@
                 <control>
                     <text size="8" />
                 </control>
-
-                <summary>fundGroupCode</summary>
-                <description>fundGroupCode description...</description>
 			</attribute>
 
             <attribute name="incomeExpenseCode" forceUppercase="true">
@@ -170,9 +155,6 @@
                 <control>
                     <text size="3" />
                 </control>
-
-                <summary>incomeExpenseCode</summary>
-                <description>incomeExpenseCode description...</description>
 			</attribute>
 
             <attribute name="organizationChartOfAccountsCode" forceUppercase="true">
@@ -185,9 +167,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>organizationChartOfAccountsCode</summary>
-                <description>organizationChartOfAccountsCode description...</description>
 			</attribute>
 
             <attribute name="organizationCode" forceUppercase="true">
@@ -200,9 +179,6 @@
                 <control>
                     <text size="6" />
                 </control>
-
-                <summary>organizationCode</summary>
-                <description>organizationCode description...</description>
 			</attribute>
 
             <attribute name="personUniversalIdentifier" forceUppercase="true">
@@ -215,9 +191,6 @@
                 <control>
                     <text size="12" />
                 </control>
-
-                <summary>personUniversalIdentifier</summary>
-                <description>personUniversalIdentifier description...</description>
 			</attribute>
 
             <attribute name="subAccountNumber" forceUppercase="true">
@@ -230,9 +203,6 @@
                 <control>
                     <text size="7" />
                 </control>
-
-                <summary>subAccountNumber</summary>
-                <description>subAccountNumber description...</description>
 			</attribute>
 
             <attribute name="subFundGroupCode" forceUppercase="true">
@@ -245,9 +215,6 @@
                 <control>
                     <text size="8" />
                 </control>
-
-                <summary>subFundGroupCode</summary>
-                <description>subFundGroupCode description...</description>
 			</attribute>
 
             <attribute name="subFundSortCode" forceUppercase="true">
@@ -260,9 +227,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>subFundSortCode</summary>
-                <description>subFundSortCode description...</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

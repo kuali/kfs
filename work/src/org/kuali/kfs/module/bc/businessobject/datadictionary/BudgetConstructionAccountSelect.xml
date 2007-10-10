@@ -96,9 +96,6 @@
                 <control>
                     <text size="9" />
                 </control>
-
-                <summary>accountNumber</summary>
-                <description>accountNumber description...</description>
 			</attribute>
 
             <attribute name="chartOfAccountsCode" forceUppercase="true">
@@ -111,9 +108,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
 			</attribute>
 
             <attribute name="financialDocumentCreateDate" forceUppercase="true">
@@ -126,9 +120,6 @@
                 <control>
                     <text size="9" />
                 </control>
-
-                <summary>financialDocumentCreateDate</summary>
-                <description>financialDocumentCreateDate description...</description>
 			</attribute>
 
             <attribute name="financialDocumentInitiatorIdentifier" forceUppercase="true">
@@ -141,9 +132,6 @@
                 <control>
                     <text size="12" />
                 </control>
-
-                <summary>financialDocumentInitiatorIdentifier</summary>
-                <description>financialDocumentInitiatorIdentifier description...</description>
 			</attribute>
 
             <attribute name="documentNumber" forceUppercase="true">
@@ -156,9 +144,6 @@
                 <control>
                     <text size="16" />
                 </control>
-
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
 			</attribute>
 
             <attribute name="financialDocumentStatusCode" forceUppercase="true">
@@ -171,9 +156,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>financialDocumentStatusCode</summary>
-                <description>financialDocumentStatusCode description...</description>
 			</attribute>
 
             <attribute name="organizationChartOfAccountsCode" forceUppercase="true">
@@ -186,9 +168,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>organizationChartOfAccountsCode</summary>
-                <description>organizationChartOfAccountsCode description...</description>
 			</attribute>
 
             <attribute name="organizationCode" forceUppercase="true">
@@ -201,9 +180,6 @@
                 <control>
                     <text size="6" />
                 </control>
-
-                <summary>organizationCode</summary>
-                <description>organizationCode description...</description>
 			</attribute>
 
             <attribute name="organizationLevelCode" forceUppercase="true">
@@ -216,9 +192,6 @@
                 <control>
                     <text size="9" />
                 </control>
-
-                <summary>organizationLevelCode</summary>
-                <description>organizationLevelCode description...</description>
 			</attribute>
 
             <attribute name="personUniversalIdentifier" forceUppercase="true">
@@ -231,9 +204,6 @@
                 <control>
                     <text size="12" />
                 </control>
-
-                <summary>personUniversalIdentifier</summary>
-                <description>personUniversalIdentifier description...</description>
 			</attribute>
 
             <attribute name="subAccountNumber" forceUppercase="true">
@@ -246,9 +216,6 @@
                 <control>
                     <text size="7" />
                 </control>
-
-                <summary>subAccountNumber</summary>
-                <description>subAccountNumber description...</description>
 			</attribute>
 
             <attribute name="universityFiscalYear" forceUppercase="true">
@@ -261,9 +228,6 @@
                 <control>
                     <text size="6" />
                 </control>
-
-                <summary>universityFiscalYear</summary>
-                <description>universityFiscalYear description...</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

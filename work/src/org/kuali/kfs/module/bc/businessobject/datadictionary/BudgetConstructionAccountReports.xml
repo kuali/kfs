@@ -77,10 +77,6 @@
                 <control>
                     <hidden />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Chart Code and Description</description>
             </attributeReference>
 
             <attributeReference name="reportsToChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
@@ -90,7 +86,6 @@
 				<control>
 					<select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
 				</control>
-                <description>The Chart for the Reports To organization.</description>
             </attributeReference>
 
            <attributeReference name="reportsToChartOfAccounts.codeAndDescription" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="codeAndDescription">
@@ -100,17 +95,12 @@
                 <control>
                     <hidden />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The Chart for the Reports To organization.</description>
             </attributeReference>
 
             <attributeReference name="reportsToOrganizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
                 <label>Reports To Organization</label>
                 <shortLabel>Rpts To Org</shortLabel>
                 <required>true</required>
-                <description>The Reports To organization for the account.</description>
             </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

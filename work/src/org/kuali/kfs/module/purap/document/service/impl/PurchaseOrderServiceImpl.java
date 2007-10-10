@@ -717,13 +717,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public void completePurchaseOrder(PurchaseOrderDocument po) {
         LOG.debug("completePurchaseOrder() started");
         setCurrentAndPendingIndicatorsForApprovedPODocuments(po);
-//        // if the status of the PO is already OPEN or is one of the pending transmission statuses... do not change the status to OPEN
-//        if ( (!StringUtils.equals(PurchaseOrderStatuses.OPEN,po.getStatusCode())) && (!PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(po.getStatusCode())) ) {
-//            LOG.info("completePurchaseOrder() Setting po document id " + po.getDocumentNumber() + " status from '" + po.getStatusCode() + "' to '" + PurchaseOrderStatuses.OPEN + "'" );
-//            purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.OPEN);
-//            po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
-//        }
-//        this.saveDocumentNoValidation(po);
         // if the document is set in a Pending Transmission status then don't OPEN the PO just leave it as is
         if (!PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(po.getStatusCode())) {
             LOG.info("completePurchaseOrder() Setting po document id " + po.getDocumentNumber() + " status from '" + po.getStatusCode() + "' to '" + PurchaseOrderStatuses.OPEN + "'" );

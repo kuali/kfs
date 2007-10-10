@@ -17,6 +17,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
@@ -76,13 +77,20 @@ public class PaymentSearchAction extends BaseAction {
         String forward = "search";
         HttpSession session = request.getSession();
         LOG.debug("executeLogic() ************* SESSION ID = " + session.getId() + "  and created " + (new Timestamp(session.getCreationTime())).toString());
+        //before we attempt to do a search first validate the form fields.
+        PaymentDetailSearchForm searchForm = (PaymentDetailSearchForm)form;
+        ActionMessages errors = searchForm.validate(mapping, request);
+        if(errors != null && errors.size() > 0) {
+            request.setAttribute("PaymentDetailSearchForm", searchForm);
+            return null;
+        }
         List searchResults = null;
         Object perPage = session.getAttribute("perPage");
         if ((perPage == null) || (perPage.toString() == "")) {
             session.setAttribute("perPage", getSearchResultsPerPage());
         }
 
-        ActionErrors actionErrors = new ActionErrors();
+        ActionMessages actionErrors = new ActionMessages();
         String buttonPressed = GeneralUtilities.whichButtonWasPressed(request);
 
         PaymentDetailSearchForm pdsf = (PaymentDetailSearchForm) form;
@@ -150,7 +158,7 @@ public class PaymentSearchAction extends BaseAction {
      * @param request
      * @return
      */
-    protected void clearObjects(HttpSession session, ActionErrors actionErrors) {
+    protected void clearObjects(HttpSession session, ActionMessages actionErrors) {
 
         // Individual Search Variables in Session
         session.removeAttribute("indivSearchResults");
@@ -173,7 +181,7 @@ public class PaymentSearchAction extends BaseAction {
      * @param searchType
      * @return searchResults
      */
-    protected List checkList(List searchResults, HttpSession session, ActionErrors actionErrors) {
+    protected List checkList(List searchResults, HttpSession session, ActionMessages actionErrors) {
         session.removeAttribute("indivSearchResults");
         Integer searchSize = getMaxSearchTotal();
         int maxSize = searchSize.intValue() + 1;

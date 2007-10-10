@@ -322,7 +322,7 @@
         </action>
 
         <!-- ********** Payment Detail Search ********** -->    
-  	    <action path="/pdp/paymentsearch" name="PdpPaymentDetailSearchForm" validate="true" input="/pdp/search/paymentsearch.jsp" scope="request" type="org.kuali.module.pdp.action.paymentsearch.PaymentSearchAction">
+  	    <action path="/pdp/paymentsearch" name="PdpPaymentDetailSearchForm" input="/pdp/search/paymentsearch.jsp" scope="request" type="org.kuali.module.pdp.action.paymentsearch.PaymentSearchAction">
             <forward name="search" path="/pdp/search/paymentsearch.jsp" />
             <forward name="searchresults" path="/pdp/search/paymentsearch.jsp?results=1" />
         </action>	

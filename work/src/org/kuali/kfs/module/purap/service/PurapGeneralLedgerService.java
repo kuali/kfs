@@ -46,4 +46,10 @@ public interface PurapGeneralLedgerService {
 
     public void generateEntriesApproveAmendPurchaseOrder(PurchaseOrderDocument po);
 
+    public void generateEntriesClosePurchaseOrder(PurchaseOrderDocument po);
+
+    public void generateEntriesReopenPurchaseOrder(PurchaseOrderDocument po);
+
+    public void generateEntriesVoidPurchaseOrder(PurchaseOrderDocument po);
+
 }

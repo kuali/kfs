@@ -49,6 +49,7 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.bo.CreditMemoItem;
@@ -500,6 +501,185 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         LOG.debug("generateEntriesApproveAmendPo() gl entries created; exit method");
     }
     
+    public void generateEntriesClosePurchaseOrder(PurchaseOrderDocument po) {
+        // Set outstanding encumbered quantity/amount on items
+        for (Iterator items = po.getItems().iterator(); items.hasNext();) {
+            PurchaseOrderItem item = (PurchaseOrderItem) items.next();
+
+            String logItmNbr = "Item # " + item.getItemLineNumber();
+
+            if (!item.isItemActiveIndicator()) {
+                continue;
+            }
+
+            KualiDecimal itemAmount = null;
+            if (!item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                LOG.debug("poCloseReopen() " + logItmNbr + " Calculate based on amounts");
+                itemAmount = item.getItemOutstandingEncumberedAmount() == null ? ZERO  : item.getItemOutstandingEncumberedAmount();
+            }
+            else {
+                LOG.debug("poCloseReopen() " + logItmNbr + " Calculate based on quantities");
+                itemAmount = item.getItemOutstandingEncumberedQuantity().multiply(new KualiDecimal(item.getItemUnitPrice()));
+            }
+
+            KualiDecimal accountTotal = ZERO;
+            PurchaseOrderAccount lastAccount = null;
+            if ( itemAmount.compareTo(ZERO) != 0 ) {
+                // Sort accounts
+                Collections.sort( (List)item.getSourceAccountingLines() );
+              
+                for (Iterator iterAcct = item.getSourceAccountingLines().iterator(); iterAcct.hasNext();) {
+                    PurchaseOrderAccount acct = (PurchaseOrderAccount) iterAcct.next();
+                    if (!acct.isEmpty()) {
+                        KualiDecimal acctAmount = itemAmount.multiply(new KualiDecimal(acct.getAccountLinePercent().toString())).divide(PurapConstants.HUNDRED);
+                        accountTotal = accountTotal.add(acctAmount);
+                        acct.setAlternateAmountForGLEntryCreation(acctAmount);
+                        lastAccount = acct;
+                    }
+                }
+
+                // account for rounding by adjusting last account as needed
+                if (lastAccount != null) {
+                    KualiDecimal difference = itemAmount.subtract(accountTotal);
+                    LOG.debug("poCloseReopen() difference: " + logItmNbr + " " + difference);
+
+                    KualiDecimal amount = lastAccount.getAlternateAmountForGLEntryCreation();
+                    if (ObjectUtils.isNotNull(amount)) {
+                        lastAccount.setAlternateAmountForGLEntryCreation(amount.add(difference));
+                    }
+                    else {
+                        lastAccount.setAlternateAmountForGLEntryCreation(difference);
+                    }
+                }
+
+            }
+        }// endfor
+          
+        po.setSourceAccountingLines(purapAccountingService.generateSummaryWithNoZeroTotalsUsingAlternateAmount(po.getItemsActiveOnly()));
+        generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(po);
+        saveGLEntries(po.getGeneralLedgerPendingEntries());
+        LOG.debug("generateEntriesClosePurchaseOrder() gl entries created; exit method");
+    }
+    
+    public void generateEntriesReopenPurchaseOrder(PurchaseOrderDocument po) {
+        // Set outstanding encumbered quantity/amount on items
+        for (Iterator items = po.getItems().iterator(); items.hasNext();) {
+            PurchaseOrderItem item = (PurchaseOrderItem) items.next();
+
+            String logItmNbr = "Item # " + item.getItemLineNumber();
+
+            if (!item.isItemActiveIndicator()) {
+                continue;
+            }
+
+            KualiDecimal itemAmount = null;
+            if (!item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                LOG.debug("poCloseReopen() " + logItmNbr + " Calculate based on amounts");
+                itemAmount = item.getItemOutstandingEncumberedAmount() == null ? ZERO  : item.getItemOutstandingEncumberedAmount();
+            }
+            else {
+                LOG.debug("poCloseReopen() " + logItmNbr + " Calculate based on quantities");
+                itemAmount = item.getItemOutstandingEncumberedQuantity().multiply(new KualiDecimal(item.getItemUnitPrice()));
+            }
+
+            KualiDecimal accountTotal = ZERO;
+            PurchaseOrderAccount lastAccount = null;
+            if ( itemAmount.compareTo(ZERO) != 0 ) {
+                // Sort accounts
+                Collections.sort((List) item.getSourceAccountingLines());
+              
+                for (Iterator iterAcct = item.getSourceAccountingLines().iterator(); iterAcct.hasNext();) {
+                    PurchaseOrderAccount acct = (PurchaseOrderAccount) iterAcct.next();
+                    if (!acct.isEmpty()) {
+                        KualiDecimal acctAmount = itemAmount.multiply(new KualiDecimal(acct.getAccountLinePercent().toString())).divide(PurapConstants.HUNDRED);
+                        accountTotal = accountTotal.add(acctAmount);
+                        acct.setAlternateAmountForGLEntryCreation(acctAmount);
+                        lastAccount = acct;
+                    }
+                }
+
+                // account for rounding by adjusting last account as needed
+                if (lastAccount != null) {
+                    KualiDecimal difference = itemAmount.subtract(accountTotal);
+                    LOG.debug("poCloseReopen() difference: " + logItmNbr + " " + difference);
+
+                    KualiDecimal amount = lastAccount.getAlternateAmountForGLEntryCreation();
+                    if (ObjectUtils.isNotNull(amount)) {
+                        lastAccount.setAlternateAmountForGLEntryCreation(amount.add(difference));
+                    }
+                    else {
+                        lastAccount.setAlternateAmountForGLEntryCreation(difference);
+                    }
+                }
+
+            }
+        }// endfor
+          
+        po.setSourceAccountingLines(purapAccountingService.generateSummaryWithNoZeroTotalsUsingAlternateAmount(po.getItemsActiveOnly()));
+        generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(po);
+        saveGLEntries(po.getGeneralLedgerPendingEntries());
+        LOG.debug("generateEntriesClosePurchaseOrder() gl entries created; exit method");
+    }
+    
+    public void generateEntriesVoidPurchaseOrder(PurchaseOrderDocument po) {
+        // Set outstanding encumbered quantity/amount on items
+        for (Iterator items = po.getItems().iterator(); items.hasNext();) {
+            PurchaseOrderItem item = (PurchaseOrderItem) items.next();
+
+            String logItmNbr = "Item # " + item.getItemLineNumber();
+
+            if (!item.isItemActiveIndicator()) {
+                continue;
+            }
+
+            KualiDecimal itemAmount = null;
+            if (!item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                LOG.debug("poCloseReopen() " + logItmNbr + " Calculate based on amounts");
+                itemAmount = item.getItemOutstandingEncumberedAmount() == null ? ZERO  : item.getItemOutstandingEncumberedAmount();
+            }
+            else {
+                LOG.debug("poCloseReopen() " + logItmNbr + " Calculate based on quantities");
+                itemAmount = item.getItemOutstandingEncumberedQuantity().multiply(new KualiDecimal(item.getItemUnitPrice()));
+            }
+
+            KualiDecimal accountTotal = ZERO;
+            PurchaseOrderAccount lastAccount = null;
+            if ( itemAmount.compareTo(ZERO) != 0 ) {
+                // Sort accounts
+                Collections.sort((List) item.getSourceAccountingLines());
+              
+                for (Iterator iterAcct = item.getSourceAccountingLines().iterator(); iterAcct.hasNext();) {
+                    PurchaseOrderAccount acct = (PurchaseOrderAccount) iterAcct.next();
+                    if (!acct.isEmpty()) {
+                        KualiDecimal acctAmount = itemAmount.multiply(new KualiDecimal(acct.getAccountLinePercent().toString())).divide(PurapConstants.HUNDRED);
+                        accountTotal = accountTotal.add(acctAmount);
+                        acct.setAlternateAmountForGLEntryCreation(acctAmount);
+                        lastAccount = acct;
+                    }
+                }
+
+                // account for rounding by adjusting last account as needed
+                if (lastAccount != null) {
+                    KualiDecimal difference = itemAmount.subtract(accountTotal);
+                    LOG.debug("poCloseReopen() difference: " + logItmNbr + " " + difference);
+
+                    KualiDecimal amount = lastAccount.getAlternateAmountForGLEntryCreation();
+                    if (ObjectUtils.isNotNull(amount)) {
+                        lastAccount.setAlternateAmountForGLEntryCreation(amount.add(difference));
+                    }
+                    else {
+                        lastAccount.setAlternateAmountForGLEntryCreation(difference);
+                    }
+                }
+
+            }
+        }// endfor
+          
+        po.setSourceAccountingLines(purapAccountingService.generateSummaryWithNoZeroTotalsUsingAlternateAmount(po.getItemsActiveOnly()));
+        generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(po);
+        saveGLEntries(po.getGeneralLedgerPendingEntries());
+        LOG.debug("generateEntriesClosePurchaseOrder() gl entries created; exit method");
+    }
     
     private List<SourceAccountingLine> relieveEncumbrance(PaymentRequestDocument preq) {
         LOG.debug("relieveEncumbrance() started");

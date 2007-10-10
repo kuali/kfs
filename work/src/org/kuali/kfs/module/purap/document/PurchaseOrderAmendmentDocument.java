@@ -51,8 +51,10 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
         
         // DOCUMENT PROCESSED
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            //generate GL entries
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesApproveAmendPurchaseOrder(this);
             
+            //update indicators
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
 
             //set purap status and status history and status history note

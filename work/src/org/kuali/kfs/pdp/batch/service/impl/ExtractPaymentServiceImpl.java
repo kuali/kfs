@@ -103,7 +103,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                 writeTag(os, 4, "netAmount", pg.getNetPaymentAmount().toString());
 
                 writePayeeAch(os,4,pg);
-                writeTag(os, 4,"customerUnivNbr",pg.getCustomerIuNbr());
+                writeTag(os, 4,"customerUnivNbr",pg.getCustomerInstitutionNumber());
                 writeTag(os, 4,"paymentDate",sdf.format(pg.getPaymentDate()));
 
                 // Write customer profile information
@@ -234,7 +234,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                 writeTag(os, 4,"attachmentIndicator",pg.getPymtAttachment().booleanValue() ? "Y" : "N");
                 writeTag(os, 4,"specialHandlingIndicator",pg.getPymtSpecialHandling().booleanValue() ? "Y" : "N");
                 writeTag(os, 4,"immediatePaymentIndicator",pg.getProcessImmediate().booleanValue() ? "Y" : "N");
-                writeTag(os, 4,"customerUnivNbr",pg.getCustomerIuNbr());
+                writeTag(os, 4,"customerUnivNbr",pg.getCustomerInstitutionNumber());
                 writeTag(os, 4,"paymentDate",sdf.format(pg.getPaymentDate()));
 
                 // Write customer profile information

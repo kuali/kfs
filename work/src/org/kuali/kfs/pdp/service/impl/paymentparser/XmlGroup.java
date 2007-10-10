@@ -27,7 +27,7 @@ public class XmlGroup implements Serializable {
   private String id_type = null;
   private String payee_id = null;
   private String payee_own_cd = null;
-  private String customer_IU_identifier = null;
+  private String customer_institution_identifier = null;
   private String address1 = null;
   private String address2 = null;
   private String address3 = null;
@@ -93,8 +93,8 @@ public class XmlGroup implements Serializable {
       setPayee_id(value);
     } else if ( "payee_own_cd".equals(name) ) {
       setPayee_own_cd(value);
-    } else if ( "customer_IU_identifier".equals(name) ) {
-      setCustomer_IU_identifier(value);
+    } else if ( "customer_institution_identifier".equals(name) ) {
+      setCustomerInstitutionIdentifier(value);
     } else if ( "address1".equals(name) ) {
       setAddress1(value);
     } else if ( "address2".equals(name) ) {
@@ -142,7 +142,7 @@ public class XmlGroup implements Serializable {
     d.setPayeeIdTypeCd(id_type);
     d.setPayeeId(payee_id);
     d.setPayeeOwnerCd(payee_own_cd);
-    d.setCustomerIuNbr(customer_IU_identifier);
+    d.setCustomerInstitutionNumber(customer_institution_identifier);
     d.setLine1Address(address1);
     d.setLine2Address(address2);
     d.setLine3Address(address3);
@@ -291,17 +291,13 @@ public class XmlGroup implements Serializable {
   public void setCampus_address_ind(Boolean campus_address_ind) {
     this.campus_address_ind = campus_address_ind;
   }
-  /**
-   * @return Returns the customer_IU_identifier.
-   */
-  public String getCustomer_IU_identifier() {
-    return customer_IU_identifier;
+
+  public String getCustomer_institution_identifier() {
+    return customer_institution_identifier;
   }
-  /**
-   * @param customer_IU_identifier The customer_IU_identifier to set.
-   */
-  public void setCustomer_IU_identifier(String customer_IU_identifier) {
-    this.customer_IU_identifier = customer_IU_identifier;
+
+  public void setCustomerInstitutionIdentifier(String customer_IU_identifier) {
+    this.customer_institution_identifier = customer_IU_identifier;
   }
   /**
    * @return Returns the id_type.

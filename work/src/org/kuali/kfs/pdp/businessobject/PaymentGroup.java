@@ -35,7 +35,7 @@ public class PaymentGroup implements Serializable,PersistenceBrokerAware {
   private String alternatePayeeId;          // ALTRNT_PAYEE_ID     
   private String alternatePayeeIdTypeCd;    // ALTRNT_PAYEE_ID_TYP_CD         
   private String payeeOwnerCd;              // PAYEE_OWNR_CD     
-  private String customerIuNbr;             // CUST_IU_NBR        
+  private String customerInstitutionNumber; // CUST_IU_NBR        
   private String line1Address;              // PMT_LN1_ADDR         
   private String line2Address;              // PMT_LN2_ADDR        
   private String line3Address;              // PMT_LN3_ADDR        
@@ -54,7 +54,7 @@ public class PaymentGroup implements Serializable,PersistenceBrokerAware {
   private Boolean combineGroups;            // PMT_GRP_CMB_IND
   private String achBankRoutingNbr;         // ACH_BNK_RTNG_NBR        
   private String adviceEmailAddress;        // ADV_EMAIL_ADDR      
-  private Boolean iuEmployee;               // EMP_IND
+  private Boolean employee;                 // EMP_IND
   private String creditMemoNbr;             // PMT_CRDT_MEMO_NBR       
   private BigDecimal creditMemoAmount;      // PMT_CRDT_MEMO_AMT
   private Integer disbursementNbr;          // DISB_NBR      
@@ -390,12 +390,8 @@ public class PaymentGroup implements Serializable,PersistenceBrokerAware {
     return creditMemoNbr;
   }
 
-  /**
-   * @return
-   * @hibernate.property column="CUST_IU_NBR" length="30"
-   */
-  public String getCustomerIuNbr() {
-    return customerIuNbr;
+  public String getCustomerInstitutionNumber() {
+    return customerInstitutionNumber;
   }
 
   /**
@@ -426,8 +422,8 @@ public class PaymentGroup implements Serializable,PersistenceBrokerAware {
    * @return
    * @hibernate.property column="EMP_IND" type="yes_no"
    */
-  public Boolean getIuEmployee() {
-    return iuEmployee;
+  public Boolean getEmployee() {
+    return employee;
   }
 
   /**
@@ -640,8 +636,8 @@ public class PaymentGroup implements Serializable,PersistenceBrokerAware {
   /**
    * @param string
    */
-  public void setCustomerIuNbr(String string) {
-    customerIuNbr = string;
+  public void setCustomerInstitutionNumber(String string) {
+    customerInstitutionNumber = string;
   }
 
   /**
@@ -675,8 +671,8 @@ public class PaymentGroup implements Serializable,PersistenceBrokerAware {
   /**
    * @param boolean1
    */
-  public void setIuEmployee(Boolean boolean1) {
-    iuEmployee = boolean1;
+  public void setEmployee(Boolean boolean1) {
+    employee = boolean1;
   }
 
   /**

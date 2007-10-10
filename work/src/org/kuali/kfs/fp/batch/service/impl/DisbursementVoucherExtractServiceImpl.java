@@ -171,14 +171,14 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             pg.setTaxablePayment(Boolean.FALSE);
         }
         else if (pd.isEmployee()) {
-            pg.setIuEmployee(Boolean.TRUE);
+            pg.setEmployee(Boolean.TRUE);
             pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID);
 
             // All payments are taxable except research participant, rental & royalties
             pg.setTaxablePayment((!DisbursementVoucherRuleConstants.PaymentReasonCodes.RESEARCH_PARTICIPANT.equals(rc)) && (!DisbursementVoucherRuleConstants.PaymentReasonCodes.RENTAL_PAYMENT.equals(rc)) && (!DisbursementVoucherRuleConstants.PaymentReasonCodes.ROYALTIES.equals(rc)));
         }
         else if (pd.isPayee()) {
-            pg.setIuEmployee(Boolean.FALSE);
+            pg.setEmployee(Boolean.FALSE);
             pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.PAYEE_ID);
 
             Payee payee = disbursementVoucherDao.getPayee(pd.getDisbVchrPayeeIdNumber());

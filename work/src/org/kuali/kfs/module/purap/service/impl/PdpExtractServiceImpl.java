@@ -603,7 +603,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         }
 
         if (prd.getVendorCustomerNumber() != null) {
-            pg.setCustomerIuNbr(prd.getVendorCustomerNumber());
+            pg.setCustomerInstitutionNumber(prd.getVendorCustomerNumber());
         }
         pg.setLine1Address(prd.getVendorLine1Address());
         pg.setLine2Address(prd.getVendorLine2Address());

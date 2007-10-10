@@ -258,8 +258,8 @@ public class DataLoadHandler implements PdpFileHandler {
     if ( pg.getProcessImmediate() == null ) {
       pg.setProcessImmediate(Boolean.FALSE);
     }
-    if ( pg.getIuEmployee() == null ) {
-      pg.setIuEmployee(Boolean.FALSE);
+    if ( pg.getEmployee() == null ) {
+      pg.setEmployee(Boolean.FALSE);
     }
     if ( pg.getNraPayment() == null ) {
       pg.setNraPayment(Boolean.FALSE);
@@ -270,12 +270,12 @@ public class DataLoadHandler implements PdpFileHandler {
     
     // Tax Group Requirements for automatic Holding
     if (customer.getNraReview().booleanValue() && customer.getEmployeeCheck().booleanValue() && 
-        pg.getIuEmployee().booleanValue() && pg.getNraPayment().booleanValue()){
+        pg.getEmployee().booleanValue() && pg.getNraPayment().booleanValue()){
       if (heldForNRAEmployee != null){
         pg.setPaymentStatus(heldForNRAEmployee);
         this.setTaxEmailRequired(true);
       }
-    } else if (customer.getEmployeeCheck().booleanValue() && pg.getIuEmployee().booleanValue()){
+    } else if (customer.getEmployeeCheck().booleanValue() && pg.getEmployee().booleanValue()){
       if (heldForEmployee != null){
         pg.setPaymentStatus(heldForEmployee);
         this.setTaxEmailRequired(true);

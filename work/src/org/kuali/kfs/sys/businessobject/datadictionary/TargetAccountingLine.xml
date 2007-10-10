@@ -144,9 +144,6 @@
 
             <attributeReference name="projectCode" sourceClassName="org.kuali.module.chart.bo.ProjectCode" sourceAttributeName="code">
                 <required>false</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
             </attributeReference>
 
             <attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">

@@ -258,14 +258,14 @@ public class RoutingFormAuditRule {
      */
     private static boolean processRoutingFormMainPageSubmissionDetailsAuditChecks(List<AuditError> auditErrors, RoutingFormDocument routingFormDocument) {
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        final String SUBMISSION_TYPE_CHANGE = parameterService.getParameterValue(RoutingForm.class, KraConstants.SUBMISSION_TYPE_CHANGE);
-        final String PROJECT_TYPE_NEW = parameterService.getParameterValue(RoutingForm.class, KraConstants.PROJECT_TYPE_NEW);
-        final String PROJECT_TYPE_TIME_EXTENTION = parameterService.getParameterValue(RoutingForm.class, KraConstants.PROJECT_TYPE_TIME_EXTENTION);
-        final String PROJECT_TYPE_BUDGET_REVISION_ACTIVE = parameterService.getParameterValue(RoutingForm.class, KraConstants.PROJECT_TYPE_BUDGET_REVISION_ACTIVE);
-        final String PROJECT_TYPE_BUDGET_REVISION_PENDING = parameterService.getParameterValue(RoutingForm.class, KraConstants.PROJECT_TYPE_BUDGET_REVISION_PENDING);
-        final String PROJECT_TYPE_OTHER = parameterService.getParameterValue(RoutingForm.class, KraConstants.PROJECT_TYPE_OTHER);
-        final String PURPOSE_RESEARCH = parameterService.getParameterValue(RoutingForm.class, KraConstants.PURPOSE_RESEARCH);
-        final String PURPOSE_OTHER = parameterService.getParameterValue(RoutingForm.class, KraConstants.PURPOSE_OTHER);
+        final String SUBMISSION_TYPE_CHANGE = parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.SUBMISSION_TYPE_CHANGE);
+        final String PROJECT_TYPE_NEW = parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.PROJECT_TYPE_NEW);
+        final String PROJECT_TYPE_TIME_EXTENTION = parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.PROJECT_TYPE_TIME_EXTENTION);
+        final String PROJECT_TYPE_BUDGET_REVISION_ACTIVE = parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.PROJECT_TYPE_BUDGET_REVISION_ACTIVE);
+        final String PROJECT_TYPE_BUDGET_REVISION_PENDING = parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.PROJECT_TYPE_BUDGET_REVISION_PENDING);
+        final String PROJECT_TYPE_OTHER = parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.PROJECT_TYPE_OTHER);
+        final String PURPOSE_RESEARCH = parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.PURPOSE_RESEARCH);
+        final String PURPOSE_OTHER = parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.PURPOSE_OTHER);
 
         boolean valid = true;
 

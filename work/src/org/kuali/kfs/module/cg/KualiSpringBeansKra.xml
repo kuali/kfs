@@ -49,6 +49,11 @@
 				<value>org/kuali/module/kra/OJB-repository-kra.xml</value>
 			</list>
 		</property>
+		<property name="scriptConfigurationFilePaths">
+			<list>
+				<value>org/kuali/module/kra/dwr-kra.xml</value>
+			</list>
+		</property>		
 	</bean>
 
 	<bean id="kraUserService" class="org.kuali.module.kra.service.impl.KraUserServiceImpl" parent="kualiModuleUserServiceBase">

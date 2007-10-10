@@ -43,22 +43,35 @@
                 <th align=right valign=middle width="25%">Budget Document Number:</th>
                 <td colspan="3" align=left valign=middle nowrap >
                   <kul:htmlControlAttribute property="document.routingFormBudgetNumber" attributeEntry="${routingFormDocumentAttributes.routingFormBudgetNumber}" onblur="budgetNameLookup('document.routingFormBudgetNumber')" />
-	    		  <kul:lookup boClassName="org.kuali.module.kra.budget.bo.Budget" lookupParameters="document.routingFormBudgetNumber:documentNumber" fieldConversions="documentNumber:document.routingFormBudgetNumber,budgetName:document.budget.budgetName" anchor="${currentTabIndex}" />
+	    		  <kul:lookup boClassName="org.kuali.module.kra.budget.bo.Budget" lookupParameters="document.routingFormBudgetNumber:documentNumber" fieldConversions="documentNumber:document.routingFormBudgetNumber,projectDirector.universalUser.personName:document.budget.projectDirector.universalUser.personName,budgetAgency.fullName:document.budget.budgetAgency.fullName" anchor="${currentTabIndex}" />
                   <html:hidden property="document.budget.documentNumber" />
                   <html:hidden property="document.budget.budgetName" />
-    			    <div id="document.budget.budgetName.div" >
+                  <html:hidden property="document.budget.projectDirector.universalUser.personName" />
+                  <html:hidden property="document.budget.budgetAgency.fullName" />
+		           <div id="budgetNameDiv">
+    			    <div id="document.budget.projectDirector.universalUser.personName.div" style="float: left; text-align: left;">
+<!-- 
 		             <c:if test="${!empty KualiForm.document.routingFormBudgetNumber}">
 		                 <c:choose>
-							<c:when test="${empty KualiForm.document.budget.budgetName}">
-								<span style='color: red;'><c:out value="Budget document not found or Name is empty" /> </span>
+							<c:when test="${empty KualiForm.document.budget.projectDirector.universalUser.personName && empty KualiForm.document.budget.budgetAgency.fullName}">
+								<span style='color: red;'><c:out value="budget document not found" /> </span>
 							</c:when>
 							<c:otherwise>
-								<c:out value="${KualiForm.document.budget.budgetName}" />
+								PD: ${KualiForm.document.budget.projectDirector.universalUser.personName}&nbsp;&nbsp;Agency: ${KualiForm.document.budget.budgetAgency.fullName}
 							</c:otherwise>
 						 </c:choose>                        
 		              </c:if>
+		 -->
+		              </div>
 		           </div>
-                 
+		           <!-- 
+     			    <div id="document.budget.budgetAgency.fullName.div" style="float: right; text-align: right;">
+
+		             <c:if test="${!empty KualiForm.document.routingFormBudgetNumber && !empty KualiForm.document.budget.budgetAgency.fullName}">
+								&nbsp &nbspAgency: ${KualiForm.document.budget.budgetAgency.fullName}
+		              </c:if>
+		           </div>
+		         -->
                 </td>
               </tr>
               <tr>
@@ -198,7 +211,9 @@
 var kualiForm = document.forms['KualiForm'];
 var kualiElements = kualiForm.elements;
 </SCRIPT>
-<script language="javascript" src="scripts/cg/proposalDocument.js"></script>
+<script language="javascript" src="scripts/research/researchDocument.js"></script>
 <script language="javascript" src="dwr/interface/BudgetService.js"></script>
-	
+<SCRIPT type="text/javascript">
+	budgetNameLookup('document.routingFormBudgetNumber')
+</SCRIPT>	
 </kul:documentPage>

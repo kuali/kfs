@@ -37,10 +37,10 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
+import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorHeader;
 import org.kuali.module.vendor.service.VendorService;
@@ -297,9 +297,9 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
                 collectionDefinition.setIncludeAddLine(false);
             }
         }
-        // If the user is not in Purchasing workgroup, don't include add line for vendor contract and vendor contract organization
-        String purchasingWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, VendorConstants.Workgroups.WORKGROUP_PURCHASING);
-        if (!currentUser.isMember(purchasingWorkgroup) && (collectionDefinition.getName().equals(VendorPropertyConstants.VENDOR_CONTRACT) || collectionDefinition.getName().equals(VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION))) {
+        // If the user is not in vendor contract workgroup, don't include add line for vendor contract and vendor contract organization
+        String vendorContractWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(VendorContract.class, VendorConstants.Workgroups.WORKGROUP_VENDOR_CONTRACT);
+        if (!currentUser.isMember(vendorContractWorkgroup) && (collectionDefinition.getName().equals(VendorPropertyConstants.VENDOR_CONTRACT) || collectionDefinition.getName().equals(VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION))) {
             collectionDefinition.setIncludeAddLine(false);
         }
     }

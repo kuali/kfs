@@ -189,7 +189,7 @@
 				<%-- default to closed --%>
 				<c:choose>
 					<c:when test="${empty currentTab}">
-						<c:set var="isOpen" value="false" />
+						<c:set var="isOpen" value="true" />
 					</c:when>
 					<c:when test="${!empty currentTab}">
 						<c:set var="isOpen" value="${currentTab == 'OPEN'}" />
@@ -336,20 +336,20 @@
 					<c:if test="${amendmentEntry}">
 					    <c:choose>
 					        <c:when test="${(itemLine.canInactivateItem and itemLine.itemInvoicedTotalAmount != null)}">
-						        <td class="infoline">
-						            <div align="center">
-						                <html:image
-							                property="methodToCall.inactivateItem.line${ctr}"
-				   		    	            src="${ConfigProperties.externalizable.images.url}tinybutton-inactivate.gif"
-							                alt="Inactivate Item ${ctr+1}" title="Inactivate Item ${ctr+1}"
-							                styleClass="tinybutton" />
-					                </div>
-					            </td>
+						<td class="infoline">
+						    <div align="center">
+						        <html:image
+							        property="methodToCall.inactivateItem.line${ctr}"
+						    	    src="${ConfigProperties.externalizable.images.url}tinybutton-inactivate.gif"
+							        alt="Inactivate Item ${ctr+1}" title="Inactivate Item ${ctr+1}"
+							        styleClass="tinybutton" />
+					        </div>
+					    </td>
 					        </c:when>
 					        <c:otherwise>
 					            <c:if test="${(itemLine.itemInvoicedTotalAmount != null and itemLine.itemActiveIndicator)}">
 					                <td class="infoline">&nbsp;</td>
-					            </c:if>
+					</c:if>
 					        </c:otherwise>
 					    </c:choose>
 					</c:if>
@@ -382,33 +382,33 @@
                 <c:if test="${amendmentEntry}">
                     <c:choose>
 	    			    <c:when test="${(itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)) )}">
-		    		        <c:set target="${KualiForm.accountingLineEditingMode}" property="fullEntry" value="true" />
-			    		    <purap:puraccountingLineCams
-    			    			editingMode="${KualiForm.accountingLineEditingMode}"
-	    			    		editableAccounts="${KualiForm.editableAccounts}"
-		    			    	sourceAccountingLinesOnly="true"
-			    			    optionalFields="accountLinePercent"
-    				    		extraHiddenFields=",accountIdentifier,itemIdentifier,amount"
-	    				    	accountingLineAttributes="${accountingLineAttributes}"
-		    				    accountPrefix="document.item[${ctr}]." hideTotalLine="true"
-			        			hideFields="amount" accountingAddLineIndex="${ctr}"
-				        		itemsAttributes="${itemAttributes}"
-					        	camsAttributes="${camsAttributes}" ctr="${ctr}"
-                                suppressCams="true" overrideTitle="Item Accounting Lines" />
+				    <c:set target="${KualiForm.accountingLineEditingMode}" property="fullEntry" value="true" />
+					<purap:puraccountingLineCams
+						editingMode="${KualiForm.accountingLineEditingMode}"
+						editableAccounts="${KualiForm.editableAccounts}"
+						sourceAccountingLinesOnly="true"
+						optionalFields="accountLinePercent"
+						extraHiddenFields=",accountIdentifier,itemIdentifier,amount"
+						accountingLineAttributes="${accountingLineAttributes}"
+						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
+						hideFields="amount" accountingAddLineIndex="${ctr}"
+						itemsAttributes="${itemAttributes}"
+						camsAttributes="${camsAttributes}" ctr="${ctr}"
+                        suppressCams="true" overrideTitle="Item Accounting Lines" />
     				    </c:when>
 	        			<c:otherwise>
-		        		    <c:set target="${KualiForm.editingMode}" property="viewOnly" value="true" />
-			        		<purap:puraccountingLineCams editingMode="${KualiForm.editingMode}"
-				        		editableAccounts="${KualiForm.editableAccounts}"
-					        	sourceAccountingLinesOnly="true"
-						        optionalFields="accountLinePercent"
-		    				    extraHiddenFields=",accountIdentifier,itemIdentifier,amount"
-    			    			accountingLineAttributes="${accountingLineAttributes}"
-	    			    		accountPrefix="document.item[${ctr}]." hideTotalLine="true"
-		    			    	hideFields="amount" accountingAddLineIndex="${ctr}"
-			    			    itemsAttributes="${itemAttributes}"
-				    		    camsAttributes="${camsAttributes}" ctr="${ctr}"
-                                suppressCams="true" overrideTitle="Item Accounting Lines" />
+				    <c:set target="${KualiForm.editingMode}" property="viewOnly" value="true" />
+					<purap:puraccountingLineCams editingMode="${KualiForm.editingMode}"
+						editableAccounts="${KualiForm.editableAccounts}"
+						sourceAccountingLinesOnly="true"
+						optionalFields="accountLinePercent"
+						extraHiddenFields=",accountIdentifier,itemIdentifier,amount"
+						accountingLineAttributes="${accountingLineAttributes}"
+						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
+						hideFields="amount" accountingAddLineIndex="${ctr}"
+						itemsAttributes="${itemAttributes}"
+						camsAttributes="${camsAttributes}" ctr="${ctr}"
+                        suppressCams="true" overrideTitle="Item Accounting Lines" />
 				        </c:otherwise>
 				    </c:choose>
 				</c:if>

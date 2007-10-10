@@ -1161,6 +1161,7 @@
     <field-descriptor name="correctionScriptText" column="GL_COR_SCR_TXT" jdbc-type="CLOB" />
     <field-descriptor name="correctionInputGroupId" column="GL_COR_INP_GRP_ID" jdbc-type="INTEGER" />
     <field-descriptor name="correctionOutputGroupId" column="GL_COR_OUT_GRP_ID" jdbc-type="INTEGER" />
+    <field-descriptor name="correctionBudgetTotalAmount" column="GL_COR_BDGT_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>

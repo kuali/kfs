@@ -54,7 +54,7 @@ public class PaymentGroup implements Serializable,PersistenceBrokerAware {
   private Boolean combineGroups;            // PMT_GRP_CMB_IND
   private String achBankRoutingNbr;         // ACH_BNK_RTNG_NBR        
   private String adviceEmailAddress;        // ADV_EMAIL_ADDR      
-  private Boolean employee;                 // EMP_IND
+  private Boolean employeeIndicator;       // EMP_IND
   private String creditMemoNbr;             // PMT_CRDT_MEMO_NBR       
   private BigDecimal creditMemoAmount;      // PMT_CRDT_MEMO_AMT
   private Integer disbursementNbr;          // DISB_NBR      
@@ -418,12 +418,8 @@ public class PaymentGroup implements Serializable,PersistenceBrokerAware {
     return disbursementType;
   }
 
-  /**
-   * @return
-   * @hibernate.property column="EMP_IND" type="yes_no"
-   */
-  public Boolean getEmployee() {
-    return employee;
+  public Boolean getEmployeeIndicator() {
+    return employeeIndicator;
   }
 
   /**
@@ -671,8 +667,8 @@ public class PaymentGroup implements Serializable,PersistenceBrokerAware {
   /**
    * @param boolean1
    */
-  public void setEmployee(Boolean boolean1) {
-    employee = boolean1;
+  public void setEmployeeIndicator(Boolean boolean1) {
+    employeeIndicator = boolean1;
   }
 
   /**

@@ -96,7 +96,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
             dbCon = mySource.getConnection();
             Statement dbAsk = dbCon.createStatement();
             ResultSet dbAnswer = dbAsk.executeQuery("select * from EN_RULE_ATTRIB_T");
-//            ResultSet dbAnswer = dbAsk.executeQuery("select * from EN_RULE_ATTRIB_T where RULE_ATTRIB_NM = 'KualiPurApSearchResultsDisplayType'");
+//            ResultSet dbAnswer = dbAsk.executeQuery("select * from EN_RULE_ATTRIB_T where RULE_ATTRIB_NM = 'SystemParameterRoutingAttribute'");
             
             while (dbAnswer.next()) {
                 String className = dbAnswer.getString("RULE_ATTRIB_CLS_NM");
@@ -166,8 +166,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
     /**
      * This method goes through all of the ruleAttributes in the inputSource and tries to get a label out of the data dictionary.
      */
-    @RelatesTo(RelatesTo.JiraIssue.KULRNE5721)//disable test while XML is out of sync
-    public void testConfirmLabels() {
+   public void testConfirmLabels() {
         testFailed = false;
         
         // test rule xml attributes
@@ -224,7 +223,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
         String attributeName = "";
         try {
             NodeList tempList = (NodeList) myXPath.evaluate("//ruleAttribute", new InputSource(new StringReader(attributeXml)), XPathConstants.NODESET);
-            for (int i = 0; i < tempList.getLength(); i++) {
+            for (int i = 0; i < tempList.getLength(); i++) { //loop over ruleattributes
                 Node originalNode = tempList.item(i);
                 Set ruleAttributeFieldDefNames = new HashSet();
                 Set ruleAttributeFieldDefTitles = new HashSet();
@@ -304,8 +303,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
      * programatically to a nonsense value. It then rebuilds the Hash Table and runs confirmLabels() to make sure the labels have
      * changed.
      */
-   @RelatesTo(RelatesTo.JiraIssue.KULRNE5721)//disable test while XML is out of sync
-    public void testLabelSource() {
+     public void testLabelSource() {
         DataDictionaryService myDDService = SpringContext.getBean(DataDictionaryService.class);
         XPath xpath = XPathHelper.newXPath();
         String nonsenseString = "BananaRama";

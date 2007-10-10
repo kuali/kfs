@@ -145,7 +145,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
     /**
      * This method calls the service to remove all of the GLPE's associated with this document
      */
-    private void removeGeneralLedgerPendingEntries() {
+    protected void removeGeneralLedgerPendingEntries() {
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
         glpeService.delete(getDocumentHeader().getDocumentNumber());
     }

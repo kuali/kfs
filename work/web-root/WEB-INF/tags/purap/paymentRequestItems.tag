@@ -120,15 +120,23 @@
 			        <kul:htmlControlAttribute
 				        attributeEntry="${itemAttributes.itemQuantity}"
 				        property="document.item[${ctr}].itemQuantity"
-				        readOnly="${ not (fullEntryMode) or (PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE eq KualiForm.document.items[ctr].itemType.itemTypeCode) }" />				        
+				        readOnly="${ not (fullEntryMode) or (KualiForm.document.items[ctr].itemType.amountBasedGeneralLedgerIndicator) }" />				        
 				</div>
 			</td>
 			<td class="infoline">
 			    <div align="right">
-			        <kul:htmlControlAttribute
-				        attributeEntry="${itemAttributes.itemUnitPrice}"
-				        property="document.item[${ctr}].itemUnitPrice"
-				        readOnly="${not (fullEntryMode) or (PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE eq KualiForm.document.items[ctr].itemType.itemTypeCode) }" />
+                    <c:if test="${KualiForm.document.items[ctr].itemType.quantityBasedGeneralLedgerIndicator}">
+                        <kul:htmlControlAttribute
+                            attributeEntry="${itemAttributes.itemUnitPrice}"
+                            property="document.item[${ctr}].itemUnitPrice"
+                            readOnly="${not (fullEntryMode) or (KualiForm.document.items[ctr].itemType.amountBasedGeneralLedgerIndicator) }" />
+                    </c:if>
+                    <c:if test="${KualiForm.document.items[ctr].itemType.amountBasedGeneralLedgerIndicator}">
+                        <kul:htmlControlAttribute
+                            attributeEntry="${itemAttributes.itemUnitPrice}"
+                            property="document.item[${ctr}].poOutstandingAmount"
+                            readOnly="true" />
+                    </c:if>
 				</div>
 			</td>
 			<td class="infoline">

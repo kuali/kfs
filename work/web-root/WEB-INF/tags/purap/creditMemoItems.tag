@@ -30,7 +30,7 @@
   <c:set var="usePO" value="false" />
 </c:if>
 
-<c:if test="${fn:length(KualiForm.document.items) > fn:length(KualiForm.document.belowTheLineTypes)}">
+<c:if test="${KualiForm.countOfAboveTheLine>=1}">
 	<tr>
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" width="2%"/>
 		
@@ -54,7 +54,7 @@
 	</tr>
 </c:if>
 
-<c:if test="${!(fn:length(KualiForm.document.items) > fn:length(KualiForm.document.belowTheLineTypes))}">
+<c:if test="${KualiForm.countOfAboveTheLine<1}">
 	<tr>
 		<th height=30 colspan="10">No items added to document</th>
 	</tr>

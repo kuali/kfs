@@ -42,7 +42,7 @@
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%"/>
 	</tr>
 </c:if>
-<%-- temporary workaround due to removing discount item --%>
+
 <c:if test="${KualiForm.countOfAboveTheLine<1}">
 	<tr>
 		<th height=30 colspan="10">No items Payable</th>

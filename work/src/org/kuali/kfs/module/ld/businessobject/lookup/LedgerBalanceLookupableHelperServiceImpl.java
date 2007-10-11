@@ -59,6 +59,8 @@ import org.kuali.module.labor.web.inquirable.LedgerBalanceInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * Service implementation of LedgerBalanceLookupableHelperService.
+ *
  * The class is the front-end for all Ledger balance inquiry processing.
  */
 @Transactional

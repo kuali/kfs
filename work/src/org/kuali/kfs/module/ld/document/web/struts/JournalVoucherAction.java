@@ -27,6 +27,8 @@ import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 
 /**
+ * Struts Action Form for the Labor Ledger Journal Voucher.
+ *
  * This class piggy backs on all of the functionality in the KualiTransactionalDocumentActionBase but is necessary for this document
  * type. The Journal Voucher is unique in that it defines several fields that aren't typically used by the other financial
  * transaction processing eDocs (i.e. external system fields, object type override, credit and debit amounts).

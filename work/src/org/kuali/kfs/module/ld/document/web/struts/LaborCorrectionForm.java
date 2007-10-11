@@ -25,7 +25,6 @@ import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.document.LaborCorrectionDocument;
 import org.kuali.module.labor.service.LaborCorrectionDocumentService;
 
-
 /**
  * Struts Action Form for the Labor Ledger Correction Process.
  */

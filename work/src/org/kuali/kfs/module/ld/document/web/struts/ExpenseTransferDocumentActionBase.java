@@ -75,8 +75,9 @@ import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
+
 /**
- * This class handles UI actions for all shared methods of expense transfer documents.
+ * Base Struts Action class for Benefit Expense Transfer Document.
  */
 public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExpenseTransferDocumentActionBase.class);

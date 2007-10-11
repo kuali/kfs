@@ -42,6 +42,10 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.labor.bo.SegmentedBusinessObject;
 import org.kuali.module.labor.web.inquirable.LedgerBalanceForExpenseTransferInquirableImpl;
 
+/**
+ * Service implementation of LedgerBalanceForExpenseTransferLookupableHelperService.
+ */
+
 public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl extends LedgerBalanceLookupableHelperServiceImpl {
     private static final Log LOG = LogFactory.getLog(LedgerBalanceForExpenseTransferLookupableHelperServiceImpl.class);
 

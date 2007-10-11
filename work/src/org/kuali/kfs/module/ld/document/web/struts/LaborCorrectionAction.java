@@ -340,6 +340,7 @@ public class LaborCorrectionAction extends CorrectionAction {
     /**
      * Save a changed row in the group
      */
+    
     public ActionForward saveManualEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("saveManualEdit() started");
 

@@ -25,7 +25,7 @@ import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties;
 
 /**
- * Labor business object specifically for <code>{@link SalaryExpenseTransferDocument}</code> ledger balance import functionality.
+ * Labor business object specifically for SalaryExpenseTransferDocument ledger balance import functionality.
  */
 public class LedgerBalanceForSalaryExpenseTransfer extends LedgerBalance implements SegmentedBusinessObject {
 

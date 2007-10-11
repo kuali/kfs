@@ -27,6 +27,8 @@ import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.bo.LedgerEntry;
 
 /**
+ * Service implementation of LedgerBalanceInquirable.
+ *
  * This class is used to generate the URL for the user-defined attributes for the Ledger Balance screen. It is entended the
  * KualiInquirableImpl class, so it covers both the default implementation and customized implemetnation.
  */

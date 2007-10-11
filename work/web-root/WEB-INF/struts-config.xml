@@ -363,7 +363,7 @@
             <forward name="edit" path="/pdp/disbursementnumber/edit.jsp" />
         </action>
 
-        <action path="/pdp/disbursementmaintsave" name="PdpDisbursementNumberMaintenanceForm" validate="true" input="/pdp/disbursementnumber/edit.jsp" scope="request" type="org.kuali.module.pdp.action.disbursementnumbermaintenance.DisbursementNumberMaintenanceSaveAction">
+        <action path="/pdp/disbursementmaintsave" name="PdpDisbursementNumberMaintenanceForm" validate="false" input="/pdp/disbursementnumber/edit.jsp" scope="request" type="org.kuali.module.pdp.action.disbursementnumbermaintenance.DisbursementNumberMaintenanceSaveAction">
             <forward name="list" path="/pdp/disbursementmaint.do" />
             <forward name="edit" path="/pdp/disbursementnumber/edit.jsp" />
         </action>

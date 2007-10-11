@@ -16,6 +16,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.SchedulerService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.bo.AchAccountNumber;
@@ -34,7 +35,6 @@ import org.kuali.module.pdp.bo.PhysicalCampus;
 import org.kuali.module.pdp.bo.ProcessSummary;
 import org.kuali.module.pdp.dao.CustomerProfileDao;
 import org.kuali.module.pdp.dao.DisbursementNumberRangeDao;
-import org.kuali.module.pdp.dao.FormatExtractDao;
 import org.kuali.module.pdp.dao.FormatPaymentDao;
 import org.kuali.module.pdp.dao.FormatProcessDao;
 import org.kuali.module.pdp.dao.PaymentDetailDao;
@@ -77,7 +77,7 @@ public class FormatServiceImpl implements FormatService {
     private GlPendingTransactionService glPendingTransactionService;
     private ParameterService parameterService;
     private FormatPaymentDao formatPaymentDao;
-    private FormatExtractDao formatExtractDao;
+    private SchedulerService schedulerService;
 
     public FormatServiceImpl() {
         super();
@@ -312,7 +312,7 @@ public class FormatServiceImpl implements FormatService {
 
         // step 5 tell the extract batch job to start
         LOG.debug("performFormat() Start extract batch job");
-        formatExtractDao.triggerExtract(proc);
+        triggerExtract(proc);
 
         // step 6 end the format process for this campus
         LOG.debug("performFormat() End the format process for this campus");
@@ -321,6 +321,11 @@ public class FormatServiceImpl implements FormatService {
         // step 7 return all the process summaries
         List processSummaryResults = processSummaryDao.getByPaymentProcess(proc);
         return convertProcessSummary2FormatResult(processSummaryResults);
+    }
+
+    private void triggerExtract(PaymentProcess proc) {
+        LOG.debug("triggerExtract() started");
+
     }
 
     private List convertProcessSummary2FormatResult(List processSummaryResults) {
@@ -629,8 +634,8 @@ public class FormatServiceImpl implements FormatService {
     }
 
     // Inject
-    public void setFormatExtractDao(FormatExtractDao psd) {
-        formatExtractDao = psd;
+    public void setSchedulerService(SchedulerService ss) {
+        schedulerService = ss;
     }
 
     public void setParameterService(ParameterService parameterService) {

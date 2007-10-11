@@ -423,6 +423,10 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                 // just update encumberances, items shouldn't change, get to them through po (or through preq)
                 List<PaymentRequestItem> items = cm.getPaymentRequestDocument().getItems();
                 for (PaymentRequestItem preqItem : items) {
+                    //skip inactive and below the line
+                    if (!preqItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+                        continue;
+                    }
                     PurchaseOrderItem poItem = preqItem.getPurchaseOrderItem();
                     CreditMemoItem cmItem = (CreditMemoItem)cm.getAPItemFromPOItem(poItem);
                     // take invoiced quantities from the lower of the preq and po if different

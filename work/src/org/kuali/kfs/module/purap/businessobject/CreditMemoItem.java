@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.service.AccountsPayableService;
@@ -88,7 +89,13 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         setPoUnitPrice(poItem.getItemUnitPrice());
         setPoExtendedPrice(poItem.getItemInvoicedTotalAmount());
         setItemTypeCode(poItem.getItemTypeCode());
-        setItemUnitPrice(poItem.getItemUnitPrice());
+        if( (ObjectUtils.isNotNull(this.getItemType()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator()) ) {
+            //setting unit price to be null to be more consistent with other below the line
+            this.setItemUnitPrice(null);
+        } else {
+            setItemUnitPrice(poItem.getItemUnitPrice());
+        }
+        
         setItemCatalogNumber(poItem.getItemCatalogNumber());
         setItemDescription(poItem.getItemDescription());
 
@@ -133,7 +140,12 @@ public class CreditMemoItem extends AccountsPayableItemBase {
 
         setPreqUnitPrice(preqItem.getItemUnitPrice());
         setItemTypeCode(preqItem.getItemTypeCode());
-        setItemUnitPrice(preqItem.getItemUnitPrice());
+        if( (ObjectUtils.isNotNull(this.getItemType()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator()) ) {
+            //setting unit price to be null to be more consistent with other below the line
+            this.setItemUnitPrice(null);
+        } else {
+            setItemUnitPrice(preqItem.getItemUnitPrice());
+        }
         setItemCatalogNumber(preqItem.getItemCatalogNumber());
         setItemDescription(preqItem.getItemDescription());
 

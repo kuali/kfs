@@ -31,6 +31,7 @@ import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -1090,7 +1091,12 @@ public class ScrubberProcess {
             capitalizationEntry.setEntryId(null);
 
             capitalizationEntry.setFinancialObjectCode(scrubbedEntryChart.getFundBalanceObjectCode());
-            capitalizationEntry.setFinancialObjectTypeCode(scrubbedEntryOption.getFinObjectTypeFundBalanceCd());
+            if (ObjectUtils.isNotNull(scrubbedEntryChart.getFundBalanceObject())) {
+                capitalizationEntry.setFinancialObjectTypeCode(scrubbedEntryChart.getFundBalanceObject().getFinancialObjectTypeCode());
+            }
+            else {
+                capitalizationEntry.setFinancialObjectTypeCode(scrubbedEntryOption.getFinObjectTypeFundBalanceCd());
+            }
 
             if (scrubbedEntry.isDebit()) {
                 capitalizationEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
@@ -1275,7 +1281,12 @@ public class ScrubberProcess {
 
             // ... and now generate the offset half of the liability entry
             liabilityEntry.setFinancialObjectCode(scrubbedEntryChart.getFundBalanceObjectCode());
-            liabilityEntry.setFinancialObjectTypeCode(scrubbedEntryOption.getFinObjectTypeFundBalanceCd());
+            if (ObjectUtils.isNotNull(scrubbedEntryChart.getFundBalanceObject())) {
+                liabilityEntry.setFinancialObjectTypeCode(scrubbedEntryChart.getFundBalanceObject().getFinancialObjectTypeCode());
+            } 
+            else {
+                liabilityEntry.setFinancialObjectTypeCode(scrubbedEntryOption.getFinObjectTypeFundBalanceCd());
+            }
 
             if (liabilityEntry.isDebit()) {
                 liabilityEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);

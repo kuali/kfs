@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Labor business object for Benefits Type
  */
 public class BenefitsType extends PersistableBusinessObjectBase {
 
@@ -40,7 +40,6 @@ public class BenefitsType extends PersistableBusinessObjectBase {
      * Gets the positionBenefitTypeCode attribute.
      * 
      * @return Returns the positionBenefitTypeCode
-     * 
      */
     public String getPositionBenefitTypeCode() {
         return positionBenefitTypeCode;
@@ -50,18 +49,15 @@ public class BenefitsType extends PersistableBusinessObjectBase {
      * Sets the positionBenefitTypeCode attribute.
      * 
      * @param positionBenefitTypeCode The positionBenefitTypeCode to set.
-     * 
      */
     public void setPositionBenefitTypeCode(String positionBenefitTypeCode) {
         this.positionBenefitTypeCode = positionBenefitTypeCode;
     }
 
-
     /**
      * Gets the positionBenefitTypeDescription attribute.
      * 
      * @return Returns the positionBenefitTypeDescription
-     * 
      */
     public String getPositionBenefitTypeDescription() {
         return positionBenefitTypeDescription;
@@ -71,34 +67,28 @@ public class BenefitsType extends PersistableBusinessObjectBase {
      * Sets the positionBenefitTypeDescription attribute.
      * 
      * @param positionBenefitTypeDescription The positionBenefitTypeDescription to set.
-     * 
      */
     public void setPositionBenefitTypeDescription(String positionBenefitTypeDescription) {
         this.positionBenefitTypeDescription = positionBenefitTypeDescription;
     }
 
-
     /**
      * Gets the positionBenefitRetirementIndicator attribute.
      * 
      * @return Returns the positionBenefitRetirementIndicator
-     * 
      */
     public boolean isPositionBenefitRetirementIndicator() {
         return positionBenefitRetirementIndicator;
     }
 
-
     /**
      * Sets the positionBenefitRetirementIndicator attribute.
      * 
      * @param positionBenefitRetirementIndicator The positionBenefitRetirementIndicator to set.
-     * 
      */
     public void setPositionBenefitRetirementIndicator(boolean positionBenefitRetirementIndicator) {
         this.positionBenefitRetirementIndicator = positionBenefitRetirementIndicator;
     }
-
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -106,6 +96,7 @@ public class BenefitsType extends PersistableBusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("positionBenefitTypeCode", this.positionBenefitTypeCode);
+        
         return m;
     }
 }

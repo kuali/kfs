@@ -28,8 +28,10 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.dao.LaborDao;
 
+/**
+ * Labor business object for Account Status (Current Funds).
+ */
 public class AccountStatusCurrentFunds extends LedgerBalance {
     private String personName;
     private KualiDecimal outstandingEncum;
@@ -69,7 +71,7 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
     }
 
     /**
-     * Sets thes persons name
+     * Sets the persons name
      * 
      * @param personName
      */
@@ -78,7 +80,7 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
     }
 
     /**
-     * Gets returns an outstanding encumberance value
+     * Gets an outstanding encumberance value
      * 
      * @return outstanding encumberance value
      */
@@ -154,11 +156,13 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
         }
         primaryKeyList.add(KFSPropertyConstants.POSITION_NUMBER);
         primaryKeyList.add(KFSPropertyConstants.EMPLID);
+        
         return primaryKeyList;
     }
 
     /**
-     * Gets the annualActualAmount attribute. 
+     * Gets the annualActualAmount attribute.
+     * 
      * @return Returns the annualActualAmount.
      */
     public KualiDecimal getAnnualActualAmount() {
@@ -167,6 +171,7 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
 
     /**
      * Sets the annualActualAmount attribute value.
+     * 
      * @param annualActualAmount The annualActualAmount to set.
      */
     public void setAnnualActualAmount(KualiDecimal annualActualAmount) {

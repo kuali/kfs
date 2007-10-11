@@ -29,96 +29,79 @@ import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.labor.LaborConstants;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * Labor business object for July 1 Position Funding
  */
 public class July1PositionFunding extends LedgerBalance {
-
-	private KualiDecimal july1BudgetAmount;
-	private BigDecimal july1BudgetFteQuantity;
-	private BigDecimal july1BudgetTimePercent;
     
+    private KualiDecimal july1BudgetAmount;
+    private BigDecimal july1BudgetFteQuantity;
+    private BigDecimal july1BudgetTimePercent;
     private String personName;
-    
     private TransientBalanceInquiryAttributes dummyBusinessObject;
 
-	/**
-	 * Default constructor.
-	 */
-	public July1PositionFunding() {
-
-	}
-
-	/**
-	 * Gets the july1BudgetAmount attribute.
-	 * 
-	 * @return Returns the july1BudgetAmount
-	 * 
-	 */
-	public KualiDecimal getJuly1BudgetAmount() { 
-		return july1BudgetAmount;
-	}
-
-	/**
-	 * Sets the july1BudgetAmount attribute.
-	 * 
-	 * @param july1BudgetAmount The july1BudgetAmount to set.
-	 * 
-	 */
-	public void setJuly1BudgetAmount(KualiDecimal july1BudgetAmount) {
-		this.july1BudgetAmount = july1BudgetAmount;
-	}
-
-
-	/**
-	 * Gets the july1BudgetFteQuantity attribute.
-	 * 
-	 * @return Returns the july1BudgetFteQuantity
-	 * 
-	 */
-	public BigDecimal getJuly1BudgetFteQuantity() { 
-		return july1BudgetFteQuantity;
-	}
-
-	/**
-	 * Sets the july1BudgetFteQuantity attribute.
-	 * 
-	 * @param july1BudgetFteQuantity The july1BudgetFteQuantity to set.
-	 * 
-	 */
-	public void setJuly1BudgetFteQuantity(BigDecimal july1BudgetFteQuantity) {
-		this.july1BudgetFteQuantity = july1BudgetFteQuantity;
-	}
-
-
-	/**
-	 * Gets the july1BudgetTimePercent attribute.
-	 * 
-	 * @return Returns the july1BudgetTimePercent
-	 * 
-	 */
-	public BigDecimal getJuly1BudgetTimePercent() { 
-		return july1BudgetTimePercent;
-	}
-
-	/**
-	 * Sets the july1BudgetTimePercent attribute.
-	 * 
-	 * @param july1BudgetTimePercent The july1BudgetTimePercent to set.
-	 * 
-	 */
-	public void setJuly1BudgetTimePercent(BigDecimal july1BudgetTimePercent) {
-		this.july1BudgetTimePercent = july1BudgetTimePercent;
-	}
-
     /**
-     * Sets the fundingPerson attribute.
-     * 
-     * @param fundingPerson The fundingPerson to set.
-     * @deprecated
+     * Default constructor.
      */
+    public July1PositionFunding() {
+
+    }
 
     /**
-     * Gets the dummyBusinessObject attribute.
+     * Gets the july1BudgetAmount.
+     * 
+     * @return Returns the july1BudgetAmount
+     */
+    public KualiDecimal getJuly1BudgetAmount() {
+        return july1BudgetAmount;
+    }
+
+    /**
+     * Sets the july1BudgetAmount.
+     * 
+     * @param july1BudgetAmount The july1BudgetAmount to set.
+     */
+    public void setJuly1BudgetAmount(KualiDecimal july1BudgetAmount) {
+        this.july1BudgetAmount = july1BudgetAmount;
+    }
+
+    /**
+     * Gets the july1BudgetFteQuantity.
+     * 
+     * @return Returns the july1BudgetFteQuantity
+     */
+    public BigDecimal getJuly1BudgetFteQuantity() {
+        return july1BudgetFteQuantity;
+    }
+
+    /**
+     * Sets the july1BudgetFteQuantity.
+     * 
+     * @param july1BudgetFteQuantity The july1BudgetFteQuantity to set.
+     */
+    public void setJuly1BudgetFteQuantity(BigDecimal july1BudgetFteQuantity) {
+        this.july1BudgetFteQuantity = july1BudgetFteQuantity;
+    }
+
+    /**
+     * Gets the july1BudgetTimePercent.
+     * 
+     * @return Returns the july1BudgetTimePercent
+     */
+    public BigDecimal getJuly1BudgetTimePercent() {
+        return july1BudgetTimePercent;
+    }
+
+    /**
+     * Sets the july1BudgetTimePercent.
+     * 
+     * @param july1BudgetTimePercent The july1BudgetTimePercent to set.
+     */
+    public void setJuly1BudgetTimePercent(BigDecimal july1BudgetTimePercent) {
+        this.july1BudgetTimePercent = july1BudgetTimePercent;
+    }
+
+    /**
+     * Gets the dummyBusinessObject.
      * 
      * @return Returns the dummyBusinessObject.
      */
@@ -127,7 +110,7 @@ public class July1PositionFunding extends LedgerBalance {
     }
 
     /**
-     * Sets the dummyBusinessObject attribute value.
+     * Sets the dummyBusinessObject.
      * 
      * @param dummyBusinessObject The dummyBusinessObject to set.
      */
@@ -136,29 +119,29 @@ public class July1PositionFunding extends LedgerBalance {
     }
 
     /**
+     * Gets the personName
      * 
-     * This method returns the person name
-     * @return
+     * @return Returns the personsName
      */
     public String getPersonName() {
         UserId empl = new PersonPayrollId(getEmplid());
         UniversalUser universalUser = null;
-        
-        try{
+
+        try {
             universalUser = SpringContext.getBean(UniversalUserService.class).getUniversalUser(empl);
-        }catch(UserNotFoundException e){
+        }
+        catch (UserNotFoundException e) {
             return LaborConstants.BalanceInquiries.UnknownPersonName;
         }
 
         return universalUser.getPersonName();
-    }        
-    
+    }
+
     /**
+     * Sets the personName
      * 
-     * This method set thes persons name
      * @param personName
      */
-    
     public void setPersonName(String personName) {
         this.personName = personName;
     }

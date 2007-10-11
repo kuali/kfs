@@ -25,8 +25,7 @@ import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties;
 
 /**
- * BO class specifically for <code>{@link SalaryExpenseTransferDocument}</code> ledger balance
- * import functionality.
+ * Labor business object specifically for <code>{@link SalaryExpenseTransferDocument}</code> ledger balance import functionality.
  */
 public class LedgerBalanceForSalaryExpenseTransfer extends LedgerBalance implements SegmentedBusinessObject {
 
@@ -50,10 +49,10 @@ public class LedgerBalanceForSalaryExpenseTransfer extends LedgerBalance impleme
     public Collection<String> getSegmentedPropertyNames() {
         return (Collection<String>) Arrays.asList(AccountingPeriodProperties.namesToArray());
     }
-    
+
     /**
-     * Adds the period amount to the return string. Since the return string cannot have string, multiplies
-     * the amount by 100 so the decimal places are not lost.
+     * Adds the period amount to the return string. Since the return string cannot have string, multiplies the amount by 100 so the
+     * decimal places are not lost.
      * 
      * @see org.kuali.module.labor.bo.SegmentedBusinessObject#getAdditionalReturnData(java.lang.String)
      */
@@ -61,9 +60,7 @@ public class LedgerBalanceForSalaryExpenseTransfer extends LedgerBalance impleme
         String periodCode = LaborConstants.periodCodeMapping.get(segmentedPropertyName);
         KualiDecimal periodAmount = getAmount(periodCode);
         periodAmount = periodAmount.multiply(new KualiDecimal(100));
-        
         NumberFormat formatter = NumberFormat.getIntegerInstance();
-        
         String formattedAmount = formatter.format(periodAmount);
         return StringUtils.replace(formattedAmount, ",", "");
     }

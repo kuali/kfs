@@ -21,7 +21,6 @@ import static org.kuali.kfs.KFSPropertyConstants.AMOUNT;
 import static org.kuali.kfs.KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.OBJECT_TYPE_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
 import static org.kuali.kfs.KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR;
@@ -36,20 +35,23 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 
 /**
- * Extended class for parsing serialized <code>AccountingLine</code>s for <code>TransactionalDocument</code>s
- * 
- * 
+ * Labor Extended class for parsing serialized <code>AccountingLine</code>s for <code>TransactionalDocument</code>s
  */
 public class LaborLedgerAccountingLineParser extends AccountingLineParserBase {
 
-    protected static final String[] LABOR_LEDGER_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE,
-        ORGANIZATION_REFERENCE_ID, POSITION_NUMBER, PAYROLL_END_DATE_FISCAL_YEAR, PAYROLL_END_DATE_FISCAL_PERIOD_CODE, PAYROLL_TOTAL_HOURS, AMOUNT };
-    
-    
-    public LaborLedgerAccountingLineParser() {
-    }
-    
+    protected static final String[] LABOR_LEDGER_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, POSITION_NUMBER, PAYROLL_END_DATE_FISCAL_YEAR, PAYROLL_END_DATE_FISCAL_PERIOD_CODE, PAYROLL_TOTAL_HOURS, AMOUNT };
+
     /**
+     * Constructs a LaborLedgerAccountingLineParser.java.
+     */
+    public LaborLedgerAccountingLineParser() {
+        
+    }
+
+    /**
+     * Gets the LABOR_LEDGER_FORMAT the SourceAccountingLineFormat.
+     * 
+     * @return Returns the LABOR_LEDGER_FORMAT.
      * @see org.kuali.core.bo.AccountingLineParser#getSourceAccountingLineFormat()
      */
     public String[] getSourceAccountingLineFormat() {
@@ -57,14 +59,21 @@ public class LaborLedgerAccountingLineParser extends AccountingLineParserBase {
     }
 
     /**
+     * Gets the LABOR_LEDGER_FORMAT the TargetAccountingLineFormat.
      * 
+     * @return Returns the LABOR_LEDGER_FORMAT.
      * @see org.kuali.core.bo.AccountingLineParser#getTargetAccountingLineFormat()
      */
     public String[] getTargetAccountingLineFormat() {
         return LABOR_LEDGER_FORMAT;
     }
-    
-    
+
+    /**
+     * 
+     * Will return the format determing if the line is Source or Target.
+     * @param accountingLineClass
+     * @return Returns The format.
+     */
     private String[] chooseFormat(Class<? extends AccountingLine> accountingLineClass) {
         String[] format = null;
         if (SourceAccountingLine.class.isAssignableFrom(accountingLineClass)) {
@@ -76,7 +85,7 @@ public class LaborLedgerAccountingLineParser extends AccountingLineParserBase {
         else {
             throw new IllegalStateException("unknow accounting line class: " + accountingLineClass);
         }
+        
         return format;
     }
-
 }

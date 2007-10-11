@@ -24,6 +24,9 @@ import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.gl.bo.Transaction;
 
+/**
+ * Labor business object for Labor Transaction
+ */
 public interface LaborTransaction extends Transaction {
     
     public String getPositionNumber();
@@ -42,7 +45,6 @@ public interface LaborTransaction extends Transaction {
     public String getSalaryAdministrationPlan();
     public String getGrade();
     public String getRunIdentifier();
-    
     public String getLaborLedgerOriginalChartOfAccountsCode();
     public String getLaborLedgerOriginalAccountNumber();
     public String getLaborLedgerOriginalSubAccountNumber();
@@ -50,9 +52,8 @@ public interface LaborTransaction extends Transaction {
     public String getLaborLedgerOriginalFinancialSubObjectCode();
     public String getHrmsCompany();
     public String getSetid();
-   
     public DocumentHeader getFinancialDocument();
     public DocumentType getReferenceFinancialDocumentType();
     public OriginationCode getReferenceFinancialSystemOrigination();
-    public AccountingPeriod getPayrollEndDateFiscalPeriod();  
+    public AccountingPeriod getPayrollEndDateFiscalPeriod();
 }

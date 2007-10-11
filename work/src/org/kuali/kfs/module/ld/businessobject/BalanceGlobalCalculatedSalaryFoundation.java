@@ -20,161 +20,144 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.bo.ObjectCode;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * Labor business object for Balance Global Calculated Salary Foundation.
  */
 public class BalanceGlobalCalculatedSalaryFoundation extends PersistableBusinessObjectBase {
 
-	private String personUniversalIdentifier;
-	private String subAccountNumber;
-	private String financialObjectCode;
-	private String financialSubObjectCode;
-	private KualiDecimal budgetAmount;
-	private KualiDecimal calculatedSalaryFoundationAmount;
+    private String personUniversalIdentifier;
+    private String subAccountNumber;
+    private String financialObjectCode;
+    private String financialSubObjectCode;
+    private KualiDecimal budgetAmount;
+    private KualiDecimal calculatedSalaryFoundationAmount;
 
-	/**
-	 * Default constructor.
-	 */
-	public BalanceGlobalCalculatedSalaryFoundation() {
+    /**
+     * Default constructor.
+     */
+    public BalanceGlobalCalculatedSalaryFoundation() {
 
-	}
+    }
 
-	/**
-	 * Gets the personUniversalIdentifier attribute.
-	 * 
-	 * @return Returns the personUniversalIdentifier
-	 * 
-	 */
-	public String getPersonUniversalIdentifier() { 
-		return personUniversalIdentifier;
-	}
+    /**
+     * Gets the personUniversalIdentifier attribute.
+     * 
+     * @return Returns the personUniversalIdentifier
+     */
+    public String getPersonUniversalIdentifier() {
+        return personUniversalIdentifier;
+    }
 
-	/**
-	 * Sets the personUniversalIdentifier attribute.
-	 * 
-	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
-	 * 
-	 */
-	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-		this.personUniversalIdentifier = personUniversalIdentifier;
-	}
+    /**
+     * Sets the personUniversalIdentifier attribute.
+     * 
+     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     */
+    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
+        this.personUniversalIdentifier = personUniversalIdentifier;
+    }
 
+    /**
+     * Gets the subAccountNumber attribute.
+     * 
+     * @return Returns the subAccountNumber
+     */
+    public String getSubAccountNumber() {
+        return subAccountNumber;
+    }
 
-	/**
-	 * Gets the subAccountNumber attribute.
-	 * 
-	 * @return Returns the subAccountNumber
-	 * 
-	 */
-	public String getSubAccountNumber() { 
-		return subAccountNumber;
-	}
+    /**
+     * Sets the subAccountNumber attribute.
+     * 
+     * @param subAccountNumber The subAccountNumber to set.
+     */
+    public void setSubAccountNumber(String subAccountNumber) {
+        this.subAccountNumber = subAccountNumber;
+    }
 
-	/**
-	 * Sets the subAccountNumber attribute.
-	 * 
-	 * @param subAccountNumber The subAccountNumber to set.
-	 * 
-	 */
-	public void setSubAccountNumber(String subAccountNumber) {
-		this.subAccountNumber = subAccountNumber;
-	}
+    /**
+     * Gets the financialObjectCode attribute.
+     * 
+     * @return Returns the financialObjectCode
+     */
+    public String getFinancialObjectCode() {
+        return financialObjectCode;
+    }
 
+    /**
+     * Sets the financialObjectCode attribute.
+     * 
+     * @param financialObjectCode The financialObjectCode to set.
+     */
+    public void setFinancialObjectCode(String financialObjectCode) {
+        this.financialObjectCode = financialObjectCode;
+    }
 
-	/**
-	 * Gets the financialObjectCode attribute.
-	 * 
-	 * @return Returns the financialObjectCode
-	 * 
-	 */
-	public String getFinancialObjectCode() { 
-		return financialObjectCode;
-	}
+    /**
+     * Gets the financialSubObjectCode attribute.
+     * 
+     * @return Returns the financialSubObjectCode
+     */
+    public String getFinancialSubObjectCode() {
+        return financialSubObjectCode;
+    }
 
-	/**
-	 * Sets the financialObjectCode attribute.
-	 * 
-	 * @param financialObjectCode The financialObjectCode to set.
-	 * 
-	 */
-	public void setFinancialObjectCode(String financialObjectCode) {
-		this.financialObjectCode = financialObjectCode;
-	}
+    /**
+     * Sets the financialSubObjectCode attribute.
+     * 
+     * @param financialSubObjectCode The financialSubObjectCode to set.
+     */
+    public void setFinancialSubObjectCode(String financialSubObjectCode) {
+        this.financialSubObjectCode = financialSubObjectCode;
+    }
 
+    /**
+     * Gets the budgetAmount attribute.
+     * 
+     * @return Returns the budgetAmount
+     */
+    public KualiDecimal getBudgetAmount() {
+        return budgetAmount;
+    }
 
-	/**
-	 * Gets the financialSubObjectCode attribute.
-	 * 
-	 * @return Returns the financialSubObjectCode
-	 * 
-	 */
-	public String getFinancialSubObjectCode() { 
-		return financialSubObjectCode;
-	}
+    /**
+     * Sets the budgetAmount attribute.
+     * 
+     * @param budgetAmount The budgetAmount to set.
+     */
+    public void setBudgetAmount(KualiDecimal budgetAmount) {
+        this.budgetAmount = budgetAmount;
+    }
 
-	/**
-	 * Sets the financialSubObjectCode attribute.
-	 * 
-	 * @param financialSubObjectCode The financialSubObjectCode to set.
-	 * 
-	 */
-	public void setFinancialSubObjectCode(String financialSubObjectCode) {
-		this.financialSubObjectCode = financialSubObjectCode;
-	}
+    /**
+     * Gets the calculatedSalaryFoundationAmount attribute.
+     * 
+     * @return Returns the calculatedSalaryFoundationAmount
+     */
+    public KualiDecimal getCalculatedSalaryFoundationAmount() {
+        return calculatedSalaryFoundationAmount;
+    }
 
+    /**
+     * Sets the calculatedSalaryFoundationAmount attribute.
+     * 
+     * @param calculatedSalaryFoundationAmount The calculatedSalaryFoundationAmount to set.
+     */
+    public void setCalculatedSalaryFoundationAmount(KualiDecimal calculatedSalaryFoundationAmount) {
+        this.calculatedSalaryFoundationAmount = calculatedSalaryFoundationAmount;
+    }
 
-	/**
-	 * Gets the budgetAmount attribute.
-	 * 
-	 * @return Returns the budgetAmount
-	 * 
-	 */
-	public KualiDecimal getBudgetAmount() { 
-		return budgetAmount;
-	}
-
-	/**
-	 * Sets the budgetAmount attribute.
-	 * 
-	 * @param budgetAmount The budgetAmount to set.
-	 * 
-	 */
-	public void setBudgetAmount(KualiDecimal budgetAmount) {
-		this.budgetAmount = budgetAmount;
-	}
-
-
-	/**
-	 * Gets the calculatedSalaryFoundationAmount attribute.
-	 * 
-	 * @return Returns the calculatedSalaryFoundationAmount
-	 * 
-	 */
-	public KualiDecimal getCalculatedSalaryFoundationAmount() { 
-		return calculatedSalaryFoundationAmount;
-	}
-
-	/**
-	 * Sets the calculatedSalaryFoundationAmount attribute.
-	 * 
-	 * @param calculatedSalaryFoundationAmount The calculatedSalaryFoundationAmount to set.
-	 * 
-	 */
-	public void setCalculatedSalaryFoundationAmount(KualiDecimal calculatedSalaryFoundationAmount) {
-		this.calculatedSalaryFoundationAmount = calculatedSalaryFoundationAmount;
-	}
-
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("personUniversalIdentifier", this.personUniversalIdentifier);
         m.put("subAccountNumber", this.subAccountNumber);
         m.put("financialObjectCode", this.financialObjectCode);
         m.put("financialSubObjectCode", this.financialSubObjectCode);
-	    return m;
+        
+        return m;
     }
 }

@@ -21,123 +21,111 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.TargetAccountingLine;
 
-
 /**
- * Special case <code>{@link TargetAccountingLine}</code> type for
+ * Labor business object for special case <code>{@link TargetAccountingLine}</code> type for
  * <code>{@link org.kuali.module.labor.document.ExpenseTransferDocument}</code>
  */
-public class ExpenseTransferTargetAccountingLine extends TargetAccountingLine 
-    implements ExpenseTransferAccountingLine, Comparable<ExpenseTransferTargetAccountingLine> {
+public class ExpenseTransferTargetAccountingLine extends TargetAccountingLine implements ExpenseTransferAccountingLine, Comparable<ExpenseTransferTargetAccountingLine> {
     private String positionNumber;
-    private BigDecimal payrollTotalHours;    
+    private BigDecimal payrollTotalHours;
     private Integer payrollEndDateFiscalYear;
     private String payrollEndDateFiscalPeriodCode;
     private String emplid;
-
     private LaborObject laborObject;
-    
+
     /**
-     * Gets the positionNumber attribute.
+     * Gets the positionNumber.
      * 
      * @return Returns the positionNumber
-     * 
      */
-    public String getPositionNumber() { 
+    public String getPositionNumber() {
         return positionNumber;
     }
 
     /**
-     * Sets the positionNumber attribute.
+     * Sets the positionNumber.
      * 
      * @param positionNumber The positionNumber to set.
-     * 
      */
     public void setPositionNumber(String positionNumber) {
         this.positionNumber = positionNumber;
     }
 
     /**
-     * Gets the payrollTotalHours attribute.
+     * Gets the payrollTotalHours.
      * 
      * @return Returns the payrollTotalHours
-     * 
      */
-    public BigDecimal getPayrollTotalHours() { 
+    public BigDecimal getPayrollTotalHours() {
         return payrollTotalHours;
     }
 
     /**
-     * Sets the payrollTotalHours attribute.
+     * Sets the payrollTotalHours.
      * 
      * @param payrollTotalHours The payrollTotalHours to set.
-     * 
      */
     public void setPayrollTotalHours(BigDecimal payrollTotalHours) {
         this.payrollTotalHours = payrollTotalHours;
     }
 
     /**
-     * Gets the payrollEndDateFiscalYear attribute.
+     * Gets the payrollEndDateFiscalYear.
      * 
      * @return Returns the payrollEndDateFiscalYear
-     * 
      */
-    public Integer getPayrollEndDateFiscalYear() { 
+    public Integer getPayrollEndDateFiscalYear() {
         return payrollEndDateFiscalYear;
     }
 
     /**
-     * Sets the payrollEndDateFiscalYear attribute.
+     * Sets the payrollEndDateFiscalYear.
      * 
      * @param payrollEndDateFiscalYear The payrollEndDateFiscalYear to set.
-     * 
      */
     public void setPayrollEndDateFiscalYear(Integer payrollEndDateFiscalYear) {
         this.payrollEndDateFiscalYear = payrollEndDateFiscalYear;
     }
 
     /**
-     * Gets the payrollEndDateFiscalPeriodCode attribute.
+     * Gets the payrollEndDateFiscalPeriodCode.
      * 
      * @return Returns the payrollEndDateFiscalPeriodCode
-     * 
      */
-    public String getPayrollEndDateFiscalPeriodCode() { 
+    public String getPayrollEndDateFiscalPeriodCode() {
         return payrollEndDateFiscalPeriodCode;
     }
 
     /**
-     * Sets the payrollEndDateFiscalPeriodCode attribute.
+     * Sets the payrollEndDateFiscalPeriodCode.
      * 
      * @param payrollEndDateFiscalPeriodCode The payrollEndDateFiscalPeriodCode to set.
-     * 
      */
     public void setPayrollEndDateFiscalPeriodCode(String payrollEndDateFiscalPeriodCode) {
         this.payrollEndDateFiscalPeriodCode = payrollEndDateFiscalPeriodCode;
     }
 
     /**
-     * Gets the emplid attribute.
+     * Gets the emplid.
      * 
      * @return Returns the emplid
-     * 
      */
-    public String getEmplid() { 
+    public String getEmplid() {
         return emplid;
     }
 
     /**
-     * Sets the emplid attribute.
+     * Sets the emplid.
      * 
      * @param emplid The emplid to set.
-     * 
      */
     public void setEmplid(String emplid) {
         this.emplid = emplid;
     }
 
     /**
-     * Gets the laborObject attribute. 
+     * Gets the laborObject.
+     * 
      * @return Returns the laborObject.
      */
     public LaborObject getLaborObject() {
@@ -145,7 +133,8 @@ public class ExpenseTransferTargetAccountingLine extends TargetAccountingLine
     }
 
     /**
-     * Sets the laborObject attribute value.
+     * Sets the laborObject.
+     * 
      * @param laborObject The laborObject to set.
      */
     @Deprecated
@@ -157,43 +146,46 @@ public class ExpenseTransferTargetAccountingLine extends TargetAccountingLine
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
         if (this.getSequenceNumber() != null) {
             m.put("sequenceNumber", this.getSequenceNumber().toString());
         }
+        
         return m;
     }
 
     /**
-     * Used to for sorting <code>{@link ExpenseTransferAccountingLine}</code> instances within a java 
+     * Used to for sorting <code>{@link ExpenseTransferAccountingLine}</code> instances within a java
      * <code>{@link java.util.Collection}</code> by payrollEndDateFisdalYear and payrollEndDateFiscalPeriodCode
+     * 
      * @see java.lang.Comparable#compareTo(T)
      */
     public int compareTo(ExpenseTransferTargetAccountingLine o) {
-        if (o == null) throw new NullPointerException("ExpenseTransferAccountingLine is null");
+        if (o == null)
+            throw new NullPointerException("ExpenseTransferAccountingLine is null");
         int retval = 0;
         retval = getPayrollEndDateFiscalYear().compareTo(o.getPayrollEndDateFiscalYear());
-        
+
         if (retval == 0) {
             retval = new Integer(getPayrollEndDateFiscalPeriodCode()).compareTo(new Integer(o.getPayrollEndDateFiscalPeriodCode()));
         }
+        
         return retval;
     }
-    
+
     /**
-     * Used to copy a particular transaction line into another
-     * This method...
+     * Used to copy a particular transaction line into another This method...
+     * 
      * @param from
      */
-    public void copyFrom(ExpenseTransferAccountingLine from) {        
+    public void copyFrom(ExpenseTransferAccountingLine from) {
         super.copyFrom(from);
         System.out.println("******8Source - Copy from XXXXXXXXXXXXXX");
         this.setPayrollTotalHours(from.getPayrollTotalHours());
         this.setPositionNumber(from.getPositionNumber());
         this.setPayrollEndDateFiscalYear(from.getPayrollEndDateFiscalYear());
-        this.setPayrollEndDateFiscalPeriodCode(from.getPayrollEndDateFiscalPeriodCode());    
-        this.setEmplid(from.getEmplid());    
+        this.setPayrollEndDateFiscalPeriodCode(from.getPayrollEndDateFiscalPeriodCode());
+        this.setEmplid(from.getEmplid());
     }
-    
 }

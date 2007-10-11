@@ -24,6 +24,9 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties;
 
+/**
+ * Labor business object for LedgerBalanceForBenefitExpenseTransfer
+ */
 public class LedgerBalanceForBenefitExpenseTransfer extends LedgerBalance implements SegmentedBusinessObject {
 
     /**
@@ -42,14 +45,15 @@ public class LedgerBalanceForBenefitExpenseTransfer extends LedgerBalance implem
 
     /**
      * @see org.kuali.module.labor.bo.SegmentedBusinessObject#getSegmentedPropertyNames()
+     * @return a collection 
      */
     public Collection<String> getSegmentedPropertyNames() {
         return (Collection<String>) Arrays.asList(AccountingPeriodProperties.namesToArray());
     }
 
     /**
-     * Adds the period amount to the return string. Since the return string cannot have string, multiplies
-     * the amount by 100 so the decimal places are not lost.
+     * Adds the period amount to the return string. Since the return string cannot have string, multiplies the amount by 100 so the
+     * decimal places are not lost.
      * 
      * @see org.kuali.module.labor.bo.SegmentedBusinessObject#getAdditionalReturnData(java.lang.String)
      */
@@ -57,10 +61,9 @@ public class LedgerBalanceForBenefitExpenseTransfer extends LedgerBalance implem
         String periodCode = LaborConstants.periodCodeMapping.get(segmentedPropertyName);
         KualiDecimal periodAmount = getAmount(periodCode);
         periodAmount = periodAmount.multiply(new KualiDecimal(100));
-        
         NumberFormat formatter = NumberFormat.getIntegerInstance();
-        
         String formattedAmount = formatter.format(periodAmount);
+        
         return StringUtils.replace(formattedAmount, ",", "");
     }
 }

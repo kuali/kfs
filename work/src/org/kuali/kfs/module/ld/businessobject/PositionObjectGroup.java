@@ -21,91 +21,81 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Labor business object for PositionObjectGroup
  */
 public class PositionObjectGroup extends PersistableBusinessObjectBase {
+    private String positionObjectGroupCode;
+    private String positionObjectGroupName;
+    private boolean rowActiveIndicator;
 
-	private String positionObjectGroupCode;
-	private String positionObjectGroupName;
-	private boolean rowActiveIndicator;
+    /**
+     * Default constructor.
+     */
+    public PositionObjectGroup() {
 
-	/**
-	 * Default constructor.
-	 */
-	public PositionObjectGroup() {
+    }
 
-	}
+    /**
+     * Gets the positionObjectGroupCode
+     * 
+     * @return Returns the positionObjectGroupCode
+     */
+    public String getPositionObjectGroupCode() {
+        return positionObjectGroupCode;
+    }
 
-	/**
-	 * Gets the positionObjectGroupCode attribute.
-	 * 
-	 * @return Returns the positionObjectGroupCode
-	 * 
-	 */
-	public String getPositionObjectGroupCode() { 
-		return positionObjectGroupCode;
-	}
+    /**
+     * Sets the positionObjectGroupCode
+     * 
+     * @param positionObjectGroupCode The positionObjectGroupCode to set.
+     */
+    public void setPositionObjectGroupCode(String positionObjectGroupCode) {
+        this.positionObjectGroupCode = positionObjectGroupCode;
+    }
 
-	/**
-	 * Sets the positionObjectGroupCode attribute.
-	 * 
-	 * @param positionObjectGroupCode The positionObjectGroupCode to set.
-	 * 
-	 */
-	public void setPositionObjectGroupCode(String positionObjectGroupCode) {
-		this.positionObjectGroupCode = positionObjectGroupCode;
-	}
+    /**
+     * Gets the positionObjectGroupName
+     * 
+     * @return Returns the positionObjectGroupName
+     */
+    public String getPositionObjectGroupName() {
+        return positionObjectGroupName;
+    }
 
+    /**
+     * Sets the positionObjectGroupName
+     * 
+     * @param positionObjectGroupName The positionObjectGroupName to set.
+     */
+    public void setPositionObjectGroupName(String positionObjectGroupName) {
+        this.positionObjectGroupName = positionObjectGroupName;
+    }
 
-	/**
-	 * Gets the positionObjectGroupName attribute.
-	 * 
-	 * @return Returns the positionObjectGroupName
-	 * 
-	 */
-	public String getPositionObjectGroupName() { 
-		return positionObjectGroupName;
-	}
+    /**
+     * Gets the rowActiveIndicator
+     * 
+     * @return Returns the rowActiveIndicator
+     */
+    public boolean isRowActiveIndicator() {
+        return rowActiveIndicator;
+    }
 
-	/**
-	 * Sets the positionObjectGroupName attribute.
-	 * 
-	 * @param positionObjectGroupName The positionObjectGroupName to set.
-	 * 
-	 */
-	public void setPositionObjectGroupName(String positionObjectGroupName) {
-		this.positionObjectGroupName = positionObjectGroupName;
-	}
+    /**
+     * Sets the rowActiveIndicator
+     * 
+     * @param rowActiveIndicator The rowActiveIndicator to set.
+     */
+    public void setRowActiveIndicator(boolean rowActiveIndicator) {
+        this.rowActiveIndicator = rowActiveIndicator;
+    }
 
-
-	/**
-	 * Gets the rowActiveIndicator attribute.
-	 * 
-	 * @return Returns the rowActiveIndicator
-	 * 
-	 */
-	public boolean isRowActiveIndicator() { 
-		return rowActiveIndicator;
-	}
-	
-
-	/**
-	 * Sets the rowActiveIndicator attribute.
-	 * 
-	 * @param rowActiveIndicator The rowActiveIndicator to set.
-	 * 
-	 */
-	public void setRowActiveIndicator(boolean rowActiveIndicator) {
-		this.rowActiveIndicator = rowActiveIndicator;
-	}
-
-
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * construct the key list of the business object.
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("positionObjectGroupCode", this.positionObjectGroupCode);
-	    return m;
+        return m;
     }
 }

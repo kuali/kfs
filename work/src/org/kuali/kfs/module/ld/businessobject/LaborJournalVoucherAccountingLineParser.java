@@ -17,7 +17,7 @@
 package org.kuali.module.labor.bo;
 
 /**
- * Base class for parsing serialized AccountingLines for Labor LedgerJournal Voucher
+ * Labor Base class for parsing serialized AccountingLines for Labor LedgerJournal Voucher
  */
 
 import static org.kuali.kfs.KFSKeyConstants.AccountingLineParser.ERROR_INVALID_PROPERTY_VALUE;
@@ -83,7 +83,6 @@ public class LaborJournalVoucherAccountingLineParser extends AccountingLineParse
      */
     @Override
     protected void performCustomSourceAccountingLinePopulation(Map<String, String> attributeValueMap, SourceAccountingLine sourceAccountingLine, String accountingLineAsString) {
-
         // chose debit/credit
         String debitValue = attributeValueMap.remove(DEBIT);
         String creditValue = attributeValueMap.remove(CREDIT);
@@ -123,14 +122,12 @@ public class LaborJournalVoucherAccountingLineParser extends AccountingLineParse
         sourceAccountingLine.setAmount(amount);
         sourceAccountingLine.setDebitCreditCode(debitCreditCode);
 
-
         boolean isFinancialOffsetGeneration = SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(balanceTypeCode).isFinancialOffsetGenerationIndicator();
         if (isFinancialOffsetGeneration || StringUtils.equals(balanceTypeCode, KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE)) {
             super.performCustomSourceAccountingLinePopulation(attributeValueMap, sourceAccountingLine, accountingLineAsString);
         }
         sourceAccountingLine.setBalanceTypeCode(balanceTypeCode);
     }
-
 
     /**
      * @see org.kuali.core.bo.AccountingLineParserBase#getSourceAccountingLineFormat()

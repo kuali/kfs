@@ -28,6 +28,9 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.labor.LaborConstants;
 
+/**
+ * Labor business object for Employee Funding.
+ */
 public class EmployeeFunding extends LedgerBalance {
 
     private String personName;
@@ -36,7 +39,6 @@ public class EmployeeFunding extends LedgerBalance {
     private BigDecimal csfTimePercent;
     private BigDecimal csfFullTimeEmploymentQuantity;
     private KualiDecimal csfAmount;
-
     private KualiDecimal currentAmount;
     private KualiDecimal outstandingEncumbrance;
     private KualiDecimal totalAmount;
@@ -54,9 +56,9 @@ public class EmployeeFunding extends LedgerBalance {
     }
 
     /**
-     * This method returns the person name
+     * Gets the person name.
      * 
-     * @return
+     * @return Returns the PersonName.
      */
     public String getPersonName() {
         UserId empl = new PersonPayrollId(getEmplid());
@@ -73,9 +75,9 @@ public class EmployeeFunding extends LedgerBalance {
     }
 
     /**
-     * This method set thes persons name
+     * Sets the persons name.
      * 
-     * @param personName
+     * @param personName The personName to set.
      */
 
     public void setPersonName(String personName) {
@@ -83,7 +85,7 @@ public class EmployeeFunding extends LedgerBalance {
     }
 
     /**
-     * Gets the csfAmount attribute.
+     * Gets the csfAmount
      * 
      * @return Returns the csfAmount.
      */
@@ -92,7 +94,7 @@ public class EmployeeFunding extends LedgerBalance {
     }
 
     /**
-     * Sets the csfAmount attribute value.
+     * Sets the csfAmount.
      * 
      * @param csfAmount The csfAmount to set.
      */
@@ -101,7 +103,7 @@ public class EmployeeFunding extends LedgerBalance {
     }
 
     /**
-     * Gets the csfDeleteCode attribute.
+     * Gets the csfDeleteCode.
      * 
      * @return Returns the csfDeleteCode.
      */
@@ -110,7 +112,7 @@ public class EmployeeFunding extends LedgerBalance {
     }
 
     /**
-     * Sets the csfDeleteCode attribute value.
+     * Sets the csfDeleteCode.
      * 
      * @param csfDeleteCode The csfDeleteCode to set.
      */
@@ -119,7 +121,7 @@ public class EmployeeFunding extends LedgerBalance {
     }
 
     /**
-     * Gets the csfFundingStatusCode attribute.
+     * Gets the csfFundingStatusCode.
      * 
      * @return Returns the csfFundingStatusCode.
      */
@@ -128,7 +130,7 @@ public class EmployeeFunding extends LedgerBalance {
     }
 
     /**
-     * Sets the csfFundingStatusCode attribute value.
+     * Sets the csfFundingStatusCode.
      * 
      * @param csfFundingStatusCode The csfFundingStatusCode to set.
      */
@@ -137,7 +139,7 @@ public class EmployeeFunding extends LedgerBalance {
     }
 
     /**
-     * Gets the csfTimePercent attribute.
+     * Gets the csfTimePercent.
      * 
      * @return Returns the csfTimePercent.
      */
@@ -146,7 +148,7 @@ public class EmployeeFunding extends LedgerBalance {
     }
 
     /**
-     * Sets the csfTimePercent attribute value.
+     * Sets the csfTimePercent.
      * 
      * @param csfTimePercent The csfTimePercent to set.
      */
@@ -155,7 +157,7 @@ public class EmployeeFunding extends LedgerBalance {
     }
 
     /**
-     * Gets the currentAmount attribute.
+     * Gets the currentAmount.
      * 
      * @return Returns the currentAmount.
      */
@@ -164,7 +166,7 @@ public class EmployeeFunding extends LedgerBalance {
     }
 
     /**
-     * Sets the currentAmount attribute value.
+     * Sets the currentAmount.
      * 
      * @param currentAmount The currentAmount to set.
      */
@@ -173,7 +175,7 @@ public class EmployeeFunding extends LedgerBalance {
     }
 
     /**
-     * Gets the outstandingEncumbrance attribute.
+     * Gets the outstandingEncumbrance.
      * 
      * @return Returns the outstandingEncumbrance.
      */
@@ -182,7 +184,7 @@ public class EmployeeFunding extends LedgerBalance {
     }
 
     /**
-     * Sets the outstandingEncumbrance attribute value.
+     * Sets the outstandingEncumbrance.
      * 
      * @param outstandingEncumbrance The outstandingEncumbrance to set.
      */
@@ -191,18 +193,18 @@ public class EmployeeFunding extends LedgerBalance {
     }
 
     /**
-     * This method returns a total amount based upon adding any outstanding encumberence records to the annual balance amount.
+     * Returns a total amount based upon adding any outstanding encumberence records to the annual balance amount.
      * 
-     * @return
+     * @return TotalAmount
      */
     public KualiDecimal getTotalAmount() {
         return this.currentAmount.add(this.outstandingEncumbrance);
     }
 
     /**
-     * This method sets a total amount value
+     * Sets the total amount.
      * 
-     * @param totalAmount
+     * @param totalAmount The totalAmount to set.
      */
     public void setTotalAmount(KualiDecimal totalAmount) {
         this.totalAmount = totalAmount;
@@ -223,6 +225,7 @@ public class EmployeeFunding extends LedgerBalance {
         result = PRIME * result + ((getUniversityFiscalYear() == null) ? 0 : getUniversityFiscalYear().hashCode());
         result = PRIME * result + ((getEmplid() == null) ? 0 : getEmplid().hashCode());
         result = PRIME * result + ((getPositionNumber() == null) ? 0 : getPositionNumber().hashCode());
+        
         return result;
     }
 
@@ -264,11 +267,13 @@ public class EmployeeFunding extends LedgerBalance {
         else if (!ObjectUtils.equals(getPositionNumber(), other.getPositionNumber())) {
             return false;
         }
+        
         return true;
     }
 
     /**
-     * Gets the csfFullTimeEmploymentQuantity attribute. 
+     * Gets the csfFullTimeEmploymentQuantity.
+     * 
      * @return Returns the csfFullTimeEmploymentQuantity.
      */
     public BigDecimal getCsfFullTimeEmploymentQuantity() {
@@ -276,7 +281,8 @@ public class EmployeeFunding extends LedgerBalance {
     }
 
     /**
-     * Sets the csfFullTimeEmploymentQuantity attribute value.
+     * Sets the csfFullTimeEmploymentQuantity.
+     * 
      * @param csfFullTimeEmploymentQuantity The csfFullTimeEmploymentQuantity to set.
      */
     public void setCsfFullTimeEmploymentQuantity(BigDecimal csfFullTimeEmploymentQuantity) {

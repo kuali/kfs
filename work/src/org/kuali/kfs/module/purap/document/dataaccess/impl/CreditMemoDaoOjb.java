@@ -18,6 +18,7 @@ package org.kuali.module.purap.dao.ojb;
 
 import java.sql.Date;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -27,11 +28,11 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.KFSUtils;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.module.purap.dao.CreditMemoDao;
 import org.kuali.module.purap.document.CreditMemoDocument;
-import org.kuali.module.purap.document.PaymentRequestDocument;
 
 /**
  * Provides persistence layer methods for the credit memo document.
@@ -70,6 +71,9 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
         criteria.addEqualTo("vendorDetailAssignedIdentifier", vendorNumberDetailId);
         criteria.addEqualTo("creditMemoNumber", creditMemoNumber);
 
+        //added for KULPURAP-1915
+        criteria.addNotIn(PurapPropertyConstants.STATUS_CODE, PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES);
+        
         // use the criteria to do a Count against the DB, and return the resulting
         // number. Any positive non-zero result means that a potential duplicate
         // exists and we return true, otherwise, return false.
@@ -96,6 +100,9 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
         criteria.addEqualTo("creditMemoDate", date);
         criteria.addEqualTo("creditMemoAmount", amount);
 
+        //added for KULPURAP-1915
+        criteria.addNotIn(PurapPropertyConstants.STATUS_CODE, PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES);
+        
         // use the criteria to do a Count against the DB, and return the resulting
         // number. Any positive non-zero result means that a potential duplicate
         // exists and we return true, otherwise, return false.

@@ -27,6 +27,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.util.CashReceiptFamilyTestUtil;
 import org.kuali.test.ConfigureContext;
@@ -37,13 +38,18 @@ import edu.iu.uis.eden.exception.WorkflowException;
 @ConfigureContext(session = KHUNTLEY)
 public class CashReceiptServiceTest extends KualiTestBase {
     // TODO: once we stop returning default campusCode for unknown verificationUnit, need a test for unknown verificationUnit
-    private static final String TEST_CAMPUS_CD = KFSConstants.CashReceiptConstants.TEST_CASH_RECEIPT_CAMPUS_LOCATION_CODE;
-    private static final String TEST_UNIT_NAME = KFSConstants.CashReceiptConstants.TEST_CASH_RECEIPT_VERIFICATION_UNIT;
+    private static final String TEST_CAMPUS_CD = "KO";
+    private static String TEST_UNIT_NAME;
 
-    private static final String DEFAULT_CAMPUS_CD = KFSConstants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE;
-    private static final String DEFAULT_UNIT_NAME = KFSConstants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
+    private static final String DEFAULT_CAMPUS_CD = "BL";
+    private static String DEFAULT_UNIT_NAME;
 
     private static final String UNKNOWN_UNIT_NAME = "unknownUnit";
+    
+    public void setUp() {
+        TEST_UNIT_NAME = SpringContext.getBean(ParameterService.class).getParameterValue(CashReceiptDocument.class, "VERIFICATION_UNIT_GROUP_PREFIX") + TEST_CAMPUS_CD;
+        DEFAULT_UNIT_NAME = SpringContext.getBean(ParameterService.class).getParameterValue(CashReceiptDocument.class, "VERIFICATION_UNIT_GROUP_PREFIX") + DEFAULT_CAMPUS_CD;
+    }
 
     public final void testGetCampusCodeForCashReceiptVerificationUnit_blankVerificationUnit() {
         boolean failedAsExpected = false;
@@ -121,7 +127,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
     }
 
     public final void testGetCashReceiptVerificationUnit_validUser() {
-        String expectedUnit = KFSConstants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
+        String expectedUnit = DEFAULT_UNIT_NAME;
 
         String unit = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForUser(GlobalVariables.getUserSession().getUniversalUser());
         assertEquals(expectedUnit, unit);

@@ -141,7 +141,6 @@ public class PurapKeyConstants {
     public static final String WARNING_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS="warning.paymentRequest.payDate.over.threshold.days";
     public static final String MESSAGE_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS="message.paymentRequest.payDate.over.threshold.days";
     public static final String WARNING_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID="warning.paymentRequest.vendorInvoiceAmount.invalid";
-    public static final String MESSAGE_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID="message.paymentRequest.vendorInvoiceAmount.invalid";
     
     //Item and Accounting line
     public static final String ERROR_ITEM_AMOUNT_BELOW_ZERO="errors.item.amount.belowZero";

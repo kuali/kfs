@@ -44,9 +44,11 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
         boolean preRulesOK = true;
         
         PaymentRequestDocument preq = (PaymentRequestDocument)document;
-        preRulesOK &= confirmMatchingTotals( preq );
-        if (!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq)) {
-            preRulesOK &= confirmPayDayNotOverThresholdDaysAway( preq );
+        if ( (!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq)) ||
+             (StringUtils.equals(preq.getStatusCode(),PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW))){
+            if (!confirmPayDayNotOverThresholdDaysAway( preq )) {
+                return false;
+            }
         }
         preRulesOK &= super.doRules(document);
         return preRulesOK;
@@ -55,6 +57,9 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
     private boolean askForConfirmation( String questionType, String messageConstant ) {
         
         String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(messageConstant);
+        if(questionText.contains("{")) {
+            questionText = prepareQuestionText(questionType,questionText);
+        }
             
         boolean confirmOverride = super.askOrAnalyzeYesNoQuestion(questionType, questionText);
                     
@@ -63,6 +68,13 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
             return false;
         }
         return true;
+    }
+    
+    private String prepareQuestionText(String questionType, String questionText) {
+        if (StringUtils.equals(questionType,PREQDocumentsStrings.THRESHOLD_DAYS_OVERRIDE_QUESTION)) {
+            questionText = StringUtils.replace(questionText, "{0}", new Integer(PurapConstants.PREQ_PAY_DATE_DAYS_BEFORE_WARNING).toString());
+        }
+        return questionText;
     }
     
     public boolean confirmPayDayNotOverThresholdDaysAway( PaymentRequestDocument preq ) {
@@ -74,22 +86,8 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
         }
         return true;
     }
-    
-    public boolean confirmMatchingTotals( PaymentRequestDocument preq ) {
-        // If the total of the extended prices does not match with the vendor invoice amount, ask for confirmation.
-        PaymentRequestDocumentRule rule = new PaymentRequestDocumentRule();
-        if ( !rule.validateTotals(preq) ) {
-            return askForConfirmation(PREQDocumentsStrings.INVOICE_AMOUNT_OVERRIDE_QUESTION,
-                    PurapKeyConstants.MESSAGE_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID);
-        }
-        return true;
-    }
-    
-
-    
+        
     public String getDocumentName(){
         return "Payment Request";
     }
-    
-
 }

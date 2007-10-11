@@ -51,9 +51,8 @@ public class AccountsPayableDocumentPreRulesBase extends PreRulesContinuationBas
         
         AccountsPayableDocument accountsPayableDocument = (AccountsPayableDocument)document;
         
-        //ask nomatch question if it hasn't been asked and if the document hasn't been completed
-        if ( (StringUtils.isBlank(event.getQuestionContext()) || StringUtils.equals(question, PurapConstants.AP_OVERRIDE_INVOICE_NOMATCH_QUESTION)) &&
-             (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(accountsPayableDocument) == false)) {
+        //Ask the nomatch question if the document hasn't been completed.
+        if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(accountsPayableDocument) == false) {
             preRulesOK = confirmInvoiceNoMatchOverride(accountsPayableDocument);
         }else if(SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(accountsPayableDocument)){
             //if past full document entry complete, then set override to true to skip validation

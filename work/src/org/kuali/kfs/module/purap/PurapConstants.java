@@ -373,8 +373,8 @@ public class PurapConstants extends JstlConstants {
         //Note it doesn't make much sense to compare auto_approved and dept_approved but this is 
         //easier than two enums plus this should primarily be used for user enterred areas
         public enum STATUS_ORDER{
-            CANCELLED_IN_PROCESS(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS, false), CANCELLED_PRIOR_TO_AP_APPROVAL(PurapConstants.PaymentRequestStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL, false), CANCELLED_POST_AP_APPROVE(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), INITIATE(PurapConstants.PaymentRequestStatuses.INITIATE, true), IN_PROCESS(PurapConstants.PaymentRequestStatuses.IN_PROCESS, true), AWAITING_ACCOUNTS_PAYABLE_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW, false), AWAITING_SUB_ACCT_MGR_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW, false), AWAITING_FISCAL_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_FISCAL_REVIEW, false), AWAITING_ORG_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_ORG_REVIEW, false), AWAITING_TAX_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_TAX_REVIEW, false), DEPARTMENT_APPROVED(
-                    PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED, false), AUTO_APPROVED(PurapConstants.PaymentRequestStatuses.AUTO_APPROVED, false), ;
+            CANCELLED_IN_PROCESS(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS, false), CANCELLED_PRIOR_TO_AP_APPROVAL(PurapConstants.PaymentRequestStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL, false), CANCELLED_POST_AP_APPROVE(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), INITIATE(PurapConstants.PaymentRequestStatuses.INITIATE, true), IN_PROCESS(PurapConstants.PaymentRequestStatuses.IN_PROCESS, true), AWAITING_ACCOUNTS_PAYABLE_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW, false), AWAITING_SUB_ACCT_MGR_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW, false), AWAITING_FISCAL_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_FISCAL_REVIEW, false), AWAITING_ORG_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_ORG_REVIEW, false), AWAITING_TAX_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_TAX_REVIEW, false), 
+                DEPARTMENT_APPROVED(PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED, false), AUTO_APPROVED(PurapConstants.PaymentRequestStatuses.AUTO_APPROVED, false), ;
             
             private String statusCode = new String();
             private boolean fullEntryAllowed = false;
@@ -382,7 +382,7 @@ public class PurapConstants extends JstlConstants {
             STATUS_ORDER(String statusCode,boolean fullEntry) {
                 this.statusCode = statusCode;
                 this.fullEntryAllowed = fullEntry;
-        }
+            }
 
             public static STATUS_ORDER getByStatusCode(String statusCode) {
                 for (STATUS_ORDER status : STATUS_ORDER.values()) {
@@ -486,7 +486,6 @@ public class PurapConstants extends JstlConstants {
         public static final String INVOICE_NUMBER = "Invoice Number";
         public static final String IN_PROCESS = "In Process";
         public static final String THRESHOLD_DAYS_OVERRIDE_QUESTION = "Threshold Days Override Question";
-        public static final String INVOICE_AMOUNT_OVERRIDE_QUESTION = "Invoice Amount Override Question";
         public static final String VENDOR_INVOICE_AMOUNT = "Vendor Invoice Amount";
         public static final String VENDOR_STATE = "State";
         public static final String VENDOR_POSTAL_CODE = "Postal Code";

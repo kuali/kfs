@@ -917,7 +917,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         purapService.updateStatus(oldPO, oldPOStatus );
         purapService.updateStatus(newPO, newPOStatus );
         saveDocumentNoValidationUsingClearErrorMap(oldPO);
-        saveDocumentNoValidationUsingClearErrorMap(newPO);
     }
     
     public ArrayList<PurchaseOrderQuoteStatus> getPurchaseOrderQuoteStatusCodes() {

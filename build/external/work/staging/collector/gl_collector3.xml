@@ -14,7 +14,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<batch xmlns="http://www.kuali.org/modules/gl/collector" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.kuali.org/modules/gl/collector @application-url@/xml/GLCollector.xsd">
+<batch xmlns="http://www.kuali.org/modules/gl/collector"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
         <header>
             <chartOfAccountsCode>BA</chartOfAccountsCode>
             <organizationCode>PARK</organizationCode>

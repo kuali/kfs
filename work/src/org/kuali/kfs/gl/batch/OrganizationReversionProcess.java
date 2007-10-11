@@ -154,7 +154,9 @@ public class OrganizationReversionProcess {
         while (balances.hasNext()) {
             Balance bal = balances.next();
             incrementCount("balancesSelected");
-            LOG.info("BALANCE SELECTED: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("BALANCE SELECTED: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode());
+            }
 
             try {
                 if (!unitOfWork.isInitialized()) {

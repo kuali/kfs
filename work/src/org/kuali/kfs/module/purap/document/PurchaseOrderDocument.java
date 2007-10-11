@@ -361,9 +361,10 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 //                    Map primaryKeys = new HashMap();
 //                    primaryKeys.put(PurapPropertyConstants.PURAP_DOC_ID, getRequisitionIdentifier());
 //                    RequisitionDocument req = (RequisitionDocument) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(RequisitionDocument.class, primaryKeys);
-                    workflowDocument.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, null, 0, 
-                            "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier(), new NetworkIdVO(req.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId()), 
-                            "Requisition Routed By User", true);
+                    appSpecificRouteDocumentToUser(workflowDocument, req.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId(), "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier(), "Requisition Routed By User");
+//                    workflowDocument.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, null, 0, 
+//                            "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier(), new NetworkIdVO(req.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId()), 
+//                            "Requisition Routed By User", true);
                     String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
                     NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(nodeName);
                     if (ObjectUtils.isNotNull(currentNode)) {
@@ -386,6 +387,22 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
             }
         }
         
+    }
+    
+    private String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
+        String[] nodeNames = wd.getNodeNames();
+        if ( (nodeNames == null) || (nodeNames.length == 0) ) {
+          return null;
+        } else {
+          return nodeNames[0];
+        }
+      }
+
+    private void appSpecificRouteDocumentToUser(KualiWorkflowDocument workflowDocument, String userNetworkId, String annotation, String responsibility) throws WorkflowException {
+        String annotationNote = (ObjectUtils.isNull(annotation)) ? "" : annotation;
+        String responsibilityNote = (ObjectUtils.isNull(responsibility)) ? "" : responsibility;
+        String currentNodeName = getCurrentRouteNodeName(workflowDocument);
+        workflowDocument.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, annotationNote, new NetworkIdVO(userNetworkId), responsibilityNote, true);
     }
 
     /**

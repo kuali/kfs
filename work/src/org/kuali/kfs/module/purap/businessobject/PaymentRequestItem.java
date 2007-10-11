@@ -254,7 +254,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         ItemType iT = poi.getItemType();
         //if service add the po outstanding amount to outstandingamount 
         if(!iT.isQuantityBasedGeneralLedgerIndicator()) {
-            outstandingAmount.add(poi.getItemOutstandingEncumberedAmount());
+            outstandingAmount = outstandingAmount.add(poi.getItemOutstandingEncumberedAmount());
         } else {
             //else add outstanding quantity * unitprice
             BigDecimal qty = new BigDecimal(this.getPoOutstandingQuantity(poi).toString());

@@ -55,6 +55,23 @@ public class OrganizationSalarySettingSearchServiceImpl implements OrganizationS
     }
 
     /**
+     * @see org.kuali.module.budget.service.OrganizationSalarySettingSearchService#buildPositionSelect(java.lang.String, java.lang.Integer)
+     */
+    public void buildPositionSelect(String personUserIdentifier, Integer universityFiscalYear) {
+
+        organizationSalarySettingSearchDao.cleanPositionSelect(personUserIdentifier);
+        organizationSalarySettingSearchDao.buildPositionSelect(personUserIdentifier, universityFiscalYear);
+    }
+
+    /**
+     * @see org.kuali.module.budget.service.OrganizationSalarySettingSearchService#cleanPositionSelect(java.lang.String)
+     */
+    public void cleanPositionSelect(String personUserIdentifier) {
+
+        organizationSalarySettingSearchDao.cleanPositionSelect(personUserIdentifier);
+    }
+
+    /**
      * Sets the organizationSalarySettingSearchDao attribute value.
      * @param organizationSalarySettingSearchDao The organizationSalarySettingSearchDao to set.
      */

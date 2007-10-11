@@ -53,6 +53,9 @@ public class TempListLookupAction extends KualiLookupAction {
         if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect")){
             SpringContext.getBean(OrganizationSalarySettingSearchService.class).buildIntendedIncumbentSelect(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
         }
+        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionPositionSelect")){
+            SpringContext.getBean(OrganizationSalarySettingSearchService.class).buildPositionSelect(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
+        }
 
         forward =  super.start(mapping, form, request, response);
         if (tempListLookupForm.isShowInitialResults()){
@@ -100,6 +103,9 @@ public class TempListLookupAction extends KualiLookupAction {
 
         if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect")){
             SpringContext.getBean(OrganizationSalarySettingSearchService.class).cleanIntendedIncumbentSelect(tempListLookupForm.getPersonUniversalIdentifier());
+        }
+        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionPositionSelect")){
+            SpringContext.getBean(OrganizationSalarySettingSearchService.class).cleanPositionSelect(tempListLookupForm.getPersonUniversalIdentifier());
         }
 
         return super.cancel(mapping, form, request, response);

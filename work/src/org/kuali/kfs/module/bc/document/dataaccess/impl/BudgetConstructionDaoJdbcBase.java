@@ -26,4 +26,8 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
         getSimpleJdbcTemplate().update( "DELETE from " + tableName + " WHERE " + personUnvlIdColumn + " = ?", personUserIdentifier );               
     }
 
+    protected void clearTempTableBySesId( String tableName, String SesIdColumn, String sessionId ) {
+        getSimpleJdbcTemplate().update( "DELETE from " + tableName + " WHERE " + SesIdColumn + " = ?", sessionId );               
+    }
+
 }

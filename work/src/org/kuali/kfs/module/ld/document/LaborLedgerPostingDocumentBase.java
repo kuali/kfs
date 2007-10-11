@@ -27,11 +27,11 @@ import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 
 /**
- * This is the base class implementation for all labor eDocs that are transactional, meaning implementing TransactionalDocumentBase.
- * Additional functionality for labor is provided by this class, suchc as retrieving labor ledger pending entries.
+ * Labor Document base class implementation for all labor eDocs that are transactional, meaning implementing
+ * TransactionalDocumentBase. Additional functionality for labor is provided by this class, suchc as retrieving labor ledger pending
+ * entries.
  */
 public abstract class LaborLedgerPostingDocumentBase extends AccountingDocumentBase implements LaborLedgerPostingDocument {
-
     protected List<LaborLedgerPendingEntry> laborLedgerPendingEntries;
 
     /**
@@ -55,7 +55,7 @@ public abstract class LaborLedgerPostingDocumentBase extends AccountingDocumentB
     public void setLaborLedgerPendingEntries(List<LaborLedgerPendingEntry> laborLedgerPendingEntries) {
         this.laborLedgerPendingEntries = laborLedgerPendingEntries;
     }
-   
+
     /**
      * Override to call super and then iterate over all GLPEs and update the approved code appropriately.
      * 
@@ -66,7 +66,8 @@ public abstract class LaborLedgerPostingDocumentBase extends AccountingDocumentB
         super.handleRouteStatusChange();
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             changeLedgerPendingEntriesApprovedStatusCode();
-        } else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled() || getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+        }
+        else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled() || getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
             removeLedgerPendingEntries();
         }
     }
@@ -79,7 +80,7 @@ public abstract class LaborLedgerPostingDocumentBase extends AccountingDocumentB
             pendingEntry.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
         }
     }
-    
+
     /**
      * This method calls the service to remove all of the pending entries associated with this document
      */
@@ -87,13 +88,13 @@ public abstract class LaborLedgerPostingDocumentBase extends AccountingDocumentB
         LaborLedgerPendingEntryService laborLedgerPendingEntryService = SpringContext.getBean(LaborLedgerPendingEntryService.class);
         laborLedgerPendingEntryService.delete(getDocumentHeader().getDocumentNumber());
     }
-    
+
     /**
      * This implementation is coupled tightly with some underlying issues that the Struts PojoProcessor plugin has with how objects
      * get instantiated within lists. The first three lines are required otherwise when the PojoProcessor tries to automatically
      * inject values into the list, it will get an index out of bounds error if the instance at an index is being called and prior
      * instances at indices before that one are not being instantiated. So changing the code below will cause things to break.
-     *
+     * 
      * @param index of Labor Ledger Pending Entry to retrieve
      * @return LaborLedgerPendingEntry
      */

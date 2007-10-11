@@ -34,12 +34,11 @@ import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 
 // @latex.ClassSignatureStart
 /**
- * Document class for the Labor Ledger Journal Voucher.
+ * Labor Document class for the Labor Ledger Journal Voucher.
  */
 public class LaborJournalVoucherDocument extends JournalVoucherDocument implements LaborLedgerPostingDocument, AmountTotaling {
     // @latex.ClassSignatureStop
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborJournalVoucherDocument.class);
-
     private String offsetTypeCode = JournalVoucherOffsetType.NO_OFFSET.typeCode;
     private List<LaborLedgerPendingEntry> laborLedgerPendingEntries;
     private DocumentType documentType;

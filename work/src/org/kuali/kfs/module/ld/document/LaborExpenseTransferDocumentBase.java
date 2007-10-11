@@ -25,21 +25,20 @@ import org.kuali.core.document.Correctable;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
 
 /**
- * Base class for Expense Transfer Documents
+ * Labor Base class for Expense Transfer Documents
  */
 public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostingDocumentBase implements AmountTotaling, Copyable, Correctable, LaborExpenseTransferDocument {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(LaborExpenseTransferDocumentBase.class);
-
     private String emplid;
 
     /**
      * Constructor
      */
+
     public LaborExpenseTransferDocumentBase() {
         super();
     }
@@ -69,12 +68,12 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
                 }
             }
         }
-      
+
         for (String objectCode : amountsFromTargetLine.keySet()) {
             if (!amountsFromSourceLine.containsKey(objectCode)) {
-                KualiDecimal targetAmount = amountsFromTargetLine.get(objectCode);          
+                KualiDecimal targetAmount = amountsFromTargetLine.get(objectCode);
                 unbalancedAmounts.put(objectCode, targetAmount);
-            }           
+            }
         }
 
         return unbalancedAmounts;
@@ -104,6 +103,9 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
     }
 
     /**
+     * Gets the emplid
+     * 
+     * @return Returns the emplid.
      * @see org.kuali.module.labor.document.LaborExpenseTransferDocument#getEmplid()
      */
     public String getEmplid() {
@@ -111,7 +113,10 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
     }
 
     /**
+     * Sets the emplid
+     * 
      * @see org.kuali.module.labor.document.LaborExpenseTransferDocument#setEmplid(String)
+     * @param emplid
      */
     public void setEmplid(String emplid) {
         this.emplid = emplid;
@@ -136,6 +141,7 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
     }
 
     /**
+     * @return Returns the ExpenseTransferSourceAccountingLine
      * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
      */
     public Class getSourceAccountingLineClass() {
@@ -143,10 +149,10 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
     }
 
     /**
+     * @return Returns the ExpenseTransferTargetAccountingLine
      * @see org.kuali.kfs.document.AccountingDocumentBase#getTargetAccountingLineClass()
      */
     public Class getTargetAccountingLineClass() {
         return ExpenseTransferTargetAccountingLine.class;
     }
-
 }

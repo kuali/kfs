@@ -15,14 +15,11 @@
  */
 package org.kuali.module.labor.document;
 
-import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
-import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
-
 /**
- * Interface for Expense Transfer Documents
+ * Labor Interface for Expense Transfer Documents
  */
 public interface LaborExpenseTransferDocument extends LaborLedgerPostingDocument {
-    
+
     /**
      * Retrieve the document emplid
      * 

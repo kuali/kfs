@@ -17,25 +17,22 @@ package org.kuali.module.labor.document;
 
 import java.util.List;
 
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 
 /**
- * Defines methods that must be implements for a labor ledger posting document.
+ * Labor Document Defines methods that must be implements for a labor ledger posting document.
  */
 public interface LaborLedgerPostingDocument extends AccountingDocument {
-    
+
     /*
-     * This method retrieves the list of Labor Ledgre Pending Entries for the document.
-     * 
-     * @return A list of labor ledger pending entries.
+     * Retrieves the list of Labor Ledgre Pending Entries for the document. @return A list of labor ledger pending
+     * entries.
      */
     public List<LaborLedgerPendingEntry> getLaborLedgerPendingEntries();
 
     /**
-     * This method sets the list of labor ledger pending entries for the document.
+     * Sets the list of labor ledger pending entries for the document.
      * 
      * @param laborLedgerPendingEntries the given labor ledger pending entries
      */
@@ -43,6 +40,7 @@ public interface LaborLedgerPostingDocument extends AccountingDocument {
 
     /**
      * Get the pending entry with the given index in the list of labor ledger pending entries
+     * 
      * @param index the given index
      * @return the pending entry with the given index in the list of labor ledger pending entries
      */

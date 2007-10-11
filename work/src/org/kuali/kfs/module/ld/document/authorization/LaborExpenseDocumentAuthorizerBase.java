@@ -22,7 +22,7 @@ import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 
 /**
- * Implements special document authorization for the labor expense documents.
+ * Labor Docuemnt Implements special document authorization for the labor expense documents.
  */
 public class LaborExpenseDocumentAuthorizerBase extends AccountingDocumentAuthorizerBase {
 
@@ -35,11 +35,9 @@ public class LaborExpenseDocumentAuthorizerBase extends AccountingDocumentAuthor
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         TransactionalDocumentActionFlags flags = (TransactionalDocumentActionFlags) super.getDocumentActionFlags(document, user);
-
         flags.setCanCopy(false);
         flags.setCanErrorCorrect(false);
 
         return flags;
     }
-
 }

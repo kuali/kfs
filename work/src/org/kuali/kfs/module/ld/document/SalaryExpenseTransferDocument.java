@@ -21,7 +21,7 @@ import java.util.Map;
 import org.kuali.core.util.KualiDecimal;
 
 /**
- * Document Class for the Salary Expense Transfer Document.
+ * Labor Document Class for the Salary Expense Transfer Document.
  */
 public class SalaryExpenseTransferDocument extends LaborExpenseTransferDocumentBase {
     private Map<String, KualiDecimal> approvalObjectCodeBalances;
@@ -31,7 +31,6 @@ public class SalaryExpenseTransferDocument extends LaborExpenseTransferDocumentB
      */
     public SalaryExpenseTransferDocument() {
         super();
-
         approvalObjectCodeBalances = new HashMap<String, KualiDecimal>();
     }
 
@@ -52,5 +51,4 @@ public class SalaryExpenseTransferDocument extends LaborExpenseTransferDocumentB
     public void setApprovalObjectCodeBalances(Map<String, KualiDecimal> approvalObjectCodeBalances) {
         this.approvalObjectCodeBalances = approvalObjectCodeBalances;
     }
-
 }

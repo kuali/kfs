@@ -18,7 +18,7 @@ package org.kuali.module.labor.document;
 import org.kuali.module.financial.document.YearEndDocument;
 
 /**
- * Document class for the Year End Benefit Expense TransferDocument.
+ * Labor Document class for the Year End Benefit Expense TransferDocument.
  */
 
 public class YearEndBenefitExpenseTransferDocument extends BenefitExpenseTransferDocument implements YearEndDocument {

@@ -16,7 +16,7 @@
 package org.kuali.module.labor.document;
 
 /**
- * This class...
+ * Labor Document LaborYearEndBenefitTransferDocument
  */
 public class LaborYearEndBenefitTransferDocument extends BenefitExpenseTransferDocument {
 

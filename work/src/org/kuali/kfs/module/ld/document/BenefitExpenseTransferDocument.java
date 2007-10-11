@@ -16,7 +16,8 @@
 package org.kuali.module.labor.document;
 
 /**
- * Document class for the Benefit Expense Transfer Document and a base class for the year end benefit expense transfer document
+ * Labor Document class for the Benefit Expense Transfer Document and a base class for the year end benefit expense transfer
+ * document
  */
 
 public class BenefitExpenseTransferDocument extends LaborExpenseTransferDocumentBase {

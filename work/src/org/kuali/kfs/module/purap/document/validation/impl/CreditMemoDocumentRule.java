@@ -612,9 +612,8 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
 
         SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(cm, accountingLine, explicitEntry, cm.getPurchaseOrderIdentifier(), cm.getDebitCreditCodeForGLEntries(), PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT, cm.isGenerateEncumbranceEntries());
 
-        // CMs do not wait for document final approval to post GL entries to the real table; here we are forcing them to be APPROVED
-        explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
-
+        // CMs do not wait for document final approval to post GL entries; here we are forcing them to be APPROVED
+        explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
     }
 
     /**

@@ -860,17 +860,19 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public void setCurrentAndPendingIndicatorsForApprovedPODocuments(PurchaseOrderDocument newPO) {
         // Get the "current PO" that's in the database, i.e. the PO row that contains current indicator = Y
         PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(newPO.getPurapDocumentIdentifier());
-        // First, we set the indicators for the oldPO to : Current = N and Pending = N
-        oldPO.setPurchaseOrderCurrentIndicator(false);
-        oldPO.setPendingActionIndicator(false);
-        
+
         //If the document numbers between the oldPO and the newPO are different, then this is a PO change document.
         if (!oldPO.getDocumentNumber().equals(newPO.getDocumentNumber())) {
+            // First, we set the indicators for the oldPO to : Current = N and Pending = N
+            oldPO.setPurchaseOrderCurrentIndicator(false);
+            oldPO.setPendingActionIndicator(false);
+            
             //set the status and status history of the oldPO to retired version
             purapService.updateStatus(oldPO, PurapConstants.PurchaseOrderStatuses.RETIRED_VERSION );
+
+            saveDocumentNoValidationUsingClearErrorMap(oldPO);
         }
-        
-        saveDocumentNoValidationUsingClearErrorMap(oldPO);
+
         // Now, we set the "new PO" indicators so that Current = Y and Pending = N
         newPO.setPurchaseOrderCurrentIndicator(true);
         newPO.setPendingActionIndicator(false);

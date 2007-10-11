@@ -642,10 +642,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
 
         SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(preq, accountingLine, explicitEntry, preq.getPurchaseOrderIdentifier(), preq.getDebitCreditCodeForGLEntries(), PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT, preq.isGenerateEncumbranceEntries());
 
-        // PREQs do not wait for document final approval to post GL entries to the real table; here we are forcing them to be
-        // APPROVED
-        explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
-
+        // PREQs do not wait for document final approval to post GL entries; here we are forcing them to be APPROVED
+        explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
     }
 
     @Override

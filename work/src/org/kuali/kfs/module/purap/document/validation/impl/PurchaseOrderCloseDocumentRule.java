@@ -125,6 +125,6 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
 
         // don't think i should have to override this, but default isn't getting the right PO doc
         explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_CLOSE_DOCUMENT);
-        explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
+        explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
     }
 }

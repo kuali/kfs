@@ -105,20 +105,12 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
                     // Get the requisition for this AssignContractManagerDetail.
                     RequisitionDocument req = SpringContext.getBean(RequisitionService.class).getRequisitionById(detail.getRequisitionIdentifier());
 
-                    if (ObjectUtils.isNull(req.getContractManagerCode()) && req.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN)) {
+                    if (req.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN)) {
                         //only update REQ if code is empty and status is correct
-                        req.setContractManagerCode(detail.getContractManagerCode());
                         SpringContext.getBean(PurapService.class).updateStatus(req, PurapConstants.RequisitionStatuses.CLOSED);
                         SpringContext.getBean(RequisitionService.class).saveDocumentWithoutValidation(req);
-                        SpringContext.getBean(PurchaseOrderService.class).createPurchaseOrderDocument(req, this.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
+                        SpringContext.getBean(PurchaseOrderService.class).createPurchaseOrderDocument(req, this.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId(), detail.getContractManagerCode());
 
-                    }
-                    else {
-                        //only send FYI to initiator if code that was already set doesn't match code this doc was trying to set
-                        if (req.getContractManagerCode().compareTo(detail.getContractManagerCode()) != 0) {
-                            isSuccess = false;
-                            failedReqs.append(req.getPurapDocumentIdentifier() + ", ");
-                        }
                     }
                 }
 

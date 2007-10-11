@@ -16,6 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="requisitionAttributes" value="${DataDictionary.RequisitionDocument.attributes}" />
+<c:set var="purchaseOrderAttributes" value="${DataDictionary.PurchaseOrderDocument.attributes}" />
 <c:set var="assignContractManagerAttributes" value="${DataDictionary.AssignContractManagerDocument.attributes}" />
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
@@ -23,7 +24,7 @@
 
     <div class="tab-container" align=center>
         <div class="h2-container">
-            <h2>Assign A Contract Manager</h2>
+            <h2>Assign A Contract Manager readonly is: ${readOnly}</h2>
         </div>
 
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Assign A Contract Manager">
@@ -35,7 +36,7 @@
 			<c:if test="${!empty KualiForm.document.assignContractManagerDetails}">
 	            <tr>
 	                
-	                    <kul:htmlAttributeHeaderCell attributeEntry="${requisitionAttributes.contractManagerCode}" />
+	                    <kul:htmlAttributeHeaderCell attributeEntry="${purchaseOrderAttributes.contractManagerCode}" />
  
 	                 	<kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.requisitionNumber}" />
 
@@ -58,7 +59,7 @@
 		        <logic:iterate id="acmDetail" name="KualiForm" property="document.assignContractManagerDetails" indexId="ctr">
 		            <tr>
 		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].contractManagerCode" attributeEntry="${requisitionAttributes.contractManagerCode}" readOnly="${readOnly}" />
+		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].contractManagerCode" attributeEntry="${purchaseOrderAttributes.contractManagerCode}" readOnly="${readOnly}" />
 					        <c:if test="${!readOnly}" >
 		                        <kul:lookup boClassName="org.kuali.module.vendor.bo.ContractManager" fieldConversions="contractManagerCode:document.assignContractManagerDetail[${ctr}].contractManagerCode" /></div>
 					        </c:if>

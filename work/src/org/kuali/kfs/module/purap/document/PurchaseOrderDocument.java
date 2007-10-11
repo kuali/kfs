@@ -62,6 +62,7 @@ import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.RequisitionService;
 import org.kuali.module.vendor.VendorConstants;
+import org.kuali.module.vendor.bo.ContractManager;
 import org.kuali.module.vendor.bo.PaymentTermType;
 import org.kuali.module.vendor.bo.ShippingPaymentTerms;
 import org.kuali.module.vendor.bo.ShippingTitle;
@@ -106,6 +107,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private boolean purchaseOrderCurrentIndicator = false;
     private boolean pendingActionIndicator = false;
     private Date purchaseOrderFirstTransmissionDate;
+    private Integer contractManagerCode;
     
     //COLLECTIONS
     private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
@@ -125,6 +127,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private ShippingTitle vendorShippingTitle;
     private ShippingPaymentTerms vendorShippingPaymentTerms;
     private RecurringPaymentFrequency recurringPaymentFrequency;
+    private ContractManager contractManager;
     
     /**
      * Default constructor.
@@ -135,6 +138,35 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.purchaseOrderVendorQuotes = new TypedArrayList( PurchaseOrderVendorQuote.class );
     }
 
+
+    public ContractManager getContractManager() {
+        return contractManager;
+    }
+
+    public void setContractManager(ContractManager contractManager) {
+        this.contractManager = contractManager;
+    }
+
+    /**
+     * Gets the contractManagerCode attribute.
+     * 
+     * @return Returns the contractManagerCode
+     * 
+     */
+    public Integer getContractManagerCode() { 
+        return contractManagerCode;
+    }
+
+    /**
+     * Sets the contractManagerCode attribute.
+     * 
+     * @param contractManagerCode The contractManagerCode to set.
+     * 
+     */
+    public void setContractManagerCode(Integer contractManagerCode) {
+        this.contractManagerCode = contractManagerCode;
+    }
+    
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getOverrideWorkflowButtons()
      */
@@ -232,7 +264,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.setBillingPhoneNumber(requisitionDocument.getBillingPhoneNumber());
         this.setBillingPostalCode(requisitionDocument.getBillingPostalCode());
         this.setBillingStateCode(requisitionDocument.getBillingStateCode());
-        this.setContractManagerCode(requisitionDocument.getContractManagerCode());
         this.setPurchaseOrderCostSourceCode(requisitionDocument.getPurchaseOrderCostSourceCode());
         this.setDeliveryBuildingCode(requisitionDocument.getDeliveryBuildingCode());
         this.setDeliveryBuildingRoomNumber(requisitionDocument.getDeliveryBuildingRoomNumber());

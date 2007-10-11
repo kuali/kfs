@@ -36,13 +36,13 @@ public interface PurchaseOrderService {
 
     public void createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument);
 
-    public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument, String newSessionUserId);
+    public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument, String newSessionUserId, Integer contractManagerCode);
 
     public PurchaseOrderDocument createAndSavePotentialChangeDocument(String documentNumber, String docType, String newDocumentStatusCode);
 
     public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String newDocumentStatusCode);
 
-    public KualiDecimal getInternalPurchasingDollarLimit(PurchasingDocumentBase po);
+    public KualiDecimal getInternalPurchasingDollarLimit(PurchaseOrderDocument po);
 
     public boolean printPurchaseOrderQuoteRequestsListPDF(PurchaseOrderDocument po, ByteArrayOutputStream baosPDF);
 

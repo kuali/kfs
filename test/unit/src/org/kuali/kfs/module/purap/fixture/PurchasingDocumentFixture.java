@@ -268,7 +268,10 @@ public enum PurchasingDocumentFixture {
         doc.setBillingCountryCode(this.billingCountryCode);
         doc.setBillingPhoneNumber(this.billingPhoneNumber);
         doc.setExternalOrganizationB2bSupplierIdentifier(this.externalOrganizationB2bSupplierIdentifier);
-        doc.setContractManagerCode(this.contractManagerCode);
+        //Req doesn't have contract manager anymore, only PO still has contract manager.
+        if (doc instanceof PurchaseOrderDocument) {
+            ((PurchaseOrderDocument)doc).setContractManagerCode(this.contractManagerCode);
+        }
         doc.setPurchaseOrderAutomaticIndicator(this.purchaseOrderAutomaticIndicator);
         doc.setVendorPaymentTermsCode(this.vendorPaymentTermsCode);
         doc.setVendorShippingTitleCode(this.vendorShippingTitleCode);

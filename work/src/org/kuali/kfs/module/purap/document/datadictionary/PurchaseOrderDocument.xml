@@ -77,6 +77,15 @@
             	<summary>retransmitHeader</summary>
             	<description>retransmitHeader description</description>
             </attribute>
+
+            <attributeReference name="contractManagerCode" sourceClassName="org.kuali.module.vendor.bo.ContractManager" sourceAttributeName="contractManagerCode">
+                <label>Contract Manager</label>
+                <shortLabel>Contract Manager</shortLabel>
+                <summary>contractManagerCode</summary>
+                <description>contractManagerCode description...</description>
+            </attributeReference>
+
+            <attributeReference name="contractManager" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="contractManager"/>
                             
 			<attributeReference name="purapDocumentIdentifier" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="purapDocumentIdentifier">
                 <label>Purchase Order Nbr</label>

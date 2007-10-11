@@ -21,10 +21,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -32,6 +30,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.workflow.KualiWorkflowUtils;
@@ -45,7 +44,6 @@ import edu.iu.uis.eden.routetemplate.ResolvedQualifiedRole;
 import edu.iu.uis.eden.routetemplate.Role;
 import edu.iu.uis.eden.routetemplate.RuleExtension;
 import edu.iu.uis.eden.routetemplate.UnqualifiedRoleAttribute;
-import edu.iu.uis.eden.user.UserService;
 import edu.iu.uis.eden.workgroup.GroupNameId;
 
 /**
@@ -97,7 +95,7 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
                     // get the document id number from the routeContext doc content
                     PurchasingDocumentBase document = (PurchasingDocumentBase) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
                     document.refreshNonUpdateableReferences();
-                    KualiDecimal internalPurchasingLimit = SpringContext.getBean(PurchaseOrderService.class).getInternalPurchasingDollarLimit(document);
+                    KualiDecimal internalPurchasingLimit = SpringContext.getBean(PurchaseOrderService.class).getInternalPurchasingDollarLimit((PurchaseOrderDocument)document);
                     return ((ObjectUtils.isNull(internalPurchasingLimit)) || (internalPurchasingLimit.compareTo(KualiWorkflowUtils.getFinancialDocumentTotalAmount(docContent.getDocument())) < 0));
                 }
                 return false;

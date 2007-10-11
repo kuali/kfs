@@ -224,10 +224,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     RequisitionDocument doc = (RequisitionDocument)objects[0];
                     // update REQ data
                     doc.setPurchaseOrderAutomaticIndicator(Boolean.TRUE);
-                    doc.setContractManagerCode(PurapConstants.APO_CONTRACT_MANAGER);
                     // create PO and populate with default data
                     PurchaseOrderDocument po = generatePurchaseOrderFromRequisition(doc);
                     po.setDefaultValuesForAPO();
+                    po.setContractManagerCode(PurapConstants.APO_CONTRACT_MANAGER);
                     documentService.routeDocument(po, null, null);
                     return null;
                 }
@@ -255,17 +255,19 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param reqDocument - RequisitionDocument that the PO is being created from
      * @return PurchaseOrderDocument
      */
-    public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument, String newSessionUserId) {
+    public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument, String newSessionUserId, Integer contractManagerCode) {
         try {
             LogicContainer logicToRun = new LogicContainer() {
                 public Object runLogic(Object[] objects) throws Exception {
                     RequisitionDocument doc = (RequisitionDocument)objects[0];
                     PurchaseOrderDocument po = generatePurchaseOrderFromRequisition(doc);
+                    Integer cmCode = (Integer)objects[1];
+                    po.setContractManagerCode(cmCode);
                     saveDocumentNoValidation(po);
                     return po;
                 }
             };
-            return (PurchaseOrderDocument)purapService.performLogicWithFakedUserSession(newSessionUserId, logicToRun, new Object[]{reqDocument});
+            return (PurchaseOrderDocument)purapService.performLogicWithFakedUserSession(newSessionUserId, logicToRun, new Object[]{reqDocument, contractManagerCode});
         }
         catch (WorkflowException e) {
             String errorMsg = "Workflow Exception caught: " + e.getLocalizedMessage();
@@ -336,7 +338,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return poDocument;
     }
 
-    public KualiDecimal getInternalPurchasingDollarLimit(PurchasingDocumentBase document) {
+    public KualiDecimal getInternalPurchasingDollarLimit(PurchaseOrderDocument document) {
         if ((document.getVendorContract() != null) && (document.getContractManager() != null)) {
             KualiDecimal contractDollarLimit = vendorService.getApoLimitFromContract(document.getVendorContract().getVendorContractGeneratedIdentifier(), document.getChartOfAccountsCode(), document.getOrganizationCode());
             KualiDecimal contractManagerLimit = document.getContractManager().getContractManagerDelegationDollarLimit();

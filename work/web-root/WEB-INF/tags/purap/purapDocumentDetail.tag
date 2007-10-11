@@ -34,23 +34,24 @@
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Detail Section">
     <tr>
-        <th align=right valign=middle class="bord-l-b">
-            <div align="right">
-            	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.contractManager}" />
-            </div>
-        </th>
-        <td align=left valign=middle class="datacell">
-            <kul:htmlControlAttribute 
-                property="document.contractManager.contractManagerName" 
-                attributeEntry="${documentAttributes.contractManager.contractManagerName}" 
-                readOnly="true" />
-            <c:if test="${preRouteChangeMode}" >
-	            <kul:lookup
-	            	boClassName="org.kuali.module.vendor.bo.ContractManager"
-	            	fieldConversions="contractManagerName:document.contractManager.contractManagerName,contractManagerCode:document.contractManagerCode" />
-	        </c:if>	        	        
-        </td>
-         
+        <c:if test="${purchaseOrder}">
+            <th align=right valign=middle class="bord-l-b">
+                <div align="right">
+                	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.contractManager}" />
+                </div>
+            </th>
+            <td align=left valign=middle class="datacell">
+                <kul:htmlControlAttribute 
+                    property="document.contractManager.contractManagerName" 
+                    attributeEntry="${documentAttributes.contractManager.contractManagerName}" 
+                    readOnly="true" />
+                <c:if test="${preRouteChangeMode}" >
+	                <kul:lookup
+	                	boClassName="org.kuali.module.vendor.bo.ContractManager"
+	                	fieldConversions="contractManagerName:document.contractManager.contractManagerName,contractManagerCode:document.contractManagerCode" />
+	            </c:if>	        	        
+            </td>
+        </c:if>
         <th align=right valign=middle class="bord-l-b">
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.fundingSourceCode}" /></div>
         </th>

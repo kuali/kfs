@@ -954,22 +954,6 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     public void setExternalOrganizationB2bSupplierIdentifier(String externalOrganizationB2bSupplierIdentifier);
 
     /**
-     * Gets the contractManagerCode attribute.
-     * 
-     * @return Returns the contractManagerCode
-     * 
-     */
-    public Integer getContractManagerCode();
-
-    /**
-     * Sets the contractManagerCode attribute.
-     * 
-     * @param contractManagerCode The contractManagerCode to set.
-     * 
-     */
-    public void setContractManagerCode(Integer contractManagerCode);
-
-    /**
      * Gets the purchaseOrderAutomaticIndicator attribute.
      * 
      * @return Returns the purchaseOrderAutomaticIndicator

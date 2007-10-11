@@ -95,7 +95,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private String billingCountryCode;
     private String billingPhoneNumber;
     private String externalOrganizationB2bSupplierIdentifier;
-    private Integer contractManagerCode;
     private boolean purchaseOrderAutomaticIndicator;
     private String vendorPaymentTermsCode;
     private String vendorShippingTitleCode;
@@ -122,7 +121,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private Account nonInstitutionFundAccount;
     private Chart nonInstitutionFundChartOfAccounts;
     private VendorContract vendorContract;
-    private ContractManager contractManager;
 
     
     public PurchasingDocumentBase() {
@@ -1186,26 +1184,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     /**
-     * Gets the contractManagerCode attribute.
-     * 
-     * @return Returns the contractManagerCode
-     * 
-     */
-    public Integer getContractManagerCode() { 
-        return contractManagerCode;
-    }
-
-    /**
-     * Sets the contractManagerCode attribute.
-     * 
-     * @param contractManagerCode The contractManagerCode to set.
-     * 
-     */
-    public void setContractManagerCode(Integer contractManagerCode) {
-        this.contractManagerCode = contractManagerCode;
-    }
-
-    /**
      * Gets the purchaseOrderAutomaticIndicator attribute.
      * 
      * @return Returns the purchaseOrderAutomaticIndicator
@@ -1529,14 +1507,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     
     public void setVendorContactsLabel(String vendorContactsLabel) {
         this.vendorContactsLabel = vendorContactsLabel;
-    }
-
-    public ContractManager getContractManager() {
-        return contractManager;
-    }
-
-    public void setContractManager(ContractManager contractManager) {
-        this.contractManager = contractManager;
     }
 
 //TODO: Chris, do we need this ? Wouldn't the superclass (PurchasingAccountsPayableDocumentBase) already add the items to the managedLists ?

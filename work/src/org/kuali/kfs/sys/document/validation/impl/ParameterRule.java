@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.bo.ParameterDetailType;
+import org.kuali.core.datadictionary.DataDictionaryException;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
@@ -42,26 +43,30 @@ public class ParameterRule extends org.kuali.core.rules.ParameterRule {
         String namespace = param.getParameterNamespaceCode();
         boolean result = false;
 
-        List<ParameterDetailType> dataDictionaryAndSpringComponents = SpringContext.getBean(ParameterService.class).getNonDatabaseDetailTypes();
-        for (ParameterDetailType pdt : dataDictionaryAndSpringComponents) {
-            if (pdt.getParameterNamespaceCode().equals(namespace) && pdt.getParameterDetailTypeCode().equals(component)) {
-                result = true;
-                break;
+        try {
+            List<ParameterDetailType> dataDictionaryAndSpringComponents = SpringContext.getBean(ParameterService.class).getNonDatabaseDetailTypes();
+            for (ParameterDetailType pdt : dataDictionaryAndSpringComponents) {
+                if (pdt.getParameterNamespaceCode().equals(namespace) && pdt.getParameterDetailTypeCode().equals(component)) {
+                    result = true;
+                    break;
+                }
             }
+    
+            if (!result) {
+                Map<String, String> primaryKeys = new HashMap<String, String>(2);
+                primaryKeys.put("parameterNamespaceCode", namespace);
+                primaryKeys.put("parameterDetailTypeCode", component);
+                result = ObjectUtils.isNotNull(getBoService().findByPrimaryKey(ParameterDetailType.class, primaryKeys));
+            }
+    
+            if (!result) {
+                putFieldError("parameterDetailTypeCode", "error.document.parameter.detailType.invalid", component);
+            }
+    
+            return result;
+        } catch ( DataDictionaryException ex ) {
+            throw new RuntimeException( "Problem parsing data dictionary during full load required for rule validation: " + ex.getMessage(), ex );
         }
-
-        if (!result) {
-            Map<String, String> primaryKeys = new HashMap<String, String>(2);
-            primaryKeys.put("parameterNamespaceCode", namespace);
-            primaryKeys.put("parameterDetailTypeCode", component);
-            result = ObjectUtils.isNotNull(getBoService().findByPrimaryKey(ParameterDetailType.class, primaryKeys));
-        }
-
-        if (!result) {
-            putFieldError("parameterDetailTypeCode", "error.document.parameter.detailType.invalid", component);
-        }
-
-        return result;
     }
 
 }

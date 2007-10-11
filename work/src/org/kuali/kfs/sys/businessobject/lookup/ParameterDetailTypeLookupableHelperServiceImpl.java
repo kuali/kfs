@@ -22,6 +22,7 @@ import java.util.regex.PatternSyntaxException;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.ParameterDetailType;
+import org.kuali.core.datadictionary.DataDictionaryException;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.lookup.LookupUtils;
@@ -41,7 +42,12 @@ public class ParameterDetailTypeLookupableHelperServiceImpl extends KualiLookupa
         // all BO beans
         // all trans doc beans
 
-        List<ParameterDetailType> components = parameterService.getNonDatabaseDetailTypes();
+        List<ParameterDetailType> components;
+        try {
+            components = parameterService.getNonDatabaseDetailTypes();
+        } catch ( DataDictionaryException ex ) {
+            throw new RuntimeException( "Problem parsing data dictionary during full load required for lookup to function: " + ex.getMessage(), ex );            
+        }
 
         String activeCheck = fieldValues.get("active");
         if (activeCheck == null) {

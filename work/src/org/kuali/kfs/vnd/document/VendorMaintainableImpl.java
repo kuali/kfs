@@ -32,6 +32,7 @@ import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.NoteService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -61,9 +62,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     public void setGenerateDefaultValues(boolean generateDefaultValues) {
         super.setGenerateDefaultValues(generateDefaultValues);
         if (this.getBusinessObject().getBoNotes().isEmpty()) {
-            Note newBONote = new Note();
-            newBONote.setNoteText("Add vendor document ID " + this.documentNumber);
-            this.getBusinessObject().getBoNotes().add(newBONote);
+            setVendorCreateAndUpdateNote(VendorConstants.VendorCreateAndUpdateNotePrefixes.ADD);
         }
     }
 
@@ -154,7 +153,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
      *      saveBusinessObject( ) of the super class to save the vendor detail.
      */
     @Override
-    public void saveBusinessObject() {
+    public void saveBusinessObject(){
         VendorDetail vendorDetail = (VendorDetail) super.getBusinessObject();
         VendorHeader vendorHeader = vendorDetail.getVendorHeader();
 
@@ -167,10 +166,38 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
         if (vendorDetail.isVendorParentIndicator()) {
             getVendorService().saveVendorHeader(vendorDetail);
         }
-
         super.saveBusinessObject();
     }
 
+    @Override
+    public void processAfterEdit() {
+        setVendorCreateAndUpdateNote(VendorConstants.VendorCreateAndUpdateNotePrefixes.CHANGE);        
+    }
+    
+    private void setVendorCreateAndUpdateNote(String prefix) {
+        boolean shouldAddNote = true;
+        if (prefix.equals(VendorConstants.VendorCreateAndUpdateNotePrefixes.CHANGE)) {
+            //Check whether the previous note was an "Add" with the same document number as this one
+            if (!this.getBusinessObject().getBoNotes().isEmpty()) {
+                Note previousNote = this.getBusinessObject().getBoNote(this.getBusinessObject().getBoNotes().size() - 1);
+                if (previousNote.getNoteText().contains(this.documentNumber)) {
+                    shouldAddNote = false;
+                }
+            }
+        }
+        if (shouldAddNote) {
+            Note newBONote = new Note();
+            newBONote.setNoteText(prefix + " vendor document ID " + this.documentNumber);
+            try {
+                newBONote = SpringContext.getBean(NoteService.class).createNote(newBONote, this.getBusinessObject());
+            }
+            catch (Exception e) {
+                throw new RuntimeException("Caught Exception While Trying To Add Note to Vendor", e);
+            }
+            this.getBusinessObject().getBoNotes().add(newBONote);        
+        }
+    }
+    
     /**
      * This method concatenates the vendorLastName and a delimiter and the vendorFirstName fields into vendorName field of the
      * vendorDetail object.
@@ -277,6 +304,8 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     public void setupNewFromExisting() {
         ((VendorDetail) super.getBusinessObject()).setVendorParentIndicator(false);
         ((VendorDetail) super.getBusinessObject()).setActiveIndicator(true);
+        
+        setVendorCreateAndUpdateNote(VendorConstants.VendorCreateAndUpdateNotePrefixes.ADD);
     }
 
     /**

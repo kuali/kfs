@@ -59,9 +59,8 @@ import org.kuali.module.labor.web.inquirable.LedgerBalanceInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service implementation of LedgerBalanceLookupableHelperService.
- *
- * The class is the front-end for all Ledger balance inquiry processing.
+ * Service implementation of LedgerBalanceLookupableHelperService. The class is the front-end for all Ledger balance inquiry
+ * processing.
  */
 @Transactional
 public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
@@ -105,26 +104,26 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
 
         // test if the consolidation option is selected or not
         boolean isConsolidated = laborInquiryOptionsService.isConsolidationSelected(fieldValues);
-        
+
         // get the input balance type code
         String balanceTypeCode = fieldValues.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
         boolean isA21Balance = StringUtils.isNotEmpty(balanceTypeCode) && BALANCE_TYPE_AC_AND_A21.equals(balanceTypeCode.trim());
-       
+
         // get the ledger balances with actual balance type code
-        if(isA21Balance){
+        if (isA21Balance) {
             fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
         }
-        Integer recordCountForActualBalance = balanceService.getBalanceRecordCount(fieldValues, isConsolidated);        
+        Integer recordCountForActualBalance = balanceService.getBalanceRecordCount(fieldValues, isConsolidated);
         Iterator actualBalanceIterator = balanceService.findBalance(fieldValues, isConsolidated);
         Collection searchResultsCollection = buildBalanceCollection(actualBalanceIterator, isConsolidated, pendingEntryOption);
         laborInquiryOptionsService.updateLedgerBalanceByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated);
-        
+
         // get the search result collection
         Integer recordCountForEffortBalance = 0;
-        if(isA21Balance){
+        if (isA21Balance) {
             fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_A21);
             recordCountForEffortBalance = balanceService.getBalanceRecordCount(fieldValues, isConsolidated);
-            
+
             Iterator effortBalanceIterator = balanceService.findBalance(fieldValues, isConsolidated);
             Collection effortBalances = buildBalanceCollection(effortBalanceIterator, isConsolidated, pendingEntryOption);
             laborInquiryOptionsService.updateLedgerBalanceByPendingLedgerEntry(effortBalances, fieldValues, pendingEntryOption, isConsolidated);

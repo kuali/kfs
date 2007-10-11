@@ -166,7 +166,7 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
 
         return laborLedgerPendingEntryDao.findPendingEntries(fieldValues, isApproved);
     }
-    
+
     /**
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#findPendingLedgerEntriesForAccountBalance(java.util.Map,
      *      boolean, boolean)

@@ -61,7 +61,6 @@ public class LedgerBalance extends Balance {
     }
 
     /**
-     * 
      * Constructs a LedgerBalance.java.
      * 
      * @param transaction
@@ -415,7 +414,7 @@ public class LedgerBalance extends Balance {
 
     /**
      * Gets the UniversalUser
-     *  
+     * 
      * @return Returns the UniversalUser
      */
     public UniversalUser getLedgerPerson() {
@@ -429,7 +428,7 @@ public class LedgerBalance extends Balance {
                 setLedgerPerson(null);
             }
         }
-        
+
         return ledgerPerson;
     }
 
@@ -459,7 +458,7 @@ public class LedgerBalance extends Balance {
         primaryKeyList.add(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
         primaryKeyList.add(KFSPropertyConstants.POSITION_NUMBER);
         primaryKeyList.add(KFSPropertyConstants.EMPLID);
-        
+
         return primaryKeyList;
     }
 }

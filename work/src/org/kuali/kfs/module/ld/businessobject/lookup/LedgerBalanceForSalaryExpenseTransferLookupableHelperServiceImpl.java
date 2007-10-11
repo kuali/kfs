@@ -33,9 +33,8 @@ import org.kuali.module.labor.web.inquirable.LedgerBalanceForExpenseTransferInqu
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service implementation of LedgerBalanceForSalaryExpenseTransferLookupableHelperService.
- *
- * The class is the front-end for the balance inquiry of Ledger Balance For Salary Expense Transfer processing.
+ * Service implementation of LedgerBalanceForSalaryExpenseTransferLookupableHelperService. The class is the front-end for the
+ * balance inquiry of Ledger Balance For Salary Expense Transfer processing.
  */
 @Transactional
 public class LedgerBalanceForSalaryExpenseTransferLookupableHelperServiceImpl extends LedgerBalanceForExpenseTransferLookupableHelperServiceImpl {

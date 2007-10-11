@@ -146,7 +146,7 @@ public abstract class AbstractLaborInquirableImpl extends KfsInquirableImpl {
                 }
 
                 Object keyValue = ObjectUtils.getPropertyValue(businessObject, keyConversion);
-                keyValue = (keyValue == null) ? Constant.EMPTY_STRING : keyValue.toString();               
+                keyValue = (keyValue == null) ? Constant.EMPTY_STRING : keyValue.toString();
 
                 // convert the key value and name into the given ones
                 Object tempKeyValue = this.getKeyValue(keyName, keyValue);
@@ -229,7 +229,7 @@ public abstract class AbstractLaborInquirableImpl extends KfsInquirableImpl {
      * 
      * @param parameter the current parameter map
      */
-    protected void addMoreParameters(Properties parameter, String attributeName){
+    protected void addMoreParameters(Properties parameter, String attributeName) {
         return;
     }
 
@@ -256,7 +256,7 @@ public abstract class AbstractLaborInquirableImpl extends KfsInquirableImpl {
         }
         return false;
     }
-    
+
     /**
      * This method determines whether the input name-value pair is exclusive to be a link
      * 
@@ -268,7 +268,7 @@ public abstract class AbstractLaborInquirableImpl extends KfsInquirableImpl {
 
         if (keyName != null && keyValue != null) {
 
-            if (isExclusiveField(keyName, keyValue)){
+            if (isExclusiveField(keyName, keyValue)) {
                 return true;
             }
             else if (keyName.equals(KFSPropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(KFSConstants.getDashSubAccountNumber())) {

@@ -157,7 +157,11 @@
 	           
     		</c:when>
     		<c:otherwise>
+	     <div id="pDiv">
+	       <div id="cDiv">
     			N/A
+	       </div>
+	     </div>    
     		</c:otherwise>
     	</c:choose>
     </td>

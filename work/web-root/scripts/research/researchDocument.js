@@ -84,7 +84,7 @@ function makeDwrSingleReply( boName, propertyName, targetFieldName ) {
     var friendlyBoName = boName.replace(/([A-Z])/g, ' $1').toLowerCase();
     return {
         callback:function(data) {
-            //alert("data "+data)
+           // alert("data "+data)
             if (data != null && typeof data == 'object') {
                 setRecipientValue( targetFieldName, data[propertyName] );
                 if (boName=="budgetAgency") {
@@ -360,8 +360,9 @@ function removeFpt(boName) {
   }
 	  var typeCode=kualiElements[elementName];
 	  var fptAgencyNumber=kualiElements[agencyNumber];
+	  
 	  if (typeCode!=null && getElementValue( elementName )!=null ) {
-		  if (typeCode.value=="D") {
+		  if (typeCode.value!="F") {
 		    if (fptAgencyNumber==null || getElementValue(agencyNumber)=="") {		    
 		    restoreFpt(boName);
 		    }

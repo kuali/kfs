@@ -53,6 +53,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.bo.CreditMemoItem;
+import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PaymentRequestSummaryAccount;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
@@ -690,7 +691,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         // Get each item one by one
         for (Iterator items = preq.getItems().iterator(); items.hasNext();) {
             PaymentRequestItem preqItem = (PaymentRequestItem) items.next();
-            PurchaseOrderItem poItem = getPoItem(po, preqItem.getItemLineNumber());
+            PurchaseOrderItem poItem = getPoItem(po, preqItem.getItemLineNumber(), preqItem.getItemType());
 
             boolean takeAll = false; // Set this true if we relieve the entire encumbrance
             KualiDecimal itemDisEncumber = null; // Amount to disencumber for this item
@@ -923,7 +924,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         // Get each item one by one
         for (Iterator items = preq.getItems().iterator(); items.hasNext();) {
             PaymentRequestItem payRequestItem = (PaymentRequestItem) items.next();
-            PurchaseOrderItem poItem = getPoItem(po, payRequestItem.getItemLineNumber());
+            PurchaseOrderItem poItem = getPoItem(po, payRequestItem.getItemLineNumber(), payRequestItem.getItemType());
 
             KualiDecimal itemReEncumber = null; // Amount to reencumber for this item
 
@@ -1072,7 +1073,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         // Get each item one by one
         for (Iterator items = cm.getItems().iterator(); items.hasNext();) {
             CreditMemoItem cmItem = (CreditMemoItem) items.next();
-            PurchaseOrderItem poItem = getPoItem(po, cmItem.getItemLineNumber());
+            PurchaseOrderItem poItem = getPoItem(po, cmItem.getItemLineNumber(), cmItem.getItemType());
 
             KualiDecimal itemDisEncumber = null; // Amount to disencumber for this item
 
@@ -1199,12 +1200,19 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         return encumbranceAccounts;
     }
 
-    private PurchaseOrderItem getPoItem(PurchaseOrderDocument po, Integer nbr) {
+    private PurchaseOrderItem getPoItem(PurchaseOrderDocument po, Integer nbr, ItemType itemType) {
         for (Iterator iter = po.getItems().iterator(); iter.hasNext();) {
             PurchaseOrderItem element = (PurchaseOrderItem) iter.next();
-            if (ObjectUtils.isNotNull(nbr) && ObjectUtils.isNotNull(element.getItemLineNumber()) && 
-                    (nbr.compareTo(element.getItemLineNumber()) == 0)) {
-                return element;
+            if (itemType.isItemTypeAboveTheLineIndicator()) {
+                if (ObjectUtils.isNotNull(nbr) && ObjectUtils.isNotNull(element.getItemLineNumber()) && 
+                        (nbr.compareTo(element.getItemLineNumber()) == 0)) {
+                    return element;
+                }
+            }
+            else {
+                if (element.getItemTypeCode().equals(itemType.getItemTypeCode())) {
+                    return element;
+                }
             }
         }
         return null;

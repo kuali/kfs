@@ -234,7 +234,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         if(itemUnitPrice!=null) {
             if(itemUnitPrice.scale()<PurapConstants.DOLLAR_AMOUNT_MIN_SCALE) {
                 itemUnitPrice = itemUnitPrice.setScale(PurapConstants.DOLLAR_AMOUNT_MIN_SCALE, KualiDecimal.ROUND_BEHAVIOR);
-            } else if(itemUnitPrice.scale()>PurapConstants.DOLLAR_AMOUNT_MIN_SCALE && itemUnitPrice.scale() < PurapConstants.UNIT_PRICE_MAX_SCALE) {
+            } else if(itemUnitPrice.scale() > PurapConstants.UNIT_PRICE_MAX_SCALE) {
                 itemUnitPrice = itemUnitPrice.setScale(PurapConstants.UNIT_PRICE_MAX_SCALE, KualiDecimal.ROUND_BEHAVIOR);
             }
         }
@@ -252,7 +252,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 		if(itemUnitPrice!=null) {
             if(itemUnitPrice.scale()<PurapConstants.DOLLAR_AMOUNT_MIN_SCALE) {
                 itemUnitPrice = itemUnitPrice.setScale(PurapConstants.DOLLAR_AMOUNT_MIN_SCALE, KualiDecimal.ROUND_BEHAVIOR);
-            } else if(itemUnitPrice.scale()>PurapConstants.DOLLAR_AMOUNT_MIN_SCALE && itemUnitPrice.scale() < PurapConstants.UNIT_PRICE_MAX_SCALE) {
+            } else if(itemUnitPrice.scale() > PurapConstants.UNIT_PRICE_MAX_SCALE) {
                 itemUnitPrice = itemUnitPrice.setScale(PurapConstants.UNIT_PRICE_MAX_SCALE, KualiDecimal.ROUND_BEHAVIOR);
             }
         }

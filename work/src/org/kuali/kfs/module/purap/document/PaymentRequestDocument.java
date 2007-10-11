@@ -913,7 +913,10 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         super.doActionTaken(event);
         KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
         try {
-            String currentNode = workflowDocument.getNodeNames()[0];
+            String currentNode = null;
+            if(workflowDocument.getNodeNames().length>0) {
+                currentNode = workflowDocument.getNodeNames()[0];
+            }
 
             // everything in the below list requires correcting entries to be written to the GL
             if (NodeDetailEnum.getNodesRequiringCorrectingGeneralLedgerEntries().contains(currentNode)) {

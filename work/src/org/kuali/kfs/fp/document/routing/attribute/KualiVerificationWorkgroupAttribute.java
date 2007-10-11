@@ -64,7 +64,7 @@ public class KualiVerificationWorkgroupAttribute implements RoleAttribute, Workf
         String docTypeName = docContent.getRouteContext().getDocument().getDocumentType().getName();
         List qualifiedRoleNames = new ArrayList();
         try {
-                String verificationWorkgroupName = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX  + "verificationWorkgroup"), docContent.getRouteContext().getDocumentContent().getDocContent());
+                String verificationWorkgroupName = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX  + "cashReceiptHeader/workgroupName"), docContent.getRouteContext().getDocumentContent().getDocContent());
                 VerificationWorkgroupRole role = new VerificationWorkgroupRole(roleName);
                 role.verificationWorkgroupName = verificationWorkgroupName;
                 

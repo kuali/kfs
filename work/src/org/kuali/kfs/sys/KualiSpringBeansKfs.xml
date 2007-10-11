@@ -114,7 +114,7 @@
 
   	<bean id="scheduleJobTrigger" parent="cronTrigger">
 		<property name="jobName" value="scheduleJob" />
-		<property name="cronExpression" value="00 00 23 ? * *" />
+		<property name="cronExpression" value="${batch.schedule.cron.expression}" />
 	</bean>
 	
 	<bean id="batchJobStatusLookupableHelperService" class="org.kuali.kfs.lookup.BatchJobStatusLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">

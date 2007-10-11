@@ -99,6 +99,9 @@ public class ParameterServiceImpl implements ParameterService {
         if (!getParameterValues(allowParameter, constrainingValue).isEmpty() && !getParameterValues(denyParameter, constrainingValue).isEmpty()) {
             throw new IllegalArgumentException("The getParameterEvaluator(Class componentClass, String allowParameterName, String denyParameterName, String constrainingValue, String constrainedValue) method of ParameterServiceImpl does not facilitate evaluation of combination allow and deny parameters that both have values for the constraining value: " + allowParameterName + " / " + denyParameterName + " / " + constrainingValue);
         }
+        if (getParameterValues(allowParameter, constrainingValue).isEmpty() && getParameterValues(denyParameter, constrainingValue).isEmpty()) {
+            return AlwaysSucceedParameterEvaluatorImpl.getInstance();
+        }
         return getParameterEvaluator(getParameterValues(denyParameter, constrainingValue).isEmpty() ? allowParameter : denyParameter, constrainingValue, constrainedValue);
     }
 

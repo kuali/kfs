@@ -46,9 +46,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapAccountingServiceImpl.class);
 
     private static final BigDecimal ONE_HUNDRED = new BigDecimal(100);
-    // TODO PURAP:  Should we use a static scale such as below?  Should we be allowed to pass it in and get it per doc from the data dictionary??
+
     private static final int SCALE = 340;
-    // TODO PURAP:  Should we use Kuali's formally supported rounding mode (from BigDecimalFormatter or KualiDecimal) below?
+
     private static final int BIG_DECIMAL_ROUNDING_MODE = BigDecimal.ROUND_HALF_UP;
 
     // local constants
@@ -85,7 +85,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         return null;//generateAccountDistributionForProration(accounts, totalAmount, percentScale, null);
     }
     /**
-     * TODO PURAP: Needs Unit Tests
      * 
      * @see org.kuali.module.purap.service.PurapAccountingService#generateAccountDistributionForProration(java.util.List, org.kuali.core.util.KualiDecimal, java.lang.Integer)
      */
@@ -119,11 +118,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     newAccountingLine = (PurApAccountingLine)clazz.newInstance();
                 }
                 catch (InstantiationException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 catch (IllegalAccessException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 
@@ -191,7 +188,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
 
     /**
-     * TODO PURAP: Needs Unit Tests
      * 
      * @see org.kuali.module.purap.service.PurapAccountingService#generateAccountDistributionForProrationWithZeroTotal(java.util.List, java.lang.Integer)
      */
@@ -243,7 +239,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
 
     /**
-     * TODO PURAP: Needs Unit Tests
      * 
      * @see org.kuali.module.purap.service.PurapAccountingService#generateSummary(java.util.List)
      */
@@ -283,9 +278,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 for (PurApAccountingLine purApAccountingLine : itemAccounts) {
                     if(purApAccountingLine.accountStringsAreEqual(summaryAccount.getAccount())) {
                         PurApSummaryItem summaryItem = item.getSummaryItem();
-                        //Shouldn't need the following, as long as we run updateAccountAmounts before calling this method.
-//                        //TODO: ctk do we need to make this amount based for PREQ's past full entry?
-//                        summaryItem.setEstimatedEncumberanceAmount(new KualiDecimal(purApAccountingLine.getAccountLinePercent().divide(new BigDecimal("100")).multiply(item.getExtendedPrice().bigDecimalValue())));
                         summaryItem.setEstimatedEncumberanceAmount(purApAccountingLine.getAmount());
                         summaryAccount.getItems().add(summaryItem);
                         break;
@@ -299,7 +291,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
     
     /**
-     * TODO PURAP: Needs Unit Tests
      * 
      * @see org.kuali.module.purap.service.PurapAccountingService#generateSummaryWithNoZeroTotals(java.util.List)
      */
@@ -312,7 +303,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
 
     /**
-     * TODO PURAP: Needs Unit Tests
      * 
      * @see org.kuali.module.purap.service.PurapAccountingService#generateSummaryWithNoZeroTotalsUsingAlternateAmount(java.util.List)
      */
@@ -325,7 +315,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
 
     /**
-     * TODO PURAP: Needs Unit Tests
      * 
      * @see org.kuali.module.purap.service.PurapAccountingService#generateSummaryExcludeItemTypes(java.util.List, java.util.Set)
      */
@@ -338,7 +327,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
 
     /**
-     * TODO PURAP: Needs Unit Tests
      * 
      * @see org.kuali.module.purap.service.PurapAccountingService#generateSummaryIncludeItemTypesAndNoZeroTotals(java.util.List, java.util.Set)
      */
@@ -351,7 +339,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
     
     /**
-     * TODO PURAP: Needs Unit Tests
      * 
      * @see org.kuali.module.purap.service.PurapAccountingService#generateSummaryIncludeItemTypes(java.util.List, java.util.Set)
      */
@@ -364,7 +351,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
 
     /**
-     * TODO PURAP: Needs Unit Tests
      * 
      * @see org.kuali.module.purap.service.PurapAccountingService#generateSummaryExcludeItemTypesAndNoZeroTotals(java.util.List, java.util.Set)
      */

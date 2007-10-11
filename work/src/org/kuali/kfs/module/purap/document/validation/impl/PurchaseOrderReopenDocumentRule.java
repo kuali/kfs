@@ -26,6 +26,7 @@ import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
@@ -110,7 +111,9 @@ public class PurchaseOrderReopenDocumentRule extends PurchasingDocumentRuleBase 
         SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(po, 
                 accountingLine, explicitEntry, po.getPurapDocumentIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.PO_DOCUMENT, true);
 
-        explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_REOPEN_DOCUMENT);  //don't think i should have to override this, but default isn't getting the right PO doc
+        // don't think i should have to override this, but default isn't getting the right PO doc
+        explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_REOPEN_DOCUMENT);
+        explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
     }
 
 }

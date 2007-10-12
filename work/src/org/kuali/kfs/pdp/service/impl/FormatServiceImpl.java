@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,8 @@ import java.util.Map;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.core.bo.Parameter;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.SchedulerService;
 import org.kuali.kfs.service.impl.ParameterConstants;
@@ -78,6 +81,7 @@ public class FormatServiceImpl implements FormatService {
     private ParameterService parameterService;
     private FormatPaymentDao formatPaymentDao;
     private SchedulerService schedulerService;
+    private BusinessObjectService businessObjectService;
 
     public FormatServiceImpl() {
         super();
@@ -326,6 +330,27 @@ public class FormatServiceImpl implements FormatService {
     private void triggerExtract(PaymentProcess proc) {
         LOG.debug("triggerExtract() started");
 
+        saveProcessId(proc.getId());
+        String emailAddress = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.NO_PAYMENT_FILE_EMAIL);
+        schedulerService.runJob("pdpExtractChecksJob", emailAddress);
+    }
+
+    private void saveProcessId(Integer id) {
+        Map fields = new HashMap();
+        fields.put("parameterNamespaceCode", "KFS-PD");
+        fields.put("parameterDetailTypeCode", "All");
+        fields.put("parameterName", PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID);
+        Parameter processParam = (Parameter)businessObjectService.findByPrimaryKey(Parameter.class, fields);
+        if ( processParam == null ) {
+            processParam.setParameterNamespaceCode("KFS-PD");
+            processParam.setParameterDetailTypeCode("All");
+            processParam.setParameterName(PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID);
+            processParam.setParameterTypeCode("CONFG");
+            processParam.setParameterValue(id.toString());
+            processParam.setParameterConstraintCode("A");
+            processParam.setParameterWorkgroupName("KUALI_FMSOPS");
+        }
+        businessObjectService.save(processParam);
     }
 
     private List convertProcessSummary2FormatResult(List processSummaryResults) {
@@ -351,6 +376,7 @@ public class FormatServiceImpl implements FormatService {
         LOG.debug("clearUnfinishedFormat() started");
 
         PaymentProcess proc = processDao.get(procId);
+        LOG.debug("clearUnfinishedFormat() Process: " + proc);
 
         formatPaymentDao.unmarkPaymentsForFormat(proc);
 
@@ -640,5 +666,9 @@ public class FormatServiceImpl implements FormatService {
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService bos) {
+        this.businessObjectService = bos;
     }
 }

@@ -47,6 +47,15 @@
 				<value>org/kuali/module/pdp/OJB-repository-pdp.xml</value>
 			</list>
 		</property>
+		<property name="jobNames">
+			<list>
+				<value>pdpLoadFederalReserveBankDataJob</value>
+				<value>pdpExtractGlTransactionsStepJob</value>
+				<value>pdpExtractAchPaymentsJob</value>
+				<value>pdpExtractCancelledChecksJob</value>
+				<value>pdpExtractChecksJob</value>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="pdpUserService" class="org.kuali.module.pdp.service.impl.PdpUserServiceImpl" parent="kualiModuleUserServiceBase">
@@ -113,7 +122,6 @@
 
 	<bean id="pdpAchBankDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.AchBankDaoOjb"/>
 
-
 	<bean id="pdpLoadFederalReserveBankDataJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -149,7 +157,7 @@
 	<bean id="pdpExtractChecksJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="pdpExtractCancelledChecksStep" />
+				<ref bean="pdpExtractChecksStep" />
 			</list>
 		</property>
 	</bean>
@@ -242,6 +250,7 @@
 		<property name="parameterService" ref="parameterService" />
 		<property name="formatPaymentDao" ref="pdpFormatPaymentDao"/>
 		<property name="schedulerService" ref="schedulerService"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
 	</bean>
 
 	<bean id="pdpGlPendingTransactionService" class="org.kuali.module.pdp.service.impl.GlPendingTransactionServiceImpl">
@@ -293,6 +302,6 @@
 	</bean>
 
 	<bean id="pdpPaymentFileParser" class="org.kuali.module.pdp.xml.impl.PaymentFileParserImpl" singleton="false">
-		<property name="xsdUrl"><value>https://test.kuali.org/kuali-cnv/pdp/payment1.xsd</value></property>
+		<property name="xsdUrl"><value>http://localhost:8080/kuali-dev/pdp/payment1.xsd</value></property>
 	</bean>
 </beans>

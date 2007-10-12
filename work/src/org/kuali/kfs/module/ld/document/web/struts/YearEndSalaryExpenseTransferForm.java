@@ -23,8 +23,8 @@ import org.kuali.module.labor.document.YearEndSalaryExpenseTransferDocument;
 public class YearEndSalaryExpenseTransferForm extends SalaryExpenseTransferForm {
 
     /**
-     * Class constructor that invokes <code>SalaryExpenseTransferForm</code> constructor, constructs a new 
-     * <code>YearEndSalaryExpenseTransferDocument</code> instance, and sets up the document. 
+     * Class constructor that invokes <code>SalaryExpenseTransferForm</code> constructor, constructs a new
+     * <code>YearEndSalaryExpenseTransferDocument</code> instance, and sets up the document.
      */
     public YearEndSalaryExpenseTransferForm() {
         super();

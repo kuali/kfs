@@ -26,29 +26,17 @@ import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.labor.bo.LaborAccountingLineOverride;
 
 /**
- * This class is the base action form for all expense transfer documents.
+ * Base Struts Action Form for all expense transfer documents.
  */
 public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormBase implements MultipleValueLookupBroker {
 
-    /**
-     * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
-     */
-    private String lookupResultsSequenceNumber;
-
-    /**
-     * The type of result returned by the multi-value lookup TODO: to be persisted in the lookup results service instead?
-     */
-    private String lookupResultsBOClassName;
-
-    /**
-     * The name of the collection looked up (by a multiple value lookup)
-     */
-    private String lookedUpCollectionName;
-
+    private String lookupResultsSequenceNumber; //Indicates which result set we are using when refreshing/returning from a multi-value lookup.
+    private String lookupResultsBOClassName; //Type of result returned by the multi-value lookup TODO: to be persisted in the lookup results service instead?
+    private String lookedUpCollectionName; //The name of the collection looked up (by a multiple value lookup)
     private Integer universityFiscalYear;
 
     /**
-     * This constructor sets up empty instances for the dependent objects...
+     * Constructs a ExpenseTransferDocumentFormBase instance for the dependent object.
      */
     public ExpenseTransferDocumentFormBase() {
         super();
@@ -64,42 +52,42 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
     }
 
     /**
-     * @see MultipleValueLookupBroker#getLookupResultsSequenceNumber()
+     * @see org.kuali.module.labor.web.struts.form.MultipleValueLookupBroker#getLookupResultsSequenceNumber()
      */
     public String getLookupResultsSequenceNumber() {
         return lookupResultsSequenceNumber;
     }
 
     /**
-     * @see MultipleValueLookupBroker#setLookupResultsSequenceNumber(String)
+     * @see org.kuali.module.labor.web.struts.form.MultipleValueLookupBroker#setLookupResultsSequenceNumber(java.lang.String)
      */
     public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
         this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
     }
 
     /**
-     * @see MultipleValueLookupBroker#getLookupResultsBOClassName()
+     * @see org.kuali.module.labor.web.struts.form.MultipleValueLookupBroker#getLookupResultsBOClassName()
      */
     public String getLookupResultsBOClassName() {
         return lookupResultsBOClassName;
     }
 
     /**
-     * @see MultipleValueLookupBroker#setLookupResultsBOClassName(String)
+     * @see org.kuali.module.labor.web.struts.form.MultipleValueLookupBroker#setLookupResultsBOClassName(java.lang.String)
      */
     public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
         this.lookupResultsBOClassName = lookupResultsBOClassName;
     }
 
     /**
-     * @see MultipleValueLookupBroker#getLookupedUpCollectionName()
+     * @see org.kuali.module.labor.web.struts.form.MultipleValueLookupBroker#getLookedUpCollectionName()
      */
     public String getLookedUpCollectionName() {
         return lookedUpCollectionName;
     }
 
     /**
-     * @see MultipleValueLookupBroker#getLookupedUpCollectionName(String)
+     * @see org.kuali.module.labor.web.struts.form.MultipleValueLookupBroker#setLookedUpCollectionName(java.lang.String)
      */
     public void setLookedUpCollectionName(String lookedUpCollectionName) {
         this.lookedUpCollectionName = lookedUpCollectionName;
@@ -117,19 +105,21 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
     /**
      * Sets the universityFiscalYear attribute value.
      * 
-     * @param universityFiscalYear The universityFiscalYear to set.
+     * @param universityFiscalYear  The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
     }
 
     /**
-     * populate the search fields with the last search criteria
+     * Populate the search fields with the last search criteria
      */
     public abstract void populateSearchFields();
 
     /**
-     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
+     * Gets forced read only source fields
+     * 
+     * @return Returns a Map of read only source fields
      */
     public Map getForcedReadOnlySourceFields() {
         Map map = super.getForcedReadOnlyFields();
@@ -174,7 +164,8 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
     }
 
     /**
-     * deal with the labor-specific override code to the given source accounting line
+     * Deal with the labor-specific override code to the given source accounting line
+     * 
      * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#populateSourceAccountingLine(org.kuali.kfs.bo.SourceAccountingLine)
      */
     @Override
@@ -184,7 +175,8 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
     }
 
     /**
-     * deal with the labor-specific override code to the given target accounting line
+     * Deal with the labor-specific override code to the given target accounting line
+     * 
      * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#populateTargetAccountingLine(org.kuali.kfs.bo.TargetAccountingLine)
      */
     @Override

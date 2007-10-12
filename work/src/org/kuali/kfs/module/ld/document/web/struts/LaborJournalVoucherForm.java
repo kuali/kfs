@@ -27,9 +27,10 @@ import org.kuali.module.labor.bo.PositionData;
 import org.kuali.module.labor.document.LaborJournalVoucherDocument;
 
 /**
- * Struts action form for the Labor Journal Voucher Document.
+ * Struts Action Form for the Labor Journal Voucher Document.
  */
 public class LaborJournalVoucherForm extends JournalVoucherForm {
+    
     private String originalOffsetTypeCode = JournalVoucherOffsetType.NO_OFFSET.typeCode;
 
     /**
@@ -43,7 +44,7 @@ public class LaborJournalVoucherForm extends JournalVoucherForm {
     }
 
     /**
-     * This method returns the journal voucher document associated with this form.
+     * Returns the journal voucher document associated with this form.
      * 
      * @return Returns the journalVoucherDocument.
      */
@@ -52,7 +53,7 @@ public class LaborJournalVoucherForm extends JournalVoucherForm {
     }
 
     /**
-     * This method sets the journal voucher document associated with this form.
+     * Sets the journal voucher document associated with this form.
      * 
      * @param journalVoucherDocument The journalVoucherDocument to set.
      */

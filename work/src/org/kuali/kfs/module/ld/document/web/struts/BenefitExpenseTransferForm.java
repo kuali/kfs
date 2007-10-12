@@ -26,6 +26,7 @@ import org.kuali.module.labor.document.BenefitExpenseTransferDocument;
  * Struts Action Form for the Benefit Expense Transfer Document.
  */
 public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase {
+    
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
@@ -39,7 +40,9 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
     }
 
     /**
-     * @return Returns the BenefitExpenseTransferDocument.
+     * Gets the BenefitExpenseTransferDocument attribute.
+     * 
+     * @return Returns the BenefitExpenseTransferDocument
      */
     public BenefitExpenseTransferDocument getBenefitExpenseTransferDocument() {
         return (BenefitExpenseTransferDocument) getDocument();
@@ -66,7 +69,7 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
     /**
      * Gets the subAccountNumber attribute.
      * 
-     * @return Returns the subAccountNumber.
+     * @return Return the subAccountNumber.
      */
     public String getSubAccountNumber() {
         return subAccountNumber;
@@ -75,7 +78,7 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
     /**
      * Sets the subAccountNumber attribute value.
      * 
-     * @param subAccountNumber The subAccountNumber to set.
+     * @param subAccountNumber  The subAccountNumber to set.
      */
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
@@ -84,7 +87,7 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return Returns the chartOfAccountsCode.
+     * @return Return the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -93,14 +96,14 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
     /**
      * Sets the chartOfAccountsCode attribute value.
      * 
-     * @param chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param chartOfAccountsCode   The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
 
     /**
-     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
+     * @see org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase#getForcedReadOnlyTargetFields()
      */
     @Override
     public Map getForcedReadOnlyTargetFields() {

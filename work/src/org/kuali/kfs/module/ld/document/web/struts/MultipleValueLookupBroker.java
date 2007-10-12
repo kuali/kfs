@@ -15,13 +15,11 @@
  */
 package org.kuali.module.labor.web.struts.form;
 
-import org.kuali.core.web.struts.form.MultipleValueLookupForm;
-
 /**
- * Interface for defining a <code>{@link ActionForm}</code> that has multiple value lookups on it; however,
- * it should not be implemented by a class that extends <code>{@link LookupForm}</code> or <code>{@link MultipleValueLookupForm}</code>
- * unless you have a really, really good reason.
- *
+ * Interface for defining a <code>{@link ActionForm}</code> that has multiple value lookups on it; however, it should not be
+ * implemented by a class that extends <code>{@link LookupForm}</code> or <code>{@link MultipleValueLookupForm}</code> unless
+ * you have a really, really good reason.
+ * 
  * @see MultipleValueLookupForm
  */
 public interface MultipleValueLookupBroker {
@@ -32,42 +30,48 @@ public interface MultipleValueLookupBroker {
     public String getRefreshCaller();
 
     /**
-     *
+     * Get lookup results sequence number.
+     * 
      * @return String
      */
     public String getLookupResultsSequenceNumber();
 
 
     /**
-     *
+     * Set lookup results sequence number.
+     * 
      * @param lookupResultsSequenceNumber
      */
     public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber);
 
 
     /**
-     *
+     * Get lookup results business object class name.
+     * 
      * @return String
      */
     public String getLookupResultsBOClassName();
 
 
     /**
-     *
+     * Set lookup results business object class name.
+     * 
      * @param lookupResultsSequenceNumber
      */
     public void setLookupResultsBOClassName(String lookupResultsBOClassName);
 
 
     /**
-     *
+     * Get looked up collection name.
+     * 
      * @return String
      */
     public String getLookedUpCollectionName();
 
 
     /**
-     *
+     * Set looked up collection name.
+     * 
      * @param lookupResultsSequenceNumber
      */
     public void setLookedUpCollectionName(String lookedUpCollectionName);

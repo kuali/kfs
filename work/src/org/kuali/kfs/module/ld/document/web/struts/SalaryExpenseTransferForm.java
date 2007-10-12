@@ -38,14 +38,13 @@ import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.service.LaborUserService;
 
 /**
- * Struts Action Form for the Salary Expense Transfer document.
- * This method extends the parent ExpenseTransferDocumentFormBase class which contains all of the common form methods and form attributes needed by the Salary
- * Expense Transfer document. It adds a new method which is a convenience method for getting at the Salary Expense Transfer document
- * easier.
+ * Struts Action Form for the Salary Expense Transfer document. This method extends the parent ExpenseTransferDocumentFormBase class
+ * which contains all of the common form methods and form attributes needed by the Salary Expense Transfer document. It adds a new
+ * method which is a convenience method for getting at the Salary Expense Transfer document easier.
  */
-public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
+public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {  
     private static Log LOG = LogFactory.getLog(SalaryExpenseTransferForm.class);
-
+    
     private LaborUser user;
     private String balanceTypeCode;
     private String emplid;
@@ -82,7 +81,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     }
 
     /**
-     * @see org.kuali.core.web.struts.form.DocumentFormBase#populate(HttpServletRequest)
+     * @see org.kuali.core.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
     public void populate(HttpServletRequest request) {
@@ -92,7 +91,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     /**
      * This method returns a reference to the Salary Expense Transfer Document
      * 
-     * @return SalaryExpenseTransferDocument
+     * @return Returns the SalaryExpenseTransferDocument.
      */
     public SalaryExpenseTransferDocument getSalaryExpenseTransferDocument() {
         return (SalaryExpenseTransferDocument) getDocument();
@@ -101,7 +100,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     /**
      * Assign <code>{@link LaborUser}</code> instance to the struts form.
      * 
-     * @param user
+     * @param user  The user to set.
      */
     public void setUser(LaborUser user) {
         this.user = user;
@@ -110,7 +109,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     /**
      * Retrieve <code>{@link LaborUser}</code> instance from the struts from.
      * 
-     * @return LaborUser
+     * @return Returns the LaborUser.
      */
     public LaborUser getUser() {
         return user;
@@ -119,7 +118,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     /**
      * Sets the employee ID retrieved from the universal user service
      * 
-     * @param emplid
+     * @param emplid    The emplid to set.  
      * @throws UserNotFoundException because a lookup at the database discovers user data from the personPayrollIdentifier
      */
     public void setEmplid(String id) {
@@ -138,15 +137,13 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     /**
      * Returns the employee ID from the UniversalUser table.
      * 
-     * @return String of the personPayrollIdentifier
+     * @return Returns the personPayrollIdentifier
      * @throws UserNotFoundException because a lookup at the database discovers user data from the personPayrollIdentifier
      */
     public String getEmplid() throws UserNotFoundException {
         if (user == null) {
-
             try {
                 setUser(SpringContext.getBean(LaborUserService.class).getLaborUserByPersonPayrollIdentifier(getSalaryExpenseTransferDocument().getEmplid()));
-
             }
             catch (UserNotFoundException e) {
             }
@@ -154,11 +151,11 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
 
         return getSalaryExpenseTransferDocument().getEmplid();
     }
-
+    
     /**
      * Removes fields from map if users is allowed to edit.
      * 
-     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
+     * @see org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase#getForcedReadOnlyTargetFields()
      */
     @Override
     public Map getForcedReadOnlyTargetFields() {

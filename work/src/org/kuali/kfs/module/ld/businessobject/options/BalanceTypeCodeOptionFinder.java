@@ -15,6 +15,9 @@
  */
 package org.kuali.module.labor.web.optionfinder;
 
+import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_ACTUAL;
+import static org.kuali.module.labor.LaborConstants.BalanceInquiries.BALANCE_TYPE_AC_AND_A21;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,14 +25,8 @@ import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.web.ui.KeyLabelPair;
 
-import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_ACTUAL;
-import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_A21;
-import static org.kuali.module.labor.LaborConstants.BalanceInquiries.BALANCE_TYPE_AC_AND_A21;
-
 /**
- * This class...
- * 
- * 
+ * Option Finder for Labor Balance Type Code.
  */
 public class BalanceTypeCodeOptionFinder extends KeyValuesBase implements ValueFinder {
 
@@ -37,10 +34,8 @@ public class BalanceTypeCodeOptionFinder extends KeyValuesBase implements ValueF
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-
         List labels = new ArrayList();
         labels.add(new KeyLabelPair(BALANCE_TYPE_ACTUAL, "ACTUAL"));
-        //labels.add(new KeyLabelPair(BALANCE_TYPE_A21, "A21"));
         labels.add(new KeyLabelPair(BALANCE_TYPE_AC_AND_A21, "A21"));
 
         return labels;

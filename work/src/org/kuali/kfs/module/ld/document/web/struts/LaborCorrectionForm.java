@@ -25,14 +25,14 @@ import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.document.LaborCorrectionDocument;
 import org.kuali.module.labor.service.LaborCorrectionDocumentService;
 
+
 /**
  * Struts Action Form for the Labor Ledger Correction Process.
  */
 public class LaborCorrectionForm extends CorrectionForm {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCorrectionForm.class);
-
+    
     private LaborOriginEntry laborEntryForManualEdit;
-
     private String laborEntryUniversityFiscalYear;
     private String laborEntryFinancialDocumentReversalDate;
     private String laborEntryTransactionDate;
@@ -102,7 +102,9 @@ public class LaborCorrectionForm extends CorrectionForm {
         this.laborEntryForManualEdit = laborEntryForManualEdit;
     }
 
-
+    /**
+     * Updates labor entries for manual edit.
+     */
     public void updateLaborEntryForManualEdit() {
         laborEntryForManualEdit.setFieldValue("universityFiscalYear", getLaborEntryUniversityFiscalYear());
         laborEntryForManualEdit.setFieldValue("transactionLedgerEntrySequenceNumber", getLaborEntryTransactionLedgerEntrySequenceNumber());

@@ -29,12 +29,12 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.KFSPropertyConstants;
 
 /**
- * Option Finder for Labor OriginEntryField.
+ * Field Finder for Labor Origin Entry.
  */
 public class LaborOriginEntryFieldFinder extends KeyValuesBase {
 
     /**
-     * Get key values for Labor Origin Entry Fields
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List activeLabels = new ArrayList();
@@ -51,7 +51,6 @@ public class LaborOriginEntryFieldFinder extends KeyValuesBase {
         activeLabels.add(new KeyLabelPair("financialSystemOriginationCode", "Origin code"));
         activeLabels.add(new KeyLabelPair(KFSPropertyConstants.DOCUMENT_NUMBER, "Document Number"));
         activeLabels.add(new KeyLabelPair("transactionLedgerEntrySequenceNumber", "Sequence Number"));
-
         activeLabels.add(new KeyLabelPair("positionNumber", "Position Number"));
         activeLabels.add(new KeyLabelPair("projectCode", "Project Code"));
         activeLabels.add(new KeyLabelPair("transactionLedgerEntryDescription", "Description"));
@@ -65,7 +64,6 @@ public class LaborOriginEntryFieldFinder extends KeyValuesBase {
         activeLabels.add(new KeyLabelPair("referenceFinancialDocumentNumber", "Ref Doc Number"));
         activeLabels.add(new KeyLabelPair("financialDocumentReversalDate", "Reversal Date"));
         activeLabels.add(new KeyLabelPair("transactionEncumbranceUpdateCode", "Enc Update Code"));
-
         activeLabels.add(new KeyLabelPair("transactionPostingDate", "Transaction Posting Date"));
         activeLabels.add(new KeyLabelPair("payPeriodEndDate", "Pay Period End Date"));
         activeLabels.add(new KeyLabelPair("transactionTotalHours", "Trn Total Hours"));
@@ -90,10 +88,10 @@ public class LaborOriginEntryFieldFinder extends KeyValuesBase {
     }
 
     /**
-     * Get Display name of field
+     * Get field display name.
      * 
-     * @param fieldName
-     * @return label
+     * @param fieldName 
+     * @return Returns the label
      */
     public String getFieldDisplayName(String fieldName) {
         for (Iterator iter = getKeyValues().iterator(); iter.hasNext();) {
@@ -102,14 +100,15 @@ public class LaborOriginEntryFieldFinder extends KeyValuesBase {
                 return klp.getLabel();
             }
         }
+
         return "Error";
     }
 
     /**
-     * get fieldName from fieldDisplayName
+     * Get field name
      * 
      * @param fieldDisplayName
-     * @return key
+     * @return Returns the key
      */
     public String getFieldName(String fieldDisplayName) {
         for (Iterator iter = getKeyValues().iterator(); iter.hasNext();) {
@@ -118,15 +117,16 @@ public class LaborOriginEntryFieldFinder extends KeyValuesBase {
                 return (String) klp.getKey();
             }
         }
+        
         return "Error";
     }
 
     /**
-     * This method is checking each field has valid value
+     * Check each field for valid value.
      * 
      * @param fieldName
      * @param value
-     * @return boolean
+     * @return Returns a boolean
      */
     public boolean isValidValue(String fieldName, String value) {
         if (StringUtils.isBlank(fieldName)) {
@@ -172,14 +172,15 @@ public class LaborOriginEntryFieldFinder extends KeyValuesBase {
                 return false;
             }
         }
+
         return true;
     }
 
     /**
-     * Get field type from fieldName
+     * Get field type.
      * 
      * @param fieldName
-     * @return fieldType
+     * @return Returns the fieldType
      */
     public String getFieldType(String fieldName) {
         if (fieldName.equals("universityFiscalYear")) {
@@ -221,10 +222,10 @@ public class LaborOriginEntryFieldFinder extends KeyValuesBase {
     }
 
     /**
-     * This method is checking the field allows null value
+     * Check if field allows null value
      * 
      * @param fieldName
-     * @return boolean
+     * @return Returns a boolean
      */
     public boolean allowNull(String fieldName) {
         if (fieldName.equals("transactionLedgerEntryAmount")) {
@@ -237,7 +238,7 @@ public class LaborOriginEntryFieldFinder extends KeyValuesBase {
      * Get length of field from fieldName
      * 
      * @param fieldName
-     * @return int
+     * @return Returns an int
      */
     public int getFieldLength(String fieldName) {
         if (fieldName.equals("universityFiscalYear")) {

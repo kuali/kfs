@@ -20,7 +20,6 @@ import org.kuali.module.labor.document.YearEndBenefitExpenseTransferDocument;
 /**
  * Struts Action Form for the Year End Benefit Expense Transfer Document.
  */
-
 public class YearEndBenefitExpenseTransferForm extends BenefitExpenseTransferForm {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(YearEndBenefitExpenseTransferForm.class);
 

@@ -19,6 +19,8 @@ import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
@@ -77,7 +79,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
     // REFERENCE OBJECTS
     private Campus processingCampus;
-    private transient PurchaseOrderDocument purchaseOrderDocument;
+    private PurchaseOrderDocument purchaseOrderDocument;
 
     public AccountsPayableDocumentBase() {
         super();
@@ -307,10 +309,10 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
 
     public PurchaseOrderDocument getPurchaseOrderDocument() {
-        if ( (ObjectUtils.isNull(purchaseOrderDocument) || ObjectUtils.isNull(purchaseOrderDocument.getPurapDocumentIdentifier())) 
-                && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier())) ) {
-            setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier()));
-        }
+//        if ( (ObjectUtils.isNull(purchaseOrderDocument) || ObjectUtils.isNull(purchaseOrderDocument.getPurapDocumentIdentifier())) 
+//                && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier())) ) {
+//            setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier()));
+//        }
         return purchaseOrderDocument;
     }
 
@@ -445,5 +447,44 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
             }
         }
         return null;
+    }
+
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getItemClass()
+     */
+    @Override
+    public Class getItemClass() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentIfPossible()
+     */
+    @Override
+    public PurchasingAccountsPayableDocument getPurApSourceDocumentIfPossible() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentLabelIfPossible()
+     */
+    @Override
+    public String getPurApSourceDocumentLabelIfPossible() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup(org.apache.ojb.broker.PersistenceBroker)
+     */
+    @Override
+    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        super.afterLookup(persistenceBroker);
+      if ( (ObjectUtils.isNull(purchaseOrderDocument) || ObjectUtils.isNull(purchaseOrderDocument.getPurapDocumentIdentifier())) 
+              && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier())) ) {
+          this.setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier()));
+      }
     }
 }

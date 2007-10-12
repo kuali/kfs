@@ -20,6 +20,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kfs.context.SpringContext;
@@ -28,6 +29,8 @@ import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
+import org.kuali.module.purap.document.AccountsPayableDocumentBase;
+import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.PurApItemUtils;
 
 /**
@@ -172,7 +175,12 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
      */
     @Override
     public void populate(HttpServletRequest request) {
+        
         super.populate(request);
+        
+        AccountsPayableDocument apDoc = (AccountsPayableDocument)this.getDocument();
+        //update po doc
+        apDoc.setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(apDoc.getPurchaseOrderIdentifier()));
         // update counts after populate
         updateItemCounts();
     }

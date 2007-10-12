@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
@@ -158,7 +160,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
                 return poi;
             }
             else {
-                LOG.warn("getPurchaseOrderItem() Returning null because PurchaseOrderItem object for line number" + getItemLineNumber() + "or itemType " + getItemTypeCode() + " is null");
+                LOG.debug("getPurchaseOrderItem() Returning null because PurchaseOrderItem object for line number" + getItemLineNumber() + "or itemType " + getItemTypeCode() + " is null");
                 return null;
             }
         }
@@ -417,6 +419,19 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     public void resetAccount() {
         super.resetAccount();
         this.getNewSourceLine().setAccountLinePercent(new BigDecimal(0));
+    }
+
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup(org.apache.ojb.broker.PersistenceBroker)
+     */
+    @Override
+    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        super.afterLookup(persistenceBroker);
+        if (ObjectUtils.isNotNull(this.getPurapDocumentIdentifier())) {
+            if (ObjectUtils.isNull(this.getPaymentRequest())) {
+                this.refreshReferenceObject(PurapPropertyConstants.PAYMENT_REQUEST);
+            }
+        }
     }
     
     

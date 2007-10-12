@@ -46,6 +46,7 @@ import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.Node
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurApAccountingLine;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
@@ -998,7 +999,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public String getPurchaseOrderNotes() {
         
-        ArrayList poNotes = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderNotes(this.getPurchaseOrderIdentifier());
+        ArrayList poNotes = (ArrayList)this.getPurchaseOrderDocument().getBoNotes();
         
         if (poNotes.size() > 0) {
             return "Yes";
@@ -1274,6 +1275,19 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     @Override
     public AccountsPayableDocumentSpecificService getDocumentSpecificService() {
         return (AccountsPayableDocumentSpecificService)SpringContext.getBean(PaymentRequestService.class);
+    }
+
+
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getItem(int)
+     */
+    @Override
+    public PurApItem getItem(int pos) {
+        PaymentRequestItem item = (PaymentRequestItem)super.getItem(pos); 
+        if(item.getPaymentRequest()==null) {
+            item.setPaymentRequest(this);
+        }
+        return item;
     }
     
 }

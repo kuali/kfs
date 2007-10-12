@@ -230,6 +230,18 @@ public class PurapServiceImpl implements PurapService {
      *      org.kuali.module.purap.bo.ItemType)
      */
     public PurApItem getBelowTheLineByType(PurchasingAccountsPayableDocument document, ItemType iT) {
+        String[] itemTypes = getBelowTheLineForDocument(document);
+        boolean foundItemType = false;
+        for (String itemType : itemTypes) {
+            if(StringUtils.equals(iT.getItemTypeCode(), itemType)) {
+                foundItemType = true;
+                break;
+            }
+        }
+        if(!foundItemType) {
+            return null;
+        }
+        
         PurApItem belowTheLineItem = null;
         for (PurApItem item : (List<PurApItem>) document.getItems()) {
             if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {

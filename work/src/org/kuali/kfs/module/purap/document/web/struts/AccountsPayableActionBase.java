@@ -30,7 +30,6 @@ import org.kuali.RiceKeyConstants;
 import org.kuali.RicePropertyConstants;
 import org.kuali.core.UserSession;
 import org.kuali.core.bo.Note;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
@@ -105,6 +104,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
         AccountsPayableDocument document = (AccountsPayableDocument) kualiDocumentFormBase.getDocument();
+
         SpringContext.getBean(AccountsPayableService.class).generateExpiredOrClosedAccountWarning(document);
         SpringContext.getBean(AccountsPayableService.class).updateItemList(document);
         ((AccountsPayableFormBase)kualiDocumentFormBase).updateItemCounts();

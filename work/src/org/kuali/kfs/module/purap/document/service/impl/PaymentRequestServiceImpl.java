@@ -322,7 +322,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyString(PurapKeyConstants.MESSAGE_INVOICE_DATE_A_YEAR_OR_MORE_PAST));
             }
         }
-        PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderId);
+//        PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderId);
+        PurchaseOrderDocument po = document.getPurchaseOrderDocument();
 
         if (po != null) {
             Integer vendorDetailAssignedId = po.getVendorDetailAssignedIdentifier();
@@ -927,7 +928,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
     public void populatePaymentRequest(PaymentRequestDocument paymentRequestDocument) {
 
-        PurchaseOrderDocument purchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
+//        PurchaseOrderDocument purchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
+        PurchaseOrderDocument purchaseOrderDocument = paymentRequestDocument.getPurchaseOrderDocument();
 
         // make a call to search for expired/closed accounts
         HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList = SpringContext.getBean(AccountsPayableService.class).getExpiredOrClosedAccountList(paymentRequestDocument);

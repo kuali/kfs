@@ -219,7 +219,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         // Pending indicator is "Y" and it is not a Retransmit doc, then we don't allow users to create a PREQ. Correct?
         // Given a PO number, the user enters in the Init screen. For the rule "Error if the PO is not open", we also only
         // need to check this rule against the current PO, Correct?
-        PurchaseOrderDocument purchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
+//        PurchaseOrderDocument purchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
+        PurchaseOrderDocument purchaseOrderDocument = document.getPurchaseOrderDocument();
         if (ObjectUtils.isNull(purchaseOrderDocument)) {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_EXIST);
             valid &= false;

@@ -60,7 +60,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
         Iterator<Object[]> iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
         String oldestDocumentNumber = null;
-        if (iter != null) {
+        if (iter.hasNext()) {
             oldestDocumentNumber = (String)(iter.next())[0];
         }
         return oldestDocumentNumber;

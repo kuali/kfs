@@ -248,7 +248,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
         return roleName + ROLE_STRING_DELIMITER + chart;
     }
 
-    private static final String ACCOUNT_GLOBAL_DETAIL_XPATH = "wf:xstreamsafe('" + KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX + "accountGlobalDetails/list/org.kuali.module.chart.bo.AccountGlobalDetail/chartOfAccountsCode')";
+    private static final String ACCOUNT_GLOBAL_DETAIL_XPATH = "wf:xstreamsafe('" + KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX + "accountGlobalDetails/org.kuali.module.chart.bo.AccountGlobalDetail/chartOfAccountsCode')";
     private static final String SUB_OBJECT_CODE_GLOBAL_DETAIL_XPATH = "wf:xstreamsafe('" + KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX + "subObjCdGlobalDetails/list/org.kuali.module.chart.bo.SubObjCdGlobalDetail/chartOfAccountsCode')";
     private static final String OBJECT_CODE_GLOBAL_DETAIL_XPATH = "wf:xstreamsafe('" + KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX + "objectCodeGlobalDetails/list/org.kuali.module.chart.bo.ObjectCodeGlobalDetail/chartOfAccountsCode')";
     private static final String ORG_REVERSION_GLOBAL_DETAIL_XPATH = "wf:xstreamsafe('" + KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX + "organizationReversionGlobalOrganizations/list/org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization/chartOfAccountsCode')";

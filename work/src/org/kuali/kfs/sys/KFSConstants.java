@@ -513,7 +513,6 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
     public static final String COUNTRY_CODE_UNITED_STATES = "US";
 
     // CashManagement tab errors
-    public static final String CASH_MANAGEMENT_ERRORS = "cashManagementDocument.*";
     public static final String CASH_MANAGEMENT_DEPOSIT_ERRORS = "document.deposit*";
 
     // Coin and Currency Amounts
@@ -559,6 +558,8 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
     // Tab error patterns must be at the top level; JSPs do not have access to the nested classes.
     public static final String EDIT_CASH_RECEIPT_CASH_RECONCILIATION_ERRORS = "document.totalCashAmount,document.totalCheckAmount,document.totalCoinAmount,document.sumTotalAmount";
     public static final String EDIT_CASH_RECEIPT_CHECK_DETAIL_ERRORS = "newCheck*,document.check*";
+    public static final String EDIT_CASH_RECEIPT_CURRENCY_COIN_ERRORS = "document.currencyDetail.*,document.coinDetail.*";
+    public static final String EDIT_CASH_MANAGEMENT_CASHIERING_TRANSACTION_ERRORS = "document.currentTransaction.*";
     public static final String MULTIPLE_VALUE = "multipleValues";
     public static final String MULTIPLE_VALUE_LABEL = "Lookup initial values";
     public static final String MULTIPLE_VALUE_NAME = "Multiple Value Name";

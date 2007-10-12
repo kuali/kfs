@@ -128,7 +128,7 @@
 		</table>
 		</div>
 	</kul:tab>
-  <kul:tab tabTitle="Currency and Coin Detail" defaultOpen="true">
+  <kul:tab tabTitle="Currency and Coin Detail" defaultOpen="true" tabErrorKey="${KFSConstants.EDIT_CASH_RECEIPT_CURRENCY_COIN_ERRORS}">
     <div class="tab-container" align="center">
       <div class="h2-container">
         <h2>Currency and Coin Detail</h2>

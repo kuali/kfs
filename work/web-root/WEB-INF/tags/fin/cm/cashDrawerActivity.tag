@@ -37,7 +37,7 @@
 
 <html:hidden property="cashDrawerSummary.timeRefreshed" />
 <html:hidden property="cashDrawerSummary.timeOpened" />
-<kul:tab tabTitle="Cash Drawer Activity" defaultOpen="true" tabErrorKey="${Constants.CashManagementConstants.CASH_MANAGEMENT_ERRORS}" >
+<kul:tab tabTitle="Cash Drawer Activity" defaultOpen="true" tabErrorKey="${KFSConstants.EDIT_CASH_MANAGEMENT_CASHIERING_TRANSACTION_ERRORS}" >
     <div class="tab-container" align=center>
 	  <table cellspacing="0" cellpadding="0" border="0" class="datatable">
 		  <tr>

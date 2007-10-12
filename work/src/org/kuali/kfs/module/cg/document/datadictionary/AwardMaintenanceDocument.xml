@@ -114,7 +114,7 @@
 						<maintainableField name="accountNumber" required="true" webUILeaveFieldFunction="accountNameLookup"/>
 						<maintainableField name="account.accountName" readOnly="true" />
 
-                        <maintainableField name="projectDirector.personUserIdentifier" required="true" webUILeaveFieldFunction="personIDLookup"/>
+                        <maintainableField name="projectDirector.personUserIdentifier" required="true" webUILeaveFieldFunction="proposalDirectorIDLookup"/>
 						<maintainableField name="projectDirector.personName" readOnly="true"/>
 						<maintainableField name="personUniversalIdentifier" readOnly="true" />
 						<!-- hidden fields -->

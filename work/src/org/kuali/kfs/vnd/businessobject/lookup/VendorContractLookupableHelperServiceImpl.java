@@ -21,8 +21,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import org.apache.ojb.broker.query.Criteria;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.dao.LookupDao;
@@ -32,9 +30,10 @@ import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.purap.bo.PurapUser;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.service.VendorService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class VendorContractLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
@@ -68,7 +67,7 @@ public class VendorContractLookupableHelperServiceImpl extends AbstractLookupabl
         super.setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         super.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
-        ChartUser currentUser = (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID );
+        PurapUser currentUser = (PurapUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( PurapUser.MODULE_ID );
         
         String chart = currentUser.getChartOfAccountsCode();
         String org = currentUser.getOrganizationCode();

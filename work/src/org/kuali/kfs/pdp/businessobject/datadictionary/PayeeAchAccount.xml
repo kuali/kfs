@@ -160,7 +160,7 @@
                     <text size="9" />
                 </control>
                 <attributeAuthorization>
-					<displayWorkgroup>kualiUniversalGroup</displayWorkgroup>
+					<displayWorkgroup>UNIVERSAL_USER_MAINTAINERS</displayWorkgroup>
 					<displayMask>
 						<maskLiteral literal="*********" />
 					</displayMask>

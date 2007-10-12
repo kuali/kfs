@@ -33,7 +33,6 @@ public class CheckingSavingsValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair(" ", " "));
         keyValues.add(new KeyLabelPair("22", "Checking"));
         keyValues.add(new KeyLabelPair("32", "Savings"));
         return keyValues;

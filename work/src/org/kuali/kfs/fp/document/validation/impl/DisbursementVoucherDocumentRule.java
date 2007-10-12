@@ -1226,13 +1226,13 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         // TODO: check if these are the same as the parameters above...
         /* check payment reason is valid for object code */
         if (objectCodeAllowed) {
-            ParameterEvaluator paymentReasonsByObjCodeEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.VALID_PAYMENT_REASONS_BY_OBJ_CODE_PARM, DisbursementVoucherRuleConstants.INVALID_PAYMENT_REASONS_BY_OBJ_CODE_PARM, accountingLine.getFinancialObjectCode(), dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
+            ParameterEvaluator paymentReasonsByObjCodeEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.VALID_OBJ_CODE_BY_PAYMENT_REASON_PARM, DisbursementVoucherRuleConstants.INVALID_OBJ_CODE_BY_PAYMENT_REASON_PARM, accountingLine.getFinancialObjectCode(), dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
             // objectCodeAllowed's true right now
             objectCodeAllowed = paymentReasonsByObjCodeEvaluator.evaluateAndAddError(getErrorMessageKey(paymentReasonsByObjCodeEvaluator), errorKey, "Payment reason code");
         }
         /* check payment reason is valid for object level */
         if (objectCodeAllowed) {
-            ParameterEvaluator paymentReasonsByObjectLevelEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.VALID_PAYMENT_REASONS_BY_OBJ_LEVEL_PARM, DisbursementVoucherRuleConstants.INVALID_PAYMENT_REASONS_BY_OBJ_LEVEL_PARM, accountingLine.getObjectCode().getFinancialObjectLevelCode(), dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
+            ParameterEvaluator paymentReasonsByObjectLevelEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.VALID_OBJ_LEVEL_BY_PAYMENT_REASON_PARM, DisbursementVoucherRuleConstants.INVALID_OBJ_LEVEL_BY_PAYMENT_REASON_PARM, accountingLine.getObjectCode().getFinancialObjectLevelCode(), dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
             // objectCodeAllowed's true right now
             objectCodeAllowed = paymentReasonsByObjectLevelEvaluator.evaluateAndAddError(getErrorMessageKey(paymentReasonsByObjectLevelEvaluator), errorKey, "Payment reason code");
         }

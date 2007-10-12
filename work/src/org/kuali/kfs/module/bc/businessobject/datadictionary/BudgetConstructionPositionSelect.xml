@@ -25,21 +25,24 @@
             <title>Budget Construction Position Select Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="emplid" />
-                <field attributeName="grade" />
-                <field attributeName="iuPositionType" />
-                <field attributeName="personName" />
-                <field attributeName="personUniversalIdentifier" />
-                <field attributeName="positionDepartmentIdentifier" />
-                <field attributeName="positionDescription" />
                 <field attributeName="positionNumber" />
-                <field attributeName="salaryAdministrationPlan" />
+                <field attributeName="iuPositionType" />
+                <field attributeName="positionDescription" />
+                <field attributeName="positionDepartmentIdentifier" />
                 <field attributeName="setidSalary" />
+                <field attributeName="salaryAdministrationPlan" />
+                <field attributeName="grade" />
+                <field attributeName="personName" />
+                <field attributeName="emplid" />
+                <field attributeName="personUniversalIdentifier" />
                 <field attributeName="universityFiscalYear" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>
+            <!-- Use this to include the hidden field personUniversalIdentifier in the search criteria -->
+            <lookupableID>positionSelectLookupable</lookupableID>	        
+
             <title>Budget Construction Position Select Lookup</title>
 
             <instructions>Look up a Budget Construction Position Select</instructions>
@@ -47,36 +50,32 @@
             <defaultSort sortAscending="true">
                 <sortAttributes>
                     <sortAttribute attributeName="positionNumber" />
-                    <sortAttribute attributeName="universityFiscalYear" />
+                    <sortAttribute attributeName="personName" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="emplid" required="false" />
-                <lookupField attributeName="grade" required="false" />
+                <lookupField attributeName="positionNumber" required="false" />
                 <lookupField attributeName="iuPositionType" required="false" />
+                <lookupField attributeName="positionDescription" required="false" />
+                <lookupField attributeName="positionDepartmentIdentifier" required="false" />
+                <lookupField attributeName="setidSalary" required="false" />
+                <lookupField attributeName="salaryAdministrationPlan" required="false" />
+                <lookupField attributeName="grade" required="false" />
                 <lookupField attributeName="personName" required="false" />
                 <lookupField attributeName="personUniversalIdentifier" required="false" />
-                <lookupField attributeName="positionDepartmentIdentifier" required="false" />
-                <lookupField attributeName="positionDescription" required="false" />
-                <lookupField attributeName="positionNumber" required="false" />
-                <lookupField attributeName="salaryAdministrationPlan" required="false" />
-                <lookupField attributeName="setidSalary" required="false" />
-                <lookupField attributeName="universityFiscalYear" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="emplid" />
-                <field attributeName="grade" />
-                <field attributeName="iuPositionType" />
-                <field attributeName="personName" />
-                <field attributeName="personUniversalIdentifier" />
-                <field attributeName="positionDepartmentIdentifier" />
-                <field attributeName="positionDescription" />
                 <field attributeName="positionNumber" />
-                <field attributeName="salaryAdministrationPlan" />
+                <field attributeName="iuPositionType" />
+                <field attributeName="positionDescription" />
+                <field attributeName="positionDepartmentIdentifier" />
                 <field attributeName="setidSalary" />
-                <field attributeName="universityFiscalYear" />
+                <field attributeName="salaryAdministrationPlan" />
+                <field attributeName="grade" />
+                <field attributeName="personName" />
+                <field attributeName="dummyBusinessObject.linkButtonOption" />
             </resultFields>
         </lookup>
 
@@ -150,7 +149,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="12" />
+                    <hidden />
                 </control>
 
                 <summary>personUniversalIdentifier</summary>
@@ -158,8 +157,8 @@
 			</attribute>
 
             <attribute name="positionDepartmentIdentifier" forceUppercase="true">
-                <label>Position Department Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+                <label>Department ID</label>
+                <shortLabel>Dept.ID</shortLabel>
 
                 <maxLength>10</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -203,7 +202,7 @@
 			</attribute>
 
             <attribute name="salaryAdministrationPlan" forceUppercase="true">
-                <label>Salary Administration Plan</label>
+                <label>Plan</label>
                 <shortLabel>Plan</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -218,8 +217,8 @@
 			</attribute>
 
             <attribute name="setidSalary" forceUppercase="true">
-                <label>Setid Salary</label>
-                <shortLabel>Salary</shortLabel>
+                <label>Salary SetId</label>
+                <shortLabel>Sal SetID</shortLabel>
 
                 <maxLength>5</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -246,6 +245,13 @@
                 <summary>universityFiscalYear</summary>
                 <description>universityFiscalYear description...</description>
 			</attribute>
+
+			<attributeReference name="dummyBusinessObject.linkButtonOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="linkButtonOption">
+                <label>Position Salary Setting</label>
+                <shortLabel>Position SalSet</shortLabel>
+                <summary>Position Salary Setting</summary>
+                <description>Position Salary Setting ...</description>
+            </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

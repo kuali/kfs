@@ -129,6 +129,29 @@
 		</property>
 	</bean>	
 	
+	<bean id="positionSelectLookupableHelperService" class="org.kuali.module.budget.web.lookupable.PositionSelectLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>		
+	</bean>
+
+	<bean id="positionSelectLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="positionSelectLookupableHelperService" />
+		</property>
+	</bean>	
 
 	<bean id="budgetConstructionDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb" />
 	

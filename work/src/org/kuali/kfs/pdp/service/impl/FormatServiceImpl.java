@@ -344,12 +344,12 @@ public class FormatServiceImpl implements FormatService {
         if ( processParam == null ) {
             processParam.setParameterNamespaceCode("KFS-PD");
             processParam.setParameterDetailTypeCode("All");
-            processParam.setParameterName(PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID);
             processParam.setParameterTypeCode("CONFG");
-            processParam.setParameterValue(id.toString());
+            processParam.setParameterName(PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID);
             processParam.setParameterConstraintCode("A");
             processParam.setParameterWorkgroupName("KUALI_FMSOPS");
         }
+        processParam.setParameterValue(id.toString());
         businessObjectService.save(processParam);
     }
 

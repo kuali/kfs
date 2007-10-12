@@ -302,6 +302,6 @@
 	</bean>
 
 	<bean id="pdpPaymentFileParser" class="org.kuali.module.pdp.xml.impl.PaymentFileParserImpl" singleton="false">
-		<property name="xsdUrl"><value>http://localhost:8080/kuali-dev/pdp/payment1.xsd</value></property>
+		<property name="xsdUrl"><value>https://test.kuali.org/kuali-cnv/pdp/payment1.xsd</value></property>
 	</bean>
 </beans>

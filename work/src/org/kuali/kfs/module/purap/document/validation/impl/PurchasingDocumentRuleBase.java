@@ -213,9 +213,13 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     private boolean validateItemQuantity(PurApItem item, String identifierString) {
         boolean valid = true;
         PurchasingItemBase purItem = (PurchasingItemBase) item;
-        if (purItem.getItemType().isQuantityBasedGeneralLedgerIndicator() && (ObjectUtils.isNull(purItem.getItemQuantity()) || (ObjectUtils.isNotNull(purItem.getItemQuantity()) && purItem.getItemQuantity().isZero()))) {
+        if (purItem.getItemType().isQuantityBasedGeneralLedgerIndicator() && (ObjectUtils.isNull(purItem.getItemQuantity()))) {
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, KFSKeyConstants.ERROR_REQUIRED, ItemFields.QUANTITY + " in " + identifierString);
+        }
+        else if (purItem.getItemType().isQuantityBasedGeneralLedgerIndicator() && (ObjectUtils.isNull(purItem.getItemQuantity()) || (ObjectUtils.isNotNull(purItem.getItemQuantity()) && purItem.getItemQuantity().isLessEqual(KualiDecimal.ZERO)))) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, KFSKeyConstants.ERROR_EXCLUSIVE_MIN, ItemFields.QUANTITY + " in " + identifierString, KualiDecimal.ZERO.toString() );
         }
         else if (purItem.getItemType().isAmountBasedGeneralLedgerIndicator() && ObjectUtils.isNotNull(purItem.getItemQuantity())) {
             valid = false;

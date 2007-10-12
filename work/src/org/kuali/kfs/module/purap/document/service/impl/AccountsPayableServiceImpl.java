@@ -449,13 +449,13 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                     //check if any action needs to be taken on the items (i.e. add for new eligible items or remove for ineligible)
                     if(apDocument.getDocumentSpecificService().poItemEligibleForAp(apDocument, purchaseOrderItem)) {
                         //if eligible and not there - add
-                    if (ObjectUtils.isNull(cmItem)) {
-                        cmItems.add(new CreditMemoItem(cm, purchaseOrderItem));
+                        if (ObjectUtils.isNull(cmItem)) {
+                            cmItems.add(new CreditMemoItem(cm, purchaseOrderItem));
                         } else {
                             //is eligible and on doc, update encumberances
                             //(this is only qty and amount for now NOTE we should also update other key fields, like description etc in case ammendment modified a line
                             updateEncumberance(purchaseOrderItem, cmItem);
-                    }
+                        }
                     } else { //if not eligible and there - remove
                         if(ObjectUtils.isNotNull(cmItem)) {
                             cmItems.remove(cmItem);
@@ -491,9 +491,11 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                 //check if any action needs to be taken on the items (i.e. add for new eligible items or remove for ineligible)
                 if(apDocument.getDocumentSpecificService().poItemEligibleForAp(apDocument, purchaseOrderItem)) {
                     //if eligible and not there - add
-                if (ObjectUtils.isNull(preqItem)) {
-                    preqItems.add(new PaymentRequestItem(purchaseOrderItem, preq));
-                }
+                    if (ObjectUtils.isNull(preqItem)) {
+                        preqItems.add(new PaymentRequestItem(purchaseOrderItem, preq));
+                    } else {
+                        updatePossibleAmmendedFields(purchaseOrderItem, preqItem);                        
+                    }
                 } else { //if not eligible and there - remove
                     if(ObjectUtils.isNotNull(preqItem)) {
                         preqItems.remove(preqItem);
@@ -506,6 +508,17 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
 
     /**
+     * This method updates fields that could've been changed on ammendment
+     * @param sourceItem
+     * @param destItem
+     */
+    private void updatePossibleAmmendedFields(PurchaseOrderItem sourceItem, PaymentRequestItem destItem) {
+        destItem.setPurchaseOrderItemUnitPrice(sourceItem.getItemUnitPrice());
+        destItem.setItemCatalogNumber(sourceItem.getItemCatalogNumber());
+        destItem.setItemDescription(sourceItem.getItemDescription());
+    }
+
+    /**
      * This method updates encumberances
      * 
      * @param preqItem
@@ -515,10 +528,12 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     private void updateEncumberances(PaymentRequestItem preqItem, PurchaseOrderItem poItem, CreditMemoItem cmItem) {
         if (poItem.getItemInvoicedTotalQuantity() != null && preqItem.getItemQuantity() != null && poItem.getItemInvoicedTotalQuantity().isLessThan(preqItem.getItemQuantity())) {
             cmItem.setPreqInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity());
+            cmItem.setPreqUnitPrice(poItem.getItemUnitPrice());
             cmItem.setPreqExtendedPrice(poItem.getItemInvoicedTotalAmount());
         }
         else {
             cmItem.setPreqInvoicedTotalQuantity(preqItem.getItemQuantity());
+            cmItem.setPreqUnitPrice(preqItem.getItemUnitPrice());
             cmItem.setPreqExtendedPrice(preqItem.getExtendedPrice());
         }
     }
@@ -531,6 +546,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
      */
     private void updateEncumberance(PurchaseOrderItem purchaseOrderItem, CreditMemoItem cmItem) {
         cmItem.setPoInvoicedTotalQuantity(purchaseOrderItem.getItemInvoicedTotalQuantity());
+        cmItem.setPreqUnitPrice(purchaseOrderItem.getItemUnitPrice());
         cmItem.setPoExtendedPrice(purchaseOrderItem.getItemInvoicedTotalAmount());
     }
 

@@ -48,12 +48,7 @@
 			<!-- PURAP DOCUMENT ATTRIBUTES -->
 			&purchasingAccountsPayableDocumentBaseAttributes;
 			
-			<attributeReference name="purapDocumentIdentifier" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="purapDocumentIdentifier">
-                <label>Requisition Nbr</label>
-                <shortLabel>REQ Nbr</shortLabel>
-                <summary>The Requisition Number</summary>
-                <description>The requisition number</description>
-            </attributeReference>
+			<attributeReference name="purapDocumentIdentifier" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="requisitionIdentifier"/>
 
 			<attributeReference name="statusCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="requisitionStatus">
 			    <required>true</required>

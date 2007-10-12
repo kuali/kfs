@@ -721,7 +721,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         setCurrentAndPendingIndicatorsForApprovedPODocuments(po);
         // if the document is set in a Pending Transmission status then don't OPEN the PO just leave it as is
         if (!PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(po.getStatusCode())) {
-            LOG.info("completePurchaseOrder() Setting po document id " + po.getDocumentNumber() + " status from '" + po.getStatusCode() + "' to '" + PurchaseOrderStatuses.OPEN + "'" );
             attemptSetupOfInitialOpenOfDocument(po);
         }
     }
@@ -759,13 +758,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             else {
                 throw new RuntimeException("Document does not have status code '" + PurchaseOrderStatuses.OPEN + "' on it but value of initial open date is " + po.getPurchaseOrderInitialOpenDate());
             }
-            LOG.debug("attemptSetupOfInitialOpenOfDocument() Set up document to use status code '" + PurchaseOrderStatuses.OPEN + "'");
+            LOG.info("attemptSetupOfInitialOpenOfDocument() Setting po document id " + po.getDocumentNumber() + " status from '" + po.getStatusCode() + "' to '" + PurchaseOrderStatuses.OPEN + "'" );
             purapService.updateStatus(po, PurchaseOrderStatuses.OPEN);
             saveDocumentNoValidation(po);
             documentWasSaved = true;
         }
         else {
-            LOG.debug("attemptSetupOfInitialOpenOfDocument() Found document already in '" + PurchaseOrderStatuses.OPEN + "' status... will not change or update");
+            LOG.info("attemptSetupOfInitialOpenOfDocument() Found document already in '" + PurchaseOrderStatuses.OPEN + "' status... will not change or update");
         }
         return documentWasSaved;
     }

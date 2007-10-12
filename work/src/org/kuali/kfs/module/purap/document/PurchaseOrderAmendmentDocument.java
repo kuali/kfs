@@ -68,7 +68,6 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
         }
         // DOCUMENT CANCELED
         else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-            // TODO delyea - is this the correct status.... does it affect counts/reporting?
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledPODocuments(this);
         }
     }

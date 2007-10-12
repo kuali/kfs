@@ -102,6 +102,8 @@
             &purchasingDocumentBaseAttributes;
 
 			<!-- PURCHASE ORDER DOCUMENT ATTRIBUTES -->
+			<attributeReference name="requisitionIdentifier" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="requisitionIdentifier"/>
+            
             <attributeReference name="purchaseOrderVendorChoiceCode" sourceClassName="org.kuali.module.purap.bo.PurchaseOrderVendorChoice" sourceAttributeName="purchaseOrderVendorChoiceCode">
                 <label>Vendor Choice</label>
                 <shortLabel>Vendor Choice</shortLabel>

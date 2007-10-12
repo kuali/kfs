@@ -22,7 +22,6 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.pdp.bo.PayeeAchAccount</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <businessRulesClass></businessRulesClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -63,7 +62,7 @@
                     <maintainableField name="bankAccountNumber" required="true" />
                     <maintainableField name="payeeName" required="true" />
                		<maintainableField name="payeeEmailAddress" required="true" />
-                	<maintainableField name="bankName" required="true" />
+                	<!-- <maintainableField name="bankName" required="true" />  -->
                 	<maintainableField name="vendorHeaderGeneratedIdentifier" required="false" />
                 	<maintainableField name="vendorDetailAssignedIdentifier" required="false" />
                 	<maintainableField name="disbVchrPayeeIdNumber" required="false" />

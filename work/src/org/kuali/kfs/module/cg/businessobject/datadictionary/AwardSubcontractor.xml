@@ -93,9 +93,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>awardSubcontractorAmendmentNumber</summary>
-                <description>awardSubcontractorAmendmentNumber description...</description>
 			</attribute>
 
             <attribute name="awardSubcontractorNumber" forceUppercase="true">
@@ -108,9 +105,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>awardSubcontractorNumber</summary>
-                <description>awardSubcontractorNumber description...</description>
 			</attribute>
 
 			<attribute name="awardSubcontractorDescription">
@@ -125,15 +119,9 @@
                 <control>
                     <text size="30" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Proposal Subcontractor Description</description>
             </attribute>
 			
 			<attributeReference name="subcontractorAmount"  sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-				<description>Subcontractor Amount</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>	
 
@@ -147,9 +135,6 @@
                 <control>
                     <textarea rows="5" cols="80"/>
                 </control>
-
-                <summary>subcontractorAuditHistoryText</summary>
-                <description>subcontractorAuditHistoryText description...</description>
 			</attribute>
 
             <attribute name="subcontractorContactFirstName" forceUppercase="true">
@@ -162,9 +147,6 @@
                 <control>
                     <text size="17" />
                 </control>
-
-                <summary>subcontractorContactFirstName</summary>
-                <description>subcontractorContactFirstName description...</description>
 			</attribute>
 
             <attribute name="subcontractorContactLastName" forceUppercase="true">
@@ -177,9 +159,6 @@
                 <control>
                     <text size="27" />
                 </control>
-
-                <summary>subcontractorContactLastName</summary>
-                <description>subcontractorContactLastName description...</description>
 			</attribute>
 
             <attributeReference name="newCollectionRecord" 

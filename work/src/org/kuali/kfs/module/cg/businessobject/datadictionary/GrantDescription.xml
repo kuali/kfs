@@ -67,15 +67,6 @@
                 <control>
                     <text size="27" />
                 </control>
-
-                <summary>Grant Description</summary>
-                <description>
-					This is a text description of the type of grant or contract that is 
-					being proposed or awarded.  Examples include Federal Grant, Federal 
-					Contract, Non-Federal Grant, Non-Fed Fixed Price Contract.  The Grant 
-					Description is based on the funding agency’s terms and conditions for 
-					the particular project.  
-				</description>
 			</attribute>
 
             <attribute name="grantDescriptionCode" forceUppercase="true">
@@ -88,13 +79,6 @@
                 <control>
                     <text size="5" />
                 </control>
-
-                <summary>Grant Description Code</summary>
-                <description>
-					This is a 1-3 letter code that abbreviates the Grant 
-					Description.  Examples include OFP=Non-Fed Fixed Price 
-					Contract, CR=Govt Cost Reimbursable, and N=Non Federal Grant.
-				</description>
 			</attribute>
             <attribute name="grantDescriptionActiveCode" forceUppercase="false">
                 <label>Active Indicator</label>
@@ -105,14 +89,6 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary>Active Indicator</summary>
-                <description>
-					This field identifies whether the Grant Description is active 
-					in the system or not.  This allows historical records to 
-					reference the inactive Grant Descriptions while restricting new 
-					proposals and awards from referencing them.
-				</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

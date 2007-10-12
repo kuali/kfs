@@ -84,17 +84,6 @@
                 <control>
                     <text size="7" />
                 </control>
-
-                <summary>Subcontractor Number</summary>
-                <description>
-					The number which corresponds to the Subcontractor Name.  
-					It is expressed as 5-digit numeric text, including leading zeros.  
-					When creating a new Subcontractor in the database, this number is 
-					automatically assigned by the system.  When adding an existing 
-					Subcontractor to a Proposal or Award, the user may search for the 
-					subcontractor using the search icon, or may manually enter the 
-					Subcontractor Number into the field.
-				</description>
             </attribute>
 
             <attribute name="subcontractorName" forceUppercase="true">
@@ -111,13 +100,6 @@
                 <control>
                     <text size="50" />
                 </control>
-
-                <summary>Subcontractor Name</summary>
-                <description>
-					This is the name of the subcontractor.  If you cannot find the subcontractor 
-					you are looking for, try shortening the name and rerunning the search, as 
-					occasionally the Subcontractor Name may be abbreviated.
-				</description>
             </attribute>
 
             <attribute name="subcontractorAddressLine1" forceUppercase="false">
@@ -134,11 +116,6 @@
                 <control>
                     <text size="25" />
                 </control>
-
-                <summary>Subcontractor Address Line 1</summary>
-                <description>
-					This is the street address or PO Box number for correspondence submitted to the agency.
-				</description>
             </attribute>
 
             <attribute name="subcontractorAddressLine2" forceUppercase="false">
@@ -154,11 +131,6 @@
                 <control>
                     <text size="20" />
                 </control>
-
-                <summary>Subcontractor Address Line 2</summary>
-                <description>
-					This is an additional optional address line for the street address or PO Box number associated with the agency.
-				</description>
             </attribute>
 
             <attribute name="subcontractorCity" forceUppercase="false">
@@ -175,13 +147,6 @@
                 <control>
                     <text size="20" />
                 </control>
-
-                <summary>Subcontractor City</summary>
-                <description>
-					This is the city that the Subcontractor considers its primary location.  
-					Many subcontractors have multiple locations, but this value should 
-					only be the primary location.
-				</description>
             </attribute>
 
             <attributeReference name="subcontractorStateCode" sourceClassName="org.kuali.kfs.bo.State" sourceAttributeName="postalStateCode">
@@ -191,11 +156,6 @@
                 <maxLength>2</maxLength>
 
                 <required>true</required>
-
-                <summary>State Code</summary>
-                <description>
-					This is the state that the Subcontractor is located within.
-				</description>
             </attributeReference>
 
             <attribute name="subcontractorZipCode" forceUppercase="false">
@@ -212,11 +172,6 @@
                 <control>
                     <text size="10" />
                 </control>
-
-                <summary>ZIP Code</summary>
-                <description>
-					This is the ZIP code for the Subcontractor’s primary location.
-				</description>
             </attribute>
 
             <attributeReference name="subcontractorCountryCode" sourceClassName="org.kuali.kfs.bo.Country" sourceAttributeName="postalCountryCode">
@@ -226,22 +181,11 @@
                 <maxLength>15</maxLength>
 
                 <required>true</required>
-
-                <summary>Country Code</summary>
-                <description>
-					This is the country of the Subcontractor’s primary location.
-				</description>
             </attributeReference>
 
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
             	<label>Active Indicator</label>
             	<shortLabel>Active</shortLabel>
-            	<summary>Active Indicator</summary>
-            	<description>
-            		This field identifies whether the Subcontractor is active in the system or not.  
-            		This allows historical records to reference inactive Subcontractors while 
-            		restricting new proposals from referencing them.
-            	</description>
             </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

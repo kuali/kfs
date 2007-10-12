@@ -66,21 +66,16 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
-                <summary>Chart Of Accounts Code</summary>
             </attributeReference>
 
             <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
             	<label>Organization Code</label>
             	<shortLabel>Org Code</shortLabel>
-
-            	<summary>Proposal Organization Code</summary>
             </attributeReference>
 
             <attributeReference name="organization.organizationName" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationName">
                 <label>Name</label>
                 <shortLabel>Name</shortLabel>
-
-                <summary>Proposal Organization Name</summary>
             </attributeReference>
 
             <attributeReference name="proposalNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="proposalNumber"/>
@@ -94,9 +89,6 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary>Proposal Primary Organization Indicator</summary>
-                <description>proposalPrimaryOrganizationIndicator description...</description>
 			</attribute>
 			
 			<attributeReference name="newCollectionRecord" 

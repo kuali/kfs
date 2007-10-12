@@ -62,8 +62,6 @@
         <attributes>
 
             <attributeReference name="proposalNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="proposalNumber">
-            	<summary>Award Account Proposal Number</summary>
-            	<description>The proposal number of the proposal associated with this award account.</description>
             </attributeReference>
 			
 			<attributeReference name="personUniversalIdentifier" sourceClassName="org.kuali.module.cg.bo.ProjectDirector" sourceAttributeName="personUniversalIdentifier">
@@ -72,9 +70,6 @@
                 <control>
                     <hidden/>
                 </control>
-
-                <summary>Project Director ID</summary>
-                <description>Universal identifier for the Project Director.</description>
             </attributeReference>
             
             <attributeReference name="projectDirector.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
@@ -101,15 +96,12 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
-                <summary>Chart Of Accounts Code</summary>
-                <description>chartOfAccountsCode description...</description>
 			</attribute>
 
 			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber"/>
 			
 			<attributeReference name="account.accountName" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountName"/>
   
-             
 			<attributeReference name="award.proposal.federalPassThroughAgencyNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="federalPassThroughAgencyNumber">
 				<label>Proposal Federal Pass Through Agency Number</label>
 				<shortLabel>Proposal Fed Pass Agency Num</shortLabel>

@@ -58,9 +58,6 @@
                 <control>
                     <text size="50" />
                 </control>
-
-                <summary>Universal UserID.</summary>
-                <description>Universal UserID.</description>
             </attribute>
         </attributes>
     </businessObject>

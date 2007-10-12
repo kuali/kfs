@@ -73,84 +73,44 @@
                 <label>Universal ID</label>
                 <shortLabel>ID</shortLabel>
                 <required>true</required>
-                <summary>Universal ID</summary>
-                <description>
-					This field corresponds to the individual’s Universal ID.  This 
-					is a unique 9-digit number assigned to each individual who has 
-					a role at the university or is in a university system.
-				</description>
             </attributeReference>
 
             <attributeReference name="universalUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
                 <label>User ID</label>
                 <shortLabel>User ID</shortLabel>
-                <summary>User ID</summary>
-                <description>
-					This field lists the individual’s network ID.  This is typically an 
-					alphanumeric field up to 8 characters.
-				</description>
             </attributeReference>
 
             <attributeReference name="universalUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
                 <label>Project Director Name</label>
                 <shortLabel>Proj Dir Name</shortLabel>
-                <summary>Project Director Name</summary>
-                <description>
-					This is the full name of the Project Director.  The field is in LAST,FIRST MIDDLE format.
-				</description>
             </attributeReference>
 
 			<attributeReference name="universalUser.personLastName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personLastName">
                 <label>Project Director Last Name</label>
                 <shortLabel>Proj Dir Last Name</shortLabel>
-                <summary>Project Director Last Name</summary>
-                <description>
-					This is the last name of the Project Director.
-				</description>
 			</attributeReference>
 
 			<attributeReference name="universalUser.personFirstName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personFirstName">
                 <label>Project Director First Name</label>
                 <shortLabel>Proj Dir First Name</shortLabel>
-                <summary>Project Director First Name</summary>
-                <description>
-					This is the first name of the Project Director.
-				</description>
 			</attributeReference>
 
 			<attributeReference name="universalUser.campusCode" sourceClassName="org.kuali.core.bo.Campus" sourceAttributeName="campusCode">
-				<summary>Campus Code</summary>
-				<description>
-					Insert desc here.
-				</description>
 			</attributeReference>
 
             <attributeReference name="universalUser.primaryDepartmentCode" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="primaryDepartmentCode">
                 <label>Dept ID</label>
                 <shortLabel>Dept ID</shortLabel>
-                <summary>Dept ID</summary>
-                <description>
-                	This is the home organization of the individual as listed in the HRMS system.
-                </description>
             </attributeReference>
 
             <attributeReference name="universalUser.employeeStatusCode" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="employeeStatusCode">
                 <label>Employee Status</label>
                 <shortLabel>Empl Status</shortLabel>
-                <summary>Employee Status</summary>
-                <description>
-					This one-letter value reflects the current employment status of the employee.  
-				</description>
             </attributeReference>
 
             <attributeReference name="universalUser.employeeTypeCode" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="employeeTypeCode">
                 <label>Employee Type</label>
                 <shortLabel>Empl Type</shortLabel>
-                <summary>Employee Type</summary>
-                <description>
-					This one-letter value corresponds to the general appointment type of the 
-					employee’s position.  Values include P=Professional, N=Non-Professional, and O=Other.
-				</description>
             </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

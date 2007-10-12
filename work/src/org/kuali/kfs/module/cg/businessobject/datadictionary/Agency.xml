@@ -84,11 +84,6 @@
                     <text size="5" />
                 </control>
 
-                <summary>Agency Number</summary>
-                <description>
-                	This is a five-digit unique number which is automatically assigned 
-                	to each new Agency that is entered into the system.
-                </description>
             </attribute>
 
             <attribute name="reportingName" forceUppercase="true">
@@ -105,12 +100,6 @@
                     <text size="30" />
                 </control>
 
-                <summary>Agency Reporting Name</summary>
-                <description>
-                	This is the abbreviated or shortened name associated with each Agency 
-                	Number.  The Agency Reporting Name is used for most inquiry screens 
-                	and query results, especially where space is a premium.
-                </description>
             </attribute>
 
             <attribute name="fullName" forceUppercase="true">
@@ -127,8 +116,6 @@
                     <text size="50" />
                 </control>
 
-                <summary>Agency Full Name</summary>
-                <description>This is the official full name of the Agency.</description>
             </attribute>
             
             <attributeReference name="agencyType.name" sourceClassName="org.kuali.module.cg.bo.AgencyType" sourceAttributeName="name">
@@ -137,22 +124,12 @@
 
                 <required>true</required>
 
-                <summary>Agency Type Description</summary>
-                <description>
-					This is a description of the Agency type, or the category of 
-					business that the Agency falls into.  Examples include Federal, 
-					Commercial/Industrial, Non-Profit, or Other Government.
-				</description>
             </attributeReference>
 
             <attributeReference name="agencyTypeCode" sourceClassName="org.kuali.module.cg.bo.AgencyType" sourceAttributeName="code">
 				<label>Agency Type Code</label>
 				<shortLabel>Agency Type Cd</shortLabel>
                 <required>false</required>
-                <summary>Agency Type Code</summary>
-                <description>
-                	This is a one-letter designation that corresponds to the Type Description.  Examples include F=Federal, S=State of Indiana, and I=Commercial/Industrial.
-                </description>
             </attributeReference>
 
             <!-- 
@@ -179,31 +156,6 @@
                     <checkbox />
                 </control>
 
-                <summary>Active Indicator</summary>
-                <description>
-					This field identifies whether the Agency is active in the system or not.  
-
-					<!-- 
-					
-					**** NOTE the commented text below if the desc for the real historical indicator
-					**** and is being replaced with an active indicator desc for the time being.
-					
-					This field identifies whether the Agency is active in the system or not.  
-					Agencies are typically marked as Active.  Examples of instances when an 
-					Agency may be marked Inactive include:
-					- The agency has gone out of business (occurs frequently with 
-							commercial agencies);
-					- The agency has reorganized and is renamed (occurs frequently 
-							with federal agencies that are reorganized, such as Department 
-							of Health, Education and Welfare);
-					- The agency has been purchased by a larger entity, or splits into 
-							smaller entities.
-					In instances when a change such as these occurs, the original Agency is 
-					marked Inactive, and a new Agency is added to the system with a new Agency 
-					Number.  This allows historical records to reference the original Agency 
-					while restricting new proposals and awards from referencing it.
-					-->
-				</description>
             </attribute>
 
             <attribute name="inStateIndicator" forceUppercase="false">
@@ -216,10 +168,6 @@
                     <checkbox />
                 </control>
 
-                <summary>State Indicator</summary>
-                <description>
-					This indicator specifies whether the Agency is located in the same state as the university.
-				</description>
             </attribute>
 
 
@@ -238,8 +186,6 @@
                     <currency size="20" formattedMaxLength="12"/>
                 </control>
 
-                <summary>Indirect Amount</summary>
-                <description>Indirect Amount</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attribute>
 
@@ -247,12 +193,6 @@
                 <label>Reports To Agency Number</label>
                 <shortLabel>Reports To Agency Number</shortLabel>
                 
-                <summary>Reports To Agency Number</summary>
-                <description>
-					This is the Agency Number of the Agency that oversees or contains the Agency identified 
-					on this proposal.  For example, NIH is part of the US Department of Health and Human 
-					Services (DHHS), so DHHS is the “Reports to Agency” for NIH.
-				</description>
             </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

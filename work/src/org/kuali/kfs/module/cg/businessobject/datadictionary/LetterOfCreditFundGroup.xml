@@ -68,18 +68,6 @@
                     <text size="6" />
                 </control>
 
-                <summary>
-                	Letter Of Credit Fund Group Code
-                </summary>
-                <description>
-					This is a 3-4 letter code that represents an abbreviation of the 
-					Letter of Credit (LOC) Fund Group Description.  Codes exist for 
-					most large Federal Departments and Agencies, as these agencies use 
-					LOC funding for their grants and cooperative agreements.  This code 
-					is used to aggregate expenditures on all awards from a particular 
-					LOC Funding Group in order to determine how much cash needs to be 
-					requested from the agency.
-				</description>
 			</attribute>
 
             <attribute name="letterOfCreditFundGroupDescription" forceUppercase="true">
@@ -92,12 +80,6 @@
                 <control>
                     <text size="42" />
                 </control>
-
-                <summary>Letter Of Credit Fund Group Description</summary>
-                <description>
-					This is a text description of the LOC Fund Group in order to assist 
-					in determining which LOC Fund Group Code to assign to a given award.
-				</description>
 			</attribute>
 
             <attribute name="rowActiveIndicator" forceUppercase="false">
@@ -110,13 +92,6 @@
                     <checkbox />
                 </control>
 
-                <summary>Active Inidicator</summary>
-                <description>
-					This field identifies whether the Letter of Credit Fund Group Code 
-					is active in the system or not.  This allows historical records to 
-					reference inactive Letter of Credit Fund Group Codes while restricting 
-					new proposals and awards from referencing them.
-				</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

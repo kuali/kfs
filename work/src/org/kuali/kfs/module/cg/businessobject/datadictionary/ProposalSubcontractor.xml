@@ -86,9 +86,6 @@
 				<control>
                     <text size="4" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>proposal Subcontractor Number</description>
 			</attribute>
 
 
@@ -104,11 +101,6 @@
                 <control>
                     <text size="30" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Proposal Subcontractor Description</description>
             </attribute>
 
 			<attributeReference name="subcontractor.subcontractorName" sourceClassName="org.kuali.module.cg.bo.Subcontractor" sourceAttributeName="subcontractorName">

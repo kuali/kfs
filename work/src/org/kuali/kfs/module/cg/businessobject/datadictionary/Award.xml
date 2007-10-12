@@ -195,22 +195,16 @@
 			<attributeReference name="kualiGroupNames" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBigText">
 				<label>Kuali Workgroup Users</label>
 				<shortLabel>Kuali Workgroup Users</shortLabel>
-				
-				<summary>Kuali Workgroup Users Names</summary>
-				<description>Collection of names of individuals associated with this awards financial system workgroup.</description>
 			</attributeReference>
 			
 			<attributeReference name="primaryAwardOrganization.organizationCode" sourceClassName="org.kuali.module.cg.bo.AwardOrganization" sourceAttributeName="organizationCode" >
 				<label>Primary Organization Code</label>
 				<shortLabel>Primary Org Cd</shortLabel>
-				<summary>Primary Organization Code</summary>
-				<description>Four-letter abbreviation used to identify the institutional organization, department, unit or center to which the award has been assigned.</description>
 			</attributeReference>
 
             <attributeReference name="proposal.proposalNumber"  sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="proposalNumber">
                 <label>Link to Proposal</label>
                 <shortLabel>PrpslLink</shortLabel>
-                <description>Mechanism to access proposal data associated with an existing award.</description>
             </attributeReference>
 			
             <attribute name="proposalNumber" forceUppercase="true">
@@ -223,48 +217,33 @@
                 <control>
                     <text size="14" />
                 </control>
-
-            	<summary>Award Proposal Number</summary>
-            	<description>System assigned number used to identify a submitted proposal.</description>
             </attribute>
 
             <attributeReference name="awardAccounts.account.accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
 				<label>Award Account Number</label>
 				<shortLabel>Acct Num</shortLabel>
-				<summary>Award Project Director ID</summary>
-   				<description>Account number that has been linked with an awarded proposal.</description>
             </attributeReference>
 
             <attributeReference name="awardOrganizations.organization.organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
 				<label>Organization Code</label>
 				<shortLabel>Org Cd</shortLabel>
-				<summary>Award Organization Code</summary>
-				<description>Code used to represent an institutional organization, department, unit or center.</description>
             </attributeReference>
             
             <attributeReference name="awardSubcontractors.subcontractor.subcontractorNumber" sourceClassName="org.kuali.module.cg.bo.Subcontractor" sourceAttributeName="subcontractorNumber">
 				<label>Subcontractor Number</label>
 				<shortLabel>Subcontr Num</shortLabel>
-				<summary>Award Subcontractor Number</summary>
-   				<description>Unique numeric identifier which is associated with specific a subcontractor.</description>
             </attributeReference>
 			
             <attributeReference name="awardProjectDirectors.projectDirector.personUniversalIdentifier" sourceClassName="org.kuali.module.cg.bo.ProjectDirector" sourceAttributeName="personUniversalIdentifier">
 				<label>Project Director ID</label>
 				<shortLabel>Proj Dir ID</shortLabel>
-				<summary>Award Project Director ID</summary>
-   				<description>Kuali user ID of the Project Director associated with a particular proposal.</description>
             </attributeReference>
 			
             <attributeReference name="proposal.grantNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="grantNumber">
-				<summary>Proposal Grant Number</summary>
-				<description>Unique number assigned by an external agency for a specific contract or grant which serves as an identifier for a particular award.</description>
             </attributeReference>
 
             <attributeReference name="agency.fullName" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="fullName">
                 <label>Agency Name</label>
-				<summary>Agency Name</summary>
-				<description>Official full name of the agency.</description>
             </attributeReference>
 
             <attribute name="agencyAnalystName" forceUppercase="true">
@@ -277,9 +256,6 @@
                 <control>
                     <text size="42" />
                 </control>
-
-                <summary>Agency Analyst Name</summary>
-                <description>Contact name at the agency that has awarded the proposal.</description>
 			</attribute>
 
             <attributeReference name="agencyFuture1Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
@@ -288,8 +264,6 @@
 
                 <exclusiveMin>-0.001</exclusiveMin>
 
-                <summary>Agency Future 1 Amount</summary>
-                <description>Amount of funds committed by an external agency for the next funding period.</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 
@@ -298,9 +272,6 @@
                 <shortLabel>Amount</shortLabel>
 
                 <exclusiveMin>-0.001</exclusiveMin>
-
-                <summary>Agency Future 2 Amount</summary>
-                <description>Amount of funds committed by an external agency for an upcoming funding period.</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 
@@ -310,17 +281,13 @@
 
                 <exclusiveMin>-0.001</exclusiveMin>
 
-                <summary>Agency Future 3 Amount</summary>
-                <description>Amount of funds committed by an external agency for an upcoming funding period.</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 
             <attributeReference name="agencyNumber" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
-            	<description>Five-digit unique number which is assigned to an external funding agency.</description>
             </attributeReference>
             
             <attributeReference name="agency.reportingName" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="reportingName">
-            	<description>Abbreviated name associated with each agency.</description>
             </attributeReference>
 
             <attribute name="analystTelephoneNumber" forceUppercase="true">
@@ -333,9 +300,6 @@
                 <control>
                     <text size="12" />
                 </control>
-
-                <summary>Analyst Telephone Number</summary>
-                <description>Telephone number of the agency contact person that has issued the award.</description>
 			</attribute>
 
             <attribute name="awardAddendumNumber" forceUppercase="true">
@@ -348,17 +312,12 @@
                 <control>
                     <text size="9" />
                 </control>
-
-                <summary>Award Addendum Number</summary>
-                <description>Number assigned internally that identifies an addendum to a master contract between the institution and the institution’s foundation.</description>
 			</attribute>
 
             <attributeReference name="awardAllocatedUniversityComputingServicesAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Allocated University Computing Services Amount</label>
                 <shortLabel>Computing Services</shortLabel>
 
-                <summary>Award Allocated University Computing Services Amount</summary>
-                <description>Amount of the award that is being allocated for University Computing Services.</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 
@@ -366,16 +325,12 @@
                 <label>Start Date</label>
                 <shortLabel>Start</shortLabel>
 				
-                <summary>Award Beginning Date</summary>
-                <description>Date the award is to commence based upon the signed agreement.</description>
 			</attributeReference>
 
             <attributeReference name="awardClosingDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Close Date</label>
                 <shortLabel>Close</shortLabel>
 				
-                <summary>Award Closing Date</summary>
-                <description>Date the system manager closes out business for the month.</description>
 			</attributeReference>
 
             <attribute name="awardCommentText" forceUppercase="true">
@@ -389,16 +344,12 @@
                     <textarea rows="5" cols="80"/>
                 </control>
 
-                <summary>Award Comment Text</summary>
-                <description>Any additional information pertinent to the award that is needed for future reference.</description>
 			</attribute>
 
             <attributeReference name="awardCreateTimestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Created Timestamp</label>
                 <shortLabel>Created</shortLabel>
 
-                <summary>Award Create Timestamp</summary>
-                <description>Record of when the document was created in the system.</description>
 			</attributeReference>
 
             <attributeReference name="awardDirectCostAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
@@ -407,8 +358,6 @@
 
                 <exclusiveMin>-0.001</exclusiveMin>
 
-                <summary>Award Direct Cost Amount</summary>
-                <description>Total amount of direct costs awarded to a project for a specific funding period.</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 
@@ -423,23 +372,16 @@
                     <text size="14" />
                 </control>
 
-                <summary>Award Document Number</summary>
-                <description>Unique identifier for communication of fiscal information about an award that is assigned to the institution by an external agency.</description>
 			</attribute>
 
             <attributeReference name="awardEndingDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Stop Date</label>
                 <shortLabel>Stop</shortLabel>
-                <summary>Award Ending Date</summary>
-                <description>Date the award is contractually obligated to end based upon the signed agreement.</description>
 			</attributeReference>
 
             <attributeReference name="awardEntryDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Entry Date</label>
                 <shortLabel>Entry</shortLabel>
-
-                <summary>Award Entry Date</summary>
-                <description>Date used to distinguish a time period for institutional reporting. If the award has a start date earlier than or the same as the date the award is entered into the system, then this is the current date. If the award has a start date later than the date the award is entered into the system, then this is the entry date of the award.</description>
 			</attributeReference>
 
             <attributeReference name="awardIndirectCostAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
@@ -448,17 +390,12 @@
 				
                 <exclusiveMin>-0.001</exclusiveMin>
 
-                <summary>Award Indirect Cost Amount</summary>
-                <description>Total amount of indirect costs awarded to a project for a specific funding period.</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 
             <attributeReference name="awardLastUpdateDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Last Update</label>
                 <shortLabel>Update</shortLabel>
-
-                <summary>Award Last Update Date</summary>
-                <description>Date stamp that records the most recently completed award document.</description>
 			</attributeReference>
 
             <attribute name="awardProjectTitle">
@@ -471,9 +408,6 @@
                 <control>
                     <textarea rows="5" cols="80"/>
                 </control>
-
-                <summary>Award Project Title</summary>
-                <description>Official title of the project.</description>
 			</attribute>
 
             <attributeReference name="awardPurposeCode" sourceClassName="org.kuali.module.cg.bo.ProposalPurpose" sourceAttributeName="proposalPurposeCode">
@@ -482,9 +416,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalPurposeValuesFinder" />
                 </control>
-
-                <summary>Award Purpose Code</summary>
-                <description>Code that defines the nature of the research for the grant/contract.</description>
             </attributeReference>
 
             <attributeReference name="awardStatusCode" sourceClassName="org.kuali.module.cg.bo.AwardStatus" sourceAttributeName="awardStatusCode">
@@ -492,46 +423,32 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.AwardStatusValuesFinder" />
                 </control>
-                <description>Maximum two-character code indicating the current standing of a proposal. I.E.: A = Awarded.</description>
             </attributeReference>
 
             <attributeReference name="awardTotalAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Total Amount</label>
                 <shortLabel>Total</shortLabel>
-
-                <summary>Award Total Amount</summary>
-                <description>System calculated amount that is the sum of the award’s direct costs and indirect costs.</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 
             <attributeReference name="federalFundedAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Federal Funded Amount</label>
                 <shortLabel>Federal</shortLabel>
-
-                <summary>Federal Funded Amount</summary>
-                <description>Amount of the award that is federally funded.</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 
             <attributeReference name="federalPassThroughAgencyNumber" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
                 <label>Federal Pass Through Agency Number</label>
-
-                <summary>Federal Pass Through Agency Number</summary>
-                <description>Five-digit code that corresponds to the originating agency for any federal pass-through funds for an award.</description>
 			</attributeReference>
 			
 			<attributeReference name="federalPassThroughAgency.fullName" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="fullName">
                 <label>Federal Pass Through Agency Name</label>
                 <shortLabel>FPT Agency Name</shortLabel>
-                <description>Name of a specific federal pass-through agency associated with the award.</description>
             </attributeReference>
 			
             <attributeReference name="federalPassThroughFundedAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Federal Pass Through Funded Amount</label>
                 <shortLabel>FPT Amount</shortLabel>
-
-                <summary>Federal Pass Through Funded Amount</summary>
-                <description>Amount of federal money funded through another external funding agency to the institution.</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 
@@ -544,9 +461,6 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary>Federal Pass Through Indicator</summary>
-                <description>Federal agencies that have awarded money to another agency which in turn awards money to the institution.</description>
 			</attribute>
 
             <attribute name="workgroupName" forceUppercase="true">
@@ -559,9 +473,6 @@
                 <control>
                     <text size="72" />
                 </control>
-
-                <summary>Workgroup Name</summary>
-                <description>Field to identify internal workgroups set up to manage an award.</description>
 			</attribute>
 
             <attributeReference name="grantDescriptionCode" sourceClassName="org.kuali.module.cg.bo.GrantDescription" sourceAttributeName="grantDescriptionCode">
@@ -570,7 +481,6 @@
 				<control>
                     <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.GrantDescriptionValuesFinder" />
                 </control>
-                <description>Code that describes the type of contract or grant including government and non-government options.</description>
 			</attributeReference>
 
             <attributeReference name="letterOfCreditFundGroupCode" sourceClassName="org.kuali.module.cg.bo.LetterOfCreditFundGroup" sourceAttributeName="letterOfCreditFundGroupCode">
@@ -578,7 +488,6 @@
 				<control>
                     <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.LetterOfCreditFundGroupValuesFinder" />
                 </control>
-                <description>Code that represents an abbreviation of the Letter of Credit (LOC) Fund Group Description. It is an identifier used for applicable federal cash draws.</description>
 			</attributeReference>
 
             <attribute name="oldProposalNumber" forceUppercase="true">
@@ -591,9 +500,6 @@
                 <control>
                     <text size="10" />
                 </control>
-
-                <summary>Old Proposal Number</summary>
-                <description>Data associated with an existing proposal number that is being updated/altered.</description>
 			</attribute>
 
             <attributeReference name="proposalAwardTypeCode" sourceClassName="org.kuali.module.cg.bo.ProposalAwardType" sourceAttributeName="proposalAwardTypeCode">
@@ -602,7 +508,6 @@
 				<control>
                     <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalAwardTypeValuesFinder" />
                 </control>
-                <description>One-letter code to represent the type of award. I.E.: N = New.</description>
 			</attributeReference>
 			
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
@@ -614,29 +519,21 @@
                 <label>Project Directors</label>
                 <shortLabel>Project Director</shortLabel>
                 <elementLabel>Project Director</elementLabel>
-                <summary>Award Project Directors</summary>
-                <description>Listing of project directors and co-project directors associated with an award.</description>
             </collection>
             <collection name="awardAccounts">
                 <label>Award Accounts</label>
                 <shortLabel>Accounts</shortLabel>
                 <elementLabel>Account</elementLabel>
-                <summary>Award Accounts</summary>
-                <description>Listing of accounts associated with an award.</description>
             </collection>
             <collection name="awardOrganizations">
                 <label>Award Organizations</label>
                 <shortLabel>Organizations</shortLabel>
                 <elementLabel>Organization</elementLabel>
-                <summary>Award Organizations</summary>
-                <description>Listing of institutional organizations, departments, units or centers associated with an award.</description>
             </collection>
             <collection name="awardSubcontractors">
                 <label>Award Subcontractors</label>
                 <shortLabel>Subcontractors</shortLabel>
                 <elementLabel>Subcontractor</elementLabel>
-                <summary>Award Subcontractors</summary>
-                <description>Listing of subcontractors associated with an award.</description>
             </collection>
         </collections>
         

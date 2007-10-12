@@ -70,11 +70,6 @@
                     <text size="4" />
                 </control>
 
-                <summary>Award Status Code</summary>
-                <description>
-					This is a two character code associated with a particular status 
-					of the Award.  Examples include A=Awarded, R=Rejected, and U=Underwritten.  
-				</description>
 			</attribute>
 
 			<attributeReference name="awardStatusCodeDropDown" sourceClassName="org.kuali.module.cg.bo.AwardStatus" sourceAttributeName="awardStatusCode" >
@@ -96,13 +91,6 @@
                 <control>
                     <text size="17" />
                 </control>
-
-                <summary>Award Status Description</summary>
-                <description>
-					This is a brief description of the status of the Award which 
-					identifies the stage or progression of the Award.  Examples of 
-					Award Status Description are “Awarded”, “Underwritten” or “Rejected”.  
-				</description>
 			</attribute>
 
             <attribute name="rowActiveIndicator" forceUppercase="false">
@@ -114,16 +102,6 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary>Active Indicator</summary>
-                <description>
-					The Active Indicator identifies whether an Award Status is 
-					currently used in the system, or whether the Award Status is 
-					no longer used.  Existing Awards may be associated with either 
-					active or inactive Award Statuses.  New Awards or Awards which 
-					are being updated or revised may only be associated with active 
-					Award Statuses.
-				</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

@@ -66,9 +66,6 @@
                 <control>
                     <hidden/>
                 </control>
-
-                <summary>Project Director ID</summary>
-                <description>Universal identifier for the Project Director.</description>
             </attributeReference>
             
             <attributeReference name="projectDirector.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
@@ -95,9 +92,6 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary>awardPrimaryProjectDirectorIndicator</summary>
-                <description>awardPrimaryProjectDirectorIndicator description...</description>
 			</attribute>
 
             <attribute name="awardProjectDirectorProjectTitle" forceUppercase="true">
@@ -110,9 +104,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>awardProjectDirectorProjectTitle</summary>
-                <description>awardProjectDirectorProjectTitle description...</description>
 			</attribute>
 			
 			<attributeReference name="newCollectionRecord" 

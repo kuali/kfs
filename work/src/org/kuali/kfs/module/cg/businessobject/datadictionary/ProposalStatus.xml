@@ -67,12 +67,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>Proposal Status Code</summary>
-                <description>
-					This is a one-letter code associated with a particular status of 
-					the Proposal.  Examples include A=Awarded, P=Proposed, and U=Underwritten.  
-				</description>
 			</attribute>
 
             <attribute name="proposalStatusDescription" forceUppercase="true">
@@ -85,13 +79,6 @@
                 <control>
                     <text size="17" />
                 </control>
-
-                <summary>Proposal Status Description</summary>
-                <description>
-					This is a brief description of the status of the Proposal which identifies 
-					the stage or progression of the Proposal.  Examples of Proposal Status 
-					Description are “Proposed”, “Underwritten” or “Rejected”.  
-				</description>
 			</attribute>
 
             <attribute name="rowActiveIndicator" forceUppercase="false">
@@ -103,15 +90,6 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary>Active Indicator</summary>
-                <description>
-					The Active Indicator identifies whether a Proposal Status is currently 
-					used in the system, or whether the Proposal Status is no longer used.  
-					Existing Proposals may be associated with either active or inactive Proposal 
-					Statuses.  New Proposals or Proposals which are being updated or revised 
-					may only be associated with active Proposal Statuses.
-				</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

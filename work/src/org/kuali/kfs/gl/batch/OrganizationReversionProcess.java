@@ -29,7 +29,9 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.chart.bo.AccountIntf;
@@ -97,6 +99,10 @@ public class OrganizationReversionProcess {
     private final String FUND_CARRIED_MESSAGE;
     private final String FUND_REVERTED_TO_MESSAGE;
     private final String FUND_REVERTED_FROM_MESSAGE;
+    
+    private Options priorYearOptions;
+    private Options currentYearOptions;
+    private Integer paramFiscalYear;
 
     public OrganizationReversionProcess() {
         super();
@@ -151,8 +157,9 @@ public class OrganizationReversionProcess {
         unitOfWork = new OrgReversionUnitOfWork();
         unitOfWork.setCategories(categoryList);
 
+        Balance bal;
         while (balances.hasNext()) {
-            Balance bal = balances.next();
+            bal = balances.next();
             incrementCount("balancesSelected");
             if (LOG.isDebugEnabled()) {
                 LOG.debug("BALANCE SELECTED: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode());
@@ -230,7 +237,9 @@ public class OrganizationReversionProcess {
         }
 
         if ((organizationReversion == null) || (!organizationReversion.getChartOfAccountsCode().equals(bal.getChartOfAccountsCode())) || (!organizationReversion.getOrganizationCode().equals(account.getOrganizationCode()))) {
-            LOG.debug("Organization Reversion Service: " + organizationReversionService + "; fiscal year: " + (Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR) + "; account: " + account + "; account organization code: " + account.getOrganizationCode() + "; balance: " + bal + "; balance chart: " + bal.getChartOfAccountsCode());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Organization Reversion Service: " + organizationReversionService + "; fiscal year: " + (Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR) + "; account: " + account + "; account organization code: " + account.getOrganizationCode() + "; balance: " + bal + "; balance chart: " + bal.getChartOfAccountsCode());
+            }
             organizationReversion = organizationReversionService.getByPrimaryId((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR), bal.getChartOfAccountsCode(), account.getOrganizationCode());
         }
 
@@ -250,10 +259,19 @@ public class OrganizationReversionProcess {
 
         categories = organizationReversionService.getCategories();
         categoryList = organizationReversionService.getCategoryList();
+        
+        this.paramFiscalYear = (Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR);
 
-        organizationReversionCounts.put("balancesRead", balanceService.countBalancesForFiscalYear((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR)));
+        organizationReversionCounts.put("balancesRead", balanceService.countBalancesForFiscalYear(paramFiscalYear));
         organizationReversionCounts.put("balancesSelected", new Integer(0));
         organizationReversionCounts.put("recordsWritten", new Integer(0));
+        
+        this.priorYearOptions = SpringContext.getBean(OptionsService.class).getOptions(paramFiscalYear);
+        if (this.endOfYear) {
+            this.currentYearOptions = priorYearOptions;
+        } else {
+            this.currentYearOptions = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
+        }
     }
 
     /**
@@ -264,8 +282,13 @@ public class OrganizationReversionProcess {
      * @return
      */
     protected void calculateCashAndActualAmounts(Balance bal) {
+        Options options = priorYearOptions;
+        if (endOfYear) {
+            options = currentYearOptions;
+        }
         persistenceService.retrieveReferenceObject(bal, "financialObject");
-        if (cashOrganizationReversionCategoryLogic.containsObjectCode(bal.getFinancialObject())) {
+        if (cashOrganizationReversionCategoryLogic.containsObjectCode(bal.getFinancialObject()) && bal.getBalanceTypeCode().equals(options.getActualFinancialBalanceTypeCd())) {
+            LOG.info("ADDING CASH BALANCE TO ACTUAL: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode());
             unitOfWork.addTotalCash(bal.getBeginningBalanceLineAmount());
             unitOfWork.addTotalCash(bal.getAccountLineAnnualBalanceAmount());
         }
@@ -273,12 +296,12 @@ public class OrganizationReversionProcess {
             for (OrganizationReversionCategory cat : categoryList) {
                 OrganizationReversionCategoryLogic logic = categories.get(cat.getOrganizationReversionCategoryCode());
                 if (logic.containsObjectCode(bal.getFinancialObject())) {
-                    if (bal.getOption().getActualFinancialBalanceTypeCd().equals(bal.getBalanceTypeCode())) {
+                    if (options.getActualFinancialBalanceTypeCd().equals(bal.getBalanceTypeCode())) {
                         // Actual
                         unitOfWork.addActualAmount(cat.getOrganizationReversionCategoryCode(), bal.getBeginningBalanceLineAmount());
                         unitOfWork.addActualAmount(cat.getOrganizationReversionCategoryCode(), bal.getAccountLineAnnualBalanceAmount());
                     }
-                    else if (bal.getOption().getFinObjTypeExpenditureexpCd().equals(bal.getBalanceTypeCode()) || bal.getOption().getCostShareEncumbranceBalanceTypeCd().equals(bal.getBalanceTypeCode()) || bal.getOption().getIntrnlEncumFinBalanceTypCd().equals(bal.getBalanceTypeCode())) {
+                    else if (options.getFinObjTypeExpenditureexpCd().equals(bal.getBalanceTypeCode()) || options.getCostShareEncumbranceBalanceTypeCd().equals(bal.getBalanceTypeCode()) || options.getIntrnlEncumFinBalanceTypCd().equals(bal.getBalanceTypeCode())) {
                         // Encumbrance
                         KualiDecimal amount = bal.getBeginningBalanceLineAmount().add(bal.getAccountLineAnnualBalanceAmount());
                         if (amount.isPositive()) {
@@ -369,7 +392,11 @@ public class OrganizationReversionProcess {
         entry.setSubAccountNumber(unitOfWork.subAccountNumber);
         entry.setFinancialObjectCode(organizationReversion.getChartOfAccounts().getFinancialCashObjectCode());
         entry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
-        entry.setFinancialBalanceTypeCode(entry.getOption().getNominalFinancialBalanceTypeCd());
+        if (entry.getUniversityFiscalYear().equals(paramFiscalYear)) {
+            entry.setFinancialBalanceTypeCode(priorYearOptions.getNominalFinancialBalanceTypeCd());
+        } else {
+            entry.setFinancialBalanceTypeCode(currentYearOptions.getNominalFinancialBalanceTypeCd());
+        }
 
         persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
         if (ObjectUtils.isNull(entry.getFinancialObject())) {

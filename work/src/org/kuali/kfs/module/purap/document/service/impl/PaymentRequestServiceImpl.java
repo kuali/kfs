@@ -261,8 +261,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             minimumAmount = getMinimumLimitAmount(negativePaymentRequestApprovalLimitService.findByChartAndOrganization(line.getChartOfAccountsCode(), line.getOrganizationReferenceId()), minimumAmount);
         }
 
-        // If no limit was found, the default limit is used.
-        if (null == minimumAmount) {
+        // If no limit was found or the default is less than the limit, the default limit is used.
+        if (ObjectUtils.isNull(minimumAmount) || defaultMinimumLimit.compareTo(minimumAmount) < 0) {
             minimumAmount = defaultMinimumLimit;
         }
 
@@ -273,7 +273,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         return false;
     }
-
+    
     /**
      * This method iterates a collection of negative payment request approval limits and returns the minimum of a given minimum
      * amount and the least among the limits in the collection.

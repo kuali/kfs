@@ -913,7 +913,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * @return
      */
     private boolean executePaymentReasonRestriction(String allowedParameterName, String disallowedParameterName, String paymentReasonCode, String restrictedFieldValue, String errorField, String errorParameter, CodeDescriptionFormatter restrictedFieldDescFormatter) {
-        ParameterEvaluator parameterEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, allowedParameterName, disallowedParameterName, restrictedFieldValue, paymentReasonCode);
+        ParameterEvaluator parameterEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, allowedParameterName, disallowedParameterName, paymentReasonCode, restrictedFieldValue);
         if (!parameterEvaluator.evaluationSucceeds()) {
             String failedParameterName;
             String errorMsgKey;

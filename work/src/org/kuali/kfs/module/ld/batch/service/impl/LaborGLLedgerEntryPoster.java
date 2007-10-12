@@ -98,8 +98,8 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
      */
     private String getTransactionDescription(Transaction transaction) {
         String documentTypeCode = transaction.getFinancialDocumentTypeCode();
-        String description = getDescriptionMap().get(documentTypeCode);        
-        description = StringUtils.isNotEmpty(description) ? description : transaction.getTransactionLedgerEntryDescription();
+        String description = transaction.getTransactionLedgerEntryDescription();         
+        description = StringUtils.isNotEmpty(description) ? description : getDescriptionMap().get(documentTypeCode);
         
         // make sure the length of the description cannot excess the specified maximum
         if(StringUtils.isNotEmpty(description) && description.length() > LaborConstants.TRANSACTION_DESCRIPTION_MAX_LENGTH){

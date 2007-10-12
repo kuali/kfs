@@ -33,7 +33,6 @@ import org.kuali.module.purap.bo.PurApSummaryItem;
 import org.kuali.module.purap.dao.PurApAccountingDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.util.PurApItemUtils;

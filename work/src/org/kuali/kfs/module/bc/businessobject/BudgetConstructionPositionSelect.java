@@ -46,7 +46,7 @@ public class BudgetConstructionPositionSelect extends PersistableBusinessObjectB
 	public BudgetConstructionPositionSelect() {
         super();
         this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
-        this.dummyBusinessObject.setLinkButtonOption("Incumbent SalSet");
+        this.dummyBusinessObject.setLinkButtonOption("Position SalSet");
 	}
 
 	/**

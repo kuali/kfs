@@ -210,9 +210,11 @@
 		<mkdir dir="${test.xml.results.directory}" />
 		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${test.temp.directory}" maxmemory="512M">
 			<jvmarg value="-Dorg.kuali.test.KualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues"/>
+			<!-- the test classes must come first so they can override classes as necessary in
+			     the loaded libraries -->
 			<classpath>
-				<path refid="compile.tests.classpath" />
 				<pathelement location="${test.classes.directory}" />
+				<path refid="compile.tests.classpath" />
 			</classpath>
 			<formatter type="xml" />
 			<batchtest todir="${test.xml.results.directory}">

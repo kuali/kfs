@@ -24,8 +24,6 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.util.collections.ManageableArrayList;
-import org.kuali.core.bo.Note;
 import org.kuali.core.dao.ojb.DocumentDaoOjb;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.rule.event.KualiDocumentEvent;
@@ -166,6 +164,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
         //need to refresh to get the references for the searchable attributes (ie status) and for invoking route levels (ie account objects) -hjs 
         refreshNonUpdateableReferences();
+        for (SourceAccountingLine sourceLine : getAccountsForRouting()) {
+            sourceLine.refreshNonUpdateableReferences();
+        }
         super.populateDocumentForRouting();
     }
 

@@ -157,6 +157,10 @@ public class OrganizationReversionProcess {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("BALANCE SELECTED: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode());
             }
+            // TODO james, kill the code below
+            if (bal.getObjectCode().equals("8000")) {
+                LOG.debug("CASH BALANCE SELECTED: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode()+": "+bal.getBeginningBalanceLineAmount().add(bal.getAccountLineAnnualBalanceAmount()));
+            }
 
             try {
                 if (!unitOfWork.isInitialized()) {

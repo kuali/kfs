@@ -21,6 +21,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.RicePropertyConstants;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
@@ -79,7 +80,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
     // REFERENCE OBJECTS
     private Campus processingCampus;
-    private PurchaseOrderDocument purchaseOrderDocument;
+    private transient PurchaseOrderDocument purchaseOrderDocument;
 
     public AccountsPayableDocumentBase() {
         super();
@@ -124,6 +125,9 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      */
     @Override
     public void populateDocumentForRouting() {
+        if(ObjectUtils.isNull(this.getPurchaseOrderDocument().getDocumentHeader().getDocumentNumber())) {
+            this.getPurchaseOrderDocument().refreshReferenceObject(RicePropertyConstants.DOCUMENT_HEADER);
+        }
         if(ObjectUtils.isNotNull(getPurchaseOrderDocument())) {
             this.setChartOfAccountsCode(getPurchaseOrderDocument().getChartOfAccountsCode());
             this.setOrganizationCode(getPurchaseOrderDocument().getOrganizationCode());
@@ -309,10 +313,10 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
 
     public PurchaseOrderDocument getPurchaseOrderDocument() {
-//        if ( (ObjectUtils.isNull(purchaseOrderDocument) || ObjectUtils.isNull(purchaseOrderDocument.getPurapDocumentIdentifier())) 
-//                && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier())) ) {
-//            setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier()));
-//        }
+        if ( (ObjectUtils.isNull(purchaseOrderDocument) || ObjectUtils.isNull(purchaseOrderDocument.getPurapDocumentIdentifier())) 
+                && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier())) ) {
+            setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier()));
+        }
         return purchaseOrderDocument;
     }
 
@@ -322,7 +326,9 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
             //setPurchaseOrderIdentifier(null);
             this.purchaseOrderDocument = null;
         } else {
-            setPurchaseOrderIdentifier(purchaseOrderDocument.getPurapDocumentIdentifier());
+            if(ObjectUtils.isNotNull(purchaseOrderDocument.getPurapDocumentIdentifier())) {
+                setPurchaseOrderIdentifier(purchaseOrderDocument.getPurapDocumentIdentifier());
+            }
             this.purchaseOrderDocument = purchaseOrderDocument;
         }
     }
@@ -485,6 +491,9 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
       if ( (ObjectUtils.isNull(purchaseOrderDocument) || ObjectUtils.isNull(purchaseOrderDocument.getPurapDocumentIdentifier())) 
               && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier())) ) {
           this.setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier()));
+          if(ObjectUtils.isNull(this.getPurchaseOrderDocument().getDocumentHeader().getDocumentNumber())) {
+              this.getPurchaseOrderDocument().refreshReferenceObject(RicePropertyConstants.DOCUMENT_HEADER);
+          }
       }
     }
 }

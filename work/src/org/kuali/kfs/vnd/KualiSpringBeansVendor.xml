@@ -170,9 +170,6 @@
         <property name="lookupDao">
             <ref bean="lookupDao" />
         </property>
-        <property name="vendorService">
-            <ref bean="vendorService" />
-        </property>
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>                

@@ -296,12 +296,12 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         VendorHeader vendorHeader = vendorDetail.getVendorHeader();
 
         // make sure that the vendor is not debarred
-        if (ObjectUtils.isNotNull(vendorHeader) && ObjectUtils.isNotNull(vendorHeader.getVendorDebarredIndicator()) && vendorHeader.getVendorDebarredIndicator()) {
+        if (vendorDetail.isVendorDebarred()) {
             valid &= false;
             errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_DEBARRED_VENDOR);
         }
 
-        // make sure that the vendor is of 'PO' type
+        // make sure that the vendor is of allowed type
         String allowedVendorType = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapRuleConstants.PURAP_VENDOR_TYPE_ALLOWED_ON_REQ_AND_PO);
         if (ObjectUtils.isNotNull(vendorHeader) && ObjectUtils.isNotNull(vendorHeader.getVendorTypeCode()) && !vendorHeader.getVendorTypeCode().equals(allowedVendorType)) {
             valid &= false;

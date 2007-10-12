@@ -39,7 +39,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class VendorContractLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private LookupDao lookupDao;
     private DateTimeService dateTimeService;
-    private VendorService vendorService;
     
     public void setLookupDao(LookupDao lookupDao) {
         this.lookupDao = lookupDao;
@@ -49,11 +48,6 @@ public class VendorContractLookupableHelperServiceImpl extends AbstractLookupabl
         this.dateTimeService = dateTimeService;
     }
 
-    public void setVendorService(VendorService vendorService) {
-        this.vendorService = vendorService;
-    }
-
-
     /**
      * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map) 
      * 
@@ -62,18 +56,11 @@ public class VendorContractLookupableHelperServiceImpl extends AbstractLookupabl
      */
     @Override
     public List<PersistableBusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        
+
         boolean unbounded = false;
         super.setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         super.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
-        PurapUser currentUser = (PurapUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( PurapUser.MODULE_ID );
-        
-        String chart = currentUser.getChartOfAccountsCode();
-        String org = currentUser.getOrganizationCode();
-        
-        fieldValues.remove("chartOfAccountsCode");
-        
         Date now = dateTimeService.getCurrentSqlDate();
         Criteria additionalCriteria = new Criteria();
         additionalCriteria.addLessOrEqualThan("vendorContractBeginningDate", now);
@@ -82,22 +69,16 @@ public class VendorContractLookupableHelperServiceImpl extends AbstractLookupabl
         //We ought to call the findCollectionBySearchHelper that would accept the additionalCriteria
         boolean usePrimaryKeyValuesOnly = getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(getBusinessObjectClass(), fieldValues);
         List<PersistableBusinessObject> searchResults = (List) lookupDao.findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded, usePrimaryKeyValuesOnly, additionalCriteria);
-        
-        List <PersistableBusinessObject> finalSearchResults = new ArrayList();
-        // loop through results to eliminate inactive or debarred vendors and to
-        // set the appropriate apoLimit from vendorService
+
+        List<PersistableBusinessObject> finalSearchResults = new ArrayList();
+        // loop through results to eliminate inactive or debarred vendors
         for (PersistableBusinessObject object : searchResults) {
             VendorContract vendorContract = (VendorContract) object;
-            if ( vendorContract.getVendorDetail().isActiveIndicator() && 
-                 ( vendorContract.getVendorDetail().getVendorHeader().getVendorDebarredIndicator() == null || ! vendorContract.getVendorDetail().getVendorHeader().getVendorDebarredIndicator()) ) {
-                KualiDecimal apoLimit = vendorService.getApoLimitFromContract(vendorContract.getVendorContractGeneratedIdentifier(), chart, org);
-                if (apoLimit != null) {
-                    vendorContract.setOrganizationAutomaticPurchaseOrderLimit(apoLimit);
-                    finalSearchResults.add(vendorContract);
-                }
+            if (vendorContract.getVendorDetail().isActiveIndicator() && !vendorContract.getVendorDetail().isVendorDebarred()) {
+                finalSearchResults.add(vendorContract);
             }
         }
-        
+
         // sort list if default sort column given
         List<String> defaultSortColumns = getDefaultSortColumns();
         if (defaultSortColumns.size() > 0) {

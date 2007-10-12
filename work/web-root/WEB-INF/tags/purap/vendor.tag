@@ -278,7 +278,7 @@
                     <td align=left valign=middle class="datacell">
                         <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorContractName}" property="document.vendorContractName" readOnly="true"/>
                         <c:if test="${(fullEntryMode or amendmentEntry)}">
-                            <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorContract" readOnlyFields="vendorCampusCode" lookupParameters="'${currentUserCampusCode}':vendorCampusCode" fieldConversions="vendorContractGeneratedIdentifier:document.vendorContractGeneratedIdentifier" />
+                            <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorContract" autoSearch="yes" readOnlyFields="vendorCampusCode" lookupParameters="'${currentUserCampusCode}':vendorCampusCode" fieldConversions="vendorContractGeneratedIdentifier:document.vendorContractGeneratedIdentifier" />
                         </c:if>
                     </td>
                     <th align=right valign=middle class="bord-l-b">

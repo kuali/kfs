@@ -29,6 +29,13 @@ import org.kuali.kfs.KFSConstants;
 public class VendorAddressLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl{
     private boolean searchUsingOnlyPrimaryKeyValues = false;
     
+    /**
+     * @see org.kuali.core.lookup.KualiLookupableHelperServiceImpl#getSearchResultsHelper(java.util.Map, boolean)
+     * 
+     * Overriding the default behavior because we need to restrict the search results to the vendor ids
+     * that we are sending in as criteria, but since they are set as hidden in the DD the default behavior 
+     * is to remove them from the criteria.
+     */
     @Override
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
         searchUsingOnlyPrimaryKeyValues = getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(getBusinessObjectClass(), fieldValues);

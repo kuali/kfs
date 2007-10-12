@@ -58,18 +58,11 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="contractManagerCode" required="false" />
-                <lookupField attributeName="organizationAutomaticPurchaseOrderLimit" required="false" />
-                <lookupField attributeName="purchaseOrderCostSourceCode" required="false" />
                 <lookupField attributeName="vendorCampusCode" required="false" />
-                <lookupField attributeName="vendorContractBeginningDate" required="false" />
-                <lookupField attributeName="vendorContractDescription" required="false" />
-                <lookupField attributeName="vendorContractEndDate" required="false" />
-                <lookupField attributeName="vendorContractExtensionDate" required="false" />
-                <lookupField attributeName="vendorContractGeneratedIdentifier" required="false" />
+                <lookupField attributeName="contractManagerCode" required="false" />
                 <lookupField attributeName="vendorContractName" required="false" />
-                <lookupField attributeName="vendorDetailAssignedIdentifier" required="false" />        
-                <lookupField attributeName="vendorHeaderGeneratedIdentifier" required="false" />
+                <lookupField attributeName="vendorContractDescription" required="false" />
+                <lookupField attributeName="purchaseOrderCostSourceCode" required="false" />
                 <lookupField attributeName="vendorPaymentTermsCode" required="false" />
                 <lookupField attributeName="vendorShippingPaymentTermsCode" required="false" />
                 <lookupField attributeName="vendorShippingTitleCode" required="false" />
@@ -81,9 +74,8 @@
             <resultFields>
                 <field attributeName="vendorDetail.vendorName" />
                 <field attributeName="vendorContractDescription" />
-                <field attributeName="organizationAutomaticPurchaseOrderLimit" />
                 <field attributeName="vendorDetail.vendorHeader.vendorSupplierDiversities" />
-                <field attributeName="purchaseOrderCostSourceCode" />
+                <field attributeName="purchaseOrderCostSource.purchaseOrderCostSourceDescription" />
                 <field attributeName="active"/>               
             </resultFields>
         </lookup>
@@ -163,7 +155,12 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PurchaseOrderCostSourceValuesFinder" />
                 </control>
-			</attributeReference>
+            </attributeReference>
+
+            <attributeReference name="purchaseOrderCostSource.purchaseOrderCostSourceDescription" sourceClassName="org.kuali.module.vendor.bo.PurchaseOrderCostSource" sourceAttributeName="purchaseOrderCostSourceDescription">
+                <label>PO Cost Source</label>
+                <shortLabel>PO Cost Source</shortLabel>
+            </attributeReference>
 
 			<attributeReference name="vendorContractExtensionDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
                 <label>Extension Option Date</label>

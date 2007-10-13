@@ -288,7 +288,6 @@ public class OrganizationReversionProcess {
         }
         persistenceService.retrieveReferenceObject(bal, "financialObject");
         if (cashOrganizationReversionCategoryLogic.containsObjectCode(bal.getFinancialObject()) && bal.getBalanceTypeCode().equals(options.getActualFinancialBalanceTypeCd())) {
-            LOG.info("ADDING CASH BALANCE TO ACTUAL: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode());
             unitOfWork.addTotalCash(bal.getBeginningBalanceLineAmount());
             unitOfWork.addTotalCash(bal.getAccountLineAnnualBalanceAmount());
         }
@@ -405,7 +404,7 @@ public class OrganizationReversionProcess {
         }
 
         entry.setDocumentNumber(DEFAULT_DOCUMENT_NUMBER_PREFIX + entry.getAccountNumber());
-        entry.setTransactionLedgerEntryDescription(CASH_REVERTED_TO_MESSAGE + organizationReversion.getCashReversionAccountNumber());
+        entry.setTransactionLedgerEntryDescription(CASH_REVERTED_TO_MESSAGE + " " + organizationReversion.getCashReversionAccountNumber());
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCash());
         if (unitOfWork.getTotalCash().compareTo(KualiDecimal.ZERO) > 0) {
             entry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);

@@ -166,12 +166,15 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         assertOriginEntries(4, outputTransactions);
     }
     
-   
-    
-    
-    
-    
+    public void testA2balanceTypeAcceptClosedFiscalPeriod() throws Exception {
+        String[] inputTransactions = { "2005BL1031400-----5772---A2EX06PAYEPLPRENC-07      00002MTFRING ----------KUALI TEST DESCRIPTION                  +000000000028988.60C2006-12-14                                                D2006-12-14          000000.00200706-----------000             M037113006                             " };
 
+        EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.LABOR_BACKUP, inputTransactions[0]),  new EntryHolder(OriginEntrySource.LABOR_SCRUBBER_VALID, inputTransactions[0]) };
+
+        scrub(inputTransactions);
+        assertOriginEntries(4, outputTransactions);
+    }
+    
     private void scrub(String[] inputTransactions) {
         clearOriginEntryTables();
         loadInputTransactions(OriginEntrySource.LABOR_BACKUP, inputTransactions, date);

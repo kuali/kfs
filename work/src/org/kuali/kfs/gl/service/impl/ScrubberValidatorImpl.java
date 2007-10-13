@@ -77,7 +77,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private PersistenceStructureService persistenceStructureService;
     private ThreadLocal<OriginEntryLookupService> referenceLookup = new ThreadLocal<OriginEntryLookupService>();
     private BalanceTypService balanceTypService;
-    
+
     public static final String DATE_FORMAT_STRING = "yyyy-MM-dd";
 
     private static String[] debitOrCredit = new String[] { KFSConstants.GL_DEBIT_CODE, KFSConstants.GL_CREDIT_CODE };
@@ -277,7 +277,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         String[] continuationAccountBypassOriginationCodes = parameterService.getParameterValues(ScrubberStep.class, GLConstants.GlScrubberGroupRules.CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES).toArray(new String[] {});
-        
+
         ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
         String[] continuationAccountBypassBalanceTypeCodes = balanceTypService.getContinuationAccountBypassBalanceTypeCodes(universityRunDate.getUniversityFiscalYear()).toArray(new String[] {});
         String[] continuationAccountBypassDocumentTypeCodes = parameterService.getParameterValues(ScrubberStep.class, GLConstants.GlScrubberGroupRules.CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES).toArray(new String[] {});
@@ -775,12 +775,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                  */
             }
             else {
-                //KULLAB-510
-                //Scrubber accepts closed fiscal periods for certain Balance Types(A2)
-                if (!workingEntry.getFinancialBalanceTypeCode().equals(KFSConstants.LABOR_A2_BALANCE_TYPE)){
-                    return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_CLOSED) + " (year " + universityRunDate.getUniversityFiscalYear() + ", period " + universityRunDate.getUniversityFiscalAccountingPeriod() + ")", Message.TYPE_FATAL);
-                    }
-                }
+                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_CLOSED) + " (year " + universityRunDate.getUniversityFiscalYear() + ", period " + universityRunDate.getUniversityFiscalAccountingPeriod() + ")", Message.TYPE_FATAL);
+            }
+
         }
         else {
             AccountingPeriod originEntryAccountingPeriod = referenceLookup.get().getAccountingPeriod(originEntry);
@@ -788,7 +785,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND) + " (" + originEntry.getUniversityFiscalPeriodCode() + ")", Message.TYPE_FATAL);
             }
             else if (KFSConstants.ACCOUNTING_PERIOD_STATUS_CLOSED.equals(originEntryAccountingPeriod.getUniversityFiscalPeriodStatusCode())) {
-                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_FISCAL_PERIOD_CLOSED) + " (" + originEntry.getUniversityFiscalPeriodCode() + ")", Message.TYPE_FATAL);
+                // KULLAB-510
+                // Scrubber accepts closed fiscal periods for certain Balance Types(A2)
+                if (!workingEntry.getFinancialBalanceTypeCode().equals(KFSConstants.LABOR_A2_BALANCE_TYPE)) {
+                    return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_FISCAL_PERIOD_CLOSED) + " (" + originEntry.getUniversityFiscalPeriodCode() + ")", Message.TYPE_FATAL);
+                }
             }
 
             workingEntry.setUniversityFiscalPeriodCode(originEntry.getUniversityFiscalPeriodCode());

@@ -22,20 +22,25 @@ import org.kuali.kfs.service.ParameterEvaluator;
 
 public class AlwaysSucceedParameterEvaluatorImpl implements ParameterEvaluator {
     private static final AlwaysSucceedParameterEvaluatorImpl instance = new AlwaysSucceedParameterEvaluatorImpl();
-    
+
     public static ParameterEvaluator getInstance() {
         return instance;
     }
 
-    private AlwaysSucceedParameterEvaluatorImpl() {    
+    private AlwaysSucceedParameterEvaluatorImpl() {
     }
 
     public boolean constraintIsAllow() {
         return Boolean.TRUE;
     }
 
-    public boolean evaluateAndAddError(String errorMessageKey, String errorFieldName, String errorParameterLabel) {
-        return Boolean.TRUE;
+
+    public boolean evaluateAndAddError(Class businessObjectOrDocumentClass, String constrainedPropertyName, String userEditablePropertyName) {
+        return evaluationSucceeds();
+    }
+
+    public boolean evaluateAndAddError(Class businessObjectOrDocumentClass, String constrainedPropertyName) {
+        return evaluationSucceeds();
     }
 
     public boolean evaluationSucceeds() {

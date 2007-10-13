@@ -108,17 +108,13 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDocumentRuleBase implements AddAccountingLineRule<AccountingDocument>, GenerateGeneralLedgerPendingEntriesRule<AccountingDocument>, DeleteAccountingLineRule<AccountingDocument>, UpdateAccountingLineRule<AccountingDocument>, ReviewAccountingLineRule<AccountingDocument>, SufficientFundsCheckingPreparationRule, AccountingDocumentRuleBaseConstants {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingDocumentRuleBase.class);
+    private ParameterService parameterService;
 
-    /**
-     * @return the error key for the operator
-     */
-    protected String getErrorMessageKey(ParameterEvaluator evaluator) {
-        if (evaluator.constraintIsAllow()) {
-            return KFSKeyConstants.ERROR_APPLICATION_PARAMETERS_ALLOWED_RESTRICTION;
+    protected ParameterService getParameterService() {
+        if (parameterService == null) {
+            parameterService = SpringContext.getBean(ParameterService.class);
         }
-        else {
-            return KFSKeyConstants.ERROR_APPLICATION_PARAMETERS_DENIED_RESTRICTION;
-        }
+        return parameterService;
     }
 
     /**
@@ -324,7 +320,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
             LOG.debug("rule failure at " + ExceptionUtils.describeStackLevels(1, 2));
         }
     }
-    
+
     /**
      * Adds a global error for a missing required property. This is used for properties, such as reference origin code, which cannot
      * be required by the DataDictionary validation because not all documents require them.
@@ -1225,53 +1221,14 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
     private boolean isAccountingLineValueAllowed(Class documentClass, AccountingLine accountingLine, String parameterName, String propertyName, String userEnteredPropertyName) {
         boolean isAllowed = true;
-        ParameterEvaluator globalEvaluator = null;
-        ParameterEvaluator documentSpecificEvaluator = null;
         String exceptionMessage = "Invalue property name provided to AccountingDocumentRuleBase isAccountingLineValueAllowed method: " + propertyName;
         try {
             String propertyValue = (String) PropertyUtils.getProperty(accountingLine, propertyName);
-            if (SpringContext.getBean(ParameterService.class).parameterExists(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName)) {
-                globalEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName, propertyValue);
+            if (getParameterService().parameterExists(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName)) {
+                getParameterService().getParameterEvaluator(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName, propertyValue).evaluateAndAddError(SourceAccountingLine.class, propertyName, userEnteredPropertyName);
             }
-            if (SpringContext.getBean(ParameterService.class).parameterExists(documentClass, parameterName)) {
-                documentSpecificEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(documentClass, parameterName, propertyValue);
-            }
-            StringBuffer allowedList = new StringBuffer();
-            StringBuffer deniedList = new StringBuffer();
-            if ((globalEvaluator != null) && !globalEvaluator.evaluationSucceeds()) {
-                isAllowed = false;
-                if (globalEvaluator.constraintIsAllow()) {
-                    allowedList.append(globalEvaluator.getParameterValuesForMessage());
-                }
-                else {
-                    deniedList.append(globalEvaluator.getParameterValuesForMessage());
-                }
-            }
-            if ((documentSpecificEvaluator != null) && !documentSpecificEvaluator.evaluationSucceeds()) {
-                isAllowed = false;
-                if (documentSpecificEvaluator.constraintIsAllow()) {
-                    if (StringUtils.isNotBlank(allowedList.toString())) {
-                        allowedList.append(", ");
-                    }
-                    allowedList.append(globalEvaluator.getParameterValuesForMessage());
-                }
-                else {
-                    if (StringUtils.isNotBlank(deniedList.toString())) {
-                        deniedList.append(", ");
-                    }
-                    deniedList.append(documentSpecificEvaluator.getParameterValuesForMessage());
-                }
-            }
-            if (!isAllowed) {
-                StringBuffer errorMessageSuffix = new StringBuffer();
-                if (StringUtils.isNotBlank(allowedList.toString())) {
-                    errorMessageSuffix.append("The following ").append(SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SourceAccountingLine.class, propertyName)).append("s").append(" are allowed: ").append(allowedList.toString()).append(".  ");
-                }
-                if (StringUtils.isNotBlank(deniedList.toString())) {
-                    errorMessageSuffix.append("The following ").append(SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SourceAccountingLine.class, propertyName)).append("s").append(" are not allowed: ").append(deniedList.toString()).append(".  ");
-                }
-                errorMessageSuffix.append("Please provide a different ").append(SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SourceAccountingLine.class, userEnteredPropertyName)).append(".");
-                GlobalVariables.getErrorMap().putError(propertyName, KFSKeyConstants.ERROR_DOCUMENT_INVALID_VALUE, new String[] { SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SourceAccountingLine.class, propertyName), propertyValue, errorMessageSuffix.toString() });
+            if (getParameterService().parameterExists(documentClass, parameterName)) {
+                getParameterService().getParameterEvaluator(documentClass, parameterName, propertyValue).evaluateAndAddError(SourceAccountingLine.class, propertyName, userEnteredPropertyName);
             }
         }
         catch (IllegalAccessException e) {
@@ -1519,7 +1476,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         if (objectSubTypeCode == null) {
             throw new IllegalArgumentException(EXCEPTIONS.NULL_OBJECT_SUBTYPE_MESSAGE);
         }
-        ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName, objectSubTypeCode);
+        ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName, objectSubTypeCode);
         boolean returnboolean = evaluator.evaluationSucceeds();
         LOG.debug("checkMandatoryTransfersSubType(String, String) - end");
         return returnboolean;
@@ -1561,7 +1518,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         LOG.debug("isFundGroupSetBalanceValid(AccountingDocument, String[]) - start");
 
         // don't need to do any of this if there's no parameter
-        if (!SpringContext.getBean(ParameterService.class).parameterExists(componentClass, parameterName)) {
+        if (!getParameterService().parameterExists(componentClass, parameterName)) {
             LOG.debug("isFundGroupSetBalanceValid(AccountingDocument, String[]) - end");
             return true;
         }
@@ -1580,7 +1537,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
             AccountingLine line = (AccountingLine) i.next();
             String fundGroupCode = line.getAccount().getSubFundGroup().getFundGroupCode();
 
-            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(componentClass, parameterName, fundGroupCode);
+            ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(componentClass, parameterName, fundGroupCode);
             if (evaluator.evaluationSucceeds()) {
                 KualiDecimal glpeLineAmount = getGeneralLedgerPendingEntryAmountForAccountingLine(line);
                 if (line.isSourceAccountingLine()) {
@@ -1599,7 +1556,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
             isValid = false;
 
             // creating an evaluator to just format the fund codes into a nice string
-            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(componentClass, parameterName, "");
+            ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(componentClass, parameterName, "");
             GlobalVariables.getErrorMap().putError("document.sourceAccountingLines", ERROR_DOCUMENT_FUND_GROUP_SET_DOES_NOT_BALANCE, new String[] { tranDoc.getSourceAccountingLinesSectionTitle(), tranDoc.getTargetAccountingLinesSectionTitle(), evaluator.getParameterValuesForMessage() });
         }
 

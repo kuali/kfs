@@ -15,12 +15,19 @@
  */
 package org.kuali.kfs.service.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Parameter;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterEvaluator;
+import org.kuali.kfs.service.ParameterService;
 
 public class ParameterEvaluatorImpl implements ParameterEvaluator {
     private Parameter parameter;
@@ -37,11 +44,16 @@ public class ParameterEvaluatorImpl implements ParameterEvaluator {
         }
     }
 
-    public boolean evaluateAndAddError(String errorMessageKey, String errorFieldName, String errorParameterLabel) {
+    public boolean evaluateAndAddError(Class businessObjectOrDocumentClass, String constrainedPropertyName) {
+        return evaluateAndAddError(businessObjectOrDocumentClass, constrainedPropertyName, constrainedPropertyName);
+    }
+    
+    public boolean evaluateAndAddError(Class businessObjectOrDocumentClass, String constrainedPropertyName, String userEditablePropertyName) {
         if (!evaluationSucceeds()) {
-            GlobalVariables.getErrorMap().putError(errorFieldName, errorMessageKey, new String[] { errorParameterLabel, constrainedValue, getName(), getModuleAndComponent(), getParameterValuesForMessage() });
+            GlobalVariables.getErrorMap().putError(userEditablePropertyName, KFSKeyConstants.ERROR_DOCUMENT_INVALID_VALUE, new String[] {SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(businessObjectOrDocumentClass, constrainedPropertyName), constrainedValue, toStringForMessage(), constraintIsAllow() ? "allowed" : "not allowed", getParameterValuesForMessage(), SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(businessObjectOrDocumentClass, userEditablePropertyName)});
+            return false;
         }
-        return evaluationSucceeds();
+        return true;
     }
 
     public boolean constraintIsAllow() {
@@ -53,8 +65,7 @@ public class ParameterEvaluatorImpl implements ParameterEvaluator {
     }
 
     public String getParameterValuesForMessage() {
-        String parameterValues = values.toString().replace("[", "").replace("]", "");
-        return StringUtils.substringBefore(parameterValues, ",");
+        return values.toString().replace("[", "").replace("]", "");
     }
 
     public String getName() {
@@ -67,6 +78,10 @@ public class ParameterEvaluatorImpl implements ParameterEvaluator {
 
     public String toString() {
         return new StringBuffer("ParameterEvaluator").append("\n\tParameter: ").append("module=").append(parameter.getParameterNamespaceCode()).append(", component=").append(parameter.getParameterDetailTypeCode()).append(", name=").append(parameter.getParameterName()).append(", value=").append(parameter.getParameterValue()).append("\n\tConstraint Is Allow: ").append(constraintIsAllow).append("\n\tConstrained Value: ").append(constrainedValue).append("\n\tValues: ").append(values.toString()).toString();
+    }
+
+    private String toStringForMessage() {
+        return new StringBuffer("parameter ").append(parameter.getParameterName()).append(" (module: ").append(parameter.getParameterNamespaceCode()).append(" / component: ").append(parameter.getParameterDetailTypeCode()).append(")").toString();
     }
 
     private String getModuleAndComponent() {

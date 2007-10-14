@@ -9,6 +9,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
+import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.exception.ConfigurationError;
 import org.kuali.module.pdp.exception.FileReadException;
 import org.kuali.module.pdp.xml.PaymentFileParser;
@@ -34,8 +37,8 @@ public class PaymentFileParserImpl extends DefaultHandler implements PaymentFile
 
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentFileParserImpl.class);
 
-  private String xsdUrl;
   private PdpFileHandler fileHandler = null;
+  private ParameterService parameterService;
 
   public PaymentFileParserImpl() {
   }
@@ -44,14 +47,12 @@ public class PaymentFileParserImpl extends DefaultHandler implements PaymentFile
     this.fileHandler = fileHandler;
   }
 
-  public void setXsdUrl(String xsdUrl) {
-    this.xsdUrl = xsdUrl;
+  public void setParameterService(ParameterService p) {
+      parameterService = p;
   }
 
   public void parse(InputStream stream) throws FileReadException {
-    if ( xsdUrl == null ) {
-      throw new ConfigurationError("xsdUrl not set");
-    }
+    String xsdUrl = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.PAYMENT_LOAD_XSD_URL);
     if ( fileHandler ==  null ) {
       throw new ConfigurationError("fileHandler not set");
     }

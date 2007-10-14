@@ -52,7 +52,7 @@
 				<value>pdpLoadFederalReserveBankDataJob</value>
 				<value>pdpExtractGlTransactionsStepJob</value>
 				<value>pdpExtractAchPaymentsJob</value>
-				<value>pdpExtractCancelledChecksJob</value>
+				<value>pdpExtractCanceledChecksJob</value>
 				<value>pdpExtractChecksJob</value>
 			</list>
 		</property>
@@ -146,10 +146,10 @@
 		</property>
 	</bean>
 
-	<bean id="pdpExtractCancelledChecksJob" parent="scheduledJobDescriptor">
+	<bean id="pdpExtractCanceledChecksJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="pdpExtractCancelledChecksStep" />
+				<ref bean="pdpExtractCanceledChecksStep" />
 			</list>
 		</property>
 	</bean>
@@ -175,7 +175,7 @@
 		<property name="extractPaymentService" ref="pdpExtractPaymentService" />
 	</bean>
 
-	<bean id="pdpExtractCancelledChecksStep" class="org.kuali.module.pdp.batch.ExtractCancelledChecksStep" parent="step">
+	<bean id="pdpExtractCanceledChecksStep" class="org.kuali.module.pdp.batch.ExtractCanceledChecksStep" parent="step">
 		<property name="extractPaymentService" ref="pdpExtractPaymentService" />
 	</bean>
 
@@ -302,6 +302,6 @@
 	</bean>
 
 	<bean id="pdpPaymentFileParser" class="org.kuali.module.pdp.xml.impl.PaymentFileParserImpl" singleton="false">
-		<property name="xsdUrl"><value>https://test.kuali.org/kuali-cnv/pdp/payment1.xsd</value></property>
+		<property name="parameterService" ref="parameterService"/>
 	</bean>
 </beans>

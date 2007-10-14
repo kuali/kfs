@@ -35,6 +35,7 @@ import org.kuali.module.pdp.bo.PaymentGroup;
 import org.kuali.module.pdp.bo.PaymentNoteText;
 import org.kuali.module.pdp.bo.PaymentProcess;
 import org.kuali.module.pdp.bo.PaymentStatus;
+import org.kuali.module.pdp.dao.PaymentGroupHistoryDao;
 import org.kuali.module.pdp.dao.ProcessDao;
 import org.kuali.module.pdp.service.ExtractPaymentService;
 import org.kuali.module.pdp.service.PaymentGroupService;
@@ -49,12 +50,42 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     public DateTimeService dateTimeService;
     public ParameterService parameterService;
     public PaymentGroupService paymentGroupService;
+    public PaymentGroupHistoryDao paymentGroupHistoryDao;
     public String directoryName;
     public ProcessDao processDao;
 
     // Set this to true to run this process without updating the database.  This
     // should stay false for production.
     public static boolean testMode = false;
+
+    /**
+     * @see org.kuali.module.pdp.service.ExtractPaymentService#extractCancelledChecks()
+     */
+    public void extractCanceledChecks() {
+        LOG.debug("extractCancelledChecks() started");
+
+        // Open file
+
+        Iterator payments = paymentGroupHistoryDao.getCanceledChecks();
+//        (q{select unique NVL2(ORIG_DISB_NBR, ORIG_DISB_NBR, DISB_NBR),
+//            pmt_chg_cd
+//     from PDP_PMT_GRP_HIST_T h,
+//        PDP_PMT_GRP_T g
+//     where PMT_CNCL_EXTRT_TS IS NULL
+//       and PMT_CHG_CD in ('CD', 'CRD')
+//     and h.PMT_GRP_ID = g.PMT_GRP_ID
+//     and (   ORIG_DISB_TYP_CD <> 'ACH'
+//         or ORIG_DISB_TYP_CD is null)
+//     and (   ORIG_DISB_TYP_CD = 'CHCK'
+//         or DISB_TYP_CD = 'CHCK')})
+
+        // Get all of the cancelled checks from group history
+        //    Get more info about the check
+        //    Write all the info into the file
+        //    Update the extract timestamp/indicator
+        // Close file
+        // Send email
+    }
 
     /**
      * @see org.kuali.module.pdp.service.ExtractPaymentService#extractAchPayments()
@@ -91,11 +122,6 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                 PaymentProcess paymentProcess = pg.getProcess();
                 writeTag(os, 4, "processCampus",paymentProcess.getCampus());
                 writeTag(os, 4, "processId", paymentProcess.getId().toString());
-
-                // Disbursement Type Code: Ò22Ó Deposit Funds into Checking Account
-                //              Ò32Ó Deposit Funds into Savings Account
-                //              Ò27Ó Withdraw Funds From Checking Account
-                //              Ò37Ó Withdraw Funds From Savings Account
 
                 writeBank(os,4,pg.getBank());
 
@@ -157,21 +183,6 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                 }
             }
         }
-    }
-
-    /**
-     * @see org.kuali.module.pdp.service.ExtractPaymentService#extractCancelledChecks()
-     */
-    public void extractCancelledChecks() {
-        LOG.debug("extractCancelledChecks() started");
-
-        // Open file
-        // Get all of the cancelled checks from group history
-        //    Get more info about the check
-        //    Write all the info into the file
-        //    Update the extract timestamp/indicator
-        // Close file
-        // Send email
     }
 
     /**
@@ -410,5 +421,9 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
     public void setReferenceService(ReferenceService rs) {
         referenceService = rs;
+    }
+
+    public void setPaymentGroupHistoryDao(PaymentGroupHistoryDao p) {
+        paymentGroupHistoryDao = p;
     }
 }

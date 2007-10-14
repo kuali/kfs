@@ -28,8 +28,8 @@ public interface ExtractPaymentService {
     public void extractAchPayments();
 
     /**
-     * Extract cancelled checks to be used for a bank's positive
+     * Extract canceled checks to be used for a bank's positive
      * pay program.
      */
-    public void extractCancelledChecks();
+    public void extractCanceledChecks();
 }

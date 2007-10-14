@@ -117,7 +117,7 @@
 					<property name="serviceServletUrl" value="${workflow.url}/remote" />
                     <property name="exceptionMessagingScheduler" ref="scheduler"/>
                     <property name="authorizationService">
-                      <bean class="org.kuali.kfs.authorization.KSBAuthorizationService"/>
+                      <bean class="org.kuali.kfs.authorization.ServiceBusAuthorizationService" />
                     </property>
 				</bean>
 				<bean class="org.kuali.workflow.config.KEWConfigurer">

@@ -215,7 +215,6 @@ public class FormatServiceImpl implements FormatService {
             if ((!"X".equals(pg.getPayeeIdTypeCd())) && (!"".equals(pg.getPayeeIdTypeCd())) && (pg.getPayeeIdTypeCd() != null) && (!"".equals(pg.getPayeeId())) && (pg.getPayeeId() != null) && (!pg.getPymtAttachment().booleanValue()) && (!pg.getProcessImmediate().booleanValue()) && (!pg.getPymtSpecialHandling().booleanValue()) && (customer.getPsdTransactionCode() != null) && (noNegativeDetails)) {
                 // Check ACH service
                 LOG.debug("performFormat() Checking ACH");
-                LOG.info("performFormat() Calling ACH Stored Proc with Payee ID Type Code '" + pg.getPayeeIdTypeCd() + "' and Payee ID '" + pg.getPayeeId() + "' and PSD Transaction Code '" + customer.getPsdTransactionCode() + "'");
                 ai = achService.getAchInformation(pg.getPayeeIdTypeCd(), pg.getPayeeId(), customer.getPsdTransactionCode());
                 check = (ai == null);
             }

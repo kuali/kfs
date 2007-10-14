@@ -297,7 +297,7 @@
 								<c:out value="${PaymentDetail.requisitionNbr}" />&nbsp;
 							</td>
 			        <td nowrap=nowrap class="datacell">
-			        	<c:out value="${PaymentDetail.paymentGroup.customerInstitutionNbr}"/>
+			        	<c:out value="${PaymentDetail.paymentGroup.customerInstitutionNumber}"/>
 								&nbsp;
 							</td>
 							<td nowrap=nowrap class="datacell">

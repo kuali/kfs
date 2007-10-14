@@ -32,6 +32,7 @@ import org.kuali.module.pdp.bo.Bank;
 import org.kuali.module.pdp.bo.CustomerProfile;
 import org.kuali.module.pdp.bo.PaymentDetail;
 import org.kuali.module.pdp.bo.PaymentGroup;
+import org.kuali.module.pdp.bo.PaymentGroupHistory;
 import org.kuali.module.pdp.bo.PaymentNoteText;
 import org.kuali.module.pdp.bo.PaymentProcess;
 import org.kuali.module.pdp.bo.PaymentStatus;
@@ -64,27 +65,57 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     public void extractCanceledChecks() {
         LOG.debug("extractCancelledChecks() started");
 
+        Date processDate = dateTimeService.getCurrentDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        String filename = directoryName + parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.CHECK_CANCEL_EXTRACT_FILE);
+        LOG.debug("extractCanceledChecks() filename = " + filename);
+
         // Open file
+        BufferedWriter os = null;
 
-        Iterator payments = paymentGroupHistoryDao.getCanceledChecks();
-//        (q{select unique NVL2(ORIG_DISB_NBR, ORIG_DISB_NBR, DISB_NBR),
-//            pmt_chg_cd
-//     from PDP_PMT_GRP_HIST_T h,
-//        PDP_PMT_GRP_T g
-//     where PMT_CNCL_EXTRT_TS IS NULL
-//       and PMT_CHG_CD in ('CD', 'CRD')
-//     and h.PMT_GRP_ID = g.PMT_GRP_ID
-//     and (   ORIG_DISB_TYP_CD <> 'ACH'
-//         or ORIG_DISB_TYP_CD is null)
-//     and (   ORIG_DISB_TYP_CD = 'CHCK'
-//         or DISB_TYP_CD = 'CHCK')})
+        try {
+            os = new BufferedWriter(new FileWriter(filename));
+            os.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+            writeOpenTag(os, 0, "canceledChecks");
 
-        // Get all of the cancelled checks from group history
-        //    Get more info about the check
-        //    Write all the info into the file
-        //    Update the extract timestamp/indicator
-        // Close file
-        // Send email
+            Iterator paymentIterator = paymentGroupHistoryDao.getCanceledChecks();
+            while ( paymentIterator.hasNext() ) {
+                PaymentGroupHistory history = (PaymentGroupHistory)paymentIterator.next();
+
+                writeOpenTag(os, 2, "check");
+
+                writeBank(os, 4, history.getPaymentGroup().getBank());
+                writePayee(os, 4, history.getPaymentGroup());
+
+                writeTag(os, 4, "netAmount", history.getPaymentGroup().getNetPaymentAmount().toString());
+                writeTag(os, 4 ,"disbursementNumber", history.getPaymentGroup().getDisbursementNbr().toString());
+                writeTag(os, 4, "disbursementType", history.getPaymentGroup().getDisbursementType().getCode());
+
+                writeCloseTag(os, 2, "check");
+
+                if ( ! testMode ) {
+                    history.setLastUpdate(new Timestamp(processDate.getTime()));
+                    history.setPmtCancelExtractDate(new Timestamp(processDate.getTime()));
+                    history.setPmtCancelExtractStat(Boolean.TRUE);
+                    paymentGroupHistoryDao.save(history);
+                }
+            }
+
+            writeCloseTag(os,0,"canceledChecks");
+        } catch (IOException ie) {
+            LOG.error("extractCanceledChecks() Problem reading file:  "+ filename,ie);
+            throw new IllegalArgumentException("Error writing to output file: " + ie.getMessage());
+        } finally {
+            // Close file
+            if (os != null) {
+                try {
+                    os.close();
+                } catch (IOException ie) {
+                    // Not much we can do now
+                }
+            }
+        }
     }
 
     /**

@@ -183,10 +183,10 @@
 				            	&nbsp;
 										</td>
 				            <th align=right nowrap>
-				            	Customer Number for IU:
+				            	Customer Number for Institution:
 				            </th>
 				            <td class="datacell">
-				            	<c:out value="${PaymentDetail.paymentGroup.customerIuNbr}"/>
+				            	<c:out value="${PaymentDetail.paymentGroup.customerInstitutionNumber}"/>
 											&nbsp;
 										</td>
 									</tr>	

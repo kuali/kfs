@@ -167,7 +167,7 @@ public class CollectorServiceImpl implements CollectorService {
         
         // NOTE: this implementation does not support the use of multiple origin entry group service/origin entry services
         for (CollectorScrubberStatus collectorScrubberStatus : collectorScrubberStatuses) {
-            inputGroups.add(collectorScrubberStatus.getInputGroup());
+            inputGroups.add(collectorScrubberStatus.getValidGroup());
         }
         
         if (inputGroups.size() > 0 && collectorScrubberStatuses.size() > 0) {

@@ -57,6 +57,7 @@
 		<property name="jobNames">
 			<list>
 				<value>procurementCardDocumentJob</value>
+				<value>disbursementVoucherPreDisbursementProcessorExtractJob</value>
 			</list>
 		</property>
 	</bean>

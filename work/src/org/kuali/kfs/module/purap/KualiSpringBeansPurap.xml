@@ -50,6 +50,9 @@
 		<property name="jobNames">
 			<list>
 				<value>autoApprovePaymentRequestsJob</value>
+				<value>processPdpCancelsAndPaidJob</value>
+				<value>purchasingPreDisbursementImmediatesExtractJob</value>
+				<value>purchasingPreDisbursementExtractJob</value>
 			</list>
 		</property>
 	</bean>

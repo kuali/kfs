@@ -60,7 +60,7 @@
       </tr>
       <tr>
         <th align=right valign="top" nowrap="true">
-          <font color=red>*</font> Chart:
+          * Chart:
          </th>
         <td align=left class="datacell">
           <html:hidden property="version" />
@@ -73,7 +73,7 @@
           </logic:notEmpty>
         </td>
         <th align=right valign="top" nowrap="true">
-          <font color=red>*</font> Default Chart:
+          * Default Chart:
          </th>
         <td align=left class="datacell" >
           <html:text property="defaultChartCode" tabindex="23" maxlength="2"  />
@@ -81,7 +81,7 @@
       </tr>
       <tr>
         <th align=right valign="top" nowrap="true">
-          <font color=red>*</font> Organization:
+          * Organization:
          </th>
         <td align=left class="datacell" >
           <logic:empty name="PdpCustomerProfileForm" property="id">
@@ -93,7 +93,7 @@
           </logic:notEmpty>
         </td>
         <th align=right valign="top" nowrap="true">
-           <font color=red>*</font> Default Account #:
+           * Default Account #:
          </th>
         <td align=left class="datacell">
            <html:text property="defaultAccountNumber" tabindex="24" maxlength="7" />
@@ -101,7 +101,7 @@
       </tr>
       <tr>
         <th align=right valign="top" nowrap="true">
-          <font color=red>*</font> Sub-Unit:
+          * Sub-Unit:
          </th>
         <td align=left class="datacell" >
           <logic:empty name="PdpCustomerProfileForm" property="id">
@@ -113,7 +113,7 @@
           </logic:notEmpty>
         </td>
         <th align=right valign="top" nowrap="true">
-           <font color=red>*</font> Default Sub Account #:
+           * Default Sub Account #:
          </th>
         <td align=left class="datacell">
            <html:text property="defaultSubAccountNumber" tabindex="25" maxlength="5" />
@@ -127,7 +127,7 @@
           <html:text property="defaultPhysicalCampusProcessingCode" tabindex="4" maxlength="2"  />
         </td>
          <th align=right valign="top" nowrap="true">
-          <font color=red>*</font> Default Object Code:
+          * Default Object Code:
          </th>
         <td align=left class="datacell">
           <html:text property="defaultObjectCode" tabindex="26" maxlength="4" />
@@ -141,7 +141,7 @@
           <html:text property="customerDescription" tabindex="5" maxlength="50"  />
         </td>
         <th align=right valign="top" nowrap="true">
-          <font color=red>*</font> Default Sub Object Code:
+          * Default Sub Object Code:
          </th>
         <td align=left class="datacell" >
           <html:text property="defaultSubObjectCode" tabindex="27" maxlength="3"  />

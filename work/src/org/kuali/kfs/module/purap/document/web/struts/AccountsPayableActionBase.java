@@ -80,7 +80,6 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         AccountsPayableFormBase baseForm = (AccountsPayableFormBase) form;
         AccountsPayableDocumentBase document = (AccountsPayableDocumentBase) baseForm.getDocument();
 
-        //TODO (KULPURAP-1573) couldn't this be moved up to purap action base becuase pur documents do the same thing!!!! (then we do not need this method)
         if (StringUtils.equals(baseForm.getRefreshCaller(), VendorConstants.VENDOR_ADDRESS_LOOKUPABLE_IMPL)) {
             if (StringUtils.isNotBlank(request.getParameter(RicePropertyConstants.DOCUMENT + "." + PurapPropertyConstants.VENDOR_ADDRESS_ID))) {
                 Integer vendorAddressGeneratedId = document.getVendorAddressGeneratedIdentifier();

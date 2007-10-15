@@ -43,7 +43,7 @@ import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
 
     /**
-     * Tabs included on Purchasing Documents are: Payment Info Delivery Additional
+     * Tabs included on Purchasing Documents are: Payment Info, Delivery, and Additional
      * 
      * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
      */
@@ -54,10 +54,13 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         return valid;
     }
     
+    /**
+     * Check to see if the Requisition is going to stop at content review route level.
+     * 
+     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#requiresAccountValidationOnAllEnteredItems(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     */
     @Override
     public boolean requiresAccountValidationOnAllEnteredItems(PurchasingAccountsPayableDocument document) {
-        //For Requisitions only, if the requisition status is in process,
-        //then we don't need account validation.
         if (SpringContext.getBean(PurApWorkflowIntegrationService.class).willDocumentStopAtGivenFutureRouteNode(document, NodeDetailEnum.CONTENT_REVIEW)) {
             return false;
         }
@@ -76,11 +79,6 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         return valid;
     }
     
-    //TODO check this: (hjs) 
-    //- just curious: what is a valid US zip code?
-    //- isn't city required if country is US? NO, ONLY FOR PO
-    //- comment list fax number, but code isn't here
-    //Can this be combined with PO?
     /**
      * 
      * This method performs validations for the fields in vendor tab.
@@ -88,11 +86,8 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
      * 1.  If this is a standard order requisition (not B2B), then if Country is United 
      *     States and the postal code is required and if zip code is entered, it should 
      *     be a valid US Zip code. (format)
-     * 2.  If this is a standard order requisition (not a B2B requisition), then if 
-     *     the fax number is entered, it should be a valid fax number. (format) 
      *     
      * @param purapDocument The requisition document object whose vendor tab is to be validated
-     * 
      * @return true if it passes vendor validation and false otherwise.
      */
     @Override
@@ -137,13 +132,15 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         return valid;
     }
 
+    /**
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.rules.AccountingDocumentRuleBase.AccountingLineAction)
+     */
     @Override
     protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLineAction action) {
         KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
         List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
 
         if (((RequisitionDocument)financialDocument).isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW)) {
-//        if (currentRouteLevels.contains(NodeDetailEnum.CONTENT_REVIEW.getName()) && workflowDocument.isApprovalRequested()) {
             // DO NOTHING: do not check that user owns acct lines; at this level, approvers can edit all detail on REQ
             return true;
         }

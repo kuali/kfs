@@ -949,8 +949,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         return getTotalDollarAmount(false, false);
     }
 
-    //TODO: look into merging this with the super method with excludedTypes.  Can probably find a way to \ 
-    //abstract out the active flag which would be the only real difference
     public KualiDecimal getTotalDollarAmount(boolean includeInactive, boolean includeBelowTheLine) {
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
         for (PurchaseOrderItem item : (List<PurchaseOrderItem>)getItems()) {

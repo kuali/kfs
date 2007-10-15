@@ -75,20 +75,6 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         this.setCapitalAssetTransactionTypeCode(ri.getCapitalAssetTransactionTypeCode());
         this.setItemTypeCode(ri.getItemTypeCode());
         
-        /* TODO: Uncomment these when we're ready with item capital asset in Kuali
-        if (ri.getItemCapitalAssetNumbers() != null) {
-            List assets = new ArrayList();
-            for (Iterator assetIter = ri.getCapitalAssetNumbers().iterator(); assetIter.hasNext();) {
-                RequisitionItemCapitalAsset reqAsset = (RequisitionItemCapitalAsset) assetIter.next();
-                PurchaseOrderItemCapitalAsset poAsset = new PurchaseOrderItemCapitalAsset(reqAsset);
-                poAsset.setPurchaseOrder(po);
-                poAsset.setPurchaseOrderItem(this);
-                assets.add(poAsset);
-            }
-            this.setCapitalAssetNumbers(assets);
-        }
-        */
-        
         if (ri.getSourceAccountingLines() != null && ri.getSourceAccountingLines().size() > 0) {
             List accounts = new ArrayList();
             for (PurApAccountingLine account : ri.getSourceAccountingLines()) {

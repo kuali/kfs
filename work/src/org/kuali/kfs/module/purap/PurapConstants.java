@@ -59,7 +59,6 @@ public class PurapConstants extends JstlConstants {
 
     public static class QuoteTransmitTypes {
         public static final String PRINT = "PRINT";
-//        public static final String FAX = "FAX";
     }
 
     public static class QuoteStatusCode {
@@ -178,7 +177,6 @@ public class PurapConstants extends JstlConstants {
 
     public static class PurchaseOrderStatuses {
         // TODO delyea - check statuses for use/MDS entry
-        // TODO delyea - add statuses for awaiting and disapproved 'change' docs?
         public static final String IN_PROCESS = "INPR";
         public static final String WAITING_FOR_VENDOR = "WVEN";
         public static final String WAITING_FOR_DEPARTMENT = "WDPT";

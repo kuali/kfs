@@ -27,26 +27,8 @@ import org.kuali.core.util.KualiDecimal;
 public class RequisitionAccount extends PurApAccountingLineBase {
 
     private static final long serialVersionUID = -8655437895493693864L;
-    //TODO: remove the commented out code
-//    private KualiDecimal accountLineAmount;
     
     private RequisitionItem requisitionItem;
-
-//  	/**
-//     * Gets the accountLineAmount attribute. 
-//     * @return Returns the accountLineAmount.
-//     */
-//    public KualiDecimal getAccountLineAmount() {
-//        return accountLineAmount;
-//    }
-//
-//    /**
-//     * Sets the accountLineAmount attribute value.
-//     * @param accountLineAmount The accountLineAmount to set.
-//     */
-//    public void setAccountLineAmount(KualiDecimal accountLineAmount) {
-//        this.accountLineAmount = accountLineAmount;
-//    }
 
     /**
 	 * Gets the requisitionItem attribute.

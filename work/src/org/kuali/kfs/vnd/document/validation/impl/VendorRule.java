@@ -808,20 +808,21 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * @param addresses
      * @return
      */
-    // TODO: Naser See if there is a way to put the error message in the address tab instead of down the page
     boolean checkDefaultAddressCampus(VendorDetail vendorDetail, VendorDefaultAddress addedDefaultAddress, VendorAddress parent) {
-
         VendorAddress vendorAddress = parent;
         if (ObjectUtils.isNull(vendorAddress)) {
             return false;
         }
+
         int j = vendorDetail.getVendorAddresses().indexOf(vendorAddress);
         String errorPath = MAINTAINABLE_ERROR_PREFIX + VendorPropertyConstants.VENDOR_ADDRESS + "[" + j + "]";
         GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+
         // Retreiving the Default Address Indicator for this Address Type:
         boolean allowDefaultAddressIndicator = findAllowDefaultAddressIndicatorHelper(vendorAddress);
         String addedAddressCampusCode = addedDefaultAddress.getVendorCampusCode();
         String addedAddressTypeCode = vendorAddress.getVendorAddressTypeCode();
+
         // if the selected address type does not allow defaults, then the user should not be allowed to
         // select the default indicator or add any campuses to the address
         if (allowDefaultAddressIndicator == false) {
@@ -831,16 +832,13 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         }
 
         List<VendorDefaultAddress> vendorDefaultAddresses = vendorAddress.getVendorDefaultAddresses();
-
         for (int i = 0; i < vendorDefaultAddresses.size(); i++) {
             VendorDefaultAddress vendorDefaultAddress = vendorDefaultAddresses.get(i);
             if (vendorDefaultAddress.getVendorCampusCode().equalsIgnoreCase(addedAddressCampusCode)) {
                 String[] parameters = new String[] { addedAddressCampusCode, addedAddressTypeCode };
                 GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS + "[" + i + "]." + VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS_CAMPUS, VendorKeyConstants.ERROR_ADDRESS_DEFAULT_CAMPUS, parameters);
-                // GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
                 return false;
             }
-
         }
 
         return true;
@@ -1089,8 +1087,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                 valid &= false;
             }
         }
-        // contractCounter++;
-        // }
+
         return valid;
     }
 

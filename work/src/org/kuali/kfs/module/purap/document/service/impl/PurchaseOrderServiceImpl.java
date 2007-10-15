@@ -284,57 +284,41 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
     
+    /**
+     * Create Purchase Order and populate with data from Requisition and other default data
+     * 
+     * @param reqDocument
+     * @return
+     * @throws WorkflowException
+     */
     private PurchaseOrderDocument generatePurchaseOrderFromRequisition(RequisitionDocument reqDocument) throws WorkflowException {
-        // create PO and populate with default data
         PurchaseOrderDocument poDocument = null;
-//        try {
-            poDocument = (PurchaseOrderDocument) documentService.getNewDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
-            poDocument.populatePurchaseOrderFromRequisition(reqDocument);
-            poDocument.setStatusCode(PurchaseOrderStatuses.IN_PROCESS);
-            poDocument.setPurchaseOrderCurrentIndicator(true);
-            poDocument.setPendingActionIndicator(false);
+        poDocument = (PurchaseOrderDocument) documentService.getNewDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
+        poDocument.populatePurchaseOrderFromRequisition(reqDocument);
+        poDocument.setStatusCode(PurchaseOrderStatuses.IN_PROCESS);
+        poDocument.setPurchaseOrderCurrentIndicator(true);
+        poDocument.setPendingActionIndicator(false);
 
-            // TODO: need this?
-            // poDocument.setInternalPurchasingLimit(getInternalPurchasingDollarLimit(po, u.getOrganization().getChart().getCode(),
-            // u.getOrganization().getCode()));
+        if (RequisitionSources.B2B.equals(poDocument.getRequisitionSourceCode())) {
+            poDocument.setPurchaseOrderVendorChoiceCode(VendorChoice.CONTRACTED_PRICE);
+        }
 
-            if (RequisitionSources.B2B.equals(poDocument.getRequisitionSourceCode())) {
-                poDocument.setPurchaseOrderVendorChoiceCode(VendorChoice.CONTRACTED_PRICE);
-            }
-
+        if (ObjectUtils.isNotNull(poDocument.getVendorContract())) {
+            poDocument.setVendorPaymentTermsCode(poDocument.getVendorContract().getVendorPaymentTermsCode());
+            poDocument.setVendorShippingPaymentTermsCode(poDocument.getVendorContract().getVendorShippingPaymentTermsCode());
+            poDocument.setVendorShippingTitleCode(poDocument.getVendorContract().getVendorShippingTitleCode());
+        }
+        else {
             VendorDetail vendor = vendorService.getVendorDetail(poDocument.getVendorHeaderGeneratedIdentifier(), poDocument.getVendorDetailAssignedIdentifier());
-
-            if (ObjectUtils.isNotNull(poDocument.getVendorContract())) {
-                poDocument.setVendorPaymentTermsCode(poDocument.getVendorContract().getVendorPaymentTermsCode());
-                poDocument.setVendorShippingPaymentTermsCode(poDocument.getVendorContract().getVendorShippingPaymentTermsCode());
-                poDocument.setVendorShippingTitleCode(poDocument.getVendorContract().getVendorShippingTitleCode());
-            }
-            else if (ObjectUtils.isNotNull(vendor)) {
+            if (ObjectUtils.isNotNull(vendor)) {
                 poDocument.setVendorPaymentTermsCode(vendor.getVendorPaymentTermsCode());
                 poDocument.setVendorShippingPaymentTermsCode(vendor.getVendorShippingPaymentTermsCode());
                 poDocument.setVendorShippingTitleCode(vendor.getVendorShippingTitleCode());
             }
+        }
 
-            purapService.addBelowLineItems(poDocument);
+        purapService.addBelowLineItems(poDocument);
 
-//            if (isAPO) {
-//                poDocument.setDefaultValuesForAPO();
-//                documentService.routeDocument(poDocument, null, null);
-//            }
-//            else {
-//                documentService.updateDocument(poDocument);
-//                documentService.prepareWorkflowDocument(poDocument);
-//                workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
-//            }
-//        }
-//        catch (WorkflowException e) {
-//            LOG.error("Error creating PO document: " + e.getMessage(),e);
-//            throw new RuntimeException("Error creating PO document: " + e.getMessage(),e);
-//        }
-//        catch (Exception e) {
-//            LOG.error("Error persisting document # " + poDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(),e);
-//            throw new RuntimeException("Error persisting document # " + poDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(),e);
-//        }
         return poDocument;
     }
 

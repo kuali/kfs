@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.service;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.kuali.core.bo.Parameter;
@@ -23,7 +24,7 @@ import org.kuali.core.bo.Parameter;
  * This is a stateful SOA wrapper for Parameters, which provides convenient methods to evaluate a constrained value against a
  * Parameter.
  */
-public interface ParameterEvaluator {
+public interface ParameterEvaluator extends Serializable{
     /**
      * This method determines whether the constrainedValue specified when the ParameterEvaluator was created matches the parameter.
      * 

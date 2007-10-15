@@ -67,8 +67,10 @@ import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture;
 import org.kuali.test.suite.AnnotationTestSuite;
 import org.kuali.test.suite.CrossSectionSuite;
+import org.kuali.test.suite.RelatesTo;
 
 @ConfigureContext(session = KHUNTLEY)
+@RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
     public static final Class<TransferOfFundsDocument> DOCUMENT_CLASS = TransferOfFundsDocument.class;
 

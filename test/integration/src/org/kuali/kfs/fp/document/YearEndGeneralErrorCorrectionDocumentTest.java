@@ -36,6 +36,7 @@ import org.kuali.module.financial.bo.GECTargetAccountingLine;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.fixtures.AccountingLineFixture;
+import org.kuali.test.suite.RelatesTo;
 
 /**
  * This class is used to test GeneralErrorCorrectionDocument.
@@ -43,6 +44,7 @@ import org.kuali.test.fixtures.AccountingLineFixture;
  * 
  */
 @ConfigureContext(session = KHUNTLEY)
+@RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class YearEndGeneralErrorCorrectionDocumentTest extends KualiTestBase {
 
     public static final Class<YearEndGeneralErrorCorrectionDocument> DOCUMENT_CLASS = YearEndGeneralErrorCorrectionDocument.class;

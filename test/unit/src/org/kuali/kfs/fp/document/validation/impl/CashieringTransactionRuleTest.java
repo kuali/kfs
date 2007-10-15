@@ -41,8 +41,10 @@ import org.kuali.module.financial.service.CashDrawerService;
 import org.kuali.module.financial.service.CashManagementService;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.UserNameFixture;
+import org.kuali.test.suite.RelatesTo;
 
 @ConfigureContext(session = UserNameFixture.KHUNTLEY)
+@RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class CashieringTransactionRuleTest extends KualiTestBase {
     static final String CMST_WORKGROUP = "CashManagementServiceTest";
     

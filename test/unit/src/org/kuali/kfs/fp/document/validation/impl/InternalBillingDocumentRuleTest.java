@@ -39,6 +39,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.InternalBillingDocument;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.suite.RelatesTo;
 /**
  * This class tests the business rules of the internal billing document. This is not implemented yet and needs to extend
  * AccountingDocumentRuleTestBase. We'll fully implement this when we get to this document during development.
@@ -46,6 +47,7 @@ import org.kuali.test.ConfigureContext;
  * 
  */
 @ConfigureContext(session = KHUNTLEY)
+@RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class InternalBillingDocumentRuleTest extends KualiTestBase {
 
     // ////////////////////////////////////////////////////////////////////////

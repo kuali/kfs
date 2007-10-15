@@ -38,11 +38,13 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.util.GeneralLedgerTestHelper;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.suite.RelatesTo;
 
 /**
  * IF THIS TEST FAILS, READ https://test.kuali.org/jira/browse/KULRNE-34 regarding reference numbers
  */
 @ConfigureContext
+@RelatesTo(RelatesTo.JiraIssue.KULRNE5916)
 public class BalanceForwardStepTest extends OriginEntryTestBase {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceForwardStepTest.class);

@@ -27,6 +27,7 @@ import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.suite.RelatesTo;
 
 /**
  * This class tests the DisbursementVoucherTax service.
@@ -34,6 +35,7 @@ import org.kuali.test.ConfigureContext;
  * 
  */
 @ConfigureContext
+@RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class DisbursementVoucherTaxServiceTest extends KualiTestBase {
     private DisbursementVoucherDocument dvDocument;
 

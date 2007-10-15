@@ -46,8 +46,10 @@ import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.NonCheckDisbursementDocument;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
+import org.kuali.test.suite.RelatesTo;
 
 @ConfigureContext(session = KHUNTLEY)
+@RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class NonCheckDisbursementDocumentRuleTest extends KualiTestBase {
     public static final Class<NonCheckDisbursementDocument> DOCUMENT_CLASS = NonCheckDisbursementDocument.class;
 

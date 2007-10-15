@@ -44,10 +44,12 @@ import org.kuali.module.financial.exceptions.InvalidCashReceiptState;
 import org.kuali.module.financial.util.CashReceiptFamilyTestUtil;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.UserNameFixture;
+import org.kuali.test.suite.RelatesTo;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 @ConfigureContext(session = KHUNTLEY)
+@RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class CashManagementServiceTest extends KualiTestBase {
     static final String CMST_WORKGROUP = "CashManagementServiceTest";
     

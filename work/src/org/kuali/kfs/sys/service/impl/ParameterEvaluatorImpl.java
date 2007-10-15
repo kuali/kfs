@@ -35,6 +35,14 @@ public class ParameterEvaluatorImpl implements ParameterEvaluator {
     private String constrainedValue;
     private List<String> values;
 
+    /**
+     * If the constraint is allow and the constrainedValue is in the list of allowed values specified by the parameter this will
+     * return true, and if the constraint is deny and the constrainedValue is not in the list of denied values specified by the
+     * parameter this method will return true.
+     * 
+     * @return boolean indicating whether the constrained value adheres to the restriction specified by the combination of the
+     *         parameter constraint and the parameter value
+     */
     public boolean evaluationSucceeds() {
         if (constraintIsAllow()) {
             return values.contains(constrainedValue);
@@ -44,34 +52,51 @@ public class ParameterEvaluatorImpl implements ParameterEvaluator {
         }
     }
 
+    /**
+     * @see org.kuali.kfs.service.ParameterEvaluator#evaluateAndAddError(java.lang.Class businessObjectOrDocumentClass,
+     *      java.lang.String constrainedPropertyName)
+     */
     public boolean evaluateAndAddError(Class businessObjectOrDocumentClass, String constrainedPropertyName) {
         return evaluateAndAddError(businessObjectOrDocumentClass, constrainedPropertyName, constrainedPropertyName);
     }
-    
+
+    /**
+     * This method uses the evaluationSucceeds method to evaluate the constrainedValue. If evaluation does not succeed, it adds an
+     * error to GlobalVariables.getErrorMap(). The businessObjectOrDocumentClass, nameOfConstrainedProperty and
+     * userEditablePropertyName are used to retrieve the appropriate labels from the DataDictionary.
+     * 
+     * @param businessObjectOrDocumentClass
+     * @param userEditableFieldToHighlight
+     * @param nameOfconstrainedProperty
+     * @return boolean indicating whether evaluation succeeded (see evaluationSucceeds)
+     */
     public boolean evaluateAndAddError(Class businessObjectOrDocumentClass, String constrainedPropertyName, String userEditablePropertyName) {
         if (!evaluationSucceeds()) {
-            GlobalVariables.getErrorMap().putError(userEditablePropertyName, KFSKeyConstants.ERROR_DOCUMENT_INVALID_VALUE, new String[] {SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(businessObjectOrDocumentClass, constrainedPropertyName), constrainedValue, toStringForMessage(), constraintIsAllow() ? "allowed" : "not allowed", getParameterValuesForMessage(), SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(businessObjectOrDocumentClass, userEditablePropertyName)});
+            GlobalVariables.getErrorMap().putError(userEditablePropertyName, KFSKeyConstants.ERROR_DOCUMENT_INVALID_VALUE, new String[] { SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(businessObjectOrDocumentClass, constrainedPropertyName), constrainedValue, toStringForMessage(), constraintIsAllow() ? "allowed" : "not allowed", getParameterValuesForMessage(), SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(businessObjectOrDocumentClass, userEditablePropertyName) });
             return false;
         }
         return true;
     }
 
+    /**
+     * @see org.kuali.kfs.service.ParameterEvaluator#constraintIsAllow()
+     */
     public boolean constraintIsAllow() {
         return constraintIsAllow;
     }
 
-    public List<String> getParameterValues() {
-        return values;
-    }
-
+    /**
+     * This method uses the List toString method and eliminates the [].
+     *
+     * @return user-friendly String representation of Parameter values
+     */
     public String getParameterValuesForMessage() {
         return values.toString().replace("[", "").replace("]", "");
     }
 
-    public String getName() {
-        return parameter.getParameterName();
-    }
-
+    /**
+     * @see org.kuali.kfs.service.ParameterEvaluator#getValue()
+     */
     public String getValue() {
         return parameter.getParameterValue();
     }

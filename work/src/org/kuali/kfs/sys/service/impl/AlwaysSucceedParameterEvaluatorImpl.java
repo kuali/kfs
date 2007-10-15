@@ -20,6 +20,10 @@ import java.util.List;
 import org.kuali.core.bo.Parameter;
 import org.kuali.kfs.service.ParameterEvaluator;
 
+/**
+ * This implementation of ParameterEvaluator is returned by ParameterServiceImpl when evaluation involves a constraining value and
+ * neither the allow nor deny parameter have restrictions for that value.
+ */
 public class AlwaysSucceedParameterEvaluatorImpl implements ParameterEvaluator {
     private static final AlwaysSucceedParameterEvaluatorImpl instance = new AlwaysSucceedParameterEvaluatorImpl();
 

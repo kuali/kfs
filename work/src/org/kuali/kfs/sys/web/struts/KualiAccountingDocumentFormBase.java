@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
+import org.kuali.RiceConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.exceptions.InfrastructureException;
@@ -714,7 +715,7 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
     @Override
     protected void customInitMaxUploadSizes() {
         super.customInitMaxUploadSizes();
-        addMaxUploadSize(SpringContext.getBean(ParameterService.class).getParameterValue(AccountingDocument.class, KFSConstants.ACCOUNTING_LINE_IMPORT_MAX_FILE_SIZE_PARM_NM));
+        addMaxUploadSize(SpringContext.getBean(ParameterService.class).getParameterValue(SourceAccountingLine.class, KFSConstants.ACCOUNTING_LINE_IMPORT_MAX_FILE_SIZE_PARM_NM));
     }
     
 }

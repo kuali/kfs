@@ -91,11 +91,6 @@
 				<control>
 					<radio valuesFinderClass="org.kuali.module.labor.web.optionfinder.OffsetOptionFinder"/>
 				</control>
-
-        		<summary><![CDATA[&nbsp;]]></summary>
-        		<description>
-        			Offset type is a 4 character value that is used to determine the needed offsetting entry. It is represented as a radio button selection.
-        		</description>
         	</attribute>
         </attributes>
 

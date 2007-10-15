@@ -49,10 +49,10 @@ public class VendorContractLookupableHelperServiceImpl extends AbstractLookupabl
     }
 
     /**
-     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map) 
-     * 
      * This method overrides the getSearchResults in the super class so that we can do some customization 
-     * in our vendor contract lookup. 
+     * in our vendor contract lookup.
+     *  
+     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
     public List<PersistableBusinessObject> getSearchResults(Map<String, String> fieldValues) {

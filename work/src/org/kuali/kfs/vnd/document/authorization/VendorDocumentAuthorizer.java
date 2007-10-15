@@ -41,7 +41,12 @@ import org.kuali.module.vendor.util.VendorUtils;
 
 public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
-    @Override
+    /**
+     * TODO: add more description about method here
+     * 
+     * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizer#getFieldAuthorizations(org.kuali.core.document.MaintenanceDocument, org.kuali.core.bo.user.UniversalUser)
+     * @Override 
+     */
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
         MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
         VendorDetail vendor = (VendorDetail) document.getNewMaintainableObject().getBusinessObject();
@@ -86,8 +91,8 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
     /**
      * @see org.kuali.core.document.MaintenanceDocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.KualiUser)
+     * @Override
      */
-    @Override
     public Map getEditMode(Document document, UniversalUser user) {
         Map editMode = super.getEditMode(document, user);
         VendorDetail vendor = (VendorDetail) ((MaintenanceDocument) document).getNewMaintainableObject().getBusinessObject();
@@ -102,8 +107,8 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
     /**
      * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.UniversalUser)
+     * @Override
      */
-    @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         MaintenanceDocumentActionFlags docActionFlags = new MaintenanceDocumentActionFlags(super.getDocumentActionFlags(document, user));
         docActionFlags.setCanBlanketApprove(false);

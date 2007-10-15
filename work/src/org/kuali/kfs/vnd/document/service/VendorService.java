@@ -65,15 +65,6 @@ public interface VendorService {
     public KualiDecimal getApoLimitFromContract(Integer contractId, String chart, String org);
 
     /**
-     * This method retrieves the B2B Contract for the given Vendor (see method in VendorDao for criteria).
-     * 
-     * @param vendorDetail      Vendor info
-     * @param campus            Campus
-     * @return VendorContract   B2B Contract for given vendor
-     */
-    public VendorContract getVendorB2BContract(VendorDetail vendorDetail, String campus);
-
-    /**
      * This method finds the addresses for the given vendor and then calls the method to determine the default address from this
      * list.
      * 

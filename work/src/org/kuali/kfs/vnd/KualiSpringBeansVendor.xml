@@ -64,23 +64,9 @@
 	<bean id="vendorUserService" class="org.kuali.module.vendor.service.impl.VendorUserServiceImpl" parent="kualiModuleUserServiceBase">
 	</bean>
 
-    <bean id="vendorDao" parent="platformAwareDao" class="org.kuali.module.vendor.dao.ojb.VendorDaoOjb">
-        <property name="dateTimeService">
-            <ref bean="dateTimeService" />
-        </property>
-    </bean>
-
     <bean id="vendorService" class="org.kuali.module.vendor.service.impl.VendorServiceImpl">
-        <property name="vendorDao">
-            <ref bean="vendorDao" />
-        </property>
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-        <property name="documentService">
-            <ref bean="documentService" />
-        </property>
-        <property name="parameterService" ref="parameterService" />
+        <property name="businessObjectService" ref="businessObjectService"/>
+        <property name="documentService" ref="documentService"/>
         <property name="persistenceService" ref="persistenceService" />
         <property name="universalUserService" ref="universalUserService" />
     </bean>

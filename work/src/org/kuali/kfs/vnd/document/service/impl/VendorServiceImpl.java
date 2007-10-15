@@ -31,8 +31,6 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
 import org.kuali.module.vendor.bo.VendorAddress;
@@ -42,7 +40,6 @@ import org.kuali.module.vendor.bo.VendorDefaultAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorHeader;
 import org.kuali.module.vendor.bo.VendorUser;
-import org.kuali.module.vendor.dao.VendorDao;
 import org.kuali.module.vendor.service.VendorService;
 import org.kuali.module.vendor.util.VendorRoutingComparable;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,28 +50,10 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class VendorServiceImpl implements VendorService {
     private static Logger LOG = Logger.getLogger(VendorServiceImpl.class);
 
-    private VendorDao vendorDao;
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private UniversalUserService universalUserService;
-    private ParameterService parameterService;
     private PersistenceService persistenceService;
-
-    public void setUniversalUserService(UniversalUserService universalUserService) {
-        this.universalUserService = universalUserService;
-    }
-
-    public void setVendorDao(VendorDao vendorDao) {
-        this.vendorDao = vendorDao;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService boService) {
-        this.businessObjectService = boService;
-    }
-
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
 
     public void saveVendorHeader(VendorDetail vendorDetail) {
         businessObjectService.save(vendorDetail.getVendorHeader());
@@ -157,13 +136,6 @@ public class VendorServiceImpl implements VendorService {
         }
         LOG.debug("Exiting getParentVendor normally.");
         return result;
-    }
-
-    /**
-     * @see org.kuali.module.vendor.service.VendorService#getVendorB2BContract(VendorDetail, String)
-     */
-    public VendorContract getVendorB2BContract(VendorDetail vendorDetail, String campus) {
-        return vendorDao.getVendorB2BContract(vendorDetail, campus);
     }
 
     /**
@@ -323,10 +295,15 @@ public class VendorServiceImpl implements VendorService {
         return vendorToUse.getVendorHeader().getVendorForeignIndicator();
     }
 
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
+    public void setUniversalUserService(UniversalUserService universalUserService) {
+        this.universalUserService = universalUserService;
     }
-
+    public void setBusinessObjectService(BusinessObjectService boService) {
+        this.businessObjectService = boService;
+    }
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
     public void setPersistenceService(PersistenceService persistenceService) {
         this.persistenceService = persistenceService;
     }

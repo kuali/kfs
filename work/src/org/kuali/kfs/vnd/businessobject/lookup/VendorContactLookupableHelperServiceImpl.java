@@ -22,22 +22,20 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.VendorContact;
 import org.kuali.module.vendor.bo.VendorContactPhoneNumber;
-import org.kuali.module.vendor.service.VendorService;
 
 public class VendorContactLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
 
     /**
-     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map) 
-     * 
      * This method overrides the getSearchResults in the super class so that we can do some customization 
      * in our vendor contact lookup. For example, we want to be able to display the first phone number, fax 
      * number and toll free number in the vendor contact.
+     * 
+     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map) 
      */
     @Override
     public List<PersistableBusinessObject> getSearchResults(Map<String, String> fieldValues) {

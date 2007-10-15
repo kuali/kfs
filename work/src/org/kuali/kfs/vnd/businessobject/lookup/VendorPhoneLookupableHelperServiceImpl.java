@@ -27,10 +27,10 @@ import org.kuali.kfs.KFSConstants;
 
 public class VendorPhoneLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     /**
-     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map) 
-     * 
      * This method overrides the getSearchResults in the super class so that we can do some customization 
-     * in our vendor phone number lookup. 
+     * in our vendor phone number lookup.
+     *  
+     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map) 
      */
     @Override
     public List<PersistableBusinessObject> getSearchResults(Map<String, String> fieldValues) {

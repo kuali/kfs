@@ -79,6 +79,7 @@ public class PurchaseOrderDocSearchGenerator extends PurApDocumentSearchGenerato
         fieldNames.add("documentHeaderDescription");
         fieldNames.add("purapDocumentChartOfAccountsCode");
         fieldNames.add("purapDocumentOrganizationCode");
+        fieldNames.add("purchaseOrderRequisitionId");
         return fieldNames;
     }
 

@@ -54,6 +54,7 @@
 				<value>pdpExtractAchPaymentsJob</value>
 				<value>pdpExtractCanceledChecksJob</value>
 				<value>pdpExtractChecksJob</value>
+				<value>pdpDailyReportJob</value>
 			</list>
 		</property>
 	</bean>
@@ -122,6 +123,14 @@
 
 	<bean id="pdpAchBankDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.AchBankDaoOjb"/>
 
+	<bean id="pdpDailyReportJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pdpDailyReportStep" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="pdpLoadFederalReserveBankDataJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -162,6 +171,10 @@
 		</property>
 	</bean>
 
+	<bean id="pdpDailyReportStep" class="org.kuali.module.pdp.batch.DailyReportStep" parent="step">
+		<property name="dailyReportService" ref="pdpDailyReportService"/>
+	</bean>
+
 	<bean id="pdpLoadFederalReserveBankDataStep" class="org.kuali.module.pdp.batch.LoadFederalReserveBankDataStep" parent="step">
 		<property name="achBankService" ref="pdpAchBankService"/>
 		<property name="directoryName" value="${staging.directory}/PDP/"/>
@@ -181,6 +194,11 @@
 
 	<bean id="pdpExtractChecksStep" class="org.kuali.module.pdp.batch.ExtractChecksStep" parent="step">
 		<property name="extractPaymentService" ref="pdpExtractPaymentService" />
+	</bean>
+
+	<bean id="pdpDailyReportService" class="org.kuali.module.pdp.service.impl.DailyReportServiceImpl">
+		<property name="directoryName" value="${staging.directory}/PDP/"/>
+		<property name="dateTimeService" ref="dateTimeService"/>
 	</bean>
 
 	<bean id="pdpExtractPaymentService" class="org.kuali.module.pdp.service.impl.ExtractPaymentServiceImpl">
@@ -303,6 +321,6 @@
 	</bean>
 
 	<bean id="pdpPaymentFileParser" class="org.kuali.module.pdp.xml.impl.PaymentFileParserImpl" singleton="false">
-		<property name="parameterService" ref="parameterService"/>
+		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
 	</bean>
 </beans>

@@ -9,9 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.pdp.PdpConstants;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.pdp.exception.ConfigurationError;
 import org.kuali.module.pdp.exception.FileReadException;
 import org.kuali.module.pdp.xml.PaymentFileParser;
@@ -31,14 +29,14 @@ import org.xml.sax.helpers.DefaultHandler;
 
 
 public class PaymentFileParserImpl extends DefaultHandler implements PaymentFileParser {
+  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentFileParserImpl.class);
+
   static final String JAXP_SCHEMA_LANGUAGE = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
   static final String JAXP_SCHEMA_SOURCE = "http://java.sun.com/xml/jaxp/properties/schemaSource";
   static final String W3C_XML_SCHEMA = "http://www.w3.org/2001/XMLSchema"; 
 
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentFileParserImpl.class);
-
   private PdpFileHandler fileHandler = null;
-  private ParameterService parameterService;
+  private KualiConfigurationService kualiConfigurationService;
 
   public PaymentFileParserImpl() {
   }
@@ -47,12 +45,14 @@ public class PaymentFileParserImpl extends DefaultHandler implements PaymentFile
     this.fileHandler = fileHandler;
   }
 
-  public void setParameterService(ParameterService p) {
-      parameterService = p;
+  public void setKualiConfigurationService(KualiConfigurationService p) {
+      kualiConfigurationService = p;
   }
 
   public void parse(InputStream stream) throws FileReadException {
-    String xsdUrl = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.PAYMENT_LOAD_XSD_URL);
+    String xsdUrl = kualiConfigurationService.getPropertyString("externalizable.xml.url") + "fs/payment1.xsd";
+    LOG.info("parse() xsdUrl: " + xsdUrl);
+
     if ( fileHandler ==  null ) {
       throw new ConfigurationError("fileHandler not set");
     }

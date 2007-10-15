@@ -69,7 +69,6 @@ public class PdpConstants {
         public static String FORMAT_SUMMARY_ROWS = "FORMAT_SUMMARY_REVIEW_RESULTS_PER_PAGE";
 
         public static String DISBURSEMENT_ACTION_EXPIRATION_DAYS = "DISBURSEMENT_CANCELLATION_DAYS";
-        public static String PAYMENT_LOAD_XSD_URL = "PAYMENT_LOAD_XSD_URL";
     }
 
     public static class DisbursementTypeCodes {

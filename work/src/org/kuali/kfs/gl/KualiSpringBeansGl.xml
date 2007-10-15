@@ -58,6 +58,7 @@
 				<value>posterSummaryReportJob</value>
 				<value>clearPendingEntriesJob</value>
 				<value>yearEndJob</value>
+				<value>sufficientFundsSyncJob</value>
 				<value>manualPurgeJob</value>
 				<value>clearOldOriginEntriesJob</value>
 				<value>purgeCorrectionProcessFilesJob</value>
@@ -1160,8 +1161,20 @@
 	<bean id="sufficientFundsJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="sufficientFundsSyncStep" />
 				<ref bean="sufficientFundsRebuilderStep" />
+			</list>
+		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="posterJob" value="hardDependency" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="sufficientFundsSyncJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="sufficientFundsSyncStep" />
 			</list>
 		</property>
 		<property name="dependencies">

@@ -698,7 +698,7 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
 
         // added from parameter refactoring.
         public static final String APC_HRMS_ACTIVE_KEY = "USE_HRMS_ORGANIZATION_ATTRIBUTES_IND";
-        public final static String OBJECT_CODE_ILLEGAL_VALUES = "OBJECTS";
+        public final static String OBJECT_CODE_ILLEGAL_VALUES = "OBJECT_CODES";
         public static final String DOCTYPE_AND_OBJ_CODE_ACTIVE = "DOCUMENT_TYPES_REQUIRING_ACTIVE_OBJECT_CODES";
         public static final String INVALID_DOCUMENT_TYPES_BY_OBJECT_SUB_TYPE = "INVALID_DOCUMENT_TYPES_BY_OBJECT_SUB_TYPE";
         public static final String VALID_DOCUMENT_TYPES_BY_OBJECT_SUB_TYPE = "VALID_DOCUMENT_TYPES_BY_OBJECT_SUB_TYPE";

@@ -84,7 +84,11 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         OriginEntryGroupService groupService = SpringContext.getBean(OriginEntryGroupService.class);
 
         // and verify the output.
-        List fisGenerated = GeneralLedgerTestHelper.loadOutputOriginEntriesFromClasspath("org/kuali/module/gl/batch/gl_gleacbfb.data.txt", dateTimeService.getCurrentDate());
+        List fisGeneratedRaw = GeneralLedgerTestHelper.loadOutputOriginEntriesFromClasspath("org/kuali/module/gl/batch/gl_gleacbfb.data.txt", dateTimeService.getCurrentDate());
+        List fisGenerated = new ArrayList();
+        for (Object o: fisGeneratedRaw) {
+            fisGenerated.add(filterOriginEntryLine((String)o));
+        }
 
         // load our groups.
         Map criteria = new HashMap();
@@ -110,7 +114,7 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
                 OriginEntryFull entry = (OriginEntryFull) kualiGeneratedNonClosedPriorYearAccountEntryIterator.next();
                 String kualiEntryLine = entry.getLine();
 
-                kualiEntryLine = kualiEntryLine.substring(0, 173);
+                kualiEntryLine = filterOriginEntryLine(kualiEntryLine.substring(0, 173));
 
                 if (!fisGenerated.remove(kualiEntryLine)) {
 
@@ -131,7 +135,7 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
             while (entryIterator.hasNext()) {
 
                 OriginEntryFull entry = (OriginEntryFull) entryIterator.next();
-                String line = entry.getLine().substring(0, 173);
+                String line = filterOriginEntryLine(entry.getLine().substring(0, 173));
 
                 if (!fisGenerated.remove(line)) {
 
@@ -164,5 +168,10 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         super.setApplicationConfigurationFlag(componentClass, name, value);
         TestUtils.setSystemParameter(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM, "2004-01-01");
         TestUtils.setSystemParameter(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM, "2004");
+    }
+    
+    private String filterOriginEntryLine(String line) {
+        // right now, remove the sequence number from this test
+        return line.substring(0, 51) + line.substring(57);
     }
 }

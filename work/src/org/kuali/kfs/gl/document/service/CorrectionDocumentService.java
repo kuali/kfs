@@ -17,6 +17,8 @@ package org.kuali.module.gl.service;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Date;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -168,4 +170,12 @@ public interface CorrectionDocumentService {
      * @param correctionDocumentEntryMetadata
      */
     public void persistOriginEntryGroupsForDocumentSave(CorrectionDocument document, CorrectionDocumentEntryMetadata correctionDocumentEntryMetadata);
+    
+    /**
+     * Retrieves all of the documents that were finalized on a certain date
+     * 
+     * @param date
+     * @return a collection of documents
+     */
+    public Collection<CorrectionDocument> getCorrectionDocumentsFinalizedOn(Date date);
 }

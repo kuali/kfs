@@ -13,22 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch;
+package org.kuali.module.gl.service.impl;
 
-import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.dao.ExpenditureTransactionDao;
 import org.kuali.module.gl.service.ExpenditureTransactionService;
 import org.springframework.transaction.annotation.Transactional;
 
-public class DeleteAllExpenditureTransactionsStep extends AbstractStep {
-    private ExpenditureTransactionService expenditureTransactionService;
+@Transactional
+public class ExpenditureTransactionServiceImpl implements ExpenditureTransactionService {
+    private ExpenditureTransactionDao expenditureTransactionDao;
     
-    public boolean execute(String jobName) throws InterruptedException {
-        expenditureTransactionService.deleteAllExpenditureTransactions();
-        return true;
+    public void deleteAllExpenditureTransactions() {
+        expenditureTransactionDao.deleteAllExpenditureTransactions();
     }
 
-    public void setExpenditureTransactionService(ExpenditureTransactionService expenditureTransactionService) {
-        this.expenditureTransactionService = expenditureTransactionService;
+    public void setExpenditureTransactionDao(ExpenditureTransactionDao expenditureTransactionDao) {
+        this.expenditureTransactionDao = expenditureTransactionDao;
     }
 }

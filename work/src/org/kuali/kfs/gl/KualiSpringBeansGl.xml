@@ -1041,7 +1041,13 @@
 	</bean>
 
 	<bean id="glExpenditureTransactionDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.ExpenditureTransactionDaoOjb" />
-
+	
+	<bean id="glExpenditureTransactionService" class="org.kuali.module.gl.service.impl.ExpenditureTransactionServiceImpl">
+		<property name="expenditureTransactionDao">
+			<ref bean="glExpenditureTransactionDao" />
+		</property>
+	</bean>
+	
 	<bean id="glReversalDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.ReversalDaoOjb" />
 
 	<bean id="glSufficientFundRebuildDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.SufficientFundRebuildDaoOjb" />
@@ -1086,6 +1092,9 @@
 		</property>
 		<property name="correctionChangeDao">
 			<ref bean="glCorrectionChangeDao" />
+		</property>
+		<property name="correctionDocumentDao">
+			<ref bean="glCorrectionDocumentDao" />
 		</property>
 		<property name="correctionCriteriaDao">
 			<ref bean="glCorrectionCriteriaDao" />
@@ -1442,9 +1451,6 @@
 	</bean>
 
 	<bean id="purgeCorrectionProcessFilesStep" class="org.kuali.module.gl.batch.PurgeCorrectionProcessFilesStep" parent="step">
-		<property name="correctionDocumentDao">
-			<ref bean="glCorrectionDocumentDao" />
-		</property>
 		<property name="correctionDocumentService">
 			<ref bean="correctionDocumentService"/>
 		</property>
@@ -1485,8 +1491,8 @@
 	</bean>
 	
 	<bean id="deleteAllExpenditureTransactionsStep" class="org.kuali.module.gl.batch.DeleteAllExpenditureTransactionsStep" parent="step">
-		<property name="expenditureTransactionDao">
-			<ref bean="glExpenditureTransactionDao"/>
+		<property name="expenditureTransactionService">
+			<ref bean="glExpenditureTransactionService"/>
 		</property>
 	</bean>
 	

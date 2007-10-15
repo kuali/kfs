@@ -23,7 +23,9 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -43,6 +45,7 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.CorrectionChangeDao;
 import org.kuali.module.gl.dao.CorrectionChangeGroupDao;
 import org.kuali.module.gl.dao.CorrectionCriteriaDao;
+import org.kuali.module.gl.dao.CorrectionDocumentDao;
 import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.service.CorrectionDocumentService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -72,6 +75,8 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     protected static final String INPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-input.txt";
     protected static final String OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-output.txt";
 
+    protected CorrectionDocumentDao correctionDocumentDao;
+    
     /**
      * 
      * @see org.kuali.module.gl.service.CorrectionDocumentService#findByDocumentNumberAndCorrectionChangeGroupNumber(java.lang.String, int)
@@ -725,5 +730,16 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
         this.originEntryGroupService = originEntryGroupService;
+    }
+
+    /**
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#getCorrectionDocumentsFinalizedOn(java.sql.Date)
+     */
+    public Collection<CorrectionDocument> getCorrectionDocumentsFinalizedOn(Date date) {
+        return correctionDocumentDao.getCorrectionDocumentsFinalizedOn(date);
+    }
+
+    public void setCorrectionDocumentDao(CorrectionDocumentDao correctionDocumentDao) {
+        this.correctionDocumentDao = correctionDocumentDao;
     }
 }

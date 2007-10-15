@@ -28,7 +28,6 @@ import org.kuali.module.gl.service.CorrectionDocumentService;
 
 public class PurgeCorrectionProcessFilesStep extends AbstractStep {
     private static Logger LOG = Logger.getLogger(PurgeCorrectionProcessFilesStep.class);
-    private CorrectionDocumentDao correctionDocumentDao;
     private CorrectionDocumentService correctionDocumentService;
     
     /**
@@ -38,20 +37,12 @@ public class PurgeCorrectionProcessFilesStep extends AbstractStep {
         int numberOfDaysFinal = Integer.parseInt(getParameterService().getParameterValue(getClass(), "NUMBER_OF_DAYS_FINAL"));
         Calendar financialDocumentFinalCalendar = getDateTimeService().getCurrentCalendar();
         financialDocumentFinalCalendar.add(GregorianCalendar.DAY_OF_YEAR, -numberOfDaysFinal);
-        Collection<CorrectionDocument> documentsFinalOnDate = correctionDocumentDao.getCorrectionDocumentsFinalizedOn(new Date(financialDocumentFinalCalendar.getTimeInMillis()));
+        Collection<CorrectionDocument> documentsFinalOnDate = correctionDocumentService.getCorrectionDocumentsFinalizedOn(new Date(financialDocumentFinalCalendar.getTimeInMillis()));
         for (CorrectionDocument document : documentsFinalOnDate) {
             correctionDocumentService.removePersistedInputOriginEntries(document);
             correctionDocumentService.removePersistedOutputOriginEntries(document);
         }
         return true;
-    }
-
-    /**
-     * Sets the correctionDocumentDao attribute value.
-     * @param correctionDocumentDao The correctionDocumentDao to set.
-     */
-    public void setCorrectionDocumentDao(CorrectionDocumentDao correctionDocumentDao) {
-        this.correctionDocumentDao = correctionDocumentDao;
     }
 
     /**

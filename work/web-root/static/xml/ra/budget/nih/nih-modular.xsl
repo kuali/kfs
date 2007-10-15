@@ -110,19 +110,19 @@
         </xsl:choose>
     </xsl:variable>
     <xsl:variable name="Con1">
-        <xsl:value-of select="sum(/PROPOSAL/BUDGET/TASK_PERIODS/TASK_PERIOD [@PERIOD_NUMBER='1']/NON_PERSONNEL /NON_PERSONNEL_ITEM [CATEGORY='Subcontractors' and (SUB_CATEGORY = 'Subcontractor IDC - first $25K'  or SUB_CATEGORY = 'Subcontractor IDC - over $25K')]/AGENCY_REQUEST_AMOUNT)"/>
+        <xsl:value-of select="sum(/PROPOSAL/BUDGET/TASK_PERIODS/TASK_PERIOD [@PERIOD_NUMBER='1']/NON_PERSONNEL /NON_PERSONNEL_ITEM [CATEGORY='Subcontractors' and (SUB_CATEGORY = 'Subcontractor IDC - first $25k'  or SUB_CATEGORY = 'Subcontractor IDC - over $25k')]/AGENCY_REQUEST_AMOUNT)"/>
     </xsl:variable>
     <xsl:variable name="Con2">
-        <xsl:value-of select="sum(/PROPOSAL/BUDGET/TASK_PERIODS/TASK_PERIOD [@PERIOD_NUMBER='2']/NON_PERSONNEL /NON_PERSONNEL_ITEM [CATEGORY='Subcontractors' and (SUB_CATEGORY = 'Subcontractor IDC - first $25K'  or SUB_CATEGORY = 'Subcontractor IDC - over $25K')]/AGENCY_REQUEST_AMOUNT)"/>
+        <xsl:value-of select="sum(/PROPOSAL/BUDGET/TASK_PERIODS/TASK_PERIOD [@PERIOD_NUMBER='2']/NON_PERSONNEL /NON_PERSONNEL_ITEM [CATEGORY='Subcontractors' and (SUB_CATEGORY = 'Subcontractor IDC - first $25k'  or SUB_CATEGORY = 'Subcontractor IDC - over $25k')]/AGENCY_REQUEST_AMOUNT)"/>
     </xsl:variable>
     <xsl:variable name="Con3">
-        <xsl:value-of select="sum(/PROPOSAL/BUDGET/TASK_PERIODS/TASK_PERIOD [@PERIOD_NUMBER='3']/NON_PERSONNEL /NON_PERSONNEL_ITEM [CATEGORY='Subcontractors' and (SUB_CATEGORY = 'Subcontractor IDC - first $25K'  or SUB_CATEGORY = 'Subcontractor IDC - over $25K')]/AGENCY_REQUEST_AMOUNT)"/>
+        <xsl:value-of select="sum(/PROPOSAL/BUDGET/TASK_PERIODS/TASK_PERIOD [@PERIOD_NUMBER='3']/NON_PERSONNEL /NON_PERSONNEL_ITEM [CATEGORY='Subcontractors' and (SUB_CATEGORY = 'Subcontractor IDC - first $25k'  or SUB_CATEGORY = 'Subcontractor IDC - over $25k')]/AGENCY_REQUEST_AMOUNT)"/>
     </xsl:variable>
     <xsl:variable name="Con4">
-        <xsl:value-of select="sum(/PROPOSAL/BUDGET/TASK_PERIODS/TASK_PERIOD [@PERIOD_NUMBER='4']/NON_PERSONNEL /NON_PERSONNEL_ITEM [CATEGORY='Subcontractors' and (SUB_CATEGORY = 'Subcontractor IDC - first $25K'  or SUB_CATEGORY = 'Subcontractor IDC - over $25K')]/AGENCY_REQUEST_AMOUNT)"/>
+        <xsl:value-of select="sum(/PROPOSAL/BUDGET/TASK_PERIODS/TASK_PERIOD [@PERIOD_NUMBER='4']/NON_PERSONNEL /NON_PERSONNEL_ITEM [CATEGORY='Subcontractors' and (SUB_CATEGORY = 'Subcontractor IDC - first $25k'  or SUB_CATEGORY = 'Subcontractor IDC - over $25k')]/AGENCY_REQUEST_AMOUNT)"/>
     </xsl:variable>
     <xsl:variable name="Con5">
-        <xsl:value-of select="sum(/PROPOSAL/BUDGET/TASK_PERIODS/TASK_PERIOD [@PERIOD_NUMBER='5']/NON_PERSONNEL /NON_PERSONNEL_ITEM [CATEGORY='Subcontractors' and (SUB_CATEGORY = 'Subcontractor IDC - first $25K'  or SUB_CATEGORY = 'Subcontractor IDC - over $25K')]/AGENCY_REQUEST_AMOUNT)"/>
+        <xsl:value-of select="sum(/PROPOSAL/BUDGET/TASK_PERIODS/TASK_PERIOD [@PERIOD_NUMBER='5']/NON_PERSONNEL /NON_PERSONNEL_ITEM [CATEGORY='Subcontractors' and (SUB_CATEGORY = 'Subcontractor IDC - first $25k'  or SUB_CATEGORY = 'Subcontractor IDC - over $25k')]/AGENCY_REQUEST_AMOUNT)"/>
     </xsl:variable>
     <xsl:variable name="ConSum">
         <xsl:choose>

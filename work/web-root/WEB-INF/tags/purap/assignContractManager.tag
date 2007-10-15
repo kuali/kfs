@@ -24,7 +24,7 @@
 
     <div class="tab-container" align=center>
         <div class="h2-container">
-            <h2>Assign A Contract Manager readonly is: ${readOnly}</h2>
+            <h2>Assign A Contract Manager</h2>
         </div>
 
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Assign A Contract Manager">

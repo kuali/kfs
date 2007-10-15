@@ -366,7 +366,6 @@ public class KFSPropertyConstants {
     public static final String DISB_VCHR_CONTACT_PHONE_NUMBER = "disbVchrContactPhoneNumber";
     public static final String DISB_VCHR_CURRENCY_TYPE_CODE = "disbVchrCurrencyTypeCode";
     public static final String DISB_VCHR_CURRENCY_TYPE_NAME = "disbVchrCurrencyTypeName";
-    public static final String DISB_VCHR_DOCUMENTATION_LOC = "disbVchrDocumentationLoc";
     public static final String DISB_VCHR_EXCEPTION_CODE = "disbVchrExceptionCode";
     public static final String DISB_VCHR_EXPENSE = "disbVchrExpense";
     public static final String DISB_VCHR_EXPENSE_AMOUNT = "disbVchrExpenseAmount";

@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.AuthenticationUserId;
+import org.kuali.core.bo.user.PersonTaxId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.UserNotFoundException;
@@ -909,7 +910,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         String documentationLocationCode = document.getDisbursementVoucherDocumentationLocationCode();
         
         // payment reason restrictions
-        getParameterService().getParameterEvaluator(document.getClass(), DisbursementVoucherRuleConstants.VALID_DOC_LOC_BY_PAYMENT_REASON_PARM, DisbursementVoucherRuleConstants.INVALID_DOC_LOC_BY_PAYMENT_REASON_PARM, document.getDvPayeeDetail().getDisbVchrPaymentReasonCode(), documentationLocationCode).evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISB_VCHR_DOCUMENTATION_LOC);
+        getParameterService().getParameterEvaluator(document.getClass(), DisbursementVoucherRuleConstants.VALID_DOC_LOC_BY_PAYMENT_REASON_PARM, DisbursementVoucherRuleConstants.INVALID_DOC_LOC_BY_PAYMENT_REASON_PARM, document.getDvPayeeDetail().getDisbVchrPaymentReasonCode(), documentationLocationCode).evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
 
         // alien indicator restrictions
         if (document.getDvPayeeDetail().isDisbVchrAlienPaymentCode()) {
@@ -1049,7 +1050,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         /* for payees with tax type ssn, check employee restrictions */
         if (TAX_TYPE_SSN.equals(dvPayee.getTaxpayerTypeCode())) {
-            if (isActiveEmployeeSSN(dvPayee.getTaxIdNumber()) || true) {
+            if (isActiveEmployeeSSN(dvPayee.getTaxIdNumber())) {
                 // determine if the rule is flagged off in the parm setting
                 boolean performPrepaidEmployeeInd = getParameterService().getIndicatorParameter(DisbursementVoucherDocument.class, PERFORM_PREPAID_EMPL_PARM_NM);
 
@@ -1057,7 +1058,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
                     /* active payee employees cannot be paid for prepaid travel */
                     ParameterEvaluator travelPrepaidPaymentReasonCodeEvaluator = getParameterService().getParameterEvaluator(DisbursementVoucherDocument.class, PREPAID_TRAVEL_PAY_REASONS_PARM_NM, payeeDetail.getDisbVchrPaymentReasonCode());
                     if (travelPrepaidPaymentReasonCodeEvaluator.evaluationSucceeds()) {
-                        errors.putError(KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KFSKeyConstants.ERROR_ACTIVE_EMPLOYEE_PREPAID_TRAVEL);
+                        errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_ACTIVE_EMPLOYEE_PREPAID_TRAVEL);
                     }
 
                 }
@@ -1069,13 +1070,11 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
                 if (performPaidOutsidePayrollInd) {
                     /* If payee is type payee and employee, payee record must be flagged as paid outside of payroll */
                     if (!dvPayee.isPayeeEmployeeCode()) {
-                        errors.putError(KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KFSKeyConstants.ERROR_EMPLOYEE_PAID_OUTSIDE_PAYROLL);
+                        errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_EMPLOYEE_PAID_OUTSIDE_PAYROLL);
                     }
                 }
             }
         }
-
-        errors.removeFromErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
     }
 
     /**
@@ -1396,6 +1395,17 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         return (UniversalUser) SpringContext.getBean(BusinessObjectService.class).retrieve(employee);
     }
 
+    private UniversalUser getUniversalUser(String ssnNumber) {
+        PersonTaxId personTaxId = new PersonTaxId(ssnNumber);
+        UniversalUser user = null;
+        try {
+            user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(personTaxId);
+        }
+        catch (UserNotFoundException e) {
+        }
+        return user;
+    }
+    
     /**
      * Performs a lookup on universal users for the given ssn number.
      * 
@@ -1405,11 +1415,8 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
     private boolean isEmployeeSSN(String ssnNumber) {
         boolean isEmployee = false;
 
-        UniversalUser employee = new UniversalUser();
-        employee.setPersonTaxIdentifier(ssnNumber);
-        UniversalUser foundEmployee = (UniversalUser) SpringContext.getBean(BusinessObjectService.class).retrieve(employee);
-
-        if (foundEmployee != null) {
+        UniversalUser employee = getUniversalUser(ssnNumber);
+        if (employee != null) {
             isEmployee = true;
         }
 
@@ -1425,11 +1432,9 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
     private boolean isActiveEmployeeSSN(String ssnNumber) {
         boolean isActiveEmployee = false;
 
-        UniversalUser employee = new UniversalUser();
-        employee.setPersonTaxIdentifier(ssnNumber);
-        UniversalUser foundEmployee = (UniversalUser) SpringContext.getBean(BusinessObjectService.class).retrieve(employee);
+        UniversalUser employee = getUniversalUser(ssnNumber);
 
-        if (foundEmployee != null && KFSConstants.EMPLOYEE_ACTIVE_STATUS.equals(foundEmployee.getEmployeeStatusCode())) {
+        if (employee != null && KFSConstants.EMPLOYEE_ACTIVE_STATUS.equals(employee.getEmployeeStatusCode())) {
             isActiveEmployee = true;
         }
 

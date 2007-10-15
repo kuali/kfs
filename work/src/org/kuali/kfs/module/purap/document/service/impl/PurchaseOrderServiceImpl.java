@@ -861,11 +861,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         newPO.setPendingActionIndicator(false);
     }
 
-    public void setCurrentAndPendingIndicatorsForDisapprovedPODocuments(PurchaseOrderDocument newPO) {
+    public void setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(PurchaseOrderDocument newPO) {
         updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.DISAPPROVED_CHANGE, PurapConstants.PurchaseOrderStatuses.OPEN);
     }
 
-    public void setCurrentAndPendingIndicatorsForCancelledPODocuments(PurchaseOrderDocument newPO) {
+    public void setCurrentAndPendingIndicatorsForCancelledChangePODocuments(PurchaseOrderDocument newPO) {
         updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.CANCELLED_CHANGE, PurapConstants.PurchaseOrderStatuses.OPEN);
     }
     
@@ -885,16 +885,19 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.DISAPPROVED_CHANGE, PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD);
     }
     
-    private void updateCurrentDocumentForNoPendingAction(PurchaseOrderDocument newPO) {
-        // Get the "current PO" that's in the database, i.e. the PO row that contains current indicator = Y
-        PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(newPO.getPurapDocumentIdentifier());
-        // Set the Pending indicator for the oldPO to N
-        oldPO.setPendingActionIndicator(false);
-        //set the status and status history of the oldPO to retired version
-        purapService.updateStatus(oldPO, PurapConstants.PurchaseOrderStatuses.OPEN );
-        saveDocumentNoValidationUsingClearErrorMap(oldPO);
-        saveDocumentNoValidationUsingClearErrorMap(newPO);
-    }
+//    private void updateCurrentDocumentForNoPendingAction(PurchaseOrderDocument newPO) {
+//        // Get the "current PO" that's in the database, i.e. the PO row that contains current indicator = Y
+//        PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(newPO.getPurapDocumentIdentifier());
+//        // if the new PO document id is the same as the old PO document id then this is the same PO
+//        if (!StringUtils.equals(newPO.getDocumentNumber(), oldPO.getDocumentNumber())) {
+//            // Set the Pending indicator for the oldPO to N
+//            oldPO.setPendingActionIndicator(false);
+//            //set the status and status history of the oldPO to retired version
+//            purapService.updateStatus(oldPO, PurapConstants.PurchaseOrderStatuses.OPEN );
+//            saveDocumentNoValidationUsingClearErrorMap(oldPO);
+//            saveDocumentNoValidationUsingClearErrorMap(newPO);
+//        }
+//    }
 
     private void updateCurrentDocumentForNoPendingAction(PurchaseOrderDocument newPO, String newPOStatus, String oldPOStatus) {
         // Get the "current PO" that's in the database, i.e. the PO row that contains current indicator = Y

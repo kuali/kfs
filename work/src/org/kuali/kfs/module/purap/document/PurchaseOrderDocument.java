@@ -346,30 +346,21 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 
         //child classes need to call super, but we don't want to inherit the post-processing done by this PO class
         if ( PurchaseOrderDocument.class.getName().equals(this.getClass().getName()) ) {
-            
-            KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
             try {
                 // DOCUMENT PROCESSED
-                if (workflowDocument.stateIsProcessed()) {
+                if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
                     SpringContext.getBean(PurchaseOrderService.class).completePurchaseOrder(this);
                 }
                 // DOCUMENT DISAPPROVED
-                else if (workflowDocument.stateIsDisapproved()) {
-                    SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedPODocuments(this);
-                    // app specific route FYI to requisition initiator
-                    RequisitionDocument req = getPurApSourceDocumentIfPossible();
-//                    Map primaryKeys = new HashMap();
-//                    primaryKeys.put(PurapPropertyConstants.PURAP_DOC_ID, getRequisitionIdentifier());
-//                    RequisitionDocument req = (RequisitionDocument) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(RequisitionDocument.class, primaryKeys);
-                    appSpecificRouteDocumentToUser(workflowDocument, req.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId(), "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier(), "Requisition Routed By User");
-//                    workflowDocument.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, null, 0, 
-//                            "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier(), new NetworkIdVO(req.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId()), 
-//                            "Requisition Routed By User", true);
+                else if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
                     String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
                     NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(nodeName);
                     if (ObjectUtils.isNotNull(currentNode)) {
                         if (StringUtils.isNotBlank(currentNode.getDisapprovedStatusCode())) {
+                            SpringContext.getBean(PurapService.class).updateStatus(this, currentNode.getDisapprovedStatusCode());
                             SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
+                            RequisitionDocument req = getPurApSourceDocumentIfPossible();
+                            appSpecificRouteDocumentToUser(getDocumentHeader().getWorkflowDocument(), req.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId(), "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier() + "(document id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
                             return;
                         }
                     }
@@ -377,7 +368,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                     logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
                 }
                 // DOCUMENT CANCELED
-                else if (workflowDocument.stateIsCanceled()) {
+                else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
                     // TODO PURAP/delyea - what status to use if this cancel is a super user cancel while ENROUTE?
                     SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
                 }
@@ -399,10 +390,12 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
       }
 
     private void appSpecificRouteDocumentToUser(KualiWorkflowDocument workflowDocument, String userNetworkId, String annotation, String responsibility) throws WorkflowException {
-        String annotationNote = (ObjectUtils.isNull(annotation)) ? "" : annotation;
-        String responsibilityNote = (ObjectUtils.isNull(responsibility)) ? "" : responsibility;
-        String currentNodeName = getCurrentRouteNodeName(workflowDocument);
-        workflowDocument.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, annotationNote, new NetworkIdVO(userNetworkId), responsibilityNote, true);
+        if (ObjectUtils.isNotNull(workflowDocument)) {
+            String annotationNote = (ObjectUtils.isNull(annotation)) ? "" : annotation;
+            String responsibilityNote = (ObjectUtils.isNull(responsibility)) ? "" : responsibility;
+            String currentNodeName = getCurrentRouteNodeName(workflowDocument);
+            workflowDocument.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, annotationNote, new NetworkIdVO(userNetworkId), responsibilityNote, true);
+        }
     }
 
     /**

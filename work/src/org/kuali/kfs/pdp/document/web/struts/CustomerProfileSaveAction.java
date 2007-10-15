@@ -12,11 +12,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -108,9 +110,10 @@ public class CustomerProfileSaveAction extends BaseAction {
   protected ActionForward executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request,HttpServletResponse response) throws Exception {
     LOG.info("executeLogic() starting");
     CustomerProfileForm customerProfileForm = (CustomerProfileForm) form;
+    CustomerProfile cp = customerProfileForm.getCustomerProfile();
     String forward = "list";
 
-    ActionErrors actionErrors = new ActionErrors();
+    ActionMessages actionErrors = new ActionMessages();
     String buttonPressed = GeneralUtilities.whichButtonWasPressed(request);
 
     if (buttonPressed != null && actionErrors.isEmpty()) {
@@ -132,6 +135,13 @@ public class CustomerProfileSaveAction extends BaseAction {
         actionErrors.clear();
         forward = "list";
       } else {
+        //first we need to validate that this customer doesn't exist already
+        String chartCode = cp.getChartCode();
+        String orgCode = cp.getOrgCode();
+        String subUnitCode = cp.getSubUnitCode();
+        if(customerAlreadyExists(chartCode, orgCode, subUnitCode)) {
+            actionErrors.add("errors",new ActionMessage("customerProfileForm.profileExists", chartCode + "-" + orgCode + "-" + subUnitCode));
+        }
         // Validate the accounting information
         LOG.debug("executeLogic() Validating accounting fields");
         Account acct = accountService.getByPrimaryId(customerProfileForm.getDefaultChartCode(), customerProfileForm.getDefaultAccountNumber());
@@ -163,7 +173,6 @@ public class CustomerProfileSaveAction extends BaseAction {
 
         LOG.debug("executeLogic() Saving customer profile");
 
-        CustomerProfile cp = customerProfileForm.getCustomerProfile();
         CustomerBankForm[] dtl = customerProfileForm.getCustomerBankForms();
         CustomerProfile storedProfile = customerProfileService.get(GeneralUtilities.convertStringToInteger(customerProfileForm.getId()));
 
@@ -260,4 +269,18 @@ public class CustomerProfileSaveAction extends BaseAction {
 
     return mapping.findForward(forward);
   }
+
+    private boolean customerAlreadyExists(String chartCode, String orgCode, String subUnitCode) {
+        //attempt to retrieve this through the CustomerService
+        
+        if(!StringUtils.isEmpty(chartCode) && !StringUtils.isEmpty(orgCode) 
+                && !StringUtils.isEmpty(subUnitCode)) 
+        {
+            CustomerProfile existingProfile = customerProfileService.get(chartCode, orgCode, subUnitCode);
+            if(existingProfile != null) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

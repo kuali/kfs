@@ -383,13 +383,13 @@ public class PositionSalarySettingForm extends DetailSalarySettingForm {
     protected void useBCAuthorizer(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
         UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
 
-//TODO need to create getEditMode() signature for kualiuser to check if user is an org approver.
-        if (this.getAccountNumber() != null){
+        if (this.isBudgetByAccountMode()){
+            // user got here by opening a BC doc - check using the entire BC security model checking manager, delegate, orgreviewhierachy
             setEditingMode(documentAuthorizer.getEditMode(this.getUniversityFiscalYear(), this.getChartOfAccountsCode(), this.getAccountNumber(), this.getSubAccountNumber(), kualiUser));
         } else {
-            //this case should handle authorization for Salary Setting by Organization subsystem vector
+            // user got here through organization salary setting - check that the user is a BC org approver somewhere
+            setEditingMode(documentAuthorizer.getEditMode());
         }
-
 
 //TODO probably don't need these, editingmode drives expansion screen actions
 //        setDocumentActionFlags(documentAuthorizer.getDocumentActionFlags(document, kualiUser));

@@ -41,8 +41,6 @@
 		<property name="rice.workflow.datasource.platform" value="${oracle.workflow.datasource.platform}" />
 		<condition property="appenders" value="INFO, LogFile, StdOut"><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property name="appenders" value="INFO, LogFile" />
-		<condition property="startup.stats.mailing.list" value="${configuration.manager.mailing.list}"><equals arg1="${build.environment}" arg2="cnv" /></condition>
-		<property name="startup.stats.mailing.list" value="" />
 		<condition property="use.quartz.jdbc.jobstore" value="false"><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property name="use.quartz.jdbc.jobstore" value="true" />
 		<condition property="rice.dev.mode" value="true"><equals arg1="${is.local.build}" arg2="true" /></condition>

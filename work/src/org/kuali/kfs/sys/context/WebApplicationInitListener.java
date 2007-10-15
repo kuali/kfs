@@ -31,7 +31,7 @@ public class WebApplicationInitListener extends JstlConstantsInitListener implem
         Log4jConfigurer.configureLogging(true);
         log = Logger.getLogger(WebApplicationInitListener.class);
         SpringContext.initializeApplicationContext();
-        for (String jstlConstantsClassname : SpringContext.getListConfigurationProperty(JSTL_CONSTANTS_CLASSNAMES_KEY)) {
+        for (String jstlConstantsClassname : PropertyLoadingFactoryBean.getBaseListProperty(JSTL_CONSTANTS_CLASSNAMES_KEY)) {
             try {
                 Class jstlConstantsClass = Class.forName(jstlConstantsClassname);
                 Object jstlConstantsObj = jstlConstantsClass.newInstance();
@@ -46,7 +46,6 @@ public class WebApplicationInitListener extends JstlConstantsInitListener implem
         }
         super.contextInitialized(sce);
         log.info("Finished web application context initialization");
-        Log4jConfigurer.completeStartupLogging();
     }
 
     public void contextDestroyed(ServletContextEvent sce) {

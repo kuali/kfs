@@ -34,7 +34,9 @@ import org.kuali.core.bo.Parameter;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.cache.MethodCacheInterceptor;
 import org.kuali.core.util.properties.PropertyTree;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 
 /**
  * This class provides utility methods for use during manual testing.
@@ -286,7 +288,7 @@ public class TestUtils {
     public static void setSystemParameter(Class componentClass, String parameterName, String parameterText) throws Exception {
         SpringContext.getBean(ParameterService.class).setParameterForTesting(componentClass, parameterName, parameterText);
     }
-
+    
     /**
      * Converts an InputStream to a String using UTF-8 encoding.
      * 

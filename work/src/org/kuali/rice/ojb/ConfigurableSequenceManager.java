@@ -8,8 +8,7 @@ import org.apache.ojb.broker.metadata.ClassDescriptor;
 import org.apache.ojb.broker.metadata.FieldDescriptor;
 import org.apache.ojb.broker.util.sequence.SequenceManager;
 import org.apache.ojb.broker.util.sequence.SequenceManagerException;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.context.PropertyLoadingFactoryBean;
 import org.kuali.rice.config.ConfigurationException;
 
 
@@ -26,7 +25,7 @@ public class ConfigurableSequenceManager implements SequenceManager {
     }
 
     protected SequenceManager createSequenceManager(PersistenceBroker broker) {
-        String sequenceManagerClassName = SpringContext.getStringConfigurationProperty(SEQUENCE_MANAGER_CLASS_NAME_PROPERTY);
+        String sequenceManagerClassName = PropertyLoadingFactoryBean.getBaseProperty(SEQUENCE_MANAGER_CLASS_NAME_PROPERTY);
         try {
             Object sequenceManagerObject = ConstructorUtils.invokeConstructor(Class.forName(sequenceManagerClassName), broker);
             if (!(sequenceManagerObject instanceof SequenceManager)) {

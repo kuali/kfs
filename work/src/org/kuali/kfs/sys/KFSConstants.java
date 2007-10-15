@@ -39,7 +39,6 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
     public static final String LOG4J_SETTINGS_FILE_KEY = "log4j.settings.file";
     public static final String LOGS_DIRECTORY_KEY = "logs.directory";
     public static final String LOG4J_RELOAD_MINUTES_KEY = "log4j.reload.minutes";
-    public static final String STARTUP_STATS_MAILING_LIST_KEY = "startup.stats.mailing.list";
     public static final String APPLICATION_URL_KEY = "application.url";
     public static final String ATTACHMENTS_DIRECTORY_KEY = "attachments.directory";
     public static final String ATTACHMENTS_PENDING_DIRECTORY_KEY = "attachments.pending.directory";

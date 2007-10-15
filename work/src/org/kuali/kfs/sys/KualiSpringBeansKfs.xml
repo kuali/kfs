@@ -170,7 +170,6 @@
 	<!-- end core batch jobs -->
 	
 	<bean id="parameterService" class="org.kuali.kfs.service.impl.ParameterServiceImpl">
-		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="moduleService" ref="kualiModuleService" />
 		<property name="businessObjectService" ref="businessObjectService" />

@@ -16,14 +16,12 @@
 package org.kuali.kfs.context;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -192,14 +190,6 @@ public class SpringContext {
         applicationContext.close();
     }
 
-    public static String getStringConfigurationProperty(String propertyName) {
-        return ResourceBundle.getBundle(PropertyLoadingFactoryBean.CONFIGURATION_FILE_NAME).getString(propertyName);
-    }
-
-    protected static List<String> getListConfigurationProperty(String propertyName) {
-        return Arrays.asList(getStringConfigurationProperty(propertyName).split(","));
-    }
-
     private static void verifyProperInitialization() {
         if (applicationContext == null) {
             throw new RuntimeException("Spring not initialized properly.  Initialization has begun and the application context is null." + "Probably spring loaded bean is trying to use KNSServiceLocator before the application context is initialized.");
@@ -210,7 +200,7 @@ public class SpringContext {
         List<String> springConfigurationFiles = new ArrayList<String>();
         springConfigurationFiles.add(APPLICATION_CONTEXT_DEFINITION);
         for (int i = 0; i < propertyNames.length; i++) {
-            springConfigurationFiles.addAll(getListConfigurationProperty(propertyNames[i]));
+            springConfigurationFiles.addAll(PropertyLoadingFactoryBean.getBaseListProperty(propertyNames[i]));
         }
         return springConfigurationFiles.toArray(new String[] {});
     }

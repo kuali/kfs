@@ -15,7 +15,10 @@
  */
 package org.kuali.kfs.context;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import org.springframework.beans.factory.FactoryBean;
@@ -26,17 +29,17 @@ import edu.iu.uis.eden.util.ClassLoaderUtils;
 public class PropertyLoadingFactoryBean implements FactoryBean {
     private static final String PROPERTY_FILE_NAMES_KEY = "property.files";
     private static final String PROPERTY_TEST_FILE_NAMES_KEY = "property.test.files";
-    protected static final String CONFIGURATION_FILE_NAME = "configuration";
+    private static final String CONFIGURATION_FILE_NAME = "configuration";
+    private static final Properties BASE_PROPERTIES = new Properties();
     private boolean testMode;
 
     public Object getObject() throws Exception {
-        Properties properties = new Properties();
-        loadPropertyList(properties, PROPERTY_FILE_NAMES_KEY);
-        loadProperties(properties, new StringBuffer("classpath:").append(CONFIGURATION_FILE_NAME).append(".properties").toString());
+        loadBaseProperties();
+        loadPropertyList(PROPERTY_FILE_NAMES_KEY);
         if (testMode) {
-            loadPropertyList(properties, PROPERTY_TEST_FILE_NAMES_KEY);
+            loadPropertyList(PROPERTY_TEST_FILE_NAMES_KEY);
         }
-        return properties;
+        return BASE_PROPERTIES;
     }
 
     public Class getObjectType() {
@@ -47,27 +50,43 @@ public class PropertyLoadingFactoryBean implements FactoryBean {
         return true;
     }
 
-    private void loadPropertyList(Properties baseProperties, String listPropertyName) {
-        for (String propertyFileName : SpringContext.getListConfigurationProperty(listPropertyName)) {
-            try {
-                loadProperties(baseProperties, propertyFileName);
-            }
-            catch (Exception e) {
-                throw new RuntimeException("PropertyLoadingFactoryBean unable to load properties from file: " + propertyFileName, e);
-            }
+    private void loadPropertyList(String listPropertyName) {
+        for (String propertyFileName : getBaseListProperty(listPropertyName)) {
+            loadProperties(propertyFileName);
         }
     }
 
-    private void loadProperties(Properties baseProperties, String propertyFileName) throws Exception {
+    private static void loadProperties(String propertyFileName) {
         InputStream propertyFileInputStream = null;
         try {
-            propertyFileInputStream = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader()).getResource(propertyFileName).getInputStream();
-            baseProperties.load(propertyFileInputStream);
-        }
-        finally {
-            if (propertyFileInputStream != null) {
-                propertyFileInputStream.close();
+            try {
+                propertyFileInputStream = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader()).getResource(propertyFileName).getInputStream();
+                BASE_PROPERTIES.load(propertyFileInputStream);
             }
+            finally {
+                if (propertyFileInputStream != null) {
+                    propertyFileInputStream.close();
+                }
+            }
+        }
+        catch (IOException e) {
+            throw new RuntimeException("PropertyLoadingFactoryBean unable to load property file: " + propertyFileName);
+        }
+    }
+
+    public static String getBaseProperty(String propertyName) {
+        loadBaseProperties();
+        return BASE_PROPERTIES.getProperty(propertyName);
+    }
+
+    protected static List<String> getBaseListProperty(String propertyName) {
+        loadBaseProperties();
+        return Arrays.asList(BASE_PROPERTIES.getProperty(propertyName).split(","));
+    }
+
+    protected static void loadBaseProperties() {
+        if (BASE_PROPERTIES.isEmpty()) {
+            loadProperties(new StringBuffer("classpath:").append(CONFIGURATION_FILE_NAME).append(".properties").toString());
         }
     }
 

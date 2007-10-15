@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.RiceConstants;
 import org.kuali.core.KualiModule;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.Parameter;
@@ -37,24 +38,27 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiModuleService;
 import org.kuali.core.util.cache.MethodCacheInterceptor;
+import org.kuali.core.util.spring.Cached;
 import org.kuali.kfs.batch.Step;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants.COMPONENT;
 import org.kuali.kfs.service.impl.ParameterConstants.NAMESPACE;
+import org.kuali.rice.KNSServiceLocator;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
+@Cached
 public class ParameterServiceImpl implements ParameterService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ParameterServiceImpl.class);
     private static List<ParameterDetailType> components = new ArrayList<ParameterDetailType>();
-    private KualiConfigurationService configurationService;
     private DataDictionaryService dataDictionaryService;
     private KualiModuleService moduleService;
     private BusinessObjectService businessObjectService;
-    private Class parameterEvaluatorClass;
 
     public boolean parameterExists(Class componentClass, String parameterName) {
-        return configurationService.parameterExists(getNamespace(componentClass), getDetailType(componentClass), parameterName);
+        return getParameterWithoutExceptions(getNamespace(componentClass), getDetailType(componentClass), parameterName) != null;
     }
 
     public boolean getIndicatorParameter(Class componentClass, String parameterName) {
@@ -74,7 +78,7 @@ public class ParameterServiceImpl implements ParameterService {
     }
 
     public List<String> getParameterValues(Class componentClass, String parameterName) {
-        return configurationService.getParameterValues(getParameter(componentClass, parameterName));
+        return getParameterValues(getParameter(componentClass, parameterName));
     }
 
     public List<String> getParameterValues(Class componentClass, String parameterName, String constrainingValue) {
@@ -160,10 +164,10 @@ public class ParameterServiceImpl implements ParameterService {
     }
 
     private void removeCachedMethod(Method method, Object[] arguments) {
-        for (MethodCacheInterceptor methodCacheInterceptor : SpringContext.getMethodCacheInterceptors()) {
-            if (methodCacheInterceptor.containsCacheKey(methodCacheInterceptor.buildCacheKey(method.toString(), arguments))) {
-                methodCacheInterceptor.removeCacheKey(methodCacheInterceptor.buildCacheKey(method.toString(), arguments));
-            }
+        MethodCacheInterceptor methodCacheInterceptor = SpringContext.getBean(MethodCacheInterceptor.class);
+        String cacheKey = methodCacheInterceptor.buildCacheKey(method.toString(), arguments);
+        if (methodCacheInterceptor.containsCacheKey(cacheKey)) {
+            methodCacheInterceptor.removeCacheKey(cacheKey);
         }
     }
 
@@ -172,12 +176,9 @@ public class ParameterServiceImpl implements ParameterService {
         parameter.setParameterValue(parameterText);
         SpringContext.getBean(BusinessObjectService.class).save(parameter);
         try {
-            String namespace = getNamespace(componentClass);
-            String detailType = getDetailType(componentClass);
-            removeCachedMethod(KualiConfigurationService.class.getMethod("getParameter", new Class[] { String.class, String.class, String.class }), new Object[] { namespace, detailType, parameterName });
-            removeCachedMethod(KualiConfigurationService.class.getMethod("getIndicatorParameter", new Class[] { String.class, String.class, String.class }), new Object[] { namespace, detailType, parameterName });
-            removeCachedMethod(KualiConfigurationService.class.getMethod("getParameterValues", new Class[] { String.class, String.class, String.class }), new Object[] { namespace, detailType, parameterName });
-            removeCachedMethod(KualiConfigurationService.class.getMethod("getParameterValue", new Class[] { String.class, String.class, String.class }), new Object[] { namespace, detailType, parameterName });
+            removeCachedMethod(ParameterService.class.getMethod("getParameterValue", new Class[] { Class.class, String.class} ), new Object[] {componentClass, parameterName });
+            removeCachedMethod(ParameterService.class.getMethod("getIndicatorParameter", new Class[] { Class.class, String.class} ), new Object[] {componentClass, parameterName });
+            removeCachedMethod(ParameterService.class.getMethod("getParameterValues", new Class[] { Class.class, String.class }), new Object[] { componentClass, parameterName });
         }
         catch (Exception e) {
             throw new RuntimeException(new StringBuffer("The setParameterForTesting of ParameterServiceImpl failed: ").append(componentClass).append(" / ").append(parameterName).toString(), e);
@@ -222,8 +223,8 @@ public class ParameterServiceImpl implements ParameterService {
     private ParameterEvaluator getParameterEvaluator(Parameter parameter) {
         ParameterEvaluator parameterEvaluator = SpringContext.getBean(ParameterEvaluator.class);
         parameterEvaluator.setParameter(parameter);
-        parameterEvaluator.setConstraintIsAllow(configurationService.constraintIsAllow(parameter));
-        parameterEvaluator.setValues(configurationService.getParameterValues(parameter));
+        parameterEvaluator.setConstraintIsAllow(constraintIsAllow(parameter));
+        parameterEvaluator.setValues(getParameterValues(parameter));
         return parameterEvaluator;
     }
 
@@ -247,7 +248,7 @@ public class ParameterServiceImpl implements ParameterService {
     }
 
     private Parameter getParameter(Class componentClass, String parameterName) {
-        Parameter parameter = configurationService.getParameter(getNamespace(componentClass), getDetailType(componentClass), parameterName);
+        Parameter parameter = getParameter(getNamespace(componentClass), getDetailType(componentClass), parameterName);
         if (parameter == null) {
             throw new IllegalArgumentException("The getParameter method of ParameterServiceImpl requires a componentClass and parameterName that correspond to an existing parameter");
         }
@@ -255,7 +256,7 @@ public class ParameterServiceImpl implements ParameterService {
     }
 
     private List<String> getParameterValues(Parameter parameter, String constrainingValue) {
-        List<String> constraintValuePairs = configurationService.getParameterValues(parameter);
+        List<String> constraintValuePairs = getParameterValues(parameter);
         for (String pair : constraintValuePairs) {
             if (constrainingValue.equals(StringUtils.substringBefore(pair, "="))) {
                 return Arrays.asList(StringUtils.substringAfter(pair, "=").split(","));
@@ -264,16 +265,44 @@ public class ParameterServiceImpl implements ParameterService {
         return Collections.EMPTY_LIST;
     }
 
+    private List<String> getParameterValues(Parameter parameter) {
+        if (parameter == null || StringUtils.isBlank(parameter.getParameterValue())) {
+            return Collections.EMPTY_LIST;
+        }
+        return Arrays.asList(parameter.getParameterValue().split(";"));
+    }
+
     private List<Parameter> getParameters(Class componentClass) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("parameterNamespaceCode", getNamespace(componentClass));
         fieldValues.put("parameterDetailTypeCode", getDetailType(componentClass));
-        return configurationService.getParameters(fieldValues);
+        return new ArrayList<Parameter>(businessObjectService.findMatching(Parameter.class, fieldValues));
     }
 
-    public void setConfigurationService(KualiConfigurationService configurationService) {
-        this.configurationService = configurationService;
+    private Parameter getParameter(String namespaceCode, String detailTypeCode, String parameterName) {
+        if (StringUtils.isBlank(namespaceCode) || StringUtils.isBlank(detailTypeCode) || StringUtils.isBlank(parameterName)) {
+            throw new IllegalArgumentException("The getParameter method of KualiConfigurationServiceImpl requires a non-blank namespaceCode, parameterDetailTypeCode, and parameterName");
+        }
+        Parameter param = getParameterWithoutExceptions(namespaceCode, detailTypeCode, parameterName);
+        if (param == null) {
+            throw new IllegalArgumentException("The getParameter method of KualiConfigurationServiceImpl was unable to find parameter: " + namespaceCode + " / " + detailTypeCode + " / " + parameterName);
+        }
+        return param;
     }
+
+    private Parameter getParameterWithoutExceptions(String namespaceCode, String detailTypeCode, String parameterName) {
+        HashMap<String, String> crit = new HashMap<String, String>(3);
+        crit.put("parameterNamespaceCode", namespaceCode);
+        crit.put("parameterDetailTypeCode", detailTypeCode);
+        crit.put("parameterName", parameterName);
+        Parameter param = (Parameter) businessObjectService.findByPrimaryKey(Parameter.class, crit);
+        return param;
+    }
+    
+    public boolean constraintIsAllow(Parameter parameter) {
+        return RiceConstants.APC_ALLOWED_OPERATOR.equals(parameter.getParameterConstraintCode());
+    }
+
 
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;

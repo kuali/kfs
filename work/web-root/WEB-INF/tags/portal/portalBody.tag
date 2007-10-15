@@ -19,12 +19,19 @@
 <%@ attribute name="channelUrl" required="true" %>
 <%@ attribute name="selectedTab" required="true" %>
 
-
  <portal:immutableBar />
 
- <table width="100%"  cellspacing="0" cellpadding="0" id="iframe_portlet_container_table">
-    <tr valign="top" bgcolor="#FFFFFF">
-     <td width="15" class="leftback-focus">&nbsp;</td>
+ <table border="0" width="100%"  cellspacing="0" cellpadding="0" id="iframe_portlet_container_table">
+  	<tr valign="top" bgcolor="#FFFFFF">
+        <c:choose>
+          	<c:when test='${empty channelTitle && empty channelUrl}'>
+				<td width="15" class="leftback-focus">&nbsp;</td>
+			 	<portal:portalMessageOfTheDayBody />
+         	</c:when>
+        </c:choose>
+   	</tr>
+ 	<tr valign="top" bgcolor="#FFFFFF">
+       <td width="15" class="leftback-focus">&nbsp;</td>
         <c:choose>
           <%-- first try to check if they are focusing in --%>
           <c:when test='${!empty channelTitle && !empty channelUrl}'>
@@ -44,13 +51,23 @@
           <c:when test='${selectedTab == "portalAdministrationBody"}'>
               <portal:portalAdministrationBody />
           </c:when>
+          <c:when test='${selectedTab == "portalContractsAndGrantsBody"}'>
+              <portal:portalContractsAndGrantsBody />
+          </c:when>
+          <c:when test='${selectedTab == "portalPurchasingAccountsPayableBody"}'>
+              <portal:portalPurchasingAccountsPayableBody />
+          </c:when>
+          <c:when test='${selectedTab == "portalLaborDistributionBody"}'>
+              <portal:portalLaborDistributionBody />
+          </c:when>
+
           <c:when test='${selectedTab == "portalFutureModulesBody"}'>
-              <portal:portalFutureModulesBody />
+          	  <portal:portalFutureModulesBody />
           </c:when>
           
           <%-- as backup go to the main menu index --%>
           <c:otherwise>
-            <portal:portalMainMenuBody />
+              <portal:portalMainMenuBody />
           </c:otherwise>
         </c:choose>
     </tr>

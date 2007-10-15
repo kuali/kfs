@@ -26,7 +26,7 @@
 
             <tbody>
               <tr>
-                <td><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" class="tl3" height="12" width="12"></td>
+                <td align="left"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" class="tl3" height="12" width="12"></td>
                 <td align="right"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" class="tr3" height="12" width="12"></td>
               </tr>
             </tbody>

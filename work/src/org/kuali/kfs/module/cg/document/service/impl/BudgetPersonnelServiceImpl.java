@@ -761,7 +761,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
         projectDirector.setRole(KraConstants.PROJECT_DIRECTOR);
     }
 
-    public HashMap getAppointmentTypeMappings() {
+    public synchronized HashMap getAppointmentTypeMappings() {
         // if (appointmentTypeMappings == null) {
         appointmentTypeMappings = new HashMap();
 

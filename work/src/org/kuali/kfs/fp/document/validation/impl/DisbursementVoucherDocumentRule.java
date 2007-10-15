@@ -233,7 +233,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         /* payment reason must be selected before an accounting line can be entered */
         if (StringUtils.isBlank(dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
             if (!errors.containsMessageKey(KFSKeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYMENT_REASON)) {
-                errors.putErrorWithoutFullErrorPath(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, KFSKeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYMENT_REASON);
+                errors.putErrorWithoutFullErrorPath(KFSPropertyConstants.DOCUMENT + "." + DV_PAYMENT_REASON_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYMENT_REASON);
             }
             allow = false;
         }
@@ -241,7 +241,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         /* payee must be selected before an accounting line can be entered */
         if (StringUtils.isBlank(dvDocument.getDvPayeeDetail().getDisbVchrPayeeIdNumber())) {
             if (!errors.containsMessageKey(KFSKeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYEE)) {
-                errors.putErrorWithoutFullErrorPath(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KFSKeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYEE);
+                errors.putErrorWithoutFullErrorPath(KFSPropertyConstants.DOCUMENT + "." + DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYEE);
             }
             allow = false;
         }
@@ -961,7 +961,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
                 }
 
                 if (invalidMovingPayee) {
-                    errors.putError(KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KFSKeyConstants.ERROR_DV_MOVING_PAYMENT_PAYEE);
+                    errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_MOVING_PAYMENT_PAYEE);
                 }
             }
         }
@@ -975,7 +975,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
                 String researchPayLimit = getParameterService().getParameterValue(DisbursementVoucherDocument.class, RESEARCH_CHECK_LIMIT_AMOUNT_PARM_NM);
                 KualiDecimal payLimit = new KualiDecimal(researchPayLimit);
                 if (document.getDisbVchrCheckTotalAmount().isGreaterEqual(payLimit) && !document.getDvPayeeDetail().isVendor()) {
-                    errors.putError(KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KFSKeyConstants.ERROR_DV_RESEARCH_PAYMENT_PAYEE, payLimit.toString());
+                    errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_RESEARCH_PAYMENT_PAYEE, payLimit.toString());
                 }
             }
         }
@@ -1012,7 +1012,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         if (StringUtils.isNotBlank(uuid)) {
             UniversalUser initUser = getInitiator(document);
             if (uuid.equals(initUser.getPersonUniversalIdentifier())) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KFSKeyConstants.ERROR_PAYEE_INITIATOR);
+                GlobalVariables.getErrorMap().putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_PAYEE_INITIATOR);
             }
         }
     }

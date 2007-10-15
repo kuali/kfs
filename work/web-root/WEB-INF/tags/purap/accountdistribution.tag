@@ -47,7 +47,17 @@
 	
 <c:if test="${!KualiForm.hideDistributeAccounts}">
 
-	<purap:puraccountingLines editingMode="${KualiForm.editingMode}"
+    <c:choose>
+        <c:when test="${(not empty KualiForm.editingMode['amendmentEntry'])}">
+            <c:set target="${KualiForm.accountingLineEditingMode}" property="fullEntry" value="true" />
+            <c:set var="accountingLineEditingMode" value = "${KualiForm.accountingLineEditingMode}"/>
+        </c:when>
+        <c:otherwise>
+            <c:set var="accountingLineEditingMode" value = "${KualiForm.editingMode}"/>
+        </c:otherwise>
+    </c:choose>
+    
+	<purap:puraccountingLines editingMode="${accountingLineEditingMode}"
 		editableAccounts="${KualiForm.editableAccounts}"
 		sourceAccountingLinesOnly="true"
 		optionalFields="accountLinePercent"

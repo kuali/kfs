@@ -49,15 +49,6 @@ import org.kuali.module.vendor.service.VendorService;
 public class VendorMaintainableImpl extends KualiMaintainableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VendorMaintainableImpl.class);
 
-    private VendorService vendorService;
-
-    protected VendorService getVendorService() {
-        if (ObjectUtils.isNull(this.vendorService)) {
-            this.vendorService = SpringContext.getBean(VendorService.class);
-        }
-        return this.vendorService;
-    }
-
     @Override
     public void setGenerateDefaultValues(boolean generateDefaultValues) {
         super.setGenerateDefaultValues(generateDefaultValues);
@@ -164,7 +155,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
             setDetailAssignedId(vendorDetail);
         }
         if (vendorDetail.isVendorParentIndicator()) {
-            getVendorService().saveVendorHeader(vendorDetail);
+            SpringContext.getBean(VendorService.class).saveVendorHeader(vendorDetail);
         }
         super.saveBusinessObject();
     }

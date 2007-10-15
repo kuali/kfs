@@ -48,11 +48,9 @@ public class VendorPreRules extends MaintenancePreRulesBase {
 
     private VendorDetail newVendorDetail;
     private VendorDetail copyVendorDetail;
-    private DateTimeService dateTimeService;
     private String universalUserId;
     
     public VendorPreRules() {
-
     }
     
     public String getUniversalUserId() {
@@ -62,17 +60,6 @@ public class VendorPreRules extends MaintenancePreRulesBase {
         return this.universalUserId;
     }
 
-    public void setUniversalUserId(String universalUserId) {
-        this.universalUserId = universalUserId;
-    }
-
-    protected DateTimeService getDateTimeService() {
-        if( ObjectUtils.isNull( this.dateTimeService ) ) {
-            this.dateTimeService = SpringContext.getBean(DateTimeService.class);
-        }
-        return this.dateTimeService;
-    }
-    
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);
         setVendorNamesAndIndicator(document);
@@ -142,7 +129,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
             && ObjectUtils.isNotNull(newVendorDetail.getVendorRestrictedIndicator())
             && newVendorDetail.getVendorRestrictedIndicator() ) {
             //Indicator changed from (null or false) to true.
-            newVendorDetail.setVendorRestrictedDate( getDateTimeService().getCurrentSqlDate() );
+            newVendorDetail.setVendorRestrictedDate( SpringContext.getBean(DateTimeService.class).getCurrentSqlDate() );
             newVendorDetail.setVendorRestrictedPersonIdentifier( getUniversalUserId() );
         } else if( ObjectUtils.isNotNull(oldVendorRestrictedIndicator)
                    && oldVendorRestrictedIndicator
@@ -180,7 +167,8 @@ public class VendorPreRules extends MaintenancePreRulesBase {
                 if( (!StringUtils.equals( vendorTaxNumber, oldVendorTaxNumber )) ||
                     (!StringUtils.equals( vendorTaxTypeCode, oldVendorTaxTypeCode )) ) {
                     VendorTaxChange taxChange = new VendorTaxChange( newVendorDetail.getVendorHeaderGeneratedIdentifier(), 
-                            getDateTimeService().getCurrentSqlDate(), oldVendorTaxNumber, oldVendorTaxTypeCode, getUniversalUserId() );
+                            SpringContext.getBean(DateTimeService.class).getCurrentSqlDate(), 
+                            oldVendorTaxNumber, oldVendorTaxTypeCode, getUniversalUserId() );
                     List<VendorTaxChange> changes = newVendorHeader.getVendorTaxChanges();
                     if( ObjectUtils.isNull( changes ) ) {
                         changes = new ArrayList();
@@ -196,7 +184,6 @@ public class VendorPreRules extends MaintenancePreRulesBase {
      * This method is a helper method to remove all the delimiters from the vendor name
      * 
      * @param str the original vendorName
-     * 
      * @return result String the vendorName after the delimiters have been removed
      */
     private String removeDelimiter(String str) {
@@ -207,6 +194,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
 
     /**
      * This method displays a review if indicated byt the vendor type and the associated text from that type
+     * 
      * @param document - vendordetail document
      */
     public void displayReview(Document document) {        

@@ -714,7 +714,7 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
     @Override
     protected void customInitMaxUploadSizes() {
         super.customInitMaxUploadSizes();
-        addMaxUploadSize(SpringContext.getBean(ParameterService.class).getParameterValue(SourceAccountingLine.class, KFSConstants.ACCOUNTING_LINE_IMPORT_MAX_FILE_SIZE_PARM_NM));
+        addMaxUploadSize(SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, KFSConstants.ACCOUNTING_LINE_IMPORT_MAX_FILE_SIZE_PARM_NM));
     }
     
 }

@@ -560,6 +560,9 @@
 		<property name="configService">
 			<ref bean="kualiConfigurationService" />
 		</property>
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
 	</bean>
 
 	<bean id="documentAuthorizationService" class="org.kuali.core.service.impl.DocumentAuthorizationServiceImpl">

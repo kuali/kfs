@@ -39,7 +39,6 @@ if (top.location != self.location) {
     <h1></h1>Kuali Financial System
   </div>
   <div id="feedback">
-          <channel:feedbackChannel />
+  	<a class="portal_link" href="<bean:message key="app.feedback.link"/>" target="_blank" title="<bean:message key="app.feedback.linkText" />"><bean:message key="app.feedback.linkText" /></a>
   </div>
-
   <div id="build">${ConfigProperties.version}</div>

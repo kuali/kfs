@@ -104,5 +104,18 @@
 					title="Labor Distribution">Labor Distribution</a>
 			</li>
 		</c:if>
+		<c:if test='${selectedTab == "portalFutureModulesBody"}'>
+			<li class="red">
+				<a class="red" href="portal.do?selectedTab=portalFutureModulesBody"
+					title="Future Modules">Future Modules</a>
+			</li>
+		</c:if>
+		<c:if test='${selectedTab != "portalFutureModulesBody"}'>
+			<li class="green">
+				<a class="green"
+					href="portal.do?selectedTab=portalFutureModulesBody"
+					title="Future Modules">Future Modules</a>
+			</li>
+		</c:if>
 	</ul>
 </div>

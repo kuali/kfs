@@ -65,10 +65,12 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
         // DOCUMENT DISAPPROVED
         else if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(this);
+            SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }
         // DOCUMENT CANCELED
         else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
+            SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }
     }
 

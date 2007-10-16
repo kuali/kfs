@@ -36,6 +36,7 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.bo.CashDrawer;
+import org.kuali.module.financial.bo.CashReceiptHeader;
 import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
@@ -51,7 +52,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 @ConfigureContext(session = KHUNTLEY)
 @RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class CashManagementServiceTest extends KualiTestBase {
-    static final String CMST_WORKGROUP = "CashManagementServiceTest";
+    static final String CMST_WORKGROUP = "KUALI_BRSR_BL";
     
     final public void testCreateCashManagementDocument_blankUnitName() throws Exception {
         boolean failedAsExpected = false;
@@ -739,6 +740,10 @@ public class CashManagementServiceTest extends KualiTestBase {
         crDoc.setCheckEntryMode(CashReceiptDocument.CHECK_ENTRY_TOTAL);
         crDoc.setTotalCashAmount(KualiDecimal.ZERO); // cash amounts are now calculated differently
         crDoc.setTotalCheckAmount(checkAmount);
+        
+        crDoc.setCashReceiptHeader(new CashReceiptHeader());
+        crDoc.getCashReceiptHeader().setDocumentNumber(crDoc.getDocumentNumber());
+        crDoc.getCashReceiptHeader().setWorkgroupName(workgroupName);
 
         crDoc.setCampusLocationCode(SpringContext.getBean(CashReceiptService.class).getCampusCodeForCashReceiptVerificationUnit(workgroupName));
 

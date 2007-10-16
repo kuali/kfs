@@ -39,6 +39,9 @@ import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.service.CashManagementService;
 import org.kuali.module.financial.service.CashReceiptService;
 
+import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.clientapp.vo.ValidActionsVO;
+
 /**
  * DocumentAuthorizer containing authorization code for CashManagement documents
  */
@@ -98,24 +101,37 @@ public class CashManagementDocumentAuthorizer extends DocumentAuthorizerBase {
         DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
 
         CashManagementDocument cmDoc = (CashManagementDocument) document;
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        ValidActionsVO validActions = workflowDocument.getRouteHeader().getValidActions();
 
-        // CM document can never be BlanketApproved
-        if (cmDoc.getCashDrawerStatus() == null || cmDoc.getCashDrawerStatus().equals(CashDrawerConstants.STATUS_CLOSED)) {
-            flags.setCanBlanketApprove(false);
-        }
-
-        // CM document can only be saved (via the save button) if the CashDrawer is not closed
-        if (cmDoc.getCashDrawerStatus() == null || cmDoc.getCashDrawerStatus().equals(CashDrawerConstants.STATUS_CLOSED)) {
-            flags.setCanSave(false);
-        }
-
-        // CM document can only be routed if it contains a Final Deposit
-        if (!cmDoc.hasFinalDeposit() || !SpringContext.getBean(CashManagementService.class).allVerifiedCashReceiptsAreDeposited(cmDoc)) {
-            flags.setCanRoute(false);
+        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+            // CM document can only be saved (via the save button) if the CashDrawer is not closed
+            if (cmDoc.getCashDrawerStatus() == null || cmDoc.getCashDrawerStatus().equals(CashDrawerConstants.STATUS_CLOSED)) {
+                flags.setCanSave(false);
+            } else {
+                flags.setCanSave(validActions.contains(EdenConstants.ACTION_TAKEN_SAVED_CD));
+            }
+    
+            // CM document can only be routed if it contains a Final Deposit
+            if (!cmDoc.hasFinalDeposit() || !SpringContext.getBean(CashManagementService.class).allVerifiedCashReceiptsAreDeposited(cmDoc)) {
+                flags.setCanRoute(false);
+                flags.setCanBlanketApprove(false);
+            } else {
+                flags.setCanRoute(validActions.contains(EdenConstants.ACTION_TAKEN_ROUTED_CD));
+                flags.setCanBlanketApprove(validActions.contains(EdenConstants.ACTION_TAKEN_BLANKET_APPROVE_CD));
+            }
+            
+            if (!SpringContext.getBean(CashManagementService.class).allowDocumentCancellation(cmDoc)) {
+                flags.setCanCancel(false);
+            } else {
+                flags.setCanCancel(validActions.contains(EdenConstants.ACTION_TAKEN_CANCELED_CD));
+            }
         }
         
-        if (!SpringContext.getBean(CashManagementService.class).allowDocumentCancellation(cmDoc)) {
-            flags.setCanCancel(false);
+        if (workflowDocument.stateIsEnroute()) {
+            flags.setCanApprove(validActions.contains(EdenConstants.ACTION_TAKEN_APPROVED_CD));
+            flags.setCanDisapprove(validActions.contains(EdenConstants.ACTION_TAKEN_DENIED_CD));
+            flags.setCanFYI(validActions.contains(EdenConstants.ACTION_TAKEN_FYI_CD));
         }
 
         return flags;

@@ -71,9 +71,6 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
 
         CashManagementDocument cmd = (CashManagementDocument) document;
 
-        // verify user is initiator
-        verifyUserIsDocumentInitiator(cmd);
-
         // verify the cash drawer for the verification unit is closed for post-initialized saves
         verifyCashDrawerForVerificationUnitIsOpenForPostInitiationSaves(cmd);
 

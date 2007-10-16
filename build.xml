@@ -245,6 +245,18 @@
 		<fail if="tests.failed" message="Tests failed" />
 	</target>
 
+	<target name="post-load-encrypt" depends="make-source">
+		<java classname="org.kuali.kfs.context.BatchStepRunner" fork="true">
+			<arg value="postDataLoadEncryptionStep" />
+			<classpath>
+				<pathelement location="${make-source.target.directory}" />
+				<path refid="compile.source.classpath" />
+				<fileset dir="${appserver.classes.dir}" includes="*.jar" />
+			</classpath>		
+		</java>
+	</target>
+	
+	
 	<target name="help" depends="init-properties" description="Describe public targets">
 		<echo>--- OVERVIEW ---
 

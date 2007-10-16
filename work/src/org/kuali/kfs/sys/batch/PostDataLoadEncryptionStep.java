@@ -61,7 +61,6 @@ public class PostDataLoadEncryptionStep extends AbstractStep {
             try {
                 postDataLoadEncryptionService.prepClassDescriptor(businessObjectClass, attributeNames);
                 Collection objectsToEncrypt = SpringContext.getBean(BusinessObjectService.class).findAll(businessObjectClass);
-                postDataLoadEncryptionService.truncateTable(businessObjectClass);
                 for (Object businessObject : objectsToEncrypt) {
                     postDataLoadEncryptionService.encrypt((PersistableBusinessObject) businessObject, attributeNames);
                 }

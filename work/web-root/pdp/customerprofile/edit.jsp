@@ -468,14 +468,14 @@
         </th>
         <td align=left class="datacell" >
           <logic:empty name="PdpCustomerProfileForm" property="id">
-            <html:select size="1" property="customerActive" value="Y" tabindex="22">
+            <html:select size="1" property="customerActive" value="N" tabindex="22">
               <html:option value="N">No</html:option>
               <html:option value="Y">Yes</html:option>
             </html:select>
           </logic:empty>
           <logic:notEmpty name="PdpCustomerProfileForm" property="id">
             <logic:equal name="PdpCustomerProfileForm" property="id" value="0">
-              <html:select size="1" property="customerActive" value="Y" tabindex="22">
+              <html:select size="1" property="customerActive" value="N" tabindex="22">
                 <html:option value="N">No</html:option>
                 <html:option value="Y">Yes</html:option>
               </html:select>

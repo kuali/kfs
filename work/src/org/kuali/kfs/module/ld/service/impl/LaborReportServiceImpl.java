@@ -283,7 +283,7 @@ public class LaborReportServiceImpl implements LaborReportService {
         List summary = buildScrubberReportSummary(scrubberReport);
 
         TransactionReport transactionReport = new TransactionReport();
-        transactionReport.generateReport(scrubberReportErrors, summary, runDate, "Labor Scrubber Report ", "labor_scrubber_errors" + documentNumber, reportsDirectory);
+        transactionReport.generateReport(scrubberReportErrors, summary, runDate, "Labor Scrubber Report ", "labor_scrubber_errors_" + documentNumber, reportsDirectory);
     }
 
     /**
@@ -327,7 +327,7 @@ public class LaborReportServiceImpl implements LaborReportService {
         Iterator ti = laborOriginEntryService.getEntriesByGroupAccountOrder(validGroup);
 
         TransactionListingReport rept = new TransactionListingReport();
-        rept.generateReport(ti, runDate, "Labor Output Transaction Listing From the Scrubber", "labor_scrubber_listing" + documentNumber, reportsDirectory);
+        rept.generateReport(ti, runDate, "Labor Output Transaction Listing From the Scrubber", "labor_scrubber_listing_" + documentNumber, reportsDirectory);
     }
 
     /**

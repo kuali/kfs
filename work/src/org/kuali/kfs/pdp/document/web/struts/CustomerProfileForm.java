@@ -393,6 +393,8 @@ public class CustomerProfileForm extends ActionForm {
       if (GeneralUtilities.isStringEmpty(this.processingEmailAddr)) {
         actionErrors.add("errors", new ActionMessage("customerProfileForm.processingEmailAddr.null"));
       }
+      
+      
 
       // Validate Address Line 1 as being not null
       if (GeneralUtilities.isStringEmpty(this.address1)) {
@@ -413,8 +415,18 @@ public class CustomerProfileForm extends ActionForm {
       if (!GeneralUtilities.isStringAllNumbersOrASingleCharacter(this.fileThresholdAmount, '.')) {
         actionErrors.add("errors", new ActionMessage("customerProfileForm.fileThresholdAmount.invalid"));
       }
+      // Validate File Threshold E-mail Address as being not null
+      if (GeneralUtilities.isStringEmpty(this.fileThresholdEmailAddress)) {
+        actionErrors.add("errors", new ActionMessage("customerProfileForm.fileThresholdEmailAddress.null"));
+      }
       if (!GeneralUtilities.isStringAllNumbersOrASingleCharacter(this.paymentThresholdAmount, '.')) {
         actionErrors.add("errors", new ActionMessage("customerProfileForm.paymentThresholdAmount.invalid"));
+      }
+      
+      
+      // Validate Payment Threshold E-mail Address as being not null
+      if (GeneralUtilities.isStringEmpty(this.paymentThresholdEmailAddress)) {
+        actionErrors.add("errors", new ActionMessage("customerProfileForm.paymentThresholdEmailAddress.null"));
       }
     }
     LOG.debug("Exiting validate()  There were " + actionErrors.size() + " ActionMessages found.");

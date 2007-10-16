@@ -50,7 +50,6 @@ import org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterEvaluator;
-import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
@@ -64,11 +63,6 @@ import org.kuali.module.financial.document.authorization.DisbursementVoucherDocu
 import org.kuali.module.financial.service.DisbursementVoucherTaxService;
 import org.kuali.module.financial.service.DisbursementVoucherTravelService;
 import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.financial.util.CodeDescriptionFormatter;
-import org.kuali.module.financial.util.DocumentationLocationCodeDescriptionFormatter;
-import org.kuali.module.financial.util.ObjectCodeDescriptionFormatter;
-import org.kuali.module.financial.util.ObjectLevelCodeDescriptionFormatter;
-import org.kuali.module.financial.util.SubFundGroupCodeDescriptionFormatter;
 
 
 /**
@@ -1175,7 +1169,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         objectCodeAllowed = objectCodeAllowed && getParameterService().getParameterEvaluator(financialDocument.getClass(), DisbursementVoucherRuleConstants.VALID_OBJ_LEVEL_BY_PAYMENT_REASON_PARM, DisbursementVoucherRuleConstants.INVALID_OBJ_LEVEL_BY_PAYMENT_REASON_PARM, documentPaymentReason, accountingLine.getObjectCode().getFinancialObjectLevelCode()).evaluateAndAddError(SourceAccountingLine.class, "objectCode.financialObjectLevelCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
 
         /* check object code is in permitted list for payment reason */
-        objectCodeAllowed = objectCodeAllowed && getParameterService().getParameterEvaluator(financialDocument.getClass(), DisbursementVoucherRuleConstants.VALID_OBJ_CODE_BY_PAYMENT_REASON_PARM, DisbursementVoucherRuleConstants.INVALID_OBJ_CODE_BY_PAYMENT_REASON_PARM, documentPaymentReason, accountingLine.getFinancialObjectCode()).evaluateAndAddError(AccountingLine.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        objectCodeAllowed = objectCodeAllowed && getParameterService().getParameterEvaluator(financialDocument.getClass(), DisbursementVoucherRuleConstants.VALID_OBJ_CODE_BY_PAYMENT_REASON_PARM, DisbursementVoucherRuleConstants.INVALID_OBJ_CODE_BY_PAYMENT_REASON_PARM, documentPaymentReason, accountingLine.getFinancialObjectCode()).evaluateAndAddError(SourceAccountingLine.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
 
         objectCodeAllowed = objectCodeAllowed && getParameterService().getParameterEvaluator(financialDocument.getClass(), DisbursementVoucherRuleConstants.VALID_OBJECT_SUB_TYPES_BY_SUB_FUND_GROUP_PARM, DisbursementVoucherRuleConstants.INVALID_OBJECT_SUB_TYPES_BY_SUB_FUND_GROUP_PARM, accountingLine.getAccount().getSubFundGroupCode(), accountingLine.getObjectCode().getFinancialObjectSubTypeCode()).evaluateAndAddError(SourceAccountingLine.class, "objectCode.financialObjectSubTypeCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         return objectCodeAllowed;

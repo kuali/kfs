@@ -76,6 +76,9 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         super();
     }
 
+    /**
+     * @see org.kuali.core.document.DocumentBase#getDocumentRepresentationForSerialization()
+     */
     @Override
     protected Document getDocumentRepresentationForSerialization() {
         return SpringContext.getBean(ConciseXmlDocumentConversionService.class).getDocumentForSerialization(this);
@@ -94,7 +97,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * Iniatilizes the values for a new document.
+     * Initializes the values for a new document.
      */
     public void initiateDocument() {
         LOG.debug("initiateDocument() started");
@@ -106,7 +109,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * Clear out the initial population fields.
+     * Clear out the initially populated fields.
      */
     public void clearInitFields() {
         LOG.debug("clearDocument() started");
@@ -127,7 +130,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * This returns the type of the Credit Memo that was selected on the init screen. It is based on them entering the Vendor, PO or
+     * Returns the type of the Credit Memo that was selected on the init screen. It is based on them entering the Vendor, PO or
      * PREQ #.
      * 
      * @return Vendor, PO or PREQ
@@ -152,7 +155,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * Determines if the purchase order has notes.
+     * Determines if the purchase order has notes, using the note service.
      * 
      * @return true if po has notes, false if po does not have notes
      */
@@ -225,6 +228,10 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
+     * Hook point for performing actions that occur after a route level change, in this case;
+     * Performs logic necessary after full entry has been completed when past Adhoc Review, or
+     * sets the AP approval date when past AP review.
+     * 
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#preProcessNodeChange(java.lang.String, java.lang.String)
      */
     public boolean processNodeChange(String newNodeName, String oldNodeName) {
@@ -327,39 +334,18 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         return grandTotal;
     }
 
-    /**
-     * Gets the paymentRequestIdentifier attribute.
-     * 
-     * @return Returns the paymentRequestIdentifier
-     */
     public Integer getPaymentRequestIdentifier() {
         return paymentRequestIdentifier;
     }
 
-    /**
-     * Sets the paymentRequestIdentifier attribute.
-     * 
-     * @param paymentRequestIdentifier The paymentRequestIdentifier to set.
-     */
     public void setPaymentRequestIdentifier(Integer paymentRequestIdentifier) {
         this.paymentRequestIdentifier = paymentRequestIdentifier;
     }
 
-
-    /**
-     * Gets the creditMemoNumber attribute.
-     * 
-     * @return Returns the creditMemoNumber
-     */
     public String getCreditMemoNumber() {
         return creditMemoNumber;
     }
 
-    /**
-     * Sets the creditMemoNumber attribute.
-     * 
-     * @param creditMemoNumber The creditMemoNumber to set.
-     */
     public void setCreditMemoNumber(String creditMemoNumber) {
         if (creditMemoNumber != null) {
             creditMemoNumber = creditMemoNumber.toUpperCase();
@@ -368,76 +354,34 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         this.creditMemoNumber = creditMemoNumber;
     }
 
-
-    /**
-     * Gets the creditMemoDate attribute.
-     * 
-     * @return Returns the creditMemoDate
-     */
     public Date getCreditMemoDate() {
         return creditMemoDate;
     }
 
-    /**
-     * Sets the creditMemoDate attribute.
-     * 
-     * @param creditMemoDate The creditMemoDate to set.
-     */
     public void setCreditMemoDate(Date creditMemoDate) {
         this.creditMemoDate = creditMemoDate;
     }
 
-    /**
-     * Gets the creditMemoAmount attribute.
-     * 
-     * @return Returns the creditMemoAmount
-     */
     public KualiDecimal getCreditMemoAmount() {
         return creditMemoAmount;
     }
 
-    /**
-     * Sets the creditMemoAmount attribute.
-     * 
-     * @param creditMemoAmount The creditMemoAmount to set.
-     */
     public void setCreditMemoAmount(KualiDecimal creditMemoAmount) {
         this.creditMemoAmount = creditMemoAmount;
     }
 
-    /**
-     * Gets the itemMiscellaneousCreditDescription attribute.
-     * 
-     * @return Returns the itemMiscellaneousCreditDescription
-     */
     public String getItemMiscellaneousCreditDescription() {
         return itemMiscellaneousCreditDescription;
     }
 
-    /**
-     * Sets the itemMiscellaneousCreditDescription attribute.
-     * 
-     * @param itemMiscellaneousCreditDescription The itemMiscellaneousCreditDescription to set.
-     */
     public void setItemMiscellaneousCreditDescription(String itemMiscellaneousCreditDescription) {
         this.itemMiscellaneousCreditDescription = itemMiscellaneousCreditDescription;
     }
 
-
-    /**
-     * Gets the creditMemoPaidTimestamp attribute.
-     * 
-     * @return Returns the creditMemoPaidTimestamp.
-     */
     public Timestamp getCreditMemoPaidTimestamp() {
         return creditMemoPaidTimestamp;
     }
 
-    /**
-     * Sets the creditMemoPaidTimestamp attribute value.
-     * 
-     * @param creditMemoPaidTimestamp The creditMemoPaidTimestamp to set.
-     */
     public void setCreditMemoPaidTimestamp(Timestamp creditMemoPaidTimestamp) {
         this.creditMemoPaidTimestamp = creditMemoPaidTimestamp;
     }
@@ -497,20 +441,10 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         setPurchaseOrderDocument(purchaseOrder);
     }
 
-    /**
-     * Gets the purchaseOrderEndDate attribute.
-     * 
-     * @return Returns the purchaseOrderEndDate.
-     */
     public Date getPurchaseOrderEndDate() {
         return purchaseOrderEndDate;
     }
 
-    /**
-     * Sets the purchaseOrderEndDate attribute value.
-     * 
-     * @param purchaseOrderEndDate The purchaseOrderEndDate to set.
-     */
     public void setPurchaseOrderEndDate(Date purchaseOrderEndDate) {
         this.purchaseOrderEndDate = purchaseOrderEndDate;
     }
@@ -546,6 +480,11 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         return this.getCreditMemoAmount();
     }
 
+    /**
+     * Credit Memo document is first populated on Continue AP Event, and then prepareForSave continues.
+     * 
+     * @see org.kuali.core.document.Document#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
 
@@ -565,9 +504,11 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         return StringUtils.equalsIgnoreCase("Y", SpringContext.getBean(ParameterService.class).getParameterValue(CreditMemoDocument.class, PurapParameterConstants.PURAP_CM_REQUIRE_ATTACHMENT));
     }
 
+    /**
+     * @see org.kuali.module.purap.document.AccountsPayableDocument#getDocumentSpecificService()
+     */
     @Override
     public AccountsPayableDocumentSpecificService getDocumentSpecificService() {
         return SpringContext.getBean(CreditMemoService.class);
     }
-
 }

@@ -82,29 +82,49 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     private Campus processingCampus;
     private transient PurchaseOrderDocument purchaseOrderDocument;
 
+    /**
+     * Constructs a AccountsPayableDocumentBase
+     */
     public AccountsPayableDocumentBase() {
         super();
         setUnmatchedOverride(false);
     }
 
+    /**
+     * Overriding to stop the deleting of general ledger entries.
+     * 
+     * @see org.kuali.kfs.document.GeneralLedgerPostingDocumentBase#removeGeneralLedgerPendingEntries()
+     */
     protected void removeGeneralLedgerPendingEntries() {
         //do not delete entries for PREQ or CM (hjs)
     }
 
+    /**
+     * @see org.kuali.module.purap.document.AccountsPayableDocument#requiresAccountsPayableReviewRouting()
+     */
     public boolean requiresAccountsPayableReviewRouting() {
         return !approvalAtAccountsPayableReviewAllowed();
     }
 
+    /**
+     * @see org.kuali.module.purap.document.AccountsPayableDocument#approvalAtAccountsPayableReviewAllowed()
+     */
     public boolean approvalAtAccountsPayableReviewAllowed() {
         return !(isAttachmentRequired() && documentHasNoImagesAttached());
     }
 
     /**
-     * This method checks whether an attachment is required
+     * Checks whether an attachment is required
+     * 
      * @return
      */
     protected abstract boolean isAttachmentRequired();
     
+    /**
+     * Checks all documents notes for attachments.
+     * 
+     * @return
+     */
     private boolean documentHasNoImagesAttached() {
         List boNotes = this.getDocumentBusinessObject().getBoNotes();
         if (ObjectUtils.isNotNull(boNotes)) {
@@ -136,6 +156,8 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
 
     /**
+     * Calls a custom prepare for save method, as the super class does GL entry creation
+     * that causes  problems with AP documents.
      * 
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
      */
@@ -197,10 +219,26 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         }
     }
     
+    /**
+     * Hook to allow processing after a route level is passed.
+     * 
+     * @param newNodeName
+     * @param oldNodeName
+     * @return
+     */
     public abstract boolean processNodeChange(String newNodeName, String oldNodeName);
     
+    /**
+     * Retrieves node details object based on name.
+     * 
+     * @param nodeName
+     * @return
+     */
     public abstract NodeDetails getNodeDetailEnum(String nodeName);
     
+    /**
+     * Hook point to allow processing after a save.
+     */
     public abstract void saveDocumentFromPostProcessing();
 
     // GETTERS AND SETTERS    
@@ -312,6 +350,9 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         this.generateEncumbranceEntries = generateEncumbranceEntries;
     }
 
+    /**
+     * @see org.kuali.module.purap.document.AccountsPayableDocument#getPurchaseOrderDocument()
+     */
     public PurchaseOrderDocument getPurchaseOrderDocument() {
         if ( (ObjectUtils.isNull(purchaseOrderDocument) || ObjectUtils.isNull(purchaseOrderDocument.getPurapDocumentIdentifier())) 
                 && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier())) ) {
@@ -320,6 +361,9 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         return purchaseOrderDocument;
     }
 
+    /**
+     * @see org.kuali.module.purap.document.AccountsPayableDocument#setPurchaseOrderDocument(org.kuali.module.purap.document.PurchaseOrderDocument)
+     */
     public void setPurchaseOrderDocument(PurchaseOrderDocument purchaseOrderDocument) {
         if (ObjectUtils.isNull(purchaseOrderDocument)) {
             //KUALI-PURAP 1185 PO Id not being set to null, instead throwing error on main screen that value is invalid.
@@ -333,39 +377,26 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         }
     }
 
-    /**
-     * Gets the closePurchaseOrderIndicator attribute. 
-     * @return Returns the closePurchaseOrderIndicator.
-     */
     public boolean isClosePurchaseOrderIndicator() {
         return closePurchaseOrderIndicator;
     }
 
-    /**
-     * Sets the closePurchaseOrderIndicator attribute value.
-     * @param closePurchaseOrderIndicator The closePurchaseOrderIndicator to set.
-     */
     public void setClosePurchaseOrderIndicator(boolean closePurchaseOrderIndicator) {
         this.closePurchaseOrderIndicator = closePurchaseOrderIndicator;
     }
 
-    /**
-     * Gets the reopenPurchaseOrderIndicator attribute. 
-     * @return Returns the reopenPurchaseOrderIndicator.
-     */
     public boolean isReopenPurchaseOrderIndicator() {
         return reopenPurchaseOrderIndicator;
     }
 
-    /**
-     * Sets the reopenPurchaseOrderIndicator attribute value.
-     * @param reopenPurchaseOrderIndicator The reopenPurchaseOrderIndicator to set.
-     */
     public void setReopenPurchaseOrderIndicator(boolean reopenPurchaseOrderIndicator) {
         this.reopenPurchaseOrderIndicator = reopenPurchaseOrderIndicator;
     }    
 
     //Helper methods
+    /**
+     * Retrieves the universal user object for the last person to perform an action on the document.
+     */
     public UniversalUser getLastActionPerformedByUser(){
         try {
             UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(getLastActionPerformedByUniversalUserId());
@@ -376,6 +407,11 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         }
     }
 
+    /**
+     * Retrieves the person name for the last person to perform an action on the document.
+     * 
+     * @return
+     */
     public String getLastActionPerformedByPersonName(){
         UniversalUser user = getLastActionPerformedByUser();
         if (ObjectUtils.isNull(user)) {
@@ -395,23 +431,22 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
 
     /**
-     * Gets the unmatchedOverride attribute.
-     * 
-     * @return Returns the unmatchedOverride.
+     * @see org.kuali.module.purap.document.AccountsPayableDocument#isUnmatchedOverride()
      */
     public boolean isUnmatchedOverride() {
         return unmatchedOverride;
     }
 
     /**
-     * Sets the unmatchedOverride attribute value.
-     * 
-     * @param unmatchedOverride The unmatchedOverride to set.
+     * @see org.kuali.module.purap.document.AccountsPayableDocument#setUnmatchedOverride(boolean)
      */
     public void setUnmatchedOverride(boolean unmatchedOverride) {
         this.unmatchedOverride = unmatchedOverride;
     }
 
+    /**
+     * @see org.kuali.module.purap.document.AccountsPayableDocument#getGrandTotal()
+     */
     public abstract KualiDecimal getGrandTotal();
     
     /** 
@@ -421,27 +456,29 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      */
     public abstract KualiDecimal getInitialAmount();
 
-    /**
-     * Gets the continuationAccountIndicator attribute. 
-     * @return Returns the continuationAccountIndicator.
-     */
     public boolean isContinuationAccountIndicator() {
         return continuationAccountIndicator;
-}
+    }
+    
     /**
-     * Sets the continuationAccountIndicator attribute value.
-     * @param continuationAccountIndicator The continuationAccountIndicator to set.
+     * @see org.kuali.module.purap.document.AccountsPayableDocument#setContinuationAccountIndicator(boolean)
      */
     public void setContinuationAccountIndicator(boolean continuationAccountIndicator) {
         this.continuationAccountIndicator = continuationAccountIndicator;
     }
 
+    /**
+     * @see org.kuali.module.purap.document.AccountsPayableDocument#isExtracted()
+     */
     public boolean isExtracted() {
         return (ObjectUtils.isNotNull(getExtractedDate()));
     }
     
     public abstract AccountsPayableDocumentSpecificService getDocumentSpecificService();
 
+    /**
+     * @see org.kuali.module.purap.document.AccountsPayableDocument#getAPItemFromPOItem(org.kuali.module.purap.bo.PurchaseOrderItem)
+     */
     public AccountsPayableItem getAPItemFromPOItem(PurchaseOrderItem poi) {
         for (AccountsPayableItem preqItem : (List<AccountsPayableItem>)this.getItems()) {
             if(preqItem.getItemType().isItemTypeAboveTheLineIndicator()) {

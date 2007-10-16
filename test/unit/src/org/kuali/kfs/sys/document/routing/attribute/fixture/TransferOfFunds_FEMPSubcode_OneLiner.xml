@@ -956,7 +956,7 @@
                             <accountSupervisoryUser class="org.kuali.core.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
                             <accountManagerUser class="org.kuali.core.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
                             <postalZipCode reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/organization/postalZip" />
-                            <budgetRecordingLevel class="org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode--EnhancerByCGLIB--bf108932" />
+                            <budgetRecordingLevel class="org.kuali.module.chart.bo.codes.BudgetRecordingLevel--EnhancerByCGLIB--bf108932" />
                             <sufficientFundsCode class="org.kuali.module.chart.bo.codes.SufficientFundsCode--EnhancerByCGLIB--dbbff804" />
                             <accountGuideline class="org.kuali.module.chart.bo.AccountGuideline--EnhancerByCGLIB--e9d11a18" />
                             <accountDescription class="org.kuali.module.chart.bo.AccountDescription--EnhancerByCGLIB--82fab084" />
@@ -1055,7 +1055,7 @@
                             <accountSupervisoryUser class="org.kuali.core.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
                             <accountManagerUser class="org.kuali.core.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
                             <postalZipCode reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/organization/postalZip" />
-                            <budgetRecordingLevel class="org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode--EnhancerByCGLIB--bf108932" />
+                            <budgetRecordingLevel class="org.kuali.module.chart.bo.codes.BudgetRecordingLevel--EnhancerByCGLIB--bf108932" />
                             <sufficientFundsCode class="org.kuali.module.chart.bo.codes.SufficientFundsCode--EnhancerByCGLIB--dbbff804" />
                             <accountGuideline class="org.kuali.module.chart.bo.AccountGuideline--EnhancerByCGLIB--e9d11a18" />
                             <accountDescription class="org.kuali.module.chart.bo.AccountDescription--EnhancerByCGLIB--82fab084" />

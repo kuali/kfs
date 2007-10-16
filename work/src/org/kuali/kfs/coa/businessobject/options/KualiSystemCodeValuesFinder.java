@@ -20,11 +20,12 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.core.bo.KualiCode;
+import org.kuali.core.bo.KualiCodeBase;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
+import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.KualiCodeService;
-import org.kuali.module.chart.bo.KualiSystemCode;
 
 /**
  * 
@@ -42,18 +43,17 @@ public abstract class KualiSystemCodeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-
         // get all the KualiCodeService objects that are associated with this class
-        Collection keys = SpringContext.getBean(KualiCodeService.class).getAll(this.getValuesClass());
+        Collection businessObjects = SpringContext.getBean(KeyValuesService.class).findAll(this.getValuesClass());
         List keyLabels = new ArrayList();
 
         // add a blank pair for the first/default key/value pair
         keyLabels.add(new KeyLabelPair("", ""));
 
         // build the list of code/name combos
-        for (Iterator iter = keys.iterator(); iter.hasNext();) {
-            KualiSystemCode code = (KualiSystemCode) iter.next();
-            keyLabels.add(new KeyLabelPair(code.getCode(), code.getCode() + " - " + code.getName()));
+        for (Iterator iter = businessObjects.iterator(); iter.hasNext();) {
+            KualiCodeBase businessObject = (KualiCodeBase) iter.next();
+            keyLabels.add(new KeyLabelPair(businessObject.getCode(), businessObject.getCodeAndDescription()));
         }
 
         return keyLabels;

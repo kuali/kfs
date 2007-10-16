@@ -42,7 +42,7 @@ import org.kuali.kfs.bo.State;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.AwardAccount;
 import org.kuali.module.cg.bo.Cfda;
-import org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode;
+import org.kuali.module.chart.bo.odes.BudgetRecordingLevel;
 import org.kuali.module.chart.bo.codes.ICRTypeCode;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
 import org.kuali.module.chart.service.SubFundGroupService;
@@ -127,7 +127,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private UniversalUser accountSupervisoryUser;
     private UniversalUser accountManagerUser;
     private PostalZipCode postalZipCode;
-    private BudgetRecordingLevelCode budgetRecordingLevel;
+    private BudgetRecordingLevel budgetRecordingLevel;
     private SufficientFundsCode sufficientFundsCode;
     private Cfda cfda;
 
@@ -1602,7 +1602,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @return Returns the budgetRecordingLevel.
      */
-    public BudgetRecordingLevelCode getBudgetRecordingLevel() {
+    public BudgetRecordingLevel getBudgetRecordingLevel() {
         return budgetRecordingLevel;
     }
 
@@ -1611,7 +1611,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @param budgetRecordingLevel The budgetRecordingLevel to set.
      */
-    public void setBudgetRecordingLevel(BudgetRecordingLevelCode budgetRecordingLevel) {
+    public void setBudgetRecordingLevel(BudgetRecordingLevel budgetRecordingLevel) {
         this.budgetRecordingLevel = budgetRecordingLevel;
     }
 

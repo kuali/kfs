@@ -70,8 +70,8 @@
 		                <field attributeName="continuationAccountNumber" />
 		                <field attributeName="incomeStreamFinancialCoaCode" />
 		                <field attributeName="incomeStreamAccountNumber" />
-						<field attributeName="budgetRecordingLevelCode" noInquiry="true" /> 
-		                <field attributeName="accountSufficientFundsCode" noInquiry="true" />
+						<field attributeName="budgetRecordingLevelCode" /> 
+		                <field attributeName="accountSufficientFundsCode" />
 		
 		                <field attributeName="pendingAcctSufficientFundsIndicator" />
 		                <field attributeName="extrnlFinEncumSufficntFndIndicator" />
@@ -754,12 +754,12 @@
                 <description>Account In Financial Processing</description>
             </attributeReference>
 
-            <attributeReference name="budgetRecordingLevelCode" sourceClassName="org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode" sourceAttributeName="code">
+            <attributeReference name="budgetRecordingLevelCode" sourceClassName="org.kuali.module.chart.bo.codes.BudgetRecordingLevel" sourceAttributeName="code">
                 <label>Budget Record Level Code</label>
                 <shortLabel>BdgLevelCd</shortLabel>
                 <required>true</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.BudgetRecordingLevelCodeValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.BudgetRecordingLevelValuesFinder" />
                 </control>
                 <summary>
                     <![CDATA[&nbsp;]]>

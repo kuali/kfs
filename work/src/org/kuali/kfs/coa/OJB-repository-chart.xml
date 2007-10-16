@@ -23,20 +23,6 @@
 </class-descriptor>
 -->
 
-<class-descriptor class="org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode" table="FS_CODES_DESC_T">
-    <field-descriptor name="code" column="CODE" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR" />
-    <field-descriptor name="className" column="CLASS_NAME" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.chart.bo.codes.SufficientFundsCode" table="FS_CODES_DESC_T">
-    <field-descriptor name="code" column="CODE" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR" />
-    <field-descriptor name="className" column="CLASS_NAME" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-</class-descriptor>
-
 <!-- 
     <class-descriptor class="org.kuali.module.chart.bo.codes.FederalFundedCode" table="FS_CODES_V">
     <field-descriptor name="code"             column="CODE"       jdbc-type="VARCHAR" primarykey="true"/>
@@ -178,7 +164,7 @@
         <foreignkey field-ref="accountZipCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="budgetRecordingLevel" class-ref="org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="budgetRecordingLevel" class-ref="org.kuali.module.chart.bo.codes.BudgetRecordingLevel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="budgetRecordingLevelCode" />
     </reference-descriptor>
 
@@ -1079,7 +1065,7 @@
         <foreignkey field-ref="accountZipCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="budgetRecordingLevel" class-ref="org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="budgetRecordingLevel" class-ref="org.kuali.module.chart.bo.codes.BudgetRecordingLevel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="budgetRecordingLevelCode" />
     </reference-descriptor>
 
@@ -1889,18 +1875,18 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.codes.BudgetRecordingLevel" table="CA_BDGT_REC_LVL_T">
-	<field-descriptor name="budgetRecordingLevelCode" column="BDGT_REC_LVL_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="code" column="BDGT_REC_LVL_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="budgetRecordingLevelName" column="BDGT_REC_LVL_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="name" column="BDGT_REC_LVL_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.chart.bo.codes.AccountSufficientFunds" table="CA_ACCT_SF_T">
-	<field-descriptor name="accountSufficientFundsCode" column="ACCT_SF_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+<class-descriptor class="org.kuali.module.chart.bo.codes.SufficientFundsCode" table="CA_ACCT_SF_T">
+	<field-descriptor name="code" column="ACCT_SF_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="accountSufficientFundsName" column="ACCT_SF_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="name" column="ACCT_SF_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 </descriptor-repository>

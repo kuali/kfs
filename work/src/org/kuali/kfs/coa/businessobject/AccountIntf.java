@@ -24,7 +24,7 @@ import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.bo.PostalZipCode;
 import org.kuali.kfs.bo.State;
-import org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode;
+import org.kuali.module.chart.bo.codes.BudgetRecordingLevel;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
 
 
@@ -1076,14 +1076,14 @@ public interface AccountIntf {
      * 
      * @return Returns the budgetRecordingLevel.
      */
-    public BudgetRecordingLevelCode getBudgetRecordingLevel();
+    public BudgetRecordingLevel getBudgetRecordingLevel();
 
     /**
      * Sets the budgetRecordingLevel attribute value.
      * 
      * @param budgetRecordingLevel The budgetRecordingLevel to set.
      */
-    public void setBudgetRecordingLevel(BudgetRecordingLevelCode budgetRecordingLevel);
+    public void setBudgetRecordingLevel(BudgetRecordingLevel budgetRecordingLevel);
 
     /**
      * Gets the sufficientFundsCode attribute.

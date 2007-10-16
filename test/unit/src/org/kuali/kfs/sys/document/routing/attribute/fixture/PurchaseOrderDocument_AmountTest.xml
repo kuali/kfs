@@ -988,7 +988,7 @@
               <newCollectionRecord>false</newCollectionRecord>
               <boNotes/>
             </postalZipCode>
-            <budgetRecordingLevel class="org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode--EnhancerByCGLIB--3906a848"/>
+            <budgetRecordingLevel class="org.kuali.module.chart.bo.codes.BudgetRecordingLevel--EnhancerByCGLIB--3906a848"/>
             <sufficientFundsCode class="org.kuali.module.chart.bo.codes.SufficientFundsCode--EnhancerByCGLIB--55b6171a"/>
             <forContractsAndGrants>false</forContractsAndGrants>
             <accountGuideline>
@@ -2055,7 +2055,7 @@
             <accountRestrictedStatus reference="../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountRestrictedStatus"/>
             <incomeStreamAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232"/>
             <postalZipCode reference="../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/postalZipCode"/>
-            <budgetRecordingLevel class="org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode--EnhancerByCGLIB--3906a848"/>
+            <budgetRecordingLevel class="org.kuali.module.chart.bo.codes.BudgetRecordingLevel--EnhancerByCGLIB--3906a848"/>
             <sufficientFundsCode class="org.kuali.module.chart.bo.codes.SufficientFundsCode--EnhancerByCGLIB--55b6171a"/>
             <forContractsAndGrants>false</forContractsAndGrants>
             <accountGuideline>
@@ -2115,7 +2115,7 @@
             <accountRestrictedStatus reference="../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountRestrictedStatus"/>
             <incomeStreamAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232"/>
             <postalZipCode class="org.kuali.kfs.bo.PostalZipCode--EnhancerByCGLIB--aeb63fe4"/>
-            <budgetRecordingLevel class="org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode--EnhancerByCGLIB--3906a848"/>
+            <budgetRecordingLevel class="org.kuali.module.chart.bo.codes.BudgetRecordingLevel--EnhancerByCGLIB--3906a848"/>
             <sufficientFundsCode class="org.kuali.module.chart.bo.codes.SufficientFundsCode--EnhancerByCGLIB--55b6171a"/>
             <forContractsAndGrants>false</forContractsAndGrants>
             <accountGuideline>
@@ -2144,7 +2144,7 @@
             <boNotes/>
           </incomeStreamAccount>
           <postalZipCode class="org.kuali.kfs.bo.PostalZipCode--EnhancerByCGLIB--aeb63fe4" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/postalZipCode"/>
-          <budgetRecordingLevel class="org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode--EnhancerByCGLIB--3906a848">
+          <budgetRecordingLevel class="org.kuali.module.chart.bo.codes.BudgetRecordingLevel--EnhancerByCGLIB--3906a848">
             <code>O</code>
             <name>Object</name>
             <active>true</active>
@@ -2157,7 +2157,7 @@
             <code>A</code>
             <name>Account</name>
             <active>true</active>
-            <className>org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode</className>
+            <className>org.kuali.module.chart.bo.codes.BudgetRecordingLevel</className>
             <codeRetrieved>false</codeRetrieved>
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>

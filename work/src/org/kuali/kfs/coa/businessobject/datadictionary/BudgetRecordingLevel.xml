@@ -9,11 +9,11 @@
             <title>Budget Recording Level Inquiry</title>
              
             <inquirySections>
-                <inquirySection title="Header Text">
+                <inquirySection title="Budget Recording Level Details">
                     <inquiryFields>
-                        <field attributeName="active" />
-                        <field attributeName="budgetRecordingLevelCode" />
-                        <field attributeName="budgetRecordingLevelName" />
+                        <field attributeName="code" />
+                        <field attributeName="name" />
+						<field attributeName="active" />
                     </inquiryFields>
                 </inquirySection>
             </inquirySections>  
@@ -26,20 +26,20 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="budgetRecordingLevelCode" />
+                    <sortAttribute attributeName="code" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
+                <lookupField attributeName="code" required="false" />
+                <lookupField attributeName="name" required="false" />
                 <lookupField attributeName="active" required="false" />
-                <lookupField attributeName="budgetRecordingLevelCode" required="false" />
-                <lookupField attributeName="budgetRecordingLevelName" required="false" />
             </lookupFields>
 
             <resultFields>
+                <field attributeName="code" />
+                <field attributeName="name" />
                 <field attributeName="active" />
-                <field attributeName="budgetRecordingLevelCode" />
-                <field attributeName="budgetRecordingLevelName" />
             </resultFields>
         </lookup>
 
@@ -59,7 +59,7 @@
                 <description>active description...</description>
 			</attribute>
 
-            <attribute name="budgetRecordingLevelCode" forceUppercase="true">
+            <attribute name="code" forceUppercase="true">
                 <label>Budget Recording Level Code</label>
                 <shortLabel>Code</shortLabel>
 
@@ -74,7 +74,7 @@
                 <description>budgetRecordingLevelCode description...</description>
 			</attribute>
 
-            <attribute name="budgetRecordingLevelName" forceUppercase="true">
+            <attribute name="name" forceUppercase="false">
                 <label>Budget Recording Level Name</label>
                 <shortLabel>Name</shortLabel>
 

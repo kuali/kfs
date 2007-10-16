@@ -1,80 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+    "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.chart.bo.codes.SufficientFundsCode">
-
-
+ 
         <inquiry>
-            <title>Sufficient Funds Code</title>
+            <title>Sufficient Funds Code Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Sufficient Funds Code Details">
+                    <inquiryFields>
+                        <field attributeName="code" />
+                        <field attributeName="name" />
+                        <field attributeName="active" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+        <lookup>
+            <title>Sufficient Funds Code Lookup</title>
+
+            <instructions>Look up an Sufficient Funds Code</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="code" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="code" required="false" />
+                <lookupField attributeName="name" required="false" />
+                <lookupField attributeName="active" required="false" />
+            </lookupFields>
+
+            <resultFields>
                 <field attributeName="code" />
                 <field attributeName="name" />
                 <field attributeName="active" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
-
-        <titleAttribute>code</titleAttribute>
+            </resultFields>
+        </lookup>
 
         <attributes>
+
             <attribute name="code" forceUppercase="true">
-                <label>Sufficient Funds Code</label>
+                <label>Account Sufficient Funds Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>1</maxLength>
-                <validationPattern>
-                    <alpha exactLength="1" />
-                </validationPattern>
-                <required>true</required>
+                <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="1" />
+                    <text size="3" />
                 </control>
 
-                <summary>Sufficient Funds Code</summary>
-                <description>Sufficient Funds Code</description>
-            </attribute>
+                <summary>code</summary>
+                <description>code description...</description>
+			</attribute>
 
             <attribute name="name" forceUppercase="false">
-                <label>Sufficient Funds Name</label>
+                <label>Account Sufficient Funds Name</label>
                 <shortLabel>Name</shortLabel>
 
-                <maxLength>50</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
-                <required>true</required>
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="50" />
+                    <text size="42" />
                 </control>
 
-                <summary>Sufficient Funds Name</summary>
-                <description>Sufficient Funds Name</description>
-            </attribute>
+                <summary>name</summary>
+                <description>name description...</description>
+			</attribute>
 
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"></attributeReference>
+            <attribute name="active" forceUppercase="true">
+                <label>Active</label>
+                <shortLabel>Active</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>active</summary>
+                <description>active description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
-        
-        <objectLabel>Sufficient Funds Code</objectLabel>
     </businessObject>
 </dictionaryEntry>
-

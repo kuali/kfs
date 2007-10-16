@@ -34,7 +34,7 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.bo.PostalZipCode;
 import org.kuali.kfs.bo.State;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode;
+import org.kuali.module.chart.bo.codes.BudgetRecordingLevel;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
 import org.kuali.module.chart.service.SubFundGroupService;
 
@@ -115,7 +115,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     private UniversalUser accountSupervisoryUser;
     private UniversalUser accountManagerUser;
     private PostalZipCode postalZipCode;
-    private BudgetRecordingLevelCode budgetRecordingLevel;
+    private BudgetRecordingLevel budgetRecordingLevel;
     private SufficientFundsCode sufficientFundsCode;
 
 
@@ -1525,7 +1525,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * 
      * @return Returns the budgetRecordingLevel.
      */
-    public BudgetRecordingLevelCode getBudgetRecordingLevel() {
+    public BudgetRecordingLevel getBudgetRecordingLevel() {
         return budgetRecordingLevel;
     }
 
@@ -1534,7 +1534,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * 
      * @param budgetRecordingLevel The budgetRecordingLevel to set.
      */
-    public void setBudgetRecordingLevel(BudgetRecordingLevelCode budgetRecordingLevel) {
+    public void setBudgetRecordingLevel(BudgetRecordingLevel budgetRecordingLevel) {
         this.budgetRecordingLevel = budgetRecordingLevel;
     }
 

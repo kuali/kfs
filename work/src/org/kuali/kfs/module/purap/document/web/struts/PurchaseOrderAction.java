@@ -44,6 +44,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.web.struts.form.BlankFormFile;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
@@ -349,6 +350,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 newNote.setNoteText(noteText);
                 newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
                 kualiDocumentFormBase.setNewNote(newNote);
+                //see KULPURAP-1984 for an explanation of why this is required and another way to do it.
+                kualiDocumentFormBase.setAttachmentFile(new BlankFormFile());
+                
                 insertBONote(mapping, kualiDocumentFormBase, request, response);
                 if (StringUtils.isNotEmpty(messageType)) {
                     GlobalVariables.getMessageList().add(messageType);

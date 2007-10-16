@@ -136,6 +136,7 @@ public class BudgetConstructionSelectionAction extends KualiAction {
             parameters.put("chartOfAccountsCode", tHeader.getChartOfAccountsCode());
             parameters.put("accountNumber", tHeader.getAccountNumber());
             parameters.put("subAccountNumber", tHeader.getSubAccountNumber());
+            parameters.put("pickListMode","false");
 
             // anchor, if it exists
             if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {

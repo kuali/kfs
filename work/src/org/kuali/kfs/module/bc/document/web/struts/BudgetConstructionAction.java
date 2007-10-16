@@ -198,15 +198,24 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
         }
     }
 
-    // setup the return parms for the document and anchor
-    Properties parameters = new Properties();
-    parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_SELECTION_REFRESH_METHOD);
-    parameters.put(KFSConstants.DOC_FORM_KEY, docForm.getReturnFormKey());
-    parameters.put(KFSConstants.ANCHOR, docForm.getReturnAnchor());
-    parameters.put(KFSConstants.REFRESH_CALLER, BCConstants.BC_DOCUMENT_REFRESH_CALLER);
-    
-    String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
-    return new ActionForward(lookupUrl, true);
+    if (docForm.isPickListMode()){
+        // TODO for now just redisplay with a message
+        GlobalVariables.getMessageList().add("message.budget.successfulClose");
+        docForm.setPickListClose(true);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+
+    } else {
+
+        // setup the return parms for the document and anchor
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_SELECTION_REFRESH_METHOD);
+        parameters.put(KFSConstants.DOC_FORM_KEY, docForm.getReturnFormKey());
+        parameters.put(KFSConstants.ANCHOR, docForm.getReturnAnchor());
+        parameters.put(KFSConstants.REFRESH_CALLER, BCConstants.BC_DOCUMENT_REFRESH_CALLER);
+        
+        String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
+        return new ActionForward(lookupUrl, true);
+    }
     
 //TODO this needs to return to bc doc selection
 //    return returnToSender(mapping, docForm);

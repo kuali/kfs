@@ -43,6 +43,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     private PendingBudgetConstructionGeneralLedger newExpenditureLine;
 
     private boolean hideDetails = false;
+    private boolean pickListClose = false;
 
     //passed parms
     private String returnAnchor;
@@ -51,6 +52,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
+    private boolean pickListMode;
 
     public BudgetConstructionForm() {
         super();
@@ -390,6 +392,38 @@ public boolean isBenefitsCalculationDisabled() {
  */
 public boolean isSalarySettingDisabled() {
     return SpringContext.getBean(SalarySettingService.class).getSalarySettingDisabled();
+}
+
+/**
+ * Gets the pickListMode attribute. 
+ * @return Returns the pickListMode.
+ */
+public boolean isPickListMode() {
+    return pickListMode;
+}
+
+/**
+ * Sets the pickListMode attribute value.
+ * @param pickListMode The pickListMode to set.
+ */
+public void setPickListMode(boolean pickListMode) {
+    this.pickListMode = pickListMode;
+}
+
+/**
+ * Gets the pickListClose attribute. 
+ * @return Returns the pickListClose.
+ */
+public boolean isPickListClose() {
+    return pickListClose;
+}
+
+/**
+ * Sets the pickListClose attribute value.
+ * @param pickListClose The pickListClose to set.
+ */
+public void setPickListClose(boolean pickListClose) {
+    this.pickListClose = pickListClose;
 }
 
    

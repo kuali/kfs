@@ -25,6 +25,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 
 /**
  * 
@@ -44,6 +45,9 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 	private String financialDocumentInitiatorIdentifier;
 	private Date financialDocumentCreateDate;
 
+    // we use the linkButtonOption from this object
+    private TransientBalanceInquiryAttributes dummyBusinessObject;
+
     private BudgetConstructionHeader budgetConstructionHeader;
 	private Account account;
 	private Chart chartOfAccounts;
@@ -55,7 +59,9 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 	 * Default constructor.
 	 */
 	public BudgetConstructionAccountSelect() {
-
+        super();
+        this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
+        this.dummyBusinessObject.setLinkButtonOption("Load Document");
 	}
 
 	/**
@@ -425,6 +431,22 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
      */
     public void setSubAccount(SubAccount subAccount) {
         this.subAccount = subAccount;
+    }
+
+    /**
+     * Gets the dummyBusinessObject attribute. 
+     * @return Returns the dummyBusinessObject.
+     */
+    public TransientBalanceInquiryAttributes getDummyBusinessObject() {
+        return dummyBusinessObject;
+    }
+
+    /**
+     * Sets the dummyBusinessObject attribute value.
+     * @param dummyBusinessObject The dummyBusinessObject to set.
+     */
+    public void setDummyBusinessObject(TransientBalanceInquiryAttributes dummyBusinessObject) {
+        this.dummyBusinessObject = dummyBusinessObject;
     }
 
     /**

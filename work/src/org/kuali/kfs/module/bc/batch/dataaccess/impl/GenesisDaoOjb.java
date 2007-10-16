@@ -33,6 +33,7 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.dao.DocumentDao;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
@@ -49,6 +50,7 @@ import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.KFSConstants.ParameterValues;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.KFSUtils;
+import org.springframework.dao.DataAccessException;
 import org.kuali.module.budget.bo.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.module.budget.bo.BudgetConstructionAccountReports;
 import org.kuali.module.budget.bo.BudgetConstructionCalculatedSalaryFoundationTracker;
@@ -78,6 +80,11 @@ import edu.iu.uis.eden.KEWServiceLocator;
 import edu.iu.uis.eden.exception.WorkflowException;
 import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
 import edu.iu.uis.eden.routeheader.RouteHeaderService;
+// October, 2007 additions
+import edu.iu.uis.eden.actions.CompleteAction;
+import edu.iu.uis.eden.actions.ActionTakenEvent;
+import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
+import edu.iu.uis.eden.server.BeanConverter;
 
 
 public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb 
@@ -800,7 +807,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         }
         createNewDocumentsCleanUp();
     }
-    
+ /*  @@TODO:  this is prior to October, 2007, when calling complete stopped running in finite time   
     private void finalizeBCDocument(BudgetConstructionDocument bcDoc) throws WorkflowException
     {
         // this routine reads the actual workflow tables to set the status dates and the final status code
@@ -813,6 +820,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         routeHeader.markDocumentFinalized();
         routeHeaderService.saveRouteHeader(routeHeader);
     }
+*/    
 
     //  here are the private methods that go with it      
     private void getAndStoreCurrentCSFBCHeaderCandidates(Integer BaseYear)
@@ -1080,6 +1088,26 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         }
     }
     
+    //@@TODO:  this method was added in October, 2007 in an attempt to speed things up
+    private void saveBCDocumentInWorkflow(BudgetConstructionDocument bcDoc) throws WorkflowException
+    {
+       // first, fetch the DB version of the workflow document saved when Kuali checked for the correct document type 
+        DocumentRouteHeaderValue ourWorkflowDoc = 
+         routeHeaderService.getRouteHeader(bcDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+       // next, call the complete method in the document service
+       // WorkflowDocumentService interface has a complete method, but its Kuali counterpart does not
+       // so, we mimic the workflow call here.  complete should be added to Kuali 
+       CompleteAction action = new CompleteAction(ourWorkflowDoc, ourWorkflowDoc.getInitiatorUser(), "created by Genesis");
+       action.recordAction();
+       // there was no need to queue.  we want to mark the document final and save it 
+       ourWorkflowDoc.markDocumentEnroute();
+       ourWorkflowDoc.markDocumentApproved();
+       ourWorkflowDoc.markDocumentProcessed();
+       ourWorkflowDoc.markDocumentFinalized();
+       routeHeaderService.saveRouteHeader(ourWorkflowDoc);
+    }
+
+    
     public void setUpCSFHashStructures(Integer BaseYear)
     {
        // these are the potential document keys in the CSF tracker
@@ -1144,8 +1172,15 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         documentService.prepareWorkflowDocument(newBCHdr);
         // this is more efficient than route and does what we want
         // it calls a document method, not a service
-        newBCHdr.getDocumentHeader().getWorkflowDocument().complete("created by Genesis");
-        finalizeBCDocument(newBCHdr);
+        // newBCHdr.getDocumentHeader().getWorkflowDocument().complete("created by Genesis");
+        // October, 2007:  refactoring has made BC document creation unacceptably slow
+        // we are going to attempt to streamline the process by by-passing the workflowDocumentActionWebService
+        // (which is called by complete above) and simply saving our document and its action log message directly
+        // using workflowDocumentService routines
+        saveBCDocumentInWorkflow(newBCHdr);
+        //@@TODO: end October 2007 additions
+        //@@TODO: October 2007 deletion
+        // finalizeBCDocument(newBCHdr);
 //        workflowDocumentService.route(newBCHdr.getDocumentHeader().getWorkflowDocument(),
 //                                      "created by Genesis",null);
    }
@@ -4413,10 +4448,13 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
 //        newBCHdr.getDocumentHeader().getWorkflowDocument().logDocumentAction(annotateDoc.toString());
 //        newBCHdr.getDocumentHeader().getWorkflowDocument().routeDocument(annotateDoc.append(": passed to route").toString());
 //  end of Eric's suggestion
-//  this complete works, but does not fill in some of the dates        
+//  this complete works, but does not fill in some of the dates 
+/*  removed October 2007, when things stopped working in finite time        
         newBCHdr.getDocumentHeader().getWorkflowDocument().complete(annotateDoc.toString());
 //  OK.  This should have saved the document.  Now, we are going to try to set all the dates and codes
         finalizeBCDocument(newBCHdr);
+*/
+    saveBCDocumentInWorkflow(newBCHdr);    
 //  do this for a timing check
         LOG.info(String.format("\nfinished processing %s",
                  newBCHdr.getDocumentHeader().getWorkflowDocument().getRouteHeaderId()));  
@@ -4449,6 +4487,73 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
            newDoc = KFSUtils.retrieveFirstAndExhaustIterator(itr);  
         }
         return newDoc;
+    }
+    
+    public void testObjectID ()
+    {
+        FiscalYearFunctionControl fyrCtrl;
+        FiscalYearFunctionControl fyrCtrl1;
+        FiscalYearFunctionControl fyrCtrl2;
+        FiscalYearFunctionControl fyrCtrl3;
+        Integer fiscalYear;
+        String  financialSystemFunctionControlCode; 
+        // get the intial row
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,2008);
+        criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE,"CSFUPD");
+        QueryByCriteria queryID = new QueryByCriteria(FiscalYearFunctionControl.class,criteriaID);
+        fyrCtrl = (FiscalYearFunctionControl) getPersistenceBrokerTemplate().getObjectByQuery(queryID);
+        // now get a new object--see if it uses the cache
+        fyrCtrl1 = (FiscalYearFunctionControl) getPersistenceBrokerTemplate().getObjectByQuery(queryID);
+        LOG.warn(String.format("\ntwo queries by criteria for same row into different object pointers (constant WHERE clauses):\n same Object? %b",
+                 fyrCtrl.equals(fyrCtrl1)));
+        // now get a new object with a different query--see if it uses the cache
+        fiscalYear = fyrCtrl.getUniversityFiscalYear();
+        financialSystemFunctionControlCode = fyrCtrl1.getFinancialSystemFunctionControlCode();
+        Criteria anotherCriteriaID = new Criteria();
+        anotherCriteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,fiscalYear);
+        anotherCriteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE,financialSystemFunctionControlCode);
+        QueryByCriteria newQueryID = new QueryByCriteria(FiscalYearFunctionControl.class,anotherCriteriaID);
+        fyrCtrl2 = (FiscalYearFunctionControl) getPersistenceBrokerTemplate().getObjectByQuery(newQueryID);
+        LOG.warn(String.format("\ntwo queries by criteria for same row into different object pointers (constant WHERE clause,"+
+                 "variable WHERE clause):\n same Object? %b",
+                fyrCtrl.equals(fyrCtrl2)));
+        // finally, try getting it using getObjectByID
+        // we will take a flying leap and guess that we should pass in the object--that's what the code looks like it wants
+        // recall that the PersistenceBrokerTemplate converts PersistenceBrokerException into a DataAccess Exception
+        try
+        {
+        fyrCtrl3 = (FiscalYearFunctionControl) getPersistenceBrokerTemplate().getObjectById(FiscalYearFunctionControl.class,
+                                                                              fyrCtrl2);
+        LOG.warn(String.format("\ngetObjectById: same Object? %b",
+                fyrCtrl.equals(fyrCtrl3)));
+        }
+        catch (DataAccessException e)
+        {
+            LOG.warn(String.format("\nPersistenceBrokerException when trying to read Identity for pointer fyrCtrl2:\n%s",e));
+        }
+        try
+        {
+        fyrCtrl3 = (FiscalYearFunctionControl) getPersistenceBrokerTemplate().getObjectById(FiscalYearFunctionControl.class,
+                                                                              fyrCtrl1);
+        LOG.warn(String.format("\ngetObjectById: same Object? %b",
+                fyrCtrl.equals(fyrCtrl3)));
+        }
+        catch (DataAccessException e)
+        {
+            LOG.warn(String.format("\nPersistenceBrokerException when trying to read Identity for pointer fyrCtrl1:\n%s",e));
+        }
+        try
+        {
+        fyrCtrl3 = (FiscalYearFunctionControl) getPersistenceBrokerTemplate().getObjectById(FiscalYearFunctionControl.class,
+                                                                              fyrCtrl);
+        LOG.warn(String.format("\ngetObjectById: same Object? %b",
+                fyrCtrl.equals(fyrCtrl3)));
+        }
+        catch (DataAccessException e)
+        {
+            LOG.warn(String.format("\nPersistenceBrokerException when trying to read Identity for pointer fyrCtrl:\n%s",e));
+        }
     }
     
         

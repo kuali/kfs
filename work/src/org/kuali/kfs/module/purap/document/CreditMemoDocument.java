@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
@@ -32,6 +33,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ConciseXmlDocumentConversionService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
@@ -74,6 +76,11 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         super();
     }
 
+    @Override
+    protected Document getDocumentRepresentationForSerialization() {
+        return SpringContext.getBean(ConciseXmlDocumentConversionService.class).getDocumentForSerialization(this);
+    }
+    
     public boolean isSourceDocumentPaymentRequest() {
         return getPaymentRequestIdentifier() != null;
     }

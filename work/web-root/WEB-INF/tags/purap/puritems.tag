@@ -349,7 +349,7 @@
 					        <c:otherwise>
 					            <c:if test="${(itemLine.itemInvoicedTotalAmount != null and itemLine.itemActiveIndicator)}">
 					                <td class="infoline">&nbsp;</td>
-					</c:if>
+								</c:if>
 					        </c:otherwise>
 					    </c:choose>
 					</c:if>

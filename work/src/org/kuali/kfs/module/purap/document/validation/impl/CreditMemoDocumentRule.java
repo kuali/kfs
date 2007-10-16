@@ -313,7 +313,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
         else {
             // check if quantity should be required
             KualiDecimal invoicedQuantity = getSourceTotalInvoiceQuantity(cmDocument, item);
-            if (item.getItemType().isQuantityBasedGeneralLedgerIndicator() && invoicedQuantity.isGreaterThan(KualiDecimal.ZERO) && (item.getExtendedPrice() != null && item.getExtendedPrice().isGreaterThan(KualiDecimal.ZERO))) {
+            if (item.getItemType().isQuantityBasedGeneralLedgerIndicator() && (invoicedQuantity != null && invoicedQuantity.isGreaterThan(KualiDecimal.ZERO)) && (item.getExtendedPrice() != null && item.getExtendedPrice().isGreaterThan(KualiDecimal.ZERO))) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(CreditMemoItem.class, PurapPropertyConstants.QUANTITY);
                 GlobalVariables.getErrorMap().putError(errorKey, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;

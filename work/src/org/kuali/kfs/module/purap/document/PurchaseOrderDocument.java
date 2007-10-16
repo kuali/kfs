@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
@@ -38,6 +39,7 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ConciseXmlDocumentConversionService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
@@ -138,6 +140,10 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.purchaseOrderVendorQuotes = new TypedArrayList( PurchaseOrderVendorQuote.class );
     }
 
+    @Override
+    protected Document getDocumentRepresentationForSerialization() {
+        return SpringContext.getBean(ConciseXmlDocumentConversionService.class).getDocumentForSerialization(this);
+    }
 
     public ContractManager getContractManager() {
         return contractManager;
@@ -391,11 +397,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 
     private void appSpecificRouteDocumentToUser(KualiWorkflowDocument workflowDocument, String userNetworkId, String annotation, String responsibility) throws WorkflowException {
         if (ObjectUtils.isNotNull(workflowDocument)) {
-            String annotationNote = (ObjectUtils.isNull(annotation)) ? "" : annotation;
-            String responsibilityNote = (ObjectUtils.isNull(responsibility)) ? "" : responsibility;
-            String currentNodeName = getCurrentRouteNodeName(workflowDocument);
-            workflowDocument.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, annotationNote, new NetworkIdVO(userNetworkId), responsibilityNote, true);
-        }
+        String annotationNote = (ObjectUtils.isNull(annotation)) ? "" : annotation;
+        String responsibilityNote = (ObjectUtils.isNull(responsibility)) ? "" : responsibility;
+        String currentNodeName = getCurrentRouteNodeName(workflowDocument);
+        workflowDocument.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, annotationNote, new NetworkIdVO(userNetworkId), responsibilityNote, true);
+    }
     }
 
     /**

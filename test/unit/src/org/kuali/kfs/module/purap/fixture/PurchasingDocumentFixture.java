@@ -30,7 +30,7 @@ public enum PurchasingDocumentFixture {
     REQ_ONLY_REQUIRED_FIELDS("INST", RequisitionSources.STANDARD_ORDER, POTransmissionMethods.NOPRINT, POCostSources.ESTIMATE, null, null, 
             "UA", "PUR", "BL", null, null, null, null, null, null, "RENFROW,ROBERTA G", "test@email.com", "555-555-5555", null, null, null, null,
             "ADMN", "Administration", "123", "1 big dog", null, "campus", "AK", "46202-5260", null, "me", null, null, null, null, null, null,
-            null, null, null, "THE UNIVERSITY", "ACCOUNTS PAYABLE", null, "BUTTER NUT", "SC", "47402", "US", null, null, null, false, null, null, null),
+            null, null, null, "THE UNIVERSITY", "ACCOUNTS PAYABLE", null, "BUTTER NUT", "SC", "47402", "US", "111-111-1111", null, null, false, null, null, null),
 
     // PURCHASE ORDER FIXTURES
     PO_ONLY_REQUIRED_FIELDS("INST", RequisitionSources.STANDARD_ORDER, POTransmissionMethods.NOPRINT, POCostSources.ESTIMATE, null, null, 

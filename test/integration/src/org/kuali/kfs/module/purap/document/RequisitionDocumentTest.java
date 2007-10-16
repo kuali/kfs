@@ -128,36 +128,6 @@ public class RequisitionDocumentTest extends KualiTestBase {
         for (RequisitionItemAccountsFixture itemFixture : getItemParametersFromFixtures()) {
             document.addItem(itemFixture.populateItem());
         }
-        document.setRequisitionSourceCode(PurapConstants.RequisitionSources.STANDARD_ORDER);
-        document.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
-        document.setPurchaseOrderCostSourceCode(PurapConstants.POCostSources.ESTIMATE);
-        document.setChartOfAccountsCode("BL");
-        document.setFundingSourceCode("INST");
-        document.setOrganizationAutomaticPurchaseOrderLimit(new KualiDecimal("10000"));
-        
-        document.setDeliveryCampusCode("BL");
-        document.setBillingName("Joe Tester");
-        document.setBillingLine1Address("test");
-        document.setBillingCityName("test");
-        document.setBillingStateCode("IN");
-        document.setBillingPostalCode("10101");
-        document.setBillingCountryCode("US");
-        document.setBillingPhoneNumber("111-111-1111");
-        
-        document.setDeliveryBuildingName("Administration");
-        document.setDeliveryBuildingLine1Address("test");
-        document.setDeliveryCityName("test");
-        document.setDeliveryStateCode("IU");
-        document.setDeliveryPostalCode("10101");
-        document.setDeliveryToName("Joe Tester");
-        document.setDeliveryBuildingRoomNumber("1");
-        
-        document.setRequestorPersonName("HUNTLEY,KEISHA Y");
-        document.setRequestorPersonPhoneNumber("111-111-1111");
-        document.setRequestorPersonEmailAddress("test@test.com");
-
-        document.setPurchaseOrderTransmissionMethodCode(PurapConstants.POTransmissionMethods.PRINT);
-        document.setOrganizationCode("ACQU");
 
         return document;
     }

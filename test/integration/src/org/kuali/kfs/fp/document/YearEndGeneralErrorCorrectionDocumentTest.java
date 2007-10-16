@@ -44,7 +44,6 @@ import org.kuali.test.suite.RelatesTo;
  * 
  */
 @ConfigureContext(session = KHUNTLEY)
-@RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class YearEndGeneralErrorCorrectionDocumentTest extends KualiTestBase {
 
     public static final Class<YearEndGeneralErrorCorrectionDocument> DOCUMENT_CLASS = YearEndGeneralErrorCorrectionDocument.class;

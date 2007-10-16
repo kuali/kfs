@@ -73,13 +73,13 @@
 				          </tr>
 									<tr>
 				            <th align=right valign=top nowrap>
-											Is Payee an IU Employee? 
+											Is Payee an Employee? 
 				            </th>
 				            <td align=left class="datacell">						
-											<c:if test="${PaymentDetail.paymentGroup.employee == true}" >
+											<c:if test="${PaymentDetail.paymentGroup.employeeIndicator == true}" >
 												Yes
 											</c:if>
-											<c:if test="${PaymentDetail.paymentGroup.employee == false}" >
+											<c:if test="${PaymentDetail.paymentGroup.employeeIndicator == false}" >
 												No
 											</c:if>
 											&nbsp;

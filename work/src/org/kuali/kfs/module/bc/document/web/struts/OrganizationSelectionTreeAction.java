@@ -609,8 +609,32 @@ public class OrganizationSelectionTreeAction extends KualiAction {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         } else {
 
+            // build out base path for return location, using config service
+            String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+
+            // build out the actual form key that will be used to retrieve the form on refresh
+            String callerDocFormKey = GlobalVariables.getUserSession().addObject(form);
+
+            // now add required parameters
+            Properties parameters = new Properties();
+            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+
+            parameters.put(KFSConstants.DOC_FORM_KEY, callerDocFormKey);
+            parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
+
+            parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, "org.kuali.module.budget.bo.BudgetConstructionAccountSelect");
+            parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+            parameters.put("showInitialResults", "true");
+            parameters.put("universityFiscalYear", organizationSelectionTreeForm.getUniversityFiscalYear().toString());
+
+            parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            
+//            String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.GL_MODIFIED_INQUIRY_ACTION, parameters);
+            String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "budgetTempListLookup.do", parameters);
+            
+            return new ActionForward(lookupUrl, true);
             //TODO this will eventually change to call the budget documents picklist screen using the showall mode
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+//            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
     }

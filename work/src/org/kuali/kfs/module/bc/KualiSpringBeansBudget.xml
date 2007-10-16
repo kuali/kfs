@@ -81,6 +81,12 @@
 		</property>
 	</bean>
 
+	<bean id="budgetOrganizationBCDocumentSearchService" class="org.kuali.module.budget.service.impl.OrganizationBCDocumentSearchServiceImpl">
+		<property name="organizationBCDocumentSearchDao">
+			<ref bean="bcOrganizationBCDocumentSearchDao" />
+		</property>
+	</bean>
+
 	<bean id="lockService" class="org.kuali.module.budget.service.impl.LockServiceImpl">
 		<property name="budgetConstructionDao">
 			<ref bean="budgetConstructionDao" />
@@ -159,6 +165,9 @@
 	</bean>
 	
 	<bean id="bcOrganizationSalarySettingSearchDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.OrganizationSalarySettingSearchDaoJdbc">
+	</bean>
+
+	<bean id="bcOrganizationBCDocumentSearchDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.OrganizationBCDocumentSearchDaoJdbc">
 	</bean>
 
 	<bean id="budgetConstructionOrganizationReportsService" class="org.kuali.module.budget.service.impl.BudgetConstructionOrganizationReportsServiceImpl">

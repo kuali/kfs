@@ -307,6 +307,8 @@
 	<field-descriptor name="financialDocumentStatusCode" column="FDOC_STATUS_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentInitiatorIdentifier" column="FDOC_INITIATOR_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentCreateDate" column="FDOC_CREATE_DT" jdbc-type="DATE"/>
+
+<!-- leave this out for now, FIS selection screen has no refs to so called related table
 	<reference-descriptor name="budgetConstructionHeader" class-ref="org.kuali.module.budget.bo.BudgetConstructionHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="documentNumber" />
 		<foreignkey field-ref="universityFiscalYear" />
@@ -329,10 +331,13 @@
 		<foreignkey field-ref="accountNumber" />
 		<foreignkey field-ref="subAccountNumber" />
 	</reference-descriptor>
+-->
+<!-- leave this out for now, if needed, it should point to ld_bcn_org_rpts_t instead
 	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="organizationChartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />
 	</reference-descriptor>
+-->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger" table="LD_PND_BCNSTR_GL_T">

@@ -25,17 +25,17 @@
             <title>Budget Construction Account Select Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="subAccountNumber" />
+                <field attributeName="documentNumber" />
                 <field attributeName="financialDocumentCreateDate" />
                 <field attributeName="financialDocumentInitiatorIdentifier" />
-                <field attributeName="documentNumber" />
                 <field attributeName="financialDocumentStatusCode" />
+                <field attributeName="organizationLevelCode" />
                 <field attributeName="organizationChartOfAccountsCode" />
                 <field attributeName="organizationCode" />
-                <field attributeName="organizationLevelCode" />
                 <field attributeName="personUniversalIdentifier" />
-                <field attributeName="subAccountNumber" />
                 <field attributeName="universityFiscalYear" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -47,48 +47,44 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="universityFiscalYear" />
                     <sortAttribute attributeName="chartOfAccountsCode" />
                     <sortAttribute attributeName="accountNumber" />                    
+                    <sortAttribute attributeName="subAccountNumber" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="accountNumber" required="false" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="accountNumber" required="false" />
+                <lookupField attributeName="subAccountNumber" required="false" />
+                <lookupField attributeName="financialDocumentStatusCode" required="false" />
                 <lookupField attributeName="financialDocumentCreateDate" required="false" />
                 <lookupField attributeName="financialDocumentInitiatorIdentifier" required="false" />
-                <lookupField attributeName="documentNumber" required="false" />
-                <lookupField attributeName="financialDocumentStatusCode" required="false" />
+                <lookupField attributeName="organizationLevelCode" required="false" />
                 <lookupField attributeName="organizationChartOfAccountsCode" required="false" />
                 <lookupField attributeName="organizationCode" required="false" />
-                <lookupField attributeName="organizationLevelCode" required="false" />
                 <lookupField attributeName="personUniversalIdentifier" required="false" />
-                <lookupField attributeName="subAccountNumber" required="false" />
-                <lookupField attributeName="universityFiscalYear" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="subAccountNumber" />
+                <field attributeName="financialDocumentStatusCode" />
                 <field attributeName="financialDocumentCreateDate" />
                 <field attributeName="financialDocumentInitiatorIdentifier" />
-                <field attributeName="documentNumber" />
-                <field attributeName="financialDocumentStatusCode" />
+                <field attributeName="organizationLevelCode" />
                 <field attributeName="organizationChartOfAccountsCode" />
                 <field attributeName="organizationCode" />
-                <field attributeName="organizationLevelCode" />
                 <field attributeName="personUniversalIdentifier" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="universityFiscalYear" />
             </resultFields>
         </lookup>
 
         <attributes>
 
             <attribute name="accountNumber" forceUppercase="true">
-                <label>Account Number</label>
-                <shortLabel>Number</shortLabel>
+                <label>Account</label>
+                <shortLabel>Account</shortLabel>
 
                 <maxLength>7</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -102,8 +98,8 @@
 			</attribute>
 
             <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
+                <label>Chart</label>
+                <shortLabel>Chart</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -117,8 +113,8 @@
 			</attribute>
 
             <attribute name="financialDocumentCreateDate" forceUppercase="true">
-                <label>Financial Document Create Date</label>
-                <shortLabel>Date</shortLabel>
+                <label>Last Upd</label>
+                <shortLabel>Last Upd</shortLabel>
 
                 <maxLength>7</maxLength>
                 <validationPattern><date /></validationPattern>
@@ -132,8 +128,8 @@
 			</attribute>
 
             <attribute name="financialDocumentInitiatorIdentifier" forceUppercase="true">
-                <label>Financial Document Initiator Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+                <label>Upd by</label>
+                <shortLabel>Upd by</shortLabel>
 
                 <maxLength>10</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -162,8 +158,8 @@
 			</attribute>
 
             <attribute name="financialDocumentStatusCode" forceUppercase="true">
-                <label>Financial Document Status Code</label>
-                <shortLabel>Code</shortLabel>
+                <label>Status</label>
+                <shortLabel>Status</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -177,8 +173,8 @@
 			</attribute>
 
             <attribute name="organizationChartOfAccountsCode" forceUppercase="true">
-                <label>Organization Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
+                <label>Org Chart</label>
+                <shortLabel>Org Chart</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -192,8 +188,8 @@
 			</attribute>
 
             <attribute name="organizationCode" forceUppercase="true">
-                <label>Organization Code</label>
-                <shortLabel>Code</shortLabel>
+                <label>Org</label>
+                <shortLabel>Org</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -207,8 +203,8 @@
 			</attribute>
 
             <attribute name="organizationLevelCode" forceUppercase="true">
-                <label>Organization Level Code</label>
-                <shortLabel>Code</shortLabel>
+                <label>Org Level</label>
+                <shortLabel>Org Level</shortLabel>
 
                 <maxLength>7</maxLength>
                 <validationPattern><numeric /></validationPattern>
@@ -229,7 +225,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="12" />
+                    <hidden />
                 </control>
 
                 <summary>personUniversalIdentifier</summary>
@@ -237,8 +233,8 @@
 			</attribute>
 
             <attribute name="subAccountNumber" forceUppercase="true">
-                <label>Sub Account Number</label>
-                <shortLabel>Number</shortLabel>
+                <label>Sub Account</label>
+                <shortLabel>Sub Acct</shortLabel>
 
                 <maxLength>5</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>

@@ -31,6 +31,7 @@ import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.budget.service.OrganizationBCDocumentSearchService;
 import org.kuali.module.budget.service.OrganizationSalarySettingSearchService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.budget.web.struts.form.TempListLookupForm;
@@ -50,11 +51,16 @@ public class TempListLookupAction extends KualiLookupAction {
         ActionForward forward;
         TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
         
+        // TODO use switch here
         if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect")){
             SpringContext.getBean(OrganizationSalarySettingSearchService.class).buildIntendedIncumbentSelect(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
         }
         if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionPositionSelect")){
             SpringContext.getBean(OrganizationSalarySettingSearchService.class).buildPositionSelect(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
+        }
+        // TODO may need to pass another parameter for building variations of AccountSelect
+        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionAccountSelect")){
+            SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountSelectPullList(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
         }
 
         forward =  super.start(mapping, form, request, response);
@@ -101,11 +107,15 @@ public class TempListLookupAction extends KualiLookupAction {
         
         TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
 
+        // TODO use switch here
         if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect")){
             SpringContext.getBean(OrganizationSalarySettingSearchService.class).cleanIntendedIncumbentSelect(tempListLookupForm.getPersonUniversalIdentifier());
         }
         if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionPositionSelect")){
             SpringContext.getBean(OrganizationSalarySettingSearchService.class).cleanPositionSelect(tempListLookupForm.getPersonUniversalIdentifier());
+        }
+        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionAccountSelect")){
+            SpringContext.getBean(OrganizationBCDocumentSearchService.class).cleanAccountSelectPullList(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
         }
 
         return super.cancel(mapping, form, request, response);

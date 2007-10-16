@@ -42,7 +42,7 @@ import org.kuali.kfs.bo.State;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.AwardAccount;
 import org.kuali.module.cg.bo.Cfda;
-import org.kuali.module.chart.bo.odes.BudgetRecordingLevel;
+import org.kuali.module.chart.bo.codes.BudgetRecordingLevel;
 import org.kuali.module.chart.bo.codes.ICRTypeCode;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
 import org.kuali.module.chart.service.SubFundGroupService;

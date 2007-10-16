@@ -20,7 +20,9 @@ import java.math.BigDecimal;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.purap.bo.PurApAccountingLine;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.RequisitionAccount;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.test.fixtures.AccountingLineFixture;
 
 public enum RequisitionAccountingLineFixture {
@@ -40,4 +42,19 @@ public enum RequisitionAccountingLineFixture {
         
         return line;
     }
+    
+    /**
+     * 
+     * This method adds an account to an item
+     * @param document
+     * @param purApItemFixture
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     */
+    public void addTo(PurApItem item, PurApAccountingLineFixture purApaccountFixture, AccountingLineFixture alFixture) 
+        throws IllegalAccessException, InstantiationException {
+//        purApaccountFixture.createPurApAccountingLine(RequisitionAccount.class, alFixture);
+        if(0==0);
+    }   
+
 }

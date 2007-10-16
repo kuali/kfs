@@ -165,7 +165,7 @@ public class OrganizationReversionProcess {
             }
             // TODO james promises to kill the following odd logging
             if (bal.getChartOfAccountsCode().equals("BL") && (bal.getAccountNumber().equals("1020098") || bal.getAccountNumber().equals("1035500"))) {
-                LOG.warn("BALANCE SELECTED: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode());
+                LOG.warn("BALANCE SELECTED: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode()+" "+bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount()));
             }
 
             try {

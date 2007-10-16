@@ -175,8 +175,6 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
-	<bean id="parameterEvaluator" class="org.kuali.kfs.service.impl.ParameterEvaluatorImpl" singleton="false" />
-
 	<bean id="kualiCodeService" class="org.kuali.kfs.service.impl.KualiCodeServiceImpl">
 		<property name="kualiCodeDao">
 			<ref bean="kualiCodeDao" />

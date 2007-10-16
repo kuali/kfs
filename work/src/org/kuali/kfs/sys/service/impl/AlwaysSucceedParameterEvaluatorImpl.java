@@ -65,13 +65,4 @@ public class AlwaysSucceedParameterEvaluatorImpl implements ParameterEvaluator {
 
     public void setConstrainedValue(String constrainedValue) {
     }
-
-    public void setConstraintIsAllow(boolean constraintIsAllow) {
-    }
-
-    public void setParameter(Parameter parameter) {
-    }
-
-    public void setValues(List<String> values) {
-    }
 }

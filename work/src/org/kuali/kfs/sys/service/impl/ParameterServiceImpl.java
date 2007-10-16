@@ -329,7 +329,7 @@ public class ParameterServiceImpl implements ParameterService {
     }
 
     private ParameterEvaluator getParameterEvaluator(Parameter parameter) {
-        ParameterEvaluator parameterEvaluator = SpringContext.getBean(ParameterEvaluator.class);
+        ParameterEvaluatorImpl parameterEvaluator = new ParameterEvaluatorImpl();
         parameterEvaluator.setParameter(parameter);
         parameterEvaluator.setConstraintIsAllow(constraintIsAllow(parameter));
         parameterEvaluator.setValues(getParameterValues(parameter));
@@ -344,7 +344,7 @@ public class ParameterServiceImpl implements ParameterService {
 
     private ParameterEvaluator getParameterEvaluator(Parameter parameter, String constrainingValue, String constrainedValue) {
         ParameterEvaluator parameterEvaluator = getParameterEvaluator(parameter, constrainedValue);
-        parameterEvaluator.setValues(getParameterValues(parameter, constrainingValue));
+        ((ParameterEvaluatorImpl)parameterEvaluator).setValues(getParameterValues(parameter, constrainingValue));
         return parameterEvaluator;
     }
 

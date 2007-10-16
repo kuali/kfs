@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.core.bo.Parameter;
 
 /**
- * This is a stateful SOA wrapper for Parameters, which provides convenient methods to evaluate a constrained value against a
+ * This is a stateful wrapper for Parameters, which provides convenient methods to evaluate a constrained value against a
  * Parameter.
  */
 public interface ParameterEvaluator extends Serializable{
@@ -79,11 +79,5 @@ public interface ParameterEvaluator extends Serializable{
      */
     public String getValue();
 
-    public void setParameter(Parameter parameter);
-
-    public void setConstraintIsAllow(boolean constraintIsAllow);
-
     public void setConstrainedValue(String constrainedValue);
-
-    public void setValues(List<String> values);
 }

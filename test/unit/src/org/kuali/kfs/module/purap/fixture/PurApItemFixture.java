@@ -23,20 +23,20 @@ import org.kuali.module.purap.bo.RequisitionItem;
 
 public enum PurApItemFixture {
     BASIC_QTY_ITEM_1 (
-            new Integer("123456"),
-            new Integer(1),
-            "",
-            "",
-            "",
-            "",
-            "",
-            new BigDecimal(1),
-            "",
-            "",
-            "",
-            "",
-            false,
-            new KualiDecimal(0))
+            new Integer("123456"),  // itemIdentifier
+            new Integer(1),         // itemLineNumber
+            "",                     // capitalAssetTransactionTypeCode
+            "",                     // itemUnitOfMeasureCode
+            "",                     // itemCatalogNumber
+            "",                     // itemDescription
+            "",                     // itemCapitalAssetNoteText
+            new BigDecimal(1),      // itemUnitPrice
+            "",                     // itemTypeCode
+            "",                     // itemAuxiliaryPartIdentifier
+            "",                     // externalOrganizationB2bProductReferenceNumber
+            "",                     // externalOrganizationB2bProductTypeName
+            false,                  // itemAssignedToTradeInIndicator
+            new KualiDecimal(0))    // extendedPrice
     ;
     
     private Integer itemIdentifier;

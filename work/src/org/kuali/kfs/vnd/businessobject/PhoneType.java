@@ -21,7 +21,9 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Phone Types for Vendors.
+ * These types may be based on technical distinctions, the Vendor's organization,
+ * or the phone's intended purpose.
  */
 public class PhoneType extends PersistableBusinessObjectBase {
 
@@ -36,60 +38,29 @@ public class PhoneType extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the vendorPhoneTypeCode attribute.
-	 * 
-	 * @return Returns the vendorPhoneTypeCode
-	 * 
-	 */
-	public String getVendorPhoneTypeCode() { 
+	public String getVendorPhoneTypeCode() {
+        
 		return vendorPhoneTypeCode;
 	}
 
-	/**
-	 * Sets the vendorPhoneTypeCode attribute.
-	 * 
-	 * @param vendorPhoneTypeCode The vendorPhoneTypeCode to set.
-	 * 
-	 */
 	public void setVendorPhoneTypeCode(String vendorPhoneTypeCode) {
 		this.vendorPhoneTypeCode = vendorPhoneTypeCode;
 	}
 
-
-	/**
-	 * Gets the vendorPhoneTypeDescription attribute.
-	 * 
-	 * @return Returns the vendorPhoneTypeDescription
-	 * 
-	 */
-	public String getVendorPhoneTypeDescription() { 
+	public String getVendorPhoneTypeDescription() {
+        
 		return vendorPhoneTypeDescription;
 	}
 
-	/**
-	 * Sets the vendorPhoneTypeDescription attribute.
-	 * 
-	 * @param vendorPhoneTypeDescription The vendorPhoneTypeDescription to set.
-	 * 
-	 */
 	public void setVendorPhoneTypeDescription(String vendorPhoneTypeDescription) {
 		this.vendorPhoneTypeDescription = vendorPhoneTypeDescription;
 	}
 
-
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
+        
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -100,6 +71,7 @@ public class PhoneType extends PersistableBusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("vendorPhoneTypeCode", this.vendorPhoneTypeCode);
+        
 	    return m;
     }
 }

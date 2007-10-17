@@ -21,7 +21,11 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
+ * Broad categories in which a vendor may be included, exclusively, as opposed to a kind of 
+ * basic business organization that the vendor may have, which would be an instance of 
+ * <code>OwnershipType</code>.
  * 
+ * @see org.kuali.module.vendor.bo.OwnershipType
  */
 public class OwnershipCategory extends PersistableBusinessObjectBase {
 
@@ -36,59 +40,29 @@ public class OwnershipCategory extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the vendorOwnershipCategoryCode attribute.
-	 * 
-	 * @return Returns the vendorOwnershipCategoryCode
-	 * 
-	 */
-	public String getVendorOwnershipCategoryCode() { 
+	public String getVendorOwnershipCategoryCode() {
+        
 		return vendorOwnershipCategoryCode;
 	}
 
-	/**
-	 * Sets the vendorOwnershipCategoryCode attribute.
-	 * 
-	 * @param vendorOwnershipCategoryCode The vendorOwnershipCategoryCode to set.
-	 * 
-	 */
 	public void setVendorOwnershipCategoryCode(String vendorOwnershipCategoryCode) {
 		this.vendorOwnershipCategoryCode = vendorOwnershipCategoryCode;
 	}
 
-
-	/**
-	 * Gets the vendorOwnershipCategoryDescription attribute.
-	 * 
-	 * @return Returns the vendorOwnershipCategoryDescription
-	 * 
-	 */
-	public String getVendorOwnershipCategoryDescription() { 
+	public String getVendorOwnershipCategoryDescription() {
+        
 		return vendorOwnershipCategoryDescription;
 	}
 
-	/**
-	 * Sets the vendorOwnershipCategoryDescription attribute.
-	 * 
-	 * @param vendorOwnershipCategoryDescription The vendorOwnershipCategoryDescription to set.
-	 * 
-	 */
 	public void setVendorOwnershipCategoryDescription(String vendorOwnershipCategoryDescription) {
 		this.vendorOwnershipCategoryDescription = vendorOwnershipCategoryDescription;
 	}
 
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
+        
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -99,6 +73,7 @@ public class OwnershipCategory extends PersistableBusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("vendorOwnershipCategoryCode", this.vendorOwnershipCategoryCode);
+        
 	    return m;
     }
 }

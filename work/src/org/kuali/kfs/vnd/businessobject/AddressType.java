@@ -21,7 +21,11 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
+ * Address Types for Vendor Addresses.
+ * Used to distinguish the intended use of this address among the various addresses
+ * that a vendor might give out.
  * 
+ * @see org.kuali.module.vendor.bo.VendorAddress
  */
 public class AddressType extends PersistableBusinessObjectBase {
 
@@ -37,68 +41,32 @@ public class AddressType extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the vendorAddressTypeCode attribute.
-	 * 
-	 * @return Returns the vendorAddressTypeCode
-	 * 
-	 */
-	public String getVendorAddressTypeCode() { 
+	public String getVendorAddressTypeCode() {
+        
 		return vendorAddressTypeCode;
 	}
 
-	/**
-	 * Sets the vendorAddressTypeCode attribute.
-	 * 
-	 * @param vendorAddressTypeCode The vendorAddressTypeCode to set.
-	 * 
-	 */
 	public void setVendorAddressTypeCode(String vendorAddressTypeCode) {
 		this.vendorAddressTypeCode = vendorAddressTypeCode;
 	}
 
-
-	/**
-	 * Gets the vendorAddressTypeDescription attribute.
-	 * 
-	 * @return Returns the vendorAddressTypeDescription
-	 * 
-	 */
-	public String getVendorAddressTypeDescription() { 
+	public String getVendorAddressTypeDescription() {
+        
 		return vendorAddressTypeDescription;
 	}
 
-	/**
-	 * Sets the vendorAddressTypeDescription attribute.
-	 * 
-	 * @param vendorAddressTypeDescription The vendorAddressTypeDescription to set.
-	 * 
-	 */
 	public void setVendorAddressTypeDescription(String vendorAddressTypeDescription) {
 		this.vendorAddressTypeDescription = vendorAddressTypeDescription;
 	}
 
-
-	/**
-	 * Gets the vendorDefaultIndicator attribute.
-	 * 
-	 * @return Returns the vendorDefaultIndicator
-	 * 
-	 */
 	public boolean getVendorDefaultIndicator() { 
+        
 		return vendorDefaultIndicator;
 	}
 
-	/**
-	 * Sets the vendorDefaultIndicator attribute.
-	 * 
-	 * @param vendorDefaultIndicator The vendorDefaultIndicator to set.
-	 * 
-	 */
 	public void setVendorDefaultIndicator(boolean vendorDefaultIndicator) {
 		this.vendorDefaultIndicator = vendorDefaultIndicator;
 	}
-
 
 	/**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -106,10 +74,12 @@ public class AddressType extends PersistableBusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("vendorAddressTypeCode", this.vendorAddressTypeCode);
+        
 	    return m;
     }
 
     public boolean isActive() {
+        
         return active;
     }
 

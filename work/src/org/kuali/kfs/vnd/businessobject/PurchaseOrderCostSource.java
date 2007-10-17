@@ -21,7 +21,11 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
+ * Arbitrary categories per Vendor Contract for the purpose of tracking various
+ * kinds of costs that may be incurred by Purchase Orders which use the Vendors
+ * which have these Contracts.
  * 
+ * @see org.kuali.module.vendor.bo.VendorContract
  */
 public class PurchaseOrderCostSource extends PersistableBusinessObjectBase {
 
@@ -36,59 +40,29 @@ public class PurchaseOrderCostSource extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the purchaseOrderCostSourceCode attribute.
-	 * 
-	 * @return Returns the purchaseOrderCostSourceCode
-	 * 
-	 */
-	public String getPurchaseOrderCostSourceCode() { 
+	public String getPurchaseOrderCostSourceCode() {
+        
 		return purchaseOrderCostSourceCode;
 	}
 
-	/**
-	 * Sets the purchaseOrderCostSourceCode attribute.
-	 * 
-	 * @param purchaseOrderCostSourceCode The purchaseOrderCostSourceCode to set.
-	 * 
-	 */
 	public void setPurchaseOrderCostSourceCode(String purchaseOrderCostSourceCode) {
 		this.purchaseOrderCostSourceCode = purchaseOrderCostSourceCode;
 	}
 
-
-	/**
-	 * Gets the purchaseOrderCostSourceDescription attribute.
-	 * 
-	 * @return Returns the purchaseOrderCostSourceDescription
-	 * 
-	 */
-	public String getPurchaseOrderCostSourceDescription() { 
+	public String getPurchaseOrderCostSourceDescription() {
+        
 		return purchaseOrderCostSourceDescription;
 	}
 
-	/**
-	 * Sets the purchaseOrderCostSourceDescription attribute.
-	 * 
-	 * @param purchaseOrderCostSourceDescription The purchaseOrderCostSourceDescription to set.
-	 * 
-	 */
 	public void setPurchaseOrderCostSourceDescription(String purchaseOrderCostSourceDescription) {
 		this.purchaseOrderCostSourceDescription = purchaseOrderCostSourceDescription;
 	}
 
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
+        
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -99,6 +73,7 @@ public class PurchaseOrderCostSource extends PersistableBusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("purchaseOrderCostSourceCode", this.purchaseOrderCostSourceCode);
+        
 	    return m;
     }
 }

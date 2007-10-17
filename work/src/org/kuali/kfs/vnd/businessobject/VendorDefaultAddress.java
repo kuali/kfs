@@ -26,7 +26,12 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.vendor.util.VendorRoutingComparable;
 
 /**
+ * An association between a <code>Campus</code> and a <code>VendorAddress</code> to indicate
+ * that the Address is the default one for this Campus among the various Addresses available
+ * for this Vendor.
  * 
+ * @see org.kuali.core.bo.Campus
+ * @see org.kuali.module.vendor.bo.VendorAddress
  */
 public class VendorDefaultAddress extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivateable {
 
@@ -45,70 +50,35 @@ public class VendorDefaultAddress extends PersistableBusinessObjectBase implemen
 
 	}
 
-	/**
-	 * Gets the vendorCampusCode attribute.
-	 * 
-	 * @return Returns the vendorCampusCode
-	 * 
-	 */
-	public String getVendorCampusCode() { 
+	public String getVendorCampusCode() {
+        
 		return vendorCampusCode;
 	}
 
-	/**
-	 * Sets the vendorCampusCode attribute.
-	 * 
-	 * @param vendorCampusCode The vendorCampusCode to set.
-	 * 
-	 */
 	public void setVendorCampusCode(String vendorCampusCode) {
 		this.vendorCampusCode = vendorCampusCode;
 	}
 
-
-	/**
-	 * Gets the vendorAddressGeneratedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorAddressGeneratedIdentifier
-	 * 
-	 */
-	public Integer getVendorAddressGeneratedIdentifier() { 
+	public Integer getVendorAddressGeneratedIdentifier() {
+        
 		return vendorAddressGeneratedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorAddressGeneratedIdentifier attribute.
-	 * 
-	 * @param vendorAddressGeneratedIdentifier The vendorAddressGeneratedIdentifier to set.
-	 * 
-	 */
 	public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier) {
 		this.vendorAddressGeneratedIdentifier = vendorAddressGeneratedIdentifier;
 	}
 
-    /**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
+        
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
-    
-	/**
-	 * Gets the vendorAddress attribute.
-	 * 
-	 * @return Returns the vendorAddress
-	 * 
-	 */
-	public VendorAddress getVendorAddress() { 
+
+	public VendorAddress getVendorAddress() {
+        
 		return vendorAddress;
 	}
 
@@ -122,13 +92,9 @@ public class VendorDefaultAddress extends PersistableBusinessObjectBase implemen
 		this.vendorAddress = vendorAddress;
 	}
 
-	/**
-	 * Gets the vendorCampus attribute.
-	 * 
-	 * @return Returns the vendorCampus
-	 * 
-	 */
-	public Campus getVendorCampus() { 
+
+	public Campus getVendorCampus() {
+        
 		return vendorCampus;
 	}
 
@@ -142,18 +108,11 @@ public class VendorDefaultAddress extends PersistableBusinessObjectBase implemen
 		this.vendorCampus = vendorCampus;
 	}
 
-    /**
-     * Gets the vendorDefaultAddressGeneratedIdentifier attribute. 
-     * @return Returns the vendorDefaultAddressGeneratedIdentifier.
-     */
     public Integer getVendorDefaultAddressGeneratedIdentifier() {
+        
         return vendorDefaultAddressGeneratedIdentifier;
     }
 
-    /**
-     * Sets the vendorDefaultAddressGeneratedIdentifier attribute value.
-     * @param vendorDefaultAddressGeneratedIdentifier The vendorDefaultAddressGeneratedIdentifier to set.
-     */
     public void setVendorDefaultAddressGeneratedIdentifier(Integer vendorDefaultAddressGeneratedIdentifier) {
         this.vendorDefaultAddressGeneratedIdentifier = vendorDefaultAddressGeneratedIdentifier;
     }
@@ -163,9 +122,11 @@ public class VendorDefaultAddress extends PersistableBusinessObjectBase implemen
      */
     public boolean isEqualForRouting( Object toCompare ) {
         if( ( ObjectUtils.isNull( toCompare ) ) || !( toCompare instanceof VendorDefaultAddress ) ) {
+            
             return false;
         } else {
             VendorDefaultAddress vda = (VendorDefaultAddress)toCompare;
+            
             return new EqualsBuilder()
                 .append( this.getVendorDefaultAddressGeneratedIdentifier(), 
                         vda.getVendorDefaultAddressGeneratedIdentifier() )
@@ -185,6 +146,7 @@ public class VendorDefaultAddress extends PersistableBusinessObjectBase implemen
             m.put("vendorAddressGeneratedIdentifier", this.vendorAddressGeneratedIdentifier.toString());
         }
         m.put("vendorCampusCode", this.vendorCampusCode);
+        
         return m;
     }
 

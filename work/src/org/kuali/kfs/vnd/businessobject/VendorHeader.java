@@ -28,7 +28,10 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.vendor.service.impl.VendorServiceImpl;
 
 /**
+ * Contains information specific to a parent Vendor, which may be shared
+ * by its division Vendors if it has any.  Contained by a <code>VendorDetail</code>.
  * 
+ * @see org.kuali.module.vendor.bo.VendorDetail
  */
 public class VendorHeader extends PersistableBusinessObjectBase {
     private static Logger LOG = Logger.getLogger(VendorHeader.class);
@@ -59,218 +62,98 @@ public class VendorHeader extends PersistableBusinessObjectBase {
         vendorSupplierDiversities = new TypedArrayList(VendorSupplierDiversity.class);
 	}
 
-	/**
-	 * Gets the vendorHeaderGeneratedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorHeaderGeneratedIdentifier
-	 * 
-	 */
-	public Integer getVendorHeaderGeneratedIdentifier() { 
+	public Integer getVendorHeaderGeneratedIdentifier() {
+        
 		return vendorHeaderGeneratedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorHeaderGeneratedIdentifier attribute.
-	 * 
-	 * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
-	 * 
-	 */
 	public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
 		this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorTypeCode attribute.
-	 * 
-	 * @return Returns the vendorTypeCode
-	 * 
-	 */
 	public String getVendorTypeCode() { 
+        
 		return vendorTypeCode;
 	}
 
-	/**
-	 * Sets the vendorTypeCode attribute.
-	 * 
-	 * @param vendorTypeCode The vendorTypeCode to set.
-	 * 
-	 */
 	public void setVendorTypeCode(String vendorTypeCode) {
 		this.vendorTypeCode = vendorTypeCode;
 	}
 
-
-	/**
-	 * Gets the vendorTaxNumber attribute.
-	 * 
-	 * @return Returns the vendorTaxNumber
-	 * 
-	 */
-	public String getVendorTaxNumber() { 
+	public String getVendorTaxNumber() {
+        
 		return vendorTaxNumber;
 	}
 
-	/**
-	 * Sets the vendorTaxNumber attribute.
-	 * 
-	 * @param vendorTaxNumber The vendorTaxNumber to set.
-	 * 
-	 */
 	public void setVendorTaxNumber(String vendorTaxNumber) {
 		this.vendorTaxNumber = vendorTaxNumber;
 	}
 
-    /**
-     * Gets the vendorTaxTypeCode attribute. 
-     * @return Returns the vendorTaxTypeCode.
-     */
     public String getVendorTaxTypeCode() {
+        
         return vendorTaxTypeCode;
     }
 
-    /**
-     * Sets the vendorTaxTypeCode attribute value.
-     * @param vendorTaxTypeCode The vendorTaxTypeCode to set.
-     */
     public void setVendorTaxTypeCode(String vendorTaxTypeCode) {
         this.vendorTaxTypeCode = vendorTaxTypeCode;
     } 
-    
-	/**
-	 * Gets the vendorOwnershipCode attribute.
-	 * 
-	 * @return Returns the vendorOwnershipCode
-	 * 
-	 */
-	public String getVendorOwnershipCode() { 
+
+	public String getVendorOwnershipCode() {
+        
 		return vendorOwnershipCode;
 	}
 
-	/**
-	 * Sets the vendorOwnershipCode attribute.
-	 * 
-	 * @param vendorOwnershipCode The vendorOwnershipCode to set.
-	 * 
-	 */
 	public void setVendorOwnershipCode(String vendorOwnershipCode) {
 		this.vendorOwnershipCode = vendorOwnershipCode;
 	}
 
-
-	/**
-	 * Gets the vendorOwnershipCategoryCode attribute.
-	 * 
-	 * @return Returns the vendorOwnershipCategoryCode
-	 * 
-	 */
-	public String getVendorOwnershipCategoryCode() { 
+	public String getVendorOwnershipCategoryCode() {
+        
 		return vendorOwnershipCategoryCode;
 	}
 
-	/**
-	 * Sets the vendorOwnershipCategoryCode attribute.
-	 * 
-	 * @param vendorOwnershipCategoryCode The vendorOwnershipCategoryCode to set.
-	 * 
-	 */
 	public void setVendorOwnershipCategoryCode(String vendorOwnershipCategoryCode) {
 		this.vendorOwnershipCategoryCode = vendorOwnershipCategoryCode;
 	}
 
-
-	/**
-	 * Gets the vendorFederalWithholdingTaxBeginningDate attribute.
-	 * 
-	 * @return Returns the vendorFederalWithholdingTaxBeginningDate
-	 * 
-	 */
-	public Date getVendorFederalWithholdingTaxBeginningDate() { 
+	public Date getVendorFederalWithholdingTaxBeginningDate() {
+        
 		return vendorFederalWithholdingTaxBeginningDate;
 	}
 
-	/**
-	 * Sets the vendorFederalWithholdingTaxBeginningDate attribute.
-	 * 
-	 * @param vendorFederalWithholdingTaxBeginningDate The vendorFederalWithholdingTaxBeginningDate to set.
-	 * 
-	 */
 	public void setVendorFederalWithholdingTaxBeginningDate(Date vendorFederalWithholdingTaxBeginningDate) {
 		this.vendorFederalWithholdingTaxBeginningDate = vendorFederalWithholdingTaxBeginningDate;
 	}
 
-
-	/**
-	 * Gets the vendorFederalWithholdingTaxEndDate attribute.
-	 * 
-	 * @return Returns the vendorFederalWithholdingTaxEndDate
-	 * 
-	 */
-	public Date getVendorFederalWithholdingTaxEndDate() { 
+	public Date getVendorFederalWithholdingTaxEndDate() {
+        
 		return vendorFederalWithholdingTaxEndDate;
 	}
 
-	/**
-	 * Sets the vendorFederalWithholdingTaxEndDate attribute.
-	 * 
-	 * @param vendorFederalWithholdingTaxEndDate The vendorFederalWithholdingTaxEndDate to set.
-	 * 
-	 */
 	public void setVendorFederalWithholdingTaxEndDate(Date vendorFederalWithholdingTaxEndDate) {
 		this.vendorFederalWithholdingTaxEndDate = vendorFederalWithholdingTaxEndDate;
 	}
 
-
-	/**
-	 * Gets the vendorW9ReceivedIndicator attribute.
-	 * 
-	 * @return Returns the vendorW9ReceivedIndicator
-	 * 
-	 */
-	public Boolean getVendorW9ReceivedIndicator() { 
+	public Boolean getVendorW9ReceivedIndicator() {
+        
 		return vendorW9ReceivedIndicator;
 	}
-	
 
-	/**
-	 * Sets the vendorW9ReceivedIndicator attribute.
-	 * 
-	 * @param vendorW9ReceivedIndicator The vendorW9ReceivedIndicator to set.
-	 * 
-	 */
 	public void setVendorW9ReceivedIndicator(Boolean vendorW9ReceivedIndicator) {
 		this.vendorW9ReceivedIndicator = vendorW9ReceivedIndicator;
 	}
 
-
-	/**
-	 * Gets the vendorW8BenReceivedIndicator attribute.
-	 * 
-	 * @return Returns the vendorW8BenReceivedIndicator
-	 * 
-	 */
-	public Boolean getVendorW8BenReceivedIndicator() { 
+	public Boolean getVendorW8BenReceivedIndicator() {
+        
 		return vendorW8BenReceivedIndicator;
 	}
-	
 
-	/**
-	 * Sets the vendorW8BenReceivedIndicator attribute.
-	 * 
-	 * @param vendorW8BenReceivedIndicator The vendorW8BenReceivedIndicator to set.
-	 * 
-	 */
 	public void setVendorW8BenReceivedIndicator(Boolean vendorW8BenReceivedIndicator) {
 		this.vendorW8BenReceivedIndicator = vendorW8BenReceivedIndicator;
 	}
 
-	/**
-	 * Gets the vendorType attribute.
-	 * 
-	 * @return Returns the vendorType
-	 * 
-	 */
 	public VendorType getVendorType() { 
+        
 		return vendorType;
 	}
 
@@ -284,13 +167,8 @@ public class VendorHeader extends PersistableBusinessObjectBase {
 		this.vendorType = vendorType;
 	}
 
-	/**
-	 * Gets the vendorOwnership attribute.
-	 * 
-	 * @return Returns the vendorOwnership
-	 * 
-	 */
-	public OwnershipType getVendorOwnership() { 
+	public OwnershipType getVendorOwnership() {
+        
 		return vendorOwnership;
 	}
 
@@ -304,13 +182,8 @@ public class VendorHeader extends PersistableBusinessObjectBase {
 		this.vendorOwnership = vendorOwnership;
 	}
 
-	/**
-	 * Gets the vendorOwnershipCategory attribute.
-	 * 
-	 * @return Returns the vendorOwnershipCategory
-	 * 
-	 */
-	public OwnershipCategory getVendorOwnershipCategory() { 
+	public OwnershipCategory getVendorOwnershipCategory() {
+        
 		return vendorOwnershipCategory;
 	}
 
@@ -324,11 +197,8 @@ public class VendorHeader extends PersistableBusinessObjectBase {
 		this.vendorOwnershipCategory = vendorOwnershipCategory;
 	}
 
-    /**
-     * Gets the vendorDebarredIndicator attribute. 
-     * @return Returns the vendorDebarredIndicator.
-     */
     public Boolean getVendorDebarredIndicator() {
+        
         return vendorDebarredIndicator;
     }
 
@@ -340,11 +210,8 @@ public class VendorHeader extends PersistableBusinessObjectBase {
         this.vendorDebarredIndicator = vendorDebarredIndicator;
     }
 
-    /**
-     * Gets the vendorForeignIndicator attribute. 
-     * @return Returns the vendorForeignIndicator.
-     */
     public Boolean getVendorForeignIndicator() {
+        
         return vendorForeignIndicator;
     }
 
@@ -356,34 +223,20 @@ public class VendorHeader extends PersistableBusinessObjectBase {
         this.vendorForeignIndicator = vendorForeignIndicator;
     }
 
-    /**
-     * Gets the vendorSupplierDiversities attribute. 
-     * @return Returns the vendorSupplierDiversities.
-     */
     public List<VendorSupplierDiversity> getVendorSupplierDiversities() {
+        
         return vendorSupplierDiversities;
     }
 
-    /**
-     * Sets the vendorSupplierDiversities attribute value.
-     * @param vendorSupplierDiversities The vendorSupplierDiversities to set.
-     */
     public void setVendorSupplierDiversities(List<VendorSupplierDiversity> vendorSupplierDiversities) {
         this.vendorSupplierDiversities = vendorSupplierDiversities;
     }
 
-    /**
-     * Gets the vendorTaxChanges attribute. 
-     * @return Returns the vendorTaxChanges.
-     */
     public List<VendorTaxChange> getVendorTaxChanges() {
+        
         return vendorTaxChanges;
     }
 
-    /**
-     * Sets the vendorTaxChanges attribute value.
-     * @param vendorTaxChanges The vendorTaxChanges to set.
-     */
     public void setVendorTaxChanges(List<VendorTaxChange> vendorTaxChanges) {
         this.vendorTaxChanges = vendorTaxChanges;
     }

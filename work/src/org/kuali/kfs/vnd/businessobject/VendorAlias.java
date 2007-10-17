@@ -22,7 +22,7 @@ import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Alternate name for a Vendor.
  */
 public class VendorAlias extends PersistableBusinessObjectBase implements Inactivateable {
 
@@ -40,89 +40,44 @@ public class VendorAlias extends PersistableBusinessObjectBase implements Inacti
 
 	}
 
-	/**
-	 * Gets the vendorAliasName attribute.
-	 * 
-	 * @return Returns the vendorAliasName
-	 * 
-	 */
-	public String getVendorAliasName() { 
+	public String getVendorAliasName() {
+        
 		return vendorAliasName;
 	}
 
-	/**
-	 * Sets the vendorAliasName attribute.
-	 * 
-	 * @param vendorAliasName The vendorAliasName to set.
-	 * 
-	 */
 	public void setVendorAliasName(String vendorAliasName) {
 		this.vendorAliasName = vendorAliasName;
 	}
 
-
-	/**
-	 * Gets the vendorDetailAssignedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorDetailAssignedIdentifier
-	 * 
-	 */
-	public Integer getVendorDetailAssignedIdentifier() { 
+	public Integer getVendorDetailAssignedIdentifier() {
+        
 		return vendorDetailAssignedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorDetailAssignedIdentifier attribute.
-	 * 
-	 * @param vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
-	 * 
-	 */
 	public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
 		this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorHeaderGeneratedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorHeaderGeneratedIdentifier
-	 * 
-	 */
-	public Integer getVendorHeaderGeneratedIdentifier() { 
+	public Integer getVendorHeaderGeneratedIdentifier() {
+        
 		return vendorHeaderGeneratedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorHeaderGeneratedIdentifier attribute.
-	 * 
-	 * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
-	 * 
-	 */
 	public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
 		this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
 	}
 
-    /**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
+        
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }    
-    
-    /**
-     * Gets the vendorDetail attribute. 
-     * @return Returns the vendorDetail.
-     */
+
     public VendorDetail getVendorDetail() {
+        
         return vendorDetail;
     }
 
@@ -147,6 +102,7 @@ public class VendorAlias extends PersistableBusinessObjectBase implements Inacti
         if (this.vendorHeaderGeneratedIdentifier != null) {
             m.put("vendorHeaderGeneratedIdentifier", this.vendorHeaderGeneratedIdentifier.toString());
         }
+        
         return m;
     }
 
@@ -157,6 +113,7 @@ public class VendorAlias extends PersistableBusinessObjectBase implements Inacti
      */
     @Override
     public String toStringBuilder(LinkedHashMap mapper) {
+        
         return vendorAliasName;
     }
 }

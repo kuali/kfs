@@ -21,7 +21,11 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
+ * Types of Contacts for Vendor Contacts.
+ * Typically, these types reflect the Contact's position and/or function within the Vendor's 
+ * organization.
  * 
+ * @see org.kuali.module.vendor.bo.VendorContact
  */
 public class ContactType extends PersistableBusinessObjectBase {
 
@@ -36,59 +40,29 @@ public class ContactType extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the vendorContactTypeCode attribute.
-	 * 
-	 * @return Returns the vendorContactTypeCode
-	 * 
-	 */
-	public String getVendorContactTypeCode() { 
+	public String getVendorContactTypeCode() {
+        
 		return vendorContactTypeCode;
 	}
 
-	/**
-	 * Sets the vendorContactTypeCode attribute.
-	 * 
-	 * @param vendorContactTypeCode The vendorContactTypeCode to set.
-	 * 
-	 */
 	public void setVendorContactTypeCode(String vendorContactTypeCode) {
 		this.vendorContactTypeCode = vendorContactTypeCode;
 	}
 
-
-	/**
-	 * Gets the vendorContactTypeDescription attribute.
-	 * 
-	 * @return Returns the vendorContactTypeDescription
-	 * 
-	 */
-	public String getVendorContactTypeDescription() { 
+	public String getVendorContactTypeDescription() {
+        
 		return vendorContactTypeDescription;
 	}
 
-	/**
-	 * Sets the vendorContactTypeDescription attribute.
-	 * 
-	 * @param vendorContactTypeDescription The vendorContactTypeDescription to set.
-	 * 
-	 */
 	public void setVendorContactTypeDescription(String vendorContactTypeDescription) {
 		this.vendorContactTypeDescription = vendorContactTypeDescription;
 	}
 
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
+        
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -99,6 +73,7 @@ public class ContactType extends PersistableBusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("vendorContactTypeCode", this.vendorContactTypeCode);
+        
 	    return m;
     }
 }

@@ -21,7 +21,9 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Ways in which chosen Vendors are demonstrably diverse, including
+ * having certification as a Minority-owned or Woman-owned Business Enterprise
+ * (M/WBE), as a Small Business Enterprise (SBE), etc.
  */
 public class SupplierDiversity extends PersistableBusinessObjectBase {
 
@@ -36,55 +38,29 @@ public class SupplierDiversity extends PersistableBusinessObjectBase {
 
     }
 
-    /**
-     * Gets the vendorSupplierDiversityCode attribute.
-     * 
-     * @return Returns the vendorSupplierDiversityCode
-     */
     public String getVendorSupplierDiversityCode() {
+        
         return vendorSupplierDiversityCode;
     }
 
-    /**
-     * Sets the vendorSupplierDiversityCode attribute.
-     * 
-     * @param vendorSupplierDiversityCode The vendorSupplierDiversityCode to set.
-     */
     public void setVendorSupplierDiversityCode(String vendorSupplierDiversityCode) {
         this.vendorSupplierDiversityCode = vendorSupplierDiversityCode;
     }
 
-
-    /**
-     * Gets the vendorSupplierDiversityDescription attribute.
-     * 
-     * @return Returns the vendorSupplierDiversityDescription
-     */
     public String getVendorSupplierDiversityDescription() {
+        
         return vendorSupplierDiversityDescription;
     }
 
-    /**
-     * Sets the vendorSupplierDiversityDescription attribute.
-     * 
-     * @param vendorSupplierDiversityDescription The vendorSupplierDiversityDescription to set.
-     */
     public void setVendorSupplierDiversityDescription(String vendorSupplierDiversityDescription) {
         this.vendorSupplierDiversityDescription = vendorSupplierDiversityDescription;
     }
 
-    /**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
+        
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -95,6 +71,7 @@ public class SupplierDiversity extends PersistableBusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("vendorSupplierDiversityCode", this.vendorSupplierDiversityCode);
+        
         return m;
     }
 }

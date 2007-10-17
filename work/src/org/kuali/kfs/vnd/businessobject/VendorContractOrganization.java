@@ -28,7 +28,11 @@ import org.kuali.module.chart.bo.Org;
 import org.kuali.module.vendor.util.VendorRoutingComparable;
 
 /**
+ * A relation between a particular <code>Org</code> and a <code>VendorContract</code>
+ * indicating that the Org uses this Vendor Contract.
  * 
+ * @see org.kuali.module.vendor.bo.VendorContract
+ * @see org.kuali.module.chart.bo.Org
  */
 public class VendorContractOrganization extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivateable {
 
@@ -50,134 +54,62 @@ public class VendorContractOrganization extends PersistableBusinessObjectBase im
 
 	}
 
-	/**
-	 * Gets the vendorContractGeneratedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorContractGeneratedIdentifier
-	 * 
-	 */
-	public Integer getVendorContractGeneratedIdentifier() { 
+	public Integer getVendorContractGeneratedIdentifier() {
+        
 		return vendorContractGeneratedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorContractGeneratedIdentifier attribute.
-	 * 
-	 * @param vendorContractGeneratedIdentifier The vendorContractGeneratedIdentifier to set.
-	 * 
-	 */
 	public void setVendorContractGeneratedIdentifier(Integer vendorContractGeneratedIdentifier) {
 		this.vendorContractGeneratedIdentifier = vendorContractGeneratedIdentifier;
 	}
 
-
-	/**
-	 * Gets the chartOfAccountsCode attribute.
-	 * 
-	 * @return Returns the chartOfAccountsCode
-	 * 
-	 */
-	public String getChartOfAccountsCode() { 
+	public String getChartOfAccountsCode() {
+        
 		return chartOfAccountsCode;
 	}
 
-	/**
-	 * Sets the chartOfAccountsCode attribute.
-	 * 
-	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
-	 * 
-	 */
 	public void setChartOfAccountsCode(String chartOfAccountsCode) {
 		this.chartOfAccountsCode = chartOfAccountsCode;
 	}
 
-
-	/**
-	 * Gets the organizationCode attribute.
-	 * 
-	 * @return Returns the organizationCode
-	 * 
-	 */
-	public String getOrganizationCode() { 
+	public String getOrganizationCode() {
+        
 		return organizationCode;
 	}
 
-	/**
-	 * Sets the organizationCode attribute.
-	 * 
-	 * @param organizationCode The organizationCode to set.
-	 * 
-	 */
 	public void setOrganizationCode(String organizationCode) {
 		this.organizationCode = organizationCode;
 	}
 
-
-	/**
-	 * Gets the vendorContractPurchaseOrderLimitAmount attribute.
-	 * 
-	 * @return Returns the vendorContractPurchaseOrderLimitAmount
-	 * 
-	 */
-	public KualiDecimal getVendorContractPurchaseOrderLimitAmount() { 
+	public KualiDecimal getVendorContractPurchaseOrderLimitAmount() {
+        
 		return vendorContractPurchaseOrderLimitAmount;
 	}
 
-	/**
-	 * Sets the vendorContractPurchaseOrderLimitAmount attribute.
-	 * 
-	 * @param vendorContractPurchaseOrderLimitAmount The vendorContractPurchaseOrderLimitAmount to set.
-	 * 
-	 */
 	public void setVendorContractPurchaseOrderLimitAmount(KualiDecimal vendorContractPurchaseOrderLimitAmount) {
 		this.vendorContractPurchaseOrderLimitAmount = vendorContractPurchaseOrderLimitAmount;
 	}
 
-
-	/**
-	 * Gets the vendorContractExcludeIndicator attribute.
-	 * 
-	 * @return Returns the vendorContractExcludeIndicator
-	 * 
-	 */
-	public boolean isVendorContractExcludeIndicator() { 
+	public boolean isVendorContractExcludeIndicator() {
+        
 		return vendorContractExcludeIndicator;
 	}
-	
 
-	/**
-	 * Sets the vendorContractExcludeIndicator attribute.
-	 * 
-	 * @param vendorContractExcludeIndicator The vendorContractExcludeIndicator to set.
-	 * 
-	 */
 	public void setVendorContractExcludeIndicator(boolean vendorContractExcludeIndicator) {
 		this.vendorContractExcludeIndicator = vendorContractExcludeIndicator;
 	}
 
-    /**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
+        
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
-    
-	/**
-	 * Gets the organization attribute.
-	 * 
-	 * @return Returns the organization
-	 * 
-	 */
-	public Org getOrganization() { 
+
+	public Org getOrganization() {
+        
 		return organization;
 	}
 
@@ -191,13 +123,8 @@ public class VendorContractOrganization extends PersistableBusinessObjectBase im
 		this.organization = organization;
 	}
 
-	/**
-	 * Gets the chartOfAccounts attribute.
-	 * 
-	 * @return Returns the chartOfAccounts
-	 * 
-	 */
 	public Chart getChartOfAccounts() { 
+        
 		return chartOfAccounts;
 	}
 
@@ -211,11 +138,8 @@ public class VendorContractOrganization extends PersistableBusinessObjectBase im
 		this.chartOfAccounts = chartOfAccounts;
 	}
 
-    /**
-     * Gets the vendorContract attribute. 
-     * @return Returns the vendorContract.
-     */
     public VendorContract getVendorContract() {
+        
         return vendorContract;
     }
 
@@ -233,9 +157,11 @@ public class VendorContractOrganization extends PersistableBusinessObjectBase im
      */
     public boolean isEqualForRouting( Object toCompare ) {
         if( ( ObjectUtils.isNull( toCompare ) ) || !( toCompare instanceof VendorContractOrganization ) ) {
+            
             return false;
         } else {
             VendorContractOrganization vco = (VendorContractOrganization)toCompare;
+            
             return new EqualsBuilder()
                 .append( this.getVendorContractGeneratedIdentifier(), 
                         vco.getVendorContractGeneratedIdentifier() )
@@ -258,6 +184,7 @@ public class VendorContractOrganization extends PersistableBusinessObjectBase im
         }
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
+        
         return m;
     }
 

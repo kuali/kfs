@@ -21,7 +21,8 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Title to identify the method of dividing ownership during the process of shipment 
+ * of packages from a particular Vendor.
  */
 public class ShippingTitle extends PersistableBusinessObjectBase {
 
@@ -36,59 +37,29 @@ public class ShippingTitle extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the vendorShippingTitleCode attribute.
-	 * 
-	 * @return Returns the vendorShippingTitleCode
-	 * 
-	 */
-	public String getVendorShippingTitleCode() { 
+	public String getVendorShippingTitleCode() {
+        
 		return vendorShippingTitleCode;
 	}
 
-	/**
-	 * Sets the vendorShippingTitleCode attribute.
-	 * 
-	 * @param vendorShippingTitleCode The vendorShippingTitleCode to set.
-	 * 
-	 */
 	public void setVendorShippingTitleCode(String vendorShippingTitleCode) {
 		this.vendorShippingTitleCode = vendorShippingTitleCode;
 	}
 
-
-	/**
-	 * Gets the vendorShippingTitleDescription attribute.
-	 * 
-	 * @return Returns the vendorShippingTitleDescription
-	 * 
-	 */
-	public String getVendorShippingTitleDescription() { 
+	public String getVendorShippingTitleDescription() {
+        
 		return vendorShippingTitleDescription;
 	}
 
-	/**
-	 * Sets the vendorShippingTitleDescription attribute.
-	 * 
-	 * @param vendorShippingTitleDescription The vendorShippingTitleDescription to set.
-	 * 
-	 */
 	public void setVendorShippingTitleDescription(String vendorShippingTitleDescription) {
 		this.vendorShippingTitleDescription = vendorShippingTitleDescription;
 	}
 
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
+        
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -99,6 +70,7 @@ public class ShippingTitle extends PersistableBusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("vendorShippingTitleCode", this.vendorShippingTitleCode);
+        
 	    return m;
     }
 }

@@ -24,7 +24,11 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 
 /**
+ * Customer numbers that may have been assigned by the Vendor to various <code>Chart</code>
+ * and/or <code>Org</code>.
  * 
+ * @see org.kuali.module.chart.bo.Chart
+ * @see org.kuali.module.chart.bo.Org
  */
 public class VendorCustomerNumber extends PersistableBusinessObjectBase implements Inactivateable {
 
@@ -47,154 +51,71 @@ public class VendorCustomerNumber extends PersistableBusinessObjectBase implemen
 
 	}
 
-	/**
-	 * Gets the vendorCustomerNumberGeneratedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorCustomerNumberGeneratedIdentifier
-	 * 
-	 */
-	public Integer getVendorCustomerNumberGeneratedIdentifier() { 
+	public Integer getVendorCustomerNumberGeneratedIdentifier() {
+        
 		return vendorCustomerNumberGeneratedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorCustomerNumberGeneratedIdentifier attribute.
-	 * 
-	 * @param vendorCustomerNumberGeneratedIdentifier The vendorCustomerNumberGeneratedIdentifier to set.
-	 * 
-	 */
 	public void setVendorCustomerNumberGeneratedIdentifier(Integer vendorCustomerNumberGeneratedIdentifier) {
 		this.vendorCustomerNumberGeneratedIdentifier = vendorCustomerNumberGeneratedIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorHeaderGeneratedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorHeaderGeneratedIdentifier
-	 * 
-	 */
 	public Integer getVendorHeaderGeneratedIdentifier() { 
+        
 		return vendorHeaderGeneratedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorHeaderGeneratedIdentifier attribute.
-	 * 
-	 * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
-	 * 
-	 */
 	public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
 		this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorDetailAssignedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorDetailAssignedIdentifier
-	 * 
-	 */
-	public Integer getVendorDetailAssignedIdentifier() { 
+	public Integer getVendorDetailAssignedIdentifier() {
+        
 		return vendorDetailAssignedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorDetailAssignedIdentifier attribute.
-	 * 
-	 * @param vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
-	 * 
-	 */
 	public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
 		this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorCustomerNumber attribute.
-	 * 
-	 * @return Returns the vendorCustomerNumber
-	 * 
-	 */
-	public String getVendorCustomerNumber() { 
+	public String getVendorCustomerNumber() {
+        
 		return vendorCustomerNumber;
 	}
 
-	/**
-	 * Sets the vendorCustomerNumber attribute.
-	 * 
-	 * @param vendorCustomerNumber The vendorCustomerNumber to set.
-	 * 
-	 */
 	public void setVendorCustomerNumber(String vendorCustomerNumber) {
 		this.vendorCustomerNumber = vendorCustomerNumber;
 	}
 
-
-	/**
-	 * Gets the chartOfAccountsCode attribute.
-	 * 
-	 * @return Returns the chartOfAccountsCode
-	 * 
-	 */
-	public String getChartOfAccountsCode() { 
+	public String getChartOfAccountsCode() {
+        
 		return chartOfAccountsCode;
 	}
 
-	/**
-	 * Sets the chartOfAccountsCode attribute.
-	 * 
-	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
-	 * 
-	 */
 	public void setChartOfAccountsCode(String chartOfAccountsCode) {
 		this.chartOfAccountsCode = chartOfAccountsCode;
 	}
 
-
-	/**
-	 * Gets the vendorOrganizationCode attribute.
-	 * 
-	 * @return Returns the vendorOrganizationCode
-	 * 
-	 */
-	public String getVendorOrganizationCode() { 
+	public String getVendorOrganizationCode() {
+        
 		return vendorOrganizationCode;
 	}
 
-	/**
-	 * Sets the vendorOrganizationCode attribute.
-	 * 
-	 * @param vendorOrganizationCode The vendorOrganizationCode to set.
-	 * 
-	 */
 	public void setVendorOrganizationCode(String vendorOrganizationCode) {
 		this.vendorOrganizationCode = vendorOrganizationCode;
 	}
 
-    /**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
+        
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }    
 
-	/**
-	 * Gets the vendorDetail attribute.
-	 * 
-	 * @return Returns the vendorDetail
-	 * 
-	 */
 	public VendorDetail getVendorDetail() { 
+        
 		return vendorDetail;
 	}
 
@@ -208,13 +129,8 @@ public class VendorCustomerNumber extends PersistableBusinessObjectBase implemen
 		this.vendorDetail = vendorDetail;
 	}
 
-	/**
-	 * Gets the vendorOrganization attribute.
-	 * 
-	 * @return Returns the vendorOrganization
-	 * 
-	 */
-	public Org getVendorOrganization() { 
+	public Org getVendorOrganization() {
+        
 		return vendorOrganization;
 	}
 
@@ -228,13 +144,8 @@ public class VendorCustomerNumber extends PersistableBusinessObjectBase implemen
 		this.vendorOrganization = vendorOrganization;
 	}
 
-	/**
-	 * Gets the chartOfAccounts attribute.
-	 * 
-	 * @return Returns the chartOfAccounts
-	 * 
-	 */
-	public Chart getChartOfAccounts() { 
+	public Chart getChartOfAccounts() {
+        
 		return chartOfAccounts;
 	}
 
@@ -256,6 +167,7 @@ public class VendorCustomerNumber extends PersistableBusinessObjectBase implemen
         if (this.vendorCustomerNumberGeneratedIdentifier != null) {
             m.put("vendorCustomerNumberGeneratedIdentifier", this.vendorCustomerNumberGeneratedIdentifier.toString());
         }
+        
 	    return m;
     }
 }

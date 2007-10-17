@@ -26,7 +26,9 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.vendor.util.VendorRoutingComparable;
 
 /**
+ * Relationship between a Vendor and a <code>SupplierDiversity</code>.
  * 
+ * @see org.kuali.module.vendor.bo.SupplierDiversity
  */
 public class VendorSupplierDiversity extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivateable {
     private static Logger LOG = Logger.getLogger(VendorSupplierDiversity.class);
@@ -46,68 +48,35 @@ public class VendorSupplierDiversity extends PersistableBusinessObjectBase imple
 
 	}
 
-	/**
-	 * Gets the vendorHeaderGeneratedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorHeaderGeneratedIdentifier
-	 * 
-	 */
-	public Integer getVendorHeaderGeneratedIdentifier() { 
+	public Integer getVendorHeaderGeneratedIdentifier() {
+        
 		return vendorHeaderGeneratedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorHeaderGeneratedIdentifier attribute.
-	 * 
-	 * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
-	 * 
-	 */
 	public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
 		this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorSupplierDiversityCode attribute.
-	 * 
-	 * @return Returns the vendorSupplierDiversityCode
-	 * 
-	 */
-	public String getVendorSupplierDiversityCode() { 
+	public String getVendorSupplierDiversityCode() {
+        
 		return vendorSupplierDiversityCode;
 	}
 
-	/**
-	 * Sets the vendorSupplierDiversityCode attribute.
-	 * 
-	 * @param vendorSupplierDiversityCode The vendorSupplierDiversityCode to set.
-	 * 
-	 */
 	public void setVendorSupplierDiversityCode(String vendorSupplierDiversityCode) {
 		this.vendorSupplierDiversityCode = vendorSupplierDiversityCode;
 	}
 
-    /**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
+        
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
-    
-    /**
-     * Gets the vendorHeader attribute. 
-     * @return Returns the vendorHeader.
-     */
+ 
     public VendorHeader getVendorHeader() {
+        
         return vendorHeader;
     }
 
@@ -120,11 +89,8 @@ public class VendorSupplierDiversity extends PersistableBusinessObjectBase imple
         this.vendorHeader = vendorHeader;
     }
 
-    /**
-     * Gets the vendorSupplierDiversity attribute. 
-     * @return Returns the vendorSupplierDiversity.
-     */
     public SupplierDiversity getVendorSupplierDiversity() {
+        
         return vendorSupplierDiversity;
     }
 
@@ -146,8 +112,8 @@ public class VendorSupplierDiversity extends PersistableBusinessObjectBase imple
         if (this.vendorHeaderGeneratedIdentifier != null) {
             m.put("vendorHeaderGeneratedIdentifier", this.vendorHeaderGeneratedIdentifier.toString());
         }
-
         m.put("vendorSupplierDiversityCode", this.vendorSupplierDiversityCode);
+        
         return m;
     }
     
@@ -157,25 +123,29 @@ public class VendorSupplierDiversity extends PersistableBusinessObjectBase imple
     public boolean isEqualForRouting( Object toCompare ) {
         LOG.debug( "Entering isEqualForRouting." ); 
         if( ( ObjectUtils.isNull( toCompare ) ) || !( toCompare instanceof VendorSupplierDiversity ) ) {
+            
             return false;
         } else {
             VendorSupplierDiversity vsd = (VendorSupplierDiversity)toCompare;
+            
             return new EqualsBuilder()
                 .append( this.getVendorHeaderGeneratedIdentifier(), vsd.getVendorHeaderGeneratedIdentifier() )
                 .append( this.getVendorSupplierDiversityCode(), vsd.getVendorSupplierDiversityCode() )
                 .isEquals();
         }
     }
-    
-    @Override
+ 
     /**
      *  This method overrides the superclass method to return the description of
      *  the supplier diversity.
      */
+    @Override
     public String toStringBuilder(LinkedHashMap mapper) {
         if (vendorSupplierDiversity != null) {
+            
             return vendorSupplierDiversity.getVendorSupplierDiversityDescription();
         } else {
+            
             return super.toStringBuilder(mapper);
         }
     }

@@ -22,7 +22,10 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
+ * Individuals who are assigned to manage a particular set of Contracts with Vendors,
+ * who must therefore look at associated Purchase Orders.
  * 
+ * @see org.kuali.module.vendor.bo.VendorContract
  */
 public class ContractManager extends PersistableBusinessObjectBase {
 
@@ -41,151 +44,68 @@ public class ContractManager extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the contractManagerCode attribute.
-	 * 
-	 * @return Returns the contractManagerCode
-	 * 
-	 */
-	public Integer getContractManagerCode() { 
+	public Integer getContractManagerCode() {
+        
 		return contractManagerCode;
 	}
 
-	/**
-	 * Sets the contractManagerCode attribute.
-	 * 
-	 * @param contractManagerCode The contractManagerCode to set.
-	 * 
-	 */
 	public void setContractManagerCode(Integer contractManagerCode) {
 		this.contractManagerCode = contractManagerCode;
 	}
 
-
-	/**
-	 * Gets the contractManagerUserIdentifier attribute.
-	 * 
-	 * @return Returns the contractManagerUserIdentifier
-	 * 
-	 */
-	public String getContractManagerUserIdentifier() { 
+	public String getContractManagerUserIdentifier() {
+        
 		return contractManagerUserIdentifier;
 	}
 
-	/**
-	 * Sets the contractManagerUserIdentifier attribute.
-	 * 
-	 * @param contractManagerUserIdentifier The contractManagerUserIdentifier to set.
-	 * 
-	 */
 	public void setContractManagerUserIdentifier(String contractManagerUserIdentifier) {
 		this.contractManagerUserIdentifier = contractManagerUserIdentifier;
 	}
 
-
-	/**
-	 * Gets the contractManagerName attribute.
-	 * 
-	 * @return Returns the contractManagerName
-	 * 
-	 */
-	public String getContractManagerName() { 
+	public String getContractManagerName() {
+        
 		return contractManagerName;
 	}
 
-	/**
-	 * Sets the contractManagerName attribute.
-	 * 
-	 * @param contractManagerName The contractManagerName to set.
-	 * 
-	 */
 	public void setContractManagerName(String contractManagerName) {
 		this.contractManagerName = contractManagerName;
 	}
 
-
-	/**
-	 * Gets the contractManagerPhoneNumber attribute.
-	 * 
-	 * @return Returns the contractManagerPhoneNumber
-	 * 
-	 */
-	public String getContractManagerPhoneNumber() { 
+	public String getContractManagerPhoneNumber() {
+        
 		return contractManagerPhoneNumber;
 	}
 
-	/**
-	 * Sets the contractManagerPhoneNumber attribute.
-	 * 
-	 * @param contractManagerPhoneNumber The contractManagerPhoneNumber to set.
-	 * 
-	 */
 	public void setContractManagerPhoneNumber(String contractManagerPhoneNumber) {
 		this.contractManagerPhoneNumber = contractManagerPhoneNumber;
 	}
 
-
-	/**
-	 * Gets the contractManagerFaxNumber attribute.
-	 * 
-	 * @return Returns the contractManagerFaxNumber
-	 * 
-	 */
-	public String getContractManagerFaxNumber() { 
+	public String getContractManagerFaxNumber() {
+        
 		return contractManagerFaxNumber;
 	}
 
-	/**
-	 * Sets the contractManagerFaxNumber attribute.
-	 * 
-	 * @param contractManagerFaxNumber The contractManagerFaxNumber to set.
-	 * 
-	 */
 	public void setContractManagerFaxNumber(String contractManagerFaxNumber) {
 		this.contractManagerFaxNumber = contractManagerFaxNumber;
 	}
 
-	/**
-	 * Gets the contractManagerDelegationDollarLimit attribute.
-	 * 
-	 * @return Returns the contractManagerDelegationDollarLimit
-	 * 
-	 */
-	public KualiDecimal getContractManagerDelegationDollarLimit() { 
+	public KualiDecimal getContractManagerDelegationDollarLimit() {
+        
 		return contractManagerDelegationDollarLimit;
 	}
 
-	/**
-	 * Sets the contractManagerDelegationDollarLimit attribute.
-	 * 
-	 * @param contractManagerDelegationDollarLimit The contractManagerDelegationDollarLimit to set.
-	 * 
-	 */
 	public void setContractManagerDelegationDollarLimit(KualiDecimal contractManagerDelegationDollarLimit) {
 		this.contractManagerDelegationDollarLimit = contractManagerDelegationDollarLimit;
 	}
 
-
-	/**
-	 * Gets the contractManagerSignatureImageLocationDescription attribute.
-	 * 
-	 * @return Returns the contractManagerSignatureImageLocationDescription
-	 * 
-	 */
-	public String getContractManagerSignatureImageLocationDescription() { 
+	public String getContractManagerSignatureImageLocationDescription() {
+        
 		return contractManagerSignatureImageLocationDescription;
 	}
 
-	/**
-	 * Sets the contractManagerSignatureImageLocationDescription attribute.
-	 * 
-	 * @param contractManagerSignatureImageLocationDescription The contractManagerSignatureImageLocationDescription to set.
-	 * 
-	 */
 	public void setContractManagerSignatureImageLocationDescription(String contractManagerSignatureImageLocationDescription) {
 		this.contractManagerSignatureImageLocationDescription = contractManagerSignatureImageLocationDescription;
 	}
-
 
 	/**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -195,6 +115,7 @@ public class ContractManager extends PersistableBusinessObjectBase {
         if (this.contractManagerCode != null) {
             m.put("contractManagerCode", this.contractManagerCode.toString());
         }
+        
 	    return m;
     }
 }

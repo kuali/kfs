@@ -25,7 +25,8 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.context.SpringContext;
 
 /**
- * 
+ * Records any changes to a Vendor's Tax Number or Type.  Not shown
+ * on the screen.
  */
 public class VendorTaxChange extends PersistableBusinessObjectBase {
 
@@ -55,121 +56,50 @@ public class VendorTaxChange extends PersistableBusinessObjectBase {
         this.vendorTaxChangePersonIdentifier = taxChangePersonId;
     }
 
-	/**
-	 * Gets the vendorTaxChangeGeneratedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorTaxChangeGeneratedIdentifier
-	 * 
-	 */
 	public Integer getVendorTaxChangeGeneratedIdentifier() { 
 		return vendorTaxChangeGeneratedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorTaxChangeGeneratedIdentifier attribute.
-	 * 
-	 * @param vendorTaxChangeGeneratedIdentifier The vendorTaxChangeGeneratedIdentifier to set.
-	 * 
-	 */
 	public void setVendorTaxChangeGeneratedIdentifier(Integer vendorTaxChangeGeneratedIdentifier) {
 		this.vendorTaxChangeGeneratedIdentifier = vendorTaxChangeGeneratedIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorHeaderGeneratedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorHeaderGeneratedIdentifier
-	 * 
-	 */
 	public Integer getVendorHeaderGeneratedIdentifier() { 
 		return vendorHeaderGeneratedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorHeaderGeneratedIdentifier attribute.
-	 * 
-	 * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
-	 * 
-	 */
 	public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
 		this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorTaxChangeDate attribute.
-	 * 
-	 * @return Returns the vendorTaxChangeDate
-	 * 
-	 */
 	public Date getVendorTaxChangeDate() { 
 		return vendorTaxChangeDate;
 	}
 
-	/**
-	 * Sets the vendorTaxChangeDate attribute.
-	 * 
-	 * @param vendorTaxChangeDate The vendorTaxChangeDate to set.
-	 * 
-	 */
 	public void setVendorTaxChangeDate(Date vendorTaxChangeDate) {
 		this.vendorTaxChangeDate = vendorTaxChangeDate;
 	}
 
-
-	/**
-	 * Gets the vendorPreviousTaxNumber attribute.
-	 * 
-	 * @return Returns the vendorPreviousTaxNumber
-	 * 
-	 */
 	public String getVendorPreviousTaxNumber() { 
 		return vendorPreviousTaxNumber;
 	}
 
-	/**
-	 * Sets the vendorPreviousTaxNumber attribute.
-	 * 
-	 * @param vendorPreviousTaxNumber The vendorPreviousTaxNumber to set.
-	 * 
-	 */
 	public void setVendorPreviousTaxNumber(String vendorPreviousTaxNumber) {
 		this.vendorPreviousTaxNumber = vendorPreviousTaxNumber;
 	}
 
-    /**
-     * Gets the vendorPreviousTaxTypeCode attribute. 
-     * @return Returns the vendorPreviousTaxTypeCode.
-     */
     public String getVendorPreviousTaxTypeCode() {
         return vendorPreviousTaxTypeCode;
     }
 
-    /**
-     * Sets the vendorPreviousTaxTypeCode attribute value.
-     * @param vendorPreviousTaxTypeCode The vendorPreviousTaxTypeCode to set.
-     */
     public void setVendorPreviousTaxTypeCode(String vendorPreviousTaxTypeCode) {
         this.vendorPreviousTaxTypeCode = vendorPreviousTaxTypeCode;
     }    
 
-	/**
-	 * Gets the vendorTaxChangePersonIdentifier attribute.
-	 * 
-	 * @return Returns the vendorTaxChangePersonIdentifier
-	 * 
-	 */
 	public String getVendorTaxChangePersonIdentifier() { 
 		return vendorTaxChangePersonIdentifier;
 	}
 
-	/**
-	 * Sets the vendorTaxChangePersonIdentifier attribute.
-	 * 
-	 * @param vendorTaxChangePersonIdentifier The vendorTaxChangePersonIdentifier to set.
-	 * 
-	 */
 	public void setVendorTaxChangePersonIdentifier(String vendorTaxChangePersonIdentifier) {
 		this.vendorTaxChangePersonIdentifier = vendorTaxChangePersonIdentifier;
 	}
@@ -189,10 +119,6 @@ public class VendorTaxChange extends PersistableBusinessObjectBase {
         this.vendorTaxChangePerson = vendorTaxChangePerson;
     }
 
-    /**
-     * Gets the vendorHeader attribute. 
-     * @return Returns the vendorHeader.
-     */
     public VendorHeader getVendorHeader() {
         return vendorHeader;
     }

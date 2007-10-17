@@ -22,7 +22,7 @@ import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Phone number for a Vendor Contact.
  */
 public class VendorContactPhoneNumber extends PersistableBusinessObjectBase implements Inactivateable {
 
@@ -42,131 +42,62 @@ public class VendorContactPhoneNumber extends PersistableBusinessObjectBase impl
 
 	}
 
-	/**
-	 * Gets the vendorContactPhoneGeneratedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorContactPhoneGeneratedIdentifier
-	 * 
-	 */
-	public Integer getVendorContactPhoneGeneratedIdentifier() { 
+	public Integer getVendorContactPhoneGeneratedIdentifier() {
+        
 		return vendorContactPhoneGeneratedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorContactPhoneGeneratedIdentifier attribute.
-	 * 
-	 * @param vendorContactPhoneGeneratedIdentifier The vendorContactPhoneGeneratedIdentifier to set.
-	 * 
-	 */
 	public void setVendorContactPhoneGeneratedIdentifier(Integer vendorContactPhoneGeneratedIdentifier) {
 		this.vendorContactPhoneGeneratedIdentifier = vendorContactPhoneGeneratedIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorContactGeneratedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorContactGeneratedIdentifier
-	 * 
-	 */
-	public Integer getVendorContactGeneratedIdentifier() { 
+	public Integer getVendorContactGeneratedIdentifier() {
+        
 		return vendorContactGeneratedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorContactGeneratedIdentifier attribute.
-	 * 
-	 * @param vendorContactGeneratedIdentifier The vendorContactGeneratedIdentifier to set.
-	 * 
-	 */
 	public void setVendorContactGeneratedIdentifier(Integer vendorContactGeneratedIdentifier) {
 		this.vendorContactGeneratedIdentifier = vendorContactGeneratedIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorPhoneTypeCode attribute.
-	 * 
-	 * @return Returns the vendorPhoneTypeCode
-	 * 
-	 */
-	public String getVendorPhoneTypeCode() { 
+	public String getVendorPhoneTypeCode() {
+        
 		return vendorPhoneTypeCode;
 	}
 
-	/**
-	 * Sets the vendorPhoneTypeCode attribute.
-	 * 
-	 * @param vendorPhoneTypeCode The vendorPhoneTypeCode to set.
-	 * 
-	 */
 	public void setVendorPhoneTypeCode(String vendorPhoneTypeCode) {
 		this.vendorPhoneTypeCode = vendorPhoneTypeCode;
 	}
 
-
-	/**
-	 * Gets the vendorPhoneNumber attribute.
-	 * 
-	 * @return Returns the vendorPhoneNumber
-	 * 
-	 */
-	public String getVendorPhoneNumber() { 
+	public String getVendorPhoneNumber() {
+        
 		return vendorPhoneNumber;
 	}
 
-	/**
-	 * Sets the vendorPhoneNumber attribute.
-	 * 
-	 * @param vendorPhoneNumber The vendorPhoneNumber to set.
-	 * 
-	 */
 	public void setVendorPhoneNumber(String vendorPhoneNumber) {
 		this.vendorPhoneNumber = vendorPhoneNumber;
 	}
 
-
-	/**
-	 * Gets the vendorPhoneExtensionNumber attribute.
-	 * 
-	 * @return Returns the vendorPhoneExtensionNumber
-	 * 
-	 */
-	public String getVendorPhoneExtensionNumber() { 
+	public String getVendorPhoneExtensionNumber() {
+        
 		return vendorPhoneExtensionNumber;
 	}
 
-	/**
-	 * Sets the vendorPhoneExtensionNumber attribute.
-	 * 
-	 * @param vendorPhoneExtensionNumber The vendorPhoneExtensionNumber to set.
-	 * 
-	 */
 	public void setVendorPhoneExtensionNumber(String vendorPhoneExtensionNumber) {
 		this.vendorPhoneExtensionNumber = vendorPhoneExtensionNumber;
 	}
 
-    /**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
+        
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
-    
-    /**
-     * Gets the vendorPhoneType attribute. 
-     * @return Returns the vendorPhoneType.
-     */
+
     public PhoneType getVendorPhoneType() {
+        
         return vendorPhoneType;
     }
 
@@ -187,6 +118,7 @@ public class VendorContactPhoneNumber extends PersistableBusinessObjectBase impl
         if (this.vendorContactPhoneGeneratedIdentifier != null) {
             m.put("vendorContactPhoneGeneratedIdentifier", this.vendorContactPhoneGeneratedIdentifier.toString());
         }
+        
         return m;
     }
 

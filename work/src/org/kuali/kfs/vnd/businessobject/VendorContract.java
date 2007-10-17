@@ -73,364 +73,161 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
         vendorContractOrganizations = new TypedArrayList(VendorContractOrganization.class);
 	}
 
-	/**
-	 * Gets the vendorContractGeneratedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorContractGeneratedIdentifier
-	 * 
-	 */
-	public Integer getVendorContractGeneratedIdentifier() { 
+	public Integer getVendorContractGeneratedIdentifier() {
+        
 		return vendorContractGeneratedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorContractGeneratedIdentifier attribute.
-	 * 
-	 * @param vendorContractGeneratedIdentifier The vendorContractGeneratedIdentifier to set.
-	 * 
-	 */
 	public void setVendorContractGeneratedIdentifier(Integer vendorContractGeneratedIdentifier) {
 		this.vendorContractGeneratedIdentifier = vendorContractGeneratedIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorHeaderGeneratedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorHeaderGeneratedIdentifier
-	 * 
-	 */
-	public Integer getVendorHeaderGeneratedIdentifier() { 
+	public Integer getVendorHeaderGeneratedIdentifier() {
+        
 		return vendorHeaderGeneratedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorHeaderGeneratedIdentifier attribute.
-	 * 
-	 * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
-	 * 
-	 */
 	public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
 		this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorDetailAssignedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorDetailAssignedIdentifier
-	 * 
-	 */
-	public Integer getVendorDetailAssignedIdentifier() { 
+	public Integer getVendorDetailAssignedIdentifier() {
+        
 		return vendorDetailAssignedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorDetailAssignedIdentifier attribute.
-	 * 
-	 * @param vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
-	 * 
-	 */
 	public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
 		this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorContractName attribute.
-	 * 
-	 * @return Returns the vendorContractName
-	 * 
-	 */
 	public String getVendorContractName() { 
+        
 		return vendorContractName;
 	}
 
-	/**
-	 * Sets the vendorContractName attribute.
-	 * 
-	 * @param vendorContractName The vendorContractName to set.
-	 * 
-	 */
 	public void setVendorContractName(String vendorContractName) {
 		this.vendorContractName = vendorContractName;
 	}
 
-
-	/**
-	 * Gets the vendorContractDescription attribute.
-	 * 
-	 * @return Returns the vendorContractDescription
-	 * 
-	 */
-	public String getVendorContractDescription() { 
+	public String getVendorContractDescription() {
+        
 		return vendorContractDescription;
 	}
 
-	/**
-	 * Sets the vendorContractDescription attribute.
-	 * 
-	 * @param vendorContractDescription The vendorContractDescription to set.
-	 * 
-	 */
 	public void setVendorContractDescription(String vendorContractDescription) {
 		this.vendorContractDescription = vendorContractDescription;
 	}
 
+	public String getVendorCampusCode() {
 
-	/**
-	 * Gets the vendorCampusCode attribute.
-	 * 
-	 * @return Returns the vendorCampusCode
-	 * 
-	 */
-	public String getVendorCampusCode() { 
 		return vendorCampusCode;
 	}
 
-	/**
-	 * Sets the vendorCampusCode attribute.
-	 * 
-	 * @param vendorCampusCode The vendorCampusCode to set.
-	 * 
-	 */
 	public void setVendorCampusCode(String vendorCampusCode) {
 		this.vendorCampusCode = vendorCampusCode;
 	}
 
-
-	/**
-	 * Gets the vendorContractBeginningDate attribute.
-	 * 
-	 * @return Returns the vendorContractBeginningDate
-	 * 
-	 */
-	public Date getVendorContractBeginningDate() { 
+	public Date getVendorContractBeginningDate() {
+        
 		return vendorContractBeginningDate;
 	}
 
-	/**
-	 * Sets the vendorContractBeginningDate attribute.
-	 * 
-	 * @param vendorContractBeginningDate The vendorContractBeginningDate to set.
-	 * 
-	 */
 	public void setVendorContractBeginningDate(Date vendorContractBeginningDate) {
 		this.vendorContractBeginningDate = vendorContractBeginningDate;
 	}
 
-
-	/**
-	 * Gets the vendorContractEndDate attribute.
-	 * 
-	 * @return Returns the vendorContractEndDate
-	 * 
-	 */
 	public Date getVendorContractEndDate() { 
+        
 		return vendorContractEndDate;
 	}
 
-	/**
-	 * Sets the vendorContractEndDate attribute.
-	 * 
-	 * @param vendorContractEndDate The vendorContractEndDate to set.
-	 * 
-	 */
 	public void setVendorContractEndDate(Date vendorContractEndDate) {
 		this.vendorContractEndDate = vendorContractEndDate;
 	}
 
-
-	/**
-	 * Gets the contractManagerCode attribute.
-	 * 
-	 * @return Returns the contractManagerCode
-	 * 
-	 */
-	public Integer getContractManagerCode() { 
+	public Integer getContractManagerCode() {
+        
 		return contractManagerCode;
 	}
 
-	/**
-	 * Sets the contractManagerCode attribute.
-	 * 
-	 * @param contractManagerCode The contractManagerCode to set.
-	 * 
-	 */
 	public void setContractManagerCode(Integer contractManagerCode) {
 		this.contractManagerCode = contractManagerCode;
 	}
 
-
-	/**
-	 * Gets the purchaseOrderCostSourceCode attribute.
-	 * 
-	 * @return Returns the purchaseOrderCostSourceCode
-	 * 
-	 */
-	public String getPurchaseOrderCostSourceCode() { 
+	public String getPurchaseOrderCostSourceCode() {
+        
 		return purchaseOrderCostSourceCode;
 	}
 
-	/**
-	 * Sets the purchaseOrderCostSourceCode attribute.
-	 * 
-	 * @param purchaseOrderCostSourceCode The purchaseOrderCostSourceCode to set.
-	 * 
-	 */
 	public void setPurchaseOrderCostSourceCode(String purchaseOrderCostSourceCode) {
 		this.purchaseOrderCostSourceCode = purchaseOrderCostSourceCode;
 	}
 
-
-	/**
-	 * Gets the vendorPaymentTermsCode attribute.
-	 * 
-	 * @return Returns the vendorPaymentTermsCode
-	 * 
-	 */
-	public String getVendorPaymentTermsCode() { 
+	public String getVendorPaymentTermsCode() {
+        
 		return vendorPaymentTermsCode;
 	}
 
-	/**
-	 * Sets the vendorPaymentTermsCode attribute.
-	 * 
-	 * @param vendorPaymentTermsCode The vendorPaymentTermsCode to set.
-	 * 
-	 */
 	public void setVendorPaymentTermsCode(String vendorPaymentTermsCode) {
 		this.vendorPaymentTermsCode = vendorPaymentTermsCode;
 	}
 
-
-	/**
-	 * Gets the vendorShippingPaymentTermsCode attribute.
-	 * 
-	 * @return Returns the vendorShippingPaymentTermsCode
-	 * 
-	 */
-	public String getVendorShippingPaymentTermsCode() { 
+	public String getVendorShippingPaymentTermsCode() {
+        
 		return vendorShippingPaymentTermsCode;
 	}
 
-	/**
-	 * Sets the vendorShippingPaymentTermsCode attribute.
-	 * 
-	 * @param vendorShippingPaymentTermsCode The vendorShippingPaymentTermsCode to set.
-	 * 
-	 */
 	public void setVendorShippingPaymentTermsCode(String vendorShippingPaymentTermsCode) {
 		this.vendorShippingPaymentTermsCode = vendorShippingPaymentTermsCode;
 	}
 
-
-	/**
-	 * Gets the vendorShippingTitleCode attribute.
-	 * 
-	 * @return Returns the vendorShippingTitleCode
-	 * 
-	 */
-	public String getVendorShippingTitleCode() { 
+	public String getVendorShippingTitleCode() {
+        
 		return vendorShippingTitleCode;
 	}
 
-	/**
-	 * Sets the vendorShippingTitleCode attribute.
-	 * 
-	 * @param vendorShippingTitleCode The vendorShippingTitleCode to set.
-	 * 
-	 */
 	public void setVendorShippingTitleCode(String vendorShippingTitleCode) {
 		this.vendorShippingTitleCode = vendorShippingTitleCode;
 	}
 
-	/**
-	 * Gets the vendorContractExtensionDate attribute.
-	 * 
-	 * @return Returns the vendorContractExtensionDate
-	 * 
-	 */
-	public Date getVendorContractExtensionDate() { 
+	public Date getVendorContractExtensionDate() {
+        
 		return vendorContractExtensionDate;
 	}
 
-	/**
-	 * Sets the vendorContractExtensionDate attribute.
-	 * 
-	 * @param vendorContractExtensionDate The vendorContractExtensionDate to set.
-	 * 
-	 */
 	public void setVendorContractExtensionDate(Date vendorContractExtensionDate) {
 		this.vendorContractExtensionDate = vendorContractExtensionDate;
 	}
 
-
-	/**
-	 * Gets the vendorB2bIndicator attribute.
-	 * 
-	 * @return Returns the vendorB2bIndicator
-	 * 
-	 */
-	public Boolean getVendorB2bIndicator() { 
+	public Boolean getVendorB2bIndicator() {
+        
 		return vendorB2bIndicator;
 	}
-	
 
-	/**
-	 * Sets the vendorB2bIndicator attribute.
-	 * 
-	 * @param vendorB2bIndicator The vendorB2bIndicator to set.
-	 * 
-	 */
 	public void setVendorB2bIndicator(Boolean vendorB2bIndicator) {
 		this.vendorB2bIndicator = vendorB2bIndicator;
 	}
 
-
-	/**
-	 * Gets the organizationAutomaticPurchaseOrderLimit attribute.
-	 * 
-	 * @return Returns the organizationAutomaticPurchaseOrderLimit
-	 * 
-	 */
-	public KualiDecimal getOrganizationAutomaticPurchaseOrderLimit() { 
+	public KualiDecimal getOrganizationAutomaticPurchaseOrderLimit() {
+        
 		return organizationAutomaticPurchaseOrderLimit;
 	}
 
-	/**
-	 * Sets the organizationAutomaticPurchaseOrderLimit attribute.
-	 * 
-	 * @param organizationAutomaticPurchaseOrderLimit The organizationAutomaticPurchaseOrderLimit to set.
-	 * 
-	 */
 	public void setOrganizationAutomaticPurchaseOrderLimit(KualiDecimal organizationAutomaticPurchaseOrderLimit) {
 		this.organizationAutomaticPurchaseOrderLimit = organizationAutomaticPurchaseOrderLimit;
 	}
 
-    /**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
+        
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }    
-    
-	/**
-	 * Gets the vendorDetail attribute.
-	 * 
-	 * @return Returns the vendorDetail
-	 * 
-	 */
-	public VendorDetail getVendorDetail() { 
+
+	public VendorDetail getVendorDetail() {
+        
 		return vendorDetail;
 	}
 
@@ -444,13 +241,9 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
 		this.vendorDetail = vendorDetail;
 	}
 
-	/**
-	 * Gets the vendorCampus attribute.
-	 * 
-	 * @return Returns the vendorCampus
-	 * 
-	 */
+
 	public Campus getVendorCampus() { 
+        
 		return vendorCampus;
 	}
 
@@ -464,13 +257,8 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
 		this.vendorCampus = vendorCampus;
 	}
 
-	/**
-	 * Gets the contractManager attribute.
-	 * 
-	 * @return Returns the contractManager
-	 * 
-	 */
-	public ContractManager getContractManager() { 
+	public ContractManager getContractManager() {
+        
 		return contractManager;
 	}
 
@@ -484,13 +272,8 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
 		this.contractManager = contractManager;
 	}
 
-	/**
-	 * Gets the purchaseOrderCostSource attribute.
-	 * 
-	 * @return Returns the purchaseOrderCostSource
-	 * 
-	 */
-	public PurchaseOrderCostSource getPurchaseOrderCostSource() { 
+	public PurchaseOrderCostSource getPurchaseOrderCostSource() {
+        
 		return purchaseOrderCostSource;
 	}
 
@@ -504,13 +287,8 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
 		this.purchaseOrderCostSource = purchaseOrderCostSource;
 	}
 
-	/**
-	 * Gets the vendorPaymentTerms attribute.
-	 * 
-	 * @return Returns the vendorPaymentTerms
-	 * 
-	 */
-	public PaymentTermType getVendorPaymentTerms() { 
+	public PaymentTermType getVendorPaymentTerms() {
+        
 		return vendorPaymentTerms;
 	}
 
@@ -524,13 +302,8 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
 		this.vendorPaymentTerms = vendorPaymentTerms;
 	}
 
-	/**
-	 * Gets the vendorShippingPaymentTerms attribute.
-	 * 
-	 * @return Returns the vendorShippingPaymentTerms
-	 * 
-	 */
-	public ShippingPaymentTerms getVendorShippingPaymentTerms() { 
+	public ShippingPaymentTerms getVendorShippingPaymentTerms() {
+        
 		return vendorShippingPaymentTerms;
 	}
 
@@ -544,13 +317,8 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
 		this.vendorShippingPaymentTerms = vendorShippingPaymentTerms;
 	}
 
-	/**
-	 * Gets the vendorShippingTitle attribute.
-	 * 
-	 * @return Returns the vendorShippingTitle
-	 * 
-	 */
-	public ShippingTitle getVendorShippingTitle() { 
+	public ShippingTitle getVendorShippingTitle() {
+        
 		return vendorShippingTitle;
 	}
 
@@ -564,18 +332,11 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
 		this.vendorShippingTitle = vendorShippingTitle;
 	}
 
-    /**
-     * Gets the vendorContractOrganizations attribute. 
-     * @return Returns the vendorContractOrganizations.
-     */
     public List<VendorContractOrganization> getVendorContractOrganizations() {
+        
         return vendorContractOrganizations;
     }
 
-    /**
-     * Sets the vendorContractOrganizations attribute value.
-     * @param vendorContractOrganizations The vendorContractOrganizations to set.
-     */
     public void setVendorContractOrganizations(List<VendorContractOrganization> vendorContractOrganizations) {
         this.vendorContractOrganizations = vendorContractOrganizations;
     }
@@ -609,6 +370,7 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
                 .isEquals();
             eq &= SpringContext.getBean(VendorService.class).equalMemberLists( this.getVendorContractOrganizations(),
                     vc.getVendorContractOrganizations() );
+            
             return eq;
         } 
     }
@@ -621,6 +383,7 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
         if (this.vendorContractGeneratedIdentifier != null) {
             m.put("vendorContractGeneratedIdentifier", this.vendorContractGeneratedIdentifier.toString());
         }
+        
         return m;
     }
     

@@ -22,7 +22,10 @@ import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
+ * Generic Phone Numbers for Vendors, 
+ * as opposed to <code>VendorContactPhoneNumber</code> instances, which are specific to the Contact.
  * 
+ * @see org.kuali.module.vendor.bo.VendorContactPhoneNumber
  */
 public class VendorPhoneNumber extends PersistableBusinessObjectBase implements Inactivateable {
 
@@ -46,153 +49,71 @@ public class VendorPhoneNumber extends PersistableBusinessObjectBase implements 
 
 	}
 
-	/**
-	 * Gets the vendorPhoneGeneratedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorPhoneGeneratedIdentifier
-	 * 
-	 */
-	public Integer getVendorPhoneGeneratedIdentifier() { 
+	public Integer getVendorPhoneGeneratedIdentifier() {
+        
 		return vendorPhoneGeneratedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorPhoneGeneratedIdentifier attribute.
-	 * 
-	 * @param vendorPhoneGeneratedIdentifier The vendorPhoneGeneratedIdentifier to set.
-	 * 
-	 */
 	public void setVendorPhoneGeneratedIdentifier(Integer vendorPhoneGeneratedIdentifier) {
 		this.vendorPhoneGeneratedIdentifier = vendorPhoneGeneratedIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorHeaderGeneratedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorHeaderGeneratedIdentifier
-	 * 
-	 */
-	public Integer getVendorHeaderGeneratedIdentifier() { 
+	public Integer getVendorHeaderGeneratedIdentifier() {
+        
 		return vendorHeaderGeneratedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorHeaderGeneratedIdentifier attribute.
-	 * 
-	 * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
-	 * 
-	 */
 	public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
 		this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorDetailAssignedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorDetailAssignedIdentifier
-	 * 
-	 */
 	public Integer getVendorDetailAssignedIdentifier() { 
+        
 		return vendorDetailAssignedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorDetailAssignedIdentifier attribute.
-	 * 
-	 * @param vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
-	 * 
-	 */
 	public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
 		this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
 	}
 
-	/**
-	 * Gets the vendorPhoneTypeCode attribute.
-	 * 
-	 * @return Returns the vendorPhoneTypeCode
-	 * 
-	 */
-	public String getVendorPhoneTypeCode() { 
+	public String getVendorPhoneTypeCode() {
+        
 		return vendorPhoneTypeCode;
 	}
 
-	/**
-	 * Sets the vendorPhoneTypeCode attribute.
-	 * 
-	 * @param vendorPhoneTypeCode The vendorPhoneTypeCode to set.
-	 * 
-	 */
 	public void setVendorPhoneTypeCode(String vendorPhoneTypeCode) {
 		this.vendorPhoneTypeCode = vendorPhoneTypeCode;
 	}
 
-
-	/**
-	 * Gets the vendorPhoneNumber attribute.
-	 * 
-	 * @return Returns the vendorPhoneNumber
-	 * 
-	 */
-	public String getVendorPhoneNumber() { 
+	public String getVendorPhoneNumber() {
+        
 		return vendorPhoneNumber;
 	}
 
-	/**
-	 * Sets the vendorPhoneNumber attribute.
-	 * 
-	 * @param vendorPhoneNumber The vendorPhoneNumber to set.
-	 * 
-	 */
 	public void setVendorPhoneNumber(String vendorPhoneNumber) {
 		this.vendorPhoneNumber = vendorPhoneNumber;
 	}
 
-
-	/**
-	 * Gets the vendorPhoneExtensionNumber attribute.
-	 * 
-	 * @return Returns the vendorPhoneExtensionNumber
-	 * 
-	 */
-	public String getVendorPhoneExtensionNumber() { 
+	public String getVendorPhoneExtensionNumber() {
+        
 		return vendorPhoneExtensionNumber;
 	}
 
-	/**
-	 * Sets the vendorPhoneExtensionNumber attribute.
-	 * 
-	 * @param vendorPhoneExtensionNumber The vendorPhoneExtensionNumber to set.
-	 * 
-	 */
 	public void setVendorPhoneExtensionNumber(String vendorPhoneExtensionNumber) {
 		this.vendorPhoneExtensionNumber = vendorPhoneExtensionNumber;
 	}
 
-    /**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
+        
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
-    
-	/**
-	 * Gets the vendorDetail attribute.
-	 * 
-	 * @return Returns the vendorDetail
-	 * 
-	 */
-	public VendorDetail getVendorDetail() { 
+
+	public VendorDetail getVendorDetail() {
+        
 		return vendorDetail;
 	}
 
@@ -206,13 +127,8 @@ public class VendorPhoneNumber extends PersistableBusinessObjectBase implements 
 		this.vendorDetail = vendorDetail;
 	}
 
-	/**
-	 * Gets the vendorContact attribute.
-	 * 
-	 * @return Returns the vendorContact
-	 * 
-	 */
-	public VendorContact getVendorContact() { 
+	public VendorContact getVendorContact() {
+        
 		return vendorContact;
 	}
 
@@ -226,13 +142,8 @@ public class VendorPhoneNumber extends PersistableBusinessObjectBase implements 
 		this.vendorContact = vendorContact;
 	}
 
-	/**
-	 * Gets the vendorAddress attribute.
-	 * 
-	 * @return Returns the vendorAddress
-	 * 
-	 */
-	public VendorAddress getVendorAddress() { 
+	public VendorAddress getVendorAddress() {
+        
 		return vendorAddress;
 	}
 
@@ -246,13 +157,8 @@ public class VendorPhoneNumber extends PersistableBusinessObjectBase implements 
 		this.vendorAddress = vendorAddress;
 	}
 
-	/**
-	 * Gets the vendorPhoneType attribute.
-	 * 
-	 * @return Returns the vendorPhoneType
-	 * 
-	 */
-	public PhoneType getVendorPhoneType() { 
+	public PhoneType getVendorPhoneType() {
+        
 		return vendorPhoneType;
 	}
 
@@ -274,6 +180,7 @@ public class VendorPhoneNumber extends PersistableBusinessObjectBase implements 
         if (this.vendorPhoneGeneratedIdentifier != null) {
             m.put("vendorPhoneGeneratedIdentifier", this.vendorPhoneGeneratedIdentifier.toString());
         }
+        
 	    return m;
     }
 }

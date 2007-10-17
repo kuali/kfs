@@ -21,7 +21,11 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
+ * Exclusive kinds of basic business organization that a vendor may have.
+ * Other broad exclusive categories for vendors can be instances of
+ * <code>OwnershipCategory</code>.
  * 
+ * @see org.kuali.module.vendor.bo.OwnershipCategory
  */
 public class OwnershipType extends PersistableBusinessObjectBase {
 
@@ -37,80 +41,38 @@ public class OwnershipType extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the vendorOwnershipCode attribute.
-	 * 
-	 * @return Returns the vendorOwnershipCode
-	 * 
-	 */
-	public String getVendorOwnershipCode() { 
+	public String getVendorOwnershipCode() {
+        
 		return vendorOwnershipCode;
 	}
 
-	/**
-	 * Sets the vendorOwnershipCode attribute.
-	 * 
-	 * @param vendorOwnershipCode The vendorOwnershipCode to set.
-	 * 
-	 */
 	public void setVendorOwnershipCode(String vendorOwnershipCode) {
 		this.vendorOwnershipCode = vendorOwnershipCode;
 	}
 
-
-	/**
-	 * Gets the vendorOwnershipDescription attribute.
-	 * 
-	 * @return Returns the vendorOwnershipDescription
-	 * 
-	 */
-	public String getVendorOwnershipDescription() { 
+	public String getVendorOwnershipDescription() {
+        
 		return vendorOwnershipDescription;
 	}
 
-	/**
-	 * Sets the vendorOwnershipDescription attribute.
-	 * 
-	 * @param vendorOwnershipDescription The vendorOwnershipDescription to set.
-	 * 
-	 */
 	public void setVendorOwnershipDescription(String vendorOwnershipDescription) {
 		this.vendorOwnershipDescription = vendorOwnershipDescription;
 	}
 
-
-	/**
-	 * Gets the vendorOwnershipCategoryAllowedIndicator attribute.
-	 * 
-	 * @return Returns the vendorOwnershipCategoryAllowedIndicator
-	 * 
-	 */
-	public boolean getVendorOwnershipCategoryAllowedIndicator() { 
+	public boolean getVendorOwnershipCategoryAllowedIndicator() {
+        
 		return vendorOwnershipCategoryAllowedIndicator;
 	}
 
-	/**
-	 * Sets the vendorOwnershipCategoryAllowedIndicator attribute.
-	 * 
-	 * @param vendorOwnershipCategoryAllowedIndicator The vendorOwnershipCategoryAllowedIndicator to set.
-	 * 
-	 */
 	public void setVendorOwnershipCategoryAllowedIndicator(boolean vendorOwnershipCategoryAllowedIndicator) {
 		this.vendorOwnershipCategoryAllowedIndicator = vendorOwnershipCategoryAllowedIndicator;
 	}
-    
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
+
     public boolean isActive() {
+        
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -121,6 +83,7 @@ public class OwnershipType extends PersistableBusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("vendorOwnershipCode", this.vendorOwnershipCode);
+        
 	    return m;
     }
 }

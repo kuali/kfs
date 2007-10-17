@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Possible reasons why a Vendor may become inactivated.
  */
 public class VendorInactiveReason extends PersistableBusinessObjectBase {
 
@@ -36,59 +36,29 @@ public class VendorInactiveReason extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the vendorInactiveReasonCode attribute.
-	 * 
-	 * @return Returns the vendorInactiveReasonCode
-	 * 
-	 */
-	public String getVendorInactiveReasonCode() { 
+	public String getVendorInactiveReasonCode() {
+        
 		return vendorInactiveReasonCode;
 	}
 
-	/**
-	 * Sets the vendorInactiveReasonCode attribute.
-	 * 
-	 * @param vendorInactiveReasonCode The vendorInactiveReasonCode to set.
-	 * 
-	 */
 	public void setVendorInactiveReasonCode(String vendorInactiveReasonCode) {
 		this.vendorInactiveReasonCode = vendorInactiveReasonCode;
 	}
 
-
-	/**
-	 * Gets the vendorInactiveReasonDescription attribute.
-	 * 
-	 * @return Returns the vendorInactiveReasonDescription
-	 * 
-	 */
-	public String getVendorInactiveReasonDescription() { 
+	public String getVendorInactiveReasonDescription() {
+        
 		return vendorInactiveReasonDescription;
 	}
 
-	/**
-	 * Sets the vendorInactiveReasonDescription attribute.
-	 * 
-	 * @param vendorInactiveReasonDescription The vendorInactiveReasonDescription to set.
-	 * 
-	 */
 	public void setVendorInactiveReasonDescription(String vendorInactiveReasonDescription) {
 		this.vendorInactiveReasonDescription = vendorInactiveReasonDescription;
 	}
 
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
+        
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -99,6 +69,7 @@ public class VendorInactiveReason extends PersistableBusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("vendorInactiveReasonCode", this.vendorInactiveReasonCode);
+        
 	    return m;
     }
 }

@@ -21,7 +21,10 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
+ * Special Conditions for Shipping.
+ * These are typically conditions of products which affect the way they are shipped.
  * 
+ * @see org.kuali.module.vendor.bo.VendorShippingSpecialCondition
  */
 public class ShippingSpecialCondition extends PersistableBusinessObjectBase {
 
@@ -36,59 +39,29 @@ public class ShippingSpecialCondition extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the vendorShippingSpecialConditionCode attribute.
-	 * 
-	 * @return Returns the vendorShippingSpecialConditionCode
-	 * 
-	 */
-	public String getVendorShippingSpecialConditionCode() { 
+	public String getVendorShippingSpecialConditionCode() {
+        
 		return vendorShippingSpecialConditionCode;
 	}
 
-	/**
-	 * Sets the vendorShippingSpecialConditionCode attribute.
-	 * 
-	 * @param vendorShippingSpecialConditionCode The vendorShippingSpecialConditionCode to set.
-	 * 
-	 */
 	public void setVendorShippingSpecialConditionCode(String vendorShippingSpecialConditionCode) {
 		this.vendorShippingSpecialConditionCode = vendorShippingSpecialConditionCode;
 	}
 
-
-	/**
-	 * Gets the vendorShippingSpecialConditionDescription attribute.
-	 * 
-	 * @return Returns the vendorShippingSpecialConditionDescription
-	 * 
-	 */
-	public String getVendorShippingSpecialConditionDescription() { 
+	public String getVendorShippingSpecialConditionDescription() {
+        
 		return vendorShippingSpecialConditionDescription;
 	}
 
-	/**
-	 * Sets the vendorShippingSpecialConditionDescription attribute.
-	 * 
-	 * @param vendorShippingSpecialConditionDescription The vendorShippingSpecialConditionDescription to set.
-	 * 
-	 */
 	public void setVendorShippingSpecialConditionDescription(String vendorShippingSpecialConditionDescription) {
 		this.vendorShippingSpecialConditionDescription = vendorShippingSpecialConditionDescription;
 	}
 
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
+        
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -99,6 +72,7 @@ public class ShippingSpecialCondition extends PersistableBusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("vendorShippingSpecialConditionCode", this.vendorShippingSpecialConditionCode);
+        
 	    return m;
     }
 }

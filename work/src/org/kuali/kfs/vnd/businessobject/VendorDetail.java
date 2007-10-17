@@ -33,7 +33,12 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.util.VendorRoutingComparable;
 
 /**
+ * Contains all data for a specific parent or division Vendor,
+ * including a link to the <code>VendorHeader</code>, which only contains
+ * information about the parent company, but can be shared between division
+ * Vendors.
  * 
+ * @see org.kuali.module.vendor.bo.VendorHeader
  */
 public class VendorDetail extends PersistableBusinessObjectBase implements VendorRoutingComparable {
     private static Logger LOG = Logger.getLogger(VendorDetail.class);
@@ -109,46 +114,24 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public boolean isVendorDebarred() {
+        
         return (ObjectUtils.isNotNull(getVendorHeader().getVendorDebarredIndicator()) && getVendorHeader().getVendorDebarredIndicator());
     }
 
-	/**
-	 * Gets the vendorHeaderGeneratedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorHeaderGeneratedIdentifier
-	 * 
-	 */
-	public Integer getVendorHeaderGeneratedIdentifier() { 
+	public Integer getVendorHeaderGeneratedIdentifier() {
+        
 		return vendorHeaderGeneratedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorHeaderGeneratedIdentifier attribute.
-	 * 
-	 * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
-	 * 
-	 */
 	public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
 		this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorDetailAssignedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorDetailAssignedIdentifier
-	 * 
-	 */
 	public Integer getVendorDetailAssignedIdentifier() { 
+        
 		return vendorDetailAssignedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorDetailAssignedIdentifier attribute.
-	 * 
-	 * @param vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
-	 * 
-	 */
 	public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
 		this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
 	}
@@ -171,6 +154,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
         if (!StringUtils.isEmpty(headerId) && !StringUtils.isEmpty(detailId)) {
             vendorNumber = headerId + "-" + detailId;
         }
+        
         return vendorNumber;
     }
 
@@ -212,6 +196,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
         if (!StringUtils.isEmpty(headerId) && !StringUtils.isEmpty(detailId)) {
             vendorSoldToNumber = headerId+"-"+detailId;
         }
+        
         return vendorSoldToNumber;
     }
 
@@ -234,317 +219,138 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
             this.vendorSoldToNumber = vendorSoldToNumber;
         }
     }
-    
-    /**
-	 * Gets the vendorParentIndicator attribute.
-	 * 
-	 * @return Returns the vendorParentIndicator
-	 * 
-	 */
-	public boolean isVendorParentIndicator() { 
+
+	public boolean isVendorParentIndicator() {
+        
 		return vendorParentIndicator;
 	}
-	
 
-	/**
-	 * Sets the vendorParentIndicator attribute.
-	 * 
-	 * @param vendorParentIndicator The vendorParentIndicator to set.
-	 * 
-	 */
 	public void setVendorParentIndicator(boolean vendorParentIndicator) {
 		this.vendorParentIndicator = vendorParentIndicator;
 	}
 
-
-	/**
-	 * Gets the vendorSoldToGeneratedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorSoldToGeneratedIdentifier
-	 * 
-	 */
-	public Integer getVendorSoldToGeneratedIdentifier() { 
+	public Integer getVendorSoldToGeneratedIdentifier() {
+        
 		return vendorSoldToGeneratedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorSoldToGeneratedIdentifier attribute.
-	 * 
-	 * @param vendorSoldToGeneratedIdentifier The vendorSoldToGeneratedIdentifier to set.
-	 * 
-	 */
 	public void setVendorSoldToGeneratedIdentifier(Integer vendorSoldToGeneratedIdentifier) {
 		this.vendorSoldToGeneratedIdentifier = vendorSoldToGeneratedIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorSoldToAssignedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorSoldToAssignedIdentifier
-	 * 
-	 */
-	public Integer getVendorSoldToAssignedIdentifier() { 
+	public Integer getVendorSoldToAssignedIdentifier() {
+        
 		return vendorSoldToAssignedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorSoldToAssignedIdentifier attribute.
-	 * 
-	 * @param vendorSoldToAssignedIdentifier The vendorSoldToAssignedIdentifier to set.
-	 * 
-	 */
 	public void setVendorSoldToAssignedIdentifier(Integer vendorSoldToAssignedIdentifier) {
 		this.vendorSoldToAssignedIdentifier = vendorSoldToAssignedIdentifier;
 	}
 
-
-    /**
-     * Gets the vendorName attribute.
-     * 
-     * @return Returns the vendorName
-     * 
-     */
-    public String getVendorName() { 
+    public String getVendorName() {
+        
         return vendorName;
     }
 
-    /**
-     * Sets the altVendorName attribute.
-     * 
-     * @param altVendorName The altVendorName to set.
-     * 
-     */
     public void setAltVendorName(String altVendorName) {
         this.vendorName = altVendorName;
     }
 
-
-    /**
-     * Gets the altVendorName attribute.
-     * 
-     * @return Returns the altVendorName
-     * 
-     */
-    public String getAltVendorName() { 
+    public String getAltVendorName() {
+        
         return vendorName;
     }
 
-    /**
-     * Sets the vendorName attribute.
-     * 
-     * @param vendorName The vendorName to set.
-     * 
-     */
     public void setVendorName(String vendorName) {
         this.vendorName = vendorName;
     }
 
-
-	/**
-     * Gets the dataObjectMaintenanceCodeActiveIndicator attribute. 
-     * @return Returns the dataObjectMaintenanceCodeActiveIndicator.
-	 */
     public boolean isActiveIndicator() {
+        
         return activeIndicator;
 	}
 
-	/**
-     * Sets the dataObjectMaintenanceCodeActiveIndicator attribute value.
-     * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
-	 */
     public void setActiveIndicator(boolean activeIndicator) {
         this.activeIndicator = activeIndicator;
 	}
 
-
-	/**
-	 * Gets the vendorInactiveReasonCode attribute.
-	 * 
-	 * @return Returns the vendorInactiveReasonCode
-	 * 
-	 */
 	public String getVendorInactiveReasonCode() { 
+        
 		return vendorInactiveReasonCode;
 	}
 
-	/**
-	 * Sets the vendorInactiveReasonCode attribute.
-	 * 
-	 * @param vendorInactiveReasonCode The vendorInactiveReasonCode to set.
-	 * 
-	 */
 	public void setVendorInactiveReasonCode(String vendorInactiveReasonCode) {
 		this.vendorInactiveReasonCode = vendorInactiveReasonCode;
 	}
 
-
-	/**
-	 * Gets the vendorPaymentTermsCode attribute.
-	 * 
-	 * @return Returns the vendorPaymentTermsCode
-	 * 
-	 */
-	public String getVendorPaymentTermsCode() { 
+	public String getVendorPaymentTermsCode() {
+        
 		return vendorPaymentTermsCode;
 	}
 
-	/**
-	 * Sets the vendorPaymentTermsCode attribute.
-	 * 
-	 * @param vendorPaymentTermsCode The vendorPaymentTermsCode to set.
-	 * 
-	 */
 	public void setVendorPaymentTermsCode(String vendorPaymentTermsCode) {
 		this.vendorPaymentTermsCode = vendorPaymentTermsCode;
 	}
 
-
-	/**
-	 * Gets the vendorShippingTitleCode attribute.
-	 * 
-	 * @return Returns the vendorShippingTitleCode
-	 * 
-	 */
-	public String getVendorShippingTitleCode() { 
+	public String getVendorShippingTitleCode() {
+        
 		return vendorShippingTitleCode;
 	}
 
-	/**
-	 * Sets the vendorShippingTitleCode attribute.
-	 * 
-	 * @param vendorShippingTitleCode The vendorShippingTitleCode to set.
-	 * 
-	 */
 	public void setVendorShippingTitleCode(String vendorShippingTitleCode) {
 		this.vendorShippingTitleCode = vendorShippingTitleCode;
 	}
 
-
-	/**
-	 * Gets the vendorShippingPaymentTermsCode attribute.
-	 * 
-	 * @return Returns the vendorShippingPaymentTermsCode
-	 * 
-	 */
-	public String getVendorShippingPaymentTermsCode() { 
+	public String getVendorShippingPaymentTermsCode() {
+        
 		return vendorShippingPaymentTermsCode;
 	}
 
-	/**
-	 * Sets the vendorShippingPaymentTermsCode attribute.
-	 * 
-	 * @param vendorShippingPaymentTermsCode The vendorShippingPaymentTermsCode to set.
-	 * 
-	 */
 	public void setVendorShippingPaymentTermsCode(String vendorShippingPaymentTermsCode) {
 		this.vendorShippingPaymentTermsCode = vendorShippingPaymentTermsCode;
 	}
 
-
-	/**
-	 * Gets the vendorConfirmationIndicator attribute.
-	 * 
-	 * @return Returns the vendorConfirmationIndicator
-	 * 
-	 */
-	public Boolean getVendorConfirmationIndicator() { 
+	public Boolean getVendorConfirmationIndicator() {
+        
 		return vendorConfirmationIndicator;
 	}
-	
 
-	/**
-	 * Sets the vendorConfirmationIndicator attribute.
-	 * 
-	 * @param vendorConfirmationIndicator The vendorConfirmationIndicator to set.
-	 * 
-	 */
 	public void setVendorConfirmationIndicator(Boolean vendorConfirmationIndicator) {
 		this.vendorConfirmationIndicator = vendorConfirmationIndicator;
 	}
 
-
-	/**
-	 * Gets the vendorPrepaymentIndicator attribute.
-	 * 
-	 * @return Returns the vendorPrepaymentIndicator
-	 * 
-	 */
 	public Boolean getVendorPrepaymentIndicator() { 
+        
 		return vendorPrepaymentIndicator;
 	}
-	
 
-	/**
-	 * Sets the vendorPrepaymentIndicator attribute.
-	 * 
-	 * @param vendorPrepaymentIndicator The vendorPrepaymentIndicator to set.
-	 * 
-	 */
 	public void setVendorPrepaymentIndicator(Boolean vendorPrepaymentIndicator) {
 		this.vendorPrepaymentIndicator = vendorPrepaymentIndicator;
 	}
 
-
-	/**
-	 * Gets the vendorCreditCardIndicator attribute.
-	 * 
-	 * @return Returns the vendorCreditCardIndicator
-	 * 
-	 */
-	public Boolean getVendorCreditCardIndicator() { 
+	public Boolean getVendorCreditCardIndicator() {
+        
 		return vendorCreditCardIndicator;
 	}
-	
 
-	/**
-	 * Sets the vendorCreditCardIndicator attribute.
-	 * 
-	 * @param vendorCreditCardIndicator The vendorCreditCardIndicator to set.
-	 * 
-	 */
 	public void setVendorCreditCardIndicator(Boolean vendorCreditCardIndicator) {
 		this.vendorCreditCardIndicator = vendorCreditCardIndicator;
 	}
 
-
-	/**
-	 * Gets the vendorMinimumOrderAmount attribute.
-	 * 
-	 * @return Returns the vendorMinimumOrderAmount
-	 * 
-	 */
-	public KualiDecimal getVendorMinimumOrderAmount() { 
+	public KualiDecimal getVendorMinimumOrderAmount() {
+        
 		return vendorMinimumOrderAmount;
 	}
 
-	/**
-	 * Sets the vendorMinimumOrderAmount attribute.
-	 * 
-	 * @param vendorMinimumOrderAmount The vendorMinimumOrderAmount to set.
-	 * 
-	 */
 	public void setVendorMinimumOrderAmount(KualiDecimal vendorMinimumOrderAmount) {
 		this.vendorMinimumOrderAmount = vendorMinimumOrderAmount;
 	}
 
-
-	/**
-	 * Gets the vendorUrlAddress attribute.
-	 * 
-	 * @return Returns the vendorUrlAddress
-	 * 
-	 */
-	public String getVendorUrlAddress() { 
+	public String getVendorUrlAddress() {
+        
 		return vendorUrlAddress;
 	}
 
-	/**
-	 * Sets the vendorUrlAddress attribute.
-	 * 
-	 * @param vendorUrlAddress The vendorUrlAddress to set.
-	 * 
-	 */
 	public void setVendorUrlAddress(String vendorUrlAddress) {
 		this.vendorUrlAddress = vendorUrlAddress;
 	}
@@ -554,180 +360,86 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 	 * Gets the vendorSoldToName attribute.
 	 * 
 	 * @return Returns the vendorSoldToName
-	 * 
 	 */
 	public String getVendorSoldToName() { 
 		if (soldToVendorDetail != null) {
+            
             return soldToVendorDetail.getVendorName();
         } else {
+            
             return this.vendorSoldToName;
         }
 	}
 
-	/**
-	 * Sets the vendorSoldToName attribute.
-	 * 
-	 * @param vendorSoldToName The vendorSoldToName to set.
-	 * 
-	 */
 	public void setVendorSoldToName(String vendorSoldToName) {
 		this.vendorSoldToName = vendorSoldToName;
 	}
 
-
-	/**
-	 * Gets the vendorRemitName attribute.
-	 * 
-	 * @return Returns the vendorRemitName
-	 * 
-	 */
-	public String getVendorRemitName() { 
+	public String getVendorRemitName() {
+        
 		return vendorRemitName;
 	}
 
-	/**
-	 * Sets the vendorRemitName attribute.
-	 * 
-	 * @param vendorRemitName The vendorRemitName to set.
-	 * 
-	 */
 	public void setVendorRemitName(String vendorRemitName) {
 		this.vendorRemitName = vendorRemitName;
 	}
 
-
-	/**
-	 * Gets the vendorRestrictedIndicator attribute.
-	 * 
-	 * @return Returns the vendorRestrictedIndicator
-	 * 
-	 */
-	public Boolean getVendorRestrictedIndicator() { 
+	public Boolean getVendorRestrictedIndicator() {
+        
 		return vendorRestrictedIndicator;
 	}
-	
 
-	/**
-	 * Sets the vendorRestrictedIndicator attribute.
-	 * 
-	 * @param vendorRestrictedIndicator The vendorRestrictedIndicator to set.
-	 * 
-	 */
 	public void setVendorRestrictedIndicator(Boolean vendorRestrictedIndicator) {
 		this.vendorRestrictedIndicator = vendorRestrictedIndicator;
 	}
 
-
-	/**
-	 * Gets the vendorRestrictedReasonText attribute.
-	 * 
-	 * @return Returns the vendorRestrictedReasonText
-	 * 
-	 */
-	public String getVendorRestrictedReasonText() { 
+	public String getVendorRestrictedReasonText() {
+        
 		return vendorRestrictedReasonText;
 	}
 
-	/**
-	 * Sets the vendorRestrictedReasonText attribute.
-	 * 
-	 * @param vendorRestrictedReasonText The vendorRestrictedReasonText to set.
-	 * 
-	 */
 	public void setVendorRestrictedReasonText(String vendorRestrictedReasonText) {
 		this.vendorRestrictedReasonText = vendorRestrictedReasonText;
 	}
 
-
-	/**
-	 * Gets the vendorRestrictedDate attribute.
-	 * 
-	 * @return Returns the vendorRestrictedDate
-	 * 
-	 */
-	public Date getVendorRestrictedDate() { 
+	public Date getVendorRestrictedDate() {
+        
 		return vendorRestrictedDate;
 	}
 
-	/**
-	 * Sets the vendorRestrictedDate attribute.
-	 * 
-	 * @param vendorRestrictedDate The vendorRestrictedDate to set.
-	 * 
-	 */
 	public void setVendorRestrictedDate(Date vendorRestrictedDate) {
 		this.vendorRestrictedDate = vendorRestrictedDate;
 	}
 
-
-	/**
-	 * Gets the vendorRestrictedPersonIdentifier attribute.
-	 * 
-	 * @return Returns the vendorRestrictedPersonIdentifier
-	 * 
-	 */
 	public String getVendorRestrictedPersonIdentifier() { 
+        
 		return vendorRestrictedPersonIdentifier;
 	}
 
-	/**
-	 * Sets the vendorRestrictedPersonIdentifier attribute.
-	 * 
-	 * @param vendorRestrictedPersonIdentifier The vendorRestrictedPersonIdentifier to set.
-	 * 
-	 */
 	public void setVendorRestrictedPersonIdentifier(String vendorRestrictedPersonIdentifier) {
 		this.vendorRestrictedPersonIdentifier = vendorRestrictedPersonIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorDunsNumber attribute.
-	 * 
-	 * @return Returns the vendorDunsNumber
-	 * 
-	 */
 	public String getVendorDunsNumber() { 
+        
 		return vendorDunsNumber;
 	}
 
-	/**
-	 * Sets the vendorDunsNumber attribute.
-	 * 
-	 * @param vendorDunsNumber The vendorDunsNumber to set.
-	 * 
-	 */
 	public void setVendorDunsNumber(String vendorDunsNumber) {
 		this.vendorDunsNumber = vendorDunsNumber;
 	}
 
-	/**
-	 * Gets the vendorHeaderGenerated attribute.
-	 * 
-	 * @return Returns the vendorHeaderGenerated
-	 * 
-	 */
-	public VendorHeader getVendorHeader() { 
+	public VendorHeader getVendorHeader() {
+        
 		return vendorHeader;
 	}
 
-	/**
-	 * Sets the vendorHeader attribute.
-	 * 
-	 * @param vendorHeader The vendorHeader to set.
-	 * 
-	 */
 	public void setVendorHeader(VendorHeader vendorHeader) {
 		this.vendorHeader = vendorHeader;
 	}
 
-	/**
-	 * Gets the vendorPaymentTerms attribute.
-	 * 
-	 * @return Returns the vendorPaymentTerms
-	 * 
-	 */
-	public PaymentTermType getVendorPaymentTerms() { 
+	public PaymentTermType getVendorPaymentTerms() {
+        
 		return vendorPaymentTerms;
 	}
     
@@ -740,14 +452,9 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 	public void setVendorPaymentTerms(PaymentTermType vendorPaymentTerms) {
 		this.vendorPaymentTerms = vendorPaymentTerms;
 	}
-    
-	/**
-	 * Gets the vendorShippingTitle attribute.
-	 * 
-	 * @return Returns the vendorShippingTitle
-	 * 
-	 */
+
 	public ShippingTitle getVendorShippingTitle() { 
+        
 		return vendorShippingTitle;
 	}
 
@@ -761,13 +468,8 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 		this.vendorShippingTitle = vendorShippingTitle;
 	}
 
-	/**
-	 * Gets the vendorShippingPaymentTerms attribute.
-	 * 
-	 * @return Returns the vendorShippingPaymentTerms
-	 * 
-	 */
-	public ShippingPaymentTerms getVendorShippingPaymentTerms() { 
+	public ShippingPaymentTerms getVendorShippingPaymentTerms() {
+        
 		return vendorShippingPaymentTerms;
 	}
 
@@ -781,11 +483,8 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 		this.vendorShippingPaymentTerms = vendorShippingPaymentTerms;
 	}
 
-	/**
-     * Gets the vendorInactiveReason attribute. 
-     * @return Returns the vendorInactiveReason.
-     */
     public VendorInactiveReason getVendorInactiveReason() {
+        
         return vendorInactiveReason;
     }
 
@@ -799,6 +498,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }        
 
     public List<VendorAddress> getVendorAddresses() {
+        
         return vendorAddresses;
     }
 
@@ -807,6 +507,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public List<VendorContact> getVendorContacts() {
+        
         return vendorContacts;
     }
 
@@ -815,6 +516,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public List<VendorContract> getVendorContracts() {
+        
         return vendorContracts;
     }
 
@@ -823,6 +525,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public List<VendorCustomerNumber> getVendorCustomerNumbers() {
+        
         return vendorCustomerNumbers;
     }
 
@@ -831,6 +534,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public List<VendorShippingSpecialCondition> getVendorShippingSpecialConditions() {
+        
         return vendorShippingSpecialConditions;
     }
 
@@ -839,6 +543,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public List<VendorAlias> getVendorAliases() {
+        
         return vendorAliases;
     }
 
@@ -847,6 +552,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public List<VendorPhoneNumber> getVendorPhoneNumbers() {
+        
         return vendorPhoneNumbers;
     }
 
@@ -855,6 +561,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public String getVendorFirstName() {
+        
         return vendorFirstName;
     }
 
@@ -863,6 +570,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public String getVendorLastName() {
+        
         return vendorLastName;
     }
 
@@ -871,6 +579,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public VendorDetail getSoldToVendorDetail() {
+        
         return soldToVendorDetail;
     }
 
@@ -878,40 +587,27 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
         this.soldToVendorDetail = soldToVendorDetail;
     }
 
-    /**
-     * Gets the vendorFirstLastNameIndicator attribute. 
-     * @return Returns the vendorFirstLastNameIndicator.
-     */
     public boolean isVendorFirstLastNameIndicator() {
+        
         return vendorFirstLastNameIndicator;
     }
 
-    /**
-     * Sets the vendorFirstLastNameIndicator attribute value.
-     * @param vendorFirstLastNameIndicator The vendorFirstLastNameIndicator to set.
-     */
     public void setVendorFirstLastNameIndicator(boolean vendorFirstLastNameIndicator) {
         this.vendorFirstLastNameIndicator = vendorFirstLastNameIndicator;
     }
 
-    /**
-     * Gets the vendorStateForLookup attribute. 
-     * @return Returns the vendorStateForLookup.
-     */
     public String getVendorStateForLookup() {
+        
         return vendorStateForLookup;
     }
 
-    /**
-     * Sets the vendorStateForLookup attribute value.
-     * @param vendorStateForLookup The vendorStateForLookup to set.
-     */
     public void setVendorStateForLookup(String vendorStateForLookup) {
         this.vendorStateForLookup = vendorStateForLookup;
     }
 
     public UniversalUser getVendorRestrictedPerson() {
         vendorRestrictedPerson = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(vendorRestrictedPersonIdentifier, vendorRestrictedPerson);
+        
         return vendorRestrictedPerson;
     }
 
@@ -926,6 +622,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public String getDefaultAddressLine1() {
+        
         return defaultAddressLine1;
     }
 
@@ -934,6 +631,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public String getDefaultAddressCity() {
+        
         return defaultAddressCity;
     }
 
@@ -942,6 +640,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public String getDefaultAddressLine2() {
+        
         return defaultAddressLine2;
     }
 
@@ -950,6 +649,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public String getDefaultAddressPostalCode() {
+        
         return defaultAddressPostalCode;
     }
 
@@ -958,6 +658,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public String getDefaultAddressStateCode() {
+        
         return defaultAddressStateCode;
     }
 
@@ -966,6 +667,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public String getDefaultAddressCountryCode() {
+        
         return defaultAddressCountryCode;
     }
 
@@ -979,9 +681,11 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     public boolean isEqualForRouting( Object toCompare ) { 
         LOG.debug( "Entering isEqualForRouting." );
         if( ( ObjectUtils.isNull( toCompare ) ) || !( toCompare instanceof VendorDetail ) ) {
+            
             return false;
         } else {
             VendorDetail detail = (VendorDetail)toCompare;
+            
             return new EqualsBuilder()
                 .append( this.getVendorHeaderGeneratedIdentifier(), detail.getVendorHeaderGeneratedIdentifier() )
                 .append( this.getVendorDetailAssignedIdentifier(), detail.getVendorDetailAssignedIdentifier() )
@@ -1022,6 +726,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
         if (this.vendorDetailAssignedIdentifier != null) {
             m.put("vendorDetailAssignedIdentifier", this.vendorDetailAssignedIdentifier.toString());
         }
+        
         return m;
     }
         

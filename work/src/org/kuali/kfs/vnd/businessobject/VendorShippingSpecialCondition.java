@@ -25,7 +25,9 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.vendor.util.VendorRoutingComparable;
 
 /**
+ * Relationship between a Vendor and a <code>ShippingSpecialCondition</code>.
  * 
+ * @see org.kuali.module.vendor.bo.ShippingSpecialCondition
  */
 public class VendorShippingSpecialCondition extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivateable {
 
@@ -44,89 +46,44 @@ public class VendorShippingSpecialCondition extends PersistableBusinessObjectBas
 
 	}
 
-	/**
-	 * Gets the vendorHeaderGeneratedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorHeaderGeneratedIdentifier
-	 * 
-	 */
-	public Integer getVendorHeaderGeneratedIdentifier() { 
+	public Integer getVendorHeaderGeneratedIdentifier() {
+        
 		return vendorHeaderGeneratedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorHeaderGeneratedIdentifier attribute.
-	 * 
-	 * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
-	 * 
-	 */
 	public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
 		this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorDetailAssignedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorDetailAssignedIdentifier
-	 * 
-	 */
-	public Integer getVendorDetailAssignedIdentifier() { 
+	public Integer getVendorDetailAssignedIdentifier() {
+        
 		return vendorDetailAssignedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorDetailAssignedIdentifier attribute.
-	 * 
-	 * @param vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
-	 * 
-	 */
 	public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
 		this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorShippingSpecialConditionCode attribute.
-	 * 
-	 * @return Returns the vendorShippingSpecialConditionCode
-	 * 
-	 */
-	public String getVendorShippingSpecialConditionCode() { 
+	public String getVendorShippingSpecialConditionCode() {
+        
 		return vendorShippingSpecialConditionCode;
 	}
 
-	/**
-	 * Sets the vendorShippingSpecialConditionCode attribute.
-	 * 
-	 * @param vendorShippingSpecialConditionCode The vendorShippingSpecialConditionCode to set.
-	 * 
-	 */
 	public void setVendorShippingSpecialConditionCode(String vendorShippingSpecialConditionCode) {
 		this.vendorShippingSpecialConditionCode = vendorShippingSpecialConditionCode;
 	}
 
-    /**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
+        
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }    
-    
-    /**
-     * Gets the vendorDetail attribute. 
-     * @return Returns the vendorDetail.
-     */
+
     public VendorDetail getVendorDetail() {
+        
         return vendorDetail;
     }
 
@@ -139,11 +96,8 @@ public class VendorShippingSpecialCondition extends PersistableBusinessObjectBas
         this.vendorDetail = vendorDetail;
     }
 
-    /**
-     * Gets the vendorShippingSpecialCondition attribute. 
-     * @return Returns the vendorShippingSpecialCondition.
-     */
     public ShippingSpecialCondition getVendorShippingSpecialCondition() {
+        
         return vendorShippingSpecialCondition;
     }
 
@@ -164,6 +118,7 @@ public class VendorShippingSpecialCondition extends PersistableBusinessObjectBas
             return false;
         } else {
             VendorShippingSpecialCondition vssc = (VendorShippingSpecialCondition)toCompare;
+            
             return new EqualsBuilder()
                 .append( this.getVendorHeaderGeneratedIdentifier(), vssc.getVendorHeaderGeneratedIdentifier() )
                 .append( this.getVendorDetailAssignedIdentifier(), vssc.getVendorDetailAssignedIdentifier() )
@@ -184,6 +139,7 @@ public class VendorShippingSpecialCondition extends PersistableBusinessObjectBas
             m.put("vendorDetailAssignedIdentifier", this.vendorDetailAssignedIdentifier.toString());
         }
         m.put("vendorShippingSpecialConditionCode", this.vendorShippingSpecialConditionCode);
+        
         return m;
     }
 }

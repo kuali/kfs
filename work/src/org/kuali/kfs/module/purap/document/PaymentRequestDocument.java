@@ -394,7 +394,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
   
     /**
      * TODO (KULPURAP-436: ctk) this should be cleaned up
-     * This method populates a preq from po
+     * Populates a preq from a PO
      * 
      * @param po
      */
@@ -463,7 +463,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
    
     /**
      * TODO (KULPURAP-1575) this should be cleaned up.. it is also a replica of the method above except it performs account replacement
-     * This method populates a preq from po
+     * Populates a preq from a PO
      * 
      * @param po
      */
@@ -736,7 +736,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * 
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getItemClass()
      */
     @Override
@@ -783,8 +782,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * Get the total encumbered amount from the purchase order excluding 
-     * below the line
+     * Returns the total encumbered amount from the purchase order excluding 
+     * below the line.
      * 
      * @return Total cost excluding below the line
      */
@@ -863,7 +862,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     /** 
-     * This method is here due to a setter requirement by the htmlControlAttribute
+     * Exists due to a setter requirement by the htmlControlAttribute
      * 
      * @param amount
      */
@@ -872,7 +871,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     /** 
-     * This method is here due to a setter requirement by the htmlControlAttribute
+     * Exists due to a setter requirement by the htmlControlAttribute
      * 
      * @param amount
      */
@@ -881,7 +880,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }  
     
     /** 
-     * This method is here due to a setter requirement by the htmlControlAttribute
+     * Exists due to a setter requirement by the htmlControlAttribute
      * 
      * @param amount
      */
@@ -890,7 +889,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }    
 
     /** 
-     * This method is here due to a setter requirement by the htmlControlAttribute
+     * Exists due to a setter requirement by the htmlControlAttribute
      * 
      * @param amount
      */
@@ -899,7 +898,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * A helper method for determining the route levels for a given document.
+     * Determinines the route levels for a given document.
      * 
      * @param workflowDocument
      * @return List

@@ -450,7 +450,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public abstract KualiDecimal getGrandTotal();
     
     /** 
-     * This method returns the amount entered on the initial screen.
+     * Returns the amount entered on the initial screen.
      * 
      * @return
      */

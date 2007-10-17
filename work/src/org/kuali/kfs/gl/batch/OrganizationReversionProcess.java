@@ -193,7 +193,7 @@ public class OrganizationReversionProcess {
                                 // this unit of work,
                     // just skip all the balances until we change unit of work
                 }
-                calculateCashAndActualAmounts(bal);
+                calculateBucketAmounts(bal);
             }
             catch (FatalErrorException fee) {
                 LOG.info(fee.getMessage());
@@ -280,12 +280,18 @@ public class OrganizationReversionProcess {
      * @param bal
      * @return
      */
-    protected void calculateCashAndActualAmounts(Balance bal) {
+    protected void calculateBucketAmounts(Balance bal) {
         Options options = priorYearOptions;
         if (endOfYear) {
             options = currentYearOptions;
         }
         persistenceService.retrieveReferenceObject(bal, "financialObject");
+        
+        // TODO kill logging
+        if (bal.getChartOfAccountsCode().equals("BL") && (bal.getAccountNumber().equals("1020098") || bal.getAccountNumber().equals("1035500"))) {
+            LOG.warn("BALANCE BEING ADDED: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode()+" "+bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount()));
+        }
+        
         if (cashOrganizationReversionCategoryLogic.containsObjectCode(bal.getFinancialObject()) && bal.getBalanceTypeCode().equals(options.getActualFinancialBalanceTypeCd())) {
             unitOfWork.addTotalCash(bal.getBeginningBalanceLineAmount());
             unitOfWork.addTotalCash(bal.getAccountLineAnnualBalanceAmount());
@@ -314,6 +320,7 @@ public class OrganizationReversionProcess {
                         if (amount.isPositive()) {
                             unitOfWork.addEncumbranceAmount(cat.getOrganizationReversionCategoryCode(), amount);
                             incrementCount("balancesSelected");
+                            // TODO kill logging
                             if (bal.getChartOfAccountsCode().equals("BL") && (bal.getAccountNumber().equals("1020098") || bal.getAccountNumber().equals("1035500"))) {
                                 LOG.warn("ADDING BALANCE: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode()+" "+bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount())+" TO CASH, ACTUAL FOR CATEGORY "+cat.getOrganizationReversionCategoryName()+" NOW = "+unitOfWork.getCategoryAmounts().get(cat.getOrganizationReversionCategoryCode()).getEncumbrance());
                             }
@@ -325,6 +332,7 @@ public class OrganizationReversionProcess {
                             unitOfWork.addBudgetAmount(cat.getOrganizationReversionCategoryCode(), bal.getBeginningBalanceLineAmount());
                             unitOfWork.addBudgetAmount(cat.getOrganizationReversionCategoryCode(), bal.getAccountLineAnnualBalanceAmount());
                             incrementCount("balancesSelected");
+                            // TODO kill logging
                             if (bal.getChartOfAccountsCode().equals("BL") && (bal.getAccountNumber().equals("1020098") || bal.getAccountNumber().equals("1035500"))) {
                                 LOG.warn("ADDING BALANCE: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode()+" "+bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount())+" TO CURRENT BUDGET, ACTUAL FOR CATEGORY "+cat.getOrganizationReversionCategoryName()+" NOW = "+unitOfWork.getCategoryAmounts().get(cat.getOrganizationReversionCategoryCode()).getBudget());
                             }
@@ -416,7 +424,6 @@ public class OrganizationReversionProcess {
         persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
         if (ObjectUtils.isNull(entry.getFinancialObject())) {
             throw new FatalErrorException("Object Code for Entry not found: " + entry);
-            // TODO Error! Line 3426
         }
 
         entry.setDocumentNumber(DEFAULT_DOCUMENT_NUMBER_PREFIX + entry.getAccountNumber());
@@ -509,7 +516,6 @@ public class OrganizationReversionProcess {
         persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
         if (ObjectUtils.isNull(entry.getFinancialObject())) {
             throw new FatalErrorException("Object Code for Entry not found: " + entry);
-            // TODO Error! Line 3722
         }
 
         entry.setDocumentNumber(DEFAULT_DOCUMENT_NUMBER_PREFIX + unitOfWork.accountNumber);
@@ -554,7 +560,6 @@ public class OrganizationReversionProcess {
                 persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
                 if (ObjectUtils.isNull(entry.getFinancialObject())) {
                     throw new FatalErrorException("Object Code for Entry not found: " + entry);
-                    // TODO Error! Line 3224
                 }
 
                 ObjectCode objectCode = entry.getFinancialObject();
@@ -583,7 +588,6 @@ public class OrganizationReversionProcess {
                 persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
                 if (ObjectUtils.isNull(entry.getFinancialObject())) {
                     throw new FatalErrorException("Object Code for Entry not found: " + entry);
-                    // TODO Error! Line 3304
                 }
 
                 objectCode = entry.getFinancialObject();
@@ -617,7 +621,6 @@ public class OrganizationReversionProcess {
         persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
         if (ObjectUtils.isNull(entry.getFinancialObject())) {
             throw new FatalErrorException("Object Code for Entry not found: " + entry);
-            // TODO Error! Line 2960
         }
 
         ObjectCode objectCode = entry.getFinancialObject();

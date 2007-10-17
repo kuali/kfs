@@ -1225,10 +1225,10 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         try {
             String propertyValue = (String) PropertyUtils.getProperty(accountingLine, propertyName);
             if (getParameterService().parameterExists(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName)) {
-                getParameterService().getParameterEvaluator(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName, propertyValue).evaluateAndAddError(SourceAccountingLine.class, propertyName, userEnteredPropertyName);
+                isAllowed = getParameterService().getParameterEvaluator(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName, propertyValue).evaluateAndAddError(SourceAccountingLine.class, propertyName, userEnteredPropertyName);
             }
             if (getParameterService().parameterExists(documentClass, parameterName)) {
-                getParameterService().getParameterEvaluator(documentClass, parameterName, propertyValue).evaluateAndAddError(SourceAccountingLine.class, propertyName, userEnteredPropertyName);
+                isAllowed = getParameterService().getParameterEvaluator(documentClass, parameterName, propertyValue).evaluateAndAddError(SourceAccountingLine.class, propertyName, userEnteredPropertyName);
             }
         }
         catch (IllegalAccessException e) {

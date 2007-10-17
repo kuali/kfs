@@ -443,7 +443,9 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
     }
 
     public void setTransactionDebitCreditCode(String transactionDebitCreditCode) {
-        this.transactionDebitCreditCode = transactionDebitCreditCode;
+        if (transactionDebitCreditCode != null){
+            this.transactionDebitCreditCode = transactionDebitCreditCode.toUpperCase();
+        } 
     }
 
     public String getDocumentNumber() {

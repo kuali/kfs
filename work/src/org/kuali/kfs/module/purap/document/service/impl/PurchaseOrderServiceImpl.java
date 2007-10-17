@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.RicePropertyConstants;
 import org.kuali.core.bo.AdHocRouteRecipient;
 import org.kuali.core.bo.Note;
 import org.kuali.core.document.DocumentBase;
@@ -71,6 +72,7 @@ import org.kuali.module.purap.service.RequisitionService;
 import org.kuali.module.purap.util.PurApObjectUtils;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.VendorService;
+import org.kuali.rice.RiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
@@ -658,6 +660,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String currentDocumentStatusCode) {
         PurchaseOrderDocument currentDocument = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(documentNumber);
+        //see KULPURAP-1983 for discussion of why we need to do this
+        if(ObjectUtils.isNotNull(currentDocument)) {
+            currentDocument.refreshReferenceObject(RicePropertyConstants.DOCUMENT_HEADER);
+        }
+        
         purapService.updateStatus(currentDocument, currentDocumentStatusCode );
         try {
             PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);

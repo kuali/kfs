@@ -105,7 +105,8 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
             else {
                 // None of the PREQs against this PO may be in 'In Process' status.
                 for (PaymentRequestDocument pReq : pReqs) {
-                    if (StringUtils.equalsIgnoreCase(pReq.getStatusCode(), PaymentRequestStatuses.IN_PROCESS)) {
+                    if (StringUtils.equalsIgnoreCase(pReq.getStatusCode(), PaymentRequestStatuses.IN_PROCESS) &&
+                        !pReq.getDocumentHeader().getWorkflowDocument().stateIsException()) {
                         valid = false;
                         GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, PurapKeyConstants.ERROR_PURCHASE_ORDER_CLOSE_PREQ_IN_PROCESS, PREQDocumentsStrings.IN_PROCESS);
                     }

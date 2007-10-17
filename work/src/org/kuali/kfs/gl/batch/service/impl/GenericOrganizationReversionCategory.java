@@ -86,7 +86,7 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
 
         boolean containsCode = consolidationRulesPassed && levelRulesPassed && objectTypeRulesPassed && objectSubTypeRulesPassed;
         // TODO james will clean up this logging...
-        if (oc.getFinancialObjectCode().equals("9940")) {
+        if (oc.getFinancialObjectCode().equals("9940") && containsCode) {
             LOG.warn("putting object code 9940 into category "+categoryName);
         }
         return containsCode;

@@ -76,6 +76,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         List<PurApItem> itemList = purapDocument.getItems();
         int i = 0;
         for (PurApItem item : itemList) {
+            //refresh item type for validation
+            item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+
             GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
             String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
             valid &= validateItemUnitPrice(item);
@@ -198,7 +201,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         if (purItem.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
             if (StringUtils.isEmpty(purItem.getItemUnitOfMeasureCode())) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ZERO, ItemFields.UNIT_OF_MEASURE + " in ", identifierString);
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, ItemFields.UNIT_OF_MEASURE + " in " + identifierString);
             }
         }
         return valid;
@@ -217,13 +220,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, KFSKeyConstants.ERROR_REQUIRED, ItemFields.QUANTITY + " in " + identifierString);
         }
-        else if (purItem.getItemType().isQuantityBasedGeneralLedgerIndicator() && (ObjectUtils.isNull(purItem.getItemQuantity()) || (ObjectUtils.isNotNull(purItem.getItemQuantity()) && purItem.getItemQuantity().isLessEqual(KualiDecimal.ZERO)))) {
-            valid = false;
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, KFSKeyConstants.ERROR_EXCLUSIVE_MIN, ItemFields.QUANTITY + " in " + identifierString, KualiDecimal.ZERO.toString() );
-        }
         else if (purItem.getItemType().isAmountBasedGeneralLedgerIndicator() && ObjectUtils.isNotNull(purItem.getItemQuantity())) {
             valid = false;
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ALLOWED);
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ALLOWED, ItemFields.QUANTITY + " in " + identifierString);
         }
         return valid;
     }

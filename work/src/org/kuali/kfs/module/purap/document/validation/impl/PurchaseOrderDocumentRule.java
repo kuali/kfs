@@ -88,7 +88,6 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         for (PurApItem item : purapDocument.getItems()) {
             String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
             valid &= validateEmptyItemWithAccounts((PurchaseOrderItem) item, identifierString);
-            valid &= validateItemUnitOfMeasure((PurchaseOrderItem) item, identifierString);
             if (purapDocument.getDocumentHeader().getWorkflowDocument() != null && purapDocument.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
                 valid &= validateItemForAmendment((PurchaseOrderItem) item, identifierString);
             }
@@ -131,21 +130,6 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         if (item.getItemType().isItemTypeAboveTheLineIndicator() && item.isItemDetailEmpty() && !item.isAccountListEmpty()) {
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_ALLOWED, identifierString);
-        }
-        return valid;
-    }
-
-    /**
-     * This method validates that if the item type is ITEM, the unit of measure field is required.
-     * 
-     * @param item
-     * @return
-     */
-    boolean validateItemUnitOfMeasure(PurchaseOrderItem item, String identifierString) {
-        boolean valid = true;
-        if (item.getItemType().isQuantityBasedGeneralLedgerIndicator() && StringUtils.isEmpty(item.getItemUnitOfMeasureCode())) {
-            valid = false;
-            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_UNIT_OF_MEASURE_REQUIRED, identifierString);
         }
         return valid;
     }

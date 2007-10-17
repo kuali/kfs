@@ -70,24 +70,6 @@ public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
     }
     
     /*
-     * Tests of validateItemUnitOfMeasure
-     */
-    public void testValidateItemUnitOfMeasure_WithUOM() {
-        PurchaseOrderItem poItem = ItemAccountsFixture.WITH_DESC_WITH_UOM_WITH_PRICE_WITH_ACCOUNT.populateItem();
-        assertTrue(rule.validateItemUnitOfMeasure(poItem,"Item " + poItem.getItemLineNumber().toString()));
-    }
-    
-    public void testValidateItemUnitOfMeasure_WithoutUOM() {
-        PurchaseOrderItem poItem = ItemAccountsFixture.WITH_DESC_NULL_UOM_WITH_PRICE_WITH_ACCOUNT.populateItem();
-        assertFalse(rule.validateItemUnitOfMeasure(poItem,"Item " + poItem.getItemLineNumber().toString()));
-    }
-    
-    public void testValidateItemUnitOfMeasure_EmptyUOM() {
-        PurchaseOrderItem poItem = ItemAccountsFixture.WITH_DESC_EMPTY_UOM_WITH_PRICE_WITH_ACCOUNT.populateItem();
-        assertFalse(rule.validateItemUnitOfMeasure(poItem,"Item " + poItem.getItemLineNumber().toString()));
-    }
-        
-    /*
      * Tests of validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit
      */
     public void testValidateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit_ZeroAmountSmallLimit() {

@@ -761,6 +761,10 @@ public class OrganizationReversionProcess {
                 throw new FatalErrorException("Organization Reversion " + organizationReversion.getUniversityFiscalYear() + "-" + organizationReversion.getChartOfAccountsCode() + "-" + organizationReversion.getOrganizationCode() + " does not have a detail for category " + categoryCode);
             }
             String ruleCode = detail.getOrganizationReversionCode();
+            
+            if (unitOfWork.getChartOfAccountsCode().equals("BL") && (unitOfWork.getAccountNumber().equals("1020098") || unitOfWork.getAccountNumber().equals("1035500")) && unitOfWork.getSubAccountNumber().equals("-----")) {
+                LOG.warn("Unit of Work: "+unitOfWork.getChartOfAccountsCode()+unitOfWork.getAccountNumber()+unitOfWork.getSubAccountNumber()+", category "+category.getOrganizationReversionCategoryName()+": budget = "+amount.getBudget()+"; actual = "+amount.getActual()+"; encumbrance = "+amount.getEncumbrance()+"; available = "+amount.getAvailable()+"; apply rule code "+ruleCode);
+            }
 
             if (KFSConstants.RULE_CODE_R1.equals(ruleCode) || KFSConstants.RULE_CODE_N1.equals(ruleCode) || KFSConstants.RULE_CODE_C1.equals(ruleCode)) {
                 if (amount.getAvailable().compareTo(KualiDecimal.ZERO) > 0) { // do we have budget left?

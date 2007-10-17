@@ -48,7 +48,9 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
     }
 
     public boolean containsObjectCode(ObjectCode oc) {
-        LOG.debug("containsObjectCode() started");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("containsObjectCode() started");
+        }
 
         String cons = oc.getFinancialObjectLevel().getFinancialConsolidationObjectCode();
         String level = oc.getFinancialObjectLevelCode();

@@ -139,7 +139,7 @@ public class CustomerProfileSaveAction extends BaseAction {
         String chartCode = cp.getChartCode();
         String orgCode = cp.getOrgCode();
         String subUnitCode = cp.getSubUnitCode();
-        if(customerAlreadyExists(chartCode, orgCode, subUnitCode)) {
+        if(customerAlreadyExists(chartCode, orgCode, subUnitCode) && StringUtils.isEmpty(customerProfileForm.getId()) ) {
             actionErrors.add("errors",new ActionMessage("customerProfileForm.profileExists", chartCode + "-" + orgCode + "-" + subUnitCode));
         }
         // Validate the accounting information

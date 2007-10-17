@@ -332,9 +332,19 @@
                 <description>This flags a financial transaction as either a debit or credit.</description>
             </attribute>
 
-            <attributeReference name="acctSufficientFundsFinObjCd" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />
+            <attribute name="acctSufficientFundsFinObjCd"  forceUppercase="true">
+                <label>Account Sufficient Funds Object Code</label>
+                <shortLabel>acctSufficientFundsFinObjCd</shortLabel>
+                <maxLength>4</maxLength>                
+                <required>false</required>
+                <control>
+                    <text size="4" />
+                </control>
+            </attribute>
             
-            <attributeReference name="projectCode" sourceClassName="org.kuali.module.chart.bo.ProjectCode" sourceAttributeName="code" />
+            <attributeReference name="projectCode" sourceClassName="org.kuali.module.chart.bo.ProjectCode" sourceAttributeName="code">
+                <required>false</required>
+            </attributeReference>
             
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
             

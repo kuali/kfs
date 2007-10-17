@@ -164,7 +164,7 @@ public class OrganizationReversionProcess {
                 LOG.debug("BALANCE SELECTED: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode());
             }
             // TODO james promises to kill the following odd logging
-            if (bal.getChartOfAccountsCode().equals("BL") && (bal.getAccountNumber().equals("1020098") || bal.getAccountNumber().equals("1035500"))) {
+            if (bal.getChartOfAccountsCode().equals("BL") && (bal.getAccountNumber().equals("1020098") || bal.getAccountNumber().equals("1035500")) && bal.getSubAccountNumber().equals("-----")) {
                 LOG.warn("BALANCE SELECTED: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode()+" "+bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount()));
             }
 
@@ -288,7 +288,7 @@ public class OrganizationReversionProcess {
         persistenceService.retrieveReferenceObject(bal, "financialObject");
         
         // TODO kill logging
-        if (bal.getChartOfAccountsCode().equals("BL") && (bal.getAccountNumber().equals("1020098") || bal.getAccountNumber().equals("1035500"))) {
+        if (bal.getChartOfAccountsCode().equals("BL") && (bal.getAccountNumber().equals("1020098") || bal.getAccountNumber().equals("1035500")) && bal.getSubAccountNumber().equals("-----")) {
             LOG.warn("BALANCE BEING ADDED: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode()+" "+bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount()));
         }
         
@@ -297,7 +297,7 @@ public class OrganizationReversionProcess {
             unitOfWork.addTotalCash(bal.getAccountLineAnnualBalanceAmount());
             incrementCount("balancesSelected");
             // TODO james kill this log
-            if (bal.getChartOfAccountsCode().equals("BL") && (bal.getAccountNumber().equals("1020098") || bal.getAccountNumber().equals("1035500"))) {
+            if (bal.getChartOfAccountsCode().equals("BL") && (bal.getAccountNumber().equals("1020098") || bal.getAccountNumber().equals("1035500")) && bal.getSubAccountNumber().equals("-----")) {
                 LOG.warn("ADDING BALANCE: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode()+" "+bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount())+" TO CASH, TOTAL CASH NOW = "+unitOfWork.getTotalCash());
             }
         }
@@ -310,7 +310,7 @@ public class OrganizationReversionProcess {
                         unitOfWork.addActualAmount(cat.getOrganizationReversionCategoryCode(), bal.getBeginningBalanceLineAmount());
                         unitOfWork.addActualAmount(cat.getOrganizationReversionCategoryCode(), bal.getAccountLineAnnualBalanceAmount());
                         incrementCount("balancesSelected");
-                        if (bal.getChartOfAccountsCode().equals("BL") && (bal.getAccountNumber().equals("1020098") || bal.getAccountNumber().equals("1035500"))) {
+                        if (bal.getChartOfAccountsCode().equals("BL") && (bal.getAccountNumber().equals("1020098") || bal.getAccountNumber().equals("1035500")) && bal.getSubAccountNumber().equals("-----")) {
                             LOG.warn("ADDING BALANCE: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode()+" "+bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount())+" TO ACTUAL, ACTUAL FOR CATEGORY "+cat.getOrganizationReversionCategoryName()+" NOW = "+unitOfWork.getCategoryAmounts().get(cat.getOrganizationReversionCategoryCode()).getActual());
                         }
                     }

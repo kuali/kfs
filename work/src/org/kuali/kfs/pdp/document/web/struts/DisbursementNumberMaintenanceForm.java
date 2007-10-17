@@ -26,6 +26,7 @@ import java.sql.Timestamp;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
@@ -108,6 +109,10 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
 
         String buttonPressed = GeneralUtilities.whichButtonWasPressed(request);
         if (buttonPressed.startsWith("btnSave")) {
+            // check for bank radio button being selected
+            if(this.getBankId() == null) {
+                actionErrors.add("errors", new ActionMessage("DisbursementNumberMaintenanceForm.bankId.missing"));
+            }
             // Check for validity of the Dates entered
             if (! GeneralUtilities.isStringEmpty(this.getDisbNbrEffectiveDt()) ) {
                 actionErrors = DateHandler.validDate(actionErrors, "errors", this.getDisbNbrEffectiveDt());

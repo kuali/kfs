@@ -27,13 +27,14 @@ import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.LaborKeyConstants;
+import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
@@ -89,13 +90,13 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
         boolean isValid = true;
         if (accountingDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
             if (!isObjectCodeBalancesUnchanged(accountingDocument)) {
-                reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_TRANSFER_AMOUNT_BY_OBJECT_APPROVAL_CHANGE);
+                reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_TRANSFER_AMOUNT_BY_OBJECT_APPROVAL_CHANGE);
                 isValid = false;
             }
         }
         else {
             if (!expenseTransferDocument.getUnbalancedObjectCodes().isEmpty()) {
-                reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_TRANSFER_AMOUNT_NOT_BALANCED_BY_OBJECT);
+                reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_TRANSFER_AMOUNT_NOT_BALANCED_BY_OBJECT);
                 isValid = false;
             }
         }
@@ -116,7 +117,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
         SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument) document;
         String emplid = salaryExpenseTransferDocument.getEmplid();
         if ((emplid == null) || (emplid.trim().length() == 0)) {
-            reportError(KFSConstants.EMPLOYEE_LOOKUP_ERRORS, KFSKeyConstants.Labor.MISSING_EMPLOYEE_ID, emplid);
+            reportError(LaborConstants.EMPLOYEE_LOOKUP_ERRORS, LaborKeyConstants.MISSING_EMPLOYEE_ID, emplid);
             return false;
         }
 
@@ -145,7 +146,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
 
         // only salary labor object codes are allowed on the salary expense transfer document
         if (!isSalaryObjectCode(accountingLine)) {
-            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.INVALID_SALARY_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
+            reportError(KFSPropertyConstants.ACCOUNT, LaborKeyConstants.INVALID_SALARY_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
             return false;
         }
 
@@ -263,11 +264,11 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
         }
 
         if (!sourceAccountingLinesValidationResult) {
-            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_EMPLOYEE_ID_NOT_SAME);
+            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ERROR_EMPLOYEE_ID_NOT_SAME);
         }
 
         if (!targetAccountingLinesValidationResult) {
-            reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_EMPLOYEE_ID_NOT_SAME_IN_TARGET);
+            reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_EMPLOYEE_ID_NOT_SAME_IN_TARGET);
         }
 
         return (sourceAccountingLinesValidationResult && targetAccountingLinesValidationResult);
@@ -294,14 +295,14 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
             String emplid = sourceAccountingLine.getEmplid();
             String documentNumber = accountingDocument.getDocumentNumber();
 
-            fieldValues.put(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, payPeriodCode);
+            fieldValues.put(LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, payPeriodCode);
             fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
             fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
             fieldValues.put(KFSPropertyConstants.EMPLID, emplid);
             fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, KFSConstants.NOT_LOGICAL_OPERATOR + documentNumber);
 
             if (SpringContext.getBean(LaborLedgerPendingEntryService.class).hasPendingLaborLedgerEntry(fieldValues)) {
-                reportError(KFSConstants.EMPLOYEE_LOOKUP_ERRORS, KFSKeyConstants.Labor.PENDING_SALARY_TRANSFER_ERROR, emplid, payPeriodCode, accountNumber, objectCode);
+                reportError(LaborConstants.EMPLOYEE_LOOKUP_ERRORS, LaborKeyConstants.PENDING_SALARY_TRANSFER_ERROR, emplid, payPeriodCode, accountNumber, objectCode);
                 return true;
             }
         }

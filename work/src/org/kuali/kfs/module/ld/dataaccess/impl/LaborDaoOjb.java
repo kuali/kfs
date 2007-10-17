@@ -31,6 +31,7 @@ import org.apache.ojb.broker.util.ObjectModification;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.gl.util.OJBUtility;
@@ -142,7 +143,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
      */
     @Deprecated
     public Iterator getBaseFunds(Map fieldValues, boolean isConsolidated) {
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.BALANCE_CODE);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_BASE_BUDGET);
         return getAccountStatus(AccountStatusBaseFunds.class, fieldValues, isConsolidated);
     }
 
@@ -150,7 +151,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
      * @see org.kuali.module.labor.dao.LaborDao#getCurrentFunds(java.util.Map)
      */
     public Iterator getCurrentFunds(Map fieldValues, boolean isConsolidated) {
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ACTUALS_CODE);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
         return getAccountStatus(AccountStatusCurrentFunds.class, fieldValues, isConsolidated);
     }
 
@@ -200,7 +201,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         objectTypeCodes.add(LaborConstants.BalanceInquiries.EMPLOYEE_FUNDING_NORMAL_OP_EXPENSE_OBJECT_TYPE_CODE);
 
         Criteria criteria = new Criteria();
-        criteria.addEqualToField(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, "'" + LaborConstants.BalanceInquiries.ACTUALS_CODE + "'");
+        criteria.addEqualToField(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, "'" + KFSConstants.BALANCE_TYPE_ACTUAL + "'");
         criteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, objectTypeCodes);
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new EmployeeFunding()));
         ReportQueryByCriteria query = QueryFactory.newReportQuery(EmployeeFunding.class, criteria);

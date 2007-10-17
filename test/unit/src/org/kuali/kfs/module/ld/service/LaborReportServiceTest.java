@@ -42,7 +42,6 @@ import org.kuali.module.gl.util.Summary;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.util.ObjectUtil;
-import org.kuali.module.labor.util.PayrollAccrualSummaryTable;
 import org.kuali.module.labor.util.ReportRegistry;
 import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.test.ConfigureContext;
@@ -164,15 +163,6 @@ public class LaborReportServiceTest extends KualiTestBase {
 
         Map<Transaction, List<Message>> errorMap = this.getErrorMap(groups);
         laborReportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, today);
-    }
-
-    public void testGenerateStatisticsReportFromStringList() throws Exception {
-
-        PayrollAccrualSummaryTable accrualSummaryTable = new PayrollAccrualSummaryTable();
-        List<String> reportSummary = PayrollAccrualSummaryTable.buildReportSummary(accrualSummaryTable);
-
-        reportSummary.add(0, PayrollAccrualSummaryTable.buildReportSummaryLine("Base Accrual Percent", 0.50));
-        laborReportService.generateStatisticsReport(reportSummary, ReportRegistry.PAYROLL_ACCRUAL_STATISTICS, reportsDirectory, today);
     }
 
     private List<Summary> getReportSummary() {

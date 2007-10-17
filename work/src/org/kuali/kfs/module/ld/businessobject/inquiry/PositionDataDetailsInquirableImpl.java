@@ -23,6 +23,7 @@ import java.util.Properties;
 
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.bo.PositionData;
 
 /**
@@ -45,7 +46,7 @@ public class PositionDataDetailsInquirableImpl extends AbstractLaborInquirableIm
     protected List buildUserDefinedAttributeKeyList() {
         List keys = new ArrayList();
         keys.add(KFSPropertyConstants.POSITION_NUMBER);
-        keys.add(KFSPropertyConstants.EFFECTIVE_DATE);
+        keys.add(LaborPropertyConstants.EFFECTIVE_DATE);
         return keys;
     }
 

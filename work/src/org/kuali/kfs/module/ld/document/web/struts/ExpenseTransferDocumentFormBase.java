@@ -23,6 +23,7 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
+import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.bo.LaborAccountingLineOverride;
 
 /**
@@ -131,8 +132,8 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
         map.put(KFSPropertyConstants.PROJECT_CODE, Boolean.TRUE);
         map.put(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID, Boolean.TRUE);
         map.put(KFSPropertyConstants.POSITION_NUMBER, Boolean.TRUE);
-        map.put(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, Boolean.TRUE);
-        map.put(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR, Boolean.TRUE);
+        map.put(LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, Boolean.TRUE);
+        map.put(LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR, Boolean.TRUE);
         return map;
     }
 
@@ -141,8 +142,8 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
      */
     public Map getForcedReadOnlyTargetFields() {
         Map map = super.getForcedReadOnlyFields();
-        map.put(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, Boolean.TRUE);
-        map.put(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR, Boolean.TRUE);
+        map.put(LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, Boolean.TRUE);
+        map.put(LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR, Boolean.TRUE);
         return map;
     }
 

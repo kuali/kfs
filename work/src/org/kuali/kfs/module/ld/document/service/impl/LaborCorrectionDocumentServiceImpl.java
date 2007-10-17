@@ -48,6 +48,7 @@ import org.kuali.module.gl.service.impl.CorrectionDocumentServiceImpl;
 import org.kuali.module.gl.util.CorrectionDocumentEntryMetadata;
 import org.kuali.module.gl.util.CorrectionDocumentUtils;
 import org.kuali.module.gl.util.OriginEntryStatistics;
+import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.document.LaborCorrectionDocument;
 import org.kuali.module.labor.service.LaborCorrectionDocumentService;
@@ -810,25 +811,25 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Pay Period End Date");
                 columnToAdd.setValueComparator(TemporalValueComparator.getInstance());
-                columnToAdd.setPropertyName(KFSPropertyConstants.PAY_PERIOD_END_DATE);
+                columnToAdd.setPropertyName(LaborPropertyConstants.PAY_PERIOD_END_DATE);
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Trn Total Hours");
                 columnToAdd.setValueComparator(NumericValueComparator.getInstance());
-                columnToAdd.setPropertyName(KFSPropertyConstants.TRANSACTION_TOTAL_HOURS);
+                columnToAdd.setPropertyName(LaborPropertyConstants.TRANSACTION_TOTAL_HOURS);
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Payroll EndDate Fiscal Year");
                 columnToAdd.setValueComparator(NumericValueComparator.getInstance());
-                columnToAdd.setPropertyName(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR);
+                columnToAdd.setPropertyName(LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR);
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Payroll EndDate Fiscal Period Code");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
-                columnToAdd.setPropertyName(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE);
+                columnToAdd.setPropertyName(LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE);
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
@@ -846,73 +847,73 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Earn Code");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
-                columnToAdd.setPropertyName(KFSPropertyConstants.EARN_CODE);
+                columnToAdd.setPropertyName(LaborPropertyConstants.EARN_CODE);
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Pay Group");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
-                columnToAdd.setPropertyName(KFSPropertyConstants.PAY_GROUP);
+                columnToAdd.setPropertyName(LaborPropertyConstants.PAY_GROUP);
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Salary Admin Plan");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
-                columnToAdd.setPropertyName(KFSPropertyConstants.SALARY_ADMINISTRATION_PLAN);
+                columnToAdd.setPropertyName(LaborPropertyConstants.SALARY_ADMINISTRATION_PLAN);
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Grade");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
-                columnToAdd.setPropertyName(KFSPropertyConstants.GRADE);
+                columnToAdd.setPropertyName(LaborPropertyConstants.GRADE);
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Run Id");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
-                columnToAdd.setPropertyName(KFSPropertyConstants.RUN_IDENTIFIER);
+                columnToAdd.setPropertyName(LaborPropertyConstants.RUN_IDENTIFIER);
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Original Chart Code");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
-                columnToAdd.setPropertyName(KFSPropertyConstants.LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE);
+                columnToAdd.setPropertyName(LaborPropertyConstants.LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE);
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Original Account Number");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
-                columnToAdd.setPropertyName(KFSPropertyConstants.LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER);
+                columnToAdd.setPropertyName(LaborPropertyConstants.LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER);
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Original Sub-Account Number");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
-                columnToAdd.setPropertyName(KFSPropertyConstants.LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER);
+                columnToAdd.setPropertyName(LaborPropertyConstants.LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER);
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Original Object Code");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
-                columnToAdd.setPropertyName(KFSPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE);
+                columnToAdd.setPropertyName(LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE);
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Original Sub-Object Code");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
-                columnToAdd.setPropertyName(KFSPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE);
+                columnToAdd.setPropertyName(LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE);
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Company");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
-                columnToAdd.setPropertyName(KFSPropertyConstants.HRMS_COMPANY);
+                columnToAdd.setPropertyName(LaborPropertyConstants.HRMS_COMPANY);
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("SetId");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
-                columnToAdd.setPropertyName(KFSPropertyConstants.SET_ID);
+                columnToAdd.setPropertyName(LaborPropertyConstants.SET_ID);
                 cachedColumns.add(columnToAdd);
 
                 cachedColumns = Collections.unmodifiableList(cachedColumns);

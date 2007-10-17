@@ -24,6 +24,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.module.gl.util.Message;
+import org.kuali.module.labor.LaborKeyConstants;
 import org.kuali.module.labor.bo.LaborTransaction;
 import org.kuali.module.labor.util.MessageBuilder;
 
@@ -284,7 +285,7 @@ public class TransactionFieldValidator {
     public static Message checkPostablePeridCode(LaborTransaction transaction, List<String> unpostableperidCodes) {
         String periodCode = transaction.getUniversityFiscalPeriodCode();
         if (unpostableperidCodes.contains(periodCode)) {
-            return MessageBuilder.buildErrorMessage(KFSKeyConstants.Labor.ERROR_UNPOSTABLE_PERIOD_CODE, periodCode, Message.TYPE_FATAL);
+            return MessageBuilder.buildErrorMessage(LaborKeyConstants.ERROR_UNPOSTABLE_PERIOD_CODE, periodCode, Message.TYPE_FATAL);
         }
         return null;
     }
@@ -300,7 +301,7 @@ public class TransactionFieldValidator {
     public static Message checkPostableBalanceTypeCode(LaborTransaction transaction, List<String> unpostableBalanceTypeCodes) {
         String balanceTypeCode = transaction.getFinancialBalanceTypeCode();
         if (unpostableBalanceTypeCodes.contains(balanceTypeCode)) {
-            return MessageBuilder.buildErrorMessage(KFSKeyConstants.Labor.ERROR_UNPOSTABLE_BALANCE_TYPE, balanceTypeCode, Message.TYPE_FATAL);
+            return MessageBuilder.buildErrorMessage(LaborKeyConstants.ERROR_UNPOSTABLE_BALANCE_TYPE, balanceTypeCode, Message.TYPE_FATAL);
         }
         return null;
     }
@@ -314,7 +315,7 @@ public class TransactionFieldValidator {
     public static Message checkZeroTotalAmount(LaborTransaction transaction) {
         KualiDecimal amount = transaction.getTransactionLedgerEntryAmount();
         if (amount == null || amount.isZero()) {
-            return MessageBuilder.buildErrorMessage(KFSKeyConstants.Labor.ERROR_ZERO_TOTAL_AMOUNT, Message.TYPE_FATAL);
+            return MessageBuilder.buildErrorMessage(LaborKeyConstants.ERROR_ZERO_TOTAL_AMOUNT, Message.TYPE_FATAL);
         }
         return null;
     }
@@ -329,7 +330,7 @@ public class TransactionFieldValidator {
     public static Message checkPostableObjectCode(LaborTransaction transaction, List<String> unpostableObjectCodes) {
         String objectCode = transaction.getFinancialObjectCode();
         if (unpostableObjectCodes.contains(objectCode)) {
-            return MessageBuilder.buildErrorMessage(KFSKeyConstants.Labor.ERROR_UNPOSTABLE_OBJECT_CODE, objectCode, Message.TYPE_FATAL);
+            return MessageBuilder.buildErrorMessage(LaborKeyConstants.ERROR_UNPOSTABLE_OBJECT_CODE, objectCode, Message.TYPE_FATAL);
         }
         return null;
     }
@@ -344,7 +345,7 @@ public class TransactionFieldValidator {
     public static Message checkEmplid(LaborTransaction transaction) {
         String emplid = transaction.getEmplid();
         if (StringUtils.isBlank(emplid)) {
-            return MessageBuilder.buildErrorMessage(KFSKeyConstants.Labor.MISSING_EMPLOYEE_ID, Message.TYPE_FATAL);
+            return MessageBuilder.buildErrorMessage(LaborKeyConstants.MISSING_EMPLOYEE_ID, Message.TYPE_FATAL);
         }
         return null;
     }

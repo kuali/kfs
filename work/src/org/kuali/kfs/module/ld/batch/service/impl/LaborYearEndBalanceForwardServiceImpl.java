@@ -33,7 +33,6 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
@@ -49,6 +48,7 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.Summary;
+import org.kuali.module.labor.LaborKeyConstants;
 import org.kuali.module.labor.LaborConstants.YearEnd;
 import org.kuali.module.labor.batch.LaborYearEndBalanceForwardStep;
 import org.kuali.module.labor.bo.LaborOriginEntry;
@@ -169,7 +169,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             invalidAccountValue.append(chartOfAccountsCode).append("-").append(accountNumber);
 
             errors = new ArrayList<Message>();
-            errors.add(MessageBuilder.buildErrorMessage(KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_FOUND, invalidAccountValue.toString(), Message.TYPE_FATAL));
+            errors.add(MessageBuilder.buildErrorMessage(LaborKeyConstants.ERROR_ACCOUNT_NOT_FOUND, invalidAccountValue.toString(), Message.TYPE_FATAL));
             return false;
         }
 
@@ -180,7 +180,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             invalidSubFundValue.append(chartOfAccountsCode).append("-").append(accountNumber).append("-").append(subFundGroupCode);
 
             errors = new ArrayList<Message>();
-            errors.add(MessageBuilder.buildErrorMessage(KFSKeyConstants.Labor.ERROR_SUB_FUND_GROUP_NOT_FOUND, invalidSubFundValue.toString(), Message.TYPE_FATAL));
+            errors.add(MessageBuilder.buildErrorMessage(LaborKeyConstants.ERROR_SUB_FUND_GROUP_NOT_FOUND, invalidSubFundValue.toString(), Message.TYPE_FATAL));
             return false;
         }
 
@@ -311,7 +311,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @return the description of the transaction posted by year-end process
      */
     private String getDescription() {
-        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.Labor.MESSAGE_YEAR_END_TRANSACTION_DESCRIPTON);
+        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(LaborKeyConstants.MESSAGE_YEAR_END_TRANSACTION_DESCRIPTON);
     }
 
     /**

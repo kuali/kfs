@@ -22,12 +22,12 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.LaborKeyConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
@@ -65,7 +65,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
 
         // only fringe benefit labor object codes are allowed on the benefit expense transfer document
         if (!isFringeBenefitObjectCode(accountingLine)) {
-            reportError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.Labor.INVALID_FRINGE_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
+            reportError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, LaborKeyConstants.INVALID_FRINGE_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
             isValid = false;
         }
 
@@ -74,7 +74,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         if (!isTargetLine) {
             // ensure the accounts in source accounting lines are same
             if (!hasSameAccount(accountingDocument, accountingLine)) {
-                reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_SAME);
+                reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ERROR_ACCOUNT_NOT_SAME);
                 isValid = false;
             }
         }
@@ -99,7 +99,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         if (isValid) {
             boolean hasSameFringeBenefitObjectCodes = hasSameFringeBenefitObjectCodes(expenseTransferDocument);
             if (!hasSameFringeBenefitObjectCodes) {
-                reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR);
+                reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.DISTINCT_OBJECT_CODE_ERROR);
                 isValid = false;
             }
         }

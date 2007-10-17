@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.util.ObjectUtil;
 
@@ -59,7 +60,7 @@ public class LaborOriginEntryForTesting extends LaborOriginEntry {
         keyValueList.add(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);
         keyValueList.add(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
         keyValueList.add(KFSPropertyConstants.POSITION_NUMBER);
-        keyValueList.add(KFSPropertyConstants.RUN_IDENTIFIER);
+        keyValueList.add(LaborPropertyConstants.RUN_IDENTIFIER);
         keyValueList.add(KFSPropertyConstants.EMPLID);
         return keyValueList;
     }

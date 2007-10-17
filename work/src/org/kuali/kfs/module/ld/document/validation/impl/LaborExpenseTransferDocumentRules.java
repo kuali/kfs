@@ -42,6 +42,9 @@ import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.LaborKeyConstants;
+import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.LedgerBalance;
@@ -90,7 +93,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
 
         // not allow the duplicate source accounting line in the document
         if (isDuplicateSourceAccountingLine(accountingDocument, accountingLine)) {
-            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_DUPLICATE_SOURCE_ACCOUNTING_LINE);
+            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ERROR_DUPLICATE_SOURCE_ACCOUNTING_LINE);
             return false;
         }
 
@@ -103,7 +106,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
 
         // verify if the accounts in target accounting lines accept fringe benefits
         if (!isAccountAcceptFringeBenefit(accountingLine)) {
-            reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_ACCEPT_FRINGES, accountingLine.getAccount().getReportsToChartOfAccountsCode(), accountingLine.getAccount().getReportsToAccountNumber());
+            reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_ACCOUNT_NOT_ACCEPT_FRINGES, accountingLine.getAccount().getReportsToChartOfAccountsCode(), accountingLine.getAccount().getReportsToAccountNumber());
             return false;
         }
 
@@ -139,7 +142,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         if (isValid) {
             boolean canNegtiveAmountBeTransferred = canNegtiveAmountBeTransferred(accountingLineGroupMap);
             if (!canNegtiveAmountBeTransferred) {
-                reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_CANNOT_TRANSFER_NEGATIVE_AMOUNT);
+                reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ERROR_CANNOT_TRANSFER_NEGATIVE_AMOUNT);
                 isValid = false;
             }
         }
@@ -154,7 +157,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         if (isValid) {
             boolean isValidTransferAmount = isValidTransferAmount(accountingLineGroupMap);
             if (!isValidTransferAmount) {
-                reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_TRANSFER_AMOUNT_EXCEED_MAXIMUM);
+                reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ERROR_TRANSFER_AMOUNT_EXCEED_MAXIMUM);
                 isValid = false;
             }
         }
@@ -200,7 +203,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
 
         // verify id was given
         if (StringUtils.isBlank(emplid)) {
-            reportError(KFSConstants.EMPLOYEE_LOOKUP_ERRORS, KFSKeyConstants.Labor.MISSING_EMPLOYEE_ID, emplid);
+            reportError(LaborConstants.EMPLOYEE_LOOKUP_ERRORS, LaborKeyConstants.MISSING_EMPLOYEE_ID, emplid);
             isValid = false;
         }
 
@@ -239,7 +242,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         // if totals don't match, then add error message
         if (sourceLinesAmount.compareTo(targetLinesAmount) != 0) {
             isValid = false;
-            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ACCOUNTING_LINE_TOTALS_MISMATCH_ERROR);
+            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ACCOUNTING_LINE_TOTALS_MISMATCH_ERROR);
         }
 
         return isValid;
@@ -265,7 +268,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         // if totals don't match by PayFY+PayPeriod categories, then add error message
         if (compareAccountingLineTotalsByPayFYAndPayPeriod(sourceLinesMap, targetLinesMap) == false) {
             isValid = false;
-            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ACCOUNTING_LINE_TOTALS_BY_PAYFY_PAYPERIOD_MISMATCH_ERROR);
+            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ACCOUNTING_LINE_TOTALS_BY_PAYFY_PAYPERIOD_MISMATCH_ERROR);
         }
 
         return isValid;
@@ -362,7 +365,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
 
         Map<String, KualiDecimal> unbalancedObjectCodes = expenseTransferDocument.getUnbalancedObjectCodes();
         if (!unbalancedObjectCodes.isEmpty()) {
-            reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_TRANSFER_AMOUNT_NOT_BALANCED_BY_OBJECT);
+            reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_TRANSFER_AMOUNT_NOT_BALANCED_BY_OBJECT);
             isValid = false;
         }
 
@@ -504,8 +507,8 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         defaultKey.add(KFSPropertyConstants.EMPLID);
         defaultKey.add(KFSPropertyConstants.POSITION_NUMBER);
 
-        defaultKey.add(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR);
-        defaultKey.add(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE);
+        defaultKey.add(LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR);
+        defaultKey.add(LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE);
 
         return defaultKey;
     }

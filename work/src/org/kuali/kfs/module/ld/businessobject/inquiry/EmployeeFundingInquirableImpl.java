@@ -55,7 +55,7 @@ public class EmployeeFundingInquirableImpl extends AbstractLaborInquirableImpl {
 
         Map userDefinedAttributeMap = new HashMap();
         userDefinedAttributeMap.put(KFSPropertyConstants.MONTH1_AMOUNT, "");
-        userDefinedAttributeMap.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ACTUALS_CODE);
+        userDefinedAttributeMap.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
         return userDefinedAttributeMap;
     }
 

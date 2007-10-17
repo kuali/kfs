@@ -56,7 +56,6 @@
 		<property name="jobNames">
 			<list>
 				<value>laborBatchJob</value>
-				<value>payrollAccrualJob</value>
 				<value>yearEndBalanceForwardJob</value>
 			</list>
 		</property>
@@ -420,53 +419,6 @@
 		</property>
 	</bean>
 	
-    <bean id="payrollAccrualService" class="org.kuali.module.labor.service.impl.PayrollAccrualServiceImpl">
-        <property name="originEntryGroupService">
-            <ref bean="originEntryGroupService" />
-        </property>
-        <property name="laborLedgerEntryService">
-            <ref bean="laborLedgerEntryService" />
-        </property>
-
-        <property name="accountService">
-            <ref bean="accountService" />
-        </property>
-        <property name="optionsService">
-            <ref bean="optionsService" />
-        </property>
-        
-        <property name="laborOriginEntryService">
-            <ref bean="laborOriginEntryService" />
-        </property>        
-        <property name="dateTimeService">
-            <ref bean="dateTimeService" />
-        </property>
-        <property name="parameterService">
-            <ref bean="parameterService" />
-        </property>
-
-        <property name="laborReportService">
-            <ref bean="laborReportService" />
-        </property>
-        
-        <property name="transactionGenerators">
-        	<list>
-        		<ref bean="laborBenefitAccrualTransactionGenerator"/>
-        		<ref bean="laborBenefitReversalTransactionGenerator"/>
-        		<ref bean="laborSalaryAccrualTransactionGenerator"/>
-        		<ref bean="laborSalaryReversalTransactionGenerator"/>
-        		<ref bean="laborDisencumbranceTransactionGenerator"/>
-        		<ref bean="laborEncumbranceTransactionGenerator"/>
-        	</list>
-        </property>
-    </bean> 
-    
-    <bean id="payrollAccrualStep" class="org.kuali.module.labor.batch.PayrollAccrualStep" parent="step">
-		<property name="payrollAccrualService">
-			<ref bean="payrollAccrualService" />
-		</property>
-	</bean>
-	
 	<bean id="laborBatchJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -481,14 +433,6 @@
 			</list>
 		</property>
 	</bean>
-
-	<bean id="payrollAccrualJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="payrollAccrualStep"/>
-			</list>
-		</property>
-	</bean>
 	
 	<bean id="yearEndBalanceForwardJob" parent="scheduledJobDescriptor">
 		<property name="steps">
@@ -497,13 +441,6 @@
 			</list>
 		</property>
 	</bean>
-    
-    <bean id="laborBenefitAccrualTransactionGenerator" class="org.kuali.module.labor.batch.payrollaccrual.impl.BenefitAccrualTransactionGenerator"/> 
-    <bean id="laborBenefitReversalTransactionGenerator" class="org.kuali.module.labor.batch.payrollaccrual.impl.BenefitReversalTransactionGenerator"/>
-    <bean id="laborSalaryAccrualTransactionGenerator" class="org.kuali.module.labor.batch.payrollaccrual.impl.SalaryAccrualTransactionGenerator"/> 
-    <bean id="laborSalaryReversalTransactionGenerator" class="org.kuali.module.labor.batch.payrollaccrual.impl.SalaryReversalTransactionGenerator"/>
-    <bean id="laborEncumbranceTransactionGenerator" class="org.kuali.module.labor.batch.payrollaccrual.impl.EncumbranceTransactionGenerator"/> 
-    <bean id="laborDisencumbranceTransactionGenerator" class="org.kuali.module.labor.batch.payrollaccrual.impl.DisencumbranceTransactionGenerator"/>    
         
     <!-- Section 4: Spring Bean for Balance Inquiry -->  
 	<bean id="laborPendingEntryLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">

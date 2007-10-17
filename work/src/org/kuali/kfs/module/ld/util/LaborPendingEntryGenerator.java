@@ -27,9 +27,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.bo.BenefitsCalculation;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
@@ -80,7 +80,7 @@ public class LaborPendingEntryGenerator {
      * @return a set of benefit pending entries
      */
     public static List<LaborLedgerPendingEntry> generateBenefitPendingEntries(LaborLedgerPostingDocument document, ExpenseTransferAccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        accountingLine.refreshReferenceObject(KFSPropertyConstants.LABOR_OBJECT);
+        accountingLine.refreshReferenceObject(LaborPropertyConstants.LABOR_OBJECT);
         if (ObjectUtils.isNull(accountingLine.getLaborObject())) {
             return null;
         }
@@ -203,7 +203,7 @@ public class LaborPendingEntryGenerator {
      * @param accountingLine the given accounting line
      */
     private static void updateBenefitAmountSum(Map<String, KualiDecimal> benefitAmountSumByBenefitType, ExpenseTransferAccountingLine accountingLine) {
-        accountingLine.refreshReferenceObject(KFSPropertyConstants.LABOR_OBJECT);
+        accountingLine.refreshReferenceObject(LaborPropertyConstants.LABOR_OBJECT);
         if (ObjectUtils.isNull(accountingLine.getLaborObject())) {
             return;
         }

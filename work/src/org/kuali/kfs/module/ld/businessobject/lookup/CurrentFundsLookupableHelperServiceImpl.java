@@ -38,6 +38,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.LaborKeyConstants;
 import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.bo.July1PositionFunding;
 import org.kuali.module.labor.bo.LedgerBalance;
@@ -99,7 +100,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
             // Check for a valid labor object code for this inquiry
             if (StringUtils.indexOfAny(fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE).toString(), LaborConstants.BalanceInquiries.VALID_LABOR_OBJECT_CODES) != 0) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, LaborConstants.BalanceInquiries.ERROR_INVALID_LABOR_OBJECT_CODE, "2");
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, LaborKeyConstants.ERROR_INVALID_LABOR_OBJECT_CODE, "2");
                 return new CollectionIncomplete(emptySearchResults, actualCountIfTruncated);
             }
         }
@@ -274,7 +275,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         if (!bo.getFinancialSubObjectCode().equals(Constant.CONSOLIDATED_SUB_OBJECT_CODE)) {
             fieldValues.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, bo.getFinancialSubObjectCode());
         }
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ENCUMBERENCE_CODE); // Encumberance
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE); // Encumberance
         // Balance
         // Type
         fieldValues.put(KFSPropertyConstants.EMPLID, bo.getEmplid());

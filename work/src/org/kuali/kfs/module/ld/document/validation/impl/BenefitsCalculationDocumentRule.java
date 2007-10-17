@@ -19,7 +19,7 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.module.labor.LaborKeyConstants;
 import org.kuali.module.labor.bo.BenefitsCalculation;
 
 /**
@@ -109,7 +109,7 @@ public class BenefitsCalculationDocumentRule extends MaintenanceDocumentRuleBase
         /* The fringe benefit percentage cannot be equal to or over 100% */
         if (ObjectUtils.isNotNull(newBenefitsCalculation.getPositionFringeBenefitPercent())) {
             if (newBenefitsCalculation.getPositionFringeBenefitPercent().isGreaterEqual(new KualiDecimal(100))) {
-                putFieldError("positionFringeBenefitPercent", KFSKeyConstants.Labor.ERROR_FRINGE_BENEFIT_PERCENTAGE_INVALID);
+                putFieldError("positionFringeBenefitPercent", LaborKeyConstants.ERROR_FRINGE_BENEFIT_PERCENTAGE_INVALID);
                 success = false;
             }
         }

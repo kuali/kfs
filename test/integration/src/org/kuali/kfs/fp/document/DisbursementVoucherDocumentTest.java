@@ -57,6 +57,7 @@ import edu.iu.uis.eden.EdenConstants;
  * 
  */
 @ConfigureContext(session = HSCHREIN)
+@RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
     public static final Class<DisbursementVoucherDocument> DOCUMENT_CLASS = DisbursementVoucherDocument.class;

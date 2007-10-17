@@ -361,17 +361,27 @@ public class CorrectionDocumentUtils {
      * @return
      */
     public static boolean isDebit(OriginEntryFull oe) {
-        return (oe.getTransactionDebitCreditCode() == null || KFSConstants.GL_DEBIT_CODE.equals(oe.getTransactionDebitCreditCode()));
+        return (KFSConstants.GL_DEBIT_CODE.equals(oe.getTransactionDebitCreditCode()));
     }
 
     /**
-     * Returns whether the origin entry represents a debit
+     * Returns whether the origin entry represents a budget
      * 
      * @param oe
      * @return
      */
     public static boolean isBudget(OriginEntryFull oe) {
         return KFSConstants.GL_BUDGET_CODE.equals(oe.getTransactionDebitCreditCode());
+    }
+    
+    /**
+     * Returns whether the origin entry represents a credit
+     * 
+     * @param oe
+     * @return
+     */
+    public static boolean isCredit(OriginEntryFull oe) {
+        return KFSConstants.GL_CREDIT_CODE.equals(oe.getTransactionDebitCreditCode());
     }
     
     /**
@@ -385,11 +395,11 @@ public class CorrectionDocumentUtils {
         if (isDebit(entry)) {
             statistics.addDebit(entry.getTransactionLedgerEntryAmount());
         }
-        else if (isBudget(entry)){
-            statistics.addBudget(entry.getTransactionLedgerEntryAmount());
+        else if (isCredit(entry)){
+            statistics.addCredit(entry.getTransactionLedgerEntryAmount());
         }
         else {
-            statistics.addCredit(entry.getTransactionLedgerEntryAmount());
+            statistics.addBudget(entry.getTransactionLedgerEntryAmount());
         }
     }
 

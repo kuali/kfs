@@ -20,7 +20,8 @@ import org.kuali.module.purap.document.RequisitionDocument;
 
 public enum RequisitionDocumentFixture {
 
-    REQ_ONLY_REQUIRED_FIELDS(null, null, null, null, null, null, null, null, null),
+    REQ_ONLY_REQUIRED_FIELDS(null, // requisitionOrganizationReference1Text
+            null, null, null, null, null, null, null, null),
     REQ_BREAK_APO_ENTER_ALTERNATE_VENDOR_NAMES(null, null, null, "NFL Shop", "Dicks Sporting Goods", null, null, null, null),
     ;
 

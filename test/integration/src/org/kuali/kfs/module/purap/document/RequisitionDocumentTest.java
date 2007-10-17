@@ -28,16 +28,15 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.TransactionalDocumentDictionaryService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.document.AccountingDocumentTestUtils;
-import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PurchasingItem;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.fixtures.PurchasingAccountsPayableDocumentFixture;
 import org.kuali.module.purap.fixtures.PurchasingDocumentFixture;
 import org.kuali.module.purap.fixtures.RequisitionDocumentFixture;
+import org.kuali.module.purap.fixtures.RequisitionDocumentMultiFixture;
 import org.kuali.module.purap.fixtures.RequisitionItemAccountsFixture;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
@@ -82,32 +81,38 @@ public class RequisitionDocumentTest extends KualiTestBase {
     }
 
     public final void testConvertIntoCopy_copyDisallowed() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoCopy_copyDisallowed(buildDocument(), SpringContext.getBean(DataDictionaryService.class));
+        AccountingDocumentTestUtils.testConvertIntoCopy_copyDisallowed(buildSimpleDocument(), SpringContext.getBean(DataDictionaryService.class));
 
     }
 
     public final void testConvertIntoErrorCorrection_documentAlreadyCorrected() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected(buildDocument(), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
+        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected(buildSimpleDocument(), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
 
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testConvertIntoErrorCorrection() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
+        AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildSimpleDocument(), getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
 
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testRouteDocument() throws Exception {
-        AccountingDocumentTestUtils.testRouteDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
+        AccountingDocumentTestUtils.testRouteDocument(buildSimpleDocument(), SpringContext.getBean(DocumentService.class));
     }
 
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testSaveDocument() throws Exception {
-        AccountingDocumentTestUtils.testSaveDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
+        AccountingDocumentTestUtils.testSaveDocument(buildSimpleDocument(), SpringContext.getBean(DocumentService.class));
     }
 
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testConvertIntoCopy() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
+        AccountingDocumentTestUtils.testConvertIntoCopy(buildSimpleDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
+    }
+    
+    
+    public final void testTony() throws Exception {
+        RequisitionDocument requisitionDocument = RequisitionDocumentMultiFixture.REQ_1.createRequisitionDocument();
+        AccountingDocumentTestUtils.saveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
     }
 
 
@@ -122,7 +127,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         return items;
     }
 
-    private RequisitionDocument buildDocument() throws Exception {
+    private RequisitionDocument buildSimpleDocument() throws Exception {
         RequisitionDocument document = (RequisitionDocument) getDocumentParameterFixture();
 
         for (RequisitionItemAccountsFixture itemFixture : getItemParametersFromFixtures()) {
@@ -147,4 +152,5 @@ public class RequisitionDocumentTest extends KualiTestBase {
         return RORENFRO;
     }
 
+    // create document fixture
 }

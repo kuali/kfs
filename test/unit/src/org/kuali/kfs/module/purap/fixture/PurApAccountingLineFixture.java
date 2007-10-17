@@ -19,7 +19,11 @@ import java.math.BigDecimal;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.module.purap.bo.PurApAccountingLine;
+import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.module.purap.bo.RequisitionAccount;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.test.fixtures.AccountingLineFixture;
 
 public enum PurApAccountingLineFixture {
@@ -65,4 +69,5 @@ public enum PurApAccountingLineFixture {
         line.setAlternateAmountForGLEntryCreation(this.alternateAmountForGLEntryCreation);
         return line;
     }
+
 }

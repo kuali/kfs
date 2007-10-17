@@ -1596,45 +1596,6 @@
     <field-descriptor name="disbursementVoucherForeignCurrencyTypeCode" column="DV_FCRNCY_TYP_CD" jdbc-type="VARCHAR" />
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.financial.bo.ProcurementCardDefault" table="FP_PRCRMNT_DFLT_T">
-    <field-descriptor name="purchasingCreditCardNumber" column="PURCH_CCRD_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="purchasingCreditCardUserName" column="PURCH_CCRD_USR_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="purchasingCreditCardActiveIndicator" column="PURCH_CCRD_ACTV_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="accountNumber" />
-    </reference-descriptor>
-    <reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="accountNumber" />
-        <foreignkey field-ref="subAccountNumber" />
-    </reference-descriptor>
-    <reference-descriptor name="objectCode" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="financialObjectCode" />
-    </reference-descriptor>
-    <reference-descriptor name="subObjectCode" class-ref="org.kuali.module.chart.bo.SubObjCdCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="accountNumber" />
-        <foreignkey field-ref="financialObjectCode" />
-        <foreignkey field-ref="financialSubObjectCode" />
-    </reference-descriptor>
-    <reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="projectCode" />
-    </reference-descriptor>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.financial.document.ProcurementCardDocument" table="FP_PRCRMNT_DOC_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

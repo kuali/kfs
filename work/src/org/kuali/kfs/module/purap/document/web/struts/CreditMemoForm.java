@@ -47,6 +47,7 @@ public class CreditMemoForm extends AccountsPayableFormBase {
     /**
      * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
      */
+    @Override
     public KeyLabelPair getAdditionalDocInfo1() {
         if (ObjectUtils.isNotNull(((CreditMemoDocument) getDocument()).getPurapDocumentIdentifier())) {
             return new KeyLabelPair("DataDictionary.CreditMemoDocument.attributes.purapDocumentIdentifier", ((CreditMemoDocument) getDocument()).getPurapDocumentIdentifier().toString());
@@ -57,6 +58,7 @@ public class CreditMemoForm extends AccountsPayableFormBase {
     /**
      * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo2()
      */
+    @Override
     public KeyLabelPair getAdditionalDocInfo2() {
         if (ObjectUtils.isNotNull(((CreditMemoDocument) getDocument()).getStatus())) {
             return new KeyLabelPair("DataDictionary.CreditMemoDocument.attributes.statusCode", ((CreditMemoDocument) getDocument()).getStatus().getStatusDescription());
@@ -65,7 +67,9 @@ public class CreditMemoForm extends AccountsPayableFormBase {
     }
 
     /**
-     * @return the CreditMemoInitiated attribute for JSP
+     * Determines if the credit memo document has reached the INITIATE status.
+     * 
+     * @return
      */
     public boolean isCreditMemoInitiated() {
         return StringUtils.equals(((CreditMemoDocument) getDocument()).getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE);
@@ -92,6 +96,11 @@ public class CreditMemoForm extends AccountsPayableFormBase {
         return valid;        
     }
 
+    /**
+     * Helper method to indicate if the current document has reached full document entry.
+     * 
+     * @return
+     */    
     public boolean isFullDocumentEntryCompleted(){
         CreditMemoDocument creditMemo = (CreditMemoDocument)this.getDocument();
         return SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(creditMemo);        

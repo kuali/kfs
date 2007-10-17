@@ -34,7 +34,7 @@ import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.PurApItemUtils;
 
 /**
- * This class is the form class for the Purchasing documents.
+ * Form class for Purchasing documents.
  */
 public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
 
@@ -53,20 +53,10 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
         notOtherDeliveryBuilding = true;
     }
 
-    /**
-     * Gets the newPurchasingItemLine attribute.
-     * 
-     * @return Returns the newPurchasingItemLine.
-     */
     public PurApItem getNewPurchasingItemLine() {
         return newPurchasingItemLine;
     }
 
-    /**
-     * Sets the newPurchasingItemLine attribute value.
-     * 
-     * @param newPurchasingItemLine The newPurchasingItemLine to set.
-     */
     public void setNewPurchasingItemLine(PurApItem newPurchasingItemLine) {
         this.newPurchasingItemLine = newPurchasingItemLine;
     }
@@ -102,42 +92,27 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
         this.calculated = calculated;
     }
 
-    /**
-     * Gets the countOfAboveTheLine attribute.
-     * 
-     * @return Returns the countOfAboveTheLine.
-     */
     public int getCountOfAboveTheLine() {
         return countOfAboveTheLine;
     }
 
-    /**
-     * Sets the countOfAboveTheLine attribute value.
-     * 
-     * @param countOfAboveTheLine The countOfAboveTheLine to set.
-     */
     public void setCountOfAboveTheLine(int countOfAboveTheLine) {
         this.countOfAboveTheLine = countOfAboveTheLine;
     }
 
-    /**
-     * Gets the countOfBelowTheLine attribute.
-     * 
-     * @return Returns the countOfBelowTheLine.
-     */
     public int getCountOfBelowTheLine() {
         return countOfBelowTheLine;
     }
 
-    /**
-     * Sets the countOfBelowTheLine attribute value.
-     * 
-     * @param countOfBelowTheLine The countOfBelowTheLine to set.
-     */
     public void setCountOfBelowTheLine(int countOfBelowTheLine) {
         this.countOfBelowTheLine = countOfBelowTheLine;
     }
 
+    /**
+     * Determines if the current user is an AP user and returns true, false otherwise.
+     * 
+     * @return
+     */
     public boolean isApUser() {
 
         boolean apUser = false;
@@ -153,7 +128,7 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     }
 
     /**
-     * This is a utility method to add a new button to the extra buttons collection.
+     * Adds a new button to the extra buttons collection.
      * 
      * @param property
      * @param source
@@ -186,7 +161,7 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     }
 
     /**
-     * This method updates item counts for display
+     * Updates item counts for display
      */
     public void updateItemCounts() {
         List<PurApItem> items = ((AccountsPayableDocument) this.getDocument()).getItems();

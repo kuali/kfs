@@ -36,13 +36,14 @@ import org.kuali.module.purap.document.authorization.PaymentRequestDocumentActio
 import org.kuali.module.purap.service.PurapService;
 
 /**
- * This class is the form class for the PaymentRequest document.
+ * ActionForm for the Payment Request Document. Stores document values to and from the JSP.
  */
 public class PaymentRequestForm extends AccountsPayableFormBase {
 
     private PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine;
+    
     /**
-     * Constructs a PurchaseOrderForm instance and sets up the appropriately casted document. 
+     * Constructs a PaymentRequestForm instance and sets up the appropriately casted document. 
      */
     public PaymentRequestForm() {
         super();
@@ -51,16 +52,10 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
     }
 
-    /**
-     * @return Returns the internalBillingDocument.
-     */
     public PaymentRequestDocument getPaymentRequestDocument() {
         return (PaymentRequestDocument) getDocument();
     }
 
-    /**
-     * @param internalBillingDocument The internalBillingDocument to set.
-     */
     public void setPaymentRequestDocument(PaymentRequestDocument purchaseOrderDocument) {
         setDocument(purchaseOrderDocument);
     }
@@ -68,6 +63,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
     /**
      * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
      */
+    @Override
     public KeyLabelPair getAdditionalDocInfo1() {
         if (ObjectUtils.isNotNull(this.getPaymentRequestDocument().getPurapDocumentIdentifier())) {
             return new KeyLabelPair("DataDictionary.PaymentRequestDocument.attributes.purapDocumentIdentifier", ((PaymentRequestDocument)this.getDocument()).getPurapDocumentIdentifier().toString());
@@ -79,6 +75,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
     /**
      * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo2()
      */
+    @Override
     public KeyLabelPair getAdditionalDocInfo2() {
         if (ObjectUtils.isNotNull(this.getPaymentRequestDocument().getStatus())) {
             return new KeyLabelPair("DataDictionary.PaymentRequestDocument.attributes.statusCode", ((PaymentRequestDocument)this.getDocument()).getStatus().getStatusDescription());
@@ -95,6 +92,11 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
         return new PurchaseOrderItem();
     }
 
+    /**
+     * Recreates the purchase order vendor stipulation line using the current user and current date stamp.
+     * 
+     * @return
+     */
     public PurchaseOrderVendorStipulation getAndResetNewPurchaseOrderVendorStipulationLine() {
         PurchaseOrderVendorStipulation aPurchaseOrderVendorStipulationLine = getNewPurchaseOrderVendorStipulationLine();
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
@@ -113,28 +115,18 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
     public void setNewPurchaseOrderVendorStipulationLine(PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine) {
         this.newPurchaseOrderVendorStipulationLine = newPurchaseOrderVendorStipulationLine;
     }
-    
+
     /**
-     * Gets the initialized attribute. 
-     * @return Returns the initialized.
+     * Determines if the payment request document has reached the INITIATE status.
+     * 
+     * @return
      */
-   /*
-    public boolean isInitialized() {
-        return initialized;
-    }
-*/
-   
-    /**
-     * Gets the PaymentRequestInitiated attribute for JSP 
-     * @return Returns the DisplayInitiateTab.
-     */
-  
     public boolean isPaymentRequestInitiated() { 
         return StringUtils.equals(this.getPaymentRequestDocument().getStatusCode(),PurapConstants.PaymentRequestStatuses.INITIATE);
-      } 
+    } 
 
     /** 
-     * This method determines if a user is able to close a purchase order.
+     * Determines if a user is able to close a purchase order.
      * This is used by the checkbox "close PO" on the payment request form.
      * 
      * @return
@@ -154,13 +146,18 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
         return valid;
     }
     
+    /**
+     * Helper method to indicate if the current document has reached full document entry.
+     * 
+     * @return
+     */
     public boolean isFullDocumentEntryCompleted(){
         PaymentRequestDocument preq = (PaymentRequestDocument)this.getDocument();
         return SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq);        
     }
     
     /**
-     * Build additional credit memo specific buttons and set extraButtons list.
+     * Build additional payment request specific buttons and set extraButtons list.
      */
     @Override
     public List<ExtraButton> getExtraButtons() {
@@ -210,6 +207,4 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
 
         return extraButtons;
     }
-    
- 
 }

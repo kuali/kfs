@@ -191,7 +191,7 @@
       </tr>
       <tr>
         <th align=right valign="top" nowrap="true">
-          Payment Threshold E-Mail Address:  
+          * Payment Threshold E-Mail Address:  
          </th>
         <td align=left class="datacell" >
           <html:text property="paymentThresholdEmailAddress" tabindex="9" maxlength="200" size="50" />
@@ -219,7 +219,7 @@
       </tr>
       <tr>
         <th align=right valign="top" nowrap="true">
-          File Threshold E-Mail Address:  
+          * File Threshold E-Mail Address:  
          </th>
         <td align=left class="datacell" >
           <html:text property="fileThresholdEmailAddress" tabindex="11" maxlength="200" size="50" />

@@ -55,12 +55,14 @@
     }
 		
    function paymentReasonMessages(selectedPaymentReason) {
+	/* commenting out as part of the fix for KULRNE-5891
+	Leaving this here as it will be used in future release for dynamic pop-up message
 	  if (selectedPaymentReason == 'N') {
 		 alert('<bean:message key="message.dv.travelnonemployee"/>');
 	  } 
 	  if (selectedPaymentReason == 'P') {
 		 alert('<bean:message key="message.dv.travelprepaid"/>');
-	  } 
+	  } */
     }
 </script>
 		

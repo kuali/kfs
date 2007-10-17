@@ -44,7 +44,6 @@ import org.kuali.test.fixtures.UserNameFixture;
 import org.kuali.test.suite.RelatesTo;
 
 @ConfigureContext(session = UserNameFixture.KHUNTLEY)
-@RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class CashieringTransactionRuleTest extends KualiTestBase {
     static final String CMST_WORKGROUP = "CashManagementServiceTest";
     

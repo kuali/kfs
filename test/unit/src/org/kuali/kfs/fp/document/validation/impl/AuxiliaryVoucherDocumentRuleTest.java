@@ -59,7 +59,6 @@ import org.kuali.test.fixtures.AccountingLineFixture;
 import org.kuali.test.suite.RelatesTo;
 
 @ConfigureContext(session = KHUNTLEY)
-@RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
 
     public static final Class<AuxiliaryVoucherDocument> DOCUMENT_CLASS = AuxiliaryVoucherDocument.class;

@@ -35,7 +35,6 @@ import org.kuali.test.suite.RelatesTo;
  * 
  */
 @ConfigureContext
-@RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class DisbursementVoucherTaxServiceTest extends KualiTestBase {
     private DisbursementVoucherDocument dvDocument;
 

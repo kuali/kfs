@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorContract">
 
-
         <inquiry>
             <title>Vendor Contract Inquiry</title>
 
@@ -94,8 +93,6 @@
                     <text size="22" />
                 </control>
 
-                <summary>vendorContractName</summary>
-                <description>vendorContractName description...</description>
 			</attribute>
 
             <attribute name="vendorContractDescription" forceUppercase="false">
@@ -110,8 +107,6 @@
                     <text size="45" />
                 </control>
 
-                <summary>vendorContractDescription</summary>
-                <description>vendorContractDescription description...</description>
   			</attribute>
 
 			<attributeReference name="vendorCampusCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="campusCode" >
@@ -190,8 +185,7 @@
                 <label>B2B Contract</label>
                 <shortLabel>B2B Contract</shortLabel>
                 <required>false</required>
-                <summary>vendorB2bIndicator</summary>
-                <description>vendorB2bIndicator description...</description>
+
 			</attributeReference>
 
             <attributeReference name="organizationAutomaticPurchaseOrderLimit" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
@@ -211,9 +205,7 @@
 				<control>
                     <hidden/>
                 </control>
-                
-                <summary>The Purchasing and Accounts Payable Document Number</summary>
-                <description>The Purchasing and Accounts Payable Document Number</description>
+
 			</attribute>
 			
 			<attributeReference name="vendorDetail.vendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName"/>
@@ -233,10 +225,6 @@
             <collection name="vendorDetail.vendorHeader.vendorSupplierDiversities">
                 <label>Supplier Diversities</label>
                 <shortLabel>Supplier Diversities</shortLabel>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Vendor Supplier Diversities</description>
             </collection>   
         </collections>
     </businessObject>

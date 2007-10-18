@@ -38,9 +38,6 @@
         <label>Billing Address Maintenance Document</label>
         <shortLabel>Billing Address Maint Doc</shortLabel>
 
-        <summary>Billing Address Maintenance Document</summary>
-        <description>Document used to create or update Billing Address objects</description>
-
         <lockingKeys>
             <field attributeName="billingCampusCode" />
         </lockingKeys>

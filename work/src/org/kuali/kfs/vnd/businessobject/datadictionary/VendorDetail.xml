@@ -292,8 +292,6 @@
                     <hidden />
                 </control>
 
-                <summary>vendorHeaderGeneratedIdentifier</summary>
-                <description>vendorHeaderGeneratedIdentifier description...</description>
 			</attribute>
 			
 			<attribute name="vendorDetailAssignedIdentifier" forceUppercase="true">
@@ -307,8 +305,6 @@
                     <hidden />
                 </control>
 
-                <summary>vendorDetailAssignedIdentifier</summary>
-                <description>vendorDetailAssignedIdentifier description...</description>
 			</attribute>
 			
 			<attribute name="vendorNumber" forceUppercase="true">
@@ -321,10 +317,6 @@
 				<control>
 					<text size="22"/>
 				</control>
-				
-				<summary>vendorNumber</summary>
-				<description>A concatenation of the vendorHeaderGeneratedIdentifier, a dash,
-				and the vendorDetailAssignedIdentifier</description>
 			</attribute>
 
             <attribute name="vendorDunsNumber" forceUppercase="true">
@@ -338,8 +330,6 @@
                     <text size="11" />
                 </control>
 
-                <summary>vendorDunsNumber</summary>
-                <description>vendorDunsNumber description...</description>
 			</attribute>
 
             <attribute name="vendorName" forceUppercase="true">
@@ -353,8 +343,6 @@
                     <text size="45" />
                 </control>
 
-                <summary>vendorName</summary>
-                <description>Only one format may be used for vendor name. Enter either the Vendor Name OR the Vendor First and Last Name.</description>
 			</attribute>
 
             <!-- removed in relation to KULPURAP-800
@@ -370,8 +358,6 @@
                     <text size="45" />
                 </control>
 
-                <summary>Corporate > Division Name</summary>
-                <description>Only one format may be used for vendor name. Enter either the Vendor Name OR the Vendor First and Last Name.</description>
 			</attribute -->
 
             <attribute name="vendorLastName" forceUppercase="true">
@@ -385,8 +371,6 @@
                     <text size="45" />
                 </control>
 
-                <summary>vendorLastName</summary>
-                <description>Only one format may be used for vendor name. Enter either the Vendor Name OR the Vendor First and Last Name.</description>
 			</attribute>
 			
             <attribute name="vendorFirstName" forceUppercase="true">
@@ -400,8 +384,6 @@
                     <text size="45" />
                 </control>
 
-                <summary>vendorFirstName</summary>
-                <description>Only one format may be used for vendor name. Enter either the Vendor Name OR the Vendor First and Last Name.</description>
 			</attribute>		
 
             <attribute name="vendorRemitName">
@@ -415,8 +397,6 @@
                     <text size="45" />
                 </control>
 
-                <summary>vendorRemitName</summary>
-                <description>vendorRemitName description...</description>
 			</attribute>
 
             <attribute name="vendorRestrictedReasonText">
@@ -430,8 +410,6 @@
                     <textarea rows="3" cols="60" />
                 </control>
 
-                <summary>vendorRestrictedReasonText</summary>
-                <description>vendorRestrictedReasonText description...</description>
 			</attribute>
 
             <attribute name="vendorSoldToNumber" forceUppercase="true">
@@ -444,10 +422,6 @@
                 <control>
                     <text size="22"/>
                 </control>
-
-                <summary>vendorSoldToNumber</summary>
-                <description>A concatenation of the vendorSoldToGeneratedIdentifier, a dash,
-                and the vendorSoldToAssignedIdentifier</description>
 			</attribute>
 			
             <attribute name="vendorSoldToName">
@@ -461,24 +435,20 @@
                     <text size="45" />
                 </control>
 
-                <summary>vendorSoldToName</summary>
-                <description>vendorSoldToName description...</description>
 			</attribute>
 			
 			<!-- 
             <attributeReference name="vendorAliases" sourceClassName="org.kuali.module.vendor.bo.VendorAlias" sourceAttributeName="vendorAliasName">
                 <label>Alternate Name</label>
                 <shortLabel>Alternate Name</shortLabel>
-                <summary>vendorAliases</summary>
-                <description>vendorAliases description...</description>
+
 			</attributeReference>
 			-->
 			
             <attributeReference name="vendorUrlAddress" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="genericUrlAddress">
                 <label>Vendor URL</label>
                 <shortLabel>Vendor URL</shortLabel>
-                <summary>vendorUrlAddress</summary>
-                <description>vendorUrlAddress description...</description>
+
             </attributeReference>
             
             <attributeReference name="vendorRestrictedPersonIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
@@ -498,25 +468,19 @@
                 <control>
                     <kualiUser universalIdAttributeName="vendorRestrictedPersonIdentifier" userIdAttributeName="vendorRestrictedPerson.personUserIdentifier" personNameAttributeName="vendorRestrictedPerson.personName"/>
                 </control>
-                <summary>Restricted Person Identifier</summary>
-                <description>Restricted Person Identifier</description>
+
             </attributeReference>
             
             <attributeReference name="vendorRestrictedPerson.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
                 <label>Restricted Person Name</label>
                 <shortLabel>Restricted Person Name</shortLabel>
                 <required>false</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The Name of the Restricted Person.</description>
             </attributeReference>
             
             <attributeReference name="vendorRestrictedDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Restricted Date</label>
                 <shortLabel>Restricted Date</shortLabel>
-                <summary>vendorRestrictedDate</summary>
-                <description>vendorRestrictedDate description...</description>                
+
             </attributeReference>
             			
             <attributeReference name="vendorPaymentTermsCode" sourceClassName="org.kuali.module.vendor.bo.PaymentTermType" sourceAttributeName="vendorPaymentTermsCode">
@@ -559,76 +523,52 @@
                 <control>
                     <lookupHidden/>
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The vendor sold to generated identifier.</description>
-            </attributeReference>           
+             </attributeReference>           
 
             <attributeReference name="vendorSoldToAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier">
                 <label>Sold To Assigned Identifier</label>
                 <shortLabel>Sold To Assigned ID</shortLabel>
                 <required>false</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The vendor sold to assigned identifier.</description>                
             </attributeReference>   
             
             <attributeReference name="vendorMinimumOrderAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Minimum Order Amount</label>
                 <shortLabel>Min. Order Amt.</shortLabel>
-                <summary>Vendor Minimum Order Amount</summary>
-                <description>Vendor Minimum Order Amount description...</description>
             </attributeReference>
             
 			<attributeReference name="vendorStateForLookup" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="stateCode">
 				<label>State</label>
 				<shortLabel>State</shortLabel>
-				<summary>vendorStateForLookup</summary>
-				<description>This field is here for the lookup only, and does not persist in the db, due to the address collection.</description>
 			</attributeReference>
 			
             <attributeReference name="vendorCreditCardIndicator" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="yesNoWithBlankIndicator">
                 <label>Credit Card</label>
                 <shortLabel>Credit Card</shortLabel>
-                <summary>vendorCreditCardIndicator</summary>
-                <description>vendorCreditCardIndicator description...</description>            
             </attributeReference>
             
             <attributeReference name="vendorConfirmationIndicator" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="yesNoWithBlankIndicator">
                 <label>Confirmation</label>
                 <shortLabel>Confirmation?</shortLabel>
-                <summary>vendorConfirmationIndicator</summary>
-                <description>vendorConfirmationIndicator description...</description>
 			</attributeReference> 
 
             <attributeReference name="vendorPrepaymentIndicator" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="yesNoWithBlankIndicator">
                 <label>Pre-Payment</label>
                 <shortLabel>Pre-Payment?</shortLabel>
-                <summary>vendorPrepaymentIndicator</summary>
-                <description>vendorPrepaymentIndicator description...</description>
 			</attributeReference>
 						      
             <attributeReference name="vendorRestrictedIndicator" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="yesNoWithBlankIndicator">
                 <label>Restricted</label>
                 <shortLabel>Restricted?</shortLabel>
-                <summary>vendorRestrictedIndicator</summary>
-                <description>vendorRestrictedIndicator description...</description>
 			</attributeReference>
 			
             <attributeReference name="vendorParentIndicator" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="hiddenIndicator">
                 <label>Vendor Parent Indicator</label>
                 <shortLabel>Parent?</shortLabel>
-                <summary>vendorParentIndicator</summary>
-                <description>vendorParentIndicator description...</description>
 			</attributeReference>
 
             <attributeReference name="vendorFirstLastNameIndicator" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="hiddenIndicator">
                 <label>Vendor First Last Name Indicator</label>
                 <shortLabel>Vendor First Last Name Indicator</shortLabel>
-                <summary>vendorFirstLastNameIndicator</summary>
-                <description>This field indicates whether the user entered the full vendor name or entered first and last name</description>
 			</attributeReference>											
 																           
             <attributeReference name="vendorAddresses.vendorStateCode" sourceClassName="org.kuali.module.vendor.bo.VendorAddress" sourceAttributeName="vendorStateCode"/>
@@ -686,67 +626,39 @@
                 <label>Vendor Addresses</label>
                 <shortLabel>Addresses</shortLabel>
                 <elementLabel>Address</elementLabel>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Vendor Addresses</description>
-            </collection>
+             </collection>
               
             <collection name="vendorHeader.vendorSupplierDiversities">
                 <label>Supplier Diversities</label>
                 <shortLabel>Supplier Diversities</shortLabel>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Vendor Supplier Diversities</description>
             </collection>           
             
             <collection name="vendorShippingSpecialConditions">
                 <label>Vendor Shipping Special Conditions</label>
                 <shortLabel>Shipping Special Conditions</shortLabel>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Shipping Special Conditions</description>
             </collection>
             
             <collection name="vendorPhoneNumbers">
                 <label>Vendor Phone Numbers</label>
                 <shortLabel>Phone Numbers</shortLabel>
                 <elementLabel>Phone Numbers</elementLabel>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Phone Numbers</description>
             </collection>
             
             <collection name="vendorCustomerNumbers">
                 <label>Vendor Customer Numbers</label>
                 <shortLabel>Customer Numbers</shortLabel>
                 <elementLabel>Customer Numbers</elementLabel>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Customer Numbers</description>
-            </collection>
+             </collection>
             
             <collection name="vendorAliases">
                 <label>Search Alias</label>
                 <shortLabel>Search Alias</shortLabel>
                 <elementLabel>Search Alias</elementLabel>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Vendor Search Aliases</description>
             </collection>
             <collection name="boNotes">
                 <label>Notes</label>
                 <shortLabel>Notes</shortLabel>
                 <elementLabel>Notes</elementLabel>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Notes</description>
             </collection>
              
         </collections>    

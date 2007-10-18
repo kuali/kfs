@@ -38,9 +38,6 @@
         <label>Delivery Required Date Reason Maintenance Document</label>
         <shortLabel>Contact Type Maint Doc</shortLabel>
 
-        <summary>Delivery Required Date Reason Maintenance Document</summary>
-        <description>Document used to create or update Delivery Required Date Reason objects</description>
-
         <lockingKeys>
             <field attributeName="deliveryRequiredDateReasonCode" />
         </lockingKeys>

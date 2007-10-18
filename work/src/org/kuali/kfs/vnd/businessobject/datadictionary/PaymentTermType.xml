@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.PaymentTermType">
 
-
         <inquiry>
             <title>Payment Terms Type Inquiry</title>
 
@@ -87,8 +86,6 @@
                     <text size="4" />
                 </control>
 
-                <summary>vendorDiscountDueNumber</summary>
-                <description>vendorDiscountDueNumber description...</description>
 			</attribute>
 
             <attribute name="vendorDiscountDueTypeDescription" >
@@ -102,8 +99,6 @@
                     <radio valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PaymentTypeValuesFinder" />
                 </control>
 
-                <summary>vendorDiscountDueTypeDescription</summary>
-                <description>vendorDiscountDueTypeDescription description...</description>
 			</attribute>
 
             <attribute name="vendorNetDueNumber">
@@ -117,8 +112,6 @@
                     <text size="4" />
                 </control>
 
-                <summary>vendorNetDueNumber</summary>
-                <description>vendorNetDueNumber description...</description>
 			</attribute>
 
             <attribute name="vendorNetDueTypeDescription">
@@ -132,8 +125,6 @@
                     <radio valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PaymentTypeValuesFinder" />
                 </control>
 
-                <summary>vendorNetDueTypeDescription</summary>
-                <description>vendorNetDueTypeDescription description...</description>
 			</attribute>
 
             <attribute name="vendorPaymentTermsCode" forceUppercase="true">
@@ -147,8 +138,6 @@
                     <text size="7" />
                 </control>
 
-                <summary>vendorPaymentTermsCode</summary>
-                <description>vendorPaymentTermsCode description...</description>
 			</attribute>
 
             <attribute name="vendorPaymentTermsDescription">
@@ -162,8 +151,6 @@
                     <text size="47" />
                 </control>
 
-                <summary>vendorPaymentTermsDescription</summary>
-                <description>vendorPaymentTermsDescription description...</description>
 			</attribute>
 
             <attribute name="vendorPaymentTermsPercent">
@@ -177,14 +164,11 @@
                     <text size="8" />
                 </control>
 
-                <summary>vendorPaymentTermsPercent</summary>
-                <description>vendorPaymentTermsPercent description...</description>
 			</attribute>
 
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
 
         </attributes>
     </businessObject>

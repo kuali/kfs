@@ -38,9 +38,6 @@
         <label>Recurring Payment Type Maintenance Document</label>
         <shortLabel>Recurring Payment Type Maint Doc</shortLabel>
 
-        <summary>Recurring Payment Type Maintenance Document</summary>
-        <description>Document used to create or update Recurring Payment Type objects</description>
-
         <lockingKeys>
             <field attributeName="recurringPaymentTypeCode" />
         </lockingKeys>

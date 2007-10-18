@@ -38,9 +38,6 @@
         <label>Credit Memo Status Maintenance Document</label>
         <shortLabel>Credit Memo Status Maint Doc</shortLabel>
 
-        <summary>Credit Memo Status Maintenance Document</summary>
-        <description>Document used to create or update Credit Memo Status objects</description>
-
         <lockingKeys>
             <field attributeName="statusCode" />
         </lockingKeys>

@@ -38,9 +38,6 @@
         <label>Shipping Special Condition Maintenance Document</label>
         <shortLabel>Shipping Special Condition Maint Doc</shortLabel>
 
-        <summary>Shipping Special Condition Maintenance Document</summary>
-        <description>Document used to create or update Shipping Special Condition objects</description>
-
         <lockingKeys>
             <field attributeName="vendorShippingSpecialConditionCode" />
         </lockingKeys>

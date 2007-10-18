@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorAlias">
 
-
         <attributes>
 
             <attribute name="vendorAliasName" forceUppercase="true">
@@ -37,8 +36,6 @@
                     <text size="45" />
                 </control>
 
-                <summary>vendorAliasName</summary>
-                <description>vendorAliasName description...</description>
             </attribute>
             
             <attributeReference name="newCollectionRecord" 

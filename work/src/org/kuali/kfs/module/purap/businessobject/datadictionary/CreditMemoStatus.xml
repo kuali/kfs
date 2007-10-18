@@ -69,8 +69,6 @@
                     <text size="6" />
                 </control>
 
-                <summary>creditMemoStatusCode</summary>
-                <description>creditMemoStatusCode description...</description>
 			</attribute>
 
             <attribute name="statusDescription" forceUppercase="true">
@@ -84,8 +82,6 @@
                     <text size="47" />
                 </control>
 
-                <summary>creditMemoStatusDescription</summary>
-                <description>creditMemoStatusDescription description...</description>
 			</attribute>
 
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />

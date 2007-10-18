@@ -16,8 +16,6 @@
 <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
     <label>Chart</label>
     <shortLabel>Code</shortLabel>
-    <summary>chartOfAccountsCode</summary>
-    <description>chartOfAccountsCode description...</description>
 </attributeReference>
 
 <attributeReference name="organizationCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="organizationCode"/>
@@ -25,8 +23,6 @@
 <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
     <label>Chart/Org</label>
     <shortLabel>Chart/Org</shortLabel>
-    <summary>organizationCode</summary>
-    <description>organizationCode description...</description>
 </attributeReference>
 -->
 
@@ -52,9 +48,6 @@
     <control>
         <text size="12" />
     </control>
-
-    <summary>supplierDiversityLabel</summary>
-    <description>supplierDiversityLabel description...</description>
 </attribute>
 
 <attribute name="vendorContactsLabel">
@@ -69,51 +62,32 @@
     <control>
         <text size="12" />
     </control>
-
-    <summary>vendorContactsLabel</summary>
-    <description>vendorContactsLabel description...</description>
 </attribute>
 
 <attributeReference name="billingName" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingName">
     <label>Address</label>
     <shortLabel>Name</shortLabel>
-    <summary>billingName</summary>
-    <description>billingName description...</description>
 </attributeReference>
 
 <attributeReference name="billingLine1Address" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingLine1Address">
-    <summary>billingLine1Address</summary>
-    <description>billingLine1Address description...</description>
 </attributeReference>
 
 <attributeReference name="billingLine2Address" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingLine2Address">
-    <summary>billingLine2Address</summary>
-    <description>billingLine2Address description...</description>
 </attributeReference>
 
 <attributeReference name="billingCityName" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingCityName">
-    <summary>billingCityName</summary>
-    <description>billingCityName description...</description>
 </attributeReference>
 
 <attributeReference name="billingStateCode" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingStateCode">
-    <summary>billingStateCode</summary>
-    <description>billingStateCode description...</description>
 </attributeReference>
 
 <attributeReference name="billingPostalCode" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingPostalCode">
-    <summary>billingPostalCode</summary>
-    <description>billingPostalCode description...</description>
 </attributeReference>
 
 <attributeReference name="billingCountryCode" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingCountryCode">
-    <summary>billingCountryCode</summary>
-    <description>billingCountryCode description...</description>
 </attributeReference>
 
 <attributeReference name="billingPhoneNumber" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingPhoneNumber">
-    <summary>billingPhoneNumber</summary>
-    <description>billingPhoneNumber description...</description>
 </attributeReference>
 
 <attribute name="deliveryBuildingName">
@@ -129,17 +103,12 @@
     <control>
         <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.BuildingValuesFinder"/>
     </control>
-
-    <summary>deliveryBuildingName</summary>
-    <description>deliveryBuildingName description...</description>
 </attribute>
 
 <attributeReference name="deliveryCampusCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="campusCode">
     <label>Delivery Campus</label>
     <shortLabel>Delivery Campus</shortLabel>
     <required>true</required>
-    <summary>deliveryCampusCode</summary>
-    <description>deliveryCampusCode description...</description>
 </attributeReference>
 
 <attribute name="deliveryBuildingOther">
@@ -151,20 +120,13 @@
 	<control>
 		<checkbox />
 	</control>
-	
-	<summary>deliveryBuildingOther</summary>
-	<description>deliveryBuildingOther description...</description>
 </attribute>
 
 <attributeReference name="deliveryBuildingLine1Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line1Address">
     <required>true</required>
-    <summary>deliveryBuildingLine1Address</summary>
-    <description>deliveryBuildingLine1Address description...</description>
 </attributeReference>
 
 <attributeReference name="deliveryBuildingLine2Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line2Address">
-    <summary>deliveryBuildingLine2Address</summary>
-    <description>deliveryBuildingLine2Address description...</description>
 </attributeReference>
 
 <attribute name="deliveryBuildingRoomNumber" forceUppercase="true">
@@ -181,31 +143,25 @@
         <text size="10" />
     </control>
 
-    <summary>deliveryBuildingRoomNumber</summary>
-    <description>deliveryBuildingRoomNumber description...</description>
 </attribute>
 
 <attributeReference name="deliveryCityName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="cityName">
     <required>true</required>
-    <summary>deliveryCityName</summary>
-    <description>deliveryCityName description...</description>
+
 </attributeReference>
 
 <attributeReference name="deliveryStateCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="stateCode">
     <required>true</required>
-    <summary>deliveryStateCode</summary>
-    <description>deliveryStateCode description...</description>
+
 </attributeReference>
 
 <attributeReference name="deliveryPostalCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="zipCode">
     <required>true</required>
-    <summary>deliveryPostalCode</summary>
-    <description>deliveryPostalCode description...</description>
+
 </attributeReference>
 
 <attributeReference name="deliveryCountryCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="countryCode">
-    <summary>deliveryCountryCode</summary>
-    <description>deliveryCountryCode description...</description>
+
 </attributeReference>
 
 <attribute name="deliveryInstructionText">
@@ -219,17 +175,13 @@
         <textarea rows="3" cols="50" />
     </control>
 
-    <summary>deliveryInstructionText</summary>
-    <description>deliveryInstructionText description...</description>
 </attribute>
 
 <attributeReference name="deliveryRequiredDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
     <label>Date Required</label>
     <shortLabel>Date Required</shortLabel>
-    <summary>deliveryRequiredDate</summary>
-    <description>deliveryRequiredDate description...</description>
-</attributeReference>
 
+</attributeReference>
 
 <attributeReference name="deliveryRequiredDateReasonCode" sourceClassName="org.kuali.module.purap.bo.DeliveryRequiredDateReason" sourceAttributeName="deliveryRequiredDateReasonCode">
     <label>Date Required Reason</label>
@@ -237,27 +189,23 @@
     <control>
 		<select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.DateRequiredReasonValuesFinder"/>
 	</control>    
-    <summary>deliveryRequiredDateReasonCode</summary>
-    <description>deliveryRequiredDateReasonCode description...</description>
+
 </attributeReference>
 
 <attributeReference name="deliveryToEmailAddress" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="emailAddress">
     <required>false</required>
-    <summary>deliveryToEmailAddress</summary>
-    <description>deliveryToEmailAddress description...</description>
+
 </attributeReference>
 
 <attributeReference name="deliveryToName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="attentionName">
     <label>Delivery To</label>
     <shortLabel>To</shortLabel>
     <required>true</required>
-    <summary>deliveryToName</summary>
-    <description>deliveryToName description...</description>
+
 </attributeReference>
 
 <attributeReference name="deliveryToPhoneNumber" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberWithValidation">
-    <summary>deliveryToPhoneNumber</summary>
-    <description>deliveryToPhoneNumber description...</description>
+
 </attributeReference>
 
 <attribute name="externalOrganizationB2bSupplierIdentifier" forceUppercase="true">
@@ -273,8 +221,6 @@
         <text size="21" />
     </control>
 
-    <summary>externalOrganizationB2bSupplierIdentifier</summary>
-    <description>externalOrganizationB2bSupplierIdentifier description...</description>
 </attribute>
 
 <attributeReference name="fundingSourceCode" sourceClassName="org.kuali.module.purap.bo.FundingSource" sourceAttributeName="fundingSourceCode">
@@ -283,15 +229,13 @@
     <control>
         <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.FundingSourceValuesFinder" />
     </control>
-    <summary>fundingSourceCode</summary>
-    <description>fundingSourceCode description...</description>
+
 </attributeReference>
 
 <attributeReference name="institutionContactEmailAddress" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="emailAddress">
     <label>Contact Email</label>
     <shortLabel>Address</shortLabel>
-    <summary>institutionContactEmailAddress</summary>
-    <description>institutionContactEmailAddress description...</description>
+
 </attributeReference>
 
 <attribute name="institutionContactName" forceUppercase="false">
@@ -305,54 +249,46 @@
         <text size="47" />
     </control>
 
-    <summary>institutionContactName</summary>
-    <description>institutionContactName description...</description>
 </attribute>
 
 <attributeReference name="institutionContactPhoneNumber" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberWithValidation">
     <label>Contact Phone</label>
     <shortLabel>Number</shortLabel>
-    <summary>institutionContactPhoneNumber</summary>
-    <description>institutionContactPhoneNumber description...</description>
+
 </attributeReference>
 
 <attributeReference name="nonInstitutionFundAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
     <label>Non Institution Fund Account Number</label>
     <shortLabel>Number</shortLabel>
 	<required>false</required>
-    <summary>nonInstitutionFundAccountNumber</summary>
-    <description>nonInstitutionFundAccountNumber description...</description>
+
 </attributeReference>
 
 <attributeReference name="nonInstitutionFundChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
     <label>Non Institution Fund Chart Of Accounts Code</label>
     <shortLabel>Code</shortLabel>
 	<required>false</required>
-    <summary>nonInstitutionFundChartOfAccountsCode</summary>
-    <description>nonInstitutionFundChartOfAccountsCode description...</description>
+
 </attributeReference>
 
 <attributeReference name="nonInstitutionFundOrgChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
     <label>Non Institution Fund Org Chart Of Accounts Code</label>
     <shortLabel>Code</shortLabel>
 	<required>false</required>
-    <summary>nonInstitutionFundOrgChartOfAccountsCode</summary>
-    <description>nonInstitutionFundOrgChartOfAccountsCode description...</description>
+
 </attributeReference>
 
 <attributeReference name="nonInstitutionFundOrganizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
     <label>Non Institution Fund Org Organization Code</label>
     <shortLabel>Code</shortLabel>
 	<required>false</required>
-    <summary>nonInstitutionFundOrganizationCode</summary>
-    <description>nonInstitutionFundOrganizationCode description...</description>
+
 </attributeReference>
 
 <attributeReference name="purchaseOrderAutomaticIndicator" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="hiddenIndicator">
     <label>Purchase Order Automatic Indicator</label>
     <shortLabel>Indicator</shortLabel>
-    <summary>purchaseOrderAutomaticIndicator</summary>
-    <description>purchaseOrderAutomaticIndicator description...</description>
+
 </attributeReference>
 
 <attributeReference name="purchaseOrderCostSourceCode" sourceClassName="org.kuali.module.vendor.bo.PurchaseOrderCostSource" sourceAttributeName="purchaseOrderCostSourceCode">
@@ -362,29 +298,25 @@
     <control>
         <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PurchaseOrderCostSourceValuesFinder" />
     </control>
-    <summary>purchaseOrderCostSourceCode</summary>
-    <description>purchaseOrderCostSourceCode description...</description>
+
 </attributeReference>
 
 <attributeReference name="purchaseOrderBeginDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
     <label>Begin/End Date</label>
     <shortLabel>Date</shortLabel>
-    <summary>purchaseOrderBeginDate</summary>
-    <description>purchaseOrderBeginDate description...</description>
+
 </attributeReference>
 
 <attributeReference name="purchaseOrderEndDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
     <label>Begin/End Date</label>
     <shortLabel>Date</shortLabel>
-    <summary>purchaseOrderEndDate</summary>
-    <description>purchaseOrderEndDate description...</description>
+
 </attributeReference>
 
 <attributeReference name="purchaseOrderTotalLimit" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
     <label>PO Total Cannot Exceed</label>
     <shortLabel>Limit</shortLabel>
-    <summary>purchaseOrderTotalLimit</summary>
-    <description>purchaseOrderTotalLimit description...</description>
+
 </attributeReference>
 
 <attributeReference name="purchaseOrderTransmissionMethodCode" sourceClassName="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" sourceAttributeName="purchaseOrderTransmissionMethodCode">
@@ -393,8 +325,7 @@
     <control>
         <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderTransmissionMethodValuesFinder" />
     </control>
-    <summary>purchaseOrderTransmissionMethodCode</summary>
-    <description>purchaseOrderTransmissionMethodCode description...</description>
+
 </attributeReference>
 
 <attributeReference name="recurringPaymentTypeCode" sourceClassName="org.kuali.module.purap.bo.RecurringPaymentType" sourceAttributeName="recurringPaymentTypeCode">
@@ -403,16 +334,14 @@
     <control>
         <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.RecurringPaymentTypeValuesFinder" />
     </control>
-    <summary>recurringPaymentTypeCode</summary>
-    <description>recurringPaymentTypeCode description...</description>
+
 </attributeReference>
 
 <attributeReference name="requestorPersonEmailAddress" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="emailAddress">
     <label>Requestor Email</label>
     <shortLabel>Email</shortLabel>
     <required>true</required>
-    <summary>requestorPersonEmailAddress</summary>
-    <description>requestorPersonEmailAddress description...</description>
+
 </attributeReference>
 
 <attribute name="requestorPersonName" forceUppercase="false">
@@ -427,16 +356,13 @@
         <text size="47" />
     </control>
 
-    <summary>requestorPersonName</summary>
-    <description>requestorPersonName description...</description>
 </attribute>
 
 <attributeReference name="requestorPersonPhoneNumber" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberWithValidation">
     <label>Requestor Phone</label>
     <shortLabel>Phone Number</shortLabel>
     <required>true</required>
-    <summary>requestorPersonPhoneNumber</summary>
-    <description>requestorPersonPhoneNumber description...</description>
+
 </attributeReference>
 
 <attributeReference name="requisitionSourceCode" sourceClassName="org.kuali.module.purap.bo.RequisitionSource" sourceAttributeName="requisitionSourceCode"/>
@@ -446,8 +372,7 @@
 <attributeReference name="vendorFaxNumber" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
     <label>Fax Number</label>
     <shortLabel>Number</shortLabel>
-    <summary>vendorFaxNumber</summary>
-    <description>vendorFaxNumber description...</description>
+
 </attributeReference>
 
 <attribute name="vendorNoteText" forceUppercase="true">
@@ -463,23 +388,18 @@
         <textarea rows="3" cols="50" />
     </control>
 
-    <summary>vendorNoteText</summary>
-    <description>vendorNoteText description...</description>
 </attribute>
 
 <attributeReference name="vendorPhoneNumber" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
     <label>Phone Number</label>
     <shortLabel>Number</shortLabel>
-    <summary>vendorPhoneNumber</summary>
-    <description>vendorPhoneNumber description...</description>
-</attributeReference>
 
+</attributeReference>
 
 <attributeReference name="vendorRestrictedIndicator" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="hiddenIndicator">
     <label>Restricted Indicator</label>
     <shortLabel>Restricted</shortLabel>
-    <summary>vendorRestrictedIndicator</summary>
-    <description>vendorRestrictedIndicator description...</description>
+
 </attributeReference>
 
 <attributeReference name="vendorPaymentTermsCode" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorPaymentTermsCode"/>
@@ -487,6 +407,4 @@
 <attributeReference name="vendorShippingTitleCode" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorShippingTitleCode"/>
                                     
 <attributeReference name="vendorShippingPaymentTermsCode" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorShippingPaymentTermsCode"/>
-
-            
 

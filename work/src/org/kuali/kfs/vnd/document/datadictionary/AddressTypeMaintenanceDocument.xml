@@ -38,9 +38,6 @@
         <label>Address Type Maintenance Document</label>
         <shortLabel>Address Type Maint Doc</shortLabel>
 
-        <summary>Address Type Maintenance Document</summary>
-        <description>Document used to create or update Address Type objects</description>
-
         <lockingKeys>
             <field attributeName="vendorAddressTypeCode" />
         </lockingKeys>

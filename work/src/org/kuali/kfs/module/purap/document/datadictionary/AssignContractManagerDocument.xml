@@ -46,16 +46,13 @@ nalavi: these attributes are added for the purpose of labels display in assingCo
 			<attributeReference name="requisitionNumber" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="purapDocumentIdentifier">
                 <label>Requisition Number</label>
                 <shortLabel>Requisition Number</shortLabel>
-                <summary>The Requisition Number</summary>
-                <description>The requisition number</description>
+
             </attributeReference>
             
             <attributeReference name="deliveryCampusCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="campusCode">
 			    <label>Delivery Campus</label>
 			    <shortLabel>Delivery Campus</shortLabel>
-			    
-			    <summary>deliveryCampusCode</summary>
-			    <description>deliveryCampusCode description...</description>
+
 			</attributeReference>
             
             <attributeReference name="vendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
@@ -70,8 +67,7 @@ nalavi: these attributes are added for the purpose of labels display in assingCo
 			    <control>
 					<text size="22" />
 				</control>
-			    <summary>General Description</summary>
-			    <description>General Description description...</description>
+
 			</attribute>
             
             <attribute name="requisitionTotalAmount" >
@@ -81,8 +77,7 @@ nalavi: these attributes are added for the purpose of labels display in assingCo
 			    <control>
 					<text size="22" />
 				</control>
-			    <summary>requisitionTotalAmount</summary>
-			    <description>requisitionTotalAmount description...</description>
+
 			</attribute>
 			
 			<attribute name="requisitionCreateDate" >
@@ -92,8 +87,7 @@ nalavi: these attributes are added for the purpose of labels display in assingCo
 			    <control>
 					<text size="22" />
 				</control>
-			    <summary>requisitionCreateDate</summary>
-			    <description>requisitionCreateDate description...</description>
+
 			</attribute>
 			
             <attribute name="firstItemDescription" >
@@ -103,13 +97,9 @@ nalavi: these attributes are added for the purpose of labels display in assingCo
 			    <control>
 					<text size="22" />
 				</control>
-			    <summary>firstItemDescription</summary>
-			    <description>firstItemDescription description...</description>
+
 			</attribute>
-            
-            
-			
-			
+
 			<attribute name="firstObjectCode">
 				<label>First Object Code</label>
 				<shortLabel>First Object Code</shortLabel>
@@ -122,18 +112,9 @@ nalavi: these attributes are added for the purpose of labels display in assingCo
 				<control>
 					<text size="22" />
 				</control>
-	
-				<summary>First Object Code</summary>
-				<description>
-					First Object Code description...
-				</description>
 			</attribute>
 
 		</attributes>
-
-		<summary>Document used for assigning contract managers.</summary>
-        <description>The Assign Contract Manager document is a...</description>
-
 
 		<allowsCopy>false</allowsCopy>
 		<allowsErrorCorrection>false</allowsErrorCorrection>

@@ -38,9 +38,6 @@
         <label>Shipping Payment Terms Maintenance Document</label>
         <shortLabel>Shipping Payment Terms Maint Doc</shortLabel>
 
-        <summary>Shipping Payment Terms Maintenance Document</summary>
-        <description>Document used to create or update Shipping Payment Terms objects</description>
-
         <lockingKeys>
             <field attributeName="vendorShippingPaymentTermsCode" />
         </lockingKeys>

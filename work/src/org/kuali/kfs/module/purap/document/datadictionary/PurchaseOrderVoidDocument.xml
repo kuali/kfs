@@ -36,9 +36,6 @@
 
         <label>Purchase Order Void</label>
         <shortLabel>PurchaseOrderVoid</shortLabel>
-   
-        <summary>Document used for Purchase Order Void.</summary>
-        <description>The Purchase Order Void document is a...</description>
 
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>

@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.ShippingPaymentTerms">
 
-
         <inquiry>
             <title>Shipping Payment Terms Inquiry</title>
 
@@ -73,8 +72,6 @@
                     <text size="6" />
                 </control>
 
-                <summary>vendorShippingPaymentTermsCode</summary>
-                <description>vendorShippingPaymentTermsCode description...</description>
 			</attribute>
 
             <attribute name="vendorShippingPaymentTermsDescription" forceUppercase="true">
@@ -88,8 +85,6 @@
                     <text size="47" />
                 </control>
 
-                <summary>vendorShippingPaymentTermsDescription</summary>
-                <description>vendorShippingPaymentTermsDescription description...</description>
 			</attribute>
 
             <attribute name="vendorShippingPaymentTermsPayIndicator" forceUppercase="false">
@@ -102,8 +97,6 @@
                     <checkbox />
                 </control>
 
-                <summary>vendorShippingPaymentTermsPayIndicator</summary>
-                <description>vendorShippingPaymentTermsPayIndicator description...</description>
 			</attribute>
 
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />

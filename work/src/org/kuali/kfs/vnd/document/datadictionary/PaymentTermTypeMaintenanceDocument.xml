@@ -38,9 +38,6 @@
         <label>Payment Terms Type Maintenance Document</label>
         <shortLabel>Payment Terms Type Maint Doc</shortLabel>
 
-        <summary>Payment Terms Type Maintenance Document</summary>
-        <description>Document used to create or update Payment Terms Type objects</description>
-
         <lockingKeys>
             <field attributeName="vendorPaymentTermsCode" />
         </lockingKeys>

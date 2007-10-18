@@ -38,9 +38,6 @@
         <label>Purchase Order Quote Status Maintenance Document</label>
         <shortLabel>PO Quote Status Maint Doc</shortLabel>
 
-        <summary>Purchase Order Quote Status Maintenance Document</summary>
-        <description>Document used to create or update Purchase Order Quote Status objects</description>
-
         <lockingKeys>
             <field attributeName="purchaseOrderQuoteStatusCode" />
         </lockingKeys>

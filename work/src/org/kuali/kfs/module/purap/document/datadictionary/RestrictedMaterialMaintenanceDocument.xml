@@ -38,9 +38,6 @@
         <label>Restricted Material Maintenance Document</label>
         <shortLabel>Restricted Material Maint Doc</shortLabel>
 
-        <summary>Restricted Material Maintenance Document</summary>
-        <description>Document used to create or update Restricted Material objects</description>
-
         <lockingKeys>
             <field attributeName="restrictedMaterialCode" />
         </lockingKeys>

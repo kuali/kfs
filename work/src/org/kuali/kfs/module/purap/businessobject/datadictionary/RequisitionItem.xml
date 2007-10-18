@@ -116,8 +116,6 @@
 					<checkbox />
 				</control>
 
-				<summary>itemRestrictedIndicator</summary>
-				<description>itemRestrictedIndicator description...</description>
 			</attribute>
 		</attributes>
 	</businessObject>

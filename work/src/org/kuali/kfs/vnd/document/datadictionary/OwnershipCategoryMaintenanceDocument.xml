@@ -38,9 +38,6 @@
         <label>Ownership Category Maintenance Document</label>
         <shortLabel>Ownership Category Maint Doc</shortLabel>
 
-        <summary>Ownership Category Maintenance Document</summary>
-        <description>Document used to create or update Ownership Category objects</description>
-
         <lockingKeys>
             <field attributeName="vendorOwnershipCategoryCode" />
         </lockingKeys>

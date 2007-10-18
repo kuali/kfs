@@ -83,8 +83,6 @@
                     <text size="12" />
                 </control>
 
-                <summary>accountIdentifier</summary>
-                <description>accountIdentifier description...</description>
 			</attribute>
 
             <attribute name="accountLinePercent" forceUppercase="true">
@@ -98,8 +96,6 @@
                     <text size="37" />
                 </control>
 
-                <summary>accountLinePercent</summary>
-                <description>accountLinePercent description...</description>
 			</attribute>
 
             <attribute name="accountNumber" forceUppercase="true">
@@ -113,8 +109,6 @@
                     <text size="9" />
                 </control>
 
-                <summary>accountNumber</summary>
-                <description>accountNumber description...</description>
 			</attribute>
 
             <attribute name="amount" forceUppercase="true">
@@ -128,8 +122,6 @@
                     <text size="21" />
                 </control>
 
-                <summary>amount</summary>
-                <description>amount description...</description>
 			</attribute>
 
             <attribute name="chartOfAccountsCode" forceUppercase="true">
@@ -143,8 +135,6 @@
                     <text size="4" />
                 </control>
 
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
 			</attribute>
 
             <attribute name="disencumberedAmount" forceUppercase="true">
@@ -158,8 +148,6 @@
                     <text size="21" />
                 </control>
 
-                <summary>disencumberedAmount</summary>
-                <description>disencumberedAmount description...</description>
 			</attribute>
 
             <attribute name="financialObjectCode" forceUppercase="true">
@@ -173,8 +161,6 @@
                     <text size="6" />
                 </control>
 
-                <summary>financialObjectCode</summary>
-                <description>financialObjectCode description...</description>
 			</attribute>
 
             <attribute name="financialSubObjectCode" forceUppercase="true">
@@ -188,8 +174,6 @@
                     <text size="5" />
                 </control>
 
-                <summary>financialSubObjectCode</summary>
-                <description>financialSubObjectCode description...</description>
 			</attribute>
 
             <attribute name="organizationReferenceId" forceUppercase="true">
@@ -203,8 +187,6 @@
                     <text size="10" />
                 </control>
 
-                <summary>organizationReferenceId</summary>
-                <description>organizationReferenceId description...</description>
 			</attribute>
 
             <attribute name="projectCode" forceUppercase="true">
@@ -218,8 +200,6 @@
                     <text size="12" />
                 </control>
 
-                <summary>projectCode</summary>
-                <description>projectCode description...</description>
 			</attribute>
 
             <attribute name="purapDocumentIdentifier" forceUppercase="true">
@@ -233,8 +213,6 @@
                     <text size="11" />
                 </control>
 
-                <summary>purapDocumentIdentifier</summary>
-                <description>purapDocumentIdentifier description...</description>
 			</attribute>
 
             <attribute name="subAccountNumber" forceUppercase="true">
@@ -248,8 +226,6 @@
                     <text size="7" />
                 </control>
 
-                <summary>subAccountNumber</summary>
-                <description>subAccountNumber description...</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

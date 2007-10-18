@@ -36,9 +36,6 @@
 
         <label>Purchase Order Reopen</label>
         <shortLabel>PurchaseOrderReopen</shortLabel>
-   
-        <summary>Document used for Purchase Order Reopen.</summary>
-        <description>The Purchase Order Reopen document is a...</description>
 
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>

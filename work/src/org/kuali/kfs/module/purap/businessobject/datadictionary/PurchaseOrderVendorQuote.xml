@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderVendorQuote">
 
-
         <inquiry>
             <title>Purchase Order Vendor Quote Inquiry</title>
 
@@ -116,8 +115,6 @@
                     <text size="11" />
                 </control>
 
-                <summary>purchaseOrderQuoteAwardDate</summary>
-                <description>purchaseOrderQuoteAwardDate description...</description>
                 <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
 			</attribute>
 
@@ -132,8 +129,6 @@
                     <text size="11" />
                 </control>
 
-                <summary>purchaseOrderQuotePriceExpirationDate</summary>
-                <description>purchaseOrderQuotePriceExpirationDate description...</description>
                 <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
 			</attribute>
 
@@ -148,8 +143,6 @@
                     <text size="5" />
                 </control>
 
-                <summary>purchaseOrderQuoteRankNumber</summary>
-                <description>purchaseOrderQuoteRankNumber description...</description>
 			</attribute>
 
             <attribute name="purchaseOrderQuoteStatusCode" forceUppercase="true">
@@ -163,8 +156,6 @@
                     <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderVendorQuoteStatusCodeValuesFinder" />
                 </control>
 
-                <summary>purchaseOrderQuoteStatusCode</summary>
-                <description>purchaseOrderQuoteStatusCode description...</description>
 			</attribute>
 
             <attribute name="purchaseOrderQuoteTransmitDate" forceUppercase="true">
@@ -178,8 +169,6 @@
                     <text size="9" />
                 </control>
 
-                <summary>purchaseOrderQuoteTransmitDate</summary>
-                <description>purchaseOrderQuoteTransmitDate description...</description>
 			</attribute>
 
             <attribute name="purchaseOrderQuoteTransmitTypeCode" forceUppercase="true">
@@ -193,8 +182,6 @@
                     <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderVendorQuoteTransmitTypeValuesFinder" />
                 </control>
 
-                <summary>purchaseOrderQuoteTransmitTypeCode</summary>
-                <description>purchaseOrderQuoteTransmitTypeCode description...</description>
 			</attribute>
 
             <attribute name="purchaseOrderVendorQuoteIdentifier" forceUppercase="true">
@@ -208,8 +195,6 @@
                     <text size="11" />
                 </control>
 
-                <summary>purchaseOrderVendorQuoteIdentifier</summary>
-                <description>purchaseOrderVendorQuoteIdentifier description...</description>
 			</attribute>
 
             <attribute name="vendorAttentionName" forceUppercase="true">
@@ -223,8 +208,6 @@
                     <text size="47" />
                 </control>
 
-                <summary>vendorAttentionName</summary>
-                <description>vendorAttentionName description...</description>
 			</attribute>
 
             <attribute name="vendorCityName" forceUppercase="true">
@@ -238,8 +221,6 @@
                     <text size="47" />
                 </control>
 
-                <summary>vendorCityName</summary>
-                <description>vendorCityName description...</description>
 			</attribute>
 
             <attribute name="vendorDetailAssignedIdentifier" forceUppercase="true">
@@ -253,8 +234,6 @@
                     <text size="12" />
                 </control>
 
-                <summary>vendorDetailAssignedIdentifier</summary>
-                <description>vendorDetailAssignedIdentifier description...</description>
 			</attribute>
 
             <attribute name="vendorEmailAddress" forceUppercase="true">
@@ -268,8 +247,6 @@
                     <text size="102" />
                 </control>
 
-                <summary>vendorEmailAddress</summary>
-                <description>vendorEmailAddress description...</description>
 			</attribute>
 
             <attribute name="vendorFaxNumber" forceUppercase="true">
@@ -283,8 +260,6 @@
                     <text size="47" />
                 </control>
 
-                <summary>vendorFaxNumber</summary>
-                <description>vendorFaxNumber description...</description>
 			</attribute>
 
             <attribute name="vendorHeaderGeneratedIdentifier" forceUppercase="true">
@@ -298,8 +273,6 @@
                     <text size="12" />
                 </control>
 
-                <summary>vendorHeaderGeneratedIdentifier</summary>
-                <description>vendorHeaderGeneratedIdentifier description...</description>
 			</attribute>
 
             <attribute name="vendorLine1Address" forceUppercase="true">
@@ -313,8 +286,6 @@
                     <text size="47" />
                 </control>
 
-                <summary>vendorLine1Address</summary>
-                <description>vendorLine1Address description...</description>
 			</attribute>
 
             <attribute name="vendorLine2Address" forceUppercase="true">
@@ -328,8 +299,6 @@
                     <text size="47" />
                 </control>
 
-                <summary>vendorLine2Address</summary>
-                <description>vendorLine2Address description...</description>
 			</attribute>
 
             <attribute name="vendorName" forceUppercase="true">
@@ -343,8 +312,6 @@
                     <text size="47" />
                 </control>
 
-                <summary>vendorName</summary>
-                <description>vendorName description...</description>
 			</attribute>
 
             <attribute name="vendorPhoneNumber" forceUppercase="true">
@@ -358,20 +325,18 @@
                     <text size="47" />
                 </control>
 
-                <summary>vendorPhoneNumber</summary>
-                <description>vendorPhoneNumber description...</description>
 			</attribute>
 
 			<attributeReference name="vendorStateCode" 
 				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" 
 				sourceAttributeName="stateCode">
-				<description>State and Postal Code are required fields when United States is selected as the country.</description>
+				
 			</attributeReference>
 			
 			<attributeReference name="vendorPostalCode" 
 				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" 
 				sourceAttributeName="zipCode" >
-				<description>State and Postal Code are required fields when United States is selected as the country.</description>
+				
 			</attributeReference>
 
             <attribute name="versionNumber" forceUppercase="true">
@@ -385,8 +350,6 @@
                     <text size="10" />
                 </control>
 
-                <summary>versionNumber</summary>
-                <description>versionNumber description...</description>
 			</attribute>
 
         </attributes>

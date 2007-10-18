@@ -38,8 +38,6 @@
 					<text size="5" />
 				</control>
 
-				<summary>itemLineNumber</summary>
-				<description>itemLineNumber description...</description>
 			</attribute>
 
 			<attributeReference name="poInvoicedTotalQuantity"
@@ -47,10 +45,6 @@
 				sourceAttributeName="genericItemQuantity">
 				<label>PO Qty Invoiced</label>
 				<shortLabel>PO Qty</shortLabel>
-				<summary>poInvoicedTotalQuantity</summary>
-				<description>
-					poInvoicedTotalQuantity description...
-				</description>
 			</attributeReference>
 
 			<attributeReference name="preqInvoicedTotalQuantity"
@@ -58,10 +52,6 @@
 				sourceAttributeName="genericItemQuantity">
 				<label>PREQ Qty Invoiced</label>
 				<shortLabel>PREQ Qty Invoiced</shortLabel>
-				<summary>preqInvoicedTotalQuantity</summary>
-				<description>
-					preqInvoicedTotalQuantity description...
-				</description>
 			</attributeReference>
 
 			<attributeReference name="poUnitPrice"
@@ -69,8 +59,7 @@
 				sourceAttributeName="genericItemUnitPrice">
 				<label>PO Unit Price</label>
 				<shortLabel>PO Unit Price</shortLabel>
-				<summary>poUnitPrice</summary>
-				<description>poUnitPrice description...</description>
+
 			</attributeReference>
 
 			<attributeReference name="preqUnitPrice"
@@ -78,8 +67,7 @@
 				sourceAttributeName="genericItemUnitPrice">
 				<label>PREQ Unit Price</label>
 				<shortLabel>PREQ Unit Price</shortLabel>
-				<summary>preqUnitPrice</summary>
-				<description>preqUnitPrice description...</description>
+
 			</attributeReference>
 
 			<attributeReference name="poExtendedPrice"
@@ -87,10 +75,6 @@
 				sourceAttributeName="genericAmount">
 				<label>Total Invoice Cost</label>
 				<shortLabel>Total Invoice Cost</shortLabel>
-				<summary>poExtendedPrice</summary>
-				<description>
-					poExtendedPrice description...
-				</description>
 			</attributeReference>
 
 			<attributeReference name="preqExtendedPrice"
@@ -98,10 +82,6 @@
 				sourceAttributeName="genericAmount">
 				<label>Total Invoice Cost</label>
 				<shortLabel>Total Invoice Cost</shortLabel>
-				<summary>preqExtendedPrice</summary>
-				<description>
-					preqExtendedPrice description...
-				</description>
 			</attributeReference>
 
 			<attribute name="itemTypeCode" forceUppercase="true">
@@ -116,8 +96,6 @@
 					<select
 						valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.ItemTypeValuesFinder" />
 				</control>
-				<summary>itemTypeCode</summary>
-				<description>itemTypeCode description...</description>
 			</attribute>
 
 			<attributeReference name="itemQuantity"
@@ -125,8 +103,6 @@
 				sourceAttributeName="genericItemQuantity">
 				<label>CM Cty</label>
 				<shortLabel>CM Qty</shortLabel>
-				<summary>itemQuantity</summary>
-				<description>itemQuantity description...</description>
 			</attributeReference>
 
 			<attributeReference name="itemUnitPrice"
@@ -134,8 +110,6 @@
 				sourceAttributeName="genericItemUnitPrice">
 				<label>CM Unit Price</label>
 				<shortLabel>CM Unit Price</shortLabel>
-				<summary>itemUnitPrice</summary>
-				<description>itemUnitPrice description...</description>
 			</attributeReference>
 
 			<attributeReference name="extendedPrice"
@@ -143,8 +117,6 @@
 				sourceAttributeName="genericAmount">
 				<label>Credit Processed</label>
 				<shortLabel>Credit Processed</shortLabel>
-				<summary>extendedPrice</summary>
-				<description>extendedPrice description...</description>
 			</attributeReference>
 
 			<attribute name="itemCatalogNumber" forceUppercase="true">
@@ -159,11 +131,6 @@
 				<control>
 					<text size="15" />
 				</control>
-
-				<summary>itemCatalogNumber</summary>
-				<description>
-					itemCatalogNumber description...
-				</description>
 			</attribute>
 
 			<attribute name="itemDescription" forceUppercase="true">
@@ -176,11 +143,6 @@
 				<control>
 					<textarea rows="4" cols="50" />
 				</control>
-
-				<summary>itemDescription</summary>
-				<description>
-					itemDescription description...
-				</description>
 			</attribute>
 
 			<attributeReference name="versionNumber"

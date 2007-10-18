@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.purap.bo.RecurringPaymentType">
 
-
         <inquiry>
             <title>Recurring Payment Type Inquiry</title>
 
@@ -70,8 +69,6 @@
                     <text size="6" />
                 </control>
 
-                <summary>recurringPaymentTypeCode</summary>
-                <description>recurringPaymentTypeCode description...</description>
 			</attribute>
 
             <attribute name="recurringPaymentTypeDescription" forceUppercase="true">
@@ -85,8 +82,6 @@
                     <text size="47" />
                 </control>
 
-                <summary>recurringPaymentTypeDescription</summary>
-                <description>recurringPaymentTypeDescription description...</description>
 			</attribute>
 
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />

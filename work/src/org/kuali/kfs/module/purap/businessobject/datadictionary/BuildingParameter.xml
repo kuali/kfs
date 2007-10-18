@@ -76,8 +76,6 @@
                     <text size="10" />
                 </control>
 
-                <summary>Building Code</summary>
-                <description>The code uniquely identifying a particular building.</description>
             </attribute>
 
             <attribute name="buildingOverrideAddressCityName" forceUppercase="true">
@@ -91,8 +89,6 @@
                     <text size="47" />
                 </control>
 
-                <summary>buildingOverrideAddressCityName</summary>
-                <description>buildingOverrideAddressCityName description...</description>
 			</attribute>
 
             <attribute name="buildingOverrideAddressStateCode" forceUppercase="true">
@@ -106,8 +102,6 @@
                     <text size="4" />
                 </control>
 
-                <summary>buildingOverrideAddressStateCode</summary>
-                <description>buildingOverrideAddressStateCode description...</description>
 			</attribute>
 
             <attribute name="buildingOverrideAddressZipCode" forceUppercase="true">
@@ -121,8 +115,6 @@
                     <text size="13" />
                 </control>
 
-                <summary>buildingOverrideAddressZipCode</summary>
-                <description>buildingOverrideAddressZipCode description...</description>
 			</attribute>
 
             <attribute name="buildingOverrideCode" forceUppercase="true">
@@ -136,8 +128,6 @@
                     <text size="6" />
                 </control>
 
-                <summary>buildingOverrideCode</summary>
-                <description>buildingOverrideCode description...</description>
 			</attribute>
 
             <attribute name="buildingOverrideName" forceUppercase="true">
@@ -151,8 +141,6 @@
                     <text size="47" />
                 </control>
 
-                <summary>buildingOverrideName</summary>
-                <description>buildingOverrideName description...</description>
 			</attribute>
 
             <attribute name="buildingOverrideStreetAddress" forceUppercase="true">
@@ -166,8 +154,6 @@
                     <text size="47" />
                 </control>
 
-                <summary>buildingOverrideStreetAddress</summary>
-                <description>buildingOverrideStreetAddress description...</description>
 			</attribute>
 
 			<attributeReference name="campusCode"

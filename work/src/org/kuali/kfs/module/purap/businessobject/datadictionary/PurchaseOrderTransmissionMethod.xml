@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod">
 
-
         <inquiry>
             <title>Purchase Order Transmission Method Inquiry</title>
 
@@ -71,8 +70,6 @@
                     <text size="6" />
                 </control>
 
-                <summary>purchaseOrderTransmissionMethodCode</summary>
-                <description>purchaseOrderTransmissionMethodCode description...</description>
 			</attribute>
 
             <attribute name="purchaseOrderTransmissionMethodDescription" forceUppercase="true">
@@ -87,8 +84,6 @@
                     <text size="47" />
                 </control>
 
-                <summary>purchaseOrderTransmissionMethodDescription</summary>
-                <description>purchaseOrderTransmissionMethodDescription description...</description>
 			</attribute>
 			
 			<attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />

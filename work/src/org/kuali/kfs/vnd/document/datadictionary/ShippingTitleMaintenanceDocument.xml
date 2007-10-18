@@ -38,9 +38,6 @@
         <label>Shipping Title Maintenance Document</label>
         <shortLabel>Shipping Title Maint Doc</shortLabel>
 
-        <summary>Shipping Title Maintenance Document</summary>
-        <description>Document used to create or update Shipping Title objects</description>
-
         <lockingKeys>
             <field attributeName="vendorShippingTitleCode" />
         </lockingKeys>

@@ -38,9 +38,6 @@
         <label>Funding Source Maintenance Document</label>
         <shortLabel>Funding Source Maint Doc</shortLabel>
 
-        <summary>Funding Source Maintenance Document</summary>
-        <description>Document used to create or update Funding Source objects</description>
-
         <lockingKeys>
             <field attributeName="fundingSourceCode" />
         </lockingKeys>

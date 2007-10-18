@@ -38,9 +38,6 @@
         <label>Quote List Maintenance Document</label>
         <shortLabel>Quote List Maint Doc</shortLabel>
 
-        <summary>Quote List Maintenance Document</summary>
-        <description>Document used to create or update Quote List objects</description>
-
         <lockingKeys>
             <field attributeName="purchaseOrderQuoteListIdentifier" />
         </lockingKeys>

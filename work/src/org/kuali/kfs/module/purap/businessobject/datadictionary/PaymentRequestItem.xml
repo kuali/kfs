@@ -22,7 +22,6 @@
 <dictionaryEntry>
 	<businessObject businessObjectClass="org.kuali.module.purap.bo.PaymentRequestItem">
 
-
 		<inquiry>
 			<title>Payment Request Item Inquiry</title>
 
@@ -120,50 +119,42 @@
 					<text size="13" />
 				</control>
 
-				<summary>purchaseOrderCommodityCode</summary>
-				<description>purchaseOrderCommodityCode description...</description>
 			</attribute>
 
 			<attributeReference name="purchaseOrderItemUnitPrice" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemUnitPrice">
 				<label>Purchase Order Item Unit Price</label>
 				<shortLabel>PO Unit/Ext Price</shortLabel>
-				<summary>purchaseOrderItemUnitPrice</summary>
-				<description>purchaseOrderItemUnitPrice description...</description>
+
 			</attributeReference>
 
 			<attributeReference name="itemOutstandingInvoiceQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
 				<label>Item Outstanding Invoice Quantity</label>
 				<shortLabel>Open Qty</shortLabel>
-				<summary>itemOutstandingInvoiceQuantity</summary>
-				<description>itemOutstandingInvoiceQuantity description...</description>
+
 			</attributeReference>
 
 			<attributeReference name="itemOutstandingInvoiceAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
 				<label>Item Outstanding Invoiced Amount</label>
 				<shortLabel>Outstanding Invoiced Amount</shortLabel>
-				<summary>itemOutstandingInvoiceAmount</summary>
-				<description>itemOutstandingInvoiceAmount description...</description>
+
 			</attributeReference>
 
 			<attributeReference name="poOutstandingQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
 				<label>Item Open Quantity</label>
 				<shortLabel>Open Qty</shortLabel>
-				<summary>itemOpenQuantity</summary>
-				<description>itemOpenQuantity description...</description>
+
 			</attributeReference>
 			
 			<attributeReference name="poOutstandingAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
 				<label>Item Outstanding Encumbered Amount</label>
 				<shortLabel>Outstanding Encumbered Amount</shortLabel>
-				<summary>itemOpenAmount</summary>
-				<description>itemOpenAmount description...</description>
+
 			</attributeReference>
 
 			<attributeReference name="itemQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
 				<label>Quantity Invoiced</label>
 				<shortLabel>Qty Invoiced</shortLabel>
-				<summary>QuantityInvoiced</summary>
-				<description>QuantityInvoiced description...</description>
+
 			</attributeReference>
 
 		</attributes>

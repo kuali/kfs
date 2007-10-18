@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderQuoteList">
 
-
         <inquiry>
             <title>Purchase Order Quote List Inquiry</title>
 
@@ -65,8 +64,6 @@
                     <text size="11" />
                 </control>
 
-                <summary>purchaseOrderQuoteListIdentifier</summary>
-                <description>purchaseOrderQuoteListIdentifier description...</description>
 			</attribute>
 
             <attribute name="purchaseOrderQuoteListName" forceUppercase="false">
@@ -80,8 +77,6 @@
                     <text size="102" />
                 </control>
 
-                <summary>purchaseOrderQuoteListName</summary>
-                <description>purchaseOrderQuoteListName description...</description>
 			</attribute>
 			
 			<attributeReference name="contractManagerCode" sourceClassName="org.kuali.module.vendor.bo.ContractManager" sourceAttributeName="contractManagerCode">

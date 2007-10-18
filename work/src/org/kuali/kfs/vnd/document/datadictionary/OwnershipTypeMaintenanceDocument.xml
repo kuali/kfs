@@ -38,9 +38,6 @@
         <label>Ownership Type Maintenance Document</label>
         <shortLabel>Ownership Type Maint Doc</shortLabel>
 
-        <summary>Ownership Type Maintenance Document</summary>
-        <description>Document used to create or update Ownership Type objects</description>
-
         <lockingKeys>
             <field attributeName="vendorOwnershipCode" />
         </lockingKeys>

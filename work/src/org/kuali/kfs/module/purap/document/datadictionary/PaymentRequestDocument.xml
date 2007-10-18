@@ -57,16 +57,14 @@
 			<attributeReference name="purapDocumentIdentifier" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="purapDocumentIdentifier">
                 <label>Payment Request Nbr</label>
                 <shortLabel>PREQ Nbr</shortLabel>
-                <summary>The Payment Request Number</summary>
-                <description>The payment request number</description>
+
             </attributeReference>
             
             <attributeReference name="purchaseOrderIdentifier" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="purapDocumentIdentifier">
 			    <label>Purchase Order Nbr</label>
 			    <shortLabel>PO Nbr</shortLabel>
 			    <required>true</required>
-			    <summary>The Purchase Order Number</summary>
-			    <description>The Purchase Order number</description>
+
 			</attributeReference>
                         
 			<attributeReference name="statusCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="paymentRequestStatus">
@@ -77,8 +75,7 @@
                 <label>Invoice Date</label>
                 <shortLabel>Invoice Date</shortLabel>
                 <required>true</required>
-                <summary>Invoice Date</summary>
-                <description>Invoice Date description...</description>
+
             </attributeReference>
 			
 			<attribute name="invoiceNumber" forceUppercase="true">
@@ -92,9 +89,7 @@
 				<control>
 					<text size="22"/>
 				</control>
-				
-				<summary>Invoice Number</summary>
-				<description>Invoice Number Description ...</description>
+
 			</attribute>
 			
 			<attribute name="vendorInvoiceAmount" forceUppercase="true">
@@ -109,16 +104,12 @@
                     <text size="21" />
                 </control>
 
-                <summary>vendorInvoiceAmount</summary>
-                <description>vendorInvoiceAmount description...</description>
             </attribute>
             
             <attributeReference name="paymentRequestPayDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Pay Date</label>
                 <shortLabel>paymentRequestPayDate</shortLabel>
 
-                <summary>Payment Request PayDate</summary>
-                <description>paymentRequestPayDate description...</description>
             </attributeReference>
             
             <attribute name="paymentRequestCostSourceCode" forceUppercase="true">
@@ -132,8 +123,6 @@
                     <text size="21" />
                 </control>
 
-                <summary>PaymentRequestCostSourceCode</summary>
-                <description>PaymentRequestCostSourceCode description...</description>
             </attribute>
             
             <attribute name="paymentAttachmentIndicator" forceUppercase="true">
@@ -146,8 +135,6 @@
                     <checkbox />
                 </control>
 
-                <summary>PaymentAttachmentIndicator</summary>
-                <description>PaymentAttachmentIndicator description...</description>
             </attribute>
             
             <attribute name="immediatePaymentIndicator" forceUppercase="true">
@@ -160,8 +147,6 @@
                     <checkbox />
                 </control>
 
-                <summary>ImmediatePaymentIndicator</summary>
-                <description>ImmediatePaymentIndicator description...</description>
             </attribute>
             
             <attribute name="specialHandlingInstructionLine1Text" forceUppercase="false">
@@ -175,8 +160,6 @@
                     <text size="45" />
                 </control>
 
-                <summary>paymentSpecialHandlingInstructionLine1Text</summary>
-                <description>paymentSpecialHandlingInstructionLine1Text description...</description>
             </attribute>
             
             <attribute name="specialHandlingInstructionLine2Text" forceUppercase="false">
@@ -190,8 +173,6 @@
                     <text size="45" />
                 </control>
 
-                <summary>paymentSpecialHandlingInstructionLine2Text</summary>
-                <description>paymentSpecialHandlingInstructionLine2Text description...</description>
             </attribute>
             
             <attribute name="specialHandlingInstructionLine3Text" forceUppercase="false">
@@ -205,15 +186,12 @@
                     <text size="45" />
                 </control>
 
-                <summary>paymentSpecialHandlingInstructionLine3Text</summary>
-                <description>paymentSpecialHandlingInstructionLine3Text description...</description>
             </attribute>
             
             <attributeReference name="paymentPaidDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Payment Request Paid Date</label>
                 <shortLabel>paymentRequestPaidDate</shortLabel>
-                <summary>Payment Request PaidDate</summary>
-                <description>paymentRequestPaidDate description...</description>
+
             </attributeReference>
 
             <attribute name="paymentRequestElectronicInvoiceIndicator" forceUppercase="true">
@@ -226,8 +204,6 @@
                     <checkbox />
                 </control>
 
-                <summary>PaymentRequestElectronicInvoiceIndicator</summary>
-                <description>PaymentRequestElectronicInvoiceIndicator description...</description>
             </attribute>
             
             <attribute name="accountsPayableProcessorIdentifier" forceUppercase="true">
@@ -241,8 +217,6 @@
                     <text size="9" />
                 </control>
 
-                <summary>accountsPayableProcessorIdentifier</summary>
-                <description>accountsPayableProcessorIdentifier description...</description>
             </attribute>
             
             <attribute name="paymentRequestedCancelIndicator" forceUppercase="true">
@@ -259,9 +233,7 @@
                 <control>
                     <text size="9" />
                 </control>
-                
-                <summary>accountsPayableRequestCancelIdentifier</summary>
-                <description>accountsPayableRequestCancelIdentifier description...</description>
+
             </attribute>
 
             <attribute name="purchaseOrderNotes">
@@ -274,20 +246,15 @@
             	<control>
             		<text size="3"/>
             	</control>
-            	
-            	<summary>PurchaseOrderNotes Indicator</summary>
-            	<description>PurchaseOrderNotes description ...</description>
+
             </attribute>
             
             <attributeReference name="purchaseOrderEndDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate"> 
 			    <label>PO End Date</label> 
 			    <shortLabel>PO End Date</shortLabel> 
-			    <summary>purchaseOrderEndDate</summary> 
-			    <description>purchaseOrderEndDate description...</description> 
+
 			</attributeReference> 
 
-            
-                   
 			<!-- PAYMENT REQUEST DOCUMENT ATTRIBUTES -->
 			
 			<attributeReference name="vendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier">
@@ -326,50 +293,43 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.RecurringPaymentTypeValuesFinder" />
                 </control>
-                <summary>recurringPaymentTypeCode</summary>
-                <description>recurringPaymentTypeCode description...</description>
+
             </attributeReference>
 
 			<attributeReference name="itemTotalPoEncumbranceAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
 				<label>Total PO Encumbrance Amount</label>
 				<shortLabel>Encumbrance excluding freight &amp; s/h</shortLabel>
-				<summary>TotalEncumbranceAmount</summary>
-				<description>TotalEncumbranceAmount description...</description>
+
 			</attributeReference>
 
 			<attributeReference name="itemTotalPoEncumbranceAmountRelieved" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
 				<label>Total PO Encumbrance Amount Relieved</label>
 				<shortLabel>Total Encumbrance Amount Relieved</shortLabel>
-				<summary>TotalEncumbranceAmountRelieved</summary>
-				<description>TotalEncumbranceAmountRelieved description...</description>
+
 			</attributeReference>
 
 			<attributeReference name="itemTotalPoPaidAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
 				<label>Total PO Paid Amount</label>
 				<shortLabel>TotalPaidAmount</shortLabel>
-				<summary>TotalPaidAmount</summary>
-				<description>TotalPaidAmount description...</description>
+
 			</attributeReference>
 
 			<attributeReference name="lineItemTotal" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
 				<label>Invoice Total Prior to Additional Charges</label>
 				<shortLabel>Invoice Total Prior to Additional Charges</shortLabel>
-				<summary>Invoice Total Prior to Additional Charges</summary>
-				<description>Invoice Total Prior to Additional Charges description...</description>
+
 			</attributeReference>
 
 			<attributeReference name="grandTotalExcludingDiscount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
 				<label>Total Before Discount</label>
 				<shortLabel>Total Before Discount</shortLabel>
-				<summary>Total Before Discount</summary>
-				<description>Total Before Discount description...</description>
+
 			</attributeReference>
 
 			<attributeReference name="grandTotal" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
 				<label>Grand Total</label>
 				<shortLabel>Grand Total</shortLabel>
-				<summary>GrandTotal</summary>
-				<description>GrandTotal description...</description>
+
 			</attributeReference>
 
 			<attribute name="closePurchaseOrderIndicator" forceUppercase="true">
@@ -381,14 +341,9 @@
 			    <control>
 			        <checkbox />
 			    </control>
-			
-			    <summary>closePurchaseOrderIndicator</summary>
-			    <description>closePurchaseOrderIndicator description...</description>
+
 			</attribute>
         </attributes>
-		
-        <summary>Document used for creating PREQs.</summary>
-        <description>The Payment Request document is a...</description>
 
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>

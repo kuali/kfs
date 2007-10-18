@@ -69,8 +69,6 @@
                     <text size="22" />
                 </control>
 
-                <summary>requisitionOrganizationReference1Text</summary>
-                <description>requisitionOrganizationReference1Text description...</description>
             </attribute>
 
             <attribute name="requisitionOrganizationReference2Text" forceUppercase="true">
@@ -84,8 +82,6 @@
                     <text size="22" />
                 </control>
 
-                <summary>requisitionOrganizationReference2Text</summary>
-                <description>requisitionOrganizationReference2Text description...</description>
             </attribute>
 
             <attribute name="requisitionOrganizationReference3Text" forceUppercase="true">
@@ -99,15 +95,12 @@
                     <text size="22" />
                 </control>
 
-                <summary>requisitionOrganizationReference3Text</summary>
-                <description>requisitionOrganizationReference3Text description...</description>
             </attribute>
 
             <attributeReference name="organizationAutomaticPurchaseOrderLimit" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>APO Limit</label>
                 <shortLabel>APO Limit</shortLabel>
-                <summary>organizationAutomaticPurchaseOrderLimit</summary>
-                <description>organizationAutomaticPurchaseOrderLimit description...</description>
+
             </attributeReference>
 
 <!-- The following vendor fields are defined here although common among other docs because they are not required on REQ, but are required for PO -->
@@ -120,59 +113,48 @@
             </attributeReference>
             
             <attributeReference name="vendorLine1Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line1Address">
-                <summary>vendorLine1Address</summary>
-                <description>vendorLine1Address description...</description>
+
             </attributeReference>
 
             <attributeReference name="vendorCityName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="cityName">
-                <summary>vendorCityName</summary>
-                <description>vendorCityName description...</description>
+
             </attributeReference>
             
             <attributeReference name="vendorCountryCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="countryCode">
-                <summary>vendorCountryCode</summary>
-                <description>vendorCountryCode description...</description>
+
             </attributeReference>
 
             <attributeReference name="alternate1VendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
                 <label>Vendor Name 1</label>
                 <shortLabel>Name 1</shortLabel>
-                <summary>alternate1VendorName</summary>
-                <description>alternate1VendorName description...</description>
+
             </attributeReference>
 
             <attributeReference name="alternate2VendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
                 <label>Vendor Name 2</label>
                 <shortLabel>Name 2</shortLabel>
-                <summary>alternate2VendorName</summary>
-                <description>alternate2VendorName description...</description>
+
             </attributeReference>
 
             <attributeReference name="alternate3VendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
                 <label>Vendor Name 3</label>
                 <shortLabel>Name 3</shortLabel>
-                <summary>alternate3VendorName</summary>
-                <description>alternate3VendorName description...</description>
+
             </attributeReference>
 
             <attributeReference name="alternate4VendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
                 <label>Vendor Name 4</label>
                 <shortLabel>Name 4</shortLabel>
-                <summary>alternate4VendorName</summary>
-                <description>alternate4VendorName description...</description>
+
             </attributeReference>
 
             <attributeReference name="alternate5VendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
                 <label>Vendor Name 5</label>
                 <shortLabel>Name 5</shortLabel>
-                <summary>alternate5VendorName</summary>
-                <description>alternate5VendorName description...</description>
+
             </attributeReference>
 
         </attributes>
-
-        <summary>Document used for creating requisitions.</summary>
-        <description>The Requisition document is a...</description>
 
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>

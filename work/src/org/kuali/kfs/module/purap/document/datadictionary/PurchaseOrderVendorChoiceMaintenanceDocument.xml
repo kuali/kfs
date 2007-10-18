@@ -38,9 +38,6 @@
         <label>Purchase Order Vendor Choice Maintenance Document</label>
         <shortLabel>PO Vendor Choice Maint Doc</shortLabel>
 
-        <summary>Purchase Order Vendor Choice Maintenance Document</summary>
-        <description>Document used to create or update Purchase Order Vendor Choice objects</description>
-
         <lockingKeys>
             <field attributeName="purchaseOrderVendorChoiceCode" />
         </lockingKeys>

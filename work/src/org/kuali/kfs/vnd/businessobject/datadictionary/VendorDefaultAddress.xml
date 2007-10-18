@@ -38,8 +38,6 @@
                     <hidden/>
                 </control>
 
-                <summary>vendorContactPhoneGeneratedIdentifier</summary>
-                <description>vendorContactPhoneGeneratedIdentifier description...</description>
 			</attribute>
 
             <attributeReference name="vendorCampusCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="campusCode" >

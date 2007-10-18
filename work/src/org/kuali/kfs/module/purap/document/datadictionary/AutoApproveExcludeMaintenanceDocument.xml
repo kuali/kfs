@@ -1,64 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+	Copyright 2006-2007 The Kuali Foundation.
+	
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	http://www.opensource.org/licenses/ecl1.php
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
 -->
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.purap.bo.AutoApproveExclude</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+	<maintenanceDocument>
+		<businessObjectClass>
+			org.kuali.module.purap.bo.AutoApproveExclude
+		</businessObjectClass>
+		<maintainableClass>
+			org.kuali.core.maintenance.KualiMaintainableImpl
+		</maintainableClass>
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>PURAP_AP_ADMIN</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+		<documentAuthorizerClass>
+			org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase
+		</documentAuthorizerClass>
+		<authorizations>
+			<authorization action="initiate">
+				<workgroups>
+					<workgroup>PURAP_AP_ADMIN</workgroup>
+				</workgroups>
+			</authorization>
+		</authorizations>
 
-        <documentTypeName>AutoApproveExcludeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>PMAA</documentTypeCode>
+		<documentTypeName>
+			AutoApproveExcludeMaintenanceDocument
+		</documentTypeName>
+		<documentTypeCode>PMAA</documentTypeCode>
 
-        <label>Auto Approve Exclude Maintenance Document</label>
-        <shortLabel>Auto Approve Exclude Maint Doc</shortLabel>
+		<label>Auto Approve Exclude Maintenance Document</label>
+		<shortLabel>Auto Approve Exclude Maint Doc</shortLabel>
 
-        <summary>Auto Approve Exclude Maintenance Document</summary>
-        <description>Document used to create or update Auto Approve Exclude objects</description>
+		<lockingKeys>
+			<field attributeName="accountNumber" />
+		</lockingKeys>
 
-        <lockingKeys>
-            <field attributeName="accountNumber" />
-        </lockingKeys>
-        
 		<defaultExistenceChecks>
-			<reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />
-			<reference attributeName="account" attributeToHighlightOnFail="accountNumber" />
+			<reference attributeName="chartOfAccounts"
+				attributeToHighlightOnFail="chartOfAccountsCode" />
+			<reference attributeName="account"
+				attributeToHighlightOnFail="accountNumber" />
 		</defaultExistenceChecks>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Auto Approve Exclude">
-                <maintainableItems>
-                    <maintainableField name="chartOfAccountsCode" required="true" />
-                    <maintainableField name="accountNumber" required="true" />
-                    <maintainableField name="active" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-    </maintenanceDocument>
+		<maintainableSections>
+			<maintainableSection title="Edit Auto Approve Exclude">
+				<maintainableItems>
+					<maintainableField name="chartOfAccountsCode"
+						required="true" />
+					<maintainableField name="accountNumber"
+						required="true" />
+					<maintainableField name="active" />
+					<maintainableField name="versionNumber" />
+				</maintainableItems>
+			</maintainableSection>
+		</maintainableSections>
+	</maintenanceDocument>
 </dictionaryEntry>

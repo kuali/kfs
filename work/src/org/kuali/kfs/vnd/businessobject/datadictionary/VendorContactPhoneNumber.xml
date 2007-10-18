@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorContactPhoneNumber">
 
-
         <attributes>
 			
             <attribute name="vendorContactPhoneGeneratedIdentifier" forceUppercase="true">
@@ -34,8 +33,6 @@
                     <hidden/>
                 </control>
 
-                <summary>vendorContactPhoneGeneratedIdentifier</summary>
-                <description>vendorContactPhoneGeneratedIdentifier description...</description>
 			</attribute>
 
             <attribute name="vendorPhoneExtensionNumber">
@@ -49,8 +46,6 @@
                     <text size="12" />
                 </control>
 
-                <summary>vendorPhoneExtensionNumber</summary>
-                <description>vendorPhoneExtensionNumber description...</description>
 			</attribute>
 
             <attributeReference name="vendorPhoneNumber"
@@ -60,8 +55,6 @@
                 <shortLabel>Phone</shortLabel>
                 <required>true</required>
 
-                <summary>vendorPhoneNumber</summary>
-                <description>vendorPhoneNumber description...</description>
 			</attributeReference>
 
             <attributeReference name="vendorPhoneTypeCode"

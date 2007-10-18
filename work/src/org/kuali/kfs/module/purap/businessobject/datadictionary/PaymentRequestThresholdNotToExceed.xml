@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.purap.bo.PaymentRequestThresholdNotToExceed">
 
-
         <inquiry>
             <title>Payment Request Threshold Not To Exceed Inquiry</title>
 
@@ -65,8 +64,6 @@
                     <text size="21" />
                 </control>
 
-                <summary>accountsPayableThresholdNotToExceedAmount</summary>
-                <description>accountsPayableThresholdNotToExceedAmount description...</description>
 			</attribute>
 
             <attribute name="versionNumber" forceUppercase="true">
@@ -80,8 +77,6 @@
                     <text size="10" />
                 </control>
 
-                <summary>versionNumber</summary>
-                <description>versionNumber description...</description>
 			</attribute>
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode"/>

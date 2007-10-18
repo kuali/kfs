@@ -38,9 +38,6 @@
         <label>Requisition Source Maintenance Document</label>
         <shortLabel>Requisition Source Maint Doc</shortLabel>
 
-        <summary>Requisition Source Maintenance Document</summary>
-        <description>Document used to create or update Requisition Source objects</description>
-
         <lockingKeys>
             <field attributeName="requisitionSourceCode" />
         </lockingKeys>

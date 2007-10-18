@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.OwnershipType">
 
-
         <inquiry>
             <title>Ownership Type Inquiry</title>
 
@@ -74,8 +73,6 @@
                     <text size="6" />
                 </control>
 
-                <summary>vendorOwnershipCode</summary>
-                <description>vendorOwnershipCode description...</description>
 			</attribute>
 
             <attribute name="vendorOwnershipDescription" forceUppercase="true">
@@ -90,8 +87,6 @@
                     <text size="47" />
                 </control>
 
-                <summary>vendorOwnershipDescription</summary>
-                <description>vendorOwnershipDescription description...</description>
 			</attribute>
 
             <attribute name="vendorOwnershipCategoryAllowedIndicator" forceUppercase="true">
@@ -104,8 +99,6 @@
                     <checkbox />
                 </control>
 
-                <summary>vendorOwnershipCategoryAllowedIndicator</summary>
-                <description>vendorOwnershipCategoryAllowedIndicator description...</description>
 			</attribute>
 
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />

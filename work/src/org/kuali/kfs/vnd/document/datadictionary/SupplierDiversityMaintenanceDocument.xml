@@ -38,9 +38,6 @@
         <label>Supplier Diversity Maintenance Document</label>
         <shortLabel>Supplier Diversity Maint Doc</shortLabel>
 
-        <summary>Supplier Diversity Maintenance Document</summary>
-        <description>Document used to create or update Supplier Diversity objects</description>
-
         <lockingKeys>
             <field attributeName="vendorSupplierDiversityCode" />
         </lockingKeys>

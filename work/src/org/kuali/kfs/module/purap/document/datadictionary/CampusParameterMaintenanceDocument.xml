@@ -40,9 +40,6 @@
 		<label>Campus Parameter Maintenance Document</label>
 		<shortLabel>Campus Parameter Maint Doc</shortLabel>
 
-		<summary>Campus Parameter Maintenance Document</summary>
-		<description>Document used to create or update Campus Parameter objects</description>
-
         <lockingKeys>
 			<field attributeName="campusCode" />
 		</lockingKeys>

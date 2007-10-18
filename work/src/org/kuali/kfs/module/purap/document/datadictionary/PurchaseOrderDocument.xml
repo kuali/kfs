@@ -59,8 +59,7 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderRetransmissionMethodValuesFinder" />
                 </control>
-                <summary>purchaseOrderRetransmissionMethodCode</summary>
-                <description>purchaseOrderRetransmissionMethodCode description...</description>
+
             </attributeReference>
 
             <attribute name="retransmitHeader" forceUppercase="true">
@@ -73,16 +72,13 @@
             	<control>
             		<select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderHeaderValuesFinder"/>
             	</control>
-            	
-            	<summary>retransmitHeader</summary>
-            	<description>retransmitHeader description</description>
+
             </attribute>
 
             <attributeReference name="contractManagerCode" sourceClassName="org.kuali.module.vendor.bo.ContractManager" sourceAttributeName="contractManagerCode">
                 <label>Contract Manager</label>
                 <shortLabel>Contract Manager</shortLabel>
-                <summary>contractManagerCode</summary>
-                <description>contractManagerCode description...</description>
+
             </attributeReference>
 
             <attributeReference name="contractManager" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="contractManager"/>
@@ -90,8 +86,7 @@
 			<attributeReference name="purapDocumentIdentifier" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="purapDocumentIdentifier">
                 <label>Purchase Order Nbr</label>
                 <shortLabel>PO Nbr</shortLabel>
-                <summary>The Purchase Order Number</summary>
-                <description>The Purchase Order number</description>
+
             </attributeReference>
 
 			<attributeReference name="statusCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="purchaseOrderStatus">
@@ -111,8 +106,7 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderVendorChoiceValuesFinder" />
                 </control>
-                <summary>purchaseOrderVendorChoiceCode</summary>
-                <description>purchaseOrderVendorChoiceCode description...</description>
+
             </attributeReference>
 
             <attributeReference name="alternateVendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier">
@@ -128,15 +122,13 @@
             <attributeReference name="alternateVendorNumber" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorNumber">
                 <label>Alternate Vendor Number For Escrow Payment</label>
                 <required>false</required>
-                <summary>alternateVendorNumber</summary>
-                <description>A concatenation of the alternateVendorHeaderGeneratedIdentifier, a dash, and the alternateVendorDetailAssignedIdentifier</description>
+
             </attributeReference>
 
             <attributeReference name="alternateVendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
                 <label>Alternate Vendor For Escrow Payment</label>
                 <required>false</required>
-                <summary>Alternate Vendor Name For Escrow Payment</summary>
-                <description>Alternate Vendor Name For Escrow Payment description...</description>
+
             </attributeReference>
 
             <attribute name="finalPaymentAmount" forceUppercase="true">
@@ -150,8 +142,6 @@
                     <text size="21" />
                 </control>
 
-                <summary>finalPaymentAmount</summary>
-                <description>finalPaymentAmount description...</description>
             </attribute>
 
             <attribute name="finalPaymentDate" forceUppercase="true">
@@ -165,8 +155,6 @@
                     <text size="9" />
                 </control>
 
-                <summary>finalPaymentDate</summary>
-                <description>finalPaymentDate description...</description>
             </attribute>
 
             <attribute name="initialPaymentAmount" forceUppercase="true">
@@ -180,8 +168,6 @@
                     <text size="21" />
                 </control>
 
-                <summary>initialPaymentAmount</summary>
-                <description>initialPaymentAmount description...</description>
             </attribute>
 
             <attribute name="initialPaymentDate" forceUppercase="true">
@@ -195,8 +181,6 @@
                     <text size="9" />
                 </control>
 
-                <summary>initialPaymentDate</summary>
-                <description>initialPaymentDate description...</description>
             </attribute>
 
             <attribute name="recurringPaymentAmount" forceUppercase="true">
@@ -210,8 +194,6 @@
                     <text size="21" />
                 </control>
 
-                <summary>recurringPaymentAmount</summary>
-                <description>recurringPaymentAmount description...</description>
             </attribute>
 
             <attribute name="recurringPaymentDate" forceUppercase="true">
@@ -225,8 +207,6 @@
                     <text size="9" />
                 </control>
 
-                <summary>recurringPaymentDate</summary>
-                <description>recurringPaymentDate description...</description>
             </attribute>
 
             <attribute name="purchaseOrderCommodityDescription" forceUppercase="true">
@@ -240,8 +220,6 @@
                     <text size="9" />
                 </control>
 
-                <summary>purchaseOrderCommodityDescription</summary>
-                <description>purchaseOrderCommodityDescription description...</description>
             </attribute>
 
             <attribute name="purchaseOrderConfirmedIndicator" forceUppercase="true">
@@ -254,8 +232,6 @@
                     <checkbox />
                 </control>
 
-                <summary>purchaseOrderConfirmedIndicator</summary>
-                <description>purchaseOrderConfirmedIndicator description...</description>
             </attribute>
 
             <attribute name="purchaseOrderInitialOpenDate" forceUppercase="true">
@@ -269,8 +245,6 @@
                     <text size="9" />
                 </control>
 
-                <summary>purchaseOrderInitialOpenDate</summary>
-                <description>purchaseOrderInitialOpenDate description...</description>
             </attribute>
 
             <attribute name="purchaseOrderLastTransmitDate" forceUppercase="true">
@@ -284,8 +258,6 @@
                     <text size="9" />
                 </control>
 
-                <summary>purchaseOrderLastTransmitDate</summary>
-                <description>purchaseOrderLastTransmitDate description...</description>
             </attribute>
 
             <attribute name="purchaseOrderPreviousIdentifier" forceUppercase="true">
@@ -299,8 +271,6 @@
                     <text size="11" />
                 </control>
 
-                <summary>purchaseOrderPreviousIdentifier</summary>
-                <description>purchaseOrderPreviousIdentifier description...</description>
             </attribute>
 
             <attribute name="purchaseOrderQuoteDueDate" forceUppercase="true">
@@ -314,8 +284,6 @@
                     <text size="9" />
                 </control>
 
-                <summary>purchaseOrderQuoteDueDate</summary>
-                <description>purchaseOrderQuoteDueDate description...</description>
             </attribute>
 
             <attribute name="purchaseOrderQuoteTypeCode" forceUppercase="true">
@@ -329,8 +297,6 @@
                     <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderQuoteTypeValuesFinder"/>
                 </control>
 
-                <summary>purchaseOrderQuoteTypeCode</summary>
-                <description>purchaseOrderQuoteTypeCode description...</description>
             </attribute>
 
             <attribute name="purchaseOrderQuoteVendorNoteText" forceUppercase="true">
@@ -344,8 +310,6 @@
                     <textarea rows="5" cols="80"/>
                 </control>
 
-                <summary>purchaseOrderQuoteVendorNoteText</summary>
-                <description>purchaseOrderQuoteVendorNoteText description...</description>
             </attribute>
 
 <!-- The following vendor fields are defined here although common among other docs because they are not required on REQ, but are required for PO -->
@@ -361,20 +325,17 @@
             
             <attributeReference name="vendorLine1Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line1Address">
                 <required>true</required>
-                <summary>vendorLine1Address</summary>
-                <description>vendorLine1Address description...</description>
+
             </attributeReference>
 
             <attributeReference name="vendorCityName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="cityName">
                 <required>true</required>
-                <summary>vendorCityName</summary>
-                <description>vendorCityName description...</description>
+
             </attributeReference>
             
             <attributeReference name="vendorCountryCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="countryCode">
                 <required>true</required>
-                <summary>vendorCountryCode</summary>
-                <description>vendorCountryCode description...</description>
+
             </attributeReference>
 
             <attributeReference name="recurringPaymentFrequencyCode" sourceClassName="org.kuali.module.purap.bo.RecurringPaymentFrequency" sourceAttributeName="recurringPaymentFrequencyCode">
@@ -383,8 +344,7 @@
                 <control>
 			        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.RecurringPaymentFrequencyValuesFinder" />
                 </control>
-                <summary>recurringPaymentFrequencyCode</summary>
-                <description>recurringPaymentFrequencyCode description...</description>
+
 			</attributeReference>  
             
             <attributeReference name="requisitionSource" sourceClassName="org.kuali.module.purap.bo.RequisitionSource" sourceAttributeName="requisitionSourceDescription">
@@ -402,23 +362,15 @@
             	<control>
             		<radio valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.StatusChangeValuesFinder"/>
             	</control>
-            	
-            	<summary>statusChange</summary>
-            	<description>This is the destination status for the PO's manual status change.
-            		This is not persisted in the database as a separate field.</description>
             </attribute>
 
             <attributeReference name="internalPurchasingLimit" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Internal Purchasing Limit</label>
                 <shortLabel>Internal Purchasing Limit</shortLabel>
-                <summary>internalPurchasingLimit</summary>
-                <description>internalPurchasingLimit description...</description>
+
             </attributeReference>
 
         </attributes>
-
-        <summary>Document used for creating POs.</summary>
-        <description>The Purchase Order document is a...</description>
 
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>

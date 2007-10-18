@@ -79,8 +79,6 @@
                     <hidden/>
                 </control>
 
-                <summary>vendorPhoneGeneratedIdentifier</summary>
-                <description>vendorPhoneGeneratedIdentifier description...</description>
 			</attribute>
 
 			<attributeReference name="vendorPhoneTypeCode"
@@ -102,8 +100,6 @@
                 <shortLabel>Phone</shortLabel>
                 <required>true</required>
 
-                <summary>vendorPhoneNumber</summary>
-                <description>vendorPhoneNumber description...</description>
 			</attributeReference>
 
             <attribute name="vendorPhoneExtensionNumber" forceUppercase="true">
@@ -117,8 +113,6 @@
                     <text size="12" />
                 </control>
 
-                <summary>vendorPhoneExtensionNumber</summary>
-                <description>vendorPhoneExtensionNumber description...</description>
 			</attribute>
 			
 			<attributeReference name="newCollectionRecord" 

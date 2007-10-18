@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.purap.bo.RequisitionItemCapitalAsset">
 
-
         <attributes>
 
             <attribute name="addCapitalAssetNumber" >
@@ -35,9 +34,7 @@
                 <control>
                     <text size="14" />
                 </control>
-            
-                <summary>addAssetLabel</summary>
-                <description>addAssetLabel description...</description>
+
             </attribute>
 
             <attribute name="capitalAssetNumber" forceUppercase="true">
@@ -51,8 +48,6 @@
                     <text size="14" />
                 </control>
 
-                <summary>capitalAssetNumber</summary>
-                <description>capitalAssetNumber description...</description>
 			</attribute>
 
             <attribute name="requisitionItemIdentifier" forceUppercase="true">
@@ -66,8 +61,6 @@
                     <text size="12" />
                 </control>
 
-                <summary>requisitionItemIdentifier</summary>
-                <description>requisitionItemIdentifier description...</description>
 			</attribute>
 
             <attribute name="requisitionItemCapitalAssetIdentifier" forceUppercase="true">
@@ -81,8 +74,6 @@
                     <text size="12" />
                 </control>
 
-                <summary>requisitionItemCapitalAssetIdentifier</summary>
-                <description>requisitionItemCapitalAssetIdentifier description...</description>
 			</attribute>
 
             <attribute name="versionNumber" forceUppercase="true">
@@ -96,8 +87,6 @@
                     <text size="10" />
                 </control>
 
-                <summary>versionNumber</summary>
-                <description>versionNumber description...</description>
 			</attribute>
 
         </attributes>

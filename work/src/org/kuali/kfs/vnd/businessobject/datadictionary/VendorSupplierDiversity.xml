@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorSupplierDiversity">
 
-
         <attributes>
 
             <attributeReference name="vendorSupplierDiversityCode" sourceClassName="org.kuali.module.vendor.bo.SupplierDiversity" sourceAttributeName="vendorSupplierDiversityCode">

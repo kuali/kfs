@@ -38,9 +38,6 @@
         <label>Payment Request Status Maintenance Document</label>
         <shortLabel>Payment Request Status Maint Doc</shortLabel>
 
-        <summary>Payment Request Status Maintenance Document</summary>
-        <description>Document used to create or update Payment Request Status objects</description>
-
         <lockingKeys>
             <field attributeName="statusCode" />
         </lockingKeys>

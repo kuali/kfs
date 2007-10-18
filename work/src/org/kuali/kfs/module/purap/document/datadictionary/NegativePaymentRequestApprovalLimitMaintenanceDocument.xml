@@ -38,9 +38,6 @@
         <label>Negative Payment Request Approval Limit Maintenance Document</label>
         <shortLabel>Negative PREQ Approval Limit Maint Doc</shortLabel>
 
-        <summary>Negative Payment Request Approval Limit Maintenance Document</summary>
-        <description>Document used to create or update Negative PREQ Approval Limit records.</description>
-
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />
         </lockingKeys>

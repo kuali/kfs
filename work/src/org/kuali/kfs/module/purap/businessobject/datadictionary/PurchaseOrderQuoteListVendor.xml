@@ -67,8 +67,6 @@
                     <text size="11" />
                 </control>
 
-                <summary>purchaseOrderQuoteListIdentifier</summary>
-                <description>purchaseOrderQuoteListIdentifier description...</description>
 			</attribute>
 
             <attribute name="vendorDetailAssignedIdentifier" forceUppercase="true">
@@ -82,8 +80,6 @@
                     <hidden />
                 </control>
 
-                <summary>vendorDetailAssignedIdentifier</summary>
-                <description>vendorDetailAssignedIdentifier description...</description>
 			</attribute>
 
             <attribute name="vendorHeaderGeneratedIdentifier" forceUppercase="true">
@@ -97,8 +93,6 @@
                     <hidden />
                 </control>
 
-                <summary>vendorHeaderGeneratedIdentifier</summary>
-                <description>vendorHeaderGeneratedIdentifier description...</description>
 			</attribute>
 
             <attribute name="versionNumber" forceUppercase="true">
@@ -112,8 +106,6 @@
                     <text size="10" />
                 </control>
 
-                <summary>versionNumber</summary>
-                <description>versionNumber description...</description>
 			</attribute>
 
 			<attributeReference name="vendorDetail.vendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">

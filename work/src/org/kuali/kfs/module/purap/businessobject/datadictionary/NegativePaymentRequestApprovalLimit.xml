@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.purap.bo.NegativePaymentRequestApprovalLimit">
 
-
         <inquiry>
             <title>Negative Payment Request Approval Limit Inquiry</title>
 
@@ -71,8 +70,6 @@
                     <text size="21" />
                 </control>
 
-                <summary>negativePaymentRequestApprovalLimitAmount</summary>
-                <description>negativePaymentRequestApprovalLimitAmount description...</description>
 			</attribute>
 
             <attribute name="negativePaymentRequestApprovalLimitIdentifier" forceUppercase="true">
@@ -86,8 +83,6 @@
                     <text size="12" />
                 </control>
 
-                <summary>negativePaymentRequestApprovalLimitIdentifier</summary>
-                <description>negativePaymentRequestApprovalLimitIdentifier description...</description>
 			</attribute>
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode"/>

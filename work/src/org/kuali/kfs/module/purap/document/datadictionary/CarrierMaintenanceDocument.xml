@@ -38,9 +38,6 @@
         <label>Carrier Maintenance Document</label>
         <shortLabel>Carrier Maint Doc</shortLabel>
 
-        <summary>Carrier Maintenance Document</summary>
-        <description>Document used to create or update Carrier objects</description>
-
         <lockingKeys>
             <field attributeName="carrierCode" />
         </lockingKeys>

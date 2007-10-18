@@ -36,11 +36,6 @@
 
         <label>Close a Purchase Order</label>
         <shortLabel>PurchaseOrderClose</shortLabel>
-               
-        <summary>Document used to Close a Purchase Order.</summary>
-        <description>The Purchase Order Close document, as distinct from the ordinary document close action,
-        	is used to do the additional things that need to be done to a Purchase Order to move it into
-        	a Final status of Closed.</description>
 
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>

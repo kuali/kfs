@@ -38,9 +38,6 @@
         <label>Contact Type Maintenance Document</label>
         <shortLabel>Contact Type Maint Doc</shortLabel>
 
-        <summary>Contact Type Maintenance Document</summary>
-        <description>Document used to create or update Contact Type objects</description>
-
         <lockingKeys>
             <field attributeName="vendorContactTypeCode" />
         </lockingKeys>

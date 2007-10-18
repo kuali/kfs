@@ -31,8 +31,7 @@
 			<attributeReference name="disencumberedAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
 				<label>Disencumbered Amount</label>
 				<shortLabel>Disencumbered Amount</shortLabel>
-				<summary>disencumberedAmount</summary>
-				<description>disencumberedAmount description...</description>
+
 			</attributeReference>
 			
         </attributes>

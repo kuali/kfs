@@ -25,7 +25,6 @@
 <dictionaryEntry>
 	<businessObject businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderItem">
 
-
 		<inquiry>
 			<title>Purchase Order Item Inquiry</title>
 
@@ -136,50 +135,42 @@
 					<checkbox />
 				</control>
 
-				<summary>itemActiveIndicator</summary>
-				<description>itemActiveIndicator description...</description>
 			</attribute>
 
 			<attributeReference name="itemInvoicedTotalAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
 				<label>Item Invoiced Total Amount</label>
 				<shortLabel>Amount</shortLabel>
-				<summary>itemInvoicedTotalAmount</summary>
-				<description>itemInvoicedTotalAmount description...</description>
+
 			</attributeReference>
 			
 			<attributeReference name="itemInvoicedTotalQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
 				<label>Item Invoiced Total Quantity</label>
 				<shortLabel>Quantity</shortLabel>
-				<summary>itemInvoicedTotalQuantity</summary>
-				<description>itemInvoicedTotalQuantity description...</description>
+
 			</attributeReference>
 
 			<attributeReference name="itemOutstandingEncumberedQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
 				<label>Item Outstanding Encumbered Quantity</label>
 				<shortLabel>Outstanding Encumbered Quantity</shortLabel>
-				<summary>itemOutstandingEncumberedQuantity</summary>
-				<description>itemOutstandingEncumberedQuantity description...</description>
+
 			</attributeReference>
 
 			<attributeReference name="itemOutstandingEncumberedAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
 				<label>Item Outstanding Encumbered Amount</label>
 				<shortLabel>Outstanding Encumbered Amount</shortLabel>
-				<summary>itemOutstandingEncumberedAmount</summary>
-				<description>itemOutstandingEncumberedAmount description...</description>
+
 			</attributeReference>
 			
 			<attributeReference name="itemReceivedTotalQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
 				<label>Item Received Total Quantity</label>
 				<shortLabel>Received Total Quantity</shortLabel>
-				<summary>itemReceivedTotalQuantity</summary>
-				<description>itemReceivedTotalQuantity description...</description>
+
 			</attributeReference>
 
 			<attributeReference name="itemReturnedTotalQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
 				<label>Item Returned Total Quantity</label>
 				<shortLabel>Returned Total Quantity</shortLabel>
-				<summary>itemReturnedTotalQuantity</summary>
-				<description>itemReturnedTotalQuantity description...</description>
+
 			</attributeReference>
 
 			<attribute name="purchaseOrderCommodityCd" forceUppercase="true">
@@ -195,8 +186,6 @@
 					<text size="13" />
 				</control>
 
-				<summary>purchaseOrderCommodityCd</summary>
-				<description>purchaseOrderCommodityCd description...</description>
 			</attribute>
 
 			<attribute name="itemSelectedForRetransmitIndicator" forceUppercase="true">
@@ -209,8 +198,6 @@
 					<checkbox />
 				</control>
 
-				<summary>itemSelectedForRetransmitIndicator</summary>
-				<description>itemSelectedForRetransmitIndicator description...</description>
 			</attribute>
 
 		</attributes>

@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.ContactType">
 
-
         <inquiry>
             <title>Contact Type Inquiry</title>
 
@@ -71,8 +70,6 @@
                     <text size="6" />
                 </control>
 
-                <summary>vendorContactTypeCode</summary>
-                <description>vendorContactTypeCode description...</description>
 			</attribute>
 
             <attribute name="vendorContactTypeDescription" forceUppercase="true">
@@ -87,8 +84,6 @@
                     <text size="47" />
                 </control>
 
-                <summary>vendorContactTypeDescription</summary>
-                <description>vendorContactTypeDescription description...</description>
 			</attribute>
 
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />

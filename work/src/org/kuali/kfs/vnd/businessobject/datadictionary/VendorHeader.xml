@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorHeader">
 
-
         <attributes>
         
         <!-- Nearly all fields (maybe not tax #) should be changed to be attributeReference, 
@@ -32,16 +31,14 @@
             <attributeReference name="vendorFederalWithholdingTaxBeginningDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Backup Withholding Begin Date</label>
                 <shortLabel>Begin Date</shortLabel>
-                <summary>vendorFederalWithholdingTaxBeginningDate</summary>
-                <description>vendorFederalWithholdingTaxBeginningDate description...</description>
+
                 <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
 			</attributeReference>
           
             <attributeReference name="vendorFederalWithholdingTaxEndDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Backup Withholding End Date</label>
                 <shortLabel>End Date</shortLabel>
-                <summary>vendorFederalWithholdingTaxEndDate</summary>
-                <description>vendorFederalWithholdingTaxEndDate description...</description>
+
                 <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
 			</attributeReference>
 
@@ -56,8 +53,6 @@
                     <text size="12" />
                 </control>
 
-                <summary>vendorHeaderGeneratedIdentifier</summary>
-                <description>vendorHeaderGeneratedIdentifier description...</description>
 			</attribute>
 
             <attribute name="vendorOwnershipCategoryCode" forceUppercase="true">
@@ -70,9 +65,7 @@
 				<control>
                     <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.VendorOwnershipCategoryValuesFinder" />
                 </control>
-                
-                <summary>vendorOwnershipCategoryCode</summary>
-                <description>vendorOwnershipCategoryCode description...</description>
+
 			</attribute>
 
             <attribute name="vendorOwnershipCode" forceUppercase="true">
@@ -86,8 +79,6 @@
                     <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.VendorOwnershipCodeValuesFinder" />
                 </control>
 
-                <summary>vendorOwnershipCode</summary>
-                <description>vendorOwnershipCode description...</description>
 			</attribute>
 
             <attribute name="vendorTaxNumber" forceUppercase="true">
@@ -106,8 +97,6 @@
                   <displayMask><maskLiteral literal="*********"/></displayMask>
                 </attributeAuthorization>
 
-                <summary>vendorTaxNumber</summary>
-                <description>vendorTaxNumber description...</description>
 			</attribute>
 			
 			<attribute name="vendorTaxTypeCode" forceUppercase="true">
@@ -121,8 +110,6 @@
                     <radio valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.TaxPayerTypeWithNoneValuesFinder" />
                 </control>
 
-                <summary>vendorTaxTypeCode</summary>
-                <description>vendorTaxTypeCode description...</description>
 			</attribute>
 			
 			<attribute name="vendorTypeCode" forceUppercase="true">
@@ -133,8 +120,7 @@
 				<control>
                     <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.VendorTypeValuesFinder" />
                 </control>                								
-                <summary>vendorTypeCode</summary>
-                <description>The type of vendor</description>
+
             </attribute>
 
 			<attribute name="vendorSupplierDiversities" forceUppercase="true">
@@ -145,8 +131,7 @@
                 <control>
                     <text size="45" />
                 </control>             								
-                <summary>Vendor Supplier Diversity</summary>
-                <description>Vendor Supplier Diversity</description>
+
             </attribute>
             
             <attribute name="versionNumber" forceUppercase="true">
@@ -163,8 +148,6 @@
                     <hidden />
                 </control>
 
-                <summary>versionNumber</summary>
-                <description>versionNumber description...</description>
             </attribute>
             
             <attribute name="vendorW8BenReceivedIndicator" forceUppercase="false">
@@ -177,8 +160,6 @@
                     <select valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNNullValuesFinder" />
                 </control>
 
-                <summary>vendorW8BenReceivedIndicator</summary>
-                <description>vendorW8BenReceivedIndicator description...</description>
 			</attribute>
 
             <attribute name="vendorW9ReceivedIndicator" forceUppercase="false">
@@ -191,8 +172,6 @@
                     <select valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNNullValuesFinder" />
                 </control>
 
-                <summary>vendorW9ReceivedIndicator</summary>
-                <description>vendorW9ReceivedIndicator description...</description>
 			</attribute>
 			
 			<attribute name="vendorDebarredIndicator" forceUppercase="false">
@@ -205,8 +184,6 @@
                     <select valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNNullValuesFinder" />
                 </control>
 
-                <summary>vendorDebarredIndicator</summary>
-                <description>vendorDebarredIndicator description...</description>
 			</attribute>
 			
 			<attribute name="vendorForeignIndicator" forceUppercase="false">
@@ -218,8 +195,6 @@
                     <select valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNOnlyValuesFinder" />
                 </control>
 
-                <summary>vendorForeignIndicator</summary>
-                <description>vendorForeignIndicator description...</description>
 			</attribute>
 			
         </attributes>

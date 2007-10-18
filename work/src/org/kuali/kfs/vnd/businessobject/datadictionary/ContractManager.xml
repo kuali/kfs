@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.ContractManager">
 
-
         <inquiry>
             <title>Contract Manager Inquiry</title>
 
@@ -81,8 +80,6 @@
                     <text size="4" />
                 </control>
 
-                <summary>contractManagerCode</summary>
-                <description>contractManagerCode description...</description>
 			</attribute>
 
             <attribute name="contractManagerDelegationDollarLimit" forceUppercase="false">
@@ -96,8 +93,6 @@
                     <text size="21" />
                 </control>
 
-                <summary>contractManagerDelegationDollarLimit</summary>
-                <description>contractManagerDelegationDollarLimit description...</description>
 			</attribute>
 
             <attribute name="contractManagerFaxNumber" forceUppercase="true">
@@ -111,8 +106,6 @@
                     <text size="47" />
                 </control>
 
-                <summary>contractManagerFaxNumber</summary>
-                <description>contractManagerFaxNumber description...</description>
 			</attribute>
 
             <attribute name="contractManagerName" forceUppercase="true">
@@ -126,8 +119,6 @@
                     <text size="47" />
                 </control>
 
-                <summary>contractManagerName</summary>
-                <description>contractManagerName description...</description>
 			</attribute>
 
             <attribute name="contractManagerPhoneNumber" forceUppercase="true">
@@ -141,8 +132,6 @@
                     <text size="47" />
                 </control>
 
-                <summary>contractManagerPhoneNumber</summary>
-                <description>contractManagerPhoneNumber description...</description>
 			</attribute>
 
             <attribute name="contractManagerSignatureImageLocationDescription" forceUppercase="true">
@@ -156,8 +145,6 @@
                     <text size="47" />
                 </control>
 
-                <summary>contractManagerSignatureImageLocationDescription</summary>
-                <description>contractManagerSignatureImageLocationDescription description...</description>
 			</attribute>
 
             <attribute name="contractManagerUserIdentifier" forceUppercase="true">
@@ -171,8 +158,6 @@
                     <text size="13" />
                 </control>
 
-                <summary>contractManagerUserIdentifier</summary>
-                <description>contractManagerUserIdentifier description...</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

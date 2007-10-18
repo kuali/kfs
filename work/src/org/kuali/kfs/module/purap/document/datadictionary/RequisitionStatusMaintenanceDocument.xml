@@ -38,9 +38,6 @@
         <label>Requisition Status Maintenance Document</label>
         <shortLabel>Requisition Status Maint Doc</shortLabel>
 
-        <summary>Requisition Status Maintenance Document</summary>
-        <description>Document used to create or update Requisition Status objects</description>
-
         <lockingKeys>
             <field attributeName="statusCode" />
         </lockingKeys>

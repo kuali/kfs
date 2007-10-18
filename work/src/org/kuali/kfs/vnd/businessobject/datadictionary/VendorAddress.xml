@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorAddress">
 
-
         <inquiry>
             <title>Vendor Address Inquiry</title>
 
@@ -105,8 +104,6 @@
                     <text size="45" />
                 </control>
 
-                <summary>vendorAddressEmailAddress</summary>
-                <description>vendorAddressEmailAddress description...</description>
 			</attribute>
 
             <attribute name="vendorAddressGeneratedIdentifier" forceUppercase="true">
@@ -120,8 +117,6 @@
                     <hidden/>
                 </control>
 
-                <summary>vendorAddressGeneratedIdentifier</summary>
-                <description>vendorAddressGeneratedIdentifier description...</description>
 			</attribute>
 
             <attribute name="vendorBusinessToBusinessUrlAddress" forceUppercase="true">
@@ -135,11 +130,8 @@
                     <text size="45" />
                 </control>
 
-                <summary>vendorBusinessToBusinessUrlAddress</summary>
-                <description>vendorBusinessToBusinessUrlAddress description...</description>
 			</attribute>
-			
-			
+
             <attribute name="vendorDefaultAddressIndicator" forceUppercase="false">
                 <label>Set as Default Address</label>
                 <shortLabel>Default Address</shortLabel>
@@ -150,8 +142,6 @@
                     <select valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNOnlyValuesFinder" />
                 </control>
 
-                <summary>vendorDefaultAddressIndicator</summary>
-                <description>vendorDefaultAddressIndicator description...</description>
             </attribute>
 
 			<attributeReference name="vendorFaxNumber" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberWithValidation">
@@ -164,8 +154,6 @@
                     <text size="14" />
                 </control>
 
-                <summary>vendorFaxNumber</summary>
-                <description>vendorFaxNumber...</description>
 			</attributeReference>
 			
 			<attributeReference name="vendorAddressTypeCode" sourceClassName="org.kuali.module.vendor.bo.AddressType" sourceAttributeName="vendorAddressTypeCode">
@@ -192,13 +180,13 @@
 			<attributeReference name="vendorStateCode" 
 				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" 
 				sourceAttributeName="stateCode">
-				<description>State and Postal Code are required fields when United States is selected as the country.</description>
+				
 			</attributeReference>
 			
 			<attributeReference name="vendorZipCode" 
 				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" 
 				sourceAttributeName="zipCode" >
-				<description>State and Postal Code are required fields when United States is selected as the country.</description>
+				
 			</attributeReference>
 			
 			<attributeReference name="vendorCountryCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="countryCode" >

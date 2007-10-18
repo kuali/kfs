@@ -38,9 +38,6 @@
         <label>Purchase Order Transmission Method Maintenance Document</label>
         <shortLabel>PO Transmission Method Maint Doc</shortLabel>
 
-        <summary>Purchase Order Transmission Method Maintenance Document</summary>
-        <description>Document used to create or update Purchase Order Transmission Method objects</description>
-
         <lockingKeys>
             <field attributeName="purchaseOrderTransmissionMethodCode" />
         </lockingKeys>

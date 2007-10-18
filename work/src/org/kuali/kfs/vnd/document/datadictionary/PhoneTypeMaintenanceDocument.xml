@@ -38,9 +38,6 @@
         <label>Phone Type Maintenance Document</label>
         <shortLabel>Phone Type Maint Doc</shortLabel>
 
-        <summary>Phone Type Maintenance Document</summary>
-        <description>Document used to create or update Phone Type objects</description>
-
         <lockingKeys>
             <field attributeName="vendorPhoneTypeCode" />
         </lockingKeys>

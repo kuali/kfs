@@ -38,9 +38,6 @@
         <label>Recurring Payment Frequency Maintenance Document</label>
         <shortLabel>Recurring Payment Frequency Maint Doc</shortLabel>
 
-        <summary>Recurring Payment Frequency Maintenance Document</summary>
-        <description>Document used to create or update Recurring Payment Frequency objects</description>
-
         <lockingKeys>
             <field attributeName="recurringPaymentFrequencyCode" />
         </lockingKeys>

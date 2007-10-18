@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorContact">
 
-
         <inquiry>
             <title>Vendor Contact Inquiry</title>
 
@@ -85,8 +84,6 @@
                     <hidden />
                 </control>
 
-                <summary>vendorContactGeneratedIdentifier</summary>
-                <description>vendorContactGeneratedIdentifier description...</description>
 			</attribute>
 
             <attributeReference name="vendorContactTypeCode"
@@ -113,8 +110,6 @@
                     <text size="45" />
                 </control>
 
-                <summary>vendorContactName</summary>
-                <description>vendorContactName description...</description>
 			</attribute>
 			
             <attribute name="vendorContactCommentText">
@@ -128,8 +123,6 @@
                     <textarea rows="5" cols="80"/>
                 </control>
 
-                <summary>vendorContactCommentText</summary>
-                <description>vendorContactCommentText description...</description>
 			</attribute>
 
             <attributeReference name="vendorContactEmailAddress"
@@ -138,29 +131,24 @@
                 <label>Email Address</label>
                 <shortLabel>Email</shortLabel>
 
-                <summary>vendorContactEmailAddress</summary>
-                <description>vendorContactEmailAddress description...</description>
 			</attributeReference>
 			
             <attributeReference name="phoneNumberForLookup" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
                 <label>Phone Number</label>
                 <shortLabel>Phone</shortLabel>
-                <summary>phoneNumberForLookup</summary>
-                <description>This field is here for the lookup only, and does not persist in the db, due to the vendorContactPhoneNumbers collection.</description>
+
             </attributeReference>
 
             <attributeReference name="faxForLookup" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
                 <label>Fax Number</label>
                 <shortLabel>Fax</shortLabel>
-                <summary>faxForLookup</summary>
-                <description>This field is here for the lookup only, and does not persist in the db, due to the vendorContactPhoneNumbers collection.</description>
+
             </attributeReference>
 
             <attributeReference name="tollFreeForLookup" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
                 <label>Toll Free Number</label>
                 <shortLabel>Toll Free</shortLabel>
-                <summary>toll FreeForLookup</summary>
-                <description>This field is here for the lookup only, and does not persist in the db, due to the vendorContactPhoneNumbers collection.</description>
+
             </attributeReference>
             
             <attributeReference name="newCollectionRecord" 

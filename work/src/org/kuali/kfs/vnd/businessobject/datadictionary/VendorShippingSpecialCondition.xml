@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorShippingSpecialCondition">
 
-
         <attributes>
 
             <attributeReference name="vendorShippingSpecialConditionCode" sourceClassName="org.kuali.module.vendor.bo.ShippingSpecialCondition" sourceAttributeName="vendorShippingSpecialConditionCode" >

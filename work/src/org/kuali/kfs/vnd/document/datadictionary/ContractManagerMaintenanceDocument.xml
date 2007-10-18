@@ -38,9 +38,6 @@
         <label>Contract Manager Maintenance Document</label>
         <shortLabel>Contract Manager Maint Doc</shortLabel>
 
-        <summary>Contract Manager Maintenance Document</summary>
-        <description>Document used to create or update Contract Manager objects</description>
-
         <lockingKeys>
             <field attributeName="contractManagerCode" />
         </lockingKeys>

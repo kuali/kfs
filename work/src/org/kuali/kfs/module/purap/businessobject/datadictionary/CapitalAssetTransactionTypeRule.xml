@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.purap.bo.CapitalAssetTransactionTypeRule">
 
-
         <inquiry>
             <title>Capital Asset Transaction Type Rule Inquiry</title>
 
@@ -68,8 +67,6 @@
                     <text size="5" />
                 </control>
 
-                <summary>capitalAssetRelationshipLimitNumber</summary>
-                <description>capitalAssetRelationshipLimitNumber description...</description>
 			</attribute>
 
             <attribute name="capitalAssetTransactionTypeCode" forceUppercase="true">
@@ -83,8 +80,6 @@
                     <text size="6" />
                 </control>
 
-                <summary>capitalAssetTransactionTypeCode</summary>
-                <description>capitalAssetTransactionTypeCode description...</description>
 			</attribute>
 
             <attribute name="financialObjectSubTypeCode" forceUppercase="true">
@@ -98,8 +93,6 @@
                     <text size="4" />
                 </control>
 
-                <summary>financialObjectSubTypeCode</summary>
-                <description>financialObjectSubTypeCode description...</description>
 			</attribute>
 
             <attribute name="versionNumber" forceUppercase="true">
@@ -113,8 +106,6 @@
                     <text size="10" />
                 </control>
 
-                <summary>versionNumber</summary>
-                <description>versionNumber description...</description>
 			</attribute>
 
         </attributes>

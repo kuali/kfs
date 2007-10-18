@@ -36,9 +36,6 @@
 
         <label>Purchase Order PaymentHold</label>
         <shortLabel>PurchaseOrderPaymentHold</shortLabel>
-   
-        <summary>Document used for Purchase Order PaymentHold.</summary>
-        <description>The Purchase Order PaymentHold document is a...</description>
 
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>

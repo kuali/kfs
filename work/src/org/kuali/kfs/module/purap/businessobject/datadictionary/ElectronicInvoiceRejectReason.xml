@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.purap.bo.ElectronicInvoiceRejectReason">
 
-
         <inquiry>
             <title>Electronic Invoice Reject Reason Inquiry</title>
 
@@ -71,8 +70,6 @@
                     <text size="11" />
                 </control>
 
-                <summary>invoiceHeaderInformationIdentifier</summary>
-                <description>invoiceHeaderInformationIdentifier description...</description>
 			</attribute>
 
             <attribute name="invoiceRejectReasonDescription" forceUppercase="true">
@@ -86,8 +83,6 @@
                     <textarea rows="5" cols="80"/>
                 </control>
 
-                <summary>invoiceRejectReasonDescription</summary>
-                <description>invoiceRejectReasonDescription description...</description>
 			</attribute>
 
             <attribute name="invoiceRejectReasonIdentifier" forceUppercase="true">
@@ -101,8 +96,6 @@
                     <text size="11" />
                 </control>
 
-                <summary>invoiceRejectReasonIdentifier</summary>
-                <description>invoiceRejectReasonIdentifier description...</description>
 			</attribute>
 
             <attribute name="invoiceRejectReasonTypeCode" forceUppercase="true">
@@ -116,8 +109,6 @@
                     <text size="6" />
                 </control>
 
-                <summary>invoiceRejectReasonTypeCode</summary>
-                <description>invoiceRejectReasonTypeCode description...</description>
 			</attribute>
 
             <attribute name="versionNumber" forceUppercase="true">
@@ -131,8 +122,6 @@
                     <text size="10" />
                 </control>
 
-                <summary>versionNumber</summary>
-                <description>versionNumber description...</description>
 			</attribute>
 
         </attributes>

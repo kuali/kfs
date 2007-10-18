@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.purap.bo.ElectronicInvoiceItem">
 
-
         <inquiry>
             <title>Electronic Invoice Item Inquiry</title>
 
@@ -158,8 +157,6 @@
                     <text size="52" />
                 </control>
 
-                <summary>invoiceCatalogNumber</summary>
-                <description>invoiceCatalogNumber description...</description>
 			</attribute>
 
             <attribute name="invoiceHeaderInformationIdentifier" forceUppercase="true">
@@ -173,8 +170,6 @@
                     <text size="11" />
                 </control>
 
-                <summary>invoiceHeaderInformationIdentifier</summary>
-                <description>invoiceHeaderInformationIdentifier description...</description>
 			</attribute>
 
             <attribute name="invoiceItemDiscountAmount" forceUppercase="true">
@@ -188,8 +183,6 @@
                     <text size="21" />
                 </control>
 
-                <summary>invoiceItemDiscountAmount</summary>
-                <description>invoiceItemDiscountAmount description...</description>
 			</attribute>
 
             <attribute name="invoiceItemDiscountCurrencyCode" forceUppercase="true">
@@ -203,8 +196,6 @@
                     <text size="22" />
                 </control>
 
-                <summary>invoiceItemDiscountCurrencyCode</summary>
-                <description>invoiceItemDiscountCurrencyCode description...</description>
 			</attribute>
 
             <attribute name="invoiceItemGrossAmount" forceUppercase="true">
@@ -218,8 +209,6 @@
                     <text size="21" />
                 </control>
 
-                <summary>invoiceItemGrossAmount</summary>
-                <description>invoiceItemGrossAmount description...</description>
 			</attribute>
 
             <attribute name="invoiceItemGrossCurrencyCode" forceUppercase="true">
@@ -233,8 +222,6 @@
                     <text size="22" />
                 </control>
 
-                <summary>invoiceItemGrossCurrencyCode</summary>
-                <description>invoiceItemGrossCurrencyCode description...</description>
 			</attribute>
 
             <attribute name="invoiceItemIdentifier" forceUppercase="true">
@@ -248,8 +235,6 @@
                     <text size="11" />
                 </control>
 
-                <summary>invoiceItemIdentifier</summary>
-                <description>invoiceItemIdentifier description...</description>
 			</attribute>
 
             <attribute name="invoiceItemLineNumber" forceUppercase="true">
@@ -263,8 +248,6 @@
                     <text size="6" />
                 </control>
 
-                <summary>invoiceItemLineNumber</summary>
-                <description>invoiceItemLineNumber description...</description>
 			</attribute>
 
             <attribute name="invoiceItemNetAmount" forceUppercase="true">
@@ -278,8 +261,6 @@
                     <text size="21" />
                 </control>
 
-                <summary>invoiceItemNetAmount</summary>
-                <description>invoiceItemNetAmount description...</description>
 			</attribute>
 
             <attribute name="invoiceItemNetCurrencyCode" forceUppercase="true">
@@ -293,8 +274,6 @@
                     <text size="22" />
                 </control>
 
-                <summary>invoiceItemNetCurrencyCode</summary>
-                <description>invoiceItemNetCurrencyCode description...</description>
 			</attribute>
 
             <attribute name="invoiceItemQuantity" forceUppercase="true">
@@ -308,8 +287,6 @@
                     <text size="13" />
                 </control>
 
-                <summary>invoiceItemQuantity</summary>
-                <description>invoiceItemQuantity description...</description>
 			</attribute>
 
             <attribute name="invoiceItemShippingAmount" forceUppercase="true">
@@ -323,8 +300,6 @@
                     <text size="21" />
                 </control>
 
-                <summary>invoiceItemShippingAmount</summary>
-                <description>invoiceItemShippingAmount description...</description>
 			</attribute>
 
             <attribute name="invoiceItemShippingCurrencyCode" forceUppercase="true">
@@ -338,8 +313,6 @@
                     <text size="22" />
                 </control>
 
-                <summary>invoiceItemShippingCurrencyCode</summary>
-                <description>invoiceItemShippingCurrencyCode description...</description>
 			</attribute>
 
             <attribute name="invoiceItemShippingDescription" forceUppercase="true">
@@ -353,8 +326,6 @@
                     <textarea rows="5" cols="80"/>
                 </control>
 
-                <summary>invoiceItemShippingDescription</summary>
-                <description>invoiceItemShippingDescription description...</description>
 			</attribute>
 
             <attribute name="invoiceItemSpecialHandlingAmount" forceUppercase="true">
@@ -368,8 +339,6 @@
                     <text size="21" />
                 </control>
 
-                <summary>invoiceItemSpecialHandlingAmount</summary>
-                <description>invoiceItemSpecialHandlingAmount description...</description>
 			</attribute>
 
             <attribute name="invoiceItemSpecialHandlingCurrencyCode" forceUppercase="true">
@@ -383,8 +352,6 @@
                     <text size="22" />
                 </control>
 
-                <summary>invoiceItemSpecialHandlingCurrencyCode</summary>
-                <description>invoiceItemSpecialHandlingCurrencyCode description...</description>
 			</attribute>
 
             <attribute name="invoiceItemSubTotalAmount" forceUppercase="true">
@@ -398,8 +365,6 @@
                     <text size="21" />
                 </control>
 
-                <summary>invoiceItemSubTotalAmount</summary>
-                <description>invoiceItemSubTotalAmount description...</description>
 			</attribute>
 
             <attribute name="invoiceItemSubTotalCurrencyCode" forceUppercase="true">
@@ -413,8 +378,6 @@
                     <text size="22" />
                 </control>
 
-                <summary>invoiceItemSubTotalCurrencyCode</summary>
-                <description>invoiceItemSubTotalCurrencyCode description...</description>
 			</attribute>
 
             <attribute name="invoiceItemTaxAmount" forceUppercase="true">
@@ -428,8 +391,6 @@
                     <text size="21" />
                 </control>
 
-                <summary>invoiceItemTaxAmount</summary>
-                <description>invoiceItemTaxAmount description...</description>
 			</attribute>
 
             <attribute name="invoiceItemTaxCurrencyCode" forceUppercase="true">
@@ -443,8 +404,6 @@
                     <text size="22" />
                 </control>
 
-                <summary>invoiceItemTaxCurrencyCode</summary>
-                <description>invoiceItemTaxCurrencyCode description...</description>
 			</attribute>
 
             <attribute name="invoiceItemTaxDescription" forceUppercase="true">
@@ -458,8 +417,6 @@
                     <textarea rows="5" cols="80"/>
                 </control>
 
-                <summary>invoiceItemTaxDescription</summary>
-                <description>invoiceItemTaxDescription description...</description>
 			</attribute>
 
             <attribute name="invoiceItemUnitOfMeasureCode" forceUppercase="true">
@@ -473,8 +430,6 @@
                     <text size="6" />
                 </control>
 
-                <summary>invoiceItemUnitOfMeasureCode</summary>
-                <description>invoiceItemUnitOfMeasureCode description...</description>
 			</attribute>
 
             <attribute name="invoiceItemUnitPrice" forceUppercase="true">
@@ -488,8 +443,6 @@
                     <text size="21" />
                 </control>
 
-                <summary>invoiceItemUnitPrice</summary>
-                <description>invoiceItemUnitPrice description...</description>
 			</attribute>
 
             <attribute name="invoiceItemUnitPriceCurrencyCode" forceUppercase="true">
@@ -503,8 +456,6 @@
                     <text size="22" />
                 </control>
 
-                <summary>invoiceItemUnitPriceCurrencyCode</summary>
-                <description>invoiceItemUnitPriceCurrencyCode description...</description>
 			</attribute>
 
             <attribute name="invoiceReferenceItemCountryCode" forceUppercase="true">
@@ -518,8 +469,6 @@
                     <text size="52" />
                 </control>
 
-                <summary>invoiceReferenceItemCountryCode</summary>
-                <description>invoiceReferenceItemCountryCode description...</description>
 			</attribute>
 
             <attribute name="invoiceReferenceItemCountryName" forceUppercase="true">
@@ -533,8 +482,6 @@
                     <text size="102" />
                 </control>
 
-                <summary>invoiceReferenceItemCountryName</summary>
-                <description>invoiceReferenceItemCountryName description...</description>
 			</attribute>
 
             <attribute name="invoiceReferenceItemDescription" forceUppercase="true">
@@ -548,8 +495,6 @@
                     <textarea rows="5" cols="80"/>
                 </control>
 
-                <summary>invoiceReferenceItemDescription</summary>
-                <description>invoiceReferenceItemDescription description...</description>
 			</attribute>
 
             <attribute name="invoiceReferenceItemLineNumber" forceUppercase="true">
@@ -563,8 +508,6 @@
                     <text size="6" />
                 </control>
 
-                <summary>invoiceReferenceItemLineNumber</summary>
-                <description>invoiceReferenceItemLineNumber description...</description>
 			</attribute>
 
             <attribute name="invoiceReferenceItemManufacturerName" forceUppercase="true">
@@ -578,8 +521,6 @@
                     <text size="102" />
                 </control>
 
-                <summary>invoiceReferenceItemManufacturerName</summary>
-                <description>invoiceReferenceItemManufacturerName description...</description>
 			</attribute>
 
             <attribute name="invoiceReferenceItemManufacturerPartIdentifier" forceUppercase="true">
@@ -593,8 +534,6 @@
                     <text size="102" />
                 </control>
 
-                <summary>invoiceReferenceItemManufacturerPartIdentifier</summary>
-                <description>invoiceReferenceItemManufacturerPartIdentifier description...</description>
 			</attribute>
 
             <attribute name="invoiceReferenceItemSerialNumber" forceUppercase="true">
@@ -608,8 +547,6 @@
                     <text size="102" />
                 </control>
 
-                <summary>invoiceReferenceItemSerialNumber</summary>
-                <description>invoiceReferenceItemSerialNumber description...</description>
 			</attribute>
 
             <attribute name="invoiceReferenceItemSupplierPartAuxiliaryIdentifier" forceUppercase="true">
@@ -623,8 +560,6 @@
                     <text size="102" />
                 </control>
 
-                <summary>invoiceReferenceItemSupplierPartAuxiliaryIdentifier</summary>
-                <description>invoiceReferenceItemSupplierPartAuxiliaryIdentifier description...</description>
 			</attribute>
 
             <attribute name="invoiceReferenceItemSupplierPartIdentifier" forceUppercase="true">
@@ -638,8 +573,6 @@
                     <text size="102" />
                 </control>
 
-                <summary>invoiceReferenceItemSupplierPartIdentifier</summary>
-                <description>invoiceReferenceItemSupplierPartIdentifier description...</description>
 			</attribute>
 
             <attribute name="versionNumber" forceUppercase="true">
@@ -653,8 +586,6 @@
                     <text size="10" />
                 </control>
 
-                <summary>versionNumber</summary>
-                <description>versionNumber description...</description>
 			</attribute>
 
         </attributes>

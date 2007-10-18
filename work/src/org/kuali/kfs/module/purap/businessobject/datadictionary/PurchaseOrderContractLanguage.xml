@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderContractLanguage">
 
-
         <inquiry>
             <title>Purchase Order Contract Language Inquiry</title>
 
@@ -72,8 +71,6 @@
                     <hidden/>
                 </control>
 
-                <summary>purchaseOrderContractLanguageIdentifier</summary>
-                <description>purchaseOrderContractLanguageIdentifier description...</description>
 			</attribute>
 			
 			<attributeReference name="campusCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="campusCode" >
@@ -92,15 +89,12 @@
                     <textarea rows="5" cols="80"/>
                 </control>
 
-                <summary>purchaseOrderContractLanguageDescription</summary>
-                <description>purchaseOrderContractLanguageDescription description...</description>
 			</attribute>
 
             <attributeReference name="contractLanguageCreateDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Contract Language Create Date</label>
                 <shortLabel>Create Date</shortLabel>
-                <summary>Contract Language Create Date</summary>
-                <description>The create date of the Contract Language</description>
+
             </attributeReference>
 
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />

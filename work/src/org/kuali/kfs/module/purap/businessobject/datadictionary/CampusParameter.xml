@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.purap.bo.CampusParameter">
 
-
         <inquiry>
             <title>Campus Parameter Inquiry</title>
 
@@ -81,8 +80,6 @@
                     <text size="45" />
                 </control>
 
-                <summary>campusAccountsPayableEmailAddress</summary>
-                <description>campusAccountsPayableEmailAddress description...</description>
 			</attribute>
 
 			<attributeReference name="campusCode"
@@ -101,8 +98,6 @@
                     <text size="45" />
                 </control>
 
-                <summary>campusPurchasingDirectorName</summary>
-                <description>campusPurchasingDirectorName description...</description>
 			</attribute>
 
             <attribute name="campusPurchasingDirectorTitle" forceUppercase="true">
@@ -116,8 +111,6 @@
                     <text size="45" />
                 </control>
 
-                <summary>campusPurchasingDirectorTitle</summary>
-                <description>campusPurchasingDirectorTitle description...</description>
 			</attribute>
 
             <attribute name="purchasingInstitutionName" forceUppercase="true">
@@ -131,8 +124,6 @@
                     <text size="45" />
                 </control>
 
-                <summary>purchasingInstitutionName</summary>
-                <description>purchasingInstitutionName description...</description>
 			</attribute>
 
             <attribute name="purchasingDepartmentName" forceUppercase="true">
@@ -146,11 +137,8 @@
                     <text size="45" />
                 </control>
 
-                <summary>purchasingDepartmentName</summary>
-                <description>purchasingDepartmentName description...</description>
 			</attribute>
 
-		
 			<attributeReference name="purchasingDepartmentLine1Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line1Address" >
                 <required>false</required>
             </attributeReference>

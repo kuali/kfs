@@ -39,9 +39,6 @@
         <label>Purchase Order Contract Language Maintenance Document</label>
         <shortLabel>PO Contract Language Maint Doc</shortLabel>
 
-        <summary>Purchase Order Contract Language Maintenance Document</summary>
-        <description>Document used to create or update Purchase Order Contract Language objects</description>
-
         <lockingKeys>
             <field attributeName="purchaseOrderContractLanguageIdentifier" />
         </lockingKeys>

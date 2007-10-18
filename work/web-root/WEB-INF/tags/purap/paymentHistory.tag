@@ -154,6 +154,16 @@
 		        		</td>
 		        		<td align="left" valign="middle" class="datacell">
 	        				<c:out value="${cmHistory.creditMemoExtractedDate}" />
+                			<c:if test="${not empty cmHistory.creditMemoExtractedDate}">
+	                          <c:url var="page" value="/pdp/epicpaymentdetail.do">
+	        			        <c:param name="sourceDocNbr" value="${cmHistory.purapDocumentIdentifier}"/>
+	        			        <c:param name="docTypeCode" value="CM"/>
+                 			  </c:url>
+	        			      <c:url var="image" value="/pdp/images/tinybutton-disbursinfo.gif"/>
+					          <a href="${page}" target="_pdp">
+							      &nbsp;<img src="${image}" border="0"/>
+                              </a>
+	        			    </c:if>
 		        		</td>
 		        		<td align="left" valign="middle" class="datacell">
 

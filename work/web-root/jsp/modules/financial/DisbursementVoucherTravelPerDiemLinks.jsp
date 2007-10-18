@@ -17,7 +17,7 @@
 
 <kul:page showDocumentInfo="false" headerTitle="Travel Per Diem Links"
 	docTitle="Travel Per Diem Links" transactionalDocument="false"
-	htmlFormAction="help">
+	htmlFormAction="dvPerDiem">
 
 	<center>
 

@@ -52,7 +52,12 @@
 			    </div>
 			</td>
 			<td valign=middle class="datacell" colspan="2">
-			    <div align="right"><b>${KualiForm.document.lineItemTotal}</b></div>
+			    <div align="right"><b>
+                    <kul:htmlControlAttribute
+                        attributeEntry="${DataDictionary.PaymentRequestDocument.lineItemTotal}"
+                        property="document.lineItemTotal"
+                        readOnly="true" />&nbsp; </b>
+                </div>
 			</td>
 			<td colspan=2 class="datacell">&nbsp;</td>
 		</tr>
@@ -74,7 +79,12 @@
 			    		</div>
 					</td>
 					<td valign=middle class="datacell" colspan="2">
-		    			<div align="right"><b>${KualiForm.document.grandTotalExcludingDiscount}</b></div>
+		    		    <div align="right"><b>
+                            <kul:htmlControlAttribute
+                                attributeEntry="${DataDictionary.PaymentRequestDocument.grandTotalExcludingDiscount}"
+                                property="document.grandTotalExcludingDiscount"
+                                readOnly="true" />&nbsp; </b>
+                        </div>
 					</td>
 	
 					<td colspan=2 class="datacell">
@@ -91,7 +101,12 @@
 			    </div>
 			</td>
 			<td valign=middle class="datacell" colspan="2">
-			    <div align="right"><b>${KualiForm.document.grandTotal}</b></div>
+			    <div align="right"><b>
+                    <kul:htmlControlAttribute
+                        attributeEntry="${DataDictionary.PaymentRequestDocument.grandTotal}"
+                        property="document.grandTotal"
+                        readOnly="true" />&nbsp; </b>
+                </div>
 			</td>
 			<td colspan=2 class="datacell">
               <c:if test="${empty isCreditMemo or !isCreditMemo}" >

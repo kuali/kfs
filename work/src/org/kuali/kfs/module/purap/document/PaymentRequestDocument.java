@@ -869,15 +869,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void setItemTotalPoPaidAmount(KualiDecimal amount){
         //do nothing
     }
-
-    /** 
-     * Exists due to a setter requirement by the htmlControlAttribute
-     * 
-     * @param amount
-     */
-    public void setGrandTotalExcludingDiscount(KualiDecimal amount) {
-        //do nothing
-    }  
     
     /** 
      * Exists due to a setter requirement by the htmlControlAttribute

@@ -204,6 +204,10 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         return getTotalDollarAmountAllItems();
     }
 
+    public void setTotalDollarAmount(KualiDecimal amount) {
+      //do nothing, this is so that the jsp won't complain about totalDollarAmount have no setter method.
+    }
+    
     public KualiDecimal getTotalDollarAmountAllItems() {
         return getTotalDollarAmountAllItems(null);
     }

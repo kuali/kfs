@@ -90,6 +90,23 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         setUnmatchedOverride(false);
     }
 
+    /** 
+     * This method is here due to a setter requirement by the htmlControlAttribute
+     * 
+     * @param amount
+     */
+    public void setGrandTotalExcludingDiscount(KualiDecimal amount) {
+        //do nothing
+    }  
+    
+    public void setLineItemTotal(KualiDecimal total) {
+        //do nothing, this is so that the jsp won't complain about lineItemTotal have no setter method.
+    }
+    
+    public void setGrandTotal(KualiDecimal total) {
+        //do nothing, this is so that the jsp won't complain about grandTotal have no setter method.
+    }
+    
     /**
      * Overriding to stop the deleting of general ledger entries.
      * 

@@ -457,12 +457,17 @@
 		<tr>
 			<th align=right width='75%' colspan=7 scope="row">
 			    <div align="right">
-			        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.AttributeReferenceDummy.attributes.totalDollarAmount}" />
+			        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalDollarAmount}" />
 			    </div>
 			</th>
-			<td valign=middle class="datacell"><!-- THIS BROKE --> <!-- div align="right"><b>$<kul:htmlControlAttribute attributeEntry="${DataDictionary.AttributeReferenceDummy.attributes.totalDollarAmount}" property="document.totalDollarAmount" readOnly="true"/></b></div>
-                    html:hidden property="document.totalDollarAmount" / -->
-			    <div align="right"><b>${KualiForm.document.totalDollarAmount}</b></div>
+			<td valign=middle class="datacell">
+			    <div align="right"><b>
+                    <kul:htmlControlAttribute
+                        attributeEntry="${DataDictionary.RequisitionDocument.totalDollarAmount}"
+                        property="document.totalDollarAmount"
+                        readOnly="true" />&nbsp; </b>
+                </div>
+                <html:hidden property="document.totalDollarAmount" />
 			</td>
 			<td colspan=3 class="datacell">&nbsp;</td>
 		</tr>

@@ -62,6 +62,8 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
     
     public KualiDecimal getTotalDollarAmount();
     
+    public void setTotalDollarAmount(KualiDecimal totalDollarAmount);
+    
     public abstract Class getItemClass();
     public void renumberItems(int start);
     

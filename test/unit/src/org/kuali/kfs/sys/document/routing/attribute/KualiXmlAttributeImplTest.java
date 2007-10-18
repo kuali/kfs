@@ -68,7 +68,6 @@ import edu.iu.uis.eden.xml.XmlConstants;
  * field within the attribute is also verfied.
  */
 @ConfigureContext
-@RelatesTo(RelatesTo.JiraIssue.KULRNE5915)
 public class KualiXmlAttributeImplTest extends KualiTestBase {
 
     private static Log LOG = LogFactory.getLog(KualiXmlRuleAttributeImpl.class);

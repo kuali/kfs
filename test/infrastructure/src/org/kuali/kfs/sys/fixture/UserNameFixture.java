@@ -44,6 +44,7 @@ public enum UserNameFixture {
     AATWOOD,
     PARKE,
     APPLETON,
+    TWATSON,
     ;
 
     static {

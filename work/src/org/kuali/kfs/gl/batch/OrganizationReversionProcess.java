@@ -809,10 +809,10 @@ public class OrganizationReversionProcess {
                     amount.setAvailable(KualiDecimal.ZERO);
                 }
             }
-        }
-        
-        if (unitOfWork.getChartOfAccountsCode().equals("BL") && (unitOfWork.getAccountNumber().equals("1020098") || unitOfWork.getAccountNumber().equals("1035500")) && unitOfWork.getSubAccountNumber().equals("-----")) {
-            LOG.warn("Unit of Work: "+unitOfWork.getChartOfAccountsCode()+unitOfWork.getAccountNumber()+unitOfWork.getSubAccountNumber()+", total cash now "+unitOfWork.getTotalCash()+": total available = "+unitOfWork.getTotalAvailable()+"; total reversion = "+unitOfWork.getTotalReversion()+"; total carry forward = "+unitOfWork.getTotalCarryForward());
+            
+            if (unitOfWork.getChartOfAccountsCode().equals("BL") && (unitOfWork.getAccountNumber().equals("1020098") || unitOfWork.getAccountNumber().equals("1035500")) && unitOfWork.getSubAccountNumber().equals("-----")) {
+                LOG.warn("Unit of Work: "+unitOfWork.getChartOfAccountsCode()+unitOfWork.getAccountNumber()+unitOfWork.getSubAccountNumber()+", total cash now "+unitOfWork.getTotalCash()+": total available = "+unitOfWork.getTotalAvailable()+"; total reversion = "+unitOfWork.getTotalReversion()+"; total carry forward = "+unitOfWork.getTotalCarryForward());
+            }
         }
     }
 

@@ -50,7 +50,6 @@ import org.kuali.test.suite.RelatesTo;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 @ConfigureContext(session = TWATSON)
-@RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class CashManagementServiceTest extends KualiTestBase {
     static final String CMST_WORKGROUP = "KUALI_BRSR_KO";
     

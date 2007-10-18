@@ -28,12 +28,17 @@ import org.kuali.test.fixtures.AccountingLineFixture;
 
 public enum PurApAccountingLineFixture {
     BASIC_ACCOUNT_1(
-        new Integer("123456"),//accountIdentifier;
-        new Integer("123456"),//itemIdentifier;
+        null,//accountIdentifier;
+        null,//itemIdentifier;
         new BigDecimal("100"),//accountLinePercent;
         null //alternateAmountForGLEntryCreation; 
-    );
-    
+    ),
+    BASIC_ACCOUNT_2(
+            null,//accountIdentifier;
+            null,//itemIdentifier;
+            new BigDecimal("100"),//accountLinePercent;
+            null //alternateAmountForGLEntryCreation; 
+        );    
     private Integer accountIdentifier;
     private Integer itemIdentifier;
     private BigDecimal accountLinePercent;
@@ -67,6 +72,7 @@ public enum PurApAccountingLineFixture {
         line.setItemIdentifier(this.itemIdentifier);
         line.setAccountLinePercent(this.accountLinePercent);
         line.setAlternateAmountForGLEntryCreation(this.alternateAmountForGLEntryCreation);
+        line.refreshNonUpdateableReferences();
         return line;
     }
 

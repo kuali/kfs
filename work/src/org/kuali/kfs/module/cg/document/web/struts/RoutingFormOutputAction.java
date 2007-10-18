@@ -45,6 +45,7 @@ import org.kuali.core.util.WebUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.web.struts.action.BudgetOutputAction;
 import org.kuali.module.kra.document.ResearchDocument;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
@@ -56,9 +57,6 @@ public class RoutingFormOutputAction extends RoutingFormAction {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetOutputAction.class);
     private static Logger fopLogger = null; // Needed for fop logging
-
-    private static final String XSL_PATH_PARM_NM = "OUTPUT_XSL_PATH";
-    private static final String STYLESHEET_URL_OR_PATH_PARM_NM = "OUTPUT_STYLESHEET_URL_OR_PATH";
 
     /**
      * Use for generation of PDF that is to be pushed to the browser.
@@ -176,29 +174,16 @@ public class RoutingFormOutputAction extends RoutingFormAction {
     }
 
     /**
-     * Returns a file handle to the routing form style sheet. If STYLESHEET_URL_OR_PATH contains a complete url (method checks for
-     * "://") then STYLESHEET_URL_OR_PATH is used, otherwise baseUrl + STYLESHEET_URL_OR_PATH is used. This is to allow both
-     * internal and external URLs. The appropriate *_XSL_PATH is tagged to the end of that.
+     * Returns a file handle to the routing form style sheet.
      * 
      * @return StreamSource to appropriate stylesheet
      * @throws IOException
      */
     private StreamSource pickStylesheet() throws IOException {
-        String urlString = "";
-
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String stylesheetUrlOrPath = parameterService.getParameterValue(RoutingFormDocument.class, STYLESHEET_URL_OR_PATH_PARM_NM);
-
-        // following checks if STYLESHEET_URL_OR_PATH is a URL already or path within the project
-        if (stylesheetUrlOrPath.contains("://")) {
-            urlString = stylesheetUrlOrPath;
-        }
-        else {
-            String applicationBaseUrlKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-            urlString = applicationBaseUrlKey + stylesheetUrlOrPath;
-        }
-
-        urlString += parameterService.getParameterValue(RoutingFormDocument.class, XSL_PATH_PARM_NM);
+        String urlString = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_XML_URL_KEY)
+          + parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.OUTPUT_PATH_PREFIX)
+          + parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.OUTPUT_XSL_FILENAME);
 
         return new StreamSource(new URL(urlString).openConnection().getInputStream());
     }

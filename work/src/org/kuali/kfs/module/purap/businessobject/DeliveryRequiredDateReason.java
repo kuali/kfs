@@ -21,7 +21,8 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Delivery Required Date Reason Business Object.
+ * Defines the reason why a delivery date is required.
  */
 public class DeliveryRequiredDateReason extends PersistableBusinessObjectBase {
 
@@ -36,61 +37,28 @@ public class DeliveryRequiredDateReason extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the deliveryRequiredDateReasonCode attribute.
-	 * 
-	 * @return Returns the deliveryRequiredDateReasonCode
-	 * 
-	 */
-	public String getDeliveryRequiredDateReasonCode() { 
-		return deliveryRequiredDateReasonCode;
-	}
-
-	/**
-	 * Sets the deliveryRequiredDateReasonCode attribute.
-	 * 
-	 * @param deliveryRequiredDateReasonCode The deliveryRequiredDateReasonCode to set.
-	 * 
-	 */
-	public void setDeliveryRequiredDateReasonCode(String deliveryRequiredDateReasonCode) {
-		this.deliveryRequiredDateReasonCode = deliveryRequiredDateReasonCode;
-	}
-
-
-	/**
-	 * Gets the deliveryRequiredDateReasonDescription attribute.
-	 * 
-	 * @return Returns the deliveryRequiredDateReasonDescription
-	 * 
-	 */
-	public String getDeliveryRequiredDateReasonDescription() { 
-		return deliveryRequiredDateReasonDescription;
-	}
-
-	/**
-	 * Sets the deliveryRequiredDateReasonDescription attribute.
-	 * 
-	 * @param deliveryRequiredDateReasonDescription The deliveryRequiredDateReasonDescription to set.
-	 * 
-	 */
-	public void setDeliveryRequiredDateReasonDescription(String deliveryRequiredDateReasonDescription) {
-		this.deliveryRequiredDateReasonDescription = deliveryRequiredDateReasonDescription;
-	}
-
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getDeliveryRequiredDateReasonCode() {
+        return deliveryRequiredDateReasonCode;
+    }
+
+    public void setDeliveryRequiredDateReasonCode(String deliveryRequiredDateReasonCode) {
+        this.deliveryRequiredDateReasonCode = deliveryRequiredDateReasonCode;
+    }
+
+    public String getDeliveryRequiredDateReasonDescription() {
+        return deliveryRequiredDateReasonDescription;
+    }
+
+    public void setDeliveryRequiredDateReasonDescription(String deliveryRequiredDateReasonDescription) {
+        this.deliveryRequiredDateReasonDescription = deliveryRequiredDateReasonDescription;
     }
 
     /**

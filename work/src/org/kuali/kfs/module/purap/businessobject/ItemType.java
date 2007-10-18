@@ -21,7 +21,8 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Item Type Business Object.
+ * Defines various types of items.
  */
 public class ItemType extends PersistableBusinessObjectBase {
 
@@ -38,104 +39,53 @@ public class ItemType extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the itemTypeCode attribute.
-	 * 
-	 * @return Returns the itemTypeCode
-	 * 
-	 */
 	public String getItemTypeCode() { 
 		return itemTypeCode;
 	}
 
-	/**
-	 * Sets the itemTypeCode attribute.
-	 * 
-	 * @param itemTypeCode The itemTypeCode to set.
-	 * 
-	 */
 	public void setItemTypeCode(String itemTypeCode) {
 		this.itemTypeCode = itemTypeCode;
 	}
 
-	/**
-	 * Gets the itemTypeDescription attribute.
-	 * 
-	 * @return Returns the itemTypeDescription
-	 * 
-	 */
 	public String getItemTypeDescription() { 
 		return itemTypeDescription;
 	}
 
-	/**
-	 * Sets the itemTypeDescription attribute.
-	 * 
-	 * @param itemTypeDescription The itemTypeDescription to set.
-	 * 
-	 */
 	public void setItemTypeDescription(String itemTypeDescription) {
 		this.itemTypeDescription = itemTypeDescription;
 	}
 
-    /**
-     * Gets the negative value of the quantityBasedGeneralLedgerIndicator attribute which
-     * indicates the item is an amount based item.
-     *  
-     * @return Returns the negative of the quantityBasedGeneralLedgerIndicator.
-     */
-    public boolean isAmountBasedGeneralLedgerIndicator() {
-        return !quantityBasedGeneralLedgerIndicator;
-    }
-
-    /**
-     * Gets the quantityBasedGeneralLedgerIndicator attribute. 
-     * @return Returns the quantityBasedGeneralLedgerIndicator.
-     */
     public boolean isQuantityBasedGeneralLedgerIndicator() {
         return quantityBasedGeneralLedgerIndicator;
     }
 
-    /**
-     * Sets the quantityBasedGeneralLedgerIndicator attribute value.
-     * @param quantityBasedGeneralLedgerIndicator The quantityBasedGeneralLedgerIndicator to set.
-     */
     public void setQuantityBasedGeneralLedgerIndicator(boolean quantityBasedGeneralLedgerIndicator) {
         this.quantityBasedGeneralLedgerIndicator = quantityBasedGeneralLedgerIndicator;
     }
 
-    /**
-     * Gets the itemTypeAboveTheLineIndicator attribute. 
-     * @return Returns the itemTypeAboveTheLineIndicator.
-     */
     public boolean isItemTypeAboveTheLineIndicator() {
         return itemTypeAboveTheLineIndicator;
     }
 
-    /**
-     * Sets the itemTypeAboveTheLineIndicator attribute value.
-     * @param itemTypeAboveTheLineIndicator The itemTypeAboveTheLineIndicator to set.
-     */
     public void setItemTypeAboveTheLineIndicator(boolean itemTypeAboveTheLineIndicator) {
         this.itemTypeAboveTheLineIndicator = itemTypeAboveTheLineIndicator;
     }
 
-    /**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
 
+    /**
+     * @return Returns the opposite of quantityBasedGeneralLedgerIndicator.
+     */
+    public boolean isAmountBasedGeneralLedgerIndicator() {
+        return !quantityBasedGeneralLedgerIndicator;
+    }
+   
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

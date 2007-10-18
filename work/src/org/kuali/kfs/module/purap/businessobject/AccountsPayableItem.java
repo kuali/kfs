@@ -15,7 +15,9 @@
  */
 package org.kuali.module.purap.bo;
 
-
+/**
+ * Interface for Accounts Payable Item Business Objects.
+ */
 public interface AccountsPayableItem extends PurApItem {
 
 }

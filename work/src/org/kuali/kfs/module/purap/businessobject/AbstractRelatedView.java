@@ -12,7 +12,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * Base class for Related View Business Objects.
  */
 abstract class AbstractRelatedView extends PersistableBusinessObjectBase {
 
@@ -22,22 +22,10 @@ abstract class AbstractRelatedView extends PersistableBusinessObjectBase {
 
     private List<Note> notes;
     
-	/**
-	 * Gets the accountsPayablePurchasingDocumentLinkIdentifier attribute.
-	 *
-	 * @return Returns the accountsPayablePurchasingDocumentLinkIdentifier
-	 *
-	 */
 	public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
 		return accountsPayablePurchasingDocumentLinkIdentifier;
 	}
 
-	/**
-	 * Sets the accountsPayablePurchasingDocumentLinkIdentifier attribute.
-	 *
-	 * @param accountsPayablePurchasingDocumentLinkIdentifier The accountsPayablePurchasingDocumentLinkIdentifier to set.
-	 *
-	 */
 	public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
 		this.accountsPayablePurchasingDocumentLinkIdentifier = accountsPayablePurchasingDocumentLinkIdentifier;
 	}
@@ -50,38 +38,14 @@ abstract class AbstractRelatedView extends PersistableBusinessObjectBase {
         this.purapDocumentIdentifier = purapDocumentIdentifier;
     }
 
-    /**
-	 * Gets the documentNumber attribute.
-	 *
-	 * @return Returns the documentNumber
-	 *
-	 */
 	public String getDocumentNumber() {
 		return documentNumber;
 	}
 
-	/**
-	 * Sets the documentNumber attribute.
-	 *
-	 * @param documentNumber The documentNumber to set.
-	 *
-	 */
 	public void setDocumentNumber(String documentNumber) {
 		this.documentNumber = documentNumber;
 	}
 
-
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();
-        if (this.accountsPayablePurchasingDocumentLinkIdentifier != null) {
-            m.put("accountsPayablePurchasingDocumentLinkIdentifier", this.accountsPayablePurchasingDocumentLinkIdentifier.toString());
-        }
-        return m;
-    }
-    
     public List<Note> getNotes() {
         if (notes == null) {
             notes = new TypedArrayList(Note.class);
@@ -97,4 +61,15 @@ abstract class AbstractRelatedView extends PersistableBusinessObjectBase {
         return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + getDocumentNumber() + "&command=displayDocSearchView";
     }
 
+	/**
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+	 */
+	protected LinkedHashMap toStringMapper() {
+	    LinkedHashMap m = new LinkedHashMap();
+        if (this.accountsPayablePurchasingDocumentLinkIdentifier != null) {
+            m.put("accountsPayablePurchasingDocumentLinkIdentifier", this.accountsPayablePurchasingDocumentLinkIdentifier.toString());
+        }
+        return m;
+    }
+    
  }

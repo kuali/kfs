@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Electronic Invoice Reject Reason Type Code Business Object.
  */
 public class ElectronicInvoiceRejectTypeCode extends PersistableBusinessObjectBase {
 
@@ -36,70 +36,31 @@ public class ElectronicInvoiceRejectTypeCode extends PersistableBusinessObjectBa
 
 	}
 
-	/**
-	 * Gets the invoiceRejectReasonTypeCode attribute.
-	 * 
-	 * @return Returns the invoiceRejectReasonTypeCode
-	 * 
-	 */
-	public String getInvoiceRejectReasonTypeCode() { 
-		return invoiceRejectReasonTypeCode;
-	}
+	public boolean isDataObjectMaintenanceCodeActiveIndicator() {
+        return dataObjectMaintenanceCodeActiveIndicator;
+    }
 
-	/**
-	 * Sets the invoiceRejectReasonTypeCode attribute.
-	 * 
-	 * @param invoiceRejectReasonTypeCode The invoiceRejectReasonTypeCode to set.
-	 * 
-	 */
-	public void setInvoiceRejectReasonTypeCode(String invoiceRejectReasonTypeCode) {
-		this.invoiceRejectReasonTypeCode = invoiceRejectReasonTypeCode;
-	}
+    public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
+        this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
+    }
 
+    public String getInvoiceRejectReasonTypeCode() {
+        return invoiceRejectReasonTypeCode;
+    }
 
-	/**
-	 * Gets the invoiceRejectReasonTypeDescription attribute.
-	 * 
-	 * @return Returns the invoiceRejectReasonTypeDescription
-	 * 
-	 */
-	public String getInvoiceRejectReasonTypeDescription() { 
-		return invoiceRejectReasonTypeDescription;
-	}
+    public void setInvoiceRejectReasonTypeCode(String invoiceRejectReasonTypeCode) {
+        this.invoiceRejectReasonTypeCode = invoiceRejectReasonTypeCode;
+    }
 
-	/**
-	 * Sets the invoiceRejectReasonTypeDescription attribute.
-	 * 
-	 * @param invoiceRejectReasonTypeDescription The invoiceRejectReasonTypeDescription to set.
-	 * 
-	 */
-	public void setInvoiceRejectReasonTypeDescription(String invoiceRejectReasonTypeDescription) {
-		this.invoiceRejectReasonTypeDescription = invoiceRejectReasonTypeDescription;
-	}
+    public String getInvoiceRejectReasonTypeDescription() {
+        return invoiceRejectReasonTypeDescription;
+    }
 
+    public void setInvoiceRejectReasonTypeDescription(String invoiceRejectReasonTypeDescription) {
+        this.invoiceRejectReasonTypeDescription = invoiceRejectReasonTypeDescription;
+    }
 
-	/**
-	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
-	 * 
-	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
-	 * 
-	 */
-	public boolean isDataObjectMaintenanceCodeActiveIndicator() { 
-		return dataObjectMaintenanceCodeActiveIndicator;
-	}
-	
-
-	/**
-	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
-	 * 
-	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
-	 * 
-	 */
-	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
-		this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
-	}
-
-	/**
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

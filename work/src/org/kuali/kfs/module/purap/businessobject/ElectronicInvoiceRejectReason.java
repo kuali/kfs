@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Electronic Invoice Reject Reason Business Object.
  */
 public class ElectronicInvoiceRejectReason extends PersistableBusinessObjectBase {
 
@@ -40,131 +40,61 @@ public class ElectronicInvoiceRejectReason extends PersistableBusinessObjectBase
 
 	}
 
-	/**
-	 * Gets the invoiceRejectReasonIdentifier attribute.
-	 * 
-	 * @return Returns the invoiceRejectReasonIdentifier
-	 * 
-	 */
-	public Integer getInvoiceRejectReasonIdentifier() { 
-		return invoiceRejectReasonIdentifier;
-	}
+	public ElectronicInvoiceHeaderInformation getInvoiceHeaderInformation() {
+        return invoiceHeaderInformation;
+    }
 
-	/**
-	 * Sets the invoiceRejectReasonIdentifier attribute.
-	 * 
-	 * @param invoiceRejectReasonIdentifier The invoiceRejectReasonIdentifier to set.
-	 * 
-	 */
-	public void setInvoiceRejectReasonIdentifier(Integer invoiceRejectReasonIdentifier) {
-		this.invoiceRejectReasonIdentifier = invoiceRejectReasonIdentifier;
-	}
+    /**
+     * @deprecated
+     */
+    public void setInvoiceHeaderInformation(ElectronicInvoiceHeaderInformation invoiceHeaderInformation) {
+        this.invoiceHeaderInformation = invoiceHeaderInformation;
+    }
 
+    public Integer getInvoiceHeaderInformationIdentifier() {
+        return invoiceHeaderInformationIdentifier;
+    }
 
-	/**
-	 * Gets the invoiceHeaderInformationIdentifier attribute.
-	 * 
-	 * @return Returns the invoiceHeaderInformationIdentifier
-	 * 
-	 */
-	public Integer getInvoiceHeaderInformationIdentifier() { 
-		return invoiceHeaderInformationIdentifier;
-	}
+    public void setInvoiceHeaderInformationIdentifier(Integer invoiceHeaderInformationIdentifier) {
+        this.invoiceHeaderInformationIdentifier = invoiceHeaderInformationIdentifier;
+    }
 
-	/**
-	 * Sets the invoiceHeaderInformationIdentifier attribute.
-	 * 
-	 * @param invoiceHeaderInformationIdentifier The invoiceHeaderInformationIdentifier to set.
-	 * 
-	 */
-	public void setInvoiceHeaderInformationIdentifier(Integer invoiceHeaderInformationIdentifier) {
-		this.invoiceHeaderInformationIdentifier = invoiceHeaderInformationIdentifier;
-	}
+    public String getInvoiceRejectReasonDescription() {
+        return invoiceRejectReasonDescription;
+    }
 
+    public void setInvoiceRejectReasonDescription(String invoiceRejectReasonDescription) {
+        this.invoiceRejectReasonDescription = invoiceRejectReasonDescription;
+    }
 
-	/**
-	 * Gets the invoiceRejectReasonTypeCode attribute.
-	 * 
-	 * @return Returns the invoiceRejectReasonTypeCode
-	 * 
-	 */
-	public String getInvoiceRejectReasonTypeCode() { 
-		return invoiceRejectReasonTypeCode;
-	}
+    public Integer getInvoiceRejectReasonIdentifier() {
+        return invoiceRejectReasonIdentifier;
+    }
 
-	/**
-	 * Sets the invoiceRejectReasonTypeCode attribute.
-	 * 
-	 * @param invoiceRejectReasonTypeCode The invoiceRejectReasonTypeCode to set.
-	 * 
-	 */
-	public void setInvoiceRejectReasonTypeCode(String invoiceRejectReasonTypeCode) {
-		this.invoiceRejectReasonTypeCode = invoiceRejectReasonTypeCode;
-	}
+    public void setInvoiceRejectReasonIdentifier(Integer invoiceRejectReasonIdentifier) {
+        this.invoiceRejectReasonIdentifier = invoiceRejectReasonIdentifier;
+    }
 
+    public ElectronicInvoiceRejectTypeCode getInvoiceRejectReasonType() {
+        return invoiceRejectReasonType;
+    }
 
-	/**
-	 * Gets the invoiceRejectReasonDescription attribute.
-	 * 
-	 * @return Returns the invoiceRejectReasonDescription
-	 * 
-	 */
-	public String getInvoiceRejectReasonDescription() { 
-		return invoiceRejectReasonDescription;
-	}
+    /**
+     * @deprecated
+     */
+    public void setInvoiceRejectReasonType(ElectronicInvoiceRejectTypeCode invoiceRejectReasonType) {
+        this.invoiceRejectReasonType = invoiceRejectReasonType;
+    }
 
-	/**
-	 * Sets the invoiceRejectReasonDescription attribute.
-	 * 
-	 * @param invoiceRejectReasonDescription The invoiceRejectReasonDescription to set.
-	 * 
-	 */
-	public void setInvoiceRejectReasonDescription(String invoiceRejectReasonDescription) {
-		this.invoiceRejectReasonDescription = invoiceRejectReasonDescription;
-	}
+    public String getInvoiceRejectReasonTypeCode() {
+        return invoiceRejectReasonTypeCode;
+    }
 
+    public void setInvoiceRejectReasonTypeCode(String invoiceRejectReasonTypeCode) {
+        this.invoiceRejectReasonTypeCode = invoiceRejectReasonTypeCode;
+    }
 
-	/**
-	 * Gets the invoiceHeaderInformation attribute.
-	 * 
-	 * @return Returns the invoiceHeaderInformation
-	 * 
-	 */
-	public ElectronicInvoiceHeaderInformation getInvoiceHeaderInformation() { 
-		return invoiceHeaderInformation;
-	}
-
-	/**
-	 * Sets the invoiceHeaderInformation attribute.
-	 * 
-	 * @param invoiceHeaderInformation The invoiceHeaderInformation to set.
-	 * @deprecated
-	 */
-	public void setInvoiceHeaderInformation(ElectronicInvoiceHeaderInformation invoiceHeaderInformation) {
-		this.invoiceHeaderInformation = invoiceHeaderInformation;
-	}
-
-	/**
-	 * Gets the invoiceRejectReasonType attribute.
-	 * 
-	 * @return Returns the invoiceRejectReasonType
-	 * 
-	 */
-	public ElectronicInvoiceRejectTypeCode getInvoiceRejectReasonType() { 
-		return invoiceRejectReasonType;
-	}
-
-	/**
-	 * Sets the invoiceRejectReasonType attribute.
-	 * 
-	 * @param invoiceRejectReasonType The invoiceRejectReasonType to set.
-	 * @deprecated
-	 */
-	public void setInvoiceRejectReasonType(ElectronicInvoiceRejectTypeCode invoiceRejectReasonType) {
-		this.invoiceRejectReasonType = invoiceRejectReasonType;
-	}
-
-	/**
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

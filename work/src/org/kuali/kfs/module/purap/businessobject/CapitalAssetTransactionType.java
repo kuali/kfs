@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Capital Asset Transaction Type Business Object. 
  */
 public class CapitalAssetTransactionType extends PersistableBusinessObjectBase {
 
@@ -37,81 +37,34 @@ public class CapitalAssetTransactionType extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the capitalAssetTransactionTypeCode attribute.
-	 * 
-	 * @return Returns the capitalAssetTransactionTypeCode
-	 * 
-	 */
 	public String getCapitalAssetTransactionTypeCode() { 
 		return capitalAssetTransactionTypeCode;
 	}
 
-	/**
-	 * Sets the capitalAssetTransactionTypeCode attribute.
-	 * 
-	 * @param capitalAssetTransactionTypeCode The capitalAssetTransactionTypeCode to set.
-	 * 
-	 */
 	public void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode) {
 		this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
 	}
 
-
-	/**
-	 * Gets the capitalAssetTransactionTypeDescription attribute.
-	 * 
-	 * @return Returns the capitalAssetTransactionTypeDescription
-	 * 
-	 */
 	public String getCapitalAssetTransactionTypeDescription() { 
 		return capitalAssetTransactionTypeDescription;
 	}
 
-	/**
-	 * Sets the capitalAssetTransactionTypeDescription attribute.
-	 * 
-	 * @param capitalAssetTransactionTypeDescription The capitalAssetTransactionTypeDescription to set.
-	 * 
-	 */
 	public void setCapitalAssetTransactionTypeDescription(String capitalAssetTransactionTypeDescription) {
 		this.capitalAssetTransactionTypeDescription = capitalAssetTransactionTypeDescription;
 	}
 
-
-	/**
-	 * Gets the capitalAssetTransactionTypeServiceIndicator attribute.
-	 * 
-	 * @return Returns the capitalAssetTransactionTypeServiceIndicator
-	 * 
-	 */
 	public boolean getCapitalAssetTransactionTypeServiceIndicator() { 
 		return capitalAssetTransactionTypeServiceIndicator;
 	}
 
-	/**
-	 * Sets the capitalAssetTransactionTypeServiceIndicator attribute.
-	 * 
-	 * @param capitalAssetTransactionTypeServiceIndicator The capitalAssetTransactionTypeServiceIndicator to set.
-	 * 
-	 */
 	public void setCapitalAssetTransactionTypeServiceIndicator(boolean capitalAssetTransactionTypeServiceIndicator) {
 		this.capitalAssetTransactionTypeServiceIndicator = capitalAssetTransactionTypeServiceIndicator;
 	}
 
-
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }

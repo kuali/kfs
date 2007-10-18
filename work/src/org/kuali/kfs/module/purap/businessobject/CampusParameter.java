@@ -24,7 +24,8 @@ import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.State;
 
 /**
- * 
+ * Campus Parameter Business Object.
+ * Maintenance document for campus parameters.
  */
 public class CampusParameter extends PersistableBusinessObjectBase {
 
@@ -44,277 +45,141 @@ public class CampusParameter extends PersistableBusinessObjectBase {
     private Campus campus;
     private State purchasingDepartmentState;
     private Country purchasingDepartmentCountry;
-    
-	/**
-	 * Default constructor.
-	 */
+
+    /**
+     * Default constructor.
+     */
 	public CampusParameter() {
 
 	}
 
-	/**
-	 * Gets the campusCode attribute.
-	 * 
-	 * @return Returns the campusCode
-	 * 
-	 */
-	public String getCampusCode() { 
-		return campusCode;
-	}
-
-	/**
-	 * Sets the campusCode attribute.
-	 * 
-	 * @param campusCode The campusCode to set.
-	 * 
-	 */
-	public void setCampusCode(String campusCode) {
-		this.campusCode = campusCode;
-	}
-
-
-	/**
-	 * Gets the campusPurchasingDirectorName attribute.
-	 * 
-	 * @return Returns the campusPurchasingDirectorName
-	 * 
-	 */
-	public String getCampusPurchasingDirectorName() { 
-		return campusPurchasingDirectorName;
-	}
-
-	/**
-	 * Sets the campusPurchasingDirectorName attribute.
-	 * 
-	 * @param campusPurchasingDirectorName The campusPurchasingDirectorName to set.
-	 * 
-	 */
-	public void setCampusPurchasingDirectorName(String campusPurchasingDirectorName) {
-		this.campusPurchasingDirectorName = campusPurchasingDirectorName;
-	}
-
-
-	/**
-	 * Gets the campusPurchasingDirectorTitle attribute.
-	 * 
-	 * @return Returns the campusPurchasingDirectorTitle
-	 * 
-	 */
-	public String getCampusPurchasingDirectorTitle() { 
-		return campusPurchasingDirectorTitle;
-	}
-
-	/**
-	 * Sets the campusPurchasingDirectorTitle attribute.
-	 * 
-	 * @param campusPurchasingDirectorTitle The campusPurchasingDirectorTitle to set.
-	 * 
-	 */
-	public void setCampusPurchasingDirectorTitle(String campusPurchasingDirectorTitle) {
-		this.campusPurchasingDirectorTitle = campusPurchasingDirectorTitle;
-	}
-
-
-	/**
-	 * Gets the campusAccountsPayableEmailAddress attribute.
-	 * 
-	 * @return Returns the campusAccountsPayableEmailAddress
-	 * 
-	 */
-	public String getCampusAccountsPayableEmailAddress() { 
-		return campusAccountsPayableEmailAddress;
-	}
-
-	/**
-	 * Sets the campusAccountsPayableEmailAddress attribute.
-	 * 
-	 * @param campusAccountsPayableEmailAddress The campusAccountsPayableEmailAddress to set.
-	 * 
-	 */
-	public void setCampusAccountsPayableEmailAddress(String campusAccountsPayableEmailAddress) {
-		this.campusAccountsPayableEmailAddress = campusAccountsPayableEmailAddress;
-	}
-
-    /**
-     * Gets the purchasingDepartmentCityName attribute. 
-     * @return Returns the purchasingDepartmentCityName.
-     */
-    public String getPurchasingDepartmentCityName() {
-        return purchasingDepartmentCityName;
-    }
-
-    /**
-     * Sets the purchasingDepartmentCityName attribute value.
-     * @param purchasingDepartmentCityName The purchasingDepartmentCityName to set.
-     */
-    public void setPurchasingDepartmentCityName(String purchasingDepartmentCityName) {
-        this.purchasingDepartmentCityName = purchasingDepartmentCityName;
-    }
-
-    /**
-     * Gets the purchasingDepartmentCountryCode attribute. 
-     * @return Returns the purchasingDepartmentCountryCode.
-     */
-    public String getPurchasingDepartmentCountryCode() {
-        return purchasingDepartmentCountryCode;
-    }
-
-    /**
-     * Sets the purchasingDepartmentCountryCode attribute value.
-     * @param purchasingDepartmentCountryCode The purchasingDepartmentCountryCode to set.
-     */
-    public void setPurchasingDepartmentCountryCode(String purchasingDepartmentCountryCode) {
-        this.purchasingDepartmentCountryCode = purchasingDepartmentCountryCode;
-    }
-
-    /**
-     * Gets the purchasingDepartmentLine1Address attribute. 
-     * @return Returns the purchasingDepartmentLine1Address.
-     */
-    public String getPurchasingDepartmentLine1Address() {
-        return purchasingDepartmentLine1Address;
-    }
-
-    /**
-     * Sets the purchasingDepartmentLine1Address attribute value.
-     * @param purchasingDepartmentLine1Address The purchasingDepartmentLine1Address to set.
-     */
-    public void setPurchasingDepartmentLine1Address(String purchasingDepartmentLine1Address) {
-        this.purchasingDepartmentLine1Address = purchasingDepartmentLine1Address;
-    }
-
-    /**
-     * Gets the purchasingDepartmentLine2Address attribute. 
-     * @return Returns the purchasingDepartmentLine2Address.
-     */
-    public String getPurchasingDepartmentLine2Address() {
-        return purchasingDepartmentLine2Address;
-    }
-
-    /**
-     * Sets the purchasingDepartmentLine2Address attribute value.
-     * @param purchasingDepartmentLine2Address The purchasingDepartmentLine2Address to set.
-     */
-    public void setPurchasingDepartmentLine2Address(String purchasingDepartmentLine2Address) {
-        this.purchasingDepartmentLine2Address = purchasingDepartmentLine2Address;
-    }
-
-    /**
-     * Gets the purchasingDepartmentName attribute. 
-     * @return Returns the purchasingDepartmentName.
-     */
-    public String getPurchasingDepartmentName() {
-        return purchasingDepartmentName;
-    }
-
-    /**
-     * Sets the purchasingDepartmentName attribute value.
-     * @param purchasingDepartmentName The purchasingDepartmentName to set.
-     */
-    public void setPurchasingDepartmentName(String purchasingDepartmentName) {
-        this.purchasingDepartmentName = purchasingDepartmentName;
-    }
-
-    /**
-     * Gets the purchasingDepartmentStateCode attribute. 
-     * @return Returns the purchasingDepartmentStateCode.
-     */
-    public String getPurchasingDepartmentStateCode() {
-        return purchasingDepartmentStateCode;
-    }
-
-    /**
-     * Sets the purchasingDepartmentStateCode attribute value.
-     * @param purchasingDepartmentStateCode The purchasingDepartmentStateCode to set.
-     */
-    public void setPurchasingDepartmentStateCode(String purchasingDepartmentStateCode) {
-        this.purchasingDepartmentStateCode = purchasingDepartmentStateCode;
-    }
-
-    /**
-     * Gets the purchasingDepartmentZipCode attribute. 
-     * @return Returns the purchasingDepartmentZipCode.
-     */
-    public String getPurchasingDepartmentZipCode() {
-        return purchasingDepartmentZipCode;
-    }
-
-    /**
-     * Sets the purchasingDepartmentZipCode attribute value.
-     * @param purchasingDepartmentZipCode The purchasingDepartmentZipCode to set.
-     */
-    public void setPurchasingDepartmentZipCode(String purchasingDepartmentZipCode) {
-        this.purchasingDepartmentZipCode = purchasingDepartmentZipCode;
-    }
-
-    /**
-     * Gets the purchasingInstitutionName attribute. 
-     * @return Returns the purchasingInstitutionName.
-     */
-    public String getPurchasingInstitutionName() {
-        return purchasingInstitutionName;
-    }
-
-    /**
-     * Sets the purchasingInstitutionName attribute value.
-     * @param purchasingInstitutionName The purchasingInstitutionName to set.
-     */
-    public void setPurchasingInstitutionName(String purchasingInstitutionName) {
-        this.purchasingInstitutionName = purchasingInstitutionName;
-    }
-    
-    /**
-     * Gets the campus attribute.
-     * 
-     * @return Returns the campus
-     * 
-     */
-    public Campus getCampus() { 
+    public Campus getCampus() {
         return campus;
     }
 
     /**
-     * Sets the campus attribute.
-     * 
-     * @param campus The campus to set.
      * @deprecated
      */
     public void setCampus(Campus campus) {
         this.campus = campus;
     }
 
+    public String getCampusAccountsPayableEmailAddress() {
+        return campusAccountsPayableEmailAddress;
+    }
+
+    public void setCampusAccountsPayableEmailAddress(String campusAccountsPayableEmailAddress) {
+        this.campusAccountsPayableEmailAddress = campusAccountsPayableEmailAddress;
+    }
+
+    public String getCampusCode() {
+        return campusCode;
+    }
+
+    public void setCampusCode(String campusCode) {
+        this.campusCode = campusCode;
+    }
+
+    public String getCampusPurchasingDirectorName() {
+        return campusPurchasingDirectorName;
+    }
+
+    public void setCampusPurchasingDirectorName(String campusPurchasingDirectorName) {
+        this.campusPurchasingDirectorName = campusPurchasingDirectorName;
+    }
+
+    public String getCampusPurchasingDirectorTitle() {
+        return campusPurchasingDirectorTitle;
+    }
+
+    public void setCampusPurchasingDirectorTitle(String campusPurchasingDirectorTitle) {
+        this.campusPurchasingDirectorTitle = campusPurchasingDirectorTitle;
+    }
+
+    public String getPurchasingDepartmentCityName() {
+        return purchasingDepartmentCityName;
+    }
+
+    public void setPurchasingDepartmentCityName(String purchasingDepartmentCityName) {
+        this.purchasingDepartmentCityName = purchasingDepartmentCityName;
+    }
+
+    public Country getPurchasingDepartmentCountry() {
+        return purchasingDepartmentCountry;
+    }
+
     /**
-     * Gets the purchasingDepartmentState attribute. 
-     * @return Returns the purchasingDepartmentState.
+     * @deprecated
      */
+    public void setPurchasingDepartmentCountry(Country purchasingDepartmentCountry) {
+        this.purchasingDepartmentCountry = purchasingDepartmentCountry;
+    }
+
+    public String getPurchasingDepartmentCountryCode() {
+        return purchasingDepartmentCountryCode;
+    }
+
+    public void setPurchasingDepartmentCountryCode(String purchasingDepartmentCountryCode) {
+        this.purchasingDepartmentCountryCode = purchasingDepartmentCountryCode;
+    }
+
+    public String getPurchasingDepartmentLine1Address() {
+        return purchasingDepartmentLine1Address;
+    }
+
+    public void setPurchasingDepartmentLine1Address(String purchasingDepartmentLine1Address) {
+        this.purchasingDepartmentLine1Address = purchasingDepartmentLine1Address;
+    }
+
+    public String getPurchasingDepartmentLine2Address() {
+        return purchasingDepartmentLine2Address;
+    }
+
+    public void setPurchasingDepartmentLine2Address(String purchasingDepartmentLine2Address) {
+        this.purchasingDepartmentLine2Address = purchasingDepartmentLine2Address;
+    }
+
+    public String getPurchasingDepartmentName() {
+        return purchasingDepartmentName;
+    }
+
+    public void setPurchasingDepartmentName(String purchasingDepartmentName) {
+        this.purchasingDepartmentName = purchasingDepartmentName;
+    }
+
     public State getPurchasingDepartmentState() {
         return purchasingDepartmentState;
     }
 
     /**
-     * Sets the purchasingDepartmentState attribute value.
-     * @param purchasingDepartmentState The purchasingDepartmentState to set.
      * @deprecated
      */
     public void setPurchasingDepartmentState(State purchasingDepartmentState) {
         this.purchasingDepartmentState = purchasingDepartmentState;
     }
 
-    /**
-     * Gets the purchasingDepartmentCountry attribute. 
-     * @return Returns the purchasingDepartmentCountry.
-     */
-    public Country getPurchasingDepartmentCountry() {
-        return purchasingDepartmentCountry;
+    public String getPurchasingDepartmentStateCode() {
+        return purchasingDepartmentStateCode;
     }
 
-    /**
-     * Sets the purchasingDepartmentCountry attribute value.
-     * @param purchasingDepartmentCountry The purchasingDepartmentCountry to set.
-     * @deprecated
-     */
-    public void setPurchasingDepartmentCountry(Country purchasingDepartmentCountry) {
-        this.purchasingDepartmentCountry = purchasingDepartmentCountry;
+    public void setPurchasingDepartmentStateCode(String purchasingDepartmentStateCode) {
+        this.purchasingDepartmentStateCode = purchasingDepartmentStateCode;
+    }
+
+    public String getPurchasingDepartmentZipCode() {
+        return purchasingDepartmentZipCode;
+    }
+
+    public void setPurchasingDepartmentZipCode(String purchasingDepartmentZipCode) {
+        this.purchasingDepartmentZipCode = purchasingDepartmentZipCode;
+    }
+
+    public String getPurchasingInstitutionName() {
+        return purchasingInstitutionName;
+    }
+
+    public void setPurchasingInstitutionName(String purchasingInstitutionName) {
+        this.purchasingInstitutionName = purchasingInstitutionName;
     }
 
     /**

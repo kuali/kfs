@@ -23,7 +23,8 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 
 /**
- * 
+ * Auto Approve Exclude Business Object.
+ * Defines attributes in maintenance document for excluding payment request from automatic approval.
  */
 public class AutoApproveExclude extends PersistableBusinessObjectBase {
 
@@ -34,104 +35,53 @@ public class AutoApproveExclude extends PersistableBusinessObjectBase {
     private Account account;
 	private Chart chartOfAccounts;
 
-	/**
-	 * Default constructor.
-	 */
-	public AutoApproveExclude() {
+    /**
+     * Default constructor.
+     */
+    public AutoApproveExclude() {
 
 	}
 
-	/**
-	 * Gets the chartOfAccountsCode attribute.
-	 * 
-	 * @return Returns the chartOfAccountsCode
-	 * 
-	 */
-	public String getChartOfAccountsCode() { 
+    public String getChartOfAccountsCode() { 
 		return chartOfAccountsCode;
 	}
 
-	/**
-	 * Sets the chartOfAccountsCode attribute.
-	 * 
-	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
-	 * 
-	 */
 	public void setChartOfAccountsCode(String chartOfAccountsCode) {
 		this.chartOfAccountsCode = chartOfAccountsCode;
 	}
 
-
-	/**
-	 * Gets the accountNumber attribute.
-	 * 
-	 * @return Returns the accountNumber
-	 * 
-	 */
-	public String getAccountNumber() { 
+    public String getAccountNumber() { 
 		return accountNumber;
 	}
 
-	/**
-	 * Sets the accountNumber attribute.
-	 * 
-	 * @param accountNumber The accountNumber to set.
-	 * 
-	 */
 	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
 	}
 
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
 
-    /**
-	 * Gets the account attribute.
-	 * 
-	 * @return Returns the account
-	 * 
-	 */
 	public Account getAccount() { 
 		return account;
 	}
 
 	/**
-	 * Sets the account attribute.
-	 * 
-	 * @param account The account to set.
 	 * @deprecated
 	 */
 	public void setAccount(Account account) {
 		this.account = account;
 	}
 
-	/**
-	 * Gets the chartOfAccounts attribute.
-	 * 
-	 * @return Returns the chartOfAccounts
-	 * 
-	 */
 	public Chart getChartOfAccounts() { 
 		return chartOfAccounts;
 	}
 
 	/**
-	 * Sets the chartOfAccounts attribute.
-	 * 
-	 * @param chartOfAccounts The chartOfAccounts to set.
 	 * @deprecated
 	 */
 	public void setChartOfAccounts(Chart chartOfAccounts) {

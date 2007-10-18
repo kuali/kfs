@@ -23,6 +23,9 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.util.PurApItemUtils;
 
+/**
+ * Base class for Accounts Payable Item Business Objects.
+ */
 public abstract class AccountsPayableItemBase extends PurApItemBase implements AccountsPayableItem {
     private KualiDecimal extendedPrice;
     
@@ -78,6 +81,10 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
         }
         return true;
     }
+   
+    public boolean isNonZeroAmount() {
+        return PurApItemUtils.isNonZeroExtended(this);
+    }
 
     /**
      * Gets the extendedPrice attribute. 
@@ -98,16 +105,8 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
         return extendedPrice;
     }
 
-    /**
-     * Sets the extendedPrice attribute value.
-     * @param extendedPrice The extendedPrice to set.
-     */
     public void setExtendedPrice(KualiDecimal extendedPrice) {
         this.extendedPrice = extendedPrice;
-    }
-    
-    public boolean isNonZeroAmount() {
-        return PurApItemUtils.isNonZeroExtended(this);
     }
     
 }

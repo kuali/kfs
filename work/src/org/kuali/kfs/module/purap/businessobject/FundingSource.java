@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Funding Source Business Object.
  */
 public class FundingSource extends PersistableBusinessObjectBase {
 
@@ -36,61 +36,28 @@ public class FundingSource extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the fundingSourceCode attribute.
-	 * 
-	 * @return Returns the fundingSourceCode
-	 * 
-	 */
-	public String getFundingSourceCode() { 
-		return fundingSourceCode;
-	}
-
-	/**
-	 * Sets the fundingSourceCode attribute.
-	 * 
-	 * @param fundingSourceCode The fundingSourceCode to set.
-	 * 
-	 */
-	public void setFundingSourceCode(String fundingSourceCode) {
-		this.fundingSourceCode = fundingSourceCode;
-	}
-
-
-	/**
-	 * Gets the fundingSourceDescription attribute.
-	 * 
-	 * @return Returns the fundingSourceDescription
-	 * 
-	 */
-	public String getFundingSourceDescription() { 
-		return fundingSourceDescription;
-	}
-
-	/**
-	 * Sets the fundingSourceDescription attribute.
-	 * 
-	 * @param fundingSourceDescription The fundingSourceDescription to set.
-	 * 
-	 */
-	public void setFundingSourceDescription(String fundingSourceDescription) {
-		this.fundingSourceDescription = fundingSourceDescription;
-	}
-
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getFundingSourceCode() {
+        return fundingSourceCode;
+    }
+
+    public void setFundingSourceCode(String fundingSourceCode) {
+        this.fundingSourceCode = fundingSourceCode;
+    }
+
+    public String getFundingSourceDescription() {
+        return fundingSourceDescription;
+    }
+
+    public void setFundingSourceDescription(String fundingSourceDescription) {
+        this.fundingSourceDescription = fundingSourceDescription;
     }
 
     /**

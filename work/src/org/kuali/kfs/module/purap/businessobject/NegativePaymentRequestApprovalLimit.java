@@ -25,7 +25,8 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 
 /**
- * 
+ * Negative Payment Request Approval Limit Business Object.
+ * Maintenance document for setting limits for the auto-approve PREQ batch job.
  */
 public class NegativePaymentRequestApprovalLimit extends PersistableBusinessObjectBase {
 
@@ -46,172 +47,80 @@ public class NegativePaymentRequestApprovalLimit extends PersistableBusinessObje
 
 	}
 
-	/**
-	 * Gets the negativePaymentRequestApprovalLimitIdentifier attribute.
-	 * 
-	 * @return Returns the negativePaymentRequestApprovalLimitIdentifier
-	 * 
-	 */
-	public Integer getNegativePaymentRequestApprovalLimitIdentifier() { 
-		return negativePaymentRequestApprovalLimitIdentifier;
-	}
+	public Account getAccount() {
+        return account;
+    }
 
-	/**
-	 * Sets the negativePaymentRequestApprovalLimitIdentifier attribute.
-	 * 
-	 * @param negativePaymentRequestApprovalLimitIdentifier The negativePaymentRequestApprovalLimitIdentifier to set.
-	 * 
-	 */
-	public void setNegativePaymentRequestApprovalLimitIdentifier(Integer negativePaymentRequestApprovalLimitIdentifier) {
-		this.negativePaymentRequestApprovalLimitIdentifier = negativePaymentRequestApprovalLimitIdentifier;
-	}
+    /**
+     * @deprecated
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 
+    public String getAccountNumber() {
+        return accountNumber;
+    }
 
-	/**
-	 * Gets the chartOfAccountsCode attribute.
-	 * 
-	 * @return Returns the chartOfAccountsCode
-	 * 
-	 */
-	public String getChartOfAccountsCode() { 
-		return chartOfAccountsCode;
-	}
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
 
-	/**
-	 * Sets the chartOfAccountsCode attribute.
-	 * 
-	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
-	 * 
-	 */
-	public void setChartOfAccountsCode(String chartOfAccountsCode) {
-		this.chartOfAccountsCode = chartOfAccountsCode;
-	}
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
 
+    /**
+     * @deprecated
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
 
-	/**
-	 * Gets the organizationCode attribute.
-	 * 
-	 * @return Returns the organizationCode
-	 * 
-	 */
-	public String getOrganizationCode() { 
-		return organizationCode;
-	}
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
 
-	/**
-	 * Sets the organizationCode attribute.
-	 * 
-	 * @param organizationCode The organizationCode to set.
-	 * 
-	 */
-	public void setOrganizationCode(String organizationCode) {
-		this.organizationCode = organizationCode;
-	}
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
 
+    public KualiDecimal getNegativePaymentRequestApprovalLimitAmount() {
+        return negativePaymentRequestApprovalLimitAmount;
+    }
 
-	/**
-	 * Gets the accountNumber attribute.
-	 * 
-	 * @return Returns the accountNumber
-	 * 
-	 */
-	public String getAccountNumber() { 
-		return accountNumber;
-	}
+    public void setNegativePaymentRequestApprovalLimitAmount(KualiDecimal negativePaymentRequestApprovalLimitAmount) {
+        this.negativePaymentRequestApprovalLimitAmount = negativePaymentRequestApprovalLimitAmount;
+    }
 
-	/**
-	 * Sets the accountNumber attribute.
-	 * 
-	 * @param accountNumber The accountNumber to set.
-	 * 
-	 */
-	public void setAccountNumber(String accountNumber) {
-		this.accountNumber = accountNumber;
-	}
+    public Integer getNegativePaymentRequestApprovalLimitIdentifier() {
+        return negativePaymentRequestApprovalLimitIdentifier;
+    }
 
+    public void setNegativePaymentRequestApprovalLimitIdentifier(Integer negativePaymentRequestApprovalLimitIdentifier) {
+        this.negativePaymentRequestApprovalLimitIdentifier = negativePaymentRequestApprovalLimitIdentifier;
+    }
 
-	/**
-	 * Gets the negativePaymentRequestApprovalLimitAmount attribute.
-	 * 
-	 * @return Returns the negativePaymentRequestApprovalLimitAmount
-	 * 
-	 */
-	public KualiDecimal getNegativePaymentRequestApprovalLimitAmount() { 
-		return negativePaymentRequestApprovalLimitAmount;
-	}
+    public Org getOrganization() {
+        return organization;
+    }
 
-	/**
-	 * Sets the negativePaymentRequestApprovalLimitAmount attribute.
-	 * 
-	 * @param negativePaymentRequestApprovalLimitAmount The negativePaymentRequestApprovalLimitAmount to set.
-	 * 
-	 */
-	public void setNegativePaymentRequestApprovalLimitAmount(KualiDecimal negativePaymentRequestApprovalLimitAmount) {
-		this.negativePaymentRequestApprovalLimitAmount = negativePaymentRequestApprovalLimitAmount;
-	}
+    /**
+     * @deprecated
+     */
+    public void setOrganization(Org organization) {
+        this.organization = organization;
+    }
 
+    public String getOrganizationCode() {
+        return organizationCode;
+    }
 
-	/**
-	 * Gets the chartOfAccounts attribute.
-	 * 
-	 * @return Returns the chartOfAccounts
-	 * 
-	 */
-	public Chart getChartOfAccounts() { 
-		return chartOfAccounts;
-	}
+    public void setOrganizationCode(String organizationCode) {
+        this.organizationCode = organizationCode;
+    }
 
-	/**
-	 * Sets the chartOfAccounts attribute.
-	 * 
-	 * @param chartOfAccounts The chartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
-		this.chartOfAccounts = chartOfAccounts;
-	}
-
-	/**
-	 * Gets the account attribute.
-	 * 
-	 * @return Returns the account
-	 * 
-	 */
-	public Account getAccount() { 
-		return account;
-	}
-
-	/**
-	 * Sets the account attribute.
-	 * 
-	 * @param account The account to set.
-	 * @deprecated
-	 */
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
-	/**
-	 * Gets the organization attribute.
-	 * 
-	 * @return Returns the organization
-	 * 
-	 */
-	public Org getOrganization() { 
-		return organization;
-	}
-
-	/**
-	 * Sets the organization attribute.
-	 * 
-	 * @param organization The organization to set.
-	 * @deprecated
-	 */
-	public void setOrganization(Org organization) {
-		this.organization = organization;
-	}
-
-	/**
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

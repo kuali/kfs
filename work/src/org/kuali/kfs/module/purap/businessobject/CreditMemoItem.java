@@ -45,7 +45,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     }
 
     /**
-     * Constructs a CreditMemoItem.java from an existing PurchaseOrderItem.
+     * Constructs a CreditMemoItem object from an existing Purchase Order Item.
      */
     public CreditMemoItem(CreditMemoDocument cmDocument, PurchaseOrderItem poItem) {
         super();
@@ -77,7 +77,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     }
 
     /**
-     * Constructs a CreditMemoItem.java from an existing PurchaseOrderItem.
+     * Constructs a CreditMemoItem object from an existing Purchase Order Item.
      */
     public CreditMemoItem(CreditMemoDocument cmDocument, PurchaseOrderItem poItem, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
         //TODO (KULPURAP-1575) Merge this method with the other constructor. cleanup
@@ -120,7 +120,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     }
     
     /**
-     * Constructs a CreditMemoItem.java from an existing PaymentRequestItem
+     * Constructs a CreditMemoItem object from an existing Payment Request Item.
      */
     public CreditMemoItem(CreditMemoDocument cmDocument, PaymentRequestItem preqItem, PurchaseOrderItem poItem) {
         super();
@@ -166,7 +166,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     }
 
     /**
-     * Constructs a CreditMemoItem.java from an existing PaymentRequestItem
+     * Constructs a CreditMemoItem object from an existing Payment Request Item.
      */
     public CreditMemoItem(CreditMemoDocument cmDocument, PaymentRequestItem preqItem, PurchaseOrderItem poItem, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
         super();
@@ -218,110 +218,50 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         return CreditMemoAccount.class;
     }
 
-    /**
-     * Gets the poExtendedPrice attribute.
-     * 
-     * @return Returns the poExtendedPrice.
-     */
     public KualiDecimal getPoExtendedPrice() {
         return poExtendedPrice;
     }
 
-    /**
-     * Sets the poExtendedPrice attribute value.
-     * 
-     * @param poExtendedPrice The poExtendedPrice to set.
-     */
     public void setPoExtendedPrice(KualiDecimal poExtendedCost) {
         this.poExtendedPrice = poExtendedCost;
     }
 
-    /**
-     * Gets the poInvoicedTotalQuantity attribute.
-     * 
-     * @return Returns the poInvoicedTotalQuantity.
-     */
     public KualiDecimal getPoInvoicedTotalQuantity() {
         return poInvoicedTotalQuantity;
     }
 
-    /**
-     * Sets the poInvoicedTotalQuantity attribute value.
-     * 
-     * @param poInvoicedTotalQuantity The poInvoicedTotalQuantity to set.
-     */
     public void setPoInvoicedTotalQuantity(KualiDecimal poInvoicedTotalQuantity) {
         this.poInvoicedTotalQuantity = poInvoicedTotalQuantity;
     }
 
-    /**
-     * Gets the poUnitPrice attribute.
-     * 
-     * @return Returns the poUnitPrice.
-     */
     public BigDecimal getPoUnitPrice() {
         return poUnitPrice;
     }
 
-    /**
-     * Sets the poUnitPrice attribute value.
-     * 
-     * @param poUnitPrice The poUnitPrice to set.
-     */
     public void setPoUnitPrice(BigDecimal poUnitPrice) {
         this.poUnitPrice = poUnitPrice;
     }
 
-    /**
-     * Gets the preqExtendedPrice attribute.
-     * 
-     * @return Returns the preqExtendedPrice.
-     */
     public KualiDecimal getPreqExtendedPrice() {
         return preqExtendedPrice;
     }
 
-    /**
-     * Sets the preqExtendedPrice attribute value.
-     * 
-     * @param preqExtendedPrice The preqExtendedPrice to set.
-     */
     public void setPreqExtendedPrice(KualiDecimal preqExtendedCost) {
         this.preqExtendedPrice = preqExtendedCost;
     }
 
-    /**
-     * Gets the preqInvoicedTotalQuantity attribute.
-     * 
-     * @return Returns the preqInvoicedTotalQuantity.
-     */
     public KualiDecimal getPreqInvoicedTotalQuantity() {
         return preqInvoicedTotalQuantity;
     }
 
-    /**
-     * Sets the preqInvoicedTotalQuantity attribute value.
-     * 
-     * @param preqInvoicedTotalQuantity The preqInvoicedTotalQuantity to set.
-     */
     public void setPreqInvoicedTotalQuantity(KualiDecimal preqInvoicedTotalQuantity) {
         this.preqInvoicedTotalQuantity = preqInvoicedTotalQuantity;
     }
 
-    /**
-     * Gets the preqUnitPrice attribute.
-     * 
-     * @return Returns the preqUnitPrice.
-     */
     public BigDecimal getPreqUnitPrice() {
         return preqUnitPrice;
     }
 
-    /**
-     * Sets the preqUnitPrice attribute value.
-     * 
-     * @param preqUnitPrice The preqUnitPrice to set.
-     */
     public void setPreqUnitPrice(BigDecimal preqUnitPrice) {
         this.preqUnitPrice = preqUnitPrice;
     }

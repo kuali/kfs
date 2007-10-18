@@ -23,7 +23,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Electronic Invoice Invoice Load Summary Business Object.
  */
 public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase {
 
@@ -42,153 +42,63 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
 
 	}
 
-	/**
-	 * Gets the accountsPayableElectronicInvoiceLoadSummaryIdentifier attribute.
-	 * 
-	 * @return Returns the accountsPayableElectronicInvoiceLoadSummaryIdentifier
-	 * 
-	 */
-	public Long getAccountsPayableElectronicInvoiceLoadSummaryIdentifier() { 
-		return accountsPayableElectronicInvoiceLoadSummaryIdentifier;
-	}
+	public Long getAccountsPayableElectronicInvoiceLoadSummaryIdentifier() {
+        return accountsPayableElectronicInvoiceLoadSummaryIdentifier;
+    }
 
-	/**
-	 * Sets the accountsPayableElectronicInvoiceLoadSummaryIdentifier attribute.
-	 * 
-	 * @param accountsPayableElectronicInvoiceLoadSummaryIdentifier The accountsPayableElectronicInvoiceLoadSummaryIdentifier to set.
-	 * 
-	 */
-	public void setAccountsPayableElectronicInvoiceLoadSummaryIdentifier(Long accountsPayableElectronicInvoiceLoadSummaryIdentifier) {
-		this.accountsPayableElectronicInvoiceLoadSummaryIdentifier = accountsPayableElectronicInvoiceLoadSummaryIdentifier;
-	}
+    public void setAccountsPayableElectronicInvoiceLoadSummaryIdentifier(Long accountsPayableElectronicInvoiceLoadSummaryIdentifier) {
+        this.accountsPayableElectronicInvoiceLoadSummaryIdentifier = accountsPayableElectronicInvoiceLoadSummaryIdentifier;
+    }
 
+    public Date getFileProcessDate() {
+        return fileProcessDate;
+    }
 
-	/**
-	 * Gets the vendorDunsNumber attribute.
-	 * 
-	 * @return Returns the vendorDunsNumber
-	 * 
-	 */
-	public String getVendorDunsNumber() { 
-		return vendorDunsNumber;
-	}
+    public void setFileProcessDate(Date fileProcessDate) {
+        this.fileProcessDate = fileProcessDate;
+    }
 
-	/**
-	 * Sets the vendorDunsNumber attribute.
-	 * 
-	 * @param vendorDunsNumber The vendorDunsNumber to set.
-	 * 
-	 */
-	public void setVendorDunsNumber(String vendorDunsNumber) {
-		this.vendorDunsNumber = vendorDunsNumber;
-	}
+    public BigDecimal getInvoiceLoadFailAmount() {
+        return invoiceLoadFailAmount;
+    }
 
+    public void setInvoiceLoadFailAmount(BigDecimal invoiceLoadFailAmount) {
+        this.invoiceLoadFailAmount = invoiceLoadFailAmount;
+    }
 
-	/**
-	 * Gets the fileProcessDate attribute.
-	 * 
-	 * @return Returns the fileProcessDate
-	 * 
-	 */
-	public Date getFileProcessDate() { 
-		return fileProcessDate;
-	}
+    public Integer getInvoiceLoadFailCount() {
+        return invoiceLoadFailCount;
+    }
 
-	/**
-	 * Sets the fileProcessDate attribute.
-	 * 
-	 * @param fileProcessDate The fileProcessDate to set.
-	 * 
-	 */
-	public void setFileProcessDate(Date fileProcessDate) {
-		this.fileProcessDate = fileProcessDate;
-	}
+    public void setInvoiceLoadFailCount(Integer invoiceLoadFailCount) {
+        this.invoiceLoadFailCount = invoiceLoadFailCount;
+    }
 
+    public BigDecimal getInvoiceLoadSuccessAmount() {
+        return invoiceLoadSuccessAmount;
+    }
 
-	/**
-	 * Gets the invoiceLoadSuccessCount attribute.
-	 * 
-	 * @return Returns the invoiceLoadSuccessCount
-	 * 
-	 */
-	public Integer getInvoiceLoadSuccessCount() { 
-		return invoiceLoadSuccessCount;
-	}
+    public void setInvoiceLoadSuccessAmount(BigDecimal invoiceLoadSuccessAmount) {
+        this.invoiceLoadSuccessAmount = invoiceLoadSuccessAmount;
+    }
 
-	/**
-	 * Sets the invoiceLoadSuccessCount attribute.
-	 * 
-	 * @param invoiceLoadSuccessCount The invoiceLoadSuccessCount to set.
-	 * 
-	 */
-	public void setInvoiceLoadSuccessCount(Integer invoiceLoadSuccessCount) {
-		this.invoiceLoadSuccessCount = invoiceLoadSuccessCount;
-	}
+    public Integer getInvoiceLoadSuccessCount() {
+        return invoiceLoadSuccessCount;
+    }
 
+    public void setInvoiceLoadSuccessCount(Integer invoiceLoadSuccessCount) {
+        this.invoiceLoadSuccessCount = invoiceLoadSuccessCount;
+    }
 
-	/**
-	 * Gets the invoiceLoadSuccessAmount attribute.
-	 * 
-	 * @return Returns the invoiceLoadSuccessAmount
-	 * 
-	 */
-	public BigDecimal getInvoiceLoadSuccessAmount() { 
-		return invoiceLoadSuccessAmount;
-	}
+    public String getVendorDunsNumber() {
+        return vendorDunsNumber;
+    }
 
-	/**
-	 * Sets the invoiceLoadSuccessAmount attribute.
-	 * 
-	 * @param invoiceLoadSuccessAmount The invoiceLoadSuccessAmount to set.
-	 * 
-	 */
-	public void setInvoiceLoadSuccessAmount(BigDecimal invoiceLoadSuccessAmount) {
-		this.invoiceLoadSuccessAmount = invoiceLoadSuccessAmount;
-	}
+    public void setVendorDunsNumber(String vendorDunsNumber) {
+        this.vendorDunsNumber = vendorDunsNumber;
+    }
 
-
-	/**
-	 * Gets the invoiceLoadFailCount attribute.
-	 * 
-	 * @return Returns the invoiceLoadFailCount
-	 * 
-	 */
-	public Integer getInvoiceLoadFailCount() { 
-		return invoiceLoadFailCount;
-	}
-
-	/**
-	 * Sets the invoiceLoadFailCount attribute.
-	 * 
-	 * @param invoiceLoadFailCount The invoiceLoadFailCount to set.
-	 * 
-	 */
-	public void setInvoiceLoadFailCount(Integer invoiceLoadFailCount) {
-		this.invoiceLoadFailCount = invoiceLoadFailCount;
-	}
-
-
-	/**
-	 * Gets the invoiceLoadFailAmount attribute.
-	 * 
-	 * @return Returns the invoiceLoadFailAmount
-	 * 
-	 */
-	public BigDecimal getInvoiceLoadFailAmount() { 
-		return invoiceLoadFailAmount;
-	}
-
-	/**
-	 * Sets the invoiceLoadFailAmount attribute.
-	 * 
-	 * @param invoiceLoadFailAmount The invoiceLoadFailAmount to set.
-	 * 
-	 */
-	public void setInvoiceLoadFailAmount(BigDecimal invoiceLoadFailAmount) {
-		this.invoiceLoadFailAmount = invoiceLoadFailAmount;
-	}
-
-	/**
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

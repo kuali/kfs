@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Capital Asset Transaction Type Business Object. 
  */
 public class CapitalAssetTransactionTypeRule extends PersistableBusinessObjectBase {
 
@@ -36,70 +36,31 @@ public class CapitalAssetTransactionTypeRule extends PersistableBusinessObjectBa
 
 	}
 
-	/**
-	 * Gets the capitalAssetTransactionTypeCode attribute.
-	 * 
-	 * @return Returns the capitalAssetTransactionTypeCode
-	 * 
-	 */
-	public String getCapitalAssetTransactionTypeCode() { 
-		return capitalAssetTransactionTypeCode;
-	}
+    public Integer getCapitalAssetRelationshipLimitNumber() {
+        return capitalAssetRelationshipLimitNumber;
+    }
 
-	/**
-	 * Sets the capitalAssetTransactionTypeCode attribute.
-	 * 
-	 * @param capitalAssetTransactionTypeCode The capitalAssetTransactionTypeCode to set.
-	 * 
-	 */
-	public void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode) {
-		this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
-	}
+    public void setCapitalAssetRelationshipLimitNumber(Integer capitalAssetRelationshipLimitNumber) {
+        this.capitalAssetRelationshipLimitNumber = capitalAssetRelationshipLimitNumber;
+    }
 
+    public String getCapitalAssetTransactionTypeCode() {
+        return capitalAssetTransactionTypeCode;
+    }
 
-	/**
-	 * Gets the financialObjectSubTypeCode attribute.
-	 * 
-	 * @return Returns the financialObjectSubTypeCode
-	 * 
-	 */
-	public String getFinancialObjectSubTypeCode() { 
-		return financialObjectSubTypeCode;
-	}
+    public void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode) {
+        this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
+    }
 
-	/**
-	 * Sets the financialObjectSubTypeCode attribute.
-	 * 
-	 * @param financialObjectSubTypeCode The financialObjectSubTypeCode to set.
-	 * 
-	 */
-	public void setFinancialObjectSubTypeCode(String financialObjectSubTypeCode) {
-		this.financialObjectSubTypeCode = financialObjectSubTypeCode;
-	}
+    public String getFinancialObjectSubTypeCode() {
+        return financialObjectSubTypeCode;
+    }
 
+    public void setFinancialObjectSubTypeCode(String financialObjectSubTypeCode) {
+        this.financialObjectSubTypeCode = financialObjectSubTypeCode;
+    }
 
-	/**
-	 * Gets the capitalAssetRelationshipLimitNumber attribute.
-	 * 
-	 * @return Returns the capitalAssetRelationshipLimitNumber
-	 * 
-	 */
-	public Integer getCapitalAssetRelationshipLimitNumber() { 
-		return capitalAssetRelationshipLimitNumber;
-	}
-
-	/**
-	 * Sets the capitalAssetRelationshipLimitNumber attribute.
-	 * 
-	 * @param capitalAssetRelationshipLimitNumber The capitalAssetRelationshipLimitNumber to set.
-	 * 
-	 */
-	public void setCapitalAssetRelationshipLimitNumber(Integer capitalAssetRelationshipLimitNumber) {
-		this.capitalAssetRelationshipLimitNumber = capitalAssetRelationshipLimitNumber;
-	}
-
-
-	/**
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

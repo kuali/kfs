@@ -86,9 +86,6 @@
                 <control>
                     <text size="8" />
                 </control>
-
-                <summary>The Sub-Fund Group code.</summary>
-                <description>The code used to categorize Accounts for internal resource management, and to relate the Account to a Fund through the Sub-Fund Groups.</description>
             </attribute>
 
 
@@ -101,18 +98,12 @@
                 <control>
                     <text size="47" />
                 </control>
-
-                <summary>Sub-Fund Group Code</summary>
-                <description>Sub-Fund Group Code</description>
-
             </attribute>
             <attributeReference name="subfundgrpActivityIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attributeReference name="subFundGroupWagesIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
                 <label>Wage Indicator</label>
                 <shortLabel>Indicator</shortLabel>
-                <summary>Indicator for whether this is a wage indicator.</summary>
-                <description>This is the indicator for whether this Sub-Fund Group is a wage indicator.</description>
             </attributeReference>
 
             <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
@@ -130,9 +121,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SubFundGroupTypeValuesFinder" />
                 </control>
-
-                <summary>The associated Type Code</summary>
-                <description>This is blah blah blah...</description>
             </attribute>
 
             <attribute name="subFundGroupDescription" forceUppercase="true">
@@ -148,9 +136,6 @@
                 <control>
                     <text size="42" />
                 </control>
-
-                <summary>The description.</summary>
-                <description>This is the description of this Sub-Fund Group.</description>
             </attribute>
 
               <attributeReference name="accountRestrictedStatusCode" sourceClassName="org.kuali.module.chart.bo.RestrictedStatus" sourceAttributeName="accountRestrictedStatusCode">
@@ -159,10 +144,6 @@
                  <control>
                      <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.RestrictedStatusValuesFinder" />
                  </control>
-                 <summary>
-                     <![CDATA[&nbsp;]]>
-                 </summary>
-                 <description>The default code for the status of usage restrictions on funds in the Account.</description>
              </attributeReference>
             
 
@@ -179,9 +160,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>Financial Reporting Sort Code</summary>
-                <description>The Financial Reporting Sort Code represents...</description>
             </attribute>
             
             <attributeReference name="fundGroupBudgetAdjustmentRestrictionLevelCode" 

@@ -124,7 +124,6 @@
                 <control>
                     <text size="2" />
                 </control>
-                <summary>Chart Of Accounts Code</summary>
             </attributeReference>
 
             <attribute name="organizationCode" forceUppercase="true">
@@ -140,9 +139,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>Organization Code</summary>
-                <description>The code used to represent an organization.</description>
             </attribute>
 
             <attribute name="organizationName" forceUppercase="true">
@@ -158,11 +154,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>Organization Name</summary>
-                <description>
-                    The long descriptive name of this Organization Code.
-                </description>
             </attribute>
 
 
@@ -175,10 +166,6 @@
                 <control>
                     <text size="45" />
                 </control>
-
-                <summary>Organization Code and Des</summary>
-                <description>Organization Code and Description</description>
-
             </attribute>
 
 
@@ -189,12 +176,6 @@
                 <control>
                     <hidden />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
 
             <attributeReference name="organizationManagerUniversal.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
@@ -204,12 +185,6 @@
                 <control>
                     <kualiUser universalIdAttributeName="organizationManagerUniversalId" userIdAttributeName="organizationManagerUniversal.personUserIdentifier" personNameAttributeName="organizationManagerUniversal.personName" />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
 
             <attributeReference name="organizationManagerUniversal.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
@@ -219,12 +194,6 @@
                 <control>
                     <hidden />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
 
             <attribute name="responsibilityCenterCode" forceUppercase="true">
@@ -240,11 +209,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>Responsibility Center Code</summary>
-                <description>
-                    The Responsibility Center to which this Organization belongs.
-                </description>
             </attribute>
 
             <attribute name="organizationPhysicalCampusCode" forceUppercase="true">
@@ -260,13 +224,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    The campus code which represents the physical location of this organization.
-                </description>
             </attribute>
 
             <attribute name="organizationTypeCode" forceUppercase="false">
@@ -282,35 +239,18 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.OrgTypeValuesFinder" />
                 </control>
-
-                <summary>Organization Type</summary>
-                <description>
-                    The type of organization such as campus (C), responsibility center (R), university chart organization (U), and other organizations (O), and not official (N).
-                </description>
             </attribute>
 
             <attributeReference name="organizationDefaultAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
                 <label>Organization Default Account Number</label>
                 <shortLabel>Default Acct</shortLabel>
                 <required>false</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
 
             <attributeReference name="organizationPlantAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
                 <label>Plant Account Number</label>
                 <shortLabel>Plant Acct</shortLabel>
                 <required>false</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
 
             <attributeReference name="organizationPlantChartCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
@@ -320,12 +260,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
 
             <attribute name="organizationZipCode" forceUppercase="false">
@@ -341,13 +275,6 @@
                 <control>
                     <text size="11" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                   The zip code assigned by the US Postal Service which relates to the city where this organization is located.
-                </description>
             </attribute>
 
             <attribute name="organizationStateCode" forceUppercase="true">
@@ -363,13 +290,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    The state where correspondence can be sent on issues identified to the organization.
-                </description>
             </attribute>
 
             <attribute name="organizationCountryCode" forceUppercase="true">
@@ -385,13 +305,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    The country where correspondence can be sent on issues identified to the organization.
-                </description>
             </attribute>
             
             <attribute name="organizationLine1Address" forceUppercase="false">
@@ -407,13 +320,6 @@
                 <control>
                     <text size="30" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    The street address where correspondence can be sent on issues identified to the organization.
-                </description>
             </attribute>
 
             <attribute name="organizationLine2Address" forceUppercase="false">
@@ -429,13 +335,6 @@
                 <control>
                     <text size="30" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    The second line of the street address where correspondence can be sent on issues identified to the organization.
-                </description>
             </attribute>
             <attribute name="organizationCityName" forceUppercase="false">
                 <label>Organization City Name</label>
@@ -450,13 +349,6 @@
                 <control>
                     <text size="25" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    The city where correspondence can be sent on issues identified to the organization.
-                </description>
             </attribute>
 
             <attributeReference name="reportsToChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
@@ -466,65 +358,35 @@
        	 		<control>
         	 	 <text size="2" />
         		</control>
-                <summary>Reports to Chart Code</summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
 
             <attributeReference name="reportsToOrganizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
                 <label>Reports to Organization</label>
                 <shortLabel>Rpts to Org</shortLabel>
                 <required>true</required>
-                <summary>Reports to Organization</summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
 
             <attributeReference name="organizationBeginDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Organization Begin Date</label>
                 <shortLabel>Begin Date</shortLabel>
                 <required>true</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
                 <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
             </attributeReference>
 
             <attributeReference name="organizationEndDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Organization End Date</label>
                 <shortLabel>End Date</shortLabel>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
 
             <attributeReference name="organizationActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Active</label>
                 <shortLabel>Act.</shortLabel>
-                <summary>Organization Active Indicator</summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
 
             <attributeReference name="campusPlantAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
                 <label>Campus Plant Account Number</label>
                 <shortLabel>Plant Acct</shortLabel>
                 <required>false</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
 
             <attributeReference name="campusPlantChartCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
@@ -534,12 +396,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
 
             <attribute name="organizationInFinancialProcessingIndicator" forceUppercase="false">
@@ -551,13 +407,6 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attribute>
 
             <attribute name="editPlantAccountsSection" forceUppercase="false">
@@ -566,22 +415,14 @@
                 <control>
                     <checkbox />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Dummy attribute to divide sections on Inquiry page.</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
 		<attribute name="editHrmsUnitSection" forceUppercase="false">
-				<label>EDIT HRMS UNIT SECTION</label>
-				<maxLength>50</maxLength>
-        		<control><checkbox /></control>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description>
-				Dummy attribute to divide sections on Inquiry page.
-				</description>
+			<label>EDIT HRMS UNIT SECTION</label>
+			<maxLength>50</maxLength>
+       		<control><checkbox /></control>
 		</attribute>
 
 		<attribute name="organizationExtension.hrmsCompany" forceUppercase="false">
@@ -597,9 +438,6 @@
        	 	<control>
         	  <text size="3" />
         	</control>
-
-        	<summary><![CDATA[&nbsp;]]></summary>
-        	<description>The company in the HRMS system to which this organization belongs.</description>
 		</attribute>
 
 		<attributeReference name="organizationExtension.hrmsIuOrganizationAddress2" 
@@ -629,8 +467,6 @@
         <shortLabel>Personnel Approver UserID</shortLabel>
         <required>false</required>
         <control><hidden /></control>
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
       </attributeReference>
 
 	  <attributeReference name="organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier" 
@@ -644,10 +480,6 @@
 							userIdAttributeName="organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier" 
 							personNameAttributeName="organizationExtension.hrmsPersonnelApproverUniversal.personName" />
 			</control>
-			<summary><![CDATA[&nbsp;]]></summary>
-			<description>
-				<![CDATA[&nbsp;]]>
-			</description>
 	  </attributeReference>
 	  
 		<attributeReference name="organizationExtension.hrmsPersonnelApproverUniversal.personName" 
@@ -657,10 +489,6 @@
 			<shortLabel>Name</shortLabel>
 			<required>false</required>
 			<control> <hidden /></control>
-			<summary><![CDATA[&nbsp;]]></summary>
-			<description>
-				<![CDATA[&nbsp;]]>
-			</description>
 		</attributeReference>
 
       <attributeReference name="organizationExtension.fiscalApproverUniversalId"
@@ -670,8 +498,6 @@
         <shortLabel>Fiscal Approver UserID</shortLabel>
         <required>false</required>
         <control><hidden /></control>
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
       </attributeReference>
 
 	  <attributeReference name="organizationExtension.fiscalApproverUniversal.personUserIdentifier" 
@@ -685,10 +511,6 @@
 							userIdAttributeName="organizationExtension.fiscalApproverUniversal.personUserIdentifier" 
 							personNameAttributeName="organizationExtension.fiscalApproverUniversal.personName" />
 			</control>
-			<summary><![CDATA[&nbsp;]]></summary>
-			<description>
-				<![CDATA[&nbsp;]]>
-			</description>
 	  </attributeReference>
 	  
 		<attributeReference name="organizationExtension.fiscalApproverUniversal.personName" 
@@ -698,10 +520,6 @@
 			<shortLabel>Name</shortLabel>
 			<required>false</required>
 			<control><hidden /></control>
-			<summary><![CDATA[&nbsp;]]></summary>
-			<description>
-				<![CDATA[&nbsp;]]>
-			</description>
 		</attributeReference>
 
 		<attributeReference name="organizationExtension.hrmsIuPositionAllowedFlag" 
@@ -710,10 +528,6 @@
 			<label>Position Allowed</label>
 			<shortLabel>Position Allowed</shortLabel>
 			<required>true</required>
-			<summary><![CDATA[&nbsp;]]></summary>
-			<description>
-			TBD
-			</description>
 		</attributeReference>
 		
 		<attributeReference name="organizationExtension.hrmsIuTenureAllowedFlag" 
@@ -722,10 +536,6 @@
 			<label>Tenure Allowed</label>
 			<shortLabel>Tenure Allowed</shortLabel>
 			<required>true</required>
-			<summary><![CDATA[&nbsp;]]></summary>
-			<description>
-			TBD
-			</description>
 		</attributeReference>
 						
 		<attributeReference name="organizationExtension.hrmsIuTitleAllowedFlag" 
@@ -734,10 +544,6 @@
 			<label>Title Allowed</label>
 			<shortLabel>Title Allowed</shortLabel>
 			<required>true</required>
-			<summary><![CDATA[&nbsp;]]></summary>
-			<description>
-			TBD
-			</description>
 		</attributeReference>
 						
 		<attributeReference name="organizationExtension.hrmsIuOccupationalUnitAllowedFlag" 
@@ -746,10 +552,6 @@
 			<label>Occupational Unit Allowed</label>
 			<shortLabel>Occupational Unit Allowed</shortLabel>
 			<required>true</required>
-			<summary><![CDATA[&nbsp;]]></summary>
-			<description>
-			TBD
-			</description>
 		</attributeReference>
 
 		<attributeReference name="organizationExtension.hrmsLastUpdateDate" 
@@ -757,8 +559,6 @@
 					sourceAttributeName="genericTimestamp">
 			<label>Last Update Date</label>
 			<shortLabel>Last Update Date</shortLabel>
-			<summary><![CDATA[&nbsp;]]></summary>
-			<description><![CDATA[&nbsp;]]></description>
 		</attributeReference>
 												      
 		<attributeReference name="organizationExtension.versionNumber" 

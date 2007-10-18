@@ -28,10 +28,6 @@
                 <label>Fiscal Year</label>
                 <shortLabel>FY</shortLabel>
                 <required>false</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>This identifies the fiscal year of this object code. The Kuali object code table is by fiscal year, which assists in clean-up and maitenance of object codes.</description>
             </attributeReference>
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
@@ -54,11 +50,6 @@
                 <control>
                     <text size="3" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The sub-object code for the "object" of accounting for a transaction, expressed as a 4-digit numeric text, including leading zeros. For Search Criteria, select the Help for the Object Code Lookup title.</description>
             </attribute>
 
             <attribute name="financialSubObjectCodeName" forceUppercase="true">
@@ -73,11 +64,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>A description that conveys the concept represented by the Object Code. For Search Criteria, select the Help for the Object Code Lookup title.</description>
             </attribute>
 
             <attribute name="financialSubObjectCodeShortName" forceUppercase="true">
@@ -92,11 +78,6 @@
                 <control>
                     <text size="12" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>A shortened version of the Object Code Name for use on standard reports that have limited space available for printing. No additional functions have been assigned to this field. For Search Criteria, select the Help for the Object Code Lookup title.</description>
             </attribute>
 
             <attribute name="financialSubObjectActiveIndicator" forceUppercase="false">
@@ -108,11 +89,6 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Radioboxes in the entry form that indicate if the Object Code is active or inactive. If "Both" is checked in the Lookup, then both "Yes" (active) or "No" (inactive) values are listed in the search.</description>
                 <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
             </attribute>
 

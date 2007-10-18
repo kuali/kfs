@@ -72,9 +72,6 @@
                 <control>
                     <text size="7" />
                 </control>
-
-                <summary>Account Number</summary>
-                <description>Account Number</description>
             </attribute>
 
             <attribute name="financialObjectCode" forceUppercase="true">
@@ -86,9 +83,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>Object Code</summary>
-                <description>Object Code...</description>
             </attribute>
 
 
@@ -99,8 +93,6 @@
                <control>
                     <text size="2" />
                 </control>
-                <summary>Object Chart</summary>
-                <description>Object Chart...</description>
             </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

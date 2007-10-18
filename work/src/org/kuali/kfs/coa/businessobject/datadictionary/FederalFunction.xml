@@ -65,9 +65,6 @@
                 <control>
                     <text size="3" />
                 </control>
-
-                <summary>Federal Function Code</summary>
-                <description>The code uniquely identifying a particular Federal Function.</description>
             </attribute>
 
             <attribute name="financialFederalFunctionName" forceUppercase="true">
@@ -80,9 +77,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>Federal Function Name</summary>
-                <description>Federal Function Name...</description>
             </attribute>
 
 

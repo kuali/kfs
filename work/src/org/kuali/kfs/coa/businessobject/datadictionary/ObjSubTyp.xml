@@ -64,9 +64,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>Object Sub-Type Code</summary>
-                <description>Object Sub-Type Code</description>
             </attribute>
 
             <attribute name="name" forceUppercase="true">
@@ -79,9 +76,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>Object Sub-Type Name</summary>
-                <description>Object Sub-Type Name...</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

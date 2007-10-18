@@ -26,10 +26,6 @@
                 <label>Fiscal Year</label>
                 <shortLabel>FY</shortLabel>
                 <required>false</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>This identifies the fiscal year of this object code. The Kuali object code table is by fiscal year, which assists in clean-up and maitenance of object codes.</description>
             </attributeReference>
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
@@ -51,11 +47,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The code for the "object" of accounting for a transaction, expressed as a 4-digit numeric text, including leading zeros. For Search Criteria, select the Help for the Object Code Lookup title.</description>
             </attribute>
             
             <attributeReference name="newCollectionRecord" 

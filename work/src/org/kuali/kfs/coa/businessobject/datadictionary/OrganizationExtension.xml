@@ -42,9 +42,6 @@
 		        <control>
 		          <text size="3" />
 		        </control>
-
-		        <summary><![CDATA[&nbsp;]]></summary>
-		        <description>The company in the HRMS system to which this organization belongs.</description>
 		      </attribute>
 
 								
@@ -58,9 +55,6 @@
 				<control>
 					<text size="30" />
 				</control>
-
-        		<summary><![CDATA[&nbsp;]]></summary>
-        		<description>The first line of address where correspondence can be sent related to HRMS issues for this organization.</description>
 			</attribute>
 			
 			<attribute name="hrmsIuOrganizationAddress3" forceUppercase="false">
@@ -73,9 +67,6 @@
 				<control>
 					<text size="30" />
 				</control>
-
-        		<summary><![CDATA[&nbsp;]]></summary>
-        		<description>The second line of address where correspondence can be sent related to HRMS issues for this organization.</description>
 			</attribute>
 
 			
@@ -89,9 +80,6 @@
 				<control>
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder" />
 				</control>
-
-        		<summary><![CDATA[&nbsp;]]></summary>
-        		<description>The campus where correspondence can be sent related to HRMS issues for this organization.</description>
 			</attribute>
 			
 			<attribute name="hrmsIuCampusBuilding" forceUppercase="false">
@@ -104,9 +92,6 @@
 				<control>
 					<text size="10" />
 				</control>
-
-        		<summary><![CDATA[&nbsp;]]></summary>
-        		<description>The building where correspondence can be sent related to HRMS issues for this organization.</description>
 			</attribute>
 			
 			<attribute name="hrmsIuCampusRoom" forceUppercase="false">
@@ -119,9 +104,6 @@
 				<control>
 					<text size="8" />
 				</control>
-
-        		<summary><![CDATA[&nbsp;]]></summary>
-        		<description>The room where correspondence can be sent related to HRMS issues for this organization.</description>
 			</attribute>
 			
       <attributeReference name="hrmsPersonnelApproverUniversalId"
@@ -131,8 +113,6 @@
         <shortLabel>Personnel Approver UserID</shortLabel>
         <required>true</required>
         <control><hidden /></control>
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
       </attributeReference>
 
 	  <attributeReference name="hrmsPersonnelApproverUniversal.personUserIdentifier" 
@@ -146,10 +126,6 @@
 							userIdAttributeName="hrmsPersonnelApproverUniversal.personUserIdentifier" 
 							personNameAttributeName="hrmsPersonnelApproverUniversal.personName" />
 			</control>
-			<summary><![CDATA[&nbsp;]]></summary>
-			<description>
-				<![CDATA[&nbsp;]]>
-			</description>
 	  </attributeReference>
 	  
 		<attributeReference name="hrmsPersonnelApproverUniversal.personName" 
@@ -159,10 +135,6 @@
 			<shortLabel>Name</shortLabel>
 			<required>false</required>
 			<control><hidden /></control>
-			<summary><![CDATA[&nbsp;]]></summary>
-			<description>
-				<![CDATA[&nbsp;]]>
-			</description>
 		</attributeReference>
 
       <attributeReference name="fiscalApproverUniversalId"
@@ -172,8 +144,6 @@
         <shortLabel>Fiscal Approver UserID</shortLabel>
         <required>true</required>
         <control><hidden /></control>
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
       </attributeReference>
 
 	  <attributeReference name="fiscalApproverUniversal.personUserIdentifier" 
@@ -187,10 +157,6 @@
 							userIdAttributeName="fiscalApproverUniversal.personUserIdentifier" 
 							personNameAttributeName="fiscalApproverUniversal.personName" />
 			</control>
-			<summary><![CDATA[&nbsp;]]></summary>
-			<description>
-				<![CDATA[&nbsp;]]>
-			</description>
 	  </attributeReference>
 	  
 		<attributeReference name="fiscalApproverUniversal.personName" 
@@ -200,10 +166,6 @@
 			<shortLabel>Name</shortLabel>
 			<required>false</required>
 			<control><hidden /></control>
-			<summary><![CDATA[&nbsp;]]></summary>
-			<description>
-				<![CDATA[&nbsp;]]>
-			</description>
 		</attributeReference>
 
 		<attributeReference name="hrmsIuPositionAllowedFlag" 
@@ -212,10 +174,6 @@
 			<label>Position Allowed</label>
 			<shortLabel>Position Allowed</shortLabel>
 			<required>true</required>
-			<summary><![CDATA[&nbsp;]]></summary>
-			<description>
-			TBD
-			</description>
 		</attributeReference>
 		
 		<attributeReference name="hrmsIuTenureAllowedFlag" 
@@ -224,10 +182,6 @@
 			<label>Tenure Allowed</label>
 			<shortLabel>Tenure Allowed</shortLabel>
 			<required>true</required>
-			<summary><![CDATA[&nbsp;]]></summary>
-			<description>
-			TBD
-			</description>
 		</attributeReference>
 						
 		<attributeReference name="hrmsIuTitleAllowedFlag" 
@@ -236,10 +190,6 @@
 			<label>Title Allowed</label>
 			<shortLabel>Title Allowed</shortLabel>
 			<required>true</required>
-			<summary><![CDATA[&nbsp;]]></summary>
-			<description>
-			TBD
-			</description>
 		</attributeReference>
 						
 		<attributeReference name="hrmsIuOccupationalUnitAllowedFlag" 
@@ -248,10 +198,6 @@
 			<label>Occupational Unit Allowed</label>
 			<shortLabel>Occupational Unit Allowed</shortLabel>
 			<required>true</required>
-			<summary><![CDATA[&nbsp;]]></summary>
-			<description>
-			TBD
-			</description>
 		</attributeReference>
 
 		<attributeReference name="hrmsLastUpdateDate" 
@@ -259,8 +205,6 @@
 					sourceAttributeName="genericTimestamp">
 			<label>Last Update Date</label>
 			<shortLabel>Last Update Date</shortLabel>
-			<summary><![CDATA[&nbsp;]]></summary>
-			<description><![CDATA[&nbsp;]]></description>
 		</attributeReference>
 											
         <attributeReference name="versionNumber" 

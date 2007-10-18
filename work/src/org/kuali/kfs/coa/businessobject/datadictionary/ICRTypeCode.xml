@@ -63,9 +63,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>Indirect Cost Recovery Type Code</summary>
-                <description>Indirect Cost Recovery Type Code</description>
             </attribute>
 
             <attribute name="name" forceUppercase="true">
@@ -77,9 +74,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>Indirect Cost Recovery Type Name</summary>
-                <description>Indirect Cost Recovery Type Name...</description>
             </attribute>
 
             <attribute name="codeAndDescription" forceUppercase="false">
@@ -91,9 +85,6 @@
                 <control>
                     <text size="45" />
                 </control>
-
-                <summary>Indirect Cost Recovery Type Code</summary>
-                <description>Indirect Cost Recovery Type Code</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

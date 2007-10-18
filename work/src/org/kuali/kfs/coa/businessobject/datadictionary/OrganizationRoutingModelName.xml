@@ -83,9 +83,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
 			</attribute>
 
             <attribute name="organizationCode" forceUppercase="true">
@@ -98,9 +95,6 @@
                 <control>
                     <text size="6" />
                 </control>
-
-                <summary>organizationCode</summary>
-                <description>organizationCode description...</description>
 			</attribute>
 
             <attribute name="organizationRoutingModelName" forceUppercase="true">
@@ -113,9 +107,6 @@
                 <control>
                     <text size="12" />
                 </control>
-
-                <summary>accountDelegateModelName</summary>
-                <description>accountDelegateModelName description...</description>
 			</attribute>
 
             <attributeReference name="versionNumber" 

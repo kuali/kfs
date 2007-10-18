@@ -64,9 +64,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>Mandatory Transfer Elimination Code</summary>
-                <description>Mandatory Transfer Elimination Code</description>
             </attribute>
 
             <attribute name="name" forceUppercase="true">
@@ -79,9 +76,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>Mandatory Transfer Elimination Name</summary>
-                <description>Mandatory Transfer Elimination Name...</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

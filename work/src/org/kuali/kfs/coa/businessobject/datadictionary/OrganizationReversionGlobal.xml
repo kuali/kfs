@@ -33,9 +33,6 @@
                 <control>
                     <text size="16" />
                 </control>
-
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
             </attribute>
         
             <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
@@ -52,7 +49,6 @@
                 <label>Budget Reversion Account</label>
                 <shortLabel>Budget Reversion Account</shortLabel>
                 <required>false</required>
-                <description>Budget Reversion Account</description>
             </attributeReference>
 
             <attributeReference name="cashReversionFinancialChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
@@ -65,7 +61,6 @@
                 <label>Cash Reversion Account</label>
                 <shortLabel>Cash Reversion Account</shortLabel>
                 <required>false</required>
-                <description>Cash Reversion Account</description>
             </attributeReference>
 
             <attribute name="carryForwardByObjectCodeIndicator">
@@ -75,12 +70,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNNullValuesFinder" />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
                 <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
             </attribute>
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

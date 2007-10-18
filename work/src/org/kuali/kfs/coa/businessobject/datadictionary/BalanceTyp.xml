@@ -71,9 +71,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>Balance Type Code</summary>
-                <description>The type of balance this offsetting definition is relevant for.</description>
             </attribute>
 
             <attribute name="name" forceUppercase="true">
@@ -86,9 +83,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>Balance Type Name</summary>
-                <description>Balance Type Name...</description>
             </attribute>
 
             <attribute name="financialBalanceTypeShortNm" forceUppercase="true">
@@ -101,23 +95,16 @@
                 <control>
                     <text size="12" />
                 </control>
-
-                <summary>Balance Type Short Name</summary>
-                <description>Balance Type Short Name...</description>
             </attribute>
 
             <attributeReference name="financialOffsetGenerationIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Offset Generation</label>
                 <shortLabel>Offset Gen</shortLabel>
-                <summary>Offset Generation</summary>
-                <description>Offset Generation...</description>
             </attributeReference>
 
             <attributeReference name="finBalanceTypeEncumIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Encumbrance</label>
                 <shortLabel>Encumbrance</shortLabel>
-                <summary>Encumbrance</summary>
-                <description>Encumbrance...</description>
             </attributeReference>
 
             <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />

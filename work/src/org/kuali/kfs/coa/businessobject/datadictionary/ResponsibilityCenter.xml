@@ -70,9 +70,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>Responsibility Center Code</summary>
-                <description>The code uniquely identifying a particular responsibilityCenter.</description>
             </attribute>
 
             <attribute name="responsibilityCenterName" forceUppercase="true">
@@ -85,9 +82,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>Responsibility Center Name</summary>
-                <description>Responsibility Center Name...</description>
             </attribute>
 
             <attribute name="responsibilityCenterShortName" forceUppercase="true">
@@ -100,17 +94,12 @@
                 <control>
                     <text size="12" />
                 </control>
-
-                <summary>Responsibility Center Short Name</summary>
-                <description>Short Name...</description>
             </attribute>
 
             <attributeReference name="responsibilityCenterActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
                 <label>Responsibility Center Active Indicator</label>
                 <shortLabel>Respons Center Active</shortLabel>
                 <required>false</required>
-                <summary>Responsibility Center Active Indicator</summary>
-                <description>Responsibility Center Active Indicator</description>
             </attributeReference>
 
 

@@ -79,9 +79,6 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary>Budget rollover summary...</summary>
-                <description>Budget rollover description...</description>
             </attribute>
             <attribute name="universityFiscalPeriodName" forceUppercase="true">
                 <label>University Fiscal Period Name</label>
@@ -96,9 +93,6 @@
                 <control>
                     <text size="10" />
                 </control>
-
-                <summary>universityFiscalPeriodName summary...</summary>
-                <description>universityFiscalPeriodName description...</description>
             </attribute>
             <attribute name="universityFiscalPeriodStatusCode" forceUppercase="true">
                 <label>University Fiscal Period Status Code</label>
@@ -113,9 +107,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.core.lookup.keyvalues.OpenCloseValuesFinder" />
                 </control>
-
-                <summary>universityFiscalPeriodStatusCode summary...</summary>
-                <description>universityFiscalPeriodStatusCode description...</description>
             </attribute>
 
             <attribute name="universityFiscalPeriodCode" forceUppercase="true">
@@ -131,17 +122,12 @@
                 <control>
                     <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.FiscalPeriodValuesFinder" />
                 </control>
-
-                <summary>universityFiscalPeriodCode summary...</summary>
-                <description>universityFiscalPeriodCode description...</description>
             </attribute>
 
             <attributeReference name="universityFiscalPeriodEndDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>University Fiscal Period End Date</label>
                 <shortLabel>End Date</shortLabel>
                 <required>true</required>
-                <summary>University Fiscal Period End Date</summary>
-                <description>University Fiscal Period End Date...</description>
             </attributeReference>
 
             <attribute name="universityFiscalYear" forceUppercase="true">
@@ -157,9 +143,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>universityFiscalYear summary...</summary>
-                <description>universityFiscalYear description...</description>
             </attribute>
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
             <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />

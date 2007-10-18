@@ -40,23 +40,11 @@
             <attributeReference name="accountDelegatePrimaryRoutingIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Account Delegate Primary Route</label>
                 <shortLabel>PrimaryRoute</shortLabel>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
             <attributeReference name="accountDelegateStartDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Account Delegate Start Date</label>
                 <shortLabel>DelegateStartDt</shortLabel>
                 <required>true</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
             
              <attributeReference name="accountDelegateUniversalId" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
@@ -76,10 +64,6 @@
                 <control>
                     <kualiUser universalIdAttributeName="accountDelegateUniversalId" userIdAttributeName="accountDelegate.personUserIdentifier" personNameAttributeName="accountDelegate.personName" />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The username of the Account Delegate for the Account.</description>
             </attributeReference>
 
             <attributeReference name="accountDelegate.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
@@ -89,10 +73,6 @@
                 <control>
                     <hidden />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The Name of the Account Delegate User.</description>
             </attributeReference>
 
             <attribute name="approvalFromThisAmount" forceUppercase="true">
@@ -107,9 +87,6 @@
                 <control>
                     <text size="21" />
                 </control>
-
-                <summary>approvalFromThisAmount</summary>
-                <description>approvalFromThisAmount description...</description>
             </attribute>
 
             <attribute name="approvalToThisAmount" forceUppercase="true">
@@ -124,18 +101,11 @@
                 <control>
                     <text size="21" />
                 </control>
-
-                <summary>approvalToThisAmount</summary>
-                <description>approvalToThisAmount description...</description>
             </attribute>
             
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Active</label>
                 <shortLabel>Act.</shortLabel>
-                <summary>Account Delegate Model Active Indicator</summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
             
             <attributeReference name="newCollectionRecord" 

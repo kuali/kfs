@@ -33,9 +33,6 @@
                 <control>
                     <text size="16" />
                 </control>
-
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
             </attribute>
             <attributeReference name="organizationReversionCategoryCode" sourceClassName="org.kuali.module.chart.bo.OrganizationReversionCategory" sourceAttributeName="organizationReversionCategoryCode">
                 <label>Organization Reversion Category</label>
@@ -58,10 +55,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.OrganizationReversionCodeValuesFinder" />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Bank Account Type.</description>
             </attribute>
 
             <attributeReference name="newCollectionRecord" 

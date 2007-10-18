@@ -82,10 +82,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.OrganizationReversionCodeValuesFinder" />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Bank Account Type.</description>
             </attribute>
 
             <attributeReference name="newCollectionRecord" 

@@ -67,10 +67,6 @@
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
                 <label>Active Indicator</label>
                 <shortLabel>Active</shortLabel>
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>
-                    Active Indicator
-                </description>
             </attributeReference>
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
@@ -78,7 +74,6 @@
                 <control>
                     <text size="2" />
                 </control>
-                <summary><![CDATA[&nbsp;]]></summary>
             </attributeReference>
 
 
@@ -103,10 +98,6 @@
                 <control>
                     <kualiUser universalIdAttributeName="projectManagerUniversalId" userIdAttributeName="projectManagerUniversal.personUserIdentifier" personNameAttributeName="projectManagerUniversal.personName" />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The UserID of the Project Manager.</description>
             </attributeReference>
 
             <attributeReference name="projectManagerUniversal.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
@@ -116,10 +107,6 @@
                 <control>
                     <hidden />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The Name of the Project Manager.</description>
             </attributeReference>
 
             <attribute name="code" forceUppercase="true">
@@ -135,11 +122,6 @@
                 <control>
                     <text size="10" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>
-                    The unique code to identify a project.
-                </description>
             </attribute>
 
             <attribute name="projectDescription" forceUppercase="false">
@@ -155,13 +137,6 @@
                 <control>
                     <textarea rows="3" cols="40" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    Project Description
-                </description>
             </attribute>
 
             <attribute name="name" forceUppercase="true">
@@ -177,11 +152,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>
-                    The long descriptive name of this Project Code. This name appears on the accounting line in financial documents as well as in searches and reports.
-                </description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

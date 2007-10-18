@@ -81,15 +81,10 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <description>The code for the Chart of Accounts for an Account. It is part of the primary key. Kuali accommodates more than one Chart of Accounts</description>
-
             </attributeReference>
 
             <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
                 <required>true</required>
-                <description>Identifier for a pool of funds assigned to a specific university entity for a specific function.</description>
-
             </attributeReference>
 
             <attributeReference name="financialDocumentTypeCode" 
@@ -104,10 +99,6 @@
                 <control>
                     <hidden />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The Universal ID (ie, unique identifier) of the Account Delegate.</description>
             </attributeReference>
 
             <attributeReference name="accountDelegate.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
@@ -117,10 +108,6 @@
                 <control>
                     <kualiUser universalIdAttributeName="accountDelegateSystemId" userIdAttributeName="accountDelegate.personUserIdentifier" personNameAttributeName="accountDelegate.personName" />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The user ID of the designated delegate for the Fiscal Officer for the Account.</description>
             </attributeReference>
 
             <attributeReference name="accountDelegate.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
@@ -130,62 +117,34 @@
                 <control>
                     <hidden />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The Name of the Account Delegate.</description>
             </attributeReference>
 
             <attributeReference name="finDocApprovalFromThisAmt" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Approval From This Amount</label>
                 <shortLabel>FromAmt</shortLabel>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Total Amount on the 'From' side of the document.</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
             <attributeReference name="finDocApprovalToThisAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Approval To This Amount</label>
                 <shortLabel>ToAmt</shortLabel>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Total Amount on the 'To' side of the document.</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
             <attributeReference name="accountsDelegatePrmrtIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Account Delegate Primary Route</label>
                 <shortLabel>PrimaryRoute</shortLabel>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
 
             <attributeReference name="accountDelegateActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Account Delegate Active</label>
                 <shortLabel>DelegateActive</shortLabel>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Radioboxes in the entry form that indicate if the Account delegation is active or inactive. If "Both" is checked in the Lookup, then both "Yes" (active) or "No" (inactive) values are listed in the search.</description>
             </attributeReference>
 
             <attributeReference name="accountDelegateStartDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Account Delegate Start Date</label>
                 <shortLabel>DelegateStartDt</shortLabel>
                 <required>true</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

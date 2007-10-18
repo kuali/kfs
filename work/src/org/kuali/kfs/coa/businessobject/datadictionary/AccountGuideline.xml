@@ -30,22 +30,16 @@
             <attributeReference name="accountExpenseGuidelineText" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBigText">
                 <label>Account Expense Guideline Text</label>
                 <shortLabel>ExpGuideTxt</shortLabel>
-                <summary>Expense Guidelines</summary>
-                <description>A textual description of the Expense Guidelines.</description>
             </attributeReference>
 
             <attributeReference name="accountIncomeGuidelineText" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBigText">
                 <label>Account Income Guideline Text</label>
                 <shortLabel>IncGuideTxt</shortLabel>
-                <summary>Income Guidelines</summary>
-                <description>A textual description of the Income Guidelines.</description>
             </attributeReference>
 
             <attributeReference name="accountPurposeText" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBigText">
                 <label>Account Purpose Text</label>
                 <shortLabel>AcctPurpTxt</shortLabel>
-                <summary>Account Purpose Text</summary>
-                <description>A textual description of the Account Purpose.</description>
             </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

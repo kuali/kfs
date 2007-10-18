@@ -79,7 +79,6 @@
         <attributes>
             <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <required>true</required>
-                <summary>University Fiscal Year</summary>
             </attributeReference>
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
@@ -87,17 +86,14 @@
                 <control>
                     <text size="2" />
                 </control>
-				<summary>Chart Of Accounts Code</summary>
             </attributeReference>
 
             <attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
                 <required>true</required>
-                <summary>Object Code</summary>
             </attributeReference>
 
             <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
                 <required>true</required>
-                <summary>Account Number</summary>
             </attributeReference>
 
             <attribute name="financialSubObjectCode" forceUppercase="true">
@@ -113,11 +109,6 @@
                 <control>
                     <text size="3" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>
-                    The code to define this sub-object. This is the code that should be entered in the sub-object field of the accounting line on financial documents.
-                </description>
             </attribute>
 
             <attribute name="financialSubObjectCodeName" forceUppercase="true">
@@ -133,11 +124,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>
-                    The long descriptive name of this Sub-object Code. This name will appear on the accounting line in financial documents as well as in searches and reports.
-                </description>
             </attribute>
 
             <attribute name="financialSubObjectCdshortNm" forceUppercase="true">
@@ -153,13 +139,6 @@
                 <control>
                     <text size="12" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    The abbreviated name for this Sub-object Code. This name may be used in reports where there is not enough space to accommodate the Sub-object Code Name.
-                </description>
             </attribute>
 
             <attributeReference name="financialSubObjectActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />

@@ -59,9 +59,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>basicAccountingCategoryCode</summary>
-                <description>a code for this basic accounting category</description>
 			</attribute>
 
             <attribute name="description" forceUppercase="true">
@@ -74,9 +71,6 @@
                 <control>
                     <text size="42" />
                 </control>
-
-                <summary>basicAccountingCategoryDescription</summary>
-                <description>The basic accounting category</description>
 			</attribute>
 
             <attribute name="shortName" forceUppercase="true">
@@ -89,9 +83,6 @@
                 <control>
                     <text size="14" />
                 </control>
-
-                <summary>basicAccountingCategoryShortName</summary>
-                <description>Short name of Basic Accounting Category; used for reporting.</description>
 			</attribute>
 
             <attribute name="active" forceUppercase="true">
@@ -103,9 +94,6 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary>active</summary>
-                <description>Is this category active?</description>
 			</attribute>
 
             <attribute name="sortCode" forceUppercase="true">
@@ -118,9 +106,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>financialReportingSortCode</summary>
-                <description>Sort order of basic accounting categories.</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

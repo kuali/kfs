@@ -52,9 +52,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>Sub-Account Type Code</summary>
-                <description>Sub-Account Type Code should be EX or CS indicating Indirect Cost Recovery or Cost Sharing respectively.</description>
             </attribute>
 
             <attributeReference name="indirectCostRecoveryTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.ICRTypeCode" sourceAttributeName="code" />
@@ -71,9 +68,6 @@
                 <control>
                     <text size="3" />
                 </control>
-
-                <summary>Series Id</summary>
-                <description>Series Id</description>
             </attribute>
 
             <attributeReference name="indirectCostRecoveryChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
@@ -82,23 +76,16 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
-
-                <summary>ICR Chart</summary>
-                <description>ICR Chart...</description>
             </attributeReference>
 
             <attributeReference name="indirectCostRecoveryAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
                 <label>ICR Account</label>
                 <shortLabel>ICR Account</shortLabel>
-                <summary>ICR Account</summary>
-                <description>ICR Account...</description>
             </attributeReference>
 
             <attributeReference name="offCampusCode" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
                 <label>Off Campus Indicator</label>
                 <shortLabel>Off Campus</shortLabel>
-                <summary>Off Campus Indicator</summary>
-                <description>Off Campus Indicator</description>
             </attributeReference>
 
             <attributeReference name="costShareChartOfAccountCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
@@ -107,24 +94,18 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
-                <summary>Cost Sharing Chart of Accounts Code</summary>
-                <description>Cost Sharing Chart of Accounts Code</description>
             </attributeReference>
 
 
             <attributeReference name="costShareSourceAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
                 <label>Cost Sharing Account Number</label>
                 <shortLabel>Cost Sharing Account</shortLabel>
-                <summary>Cost Sharing Account Number</summary>
-                <description>Cost Sharing Account Number</description>
             </attributeReference>
 
 
             <attributeReference name="costShareSourceSubAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
                 <label>Cost Sharing Sub-Account Number</label>
                 <shortLabel>Cost Sharing Sub-Account</shortLabel>
-                <summary>Cost Sharing Sub-Account Number</summary>
-                <description>Cost Sharing Sub-Account Number</description>
             </attributeReference>
 
 

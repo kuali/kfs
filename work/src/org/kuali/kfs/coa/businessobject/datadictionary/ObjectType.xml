@@ -75,9 +75,6 @@
                 <control>
                     <text size="3" />
                 </control>
-
-                <summary>Object Type Code</summary>
-                <description>The unique code representing this object type.</description>
             </attribute>
 
             <attribute name="name" forceUppercase="true">
@@ -90,9 +87,6 @@
                 <control>
                     <text size="41" />
                 </control>
-
-                <summary>Object Type Name</summary>
-                <description>Object Type Name...</description>
             </attribute>
 
             <attribute name="financialReportingSortCode" forceUppercase="true">
@@ -105,9 +99,6 @@
                 <control>
                     <text size="3" />
                 </control>
-
-                <summary>Reporting Sort Code</summary>
-                <description>Reporting Sort Code</description>
             </attribute>
 
             <attribute name="finObjectTypeDebitcreditCd" forceUppercase="true">
@@ -123,23 +114,16 @@
                 <control>
                     <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.DebitCreditValuesFinder" />
                 </control>
-
-                <summary>Object Type Debit Credit Code</summary>
-                <description>The unique code indicating that the object type is a credit or a debit.</description>
             </attribute>
 
             <attributeReference name="finObjectTypeIcrSelectionIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>ICR Selection Indicator</label>
                 <shortLabel>ICR Select Indicator</shortLabel>
-                <summary>ICR Selection Indicator</summary>
-                <description>ICR Selection Indicator</description>
             </attributeReference>
 
             <attributeReference name="fundBalanceIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Fund Balance Indicator</label>
                 <shortLabel>Fund Balance Indicator</shortLabel>
-                <summary>Fund Balance Indicator</summary>
-                <description>Fund Balance Indicator</description>
             </attributeReference>
 
 			<attributeReference name="basicAccountingCategoryCode" sourceClassName="org.kuali.module.chart.bo.BasicAccountingCategory" sourceAttributeName="code">
@@ -150,9 +134,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.BasicAccountingCategoryValuesFinder" />
                 </control>
-				
-				<summary>Basic Accounting Category</summary>
-				<description>Basic Accounting Category</description>
 			</attributeReference>
 
             <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />

@@ -83,9 +83,6 @@
                 <control>
                     <text size="10" />
                 </control>
-
-                <summary>financialReportingCode</summary>
-                <description>Financial Reporting Code is a unique identifier of the type of a document.</description>
             </attribute>
 
             <attribute name="financialReportingCodeDescription" forceUppercase="true">
@@ -100,9 +97,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>financialReportingCodeDescription</summary>
-                <description>financialReportingCodeDescription is a unique identifier of the type of a document.</description>
             </attribute>
 
             <attribute name="financialReportingCodeMgrId" forceUppercase="true">
@@ -118,9 +112,6 @@
                 <control>
                     <hidden />
                 </control>
-
-                <summary>financialReportingCodeMgrId</summary>
-                <description>Financial Reporting Code Manager Id is a unique identifier of the type of a document.</description>
             </attribute>
 
             <attributeReference name="universalUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
@@ -130,8 +121,6 @@
                 <control>
                     <kualiUser universalIdAttributeName="financialReportingCodeMgrId" userIdAttributeName="universalUser.personUserIdentifier" personNameAttributeName="universalUser.personName" />
                 </control>
-                <summary>Reporting Code Manager User ID</summary>
-                <description>The UserID of the Reporting Code Manager.</description>
             </attributeReference>
 
             <attributeReference name="universalUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
@@ -141,8 +130,6 @@
                 <control>
                     <hidden />
                 </control>
-                <summary>Reporting Code Manager Name</summary>
-                <description>The Name of the Reporting Code Manager.</description>
             </attributeReference>
             <attributeReference name="financialReportsToReportingCode" sourceClassName="org.kuali.module.chart.bo.ReportingCodes" sourceAttributeName="financialReportingCode">
                 <label>Financial Reports To Reporting Code</label>
@@ -151,8 +138,6 @@
                 <control>
                     <text size="10" />
                 </control>
-                <summary>Financial Reports To Reporting Code</summary>
-                <description>Financial Reports To Reporting Code is a unique identifier of the type of a document.</description>
             </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

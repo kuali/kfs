@@ -61,9 +61,6 @@
                 <control>
                     <text size="1" />
                 </control>
-
-                <summary>Budget Aggregation Code</summary>
-                <description>The code for a budget aggregation.</description>
             </attribute>
 
             <attribute name="name" forceUppercase="true">
@@ -76,9 +73,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>Budget Aggregation Name</summary>
-                <description>Budget Aggregation Name...</description>
             </attribute>
 
             <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />

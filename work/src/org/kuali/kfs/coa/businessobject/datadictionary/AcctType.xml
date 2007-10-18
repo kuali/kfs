@@ -64,9 +64,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>Account Type Code</summary>
-                <description>Account Code</description>
             </attribute>
 
             <attribute name="accountTypeName" forceUppercase="true">
@@ -81,9 +78,6 @@
                 <control>
                     <text size="50" />
                 </control>
-
-                <summary>Account Type Name</summary>
-                <description>Account Type Name</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

@@ -64,9 +64,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>Federal Funded Code</summary>
-                <description>Federal Funded Code</description>
             </attribute>
 
             <attribute name="name" forceUppercase="true">
@@ -79,9 +76,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>Federal Funded Name</summary>
-                <description>Federal Funded Name...</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

@@ -82,8 +82,6 @@
                 <label>Balance Type Code</label>
                 <shortLabel>Balance Type</shortLabel>
                 <required>true</required>
-                <summary>Balance Type Code</summary>
-                <description>The type of balance this offsetting definition is relevant for.</description>
             </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

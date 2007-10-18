@@ -93,9 +93,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>Level Code</summary>
-                <description>Level Code</description>
             </attribute>
 
             <attribute name="financialObjectLevelName" forceUppercase="true">
@@ -110,9 +107,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>Object Level Name</summary>
-                <description>Object Level Name</description>
             </attribute>
 
             <attribute name="financialObjectLevelShortNm" forceUppercase="true">
@@ -127,9 +121,6 @@
                 <control>
                     <text size="12" />
                 </control>
-
-                <summary>Object Level Short Name</summary>
-                <description>Object Level Short Name</description>
             </attribute>
             <attributeReference name="financialConsolidationObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCons" sourceAttributeName="finConsolidationObjectCode">
 
@@ -141,10 +132,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>Consolidation Code</summary>
-                <description>Consolidation Object Code</description>
-
             </attributeReference>
             <attributeReference name="financialObjectLevelActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
                 <required>true</required>
@@ -162,9 +149,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>Report Sort Code</summary>
-                <description>Report Sort Code</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

@@ -65,9 +65,6 @@
                 <control>
                     <text size="3" />
                 </control>
-
-                <summary>AICPA Function Code</summary>
-                <description>The code uniquely identifying a particular AICPA Function.</description>
             </attribute>
 
             <attribute name="financialAicpaFunctionName" forceUppercase="true">
@@ -80,9 +77,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>AICPA Function Name</summary>
-                <description>AICPA Function Name...</description>
             </attribute>
 
 

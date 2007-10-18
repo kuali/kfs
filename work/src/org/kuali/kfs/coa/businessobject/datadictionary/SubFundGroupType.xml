@@ -69,9 +69,6 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary>subFundGroupTypeActiveIndicator</summary>
-                <description>subFundGroupTypeActiveIndicator description...</description>
 			</attribute>
 
             <attribute name="subFundGroupTypeCode" forceUppercase="true">
@@ -84,9 +81,6 @@
                 <control>
                     <text size="3" />
                 </control>
-
-                <summary>subFundGroupTypeCode</summary>
-                <description>subFundGroupTypeCode description...</description>
 			</attribute>
 
             <attribute name="subFundGroupTypeDescription" forceUppercase="true">
@@ -102,9 +96,6 @@
                 <control>
                     <text size="42" />
                 </control>
-
-                <summary>subFundGroupTypeDescription</summary>
-                <description>subFundGroupTypeDescription description...</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

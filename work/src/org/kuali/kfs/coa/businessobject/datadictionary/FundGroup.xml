@@ -74,9 +74,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>Fund Group Code</summary>
-                <description>Fund Group Code</description>
             </attribute>
 
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
@@ -94,9 +91,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>Financial Reporting Sort Code</summary>
-                <description>The Financial Reporting Sort Code represents...</description>
             </attribute>
 
             <attribute name="name" forceUppercase="true">
@@ -112,9 +106,6 @@
                 <control>
                     <text size="42" />
                 </control>
-
-                <summary>Fund Group Name</summary>
-                <description>The name of the Fund Group.</description>
             </attribute>
             
             <attribute name="fundGroupBudgetAdjustmentRestrictionLevelCode" forceUppercase="true">
@@ -127,9 +118,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.BudgetAdjustmentFundRestrictionsValuesFinder"/>
                 </control>
-
-                <summary>Budget Adjustment Restriction Code</summary>
-                <description>Budget Adjustment Restriction Code...</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

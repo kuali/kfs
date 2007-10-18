@@ -63,9 +63,6 @@
                 <control>
                     <text size="1" />
                 </control>
-
-                <summary>Organization Type Code</summary>
-                <description>The type of organization.</description>
             </attribute>
 
             <attribute name="organizationTypeName" forceUppercase="true">
@@ -78,9 +75,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>Organization Type Name</summary>
-                <description>Organization Type Name...</description>
             </attribute>
 
             <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />

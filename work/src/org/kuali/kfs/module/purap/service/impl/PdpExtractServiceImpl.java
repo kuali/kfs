@@ -429,7 +429,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         }
         pd.setInvoiceNbr(invNbr);
         if (prd.getPurapDocumentIdentifier() != null) {
-            pd.setPurchaseOrderNbr(prd.getPurapDocumentIdentifier().toString());
+            pd.setPurchaseOrderNbr(prd.getPurchaseOrderIdentifier().toString());
         }
         LOG.debug("populatePaymentDetail() po id:  " + prd.getPurchaseOrderIdentifier());
         if (prd.getPurchaseOrderDocument().getRequisitionIdentifier() != null) {

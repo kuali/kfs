@@ -37,13 +37,6 @@
                 <control>
                     <text size="3" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    The system code for the type of the column in a credit card transaction, selected from a pulldown list.
-                </description>
             </attribute>
             <attributeReference name="financialDocumentLineNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <required>true</required>
@@ -61,9 +54,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The system code for the type of credit card, selected from a pulldown list.</description>
             </attribute>
             <attributeReference name="financialDocumentCreditCardVendorNumber" sourceClassName="org.kuali.module.financial.bo.CreditCardVendor" sourceAttributeName="financialDocumentCreditCardVendorNumber">
                 <label>Vendor Number</label>
@@ -85,7 +75,6 @@
                 <label>Amount</label>
                 <shortLabel>Amount</shortLabel>
                 <required>true</required>
-                <description>The total dollar amount of the credit card receipt.</description>
             </attributeReference>
         </attributes>
     </businessObject>

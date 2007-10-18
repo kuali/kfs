@@ -57,9 +57,6 @@
             <attributeReference name="code" sourceClassName="org.kuali.module.financial.bo.TravelExpenseTypeCode" sourceAttributeName="code">
                 <label>Company Type Code</label>
                 <shortLabel>Type Code</shortLabel>
-
-                <summary>Travel Company Code</summary>
-                <description>The code uniquely identify a travel company.</description>
             </attributeReference>
 
             <attributeReference name="travelExpenseTypeCode.prepaidExpense" sourceClassName="org.kuali.module.financial.bo.TravelExpenseTypeCode" sourceAttributeName="prepaidExpense"/>
@@ -73,9 +70,6 @@
                 <control>
                     <text size="25" />
                 </control>
-
-                <summary>Travel Company Name</summary>
-                <description>Travel Company Name</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

@@ -64,9 +64,6 @@
                 <control>
                     <text size="21" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The maximum amount allowed for the Procurement Card per billing cycle.</description>
             </attribute>
 
             <attribute name="cardCycleVolumeLimit" forceUppercase="true">
@@ -81,9 +78,6 @@
                 <control>
                     <text size="21" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The maximum number of transactions for the Procurement Card per billing cycle.</description>
             </attribute>
 
             <attribute name="cardHolderAlternateName" forceUppercase="true">
@@ -95,9 +89,6 @@
                 <control>
                     <text size="47" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The alternate name of the Procurement Card holder.</description>
             </attribute>
 
             <attribute name="cardHolderCityName" forceUppercase="true">
@@ -109,9 +100,6 @@
                 <control>
                     <text size="47" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The city in the address record for the Procurement Card holder.</description>
             </attribute>
 
             <attribute name="cardHolderLine1Address" forceUppercase="true">
@@ -123,9 +111,6 @@
                 <control>
                     <text size="47" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The first line in the address record for the Procurement Card holder.</description>
             </attribute>
 
             <attribute name="cardHolderLine2Address" forceUppercase="true">
@@ -137,9 +122,6 @@
                 <control>
                     <text size="47" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The second line in the address record for the Procurement Card holder.</description>
             </attribute>
 
             <attribute name="cardHolderName" forceUppercase="true">
@@ -151,9 +133,6 @@
                 <control>
                     <text size="37" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The name of the Procurement Card holder.</description>
             </attribute>
 
             <attribute name="cardHolderStateCode" forceUppercase="true">
@@ -165,9 +144,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The state code in the address record for the Procurement Card holder.</description>
             </attribute>
 
             <attribute name="cardHolderWorkPhoneNumber" forceUppercase="true">
@@ -179,9 +155,6 @@
                 <control>
                     <text size="12" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>Card Holder Work Phone Number</description>
             </attribute>
 
             <attribute name="cardHolderZipCode" forceUppercase="true">
@@ -193,9 +166,6 @@
                 <control>
                     <text size="22" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The postal code in the address record for the Procurement Card holder.</description>
             </attribute>
 
             <attribute name="cardLimit" forceUppercase="true">
@@ -210,9 +180,6 @@
                 <control>
                     <text size="21" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The balance limit for the Procurement Card.</description>
             </attribute>
 
             <attribute name="cardNoteText" forceUppercase="true">
@@ -224,9 +191,6 @@
                 <control>
                     <text size="52" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>Note text for the Procurement Card account.</description>
             </attribute>
 
             <attribute name="cardStatusCode" forceUppercase="true">
@@ -238,9 +202,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The system code for the status of the Procurement Card account, selected from a pulldown list.</description>
             </attribute>
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
@@ -264,9 +225,6 @@
                 <control>
                     <text size="18" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The number for the credit card transaction assigned by the bank.</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

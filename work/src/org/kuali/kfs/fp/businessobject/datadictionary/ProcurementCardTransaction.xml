@@ -85,9 +85,6 @@
                 <control>
                     <text size="3" />
                 </control>
-
-                <summary>transactionDebitCreditCode</summary>
-                <description>transactionDebitCreditCode description...</description>
             </attribute>
 
             <attributeReference name="transactionMerchantCategoryCode" sourceClassName="org.kuali.module.financial.bo.ProcurementCardVendor" sourceAttributeName="transactionMerchantCategoryCode" />
@@ -124,9 +121,6 @@
                 <control>
                     <text size="9" />
                 </control>
-
-                <summary>transactionSequenceRowNumber</summary>
-                <description>transactionSequenceRowNumber description...</description>
             </attribute>
 
             <attributeReference name="transactionSettlementAmount" sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail" sourceAttributeName="transactionSettlementAmount" />

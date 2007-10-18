@@ -34,9 +34,6 @@
                 <control>
                     <text size="8" />
                 </control>
-
-                <summary>Document Number...</summary>
-                <description>Document Number...</description>
             </attribute>
             
             <attribute name="fiscalCampusCode" forceUppercase="true">
@@ -52,9 +49,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>Chart Code</summary>
-                <description>The code for the Chart of Accounts for an Account.</description>
             </attribute>
             
             <attribute name="primaryDepartmentCode" forceUppercase="true">
@@ -70,9 +64,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>Organization Code</summary>
-                <description>The code used to represent an organization.</description>
             </attribute>
             
             <attribute name="permissionCode">
@@ -81,8 +72,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.kra.lookup.keyvalues.ResearchAdhocPermissionTypeValuesFinder" />
                 </control>
-                <summary>Permission Type</summary>
-                <description>The level of action a permitted user is allowed to take on the document.</description>
             </attribute>
             
             <attribute name="addedByPerson" forceUppercase="true">
@@ -97,9 +86,6 @@
                 <control>
                     <text size="20" />
                 </control>
-
-                <summary>Added By Person</summary>
-                <description>Added By Person summary...</description>
             </attribute>
             
             <attribute name="personAddedTimestamp" forceUppercase="false">
@@ -113,9 +99,6 @@
                 <control>
                     <text size="11" />
                 </control>
-
-                <summary>Person Added Timestamp</summary>
-                <description>Person Added Timestamp description</description>
             </attribute>
             
             <attribute name="objectId" forceUppercase="true">
@@ -131,9 +114,6 @@
                 <control>
                     <text size="36" />
                 </control>
-
-                <summary>objectId summary...</summary>
-                <description>objectId description...</description>
             </attribute>
 
             <attribute name="versionNumber" forceUppercase="true">
@@ -149,9 +129,6 @@
                 <control>
                     <text size="-1" />
                 </control>
-
-                <summary>versionNumber summary...</summary>
-                <description>versionNumber description...</description>
             </attribute>
     	
     	</attributes>

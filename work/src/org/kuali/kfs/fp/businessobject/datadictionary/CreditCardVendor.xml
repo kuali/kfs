@@ -87,11 +87,6 @@
                 <control>
                     <text size="10"/>
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Vendor Number</description>
             </attribute>
 
             <attribute name="financialDocumentCreditCardVendorName" forceUppercase="false">
@@ -103,12 +98,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>
-                    The name of the vendor associated with a credit card.
-                </description>
-
             </attribute>
 
             <attributeReference name="financialDocumentCreditCardTypeCode" sourceClassName="org.kuali.module.financial.bo.CreditCardType" sourceAttributeName="financialDocumentCreditCardTypeCode">
@@ -119,11 +108,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.CreditCardTypeValuesFinder" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>
-                    Credit Card Type
-                </description>
             </attributeReference>
 
             <attributeReference name="incomeFinancialChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
@@ -134,11 +118,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>
-                    Income Chart
-                </description>
             </attributeReference>
 
             <attributeReference name="incomeAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
@@ -146,10 +125,6 @@
                 <shortLabel>Income Account</shortLabel>
 
                 <required>true</required>
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>
-                    Income Account Number
-                </description>
             </attributeReference>
 
             <attributeReference name="incomeSubAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
@@ -157,11 +132,6 @@
                 <shortLabel>Income Sub-Account</shortLabel>
 
                 <required>false</required>
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>
-                    Income Sub-Account Number
-                </description>
-
             </attributeReference>
 
             <attributeReference name="incomeFinancialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
@@ -174,12 +144,6 @@
                 <label>Income Sub-Object Code</label>
                 <shortLabel>Inc Sub-Object</shortLabel>
                 <required>false</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
 
             <attributeReference name="expenseFinancialChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
@@ -190,13 +154,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
 
             <attributeReference name="expenseAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
@@ -204,12 +161,6 @@
                 <shortLabel>Expense Account</shortLabel>
 
                 <required>true</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
 
             <attributeReference name="expenseSubAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
@@ -217,13 +168,6 @@
                 <shortLabel>Expense Sub-Account</shortLabel>
 
                 <required>false</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
-
             </attributeReference>
 
             <attributeReference name="expenseFinancialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
@@ -236,12 +180,6 @@
                 <label>Expense Sub-Object Code</label>
                 <shortLabel>Exp Sub-Object</shortLabel>
                 <required>false</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

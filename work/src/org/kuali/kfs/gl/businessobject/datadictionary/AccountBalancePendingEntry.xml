@@ -96,8 +96,6 @@
             <attributeReference name="transactionDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Transaction Date</label>
                 <shortLabel>Date</shortLabel>
-                <summary>transactionDate</summary>
-                <description>transactionDate description...</description>
             </attributeReference>
             <attribute name="transactionLedgerEntryDescription" forceUppercase="false">
                 <label>Transaction Ledger Entry Description</label>
@@ -106,8 +104,6 @@
                 <control>
                     <text size="40" />
                 </control>
-                <summary>transactionLedgerEntryDescription</summary>
-                <description>transactionLedgerEntryDescription description...</description>
             </attribute>
             <attribute name="organizationReferenceId" forceUppercase="false">
                 <label>Organization Reference Id</label>
@@ -116,12 +112,6 @@
                 <control>
                     <text size="10" />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attribute>
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <control>
@@ -137,8 +127,6 @@
             <attributeReference name="transactionLedgerEntryAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Transaction Ledger Entry Amount</label>
                 <shortLabel>Amount</shortLabel>
-                <summary>transactionLedgerEntryAmount</summary>
-                <description>transactionLedgerEntryAmount description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
@@ -149,8 +137,6 @@
                 <control>
                     <text size="3" />
                 </control>
-                <summary>referenceOriginCode</summary>
-                <description>referenceOriginCode description...</description>
             </attribute>
             <attribute name="referenceFinancialDocumentTypeCode" forceUppercase="true">
                 <label>Reference Document Type Code</label>
@@ -159,8 +145,6 @@
                 <control>
                     <text size="6" />
                 </control>
-                <summary>referenceDocumentTypeCode</summary>
-                <description>referenceDocumentTypeCode description...</description>
             </attribute>
 
             <attribute name="referenceFinancialDocumentNumber" forceUppercase="false">
@@ -170,15 +154,11 @@
                 <control>
                     <text size="11" />
                 </control>
-                <summary>referenceDocumentNumber</summary>
-                <description>referenceDocumentNumber description...</description>
             </attribute>
 
             <attributeReference name="transactionEntryOffsetIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Transaction Entry Offset Code</label>
                 <shortLabel>Entry Offset Ind.</shortLabel>
-                <summary>transactionEntryOffsetCode</summary>
-                <description>transactionEntryOffsetCode description...</description>
             </attributeReference>
 
             <attribute name="transactionEncumbranceUpdateCode" forceUppercase="true">
@@ -188,15 +168,11 @@
                 <control>
                     <text size="3" />
                 </control>
-                <summary>encumbranceUpdateCode</summary>
-                <description>encumbranceUpdateCode description...</description>
             </attribute>
 
             <attributeReference name="financialDocumentReversalDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Document Reversal Date</label>
                 <shortLabel>Doc. Reversal Date</shortLabel>
-                <summary>documentReversalDate</summary>
-                <description>documentReversalDate description...</description>
             </attributeReference>
 
             <attributeReference name="universityFiscalPeriodCode" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="universityFiscalAccountingPeriod" />
@@ -208,8 +184,6 @@
                 <control>
                     <text size="3" />
                 </control>
-                <summary>approvedCode</summary>
-                <description>approvedCode description...</description>
             </attribute>
             <attribute name="organizationDocumentNumber" forceUppercase="false">
                 <label>Organization Document Number</label>
@@ -218,8 +192,6 @@
                 <control>
                     <text size="12" />
                 </control>
-                <summary>organizationDocumentNumber</summary>
-                <description>organizationDocumentNumber description...</description>
             </attribute>
             <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <label>Fiscal Year</label>
@@ -233,8 +205,6 @@
                 <control>
                     <text size="5" />
                 </control>
-                <summary>Financial document type code.</summary>
-                <description>documentTypeCode description...</description>
             </attribute>
 
             <attribute name="transactionDebitCreditCode" forceUppercase="true">
@@ -244,8 +214,6 @@
                 <control>
                     <text size="2" />
                 </control>
-                <summary>The debit/credit code.</summary>
-                <description>This flags a financial transaction as either a debit or credit.</description>
             </attribute>
 
             <attributeReference name="acctSufficientFundsFinObjCd" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />
@@ -257,8 +225,6 @@
             <attributeReference name="transactionEntryProcessedTs" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Transaction Entry Processed</label>
                 <shortLabel>Entry Processed</shortLabel>
-                <summary>transactionEntryProcessed</summary>
-                <description>transactionEntryProcessed description...</description>
             </attributeReference>
 
             <attributeReference name="objectType.finObjectTypeDebitcreditCd" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="finObjectTypeDebitcreditCd" />

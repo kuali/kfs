@@ -27,8 +27,6 @@
                 <shortLabel>Item Cost</shortLabel>
                 <exclusiveMin>0</exclusiveMin>
                 <required>true</required>
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>itemUnitAmount description...</description>
             </attributeReference>
 
             <attribute name="itemStockDescription" forceUppercase="true">
@@ -40,23 +38,16 @@
                 <control>
                     <text size="30" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The description of the goods or services.</description>
             </attribute>
 
             <attributeReference name="itemServiceDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Item Service Date</label>
                 <shortLabel>Date</shortLabel>
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>itemServiceDate description...</description>
             </attributeReference>
 
             <attributeReference name="total" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Total</label>
                 <shortLabel>Total</shortLabel>
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>total description...</description>
             </attributeReference>
 
             <attribute name="itemStockNumber" forceUppercase="true">
@@ -68,9 +59,6 @@
                 <control>
                     <text size="11" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The stock number of the goods or services.</description>
             </attribute>
 
             <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
@@ -86,9 +74,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The unit of measure of the goods or services.</description>
             </attribute>
 
             <attribute name="itemQuantity" forceUppercase="true">
@@ -105,9 +90,6 @@
                 <control>
                     <text size="10" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The quantity of goods or services.</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

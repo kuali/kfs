@@ -37,20 +37,12 @@
                 <control>
                     <text size="3" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attribute>
             <attributeReference name="financialDocumentLineNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <required>true</required>
             </attributeReference>
             <attributeReference name="financialDocumentAdvanceDepositAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <required>true</required>
-                <description>The total dollar amount of the advance deposit.</description>
             </attributeReference>
             <attributeReference name="financialDocumentAdvanceDepositDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Date</label>
@@ -69,11 +61,6 @@
                 <control>
                     <text size="42" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>A brief description of the transaction. This field is for departmental use only, and does not appear on financial reports.</description>
             </attribute>
             <attribute name="financialDocumentAdvanceDepositReferenceNumber" forceUppercase="true">
                 <label>Reference Number</label>
@@ -83,28 +70,16 @@
                 <control>
                     <text size="16" />
                 </control>               
-                <summary>
-                	<![CDATA[&nbsp;]]>
-                </summary>
-                <description>The Reference Number is used to record the bank's unique transaction number for the deposit.</description>              
             </attribute>
 			 <attributeReference name="financialDocumentBankCode" sourceClassName="org.kuali.module.financial.bo.Bank" sourceAttributeName="financialDocumentBankCode">
                 <label>Bank</label>
                 <shortLabel>Bank</shortLabel>
                 <required>true</required>
-                <summary>
-                	<![CDATA[&nbsp;]]>
-                </summary>
-                <description>The code that designates the bank at which the deposit was made.</description>
             </attributeReference>
 			<attributeReference name="financialDocumentBankAccountNumber" sourceClassName="org.kuali.module.financial.bo.BankAccount" sourceAttributeName="finDocumentBankAccountNumber">
                 <label>Bank Account</label>
                 <shortLabel>Bank Account</shortLabel>
                 <required>true</required>
-                <summary>
-                	<![CDATA[&nbsp;]]>
-                </summary>
-                <description>The bank account number into which the funds were deposited.</description>
             </attributeReference>
         </attributes>
     </businessObject>

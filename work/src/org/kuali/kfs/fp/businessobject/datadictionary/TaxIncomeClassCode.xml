@@ -65,9 +65,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The code uniquely identify an income class.</description>
             </attribute>
 
             <attribute name="name" forceUppercase="false">
@@ -79,12 +76,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    The name of the income tax class
-                </description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

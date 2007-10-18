@@ -71,23 +71,17 @@
                 <control>
                     <text size="2" />
                 </control>
-                <summary>Offset Chart</summary>
-                <description>Offset Chart...</description>
             </attributeReference>
 
             <attributeReference name="financialOffsetAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
                 <label>Offset Account</label>
                 <shortLabel>Offset Account</shortLabel>
-                <summary>Offset Account</summary>
-                <description>Offset Account...</description>
             </attributeReference>
 
             <attributeReference name="financialOffsetObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
                 <label>Offset Object Code</label>
                 <shortLabel>Obj Cd</shortLabel>
                 <required>false</required>
-                <summary>Offset Object Code</summary>
-                <description>Offset Object Code</description>
             </attributeReference>
 
 

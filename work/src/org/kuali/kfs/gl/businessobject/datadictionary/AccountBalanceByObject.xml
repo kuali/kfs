@@ -106,32 +106,24 @@
             <attributeReference name="currentBudgetLineBalanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Budget Amount</label>
                 <shortLabel>Amount</shortLabel>
-                <summary>currentBudgetLineBalanceAmount</summary>
-                <description>currentBudgetLineBalanceAmount description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
             <attributeReference name="accountLineActualsBalanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Actuals Amount</label>
                 <shortLabel>Actuals Balance Amount</shortLabel>
-                <summary>accountLineActualsBalanceAmount</summary>
-                <description>accountLineActualsBalanceAmount description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
             <attributeReference name="accountLineEncumbranceBalanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Encumbrance Amount</label>
                 <shortLabel>Encumbrance Balance</shortLabel>
-                <summary>accountLineEncumbranceBalanceAmount</summary>
-                <description>accountLineEncumbranceBalanceAmount description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
             <attributeReference name="timestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Transaction Entry Processed</label>
                 <shortLabel>Entry Processed</shortLabel>
-                <summary>transactionEntryProcessed</summary>
-                <description>transactionEntryProcessed description...</description>
             </attributeReference>
 
             <attributeReference name="dummyBusinessObject.pendingEntryOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="pendingEntryOption" />
@@ -143,8 +135,6 @@
             <attributeReference name="dummyBusinessObject.genericAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Variance</label>
                 <shortLabel>Variance</shortLabel>
-                <summary>Variance</summary>
-                <description>Variance...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
@@ -156,8 +146,6 @@
             <attributeReference name="dummyBusinessObject.linkButtonOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="linkButtonOption">
                 <label>See Pending Entry</label>
                 <shortLabel>See Pending Entry</shortLabel>
-                <summary>See Pending Entry</summary>
-                <description>See Pending Entry ...</description>
             </attributeReference>
         </attributes>
     </businessObject>

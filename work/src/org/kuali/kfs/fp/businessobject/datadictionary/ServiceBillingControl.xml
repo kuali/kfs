@@ -75,9 +75,6 @@
                 <control>
                     <workflowWorkgroup size="72" />
                 </control>
-
-                <summary>Workgroup Name</summary>
-                <description>The name of the workgroup allowed to create Service Billing documents with income accounting lines for the associated account.</description>
             </attribute>
 
 

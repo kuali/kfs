@@ -32,11 +32,6 @@
                 <control>
                     <text size="10" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The numeric identifier for the check or batch of checks in the Cash Reconciliation tab.</description>
             </attribute>
 
             <attributeReference name="checkDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
@@ -46,8 +41,6 @@
                 <control>
                     <text size="10" />
                 </control>
-                <description>The date from the check or batch of checks. Use the calendar icon to select and format a date automatically.</description>
-
             </attributeReference>
 
             <attribute name="description" forceUppercase="false">
@@ -59,11 +52,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>A free-form text field that describes the purpose or function of the check or batch of checks.</description>
             </attribute>
             
             <attribute name="financialDocumentTypeCode" forceUppercase="true">
@@ -76,11 +64,6 @@
                 <control>
                     <hidden />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description><![CDATA[&nbsp;]]></description>
     		</attribute>
     		
     		<attribute name="cashieringRecordSource" forceUppercase="true">
@@ -93,11 +76,6 @@
                 <control>
                     <hidden />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description><![CDATA[&nbsp;]]></description>
     		</attribute>
             
 
@@ -107,8 +85,6 @@
 
             <attributeReference name="amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <required>true</required>
-                <description>The total dollar amount of check or batch of checks.</description>
-
             </attributeReference>
 
             <attributeReference name="sequenceId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">

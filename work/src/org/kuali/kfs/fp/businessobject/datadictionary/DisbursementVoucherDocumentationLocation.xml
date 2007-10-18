@@ -65,9 +65,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The code uniquely identify a documentation location.</description>
             </attribute>
 
             <attribute name="disbursementVoucherDocumentationLocationName" forceUppercase="false">
@@ -79,11 +76,6 @@
                 <control>
                     <text size="25" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>
-                    The name of the location where the documentation will be kept.
-                </description>
             </attribute>
 
             <attribute name="disbursementVoucherDocumentationLocationAddress" forceUppercase="false">
@@ -95,11 +87,6 @@
                 <control>
                     <textarea rows="4" cols="60" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>
-                    The address of the location where the documentation will be kept.
-                </description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

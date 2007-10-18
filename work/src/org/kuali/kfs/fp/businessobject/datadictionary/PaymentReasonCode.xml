@@ -68,10 +68,6 @@
                 <control>
                     <text size="1" />
                 </control>
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>
-                    The system code that indicates the reason for the payment.
-                </description>
             </attribute>
 
             <attribute name="name">
@@ -84,8 +80,6 @@
                 <control>
                     <text size="40" />
                 </control>
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The Payment Reason Names are used to give short but meaningful names to the codes that they represent</description>
             </attribute>
 
             <attribute name="description">
@@ -98,8 +92,6 @@
                 <control>
                     <textarea rows="10" cols="50" />
                 </control>
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The Payment Reason Names are used to give short but meaningful names to the codes that they represent</description>
             </attribute>
 
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />

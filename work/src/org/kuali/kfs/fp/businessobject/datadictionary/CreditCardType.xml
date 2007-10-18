@@ -64,9 +64,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>Credit Card Type Code</summary>
-                <description>The code uniquely identifiying the type of credit card.</description>
             </attribute>
 
             <attribute name="financialDocumentCreditCardCompanyName" forceUppercase="false">
@@ -78,10 +75,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>Company Name</summary>
-                <description>The company name for this type of credit card.</description>
-
             </attribute>
 
 

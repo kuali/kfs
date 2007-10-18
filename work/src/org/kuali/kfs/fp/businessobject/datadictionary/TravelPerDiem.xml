@@ -66,9 +66,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The fiscal year of the budget for the travel per diem.</description>
             </attribute>
 
             <attribute name="perDiemCountryName" forceUppercase="false">
@@ -80,9 +77,6 @@
                 <control>
                     <text size="10" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The country for the travel per diem.</description>
             </attribute>
 
             <attribute name="perDiemCountryText" forceUppercase="false">
@@ -94,9 +88,6 @@
                 <control>
                     <text size="75" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The country URL for the travel per diem.</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

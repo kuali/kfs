@@ -36,13 +36,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    The name of the conference attendee.
-                </description>
             </attribute>
 
             <attribute name="disbVchrPreConfDepartmentCd">
@@ -56,13 +49,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    The system code for the department of the conference attendee.
-                </description>
             </attribute>
 
             <attribute name="dvPreConferenceRequestNumber">
@@ -76,13 +62,6 @@
                 <control>
                     <text size="6" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    The request number of the conference.
-                </description>
             </attribute>
 
             <attribute name="disbVchrExpenseAmount">
@@ -96,13 +75,6 @@
                 <control>
                     <text size="9" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    The amount of the conference registration.
-                </description>
             </attribute>
 
             <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId" />

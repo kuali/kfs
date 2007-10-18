@@ -64,9 +64,6 @@
                 <control>
                     <text size="1" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The code uniquely identify an ownership type.</description>
             </attribute>
 
             <attribute name="name" forceUppercase="false">
@@ -78,9 +75,6 @@
                 <control>
                     <text size="25" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The type of company of the Payee</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

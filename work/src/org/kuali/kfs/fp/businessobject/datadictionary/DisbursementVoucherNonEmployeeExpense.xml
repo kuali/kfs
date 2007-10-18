@@ -36,11 +36,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.TravelExpenseTypeValuesFinder" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The type of Traveler Expense. Select one from the pulldown list.</description>
             </attribute>
 
             <attribute name="disbVchrPrePaidExpenseCode">
@@ -54,11 +49,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.TravelPrePaidExpenseTypeValuesFinder" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The type of Pre Paid Expenses. Select one from the pulldown list.</description>
             </attribute>
 
             <attributeReference name="disbVchrExpenseCompanyName" sourceClassName="org.kuali.module.financial.bo.TravelCompanyCode" sourceAttributeName="name">
@@ -72,11 +62,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>A free-form text field that identifies the Company of the Non-Employee Traveler.</description>
             </attributeReference>
 
             <attributeReference name="disbVchrPrePaidExpenseCompanyName" sourceClassName="org.kuali.module.financial.bo.TravelCompanyCode" sourceAttributeName="name">
@@ -90,11 +75,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>A free-form text field that identifies the Company of the Non-Employee Traveler.</description>
             </attributeReference>
 
             <attribute name="disbVchrExpenseAmount">
@@ -108,11 +88,6 @@
                 <control>
                     <text size="9" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>A free-form text field that specifies the dollar amount of the Pre Paid Expenses</description>
             </attribute>
 
             <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId" />

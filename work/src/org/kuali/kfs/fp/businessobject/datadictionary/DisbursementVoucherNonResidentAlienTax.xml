@@ -36,11 +36,6 @@
                 <control>
                     <text size="10" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The percentage of Federal tax that needs to be withheld from the payment, entered directly or searched from valid values for a given Income Class Code in the Federal Tax Percent lookup.</description>
             </attribute>
 
             <attribute name="stateIncomeTaxPercent">
@@ -54,11 +49,6 @@
                 <control>
                     <text size="10" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The percentage of State tax that needs to be withheld from the payment, entered directly or searched from valid values for a given Income Class Code in the State Tax Percent lookup.</description>
             </attribute>
 
             <attributeReference name="incomeClassCode" sourceClassName="org.kuali.module.financial.bo.TaxIncomeClassCode" sourceAttributeName="code">
@@ -67,7 +57,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.TaxIncomeClassValuesFinder" />
                 </control>
-                <description>The description of the Income Class for the Nonresident Alien (NRA) Tax. Select one from the pulldown list.</description>
             </attributeReference>
 
             <attributeReference name="postalCountryCode" sourceClassName="org.kuali.kfs.bo.Country" sourceAttributeName="postalCountryCode">
@@ -76,8 +65,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder" />
                 </control>
-                <description>The code that identifies the country of residence for the Nonresident Alien (NRA) Tax</description>
-
             </attributeReference>
 
             <attribute name="incomeTaxTreatyExemptCode">
@@ -91,11 +78,6 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The code to specify that the Nonresident Alien (NRA) Tax is treaty exempt, expressed as "Yes" or "No"</description>
             </attribute>
 
             <attribute name="foreignSourceIncomeCode">
@@ -109,13 +91,6 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    Checkbox to indicate if the payment is defined as foreign source based on U.S. income sourcing rules.  It also indicates that there is no tax withholding on the payment.
-                </description>
             </attribute>
 
             <attribute name="incomeTaxGrossUpCode">
@@ -129,18 +104,11 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The code to specify that the Nonresident Alien (NRA) Tax is "grossed up" to the original Account, expressed as "Yes" or "No".</description>
             </attribute>
 
             <attributeReference name="referenceFinancialDocumentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber">
                 <label>Reference Doc</label>
                 <shortLabel>Ref Doc</shortLabel>
-                <description>A free-form text field that identifies a reference document for the Nonresident Alien (NRA) Tax.</description>
-
             </attributeReference>
 
         </attributes>

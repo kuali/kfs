@@ -54,8 +54,6 @@
             <attributeReference name="financialSystemOriginationCode" sourceClassName="org.kuali.kfs.bo.OriginationCode" sourceAttributeName="financialSystemOriginationCode">
                 <label>Financial System Origination Code</label>
                 <shortLabel>Code</shortLabel>
-                <summary>Financial System Origination Code</summary>
-                <description>The code uniquely identifying a particular origination.</description>
             </attributeReference>
 
             <attribute name="financialSystemMessageOfTheDayText" forceUppercase="false">
@@ -68,10 +66,6 @@
                 <control>
                     <textarea rows="5" cols="40" />
                 </control>
-
-
-                <summary>Message Of The Day</summary>
-                <description>Message Of The Day...</description>
             </attribute>
 
 

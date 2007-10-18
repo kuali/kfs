@@ -80,9 +80,6 @@
                 <control>
                     <text size="72" />
                 </control>
-
-                <summary>workgroupName</summary>
-                <description>workgroupName description...</description>
             </attribute>
 
             <attribute name="itemIdentifier" forceUppercase="true">
@@ -95,9 +92,6 @@
                 <control>
                     <text size="11" />
                 </control>
-
-                <summary>itemIdentifier</summary>
-                <description>itemIdentifier description...</description>
 			</attribute>
 
             <attribute name="itemAmount" forceUppercase="true">
@@ -110,9 +104,6 @@
                  <control>
                     <text size="21" />
                 </control>
- 
-                <summary>itemAmount</summary>
-                <description>itemAmount description...</description>
             </attribute>
 
             <attribute name="itemReducedAmount" forceUppercase="true">
@@ -125,9 +116,6 @@
                  <control>
                     <text size="21" />
                 </control>
- 
-                <summary>itemReducedAmount</summary>
-                <description>itemReducedAmount description...</description>
             </attribute>
 
             <attribute name="itemRemainingAmount" forceUppercase="true">
@@ -140,9 +128,6 @@
                  <control>
                     <text size="21" />
                 </control>
- 
-                <summary>itemRemainingAmount</summary>
-                <description>itemRemainingAmount description...</description>
             </attribute>
 
             <attributeReference name="itemOpenDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
@@ -152,9 +137,6 @@
                 <control>
                     <text size="9" />
                 </control>
-
-                <summary>itemOpenDate</summary>
-                <description>itemOpenDate description...</description>
 			</attributeReference>
 
             <attributeReference name="itemClosedDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
@@ -164,9 +146,6 @@
                 <control>
                     <text size="9" />
                 </control>
-
-                <summary>itemClosedDate</summary>
-                <description>itemClosedDate description...</description>
 			</attributeReference>
 
 			<attribute name="itemDescription" forceUppercase="true">
@@ -179,9 +158,6 @@
                 <control>
                     <text size="80" />
                 </control>
-
-                <summary>itemDescription</summary>
-                <description>itemDescription description...</description>
             </attribute>
             
             <attribute name="currentPayment">
@@ -194,9 +170,6 @@
                  <control>
                     <text size="6" />
                 </control>
- 
-                <summary>currentPayment</summary>
-                <description>currentPayment description...</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

@@ -32,11 +32,6 @@
                 <control>
                     <hidden />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description><![CDATA[&nbsp;]]></description>
     		</attribute>
     		
     		<attribute name="cashieringRecordSource" forceUppercase="true">
@@ -49,11 +44,6 @@
                 <control>
                     <hidden />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description><![CDATA[&nbsp;]]></description>
     		</attribute>
     		
     		<attribute name="financialDocumentHundredCentAmount">
@@ -66,11 +56,6 @@
                 <control>
                     <currency size="6" formattedMaxLength="8" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description><![CDATA[&nbsp;]]></description>
     		</attribute>
     		<attribute name="hundredCentCount">
     			<label>Hundred Cent Count</label>
@@ -83,11 +68,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description><![CDATA[&nbsp;]]></description>
     		</attribute>
     		
     		<attribute name="financialDocumentFiftyCentAmount">
@@ -100,11 +80,6 @@
                 <control>
                     <currency size="6" formattedMaxLength="8" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description><![CDATA[&nbsp;]]></description>
     		</attribute>
     		<attribute name="fiftyCentCount">
     			<label>Fifty Cent Count</label>
@@ -117,11 +92,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description><![CDATA[&nbsp;]]></description>
     		</attribute>
     		
     		<attribute name="financialDocumentTwentyFiveCentAmount">
@@ -134,11 +104,6 @@
                 <control>
                     <currency size="6" formattedMaxLength="8" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description><![CDATA[&nbsp;]]></description>
     		</attribute>
     		<attribute name="twentyFiveCentCount">
     			<label>Twenty Five Cent Count</label>
@@ -151,11 +116,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description><![CDATA[&nbsp;]]></description>
     		</attribute>
     		
     		<attribute name="financialDocumentTenCentAmount">
@@ -168,11 +128,6 @@
                 <control>
                     <currency size="6" formattedMaxLength="8" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description><![CDATA[&nbsp;]]></description>
     		</attribute>
     		<attribute name="tenCentCount">
     			<label>Ten Cent Count</label>
@@ -185,11 +140,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description><![CDATA[&nbsp;]]></description>
     		</attribute>
     		
     		<attribute name="financialDocumentFiveCentAmount">
@@ -202,11 +152,6 @@
                 <control>
                     <currency size="6" formattedMaxLength="8" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description><![CDATA[&nbsp;]]></description>
     		</attribute>
     		<attribute name="fiveCentCount">
     			<label>Five Cent Count</label>
@@ -219,11 +164,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description><![CDATA[&nbsp;]]></description>
     		</attribute>
     		
     		<attribute name="financialDocumentOneCentAmount">
@@ -236,11 +176,6 @@
                 <control>
                     <currency size="6" formattedMaxLength="8" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description><![CDATA[&nbsp;]]></description>
     		</attribute>
     		<attribute name="oneCentCount">
     			<label>One Cent Count</label>
@@ -253,11 +188,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description><![CDATA[&nbsp;]]></description>
     		</attribute>
     		
     		<attribute name="financialDocumentOtherCentAmount">
@@ -270,11 +200,6 @@
                 <control>
                     <currency size="6" formattedMaxLength="8" />
                 </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description><![CDATA[&nbsp;]]></description>
     		</attribute>
     	</attributes>
     </businessObject>

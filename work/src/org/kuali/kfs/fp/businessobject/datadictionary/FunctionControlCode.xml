@@ -71,9 +71,6 @@
                 <control>
                     <text size="8" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>Any of various indicators that control Budget Construction.</description>
             </attribute>
 
             <attribute name="financialSystemFunctionDescription" forceUppercase="true">
@@ -88,9 +85,6 @@
                 <control>
                     <text size="42" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The functional description for the Yes/No indicator</description>
             </attribute>
 
             <attribute name="financialSystemFunctionDefaultIndicator" forceUppercase="true">
@@ -102,9 +96,6 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The Yes/No indicator of the default value when value sfor a new Fiscal Year are generated.</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

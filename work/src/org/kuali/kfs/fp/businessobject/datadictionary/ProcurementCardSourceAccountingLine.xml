@@ -36,9 +36,6 @@
                 <control>
                     <hidden />
                 </control>
-
-                <summary>financialDocumentTransactionLineNumber</summary>
-                <description>The line number for the credit card transaction assigned by the bank.</description>
             </attribute>
 
             &accountingLineBaseAttributes;

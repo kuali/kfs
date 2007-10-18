@@ -34,9 +34,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The system number of the deposit assigned by KFS.</description>
             </attribute>
 
 
@@ -50,9 +47,6 @@
                 <control>
                     <text size="10" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The system code for the type of deposit, selected from a pulldown list.</description>
             </attribute>
 
 
@@ -60,9 +54,6 @@
                 <label>Deposit Date</label>
                 <shortLabel>Deposit Date</shortLabel>
                 <required>true</required>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>Deposit Date</description>
             </attributeReference>
 
             <attributeReference name="depositAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
@@ -78,9 +69,6 @@
                 <control>
                     <text size="10" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The ticket number of the deposit assigned by the bank.</description>
             </attribute>
 
 

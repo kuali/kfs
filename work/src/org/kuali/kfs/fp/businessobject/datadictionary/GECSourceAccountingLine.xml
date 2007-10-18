@@ -39,13 +39,6 @@
 			    <control>
 			        <text size="16" />
 			    </control>
-			
-			    <summary>
-			        <![CDATA[&nbsp;]]>
-			    </summary>
-			    <description>
-			        The transaction number on the deposit slip assigned by the bank.
-			    </description>
 			</attribute>
 
 			<attribute name="referenceOriginCode" forceUppercase="true" override="true">
@@ -61,13 +54,6 @@
 			    <control>
 			        <text size="4" />
 			    </control>
-			
-			    <summary>
-			        <![CDATA[&nbsp;]]>
-			    </summary>
-			    <description>
-			        The system code for the system from which the original encumbering transaction came, selected from a pulldown list.
-			    </description>
 			</attribute>
         </attributes>
 

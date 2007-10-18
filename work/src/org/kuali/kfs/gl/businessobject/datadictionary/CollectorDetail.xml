@@ -29,9 +29,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>University Fiscal Accounting Period</summary>
-                <description>University Fiscal Accounting Period...</description>
             </attributeReference>
             <attribute name="universityFiscalYear" forceUppercase="false">
                 <label>Fiscal Year</label>
@@ -42,9 +39,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>University Fiscal Year</summary>
-                <description>University Fiscal Year...</description>
             </attribute>
             <attributeReference name="createDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Creation Date</label>
@@ -55,9 +49,6 @@
                 <control>
                     <text size="10" />
                 </control>
-
-                <summary>Create Date</summary>
-                <description>Create Date...</description>
             </attributeReference>
             <attribute name="createSequence" forceUppercase="false">
                 <label>Creation Sequence </label>
@@ -68,9 +59,6 @@
                 <control>
                     <text size="8" />
                 </control>
-
-                <summary>Creation Sequence</summary>
-                <description>Creation Sequence...</description>
             </attribute>
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <label>Chart</label>
@@ -81,9 +69,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>Chart of Accounts</summary>
-                <description>Chart of Accounts...</description>
             </attributeReference>
             <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
                 <label>Account Number</label>
@@ -94,9 +79,6 @@
                 <control>
                     <text size="7" />
                 </control>
-
-                <summary>Account Number</summary>
-                <description>Account Number...</description>
             </attributeReference>
             <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
                 <label>Sub Account Number</label>
@@ -107,9 +89,6 @@
                 <control>
                     <text size="5" />
                 </control>
-
-                <summary>Sub Account Number</summary>
-                <description>Sub Account Number...</description>
             </attributeReference>
             <attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
                 <label>Object Code</label>
@@ -120,9 +99,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>Object Code</summary>
-                <description>Object Code...</description>
             </attributeReference>
             <attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
                 <label>Sub Object Code</label>
@@ -133,15 +109,10 @@
                 <control>
                     <text size="3" />
                 </control>
-
-                <summary>Sub Object Code</summary>
-                <description>Sub Object Code...</description>
             </attributeReference>
             <attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">
-                <description>Balance type categorizes transactions and balances into Budget, Actual or Encumbrance. There may be various types of each category.</description>
             </attributeReference>
 			<attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code">
-                <description>Object type code...</description>
             </attributeReference>
             <attribute name="collectorDetailSequenceNumber" forceUppercase="false">
                 <label>Collector Detail Sequence ID</label>
@@ -152,9 +123,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>Collector Sequence ID</summary>
-                <description>Collector Sequence ID...</description>
             </attribute>
             <attributeReference name="financialDocumentTypeCode" sourceClassName="org.kuali.core.bo.DocumentType" sourceAttributeName="financialDocumentTypeCode">
                 <label>Document Type Code</label>
@@ -165,9 +133,6 @@
                 <control>
                     <text size="4" />
                 </control>
-
-                <summary>Document Type Code</summary>
-                <description>Document Type Code...</description>
             </attributeReference>
             <attributeReference name="financialSystemOriginationCode" sourceClassName="org.kuali.kfs.bo.OriginationCode" sourceAttributeName="financialSystemOriginationCode">
                 <label>Origin Code</label>
@@ -178,9 +143,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary>Origin Code</summary>
-                <description>Origin Code...</description>
             </attributeReference>
             <attribute name="documentNumber" forceUppercase="false">
                 <label>Document Number</label>
@@ -191,9 +153,6 @@
                 <control>
                     <text size="14" />
                 </control>
-
-                <summary>Document Number</summary>
-                <description>Document Number...</description>
             </attribute>
             <attributeReference name="collectorDetailItemAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Collector Item Amount</label>
@@ -204,9 +163,6 @@
                 <control>
                     <text size="19" />
                 </control>
-
-                <summary>Collector Item Amount</summary>
-                <description>Collector Detail Item Amount...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
             <attribute name="collectorDetailNoteText" forceUppercase="false">
@@ -218,9 +174,6 @@
                 <control>
                     <text size="120" />
                 </control>
-
-                <summary>Collector detail Note</summary>
-                <description>Collector Note...</description>
             </attribute>
         </attributes>
     </businessObject>

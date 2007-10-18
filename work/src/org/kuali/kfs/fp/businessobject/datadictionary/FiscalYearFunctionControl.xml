@@ -73,9 +73,6 @@
                 <control>
                     <text size="8" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>Any of various indicators that control Budget Construction.</description>
             </attribute>
 
             <attribute name="financialSystemFunctionActiveIndicator" forceUppercase="true">
@@ -87,10 +84,6 @@
                 <control>
                     <checkbox />
                 </control>
-
-                <summary>Financial System Function Active Indicator</summary>
-                <description>Financial System Function Active Indicator.</description>
-                
                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
             </attribute>
 

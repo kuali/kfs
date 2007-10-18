@@ -30,8 +30,6 @@
                 <control>
                     <radio valuesFinderClass="org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder" />
                 </control>
-                <summary>Include Pending Ledger Entry</summary>
-                <description>Include Pending Ledger Entries in results?</description>
             </attribute>
 
             <attribute name="consolidationOption">
@@ -42,8 +40,6 @@
                 <control>
                     <radio valuesFinderClass="org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder" />
                 </control>
-                <summary>Consolidation Option</summary>
-                <description>Consolidate Entries</description>
             </attribute>
 
             <attribute name="amountViewOption">
@@ -54,8 +50,6 @@
                 <control>
                     <radio valuesFinderClass="org.kuali.module.gl.web.optionfinder.GLAmountViewOptionFinder" />
                 </control>
-                <summary>Change Amount View Option</summary>
-                <description>amountViewOption description...</description>
             </attribute>
 
             <attribute name="costShareOption">
@@ -66,8 +60,6 @@
                 <control>
                     <radio valuesFinderClass="org.kuali.module.gl.web.optionfinder.GLCostShareOptionFinder" />
                 </control>
-                <summary>Change Cost Share Option</summary>
-                <description>Include Cost Share Sub-Accounts?</description>
             </attribute>
 
             <attribute name="linkButtonOption">
@@ -78,8 +70,6 @@
                 <control>
                     <text size="2" />
                 </control>
-                <summary>linkButtonOption</summary>
-                <description>linkButtonOption</description>
             </attribute>
 
             <attribute name="genericText">
@@ -89,8 +79,6 @@
                 <control>
                     <text size="10" />
                 </control>
-                <summary>genericText</summary>
-                <description>genericText</description>
             </attribute>
         </attributes>
     </businessObject>

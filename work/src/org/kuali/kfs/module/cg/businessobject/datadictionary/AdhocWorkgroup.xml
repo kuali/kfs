@@ -34,9 +34,6 @@
                 <control>
                     <text size="8" />
                 </control>
-
-                <summary>Document Number...</summary>
-                <description>Document Number...</description>
             </attribute>
             
 			<attribute name="workgroupName">
@@ -48,11 +45,6 @@
                 <control>
                     <text size="72" />
                 </control>
-
-                <summary>
-                    ID of ad-hoc workgroup.
-                </summary>
-                <description>The name of the registered workgroup that receives the document ad hoc for the Action Requested.</description>
             </attribute>
             
             <attribute name="permissionCode">
@@ -61,8 +53,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.kra.lookup.keyvalues.ResearchAdhocPermissionTypeValuesFinder" />
                 </control>
-                <summary>Permission Type</summary>
-                <description>The level of action a permitted user is allowed to take on the document.</description>
             </attribute>
             
             <attribute name="addedByPerson" forceUppercase="true">
@@ -77,9 +67,6 @@
                 <control>
                     <text size="20" />
                 </control>
-
-                <summary>Added By Person</summary>
-                <description>Added By Person summary...</description>
             </attribute>
             
             <attribute name="personAddedTimestamp" forceUppercase="false">
@@ -93,9 +80,6 @@
                 <control>
                     <text size="11" />
                 </control>
-
-                <summary>Person Added Timestamp</summary>
-                <description>Person Added Timestamp description</description>
             </attribute>
             
             <attribute name="objectId" forceUppercase="true">
@@ -111,9 +95,6 @@
                 <control>
                     <text size="36" />
                 </control>
-
-                <summary>objectId summary...</summary>
-                <description>objectId description...</description>
             </attribute>
 
             <attribute name="versionNumber" forceUppercase="true">
@@ -129,9 +110,6 @@
                 <control>
                     <text size="-1" />
                 </control>
-
-                <summary>versionNumber summary...</summary>
-                <description>versionNumber description...</description>
             </attribute>
     	
     	</attributes>

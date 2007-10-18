@@ -64,11 +64,6 @@
                 <control>
                     <text size="2" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>
-                    The type of disbursement activity.  One of 1) Fellowships: Non-service related payments, 2) Independent Contractor: Service related payment, 3) Non-Reportable: Goods or “accountable plan” travel, or 4) Royalties: Royalty, rights or permission payments.
-                </description>
             </attribute>
 
             <attribute name="incomeTaxTypeCode" forceUppercase="true">
@@ -83,9 +78,6 @@
                 <control>
                     <text size="1" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The system code that indicates the type of income tax, selected from a pulldown list.</description>
             </attribute>
 
             <attribute name="incomeTaxPercent" forceUppercase="false">
@@ -100,9 +92,6 @@
                 <control>
                     <text size="22" />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The percentage of income tax withheld from the payment, entered directly or searched from valid values for a given Income Class Code in the Income Tax Percent lookup.</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

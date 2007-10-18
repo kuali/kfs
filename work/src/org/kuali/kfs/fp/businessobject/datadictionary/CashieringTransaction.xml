@@ -30,9 +30,6 @@
                 <control>
                     <hidden />
                 </control>
-
-                <summary>workgroupName</summary>
-                <description>workgroupName description...</description>
             </attribute>
             <attribute name="referenceFinancialDocumentNumber">
                 <label>Document Number</label>
@@ -42,9 +39,6 @@
                 <control>
                     <hidden />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description><![CDATA[&nbsp;]]></description>
             </attribute>
             <attributeReference name="transactionStarted" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Transaction Started</label>
@@ -54,9 +48,6 @@
                 <control>
                     <hidden />
                 </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description><![CDATA[&nbsp;]]></description>
                 <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
             </attributeReference>
     	</attributes>

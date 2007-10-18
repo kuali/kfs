@@ -88,9 +88,6 @@
                   <displayWorkgroup>kualiUniversalGroup</displayWorkgroup>
                   <displayMask><maskLiteral literal="***************"/></displayMask>
                 </attributeAuthorization>
-
-                <summary>Bank Account Number</summary>
-                <description>Bank Account Number...</description>
             </attribute>
 
             <attribute name="finDocumentBankAccountDesc" forceUppercase="true">
@@ -102,9 +99,6 @@
                 <control>
                     <text size="40" />
                 </control>
-
-                <summary>Bank Account Description</summary>
-                <description>Bank Account Description...</description>
             </attribute>
 
             <attributeReference name="cashOffsetFinancialChartOfAccountCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
@@ -114,40 +108,30 @@
                 <control>
                     <text size="2" />
                 </control>
-                <summary>Cash Offset Chart Of Accounts Code</summary>
-                <description>Cash Offset Chart Of Accounts Code</description>
             </attributeReference>
 
             <attributeReference name="cashOffsetAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
                 <label>Cash Offset Account Number</label>
                 <shortLabel>Cash Off Acct</shortLabel>
                 <required>false</required>
-                <summary>Cash Offset Account Number</summary>
-                <description>Cash Offset Account Number</description>
             </attributeReference>
             
             <attributeReference name="cashOffsetSubAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
                 <label>Cash Offset Sub-Account Number</label>
                 <shortLabel>Cash Off Sub-Acct Nbr</shortLabel>
                 <required>false</required>
-                <summary>Cash Offset Sub-Account Number</summary>
-                <description>Cash Offset Sub-Account Number</description>
             </attributeReference>
 
             <attributeReference name="cashOffsetObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
                 <label>Cash Offset Object Code</label>
                 <shortLabel>Cash Off Obj Cd</shortLabel>
                 <required>false</required>
-                <summary>Cash Offset Object Code</summary>
-                <description>Cash Offset Object Code</description>
             </attributeReference>
 
             <attributeReference name="cashOffsetSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
                 <label>Cash Offset Sub-Object Code</label>
                 <shortLabel>Cash Off Sub-Obj Cd</shortLabel>
                 <required>false</required>
-                <summary>Cash Offset Sub-Object Code</summary>
-                <description>Cash Offset Sub-Object Code</description>
             </attributeReference>
             
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

@@ -79,12 +79,14 @@ public class DailyReportServiceImpl implements DailyReportService {
             dataTable.setHeaderRows(1);
             addHeader(dataTable);
 
+            boolean rows = false;
             String lastBankName = "";
             DailyReport bankTotal = new DailyReport();
             DailyReport total = new DailyReport();
             total.setBankName("Total");
 
             for (Iterator iter = data.iterator(); iter.hasNext();) {
+                rows = true;
                 DailyReport dr = (DailyReport)iter.next();
                 if ( bankTotal.getBankName() == null ) {
                     bankTotal.setBankName(dr.getBankName());
@@ -109,7 +111,9 @@ public class DailyReportServiceImpl implements DailyReportService {
                 total.addRow(dr);
             }
 
-            addRow(dataTable,bankTotal,true);
+            if ( rows ) {
+                addRow(dataTable,bankTotal,true);
+            }
             addRow(dataTable,total,true);
 
             document.add(dataTable);

@@ -62,6 +62,19 @@
 	<bean id="pdpUserService" class="org.kuali.module.pdp.service.impl.PdpUserServiceImpl" parent="kualiModuleUserServiceBase">
 	</bean>
 
+	<bean id="pdpPayeeTypeDao" class="org.kuali.module.pdp.dao.other.PayeeTypeDaoOther">
+    	<property name="payees">
+    		<map>
+    			<entry key="P"><value>Payee ID</value></entry>
+    			<entry key="S"><value>SSN</value></entry>
+    			<entry key="E"><value>Employee ID</value></entry>
+    			<entry key="F"><value>FEIN</value></entry>
+    			<entry key="V"><value>Vendor ID</value></entry>
+    			<entry key="X"><value>Other</value></entry>
+    		</map>
+		</property>
+	</bean>	
+
 	<bean id="pdpAchAccountNumberDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.AchAccountNumberDaoOjb"/>
 
 	<bean id="pdpBankDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.BankDaoOjb">

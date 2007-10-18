@@ -33,6 +33,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -73,7 +75,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         Timestamp now = dateTimeService.getCurrentTimestamp();
 
         Criteria crit = new Criteria();
-        crit.addEqualTo("paymentGroup.disbursementTypeCode", PdpConstants.DisbursementTypeCodes.CHECK);
+//        crit.addEqualTo("paymentGroup.disbursementTypeCode", PdpConstants.DisbursementTypeCodes.CHECK);
         crit.addEqualTo("paymentGroup.paymentStatusCode", PdpConstants.PaymentStatusCodes.OPEN);
         crit.addLessOrEqualThan("paymentGroup.paymentDate", now);
 
@@ -94,15 +96,15 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         while ( i.hasNext() ) {
             PaymentDetail d = (PaymentDetail)i.next();
             Key rsk = reportSortKey(d);
-            if ( summary.containsKey(rsk) ) {
-                Numbers n = new Numbers();
+            Numbers n = summary.get(rsk);
+            if ( n == null ) {
+                n = new Numbers();
                 n.amount = d.getCalculatedPaymentAmount();
                 n.payments = 1;
                 n.payees = 1;
                 summary.put(rsk, n);
                 lastGroupId = d.getPaymentGroup().getId();
             } else {
-                Numbers n = summary.get(rsk);
                 n.payments++;
                 n.amount = n.amount.add(d.getCalculatedPaymentAmount());
                 if ( lastGroupId.intValue() != d.getPaymentGroup().getId().intValue() ) {
@@ -139,12 +141,24 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
             sortOrder = s;
             customerShortName = c;
         }
+
+        public int hashCode() {
+            return new HashCodeBuilder(3, 5).append(bankName).append(sortOrder).append(customerShortName).toHashCode();
+        }
+
+        public boolean equals(Object obj) {
+            if (!(obj instanceof Key)) {
+                return false;
+            }
+            Key thisobj = (Key) obj;
+            return new EqualsBuilder().append(bankName, thisobj.bankName).append(sortOrder,thisobj.sortOrder).append(customerShortName,thisobj.customerShortName).isEquals();
+        }
     }
 
     class Numbers {
-        public BigDecimal amount;
-        public int payments;
-        public int payees;
+        public BigDecimal amount = new BigDecimal("0");
+        public int payments = 0;
+        public int payees = 0;
     }
 
     /**

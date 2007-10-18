@@ -23,7 +23,7 @@ import org.kuali.module.purap.bo.RequisitionItem;
 
 public enum PurApItemFixture {
     BASIC_QTY_ITEM_1 (
-            new Integer("123456"),  // itemIdentifier
+            null,  // itemIdentifier
             new Integer(1),         // itemLineNumber
             "",                     // capitalAssetTransactionTypeCode
             "PCS",                  // itemUnitOfMeasureCode
@@ -41,7 +41,7 @@ public enum PurApItemFixture {
             )
     ,
     BASIC_QTY_ITEM_2 (
-            new Integer("123457"),  // itemIdentifier
+            null,  // itemIdentifier
             new Integer(2),         // itemLineNumber
             "",                     // capitalAssetTransactionTypeCode
             "PCS",                  // itemUnitOfMeasureCode

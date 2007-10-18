@@ -69,6 +69,11 @@ public class PurapTestConstants {
         static final String ACCOUNT_NUMBER = "1031400";
         static final BigDecimal UNIT_PRICE = new KualiDecimal(32).bigDecimalValue();
         static final BigDecimal PERCENTAGE = new KualiDecimal(100).bigDecimalValue();
+
+        static final BigDecimal UNIT_PRICE_APO_1 = new KualiDecimal(1.99).bigDecimalValue();
+        static final BigDecimal UNIT_PRICE_APO_2 = new KualiDecimal(239.99).bigDecimalValue();
+        static final BigDecimal QUANTITY_APO_1 = new KualiDecimal(500).bigDecimalValue();
+        static final BigDecimal QUANTITY_APO_2 = new KualiDecimal(1).bigDecimalValue();
     }
     
     @SuppressWarnings("deprecation")

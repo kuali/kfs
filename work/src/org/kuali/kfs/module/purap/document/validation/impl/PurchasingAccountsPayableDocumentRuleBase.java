@@ -43,7 +43,7 @@ import org.kuali.module.purap.rule.AddPurchasingAccountsPayableItemRule;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumentRuleBase implements AddPurchasingAccountsPayableItemRule {
+public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDocumentRuleBase implements AddPurchasingAccountsPayableItemRule {
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {

@@ -204,6 +204,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         List<SourceAccountingLine> newAccountingLines = purapAccountingService.generateSummaryWithNoZeroTotals(preq.getItems());
         for (SourceAccountingLine newAccount : newAccountingLines) {
             actualsPositive.put(newAccount, newAccount.getAmount());
+            LOG.debug("generateEntriesModifyPreq() actualsPositive: " + newAccount.getAccountNumber() + " = " + newAccount.getAmount());
         }
 
         Map actualsNegative = new HashMap();
@@ -211,6 +212,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
         for (PaymentRequestSummaryAccount oldAccount : oldAccountingLines) {
             actualsNegative.put(oldAccount.generateSourceAccountingLine(), oldAccount.getAmount());
+            LOG.debug("generateEntriesModifyPreq() actualsNegative: " + oldAccount.getAccountNumber() + " = " + oldAccount.getAmount());
         }
 
         // Add the positive entries and subtract the negative entries
@@ -299,7 +301,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         }
 
         //now book the actuals from the PREQ
-        if (accountingLines != null) {
+        if (ObjectUtils.isNotNull(accountingLines) && !accountingLines.isEmpty()) {
             preq.setGenerateEncumbranceEntries(false);
 
             if (CREATE_PAYMENT_REQUEST.equals(processType) || MODIFY_PAYMENT_REQUEST.equals(processType)) {

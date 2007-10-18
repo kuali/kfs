@@ -22,16 +22,24 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.RequisitionAccount;
+import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.test.fixtures.AccountingLineFixture;
 
 public enum RequisitionAccountingLineFixture {
     BASIC_REQ_ACCOUNT_1(
-    );
+            PurApAccountingLineFixture.BASIC_ACCOUNT_1,   // PurApAccountingLineFixture
+            AccountingLineFixture.LINE2                   // AccountingLineFixture
+            );
     
     
-    private RequisitionAccountingLineFixture(
-    ) {
+    private PurApAccountingLineFixture purApAccountingLineFixture;
+    private AccountingLineFixture accountingLineFixture;
+
+    private RequisitionAccountingLineFixture(PurApAccountingLineFixture purApAccountingLineFixture,
+            AccountingLineFixture accountingLineFixture) {
+        this.purApAccountingLineFixture = purApAccountingLineFixture;
+        this.accountingLineFixture = accountingLineFixture;
     }
     
     public PurApAccountingLine createPurApAccountingLine(Class clazz, PurApAccountingLineFixture puralFixture, AccountingLineFixture alFixture) {
@@ -43,6 +51,10 @@ public enum RequisitionAccountingLineFixture {
         return line;
     }
     
+    public void addTo(RequisitionItem item) {
+        item.getSourceAccountingLines().add(createPurApAccountingLine(item.getAccountingLineClass(), purApAccountingLineFixture, accountingLineFixture));
+    }
+
     /**
      * 
      * This method adds an account to an item

@@ -26,33 +26,37 @@ public enum PurApItemFixture {
             new Integer("123456"),  // itemIdentifier
             new Integer(1),         // itemLineNumber
             "",                     // capitalAssetTransactionTypeCode
-            "",                     // itemUnitOfMeasureCode
+            "PCS",                  // itemUnitOfMeasureCode
             "",                     // itemCatalogNumber
-            "",                     // itemDescription
+            "description",          // itemDescription
             "",                     // itemCapitalAssetNoteText
             new BigDecimal(1),      // itemUnitPrice
-            "ITEM",                     // itemTypeCode
+            "ITEM",                 // itemTypeCode
             "",                     // itemAuxiliaryPartIdentifier
             "",                     // externalOrganizationB2bProductReferenceNumber
             "",                     // externalOrganizationB2bProductTypeName
             false,                  // itemAssignedToTradeInIndicator
-            new KualiDecimal(0))    // extendedPrice
+            new KualiDecimal(1),    // extendedPrice
+            new KualiDecimal(1)     // itemQuantity
+            )
     ,
     BASIC_QTY_ITEM_2 (
             new Integer("123457"),  // itemIdentifier
             new Integer(2),         // itemLineNumber
             "",                     // capitalAssetTransactionTypeCode
-            "",                     // itemUnitOfMeasureCode
+            "PCS",                  // itemUnitOfMeasureCode
             "",                     // itemCatalogNumber
-            "",                     // itemDescription
+            "description",          // itemDescription
             "",                     // itemCapitalAssetNoteText
             new BigDecimal(1),      // itemUnitPrice
-            "ITEM",                     // itemTypeCode
+            "ITEM",                 // itemTypeCode
             "",                     // itemAuxiliaryPartIdentifier
             "",                     // externalOrganizationB2bProductReferenceNumber
             "",                     // externalOrganizationB2bProductTypeName
             false,                  // itemAssignedToTradeInIndicator
-            new KualiDecimal(0))    // extendedPrice
+            new KualiDecimal(1),    // extendedPrice
+            new KualiDecimal(1)     // itemQuantity
+            )
     ;
     
     
@@ -70,6 +74,7 @@ public enum PurApItemFixture {
     private String externalOrganizationB2bProductTypeName;
     private boolean itemAssignedToTradeInIndicator;
     private KualiDecimal extendedPrice;
+    private KualiDecimal itemQuantity;
 
     
     private PurApItemFixture(  
@@ -86,7 +91,8 @@ public enum PurApItemFixture {
      String externalOrganizationB2bProductReferenceNumber,
      String externalOrganizationB2bProductTypeName,
      boolean itemAssignedToTradeInIndicator,
-     KualiDecimal extendedPrice) {
+     KualiDecimal extendedPrice,
+     KualiDecimal itemQuantity) {
         this.itemIdentifier = itemIdentifier;
         this.itemLineNumber = itemLineNumber;
         this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
@@ -101,6 +107,7 @@ public enum PurApItemFixture {
         this.externalOrganizationB2bProductTypeName = externalOrganizationB2bProductTypeName;
         this.itemAssignedToTradeInIndicator = itemAssignedToTradeInIndicator;
         this.extendedPrice = extendedPrice;
+        this.itemQuantity = itemQuantity;
         
         //add accounts here
     }
@@ -130,6 +137,7 @@ public enum PurApItemFixture {
         item.setExternalOrganizationB2bProductTypeName(externalOrganizationB2bProductTypeName);
         item.setItemAssignedToTradeInIndicator(itemAssignedToTradeInIndicator);
         item.setExtendedPrice(extendedPrice);
+        item.setItemQuantity(itemQuantity);
         
         item.refreshNonUpdateableReferences();
         return item;

@@ -33,10 +33,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.document.AccountingDocumentTestUtils;
 import org.kuali.module.purap.bo.PurchasingItem;
 import org.kuali.module.purap.bo.RequisitionItem;
-import org.kuali.module.purap.fixtures.PurchasingAccountsPayableDocumentFixture;
-import org.kuali.module.purap.fixtures.PurchasingDocumentFixture;
 import org.kuali.module.purap.fixtures.RequisitionDocumentFixture;
-import org.kuali.module.purap.fixtures.RequisitionDocumentMultiFixture;
 import org.kuali.module.purap.fixtures.RequisitionItemAccountsFixture;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
@@ -50,11 +47,6 @@ import org.kuali.test.fixtures.UserNameFixture;
 @ConfigureContext(session = KHUNTLEY)
 public class RequisitionDocumentTest extends KualiTestBase {
     public static final Class<RequisitionDocument> DOCUMENT_CLASS = RequisitionDocument.class;
-
-    private Document getDocumentParameterFixture() throws Exception {
-    	RequisitionDocumentFixture reqDocFixture = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS;
-    	return reqDocFixture.createRequisitionDocument(PurchasingAccountsPayableDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS);
-    }
 
     private List<RequisitionItemAccountsFixture> getItemParametersFromFixtures() {
         List<RequisitionItemAccountsFixture> list = new ArrayList<RequisitionItemAccountsFixture>();
@@ -109,14 +101,13 @@ public class RequisitionDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testConvertIntoCopy(buildSimpleDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
     }
     
-    
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testTony() throws Exception {
-        RequisitionDocument requisitionDocument = RequisitionDocumentMultiFixture.REQ_1.createRequisitionDocument();
+        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
         AccountingDocumentTestUtils.saveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
     }
 
-
-    // test util methods
+        // test util methods
     private List<RequisitionItem> generateItems() throws Exception {
         List<RequisitionItem> items = new ArrayList<RequisitionItem>();
         // set items to document
@@ -128,22 +119,23 @@ public class RequisitionDocumentTest extends KualiTestBase {
     }
 
     private RequisitionDocument buildSimpleDocument() throws Exception {
-        RequisitionDocument document = (RequisitionDocument) getDocumentParameterFixture();
-
-        for (RequisitionItemAccountsFixture itemFixture : getItemParametersFromFixtures()) {
-            document.addItem(itemFixture.populateItem());
-        }
-
-        return document;
+        return RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
     }
+
+//    private Document getDocumentParameterFixture() throws Exception {
+//        RequisitionDocumentFixture reqDocFixture = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS;
+//        return reqDocFixture.createRequisitionDocument(PurchasingAccountsPayableDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS);
+//    }
     
-
-    private void deleteItem(RequisitionDocument document, int index) {
-        List items = document.getItems();
-        items.remove(index);
-        document.setItems(items);
-    }
-
+//    private RequisitionDocument buildSimpleDocument2() throws Exception {
+//        RequisitionDocument document = (RequisitionDocument) getDocumentParameterFixture();
+//
+//        for (RequisitionItemAccountsFixture itemFixture : getItemParametersFromFixtures()) {
+//            document.addItem(itemFixture.populateItem());
+//        }
+//
+//        return document;
+//    }    
     private UserNameFixture getInitialUserName() {
         return RJWEISS;
     }

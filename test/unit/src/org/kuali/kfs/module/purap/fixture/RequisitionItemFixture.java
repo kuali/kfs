@@ -19,23 +19,42 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 
 public enum RequisitionItemFixture {
-    REQ_QTY_UNRESTRICTED_ITEM_1 (
-            false)
-    ;
     
-    private PurApItemFixture defaultItemFixture = PurApItemFixture.BASIC_QTY_ITEM_1;
+    REQ_QTY_UNRESTRICTED_ITEM_1 (
+            false,                              // itemRestrictedIndicator
+            PurApItemFixture.BASIC_QTY_ITEM_1,  // purApItemFixture
+            new RequisitionAccountingLineFixture[] {RequisitionAccountingLineFixture.BASIC_REQ_ACCOUNT_1}   // requisitionAccountMultiFixtures
+            );
+    
     private boolean itemRestrictedIndicator;
+    private PurApItemFixture purApItemFixture;
+    private RequisitionAccountingLineFixture[] requisitionAccountingLineFixtures;
 
     
     private RequisitionItemFixture(  
-            boolean itemRestrictedIndicator) {
+            boolean itemRestrictedIndicator,
+            PurApItemFixture purApItemFixture,
+            RequisitionAccountingLineFixture[] requisitionAccountingLineFixtures) {
         this.itemRestrictedIndicator = itemRestrictedIndicator;
-        
+        this.purApItemFixture = purApItemFixture;
+        this.requisitionAccountingLineFixtures = requisitionAccountingLineFixtures;
     }
 
-    /**
+    
+    public void addTo(RequisitionDocument requisitionDocument) {
+        RequisitionItem item=null;
+        item = (RequisitionItem)this.createRequisitionItem(purApItemFixture); 
+        requisitionDocument.addItem(item);
+        // iterate over the accounts
+        for (RequisitionAccountingLineFixture requisitionAccountMultiFixture : requisitionAccountingLineFixtures) {
+            requisitionAccountMultiFixture.addTo(item);
+        }
+    }
+    
+     /**
      * 
      * TODO: ckirschenman (would it make more sense to attach the incoming fixture to the fixture definition above?)
      * @param purApItemFixture
@@ -51,25 +70,25 @@ public enum RequisitionItemFixture {
      * 
      * @return
      */
-    public PurApItem createRequisitionItem() {
-        return createRequisitionItem(defaultItemFixture);
-    }
-
-    
-    
-    /**
-     * 
-     * This method adds an item to a document
-     * @param document
-     * @param purApItemFixture
-     * @throws IllegalAccessException
-     * @throws InstantiationException
-     */
-    public RequisitionItem addTo(PurchasingAccountsPayableDocument document, PurApItemFixture purApItemFixture) 
-        throws IllegalAccessException, InstantiationException {
-        RequisitionItem item = (RequisitionItem)this.createRequisitionItem(purApItemFixture); 
-        document.addItem(item);
-        return item;
-        
-    }   
+//    public PurApItem createRequisitionItem() {
+//        return createRequisitionItem(defaultItemFixture);
+//    }
+//
+//    
+//    
+//    /**
+//     * 
+//     * This method adds an item to a document
+//     * @param document
+//     * @param purApItemFixture
+//     * @throws IllegalAccessException
+//     * @throws InstantiationException
+//     */
+//    public RequisitionItem addTo(PurchasingAccountsPayableDocument document, PurApItemFixture purApItemFixture) 
+//        throws IllegalAccessException, InstantiationException {
+//        RequisitionItem item = (RequisitionItem)this.createRequisitionItem(purApItemFixture); 
+//        document.addItem(item);
+//        return item;
+//        
+//    }   
 }

@@ -31,13 +31,30 @@ public enum PurApItemFixture {
             "",                     // itemDescription
             "",                     // itemCapitalAssetNoteText
             new BigDecimal(1),      // itemUnitPrice
-            "",                     // itemTypeCode
+            "ITEM",                     // itemTypeCode
+            "",                     // itemAuxiliaryPartIdentifier
+            "",                     // externalOrganizationB2bProductReferenceNumber
+            "",                     // externalOrganizationB2bProductTypeName
+            false,                  // itemAssignedToTradeInIndicator
+            new KualiDecimal(0))    // extendedPrice
+    ,
+    BASIC_QTY_ITEM_2 (
+            new Integer("123457"),  // itemIdentifier
+            new Integer(2),         // itemLineNumber
+            "",                     // capitalAssetTransactionTypeCode
+            "",                     // itemUnitOfMeasureCode
+            "",                     // itemCatalogNumber
+            "",                     // itemDescription
+            "",                     // itemCapitalAssetNoteText
+            new BigDecimal(1),      // itemUnitPrice
+            "ITEM",                     // itemTypeCode
             "",                     // itemAuxiliaryPartIdentifier
             "",                     // externalOrganizationB2bProductReferenceNumber
             "",                     // externalOrganizationB2bProductTypeName
             false,                  // itemAssignedToTradeInIndicator
             new KualiDecimal(0))    // extendedPrice
     ;
+    
     
     private Integer itemIdentifier;
     private Integer itemLineNumber;
@@ -113,6 +130,8 @@ public enum PurApItemFixture {
         item.setExternalOrganizationB2bProductTypeName(externalOrganizationB2bProductTypeName);
         item.setItemAssignedToTradeInIndicator(itemAssignedToTradeInIndicator);
         item.setExtendedPrice(extendedPrice);
+        
+        item.refreshNonUpdateableReferences();
         return item;
     }
 }

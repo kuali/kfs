@@ -65,8 +65,11 @@ public enum RequisitionItemFixture {
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    public void addTo(PurchasingAccountsPayableDocument document, PurApItemFixture purApItemFixture) 
+    public RequisitionItem addTo(PurchasingAccountsPayableDocument document, PurApItemFixture purApItemFixture) 
         throws IllegalAccessException, InstantiationException {
-        document.addItem(this.createRequisitionItem(purApItemFixture));
+        RequisitionItem item = (RequisitionItem)this.createRequisitionItem(purApItemFixture); 
+        document.addItem(item);
+        return item;
+        
     }   
 }

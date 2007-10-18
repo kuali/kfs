@@ -16,10 +16,8 @@
 package org.kuali.module.pdp.service.impl;
 
 import java.io.FileOutputStream;
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -28,7 +26,9 @@ import java.util.List;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.module.gl.util.TransactionReport.PageHelper;
 import org.kuali.module.pdp.bo.DailyReport;
+import org.kuali.module.pdp.dao.PaymentDetailDao;
 import org.kuali.module.pdp.service.DailyReportService;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -41,9 +41,11 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
+@Transactional
 public class DailyReportServiceImpl implements DailyReportService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DailyReportServiceImpl.class);
 
+    private PaymentDetailDao paymentDetailDao;
     private DateTimeService dateTimeService;
     private String directoryName;
 
@@ -58,12 +60,7 @@ public class DailyReportServiceImpl implements DailyReportService {
     private List<DailyReport> getData() {
         LOG.debug("getData() started");
 
-        List c = new ArrayList();
-        c.add(new DailyReport("Bank One CK","Attachment","BL-TRMS-TRIU",new BigDecimal(299974),10,10));
-        c.add(new DailyReport("Bank One CK","","BL-BURS-SIS",new BigDecimal(287762.18),136,136));
-        c.add(new DailyReport("Bank One CK","","BL-TRMS-TRIU",new BigDecimal(38048.23),99,99));
-        c.add(new DailyReport("Northern Trust CK","Special Handling","BL-FMOP-EPIC",new BigDecimal(5174),1,1));
-        return c;
+        return paymentDetailDao.getDailyReportData();
     }
 
     public void runReport() {
@@ -236,5 +233,9 @@ public class DailyReportServiceImpl implements DailyReportService {
 
     public void setDateTimeService(DateTimeService dts) {
         dateTimeService = dts;
+    }
+
+    public void setPaymentDetailDao(PaymentDetailDao pdd) {
+        paymentDetailDao = pdd;
     }
 }

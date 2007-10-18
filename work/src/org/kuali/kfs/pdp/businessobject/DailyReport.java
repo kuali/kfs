@@ -17,7 +17,7 @@ package org.kuali.module.pdp.bo;
 
 import java.math.BigDecimal;
 
-public class DailyReport {
+public class DailyReport implements Comparable {
     private String bankName;
     private String sortOrder;
     private String customer;
@@ -39,6 +39,15 @@ public class DailyReport {
         amount = a;
         payments = pm;
         payees = py;
+    }
+
+    public int compareTo(Object o) {
+        DailyReport dro = (DailyReport)o;
+        return getKey().compareTo(dro.getKey());
+    }
+
+    public String getKey() {
+        return bankName + sortOrder + customer;
     }
 
     public void addRow(DailyReport r) {

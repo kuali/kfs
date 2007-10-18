@@ -90,6 +90,10 @@ public class CustomerProfile implements UserRequired,Serializable,PersistenceBro
     customerBanks = new ArrayList();
   }
 
+  public String getCustomerShortName() {
+      return chartCode + "-" + orgCode + "-" + subUnitCode;
+  }
+
   public String getSortName() {
     return (this.chartCode + this.orgCode + this.subUnitCode);
   }

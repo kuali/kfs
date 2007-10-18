@@ -95,6 +95,7 @@
 	<bean id="pdpPaymentDetailDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.PaymentDetailDaoOjb">
 		<property name="universalUserService" ref="universalUserService" />
 		<property name="referenceService" ref="pdpReferenceService" />
+		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 
 	<bean id="pdpPaymentDetailSearchDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.PaymentDetailSearchDaoOjb">
@@ -199,6 +200,7 @@
 	<bean id="pdpDailyReportService" class="org.kuali.module.pdp.service.impl.DailyReportServiceImpl">
 		<property name="directoryName" value="${staging.directory}/PDP/"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
+		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
 	</bean>
 
 	<bean id="pdpExtractPaymentService" class="org.kuali.module.pdp.service.impl.ExtractPaymentServiceImpl">

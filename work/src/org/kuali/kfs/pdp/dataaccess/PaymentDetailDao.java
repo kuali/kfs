@@ -25,6 +25,7 @@ package org.kuali.module.pdp.dao;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.module.pdp.bo.DailyReport;
 import org.kuali.module.pdp.bo.DisbursementNumberRange;
 import org.kuali.module.pdp.bo.PaymentDetail;
 
@@ -34,6 +35,13 @@ public interface PaymentDetailDao {
     public PaymentDetail getDetailForEpic(String custPaymentDocNbr, String fdocTypeCode);
     public List getDisbursementNumberRanges(String campus);
     public void saveDisbursementNumberRange(DisbursementNumberRange range);
+
+    /**
+     * This returns the data required for the daily report
+     * 
+     * @return
+     */
+    public List<DailyReport> getDailyReportData();
 
     /**
      * This will return an iterator of all the cancelled payment details that haven't

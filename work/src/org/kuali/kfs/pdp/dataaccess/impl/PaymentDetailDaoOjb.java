@@ -22,23 +22,31 @@
  */
 package org.kuali.module.pdp.dao.ojb;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.bo.Batch;
 import org.kuali.module.pdp.bo.CustomerProfile;
+import org.kuali.module.pdp.bo.DailyReport;
 import org.kuali.module.pdp.bo.DisbursementNumberRange;
 import org.kuali.module.pdp.bo.PaymentDetail;
+import org.kuali.module.pdp.bo.PaymentGroup;
 import org.kuali.module.pdp.bo.PaymentGroupHistory;
 import org.kuali.module.pdp.bo.PaymentProcess;
 import org.kuali.module.pdp.bo.UserRequired;
@@ -50,17 +58,93 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
 
     private UniversalUserService userService;
     private ReferenceService referenceService;
+    private DateTimeService dateTimeService;
 
     public PaymentDetailDaoOjb() {
         super();
     }
 
-    public void setUniversalUserService(UniversalUserService us) {
-        userService = us;
+    /**
+     * @see org.kuali.module.pdp.dao.PaymentDetailDao#getDailyReportData()
+     */
+    public List<DailyReport> getDailyReportData() {
+        LOG.debug("getDailyReportData() started");
+
+        Timestamp now = dateTimeService.getCurrentTimestamp();
+
+        Criteria crit = new Criteria();
+        crit.addEqualTo("paymentGroup.disbursementTypeCode", PdpConstants.DisbursementTypeCodes.CHECK);
+        crit.addEqualTo("paymentGroup.paymentStatusCode", PdpConstants.PaymentStatusCodes.OPEN);
+        crit.addLessOrEqualThan("paymentGroup.paymentDate", now);
+
+        QueryByCriteria q = QueryFactory.newQuery(PaymentDetail.class, crit);
+
+        q.addOrderByAscending("paymentGroup.bank.name");
+        q.addOrderByDescending("paymentGroup.processImmediate");
+        q.addOrderByDescending("paymentGroup.pymtSpecialHandling");
+        q.addOrderByDescending("paymentGroup.pymtAttachment");
+        q.addOrderByAscending("paymentGroup.batch.customerProfile.chartCode");
+        q.addOrderByAscending("paymentGroup.batch.customerProfile.orgCode");
+        q.addOrderByAscending("paymentGroup.batch.customerProfile.subUnitCode");
+        q.addOrderByAscending("paymentGroup.id");
+
+        Map<Key,Numbers> summary = new HashMap<Key,Numbers>();
+        Integer lastGroupId = null;
+        Iterator i = getPersistenceBrokerTemplate().getIteratorByQuery(q);
+        while ( i.hasNext() ) {
+            PaymentDetail d = (PaymentDetail)i.next();
+            Key rsk = reportSortKey(d);
+            if ( summary.containsKey(rsk) ) {
+                Numbers n = new Numbers();
+                n.amount = d.getCalculatedPaymentAmount();
+                n.payments = 1;
+                n.payees = 1;
+                summary.put(rsk, n);
+                lastGroupId = d.getPaymentGroup().getId();
+            } else {
+                Numbers n = summary.get(rsk);
+                n.payments++;
+                n.amount = n.amount.add(d.getCalculatedPaymentAmount());
+                if ( lastGroupId.intValue() != d.getPaymentGroup().getId().intValue() ) {
+                    n.payees++;
+                    lastGroupId = d.getPaymentGroup().getId();
+                }
+            }
+        }
+        // Now take the data and put it in our result list
+        List<DailyReport> data = new ArrayList<DailyReport>();
+        for (Iterator iter = summary.keySet().iterator(); iter.hasNext();) {
+            Key e = (Key)iter.next();
+            Numbers n = summary.get(e);
+            DailyReport r = new DailyReport(e.bankName,e.sortOrder,e.customerShortName,n.amount,n.payments,n.payees);
+            data.add(r);
+        }
+        Collections.sort(data);
+        return data;
     }
 
-    public void setReferenceService(ReferenceService ref) {
-        referenceService = ref;
+    private Key reportSortKey(PaymentDetail d) {
+        PaymentGroup pg = d.getPaymentGroup();
+        CustomerProfile cp = pg.getBatch().getCustomerProfile();
+        return new Key(pg.getBank().getName(),pg.getDailyReportSortOrder(),cp.getCustomerShortName());
+    }
+
+    class Key {
+        public String bankName;
+        public String sortOrder;
+        public String customerShortName;
+
+        public Key(String b,String s,String c) {
+            bankName = b;
+            sortOrder = s;
+            customerShortName = c;
+        }
+    }
+
+    class Numbers {
+        public BigDecimal amount;
+        public int payments;
+        public int payees;
     }
 
     /**
@@ -247,5 +331,17 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         } catch (UserNotFoundException e) {
             b.setLastUpdateUser(null);
         }
+    }
+
+    public void setUniversalUserService(UniversalUserService us) {
+        userService = us;
+    }
+
+    public void setReferenceService(ReferenceService ref) {
+        referenceService = ref;
+    }
+
+    public void setDateTimeService(DateTimeService dts) {
+        dateTimeService = dts;
     }
 }

@@ -22,8 +22,7 @@
 		- 05/2007: pcberg@indiana.edu, refactoring for KRA.
 	-->
 
-	<xsl:variable name="baseUrl"
-		select="/PROPOSAL/ROUTING_FORM/@BASE_URL" />
+	<xsl:variable name="imagesUrl" select="/PROPOSAL/ROUTING_FORM/@IMAGES_URL" />
 
 	<xsl:variable name="routingForm" select="PROPOSAL/ROUTING_FORM" />
 	<xsl:variable name="agency" select="PROPOSAL/ROUTING_FORM/AGENCY" />
@@ -1927,11 +1926,11 @@
 		<xsl:param name="checkboxNode" />
 
 		<xsl:if test="$checkboxNode = 'Y'">
-			<fo:external-graphic height="4mm" src="url({$baseUrl}/images-xslt/checkboxChecked.gif)" />
+			<fo:external-graphic height="4mm" src="url({$imagesUrl}/xslt-checkboxChecked.gif)" />
 		</xsl:if>
 
 		<xsl:if test="$checkboxNode = 'N'  or $checkboxNode = 'Z' or $checkboxNode = ''">
-			<fo:external-graphic height="4mm" src="url({$baseUrl}/images-xslt/checkbox.gif)" />
+			<fo:external-graphic height="4mm" src="url({$imagesUrl}/xslt-checkbox.gif)" />
 		</xsl:if>
 
 	</xsl:template>
@@ -1943,12 +1942,12 @@
 
 		<xsl:if test="$checkboxNode = 'N'">
 			<fo:external-graphic height="4mm"
-				src="url({$baseUrl}/images-xslt/checkboxChecked.gif)" />
+				src="url({$imagesUrl}/xslt-checkboxChecked.gif)" />
 		</xsl:if>
 
 		<xsl:if test="$checkboxNode = 'Y' or $checkboxNode = 'Z' or $checkboxNode = ''">
 			<fo:external-graphic height="4mm"
-				src="url({$baseUrl}/images-xslt/checkbox.gif)" />
+				src="url({$imagesUrl}/xslt-checkbox.gif)" />
 		</xsl:if>
 
 	</xsl:template>
@@ -1959,11 +1958,11 @@
 		<xsl:choose>
 
 			<xsl:when test="$principals/@CO-PD_IND = 'Y' ">
-				<fo:external-graphic height="4mm" src="url({$baseUrl}/images-xslt/checkboxChecked.gif)" />
+				<fo:external-graphic height="4mm" src="url({$imagesUrl}/xslt-checkboxChecked.gif)" />
 			</xsl:when>
 
 			<xsl:otherwise>
-				<fo:external-graphic height="4mm" src="url({$baseUrl}/images-xslt/checkbox.gif)" />
+				<fo:external-graphic height="4mm" src="url({$imagesUrl}/xslt-checkbox.gif)" />
 			</xsl:otherwise>
 
 		</xsl:choose>
@@ -1976,11 +1975,11 @@
 		<xsl:choose>
 
 			<xsl:when test="$principals/@CO-PD_IND = 'N' ">
-				<fo:external-graphic height="4mm" src="url({$baseUrl}/images-xslt/checkboxChecked.gif)" />
+				<fo:external-graphic height="4mm" src="url({$imagesUrl}/xslt-checkboxChecked.gif)" />
 			</xsl:when>
 
 			<xsl:otherwise>
-				<fo:external-graphic height="4mm" src="url({$baseUrl}/images-xslt/checkbox.gif)" />
+				<fo:external-graphic height="4mm" src="url({$imagesUrl}/xslt-checkbox.gif)" />
 			</xsl:otherwise>
 
 		</xsl:choose>
@@ -1995,12 +1994,12 @@
 			<xsl:when
 				test="not(/PROPOSAL/ROUTING_FORM/AGENCY/AGENCY_DELIVERY/ADDITIONAL_DELIVERY_INSTRUCTIONS = '')">
 				<fo:external-graphic height="4mm"
-					src="url({$baseUrl}/images-xslt/checkboxChecked.gif)" />
+					src="url({$imagesUrl}/xslt-checkboxChecked.gif)" />
 			</xsl:when>
 
 			<xsl:otherwise>
 				<fo:external-graphic height="4mm"
-					src="url({$baseUrl}/images-xslt/checkbox.gif)" />
+					src="url({$imagesUrl}/xslt-checkbox.gif)" />
 			</xsl:otherwise>
 
 		</xsl:choose>
@@ -2015,12 +2014,12 @@
 			<xsl:when
 				test="/PROPOSAL/ROUTING_FORM/AGENCY/AGENCY_DELIVERY/ADDITIONAL_DELIVERY_INSTRUCTIONS = ''">
 				<fo:external-graphic height="4mm"
-					src="url({$baseUrl}/images-xslt/checkboxChecked.gif)" />
+					src="url({$imagesUrl}/xslt-checkboxChecked.gif)" />
 			</xsl:when>
 
 			<xsl:otherwise>
 				<fo:external-graphic height="4mm"
-					src="url({$baseUrl}/images-xslt/checkbox.gif)" />
+					src="url({$imagesUrl}/xslt-checkbox.gif)" />
 			</xsl:otherwise>
 
 		</xsl:choose>

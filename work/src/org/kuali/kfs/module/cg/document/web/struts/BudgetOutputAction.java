@@ -214,8 +214,8 @@ public class BudgetOutputAction extends BudgetAction {
      * @throws Exception
      */
     private Document makeXml(HttpServletRequest request, BudgetForm budgetForm, BudgetDocument budgetDocument) throws ParserConfigurationException, Exception {
-        // following is like returnUrl in KualiCore
-        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        String imagesUrl = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+        
         String param = "";
         if (GENERIC_BY_TASK.equals(budgetForm.getCurrentOutputReportType()) || GENERIC_BY_PERIOD.equals(budgetForm.getCurrentOutputReportType())) {
             param = budgetForm.getCurrentOutputDetailLevel();
@@ -228,7 +228,7 @@ public class BudgetOutputAction extends BudgetAction {
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder domBuilder = domFactory.newDocumentBuilder();
         Document xmlDocument = domBuilder.newDocument();
-        BudgetXml.makeXml(budgetDocument, xmlDocument, baseUrl, param);
+        BudgetXml.makeXml(budgetDocument, xmlDocument, imagesUrl, param);
         return xmlDocument;
     }
 

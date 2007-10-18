@@ -25,12 +25,12 @@ Variables with the double X, such as S1XX_Hospitalization, are used on Page 5.  
   <!--                           VERSION HISTORY
     - 05/2006: pcberg@indiana.edu, refactoring for KRA.
                - @PERIOD = @PERIOD_NUMBER
-               - Added variables baseUrl and imageArrow.
+               - Added variables imagesUrl and imageArrow.
                - CREATE_TIMESTAMP = SEQUENCE_NUMBER
   -->
 
-<xsl:variable name="baseUrl" select="/PROPOSAL/BUDGET/@BASE_URL"/>
-<xsl:variable name="imageArrow" select="'/images-xslt/arrow.gif'"/>
+<xsl:variable name="imagesUrl" select="/PROPOSAL/BUDGET/@IMAGES_URL" />
+<xsl:variable name="imageArrow" select="'xslt-arrow.gif'"/>
 
   <!-- 
  Alterations and Renovations is a subcategory of Other.  Page 4 of output does has a separate space for Alterations and Renovations.  Adding "not(SUB_CATEGORY = 'Alterations and Renovations')" was a convenient hack, but applying the test for categories other than "Other" is unnecessary.
@@ -3091,7 +3091,7 @@ Note that $PERSON_OTHER is not the same as  not($PERSON_PI), since a person migh
      <fo:table-cell border-right-style="solid"   display-align="after" >
 
 		<fo:block  text-align="left" >
-			<fo:external-graphic width="36mm"  height="3mm"  src="url({$baseUrl}{$imageArrow})" />
+			<fo:external-graphic width="36mm"  height="3mm"  src="url({$imagesUrl}{$imageArrow})" />
 			
 		
 		</fo:block >
@@ -3367,7 +3367,7 @@ Note that variables of the form ?1_ are numbers, which can be used for numerical
           		  font-size="10pt"  font-family="Arial, sans-serif"   number-columns-spanned="3" display-align="after" padding-bottom="0.7mm" padding-right="8mm">
 <!-- Removed per 11/24 NIH-398 revision.
           <fo:block  text-align="left" >
-          	<fo:external-graphic width="14mm"  height="5mm"  src="url({$baseUrl}{$imageArrow})" />
+          	<fo:external-graphic width="14mm"  height="5mm"  src="url({$imagesUrl}{$imageArrow})" />
 		</fo:block >
 -->
 		</fo:table-cell>
@@ -3687,7 +3687,7 @@ Page _______
 		<fo:inline font-size="8pt" font-weight="100" font-style="italic" >
           	 (Item 8a, Face Page)
          	</fo:inline>
-                <fo:external-graphic padding-before="4mm" width="24mm"  height="3mm"  src="url({$baseUrl}{$imageLine})" />
+                <fo:external-graphic padding-before="4mm" width="24mm"  height="3mm"  src="url({$imagesUrl}{$imageLine})" />
 -->
 				</fo:block>
 			</fo:table-cell>
@@ -4027,7 +4027,7 @@ TOTAL
      <fo:table-cell border-style="solid"   border-top-width="0mm" border-left-width="0mm" display-align="after" >
 
 		<fo:block  text-align="left" >
-			<fo:external-graphic width="36mm"  height="3mm"  src="url({$baseUrl}{$imageArrow})" />
+			<fo:external-graphic width="36mm"  height="3mm"  src="url({$imagesUrl}{$imageArrow})" />
 		</fo:block >
 	</fo:table-cell>
 

@@ -73,11 +73,11 @@ public class BudgetXml {
      * 
      * @param budgetDoc data representation of a budget
      * @param xmlDoc target xml representation for the budget. This field will be side effected.
-     * @param baseUrl ensures that stylesheet may be path idependent
+     * @param imagesUrl location of the images the stylesheets use
      * @param param a parameter that is to be added to the XML as PARAMETER1. Useful for custom functions of a style sheet.
      * @throws Exception
      */
-    public static void makeXml(BudgetDocument budgetDoc, Document xmlDoc, String baseUrl, String param) throws Exception {
+    public static void makeXml(BudgetDocument budgetDoc, Document xmlDoc, String imagesUrl, String param) throws Exception {
         Budget budget = budgetDoc.getBudget();
 
         // Initialize data needed. This is data true for the budget as global. There is some data in createTaskPeriodsElement
@@ -107,7 +107,7 @@ public class BudgetXml {
         DateFormat localFormat = DateFormat.getDateTimeInstance();
 
         budgetElement.setAttribute("XML_CREATE_DATE_TIME", localFormat.format(date));
-        budgetElement.setAttribute("BASE_URL", baseUrl);
+        budgetElement.setAttribute("IMAGES_URL", imagesUrl);
         budgetElement.setAttribute("PARAMETER1", param);
 
         budgetElement.appendChild(createProjectDirectorElement(budget, xmlDoc));

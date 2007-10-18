@@ -30,13 +30,13 @@ Variables with the double X, such as S1XX_Hospitalization, are used on Page 5.  
     - 05/2006: pcberg@indiana.edu, refactoring for KRA.
                - OUTPUT_DETAIL_LEVEL = PARAMETER1
                - @PERIOD = @PERIOD_NUMBER
-               - Added variables baseUrl and imageArrow.
+               - Added variables imagesUrl and imageArrow.
                - CREATE_TIMESTAMP = SEQUENCE_NUMBER
   -->
 	
 <xsl:variable name="Period_Number" select="/PROPOSAL/BUDGET/@PARAMETER1" />
-<xsl:variable name="baseUrl" select="/PROPOSAL/BUDGET/@BASE_URL"/>
-<xsl:variable name="imageArrow" select="'/images-xslt/arrow.gif'"/>
+<xsl:variable name="imagesUrl" select="/PROPOSAL/BUDGET/@IMAGES_URL" />
+<xsl:variable name="imageArrow" select="'xslt-arrow.gif'"/>
 
   <!--
  Alterations and Renovations is a subcategory of Other Category.  Page 4 of output does has a separate space for Alterations and Renovations.  Adding "not(SUB_CATEGORY = 'Alterations and Renovations')" was a convenient hack, but applying the test for categories other than "Other" is unnecessary.
@@ -1245,7 +1245,7 @@ Note that $PERSON_OTHER is not the same as  not($PERSON_PI), since a person migh
      <fo:table-cell border-right-style="solid"  display-align="center" padding-top="1mm" padding-right="2mm">
 
 		<fo:block  text-align="left">
-			<fo:external-graphic width="36mm"  height="3mm"  src="url({$baseUrl}{$imageArrow})" />
+			<fo:external-graphic width="36mm"  height="3mm"  src="url({$imagesUrl}{$imageArrow})" />
 
 
 		</fo:block >
@@ -1926,7 +1926,7 @@ Note that $PERSON_OTHER is not the same as  not($PERSON_PI), since a person migh
      <fo:table-cell border-style="solid"   border-top-width="0mm" border-left-width="0mm" display-align="center" border-right-width="0.8mm" padding-top="1mm" padding-right="2mm">
 
 		<fo:block  text-align="left" >
-			<fo:external-graphic width="36mm"  height="3mm"  src="url({$baseUrl}{$imageArrow})" />
+			<fo:external-graphic width="36mm"  height="3mm"  src="url({$imagesUrl}{$imageArrow})" />
 		</fo:block >
 	</fo:table-cell>
 

@@ -78,10 +78,10 @@ public class RoutingFormXml {
      * 
      * @param routingFormroutingFormDocumentDoc data representation of a routingForm
      * @param xmlDoc target xml representation for the routingForm. This field will be side effected.
-     * @param baseUrl ensures that stylesheet may be path idependent
+     * @param imagesUrl location of the images the stylesheets use
      * @throws Exception
      */
-    public static void makeXml(RoutingFormDocument routingFormDocument, Document xmlDoc, String baseUrl) throws Exception {
+    public static void makeXml(RoutingFormDocument routingFormDocument, Document xmlDoc, String imagesUrl) throws Exception {
         // Start of XML elements
         Element proposalElement = xmlDoc.createElement("PROPOSAL");
         xmlDoc.appendChild(proposalElement);
@@ -99,7 +99,7 @@ public class RoutingFormXml {
         DateFormat localFormat = DateFormat.getDateTimeInstance();
 
         routingFormElement.setAttribute("XML_CREATE_DATE_TIME", localFormat.format(date));
-        routingFormElement.setAttribute("BASE_URL", baseUrl);
+        routingFormElement.setAttribute("IMAGES_URL", imagesUrl);
 
         routingFormElement.appendChild(createAgencyElement(routingFormDocument.getRoutingFormAgency(), routingFormDocument.getRoutingFormAnnouncementNumber(), xmlDoc));
         routingFormElement.appendChild(createPrinciplesElement(routingFormDocument, xmlDoc));

@@ -41,7 +41,7 @@
                - UNIV = INSTITUTION
                - @TASK = @TASK_NUMBER
                - @PERIOD = @PERIOD_NUMBER
-               - Added variables myUniversity, baseUrl, and imageSeal.
+               - Added variables myUniversity, imagesUrl, and imageSeal.
                - CREATE_TIMESTAMP = SEQUENCE_NUMBER
 	-->	
 	
@@ -50,8 +50,8 @@
 	<!-- ******************* **************************** ******************* -->
 	
     <xsl:variable name="myUniversity" select="''"/>
-    <xsl:variable name="baseUrl" select="/PROPOSAL/BUDGET/@BASE_URL"/>
-    <xsl:variable name="imageSeal" select="'/images-xslt/myuniv.gif'"/>
+	<xsl:variable name="imagesUrl" select="/PROPOSAL/BUDGET/@IMAGES_URL" />
+    <xsl:variable name="imageSeal" select="'xslt-myuniv.gif'"/>
 	
 	<xsl:variable name="countPeriods" select="count(/PROPOSAL/BUDGET/PERIODS/PERIOD[*])"/>
 	
@@ -360,7 +360,7 @@
 					</fo:table-cell>
 					<fo:table-cell number-columns-spanned="2">
 						<fo:block text-align="center" padding-bottom="2px">
-							<fo:external-graphic src="url({$baseUrl}{$imageSeal})"/>
+							<fo:external-graphic src="url({$imagesUrl}{$imageSeal})"/>
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>
@@ -1115,7 +1115,7 @@
 					</fo:table-cell>
 					<fo:table-cell number-columns-spanned="2">
 						<fo:block text-align="center" padding-bottom="2px">
-							<fo:external-graphic src="url({$baseUrl}{$imageSeal})"/>
+							<fo:external-graphic src="url({$imagesUrl}{$imageSeal})"/>
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>
@@ -1890,7 +1890,7 @@
 					</fo:table-cell>
 					<fo:table-cell number-columns-spanned="2">
 						<fo:block text-align="center" padding-bottom="2px">
-							<fo:external-graphic src="url({$baseUrl}{$imageSeal})"/>
+							<fo:external-graphic src="url({$imagesUrl}{$imageSeal})"/>
 						</fo:block>
 					</fo:table-cell>
 				</fo:table-row>

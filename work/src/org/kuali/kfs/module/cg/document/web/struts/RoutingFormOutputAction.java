@@ -162,14 +162,13 @@ public class RoutingFormOutputAction extends RoutingFormAction {
      * @throws Exception
      */
     private Document makeXml(HttpServletRequest request, ResearchDocument researchDocument) throws Exception {
-        // following is like returnUrl in KualiCore
-        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        String imagesUrl = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
 
         // Set DOM objects for XML generation up
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder domBuilder = domFactory.newDocumentBuilder();
         Document xmlDocument = domBuilder.newDocument();
-        RoutingFormXml.makeXml((RoutingFormDocument) researchDocument, xmlDocument, baseUrl);
+        RoutingFormXml.makeXml((RoutingFormDocument) researchDocument, xmlDocument, imagesUrl);
         return xmlDocument;
     }
 

@@ -114,7 +114,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
     }
 
     @ConfigureContext(session = HSCHREIN, shouldCommitTransactions=true)
-    @RelatesTo(RelatesTo.JiraIssue.KULRNE4834)
+    //@RelatesTo(RelatesTo.JiraIssue.KULRNE4834)
     public final void testWorkflowRouting() throws Exception {
         // save and route the document
         Document document = buildDocument();

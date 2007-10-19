@@ -18,8 +18,7 @@ package org.kuali.module.purap.lookup.keyvalues;
 import org.kuali.module.purap.bo.PurchaseOrderStatus;
 
 /**
- * This class...
- * 
+ * Value Finder for Purchase Order Statuses.
  */
 public class PurchaseOrderStatusValuesFinder extends PurApStatusKeyValuesBase {
 
@@ -30,5 +29,4 @@ public class PurchaseOrderStatusValuesFinder extends PurApStatusKeyValuesBase {
     public Class getStatusClass() {
         return PurchaseOrderStatus.class;
     }
-
 }

@@ -26,25 +26,22 @@ import org.kuali.module.purap.bo.PurchaseOrderQuoteStatus;
 import org.kuali.module.purap.service.PurchaseOrderService;
 
 /**
- * This class returns list of ba fund restriction levels.
- * 
- * 
+ * Value Finder for Purchase Order Vendor Quote Statuses.
  */
 public class PurchaseOrderVendorQuoteStatusCodeValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * Returns code/description pairs of all Purchase Order Vendor Quote Statuses.
+     * 
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
         keyValues.add(new KeyLabelPair(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
-
         ArrayList<PurchaseOrderQuoteStatus> poQuoteStatuses = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderQuoteStatusCodes();
         for (PurchaseOrderQuoteStatus status : poQuoteStatuses) {
             keyValues.add(new KeyLabelPair(status.getPurchaseOrderQuoteStatusCode(), status.getPurchaseOrderQuoteStatusDescription()));
         }
-
         return keyValues;
     }
-
 }

@@ -27,16 +27,16 @@ import org.kuali.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
 
 /**
- * This class...
- * 
+ * Value Finder for Purchase Order Retransmission Methods.
  */
 public class PurchaseOrderRetransmissionMethodValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * Returns code/description pairs of all Purchase Order Retransmission Methods.
+     * 
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection<PurchaseOrderTransmissionMethod> codes = boService.findAll(PurchaseOrderTransmissionMethod.class);
         List labels = new ArrayList();
@@ -46,8 +46,6 @@ public class PurchaseOrderRetransmissionMethodValuesFinder extends KeyValuesBase
                 labels.add(new KeyLabelPair(purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodCode(), purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodDescription()));
             }
         }
-
         return labels;
     }
-
 }

@@ -26,13 +26,17 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.FundingSource;
 
+/**
+ * Value Finder for Funding Sources.
+ */
 public class FundingSourceValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * Returns code/description pairs of all Funding Sources.
+     * 
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection codes = boService.findAll(FundingSource.class);
         List labels = new ArrayList();
@@ -41,6 +45,7 @@ public class FundingSourceValuesFinder extends KeyValuesBase {
             FundingSource source = (FundingSource) iter.next();
             labels.add(new KeyLabelPair(source.getFundingSourceCode(), source.getFundingSourceDescription()));
         }
+        
         return labels;
     }
 

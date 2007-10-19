@@ -49,7 +49,7 @@ import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 
 /**
- * This class is the form class for the PurchaseOrder document.
+ * Struts Action Form for the Purchase Order Document.
  */
 public class PurchaseOrderForm extends PurchasingFormBase {
     private Integer purchaseOrderIdentifier;
@@ -62,7 +62,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     private String retransmitTransmissionMethod;
     private String retransmitFaxNumber;
     private String retransmitHeader;
-
 
     // Need this for amendment for accounting line only
     protected Map accountingLineEditingMode;
@@ -80,15 +79,67 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
     }
 
+    public Map getAccountingLineEditingMode() {
+        return accountingLineEditingMode;
+    }
+
+    public void setAccountingLineEditingMode(Map accountingLineEditingMode) {
+        this.accountingLineEditingMode = accountingLineEditingMode;
+    }
+
+    public Long getAwardedVendorNumber() {
+        return awardedVendorNumber;
+    }
+
+    public void setAwardedVendorNumber(Long awardedVendorNumber) {
+        this.awardedVendorNumber = awardedVendorNumber;
+    }   
+
+    public PurchaseOrderVendorStipulation getNewPurchaseOrderVendorStipulationLine() {
+        return newPurchaseOrderVendorStipulationLine;
+    }
+
+    public void setNewPurchaseOrderVendorStipulationLine(PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine) {
+        this.newPurchaseOrderVendorStipulationLine = newPurchaseOrderVendorStipulationLine;
+    }
+
+    public PurchaseOrderVendorQuote getNewPurchaseOrderVendorQuote() {
+        return newPurchaseOrderVendorQuote;
+    }
+
+    public void setNewPurchaseOrderVendorQuote(PurchaseOrderVendorQuote newPurchaseOrderVendorQuote) {
+        this.newPurchaseOrderVendorQuote = newPurchaseOrderVendorQuote;
+    }
+
+    public Integer getPurchaseOrderIdentifier() {
+        return purchaseOrderIdentifier;
+    }
+
+    public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
+        this.purchaseOrderIdentifier = purchaseOrderIdentifier;
+    }
+    
+    public String[] getRetransmitItemsSelected() {
+        return retransmitItemsSelected;
+    }
+
+    public void setRetransmitItemsSelected(String[] retransmitItemsSelected) {
+        this.retransmitItemsSelected = retransmitItemsSelected;
+    }
+
     /**
-     * @return Returns the PurchaseOrderDocument.
+     * Returns the internalBillingDocument.
+     * 
+     * @return the internalBillingDocument.
      */
     public PurchaseOrderDocument getPurchaseOrderDocument() {
         return (PurchaseOrderDocument) getDocument();
     }
 
     /**
-     * @param purchaseOrderDocument The PurchaseOrderDocument to set.
+     * Sets the internalBillingDocument to the specified one.
+     * 
+     * @param purchaseOrderDocument the internalBillingDocument to set.
      */
     public void setPurchaseOrderDocument(PurchaseOrderDocument purchaseOrderDocument) {
         setDocument(purchaseOrderDocument);
@@ -97,6 +148,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     /**
      * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
      */
+    @Override
     public KeyLabelPair getAdditionalDocInfo1() {
         if (ObjectUtils.isNotNull(this.getPurchaseOrderDocument().getPurapDocumentIdentifier())) {
             return new KeyLabelPair("DataDictionary.PurchaseOrderDocument.attributes.purapDocumentIdentifier", ((PurchaseOrderDocument) this.getDocument()).getPurapDocumentIdentifier().toString());
@@ -109,6 +161,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     /**
      * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo2()
      */
+    @Override
     public KeyLabelPair getAdditionalDocInfo2() {
         if (ObjectUtils.isNotNull(this.getPurchaseOrderDocument().getStatus())) {
             return new KeyLabelPair("DataDictionary.PurchaseOrderDocument.attributes.statusCode", ((PurchaseOrderDocument) this.getDocument()).getStatus().getStatusDescription());
@@ -135,7 +188,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     }
 
     /**
-     * @see org.kuali.module.purap.web.struts.form.PurchasingFormBase#setupNewPurchasingAccountingLine()
+     * @see org.kuali.module.purap.web.struts.form.PurchasingFormBase#setupNewAccountDistributionAccountingLine()
      */
     @Override
     public PurchaseOrderAccount setupNewAccountDistributionAccountingLine() {
@@ -144,6 +197,11 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         return account;
     }
 
+    /**
+     * Returns the new Purchase Order Vendor Stipulation Line and resets it.
+     * 
+     * @return the new Purchase Order Vendor Stipulation Line.
+     */
     public PurchaseOrderVendorStipulation getAndResetNewPurchaseOrderVendorStipulationLine() {
         PurchaseOrderVendorStipulation aPurchaseOrderVendorStipulationLine = getNewPurchaseOrderVendorStipulationLine();
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
@@ -155,31 +213,18 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         return aPurchaseOrderVendorStipulationLine;
     }
 
-    public PurchaseOrderVendorStipulation getNewPurchaseOrderVendorStipulationLine() {
-        return newPurchaseOrderVendorStipulationLine;
-    }
-
-    public void setNewPurchaseOrderVendorStipulationLine(PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine) {
-        this.newPurchaseOrderVendorStipulationLine = newPurchaseOrderVendorStipulationLine;
-    }
-
-    public PurchaseOrderVendorQuote getNewPurchaseOrderVendorQuote() {
-        return newPurchaseOrderVendorQuote;
-    }
-
-    public void setNewPurchaseOrderVendorQuote(PurchaseOrderVendorQuote newPurchaseOrderVendorQuote) {
-        this.newPurchaseOrderVendorQuote = newPurchaseOrderVendorQuote;
-    }
-
+    /**
+     * Adds buttons to appear on the Purchase Order Form according to certain conditions.
+     */
     public void addButtons() {
         // TODO: Find out and add logic about which buttons to appear in
         // which condition e.g. we might not want to display the close button
         // on a PO with status CLOSE or the open button on a PO with status OPEN, etc.
 
-        // TODO: Think about using a MAP with key of 'methodToCall' string and value of ExtraButton object so that button
-        // duplication never occurs
-        // Only problem would be if same 'methodToCall' string was used on two different button images... in which case an if-else
-        // could be fix
+        // TODO: Think about using a MAP with key of 'methodToCall' string and value of ExtraButton object 
+        // so that button duplication never occurs.
+        // Only problem would be if same 'methodToCall' string was used on two different button images... 
+        // in which case an if-else could be fix
 
         Map buttonsMap = createButtonsMap();
 
@@ -191,6 +236,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
         String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_ACTIONS);
         boolean isUserAuthorized = false;
+        
         try {
             isUserAuthorized = SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(GlobalVariables.getUserSession().getUniversalUser());
         }
@@ -199,7 +245,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         }
 
         if (purchaseOrder.getPurchaseOrderLastTransmitDate() != null && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && (isUserAuthorized || purchaseOrder.getPurchaseOrderAutomaticIndicator())) {
-
             ExtraButton retransmitButton = (ExtraButton) buttonsMap.get("methodToCall.retransmitPo");
             this.getExtraButtons().add(retransmitButton);
         }
@@ -211,22 +256,21 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             this.getExtraButtons().add(printingRetransmitButton);
         }
 
-        // show the PO Print button if the status is Pending Print and the user is either authorized or an action is requested of
-        // them
-        // for the document transmission route node
+        // show the PO Print button if the status is Pending Print and the user is either authorized 
+        // or an action is requested of them for the document transmission route node
         boolean isDocumentTransmissionActionRequested = SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(purchaseOrder.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getUniversalUser());
         if (PurapConstants.PurchaseOrderStatuses.PENDING_PRINT.equals(purchaseOrder.getStatusCode()) && (isUserAuthorized || isDocumentTransmissionActionRequested)) {
             ExtraButton printButton = (ExtraButton) buttonsMap.get("methodToCall.firstTransmitPrintPo");
             this.getExtraButtons().add(printButton);
         }
+        
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
             ExtraButton reopenButton = (ExtraButton) buttonsMap.get("methodToCall.reopenPo");
             this.getExtraButtons().add(reopenButton);
         }
+        
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator()) {
-
-            // To display the close PO button, the PO must be in Open status, the PO must have at least 1 Payment Request in any
-            // other
+            // To display the close PO button, the PO must be in Open status, the PO must have at least 1 Payment Request in any other
             // statuses than "In Process" status, and the PO cannot have any Payment Requests in "In Process" status. This button
             // is available to all faculty/staff (everyone ?)
             boolean validForDisplayingCloseButton = true;
@@ -244,6 +288,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
                     }
                 }
             }
+            
             if (validForDisplayingCloseButton) {
                 ExtraButton closeButton = (ExtraButton) buttonsMap.get("methodToCall.closePo");
                 this.getExtraButtons().add(closeButton);
@@ -257,17 +302,15 @@ public class PurchaseOrderForm extends PurchasingFormBase {
                 this.getExtraButtons().add(amendButton);
             }
         }
+        
         // Conditions for displaying Void button (in addition to the purchaseOrder current indicator is true and
         // pending indicator is false and the user is member of kuali purap purchasing):
         // 1. If the PO is in Pending Print status, or
         // 2. If the PO is in Open status and has no PREQs against it.
         if (purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
-
             if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PENDING_PRINT) || (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && !hasPaymentRequest)) {
-
                 ExtraButton voidButton = (ExtraButton) buttonsMap.get("methodToCall.voidPo");
                 this.getExtraButtons().add(voidButton);
-
             }
         }
 
@@ -278,6 +321,12 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
     }
 
+    /**
+     * 
+     * Creates a MAP for all the buttons to appear on the Purchase Order Form, 
+     * and sets the attributes of these buttons.
+     * @return the button map created.
+     */
     private Map<String, ExtraButton> createButtonsMap() {
         HashMap<String, ExtraButton> result = new HashMap();
         // Retransmit button
@@ -348,54 +397,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     }
 
     /**
-     * @return Returns the retransmitItemsSelected.
-     */
-    public String[] getRetransmitItemsSelected() {
-        return retransmitItemsSelected;
-    }
-
-    /**
-     * @param retransmitItemsSelected The retransmitItemsSelected to set.
-     */
-    public void setRetransmitItemsSelected(String[] retransmitItemsSelected) {
-        this.retransmitItemsSelected = retransmitItemsSelected;
-    }
-
-    public Map getAccountingLineEditingMode() {
-        return accountingLineEditingMode;
-    }
-
-    public void setAccountingLineEditingMode(Map accountingLineEditingMode) {
-        this.accountingLineEditingMode = accountingLineEditingMode;
-    }
-
-    public Long getAwardedVendorNumber() {
-        return awardedVendorNumber;
-    }
-
-    public void setAwardedVendorNumber(Long awardedVendorNumber) {
-        this.awardedVendorNumber = awardedVendorNumber;
-    }
-
-    /**
-     * Gets the getPurchaseOrderIdentifier attribute.
-     * 
-     * @return Returns the getPurchaseOrderIdentifier.
-     */
-    public Integer getPurchaseOrderIdentifier() {
-        return purchaseOrderIdentifier;
-    }
-
-    /**
-     * Sets the getPurchaseOrderIdentifier attribute value.
-     * 
-     * @param getPurchaseOrderIdentifier The getPurchaseOrderIdentifier to set.
-     */
-    public void setPurchaseOrderIdentifier(Integer getPurchaseOrderIdentifier) {
-        this.purchaseOrderIdentifier = getPurchaseOrderIdentifier;
-    }
-
-    /**
      * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
@@ -421,5 +422,4 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             note.refreshReferenceObject("attachment");
         }
     }
-
 }

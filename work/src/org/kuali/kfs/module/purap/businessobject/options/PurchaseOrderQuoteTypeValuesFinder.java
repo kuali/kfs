@@ -23,21 +23,19 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.module.purap.PurapConstants;
 
 /**
- * This class returns list of ba fund restriction levels.
- * 
- * 
+ * Value Finder for Purchase Order Quote Types.
  */
 public class PurchaseOrderQuoteTypeValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * Returns code/description pairs of all Purchase Order Quote Types.
+     * 
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
         keyValues.add(new KeyLabelPair(PurapConstants.QuoteTypes.COMPETITIVE, "Competitive"));
         keyValues.add(new KeyLabelPair(PurapConstants.QuoteTypes.PRICE_CONFIRMATION, "Price Confirmation"));
-
         return keyValues;
     }
-
 }

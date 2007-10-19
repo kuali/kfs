@@ -23,22 +23,19 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.module.purap.PurapConstants;
 
 /**
- * This class returns list of ba fund restriction levels.
- * 
- * 
+ * Value Finder for Purchase Order Vendor Quote Transmit Types.
  */
 public class PurchaseOrderVendorQuoteTransmitTypeValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * Returns code/description pairs of all Purchase Order Vendor Quote Transmit Types.
+     * 
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
         keyValues.add(new KeyLabelPair("", ""));
         keyValues.add(new KeyLabelPair(PurapConstants.QuoteTransmitTypes.PRINT, "Print"));
-//        keyValues.add(new KeyLabelPair(PurapConstants.QuoteTransmitTypes.FAX, "Fax"));
-
         return keyValues;
     }
-
 }

@@ -26,10 +26,17 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
 
+/**
+ * Value Finder for Date Required Reasons.
+ */
 public class DateRequiredReasonValuesFinder extends KeyValuesBase {
 
+    /**
+     * Returns code/description pairs of all Date Required Reasons.
+     * 
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     */
     public List getKeyValues() {
-
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection codes = boService.findAll(DeliveryRequiredDateReason.class);
         List labels = new ArrayList();
@@ -39,6 +46,7 @@ public class DateRequiredReasonValuesFinder extends KeyValuesBase {
             labels.add(new KeyLabelPair(reason.getDeliveryRequiredDateReasonCode(), 
                     reason.getDeliveryRequiredDateReasonCode() + " - " + reason.getDeliveryRequiredDateReasonDescription()));
         }
+        
         return labels;
     }
 }

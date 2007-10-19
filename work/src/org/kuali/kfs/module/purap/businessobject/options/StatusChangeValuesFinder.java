@@ -23,10 +23,15 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.vendor.VendorConstants;
 
+/**
+ * Value Finder for manual Purchase Order Status Changes.
+ */
 public class StatusChangeValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * Returns code/description pairs of all manual Purchase Order Status Changes.
+     * 
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {       
         List labels = new ArrayList();
@@ -35,5 +40,4 @@ public class StatusChangeValuesFinder extends KeyValuesBase {
         labels.add(new KeyLabelPair(PurapConstants.PurchaseOrderStatuses.WAITING_FOR_VENDOR,"Vendor"));       
         return labels;
     }
-
 }

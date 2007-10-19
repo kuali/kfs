@@ -28,16 +28,16 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
 
 /**
- * This class returns list containg A = Active or I = Inactive
- * 
+ * Value Finder for Purchase Order Vendor Choices.
  */
 public class PurchaseOrderVendorChoiceValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * Returns code/description pairs of all Purchase Order Vendor Choices.
+     * 
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection codes = boService.findAll(PurchaseOrderVendorChoice.class);
         List labels = new ArrayList();
@@ -46,8 +46,6 @@ public class PurchaseOrderVendorChoiceValuesFinder extends KeyValuesBase {
             PurchaseOrderVendorChoice povc = (PurchaseOrderVendorChoice) iter.next();
             labels.add(new KeyLabelPair(povc.getPurchaseOrderVendorChoiceCode(), povc.getPurchaseOrderVendorChoiceDescription()));
         }
-
         return labels;
     }
-
 }

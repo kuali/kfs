@@ -22,12 +22,12 @@ import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
 
 /**
- * This class returns list containg A = Active or I = Inactive
+ * Value Finder for Purchase Order Headers.
  */
 public class PurchaseOrderHeaderValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
@@ -35,5 +35,4 @@ public class PurchaseOrderHeaderValuesFinder extends KeyValuesBase {
         keyValues.add(new KeyLabelPair("Purchase Order", "Purchase Order"));
         return keyValues;
     }
-
 }

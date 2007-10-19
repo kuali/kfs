@@ -27,16 +27,16 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.RecurringPaymentFrequency;
 
 /**
- * This class returns list containg A = Active or I = Inactive
- * 
+ * Value Finder for Recurring Payment Frequencies.
  */
 public class RecurringPaymentFrequencyValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * Returns code/description pairs of all Recurring Payment Frequencies.
+     * 
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection codes = boService.findAll(RecurringPaymentFrequency.class);
         List labels = new ArrayList();
@@ -45,8 +45,6 @@ public class RecurringPaymentFrequencyValuesFinder extends KeyValuesBase {
             RecurringPaymentFrequency rpf = (RecurringPaymentFrequency) iter.next();
             labels.add(new KeyLabelPair(rpf.getRecurringPaymentFrequencyCode(), rpf.getRecurringPaymentFrequencyDescription()));
         }
-
         return labels;
     }
-
 }

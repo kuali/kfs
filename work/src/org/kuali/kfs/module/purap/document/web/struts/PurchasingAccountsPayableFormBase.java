@@ -30,23 +30,24 @@ import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.util.SummaryAccount;
 
 /**
- * 
- * This class is to contain any common functionality between purchasing and accounts payable forms. 
+ * Base Struts Action Form for Purchasing / Accounts Payable Documents.
+ * Contains any common functionality between purchasing and accounts payable forms. 
  */
 public class PurchasingAccountsPayableFormBase extends KualiAccountingDocumentFormBase {
 
-    private List<SummaryAccount> summaryAccounts;
-    
-    
+    private List<SummaryAccount> summaryAccounts;       
 
+    /**
+     * Constructs a PurchasingAccountsPayableFormBase instance and initializes summary accounts.
+     */
     public PurchasingAccountsPayableFormBase() {
         super();
         clearSummaryAccounts();
     }
 
     /**
-     * this method updates the summaryAccounts that are contained in the form
-     * currently we are only calling this on load and when refreshAccountSummary is called.
+     * Updates the summaryAccounts that are contained in the form.
+     * Currently we are only calling this on load and when refreshAccountSummary is called.
      */
     public void refreshAccountSummmary() {
         clearSummaryAccounts();
@@ -54,6 +55,9 @@ public class PurchasingAccountsPayableFormBase extends KualiAccountingDocumentFo
         summaryAccounts.addAll(SpringContext.getBean(PurapAccountingService.class).generateSummaryAccounts(purapDocument));
     }
 
+    /**
+     * Initializes summary accounts.
+     */
     public void clearSummaryAccounts() {
         summaryAccounts = new TypedArrayList(SummaryAccount.class);
     }
@@ -83,6 +87,5 @@ public class PurchasingAccountsPayableFormBase extends KualiAccountingDocumentFo
 
     public void setSummaryAccounts(List<SummaryAccount> summaryAccounts) {
         this.summaryAccounts = summaryAccounts;
-    }
-    
+    }    
 }

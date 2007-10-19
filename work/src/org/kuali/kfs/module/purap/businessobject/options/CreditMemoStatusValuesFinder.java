@@ -18,8 +18,7 @@ package org.kuali.module.purap.lookup.keyvalues;
 import org.kuali.module.purap.bo.CreditMemoStatus;
 
 /**
- * This class...
- * 
+ * Value Finder for Credit Memo Statuses.
  */
 public class CreditMemoStatusValuesFinder extends PurApStatusKeyValuesBase {
 

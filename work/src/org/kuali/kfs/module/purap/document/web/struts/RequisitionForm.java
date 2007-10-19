@@ -25,7 +25,7 @@ import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 /**
- * This class is the form class for the Requisition document. 
+ * Struts Action Form for the Requisition Document. 
  */
 public class RequisitionForm extends PurchasingFormBase {
 
@@ -38,14 +38,18 @@ public class RequisitionForm extends PurchasingFormBase {
     }
 
     /**
-     * @return Returns the internalBillingDocument.
+     * Returns the internalBillingDocument.
+     * 
+     * @return the internalBillingDocument.
      */
     public RequisitionDocument getRequisitionDocument() {
         return (RequisitionDocument) getDocument();
     }
 
     /**
-     * @param internalBillingDocument The internalBillingDocument to set.
+     * Sets the internalBillingDocument to the specified one.
+     * 
+     * @param internalBillingDocument the internalBillingDocument to set.
      */
     public void setRequisitionDocument(RequisitionDocument requisitionDocument) {
         setDocument(requisitionDocument);
@@ -54,6 +58,7 @@ public class RequisitionForm extends PurchasingFormBase {
     /**
      * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
      */
+    @Override
     public KeyLabelPair getAdditionalDocInfo1() {
         if (ObjectUtils.isNotNull(this.getRequisitionDocument().getPurapDocumentIdentifier())) {
             return new KeyLabelPair("DataDictionary.RequisitionDocument.attributes.purapDocumentIdentifier", ((RequisitionDocument)this.getDocument()).getPurapDocumentIdentifier().toString());
@@ -65,6 +70,7 @@ public class RequisitionForm extends PurchasingFormBase {
     /**
      * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo2()
      */
+    @Override
     public KeyLabelPair getAdditionalDocInfo2() {
         if (ObjectUtils.isNotNull(this.getRequisitionDocument().getStatus())) {
             return new KeyLabelPair("DataDictionary.RequisitionDocument.attributes.statusCode", ((RequisitionDocument)this.getDocument()).getStatus().getStatusDescription());

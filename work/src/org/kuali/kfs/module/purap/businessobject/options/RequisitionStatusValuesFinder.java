@@ -18,8 +18,7 @@ package org.kuali.module.purap.lookup.keyvalues;
 import org.kuali.module.purap.bo.RequisitionStatus;
 
 /**
- * This class...
- * 
+ * Value Finder for Requisition Statuses.
  */
 public class RequisitionStatusValuesFinder extends PurApStatusKeyValuesBase {
 

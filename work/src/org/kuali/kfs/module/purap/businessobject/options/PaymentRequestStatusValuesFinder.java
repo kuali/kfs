@@ -18,8 +18,7 @@ package org.kuali.module.purap.lookup.keyvalues;
 import org.kuali.module.purap.bo.PaymentRequestStatus;
 
 /**
- * This class...
- * 
+ * Value Finder for Payment Request Statuses.
  */
 public class PaymentRequestStatusValuesFinder extends PurApStatusKeyValuesBase {
 

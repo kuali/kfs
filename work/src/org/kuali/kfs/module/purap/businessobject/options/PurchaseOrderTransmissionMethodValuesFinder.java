@@ -27,16 +27,16 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
 
 /**
- * This class...
- * 
+ * Value Finder for Purchase Order Transmission Methods.
  */
 public class PurchaseOrderTransmissionMethodValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * Returns code/description pairs of all Purchase Order Transmission Methods.
+     * 
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection codes = boService.findAll(PurchaseOrderTransmissionMethod.class);
         List labels = new ArrayList();       
@@ -44,8 +44,6 @@ public class PurchaseOrderTransmissionMethodValuesFinder extends KeyValuesBase {
             PurchaseOrderTransmissionMethod PurchaseOrderTransmissionMethod = (PurchaseOrderTransmissionMethod) iter.next();
             labels.add(new KeyLabelPair(PurchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodCode(), PurchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodDescription()));
         }
-
         return labels;
     }
-
 }

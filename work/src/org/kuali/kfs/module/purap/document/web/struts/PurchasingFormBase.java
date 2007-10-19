@@ -23,7 +23,7 @@ import org.kuali.module.purap.bo.PurApAccountingLineBase;
 import org.kuali.module.purap.bo.PurApItem;
 
 /**
- * This class is the form class for the Purchasing documents.
+ * Base Struts Action Form for Purchasing documents.
  */
 public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
     
@@ -37,7 +37,7 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
     private PurApAccountingLine accountDistributionnewSourceLine;
     
     /**
-     * Constructs a RequisitionForm instance and sets up the appropriately casted document. 
+     * Constructs a PurchasingFormBase instance and sets up the appropriately casted document. 
      */
     public PurchasingFormBase() {
         super();
@@ -48,57 +48,11 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
         setAccountDistributionsourceAccountingLines(new ArrayList());
         this.setAccountDistributionnewSourceLine(setupNewAccountDistributionAccountingLine());
     }
-    /**
-     * Gets the newPurchasingItemLine attribute. 
-     * @return Returns the newPurchasingItemLine.
-     */
-    public PurApItem getNewPurchasingItemLine() {
-        return newPurchasingItemLine;
-    }
-    /**
-     * Sets the newPurchasingItemLine attribute value.
-     * @param newPurchasingItemLine The newPurchasingItemLine to set.
-     */
-    public void setNewPurchasingItemLine(PurApItem newPurchasingItemLine) {
-        this.newPurchasingItemLine = newPurchasingItemLine;
-    }
-    
-    public PurApItem getAndResetNewPurchasingItemLine() {
-        PurApItem aPurchasingItemLine = getNewPurchasingItemLine();
-        setNewPurchasingItemLine(setupNewPurchasingItemLine());
-        return aPurchasingItemLine;
-    }
-    
-    /**
-     * 
-     * This method should be overriden (or see accountingLines for an alternate way of doing this with newInstance)
-     * @return
-     */
-    public PurApItem setupNewPurchasingItemLine() {
-        return null;
-    }
-    
-    /**
-     * 
-     * This method should be overriden (or see accountingLines for an alternate way of doing this with newInstance)
-     * @return
-     */
-    public PurApAccountingLineBase setupNewPurchasingAccountingLine() {
-        return null;
-    }
-    
-    /**
-     * 
-     * This method should be overriden 
-     * @return
-     */
-    public PurApAccountingLineBase setupNewAccountDistributionAccountingLine() {
-        return null;
-    }
     
     public Boolean getNotOtherDeliveryBuilding() {
         return notOtherDeliveryBuilding;
     }
+    
     public void setNotOtherDeliveryBuilding(Boolean notOtherDeliveryBuilding) {
         this.notOtherDeliveryBuilding = notOtherDeliveryBuilding;
     }
@@ -134,18 +88,64 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
     public void setAccountDistributionnewSourceLine(PurApAccountingLine accountDistributionnewSourceLine) {
         this.accountDistributionnewSourceLine = accountDistributionnewSourceLine;
     }
+    
+    public PurApItem getNewPurchasingItemLine() {
+        return newPurchasingItemLine;
+    }
 
+    public void setNewPurchasingItemLine(PurApItem newPurchasingItemLine) {
+        this.newPurchasingItemLine = newPurchasingItemLine;
+    }
+
+    /**
+     * Returns the Account Distribution Source Accounting Line at the specified index.
+     * 
+     * @param index the index of the Account Distribution Source Accounting Line.
+     * @return the specified Account Distribution Source Accounting Line.
+     */
     public PurApAccountingLine getAccountDistributionsourceAccountingLine(int index) {
         while (accountDistributionsourceAccountingLines.size() <= index) {
             accountDistributionsourceAccountingLines.add(setupNewAccountDistributionAccountingLine());
         }
         return accountDistributionsourceAccountingLines.get(index);
     }
+    
+    /**
+     * Returns the new Purchasing Item Line and resets it to null.
+     * 
+     * @return the new Purchasing Item Line. 
+     */
+    public PurApItem getAndResetNewPurchasingItemLine() {
+        PurApItem aPurchasingItemLine = getNewPurchasingItemLine();
+        setNewPurchasingItemLine(setupNewPurchasingItemLine());
+        return aPurchasingItemLine;
+    }
+    
+    /**
+     * This method should be overriden (or see accountingLines for an alternate way of doing this with newInstance)
+     */
+    public PurApItem setupNewPurchasingItemLine() {
+        return null;
+    }
+    
+    /**
+     * This method should be overriden (or see accountingLines for an alternate way of doing this with newInstance)
+     */
+    public PurApAccountingLineBase setupNewPurchasingAccountingLine() {
+        return null;
+    }
+    
+    /**
+     * This method should be overriden.
+     */
+    public PurApAccountingLineBase setupNewAccountDistributionAccountingLine() {
+        return null;
+    }
 
     /**
-     * This implementation sets the sequence number appropriately for the passed in source accounting line using the value that has
+     * Sets the sequence number appropriately for the passed in source accounting line using the value that has
      * been stored in the nextSourceLineNumber variable, adds the accounting line to the list that is aggregated by this object, and
-     * then handles incrementing the nextSourceLineNumber variable for you.
+     * then handles incrementing the nextSourceLineNumber variable.
      * 
      * @see org.kuali.kfs.document.AccountingDocument#addSourceAccountingLine(SourceAccountingLine)
      */

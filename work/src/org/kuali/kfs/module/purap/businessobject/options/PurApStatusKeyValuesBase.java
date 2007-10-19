@@ -26,13 +26,14 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.Status;
 
 /**
- * This class...
- * 
+ * Base Value Finder for Purchasing / Accounts Payable Statuses.
  */
 public class PurApStatusKeyValuesBase extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * Returns code/description pairs of all PurAp Statuses.
+     * 
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
@@ -42,10 +43,13 @@ public class PurApStatusKeyValuesBase extends KeyValuesBase {
             if (status.isActive()) {
                 labels.add(new KeyLabelPair(status.getStatusCode(), status.getStatusDescription()));
             }
-        }
+        }        
         return labels;
     }
     
+    /**
+     * Returns Status class for this Value Finder.
+     */
     public Class getStatusClass() {
         // method must be overriden
         throw new RuntimeException("getStatusClass() method must be overridden to be used");

@@ -29,7 +29,7 @@
 			viewList="document.relatedRequisitionViews"
 			documentTypeLabel="Requisitions" /> 
 		
-		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
+		<purap:relatedPurchaseOrderDocumentsDetail documentAttributes="${documentAttributes}"
 			viewList="document.relatedPurchaseOrderViews"
 			documentTypeLabel="Purchase Order" /> 
 

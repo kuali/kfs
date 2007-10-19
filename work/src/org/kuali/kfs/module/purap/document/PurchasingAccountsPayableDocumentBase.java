@@ -693,7 +693,16 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             List<PurchaseOrderView> tmpViews = SpringContext.getBean(PurapService.class).getRelatedViews(PurchaseOrderView.class, accountsPayablePurchasingDocumentLinkIdentifier);
             for (PurchaseOrderView view : tmpViews) {
                 if (!this.getDocumentNumber().equals(view.getDocumentNumber())) {
-                    relatedPurchaseOrderViews.add(view);
+                    if (view.getPurchaseOrderCurrentIndicator()) {
+                        //If this is the current purchase order, we'll add it at the
+                        //front of the List
+                        relatedPurchaseOrderViews.add(0, view);
+                    }
+                    else {
+                        //If this is not the current purchase order, we'll just add it
+                        //to the List
+                        relatedPurchaseOrderViews.add(view);
+                    }
                 }
             }
         }

@@ -41,12 +41,17 @@ public class PurchaseOrderView extends AbstractRelatedView {
     }
 
     /**
-     * The next three methods are overridden but shouldnt be!
+     * The next four methods are overridden but shouldnt be!
      * If they arent overridden, they dont show up in the tag, not sure why at this point! (AAP)
      */
     @Override
     public Integer getPurapDocumentIdentifier() {
         return super.getPurapDocumentIdentifier();
+    }
+    
+    @Override
+    public String getDocumentNumber() {
+        return super.getDocumentNumber();
     }
 
     @Override

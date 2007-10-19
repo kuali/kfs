@@ -16,7 +16,6 @@
 package org.kuali.module.financial.rules;
 
 import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING;
-import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_SUB_FUND_GROUP_CODES;
 import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
 import static org.kuali.test.fixtures.AccountingLineFixture.EXPENSE_LINE;
@@ -81,16 +80,8 @@ public class InternalBillingDocumentRuleTest extends KualiTestBase {
         line.refresh();
         assertGlobalErrorMapEmpty();
         boolean actual = new InternalBillingDocumentRule().isSubFundGroupAllowed(InternalBillingDocument.class.newInstance(), line);
-        assertGlobalErrorMapContains(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_APC_INDIRECT_DENIED_MULTIPLE, new String[] { RESTRICTED_SUB_FUND_GROUP_CODES, null, // ignore
-                // source
-                // line
-                // number
-                // since
-                // it
-                // will
-                // often
-                // change
-                "Account Number", "9544900", "Sub-Fund Group Code", "PFIP", "PFRI;PFIP" });
+        assertGlobalErrorMapContains(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_INVALID_VALUE, new String[] { null, "PFIP",
+                null, "not allowed", "PFRI, PFIP", null });
         assertEquals(false, actual);
     }
 

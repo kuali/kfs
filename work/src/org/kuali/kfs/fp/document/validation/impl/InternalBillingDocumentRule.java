@@ -20,7 +20,6 @@ import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConsta
 import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_OBJECT_LEVEL_CODES;
 import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
 import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
-import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_SUB_FUND_GROUP_CODES;
 
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.document.Document;

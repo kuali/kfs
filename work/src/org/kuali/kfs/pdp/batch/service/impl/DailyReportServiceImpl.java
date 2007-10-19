@@ -32,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.PageSize;
@@ -73,46 +74,44 @@ public class DailyReportServiceImpl implements DailyReportService {
         Document document = openPdfWriter(directoryName, "daily", dateTimeService.getCurrentDate(), "Summary of Payments Eligible For Format On " + sdf.format(today));
 
         try {
-            float[] summaryWidths = { 15, 15, 15, 15, 15, 15 };
+            float[] summaryWidths = { 20, 20, 20, 20, 20 };
             PdfPTable dataTable = new PdfPTable(summaryWidths);
             dataTable.setWidthPercentage(100);
             dataTable.setHeaderRows(1);
             addHeader(dataTable);
 
             boolean rows = false;
-            String lastBankName = "";
-            DailyReport bankTotal = new DailyReport();
+            String lastSortOrder = "";
+            DailyReport sortTotal = new DailyReport();
             DailyReport total = new DailyReport();
-            total.setBankName("Total");
+            total.setSortOrder("Total");
 
             for (Iterator iter = data.iterator(); iter.hasNext();) {
                 rows = true;
                 DailyReport dr = (DailyReport)iter.next();
-                if ( bankTotal.getBankName() == null ) {
-                    bankTotal.setBankName(dr.getBankName());
+                if ( sortTotal.getSortOrder() == null ) {
+                    sortTotal.setSortOrder(dr.getSortOrder());
                 }
 
-                if ( ! bankTotal.getBankName().equals(dr.getBankName()) ) {
-                    addRow(dataTable,bankTotal,true);
-                    bankTotal = new DailyReport();
-                    bankTotal.setBankName(dr.getBankName());
-                    bankTotal.addRow(dr);
+                if ( ! sortTotal.getSortOrder().equals(dr.getSortOrder()) ) {
+                    sortTotal.setSortOrder("Total for " + sortTotal.getSortOrder());
+                    addRow(dataTable,sortTotal,true);
+                    sortTotal = new DailyReport();
+                    sortTotal.setSortOrder(dr.getSortOrder());
+                    sortTotal.addRow(dr);
                 } else {
-                    bankTotal.addRow(dr);
+                    sortTotal.addRow(dr);
                 }
 
-                if ( ! lastBankName.equals(dr.getBankName()) ) {
-                    addRow(dataTable,dr,false);
-                } else {
-                    addRow(dataTable,dr,false,false);
-                }
-                lastBankName = dr.getBankName();
+                addRow(dataTable,dr,false);
+                lastSortOrder = dr.getSortOrder();
 
                 total.addRow(dr);
             }
 
             if ( rows ) {
-                addRow(dataTable,bankTotal,true);
+                sortTotal.setSortOrder("Total for " + sortTotal.getSortOrder());
+                addRow(dataTable,sortTotal,true);
             }
             addRow(dataTable,total,true);
 
@@ -124,30 +123,26 @@ public class DailyReportServiceImpl implements DailyReportService {
     }
 
     private void addHeader(PdfPTable dataTable) {
-        PdfPCell cell = new PdfPCell(new Phrase("Bank", headerFont));
-        dataTable.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("Sort Order", headerFont));
+        PdfPCell cell = new PdfPCell(new Phrase("Sort Order", headerFont));
         dataTable.addCell(cell);
 
         cell = new PdfPCell(new Phrase("Customer", headerFont));
         dataTable.addCell(cell);
 
         cell = new PdfPCell(new Phrase("Amount of Payments", headerFont));
+        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         dataTable.addCell(cell);
 
         cell = new PdfPCell(new Phrase("# of Payment Records", headerFont));
+        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         dataTable.addCell(cell);
 
         cell = new PdfPCell(new Phrase("# of Payees", headerFont));
+        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         dataTable.addCell(cell);
     }
 
     private void addRow(PdfPTable dataTable,DailyReport dr,boolean bold) {
-        addRow(dataTable,dr,bold,true);
-    }
-
-    private void addRow(PdfPTable dataTable,DailyReport dr,boolean bold,boolean printBankName) {
         DecimalFormat af = new DecimalFormat("###,###,##0.00");
         DecimalFormat nf = new DecimalFormat("###,##0");
 
@@ -155,7 +150,7 @@ public class DailyReportServiceImpl implements DailyReportService {
         if ( bold ) {
             f = headerFont;
 
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 5; i++) {
                 PdfPCell cell = new PdfPCell(new Phrase(" ", f));
                 cell.setBorder(Rectangle.NO_BORDER);
                 dataTable.addCell(cell);
@@ -164,11 +159,7 @@ public class DailyReportServiceImpl implements DailyReportService {
             f = textFont;
         }
 
-        PdfPCell cell = new PdfPCell(new Phrase(printBankName ? dr.getBankName() : "", f));
-        cell.setBorder(Rectangle.NO_BORDER);
-        dataTable.addCell(cell);
-
-        cell = new PdfPCell(new Phrase(dr.getSortOrder(), f));
+        PdfPCell cell = new PdfPCell(new Phrase(dr.getSortOrder(), f));
         cell.setBorder(Rectangle.NO_BORDER);
         dataTable.addCell(cell);
 
@@ -192,7 +183,7 @@ public class DailyReportServiceImpl implements DailyReportService {
         dataTable.addCell(cell);
 
         if ( bold ) {
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 5; i++) {
                 PdfPCell cell2 = new PdfPCell(new Phrase(" ", f));
                 cell2.setBorder(Rectangle.NO_BORDER);
                 dataTable.addCell(cell2);

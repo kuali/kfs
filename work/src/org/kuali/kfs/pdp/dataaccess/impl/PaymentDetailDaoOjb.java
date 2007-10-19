@@ -75,13 +75,11 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         Timestamp now = dateTimeService.getCurrentTimestamp();
 
         Criteria crit = new Criteria();
-//        crit.addEqualTo("paymentGroup.disbursementTypeCode", PdpConstants.DisbursementTypeCodes.CHECK);
         crit.addEqualTo("paymentGroup.paymentStatusCode", PdpConstants.PaymentStatusCodes.OPEN);
         crit.addLessOrEqualThan("paymentGroup.paymentDate", now);
 
         QueryByCriteria q = QueryFactory.newQuery(PaymentDetail.class, crit);
 
-        q.addOrderByAscending("paymentGroup.bank.name");
         q.addOrderByDescending("paymentGroup.processImmediate");
         q.addOrderByDescending("paymentGroup.pymtSpecialHandling");
         q.addOrderByDescending("paymentGroup.pymtAttachment");
@@ -118,7 +116,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         for (Iterator iter = summary.keySet().iterator(); iter.hasNext();) {
             Key e = (Key)iter.next();
             Numbers n = summary.get(e);
-            DailyReport r = new DailyReport(e.bankName,e.sortOrder,e.customerShortName,n.amount,n.payments,n.payees);
+            DailyReport r = new DailyReport(e.sortOrder,e.customerShortName,n.amount,n.payments,n.payees);
             data.add(r);
         }
         Collections.sort(data);
@@ -128,22 +126,20 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     private Key reportSortKey(PaymentDetail d) {
         PaymentGroup pg = d.getPaymentGroup();
         CustomerProfile cp = pg.getBatch().getCustomerProfile();
-        return new Key(pg.getBank().getName(),pg.getDailyReportSortOrder(),cp.getCustomerShortName());
+        return new Key(pg.getDailyReportSortOrder(),cp.getCustomerShortName());
     }
 
     class Key {
-        public String bankName;
         public String sortOrder;
         public String customerShortName;
 
-        public Key(String b,String s,String c) {
-            bankName = b;
+        public Key(String s,String c) {
             sortOrder = s;
             customerShortName = c;
         }
 
         public int hashCode() {
-            return new HashCodeBuilder(3, 5).append(bankName).append(sortOrder).append(customerShortName).toHashCode();
+            return new HashCodeBuilder(3, 5).append(sortOrder).append(customerShortName).toHashCode();
         }
 
         public boolean equals(Object obj) {
@@ -151,7 +147,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
                 return false;
             }
             Key thisobj = (Key) obj;
-            return new EqualsBuilder().append(bankName, thisobj.bankName).append(sortOrder,thisobj.sortOrder).append(customerShortName,thisobj.customerShortName).isEquals();
+            return new EqualsBuilder().append(sortOrder,thisobj.sortOrder).append(customerShortName,thisobj.customerShortName).isEquals();
         }
     }
 

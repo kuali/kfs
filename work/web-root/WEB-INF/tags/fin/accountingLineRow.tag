@@ -132,6 +132,9 @@
 		<c:set var="salesTaxNeeded" value="true"/>
 	</c:if>
 </logic:notEmpty>
+
+
+
 <c:set var="rowCount" value="${empty extraRowFields ? 1 : 2}" />
 <c:set var="rowCount" value="${salesTaxNeeded ? rowCount + 1 : rowCount}"/>
 <c:set var="dataColumnCount" value="${columnCountUntilAmount -1}"/>
@@ -144,7 +147,16 @@
 	<c:set var="numOfNewRows" value="${remainingCells == 0 ? tempNumOfNewRows : tempNumOfNewRows + 1}"/>
 </c:if>
 
+<bean:write name="numOfOptionalFields" />
+<bean:write name="numOfNewRows" />
+<bean:write name="dataColumnCount" />
+<bean:write name="tempNumOfNewRows" />
+<bean:write name="remainingCells" />
+
+
 <c:set var="rowspan" value="${rowCount + (isOptionalFieldsInNewRow ? 2*numOfNewRows: 0)}" />
+
+
 
 <tr>
 	<kul:htmlAttributeHeaderCell literalLabel="${rowHeader}:" scope="row" rowspan="${rowspan}">
@@ -350,8 +362,8 @@
 			</c:when>
 			<c:otherwise>
 				<td style="border-bottom-style: none" rowspan="${rowspan - 1}">
-					<%-- No CSS class or bottom border so this cell looks like the start of one that spans two rows. --%>
-					&nbsp; <%-- This nbsp makes Firefox draw the left border of this cell. --%>
+					<!-- No CSS class or bottom border so this cell looks like the start of one that spans two rows. -->
+					&nbsp; <!-- This nbsp makes Firefox draw the left border of this cell. -->
 				</td>
 			</c:otherwise>
 		</c:choose>
@@ -406,7 +418,7 @@
 			</c:choose>
 			</c:forTokens>
 			
-			<c:if test="${currentRowCount == (numOfNewRows - 1)}">
+			<c:if test="${(currentRowCount == (numOfNewRows - 1)) && empty extraRowFields}">
 				<fin:accountingLineActionDataCell
 					dataCellCssClass="${dataCellCssClass}" actionGroup="${actionGroup}"
 					actionInfix="${actionInfix}"
@@ -448,7 +460,7 @@
 							dataCellCssClass="${dataCellCssClass}"
 							labelFontWeight="${extraRowLabelFontWeight}"
 							readOnly="${readOnly}" displayHidden="${displayHidden}" />
-					</c:if>
+					</c:if>					
 					<c:if
 						test="${fn:contains(delimitedExtraRowFields, ',referenceTypeCode,')}">
 						<fin:accountingLineDataCell field="referenceTypeCode"
@@ -468,7 +480,7 @@
 					<%-- referenceNumber displays like an unknown field, but explicitly here to follow referenceOriginCode. --%>
 					<c:if
 						test="${fn:contains(delimitedExtraRowFields, ',referenceNumber,')}">
-						<fin:accountingLineDataCell field="referenceNumber"
+						<fin:accountingLineDataCell field="referenceNumber"						
 							accountingLine="${accountingLine}"
 							baselineAccountingLine="${baselineAccountingLine}"
 							attributes="${accountingLineAttributes}"
@@ -498,8 +510,9 @@
 			</table>
 		</td>
 		<%-- Assert rowCount == 2.  Browser skips 2-row amount columns here. --%>
+		<!-- Action buttons go on the second row here, if any, to get the right default tab navigation. -->
+
 		<c:if test="${!readOnly && !salesTaxNeeded}">
-			<%-- Action buttons go on the second row here, if any, to get the right default tab navigation. --%>
 			<fin:accountingLineActionDataCell
 				dataCellCssClass="${dataCellCssClass}" actionGroup="${actionGroup}"
 				actionInfix="${actionInfix}"
@@ -527,8 +540,9 @@
 			readOnly="${readOnly}"
 			hasMultipleActionButtons="${hasMultipleActionButtons }"/>
 	</td>
+
+<!-- Action buttons go on the second row here, if any, to get the right default tab navigation. -->	
 	<c:if test="${!readOnly}">
-		<%-- Action buttons go on the second row here, if any, to get the right default tab navigation. --%>
 		<fin:accountingLineActionDataCell
 			dataCellCssClass="${dataCellCssClass}" actionGroup="${actionGroup}"
 			actionInfix="${actionInfix}"

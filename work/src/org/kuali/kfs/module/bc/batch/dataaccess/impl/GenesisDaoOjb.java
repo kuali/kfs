@@ -844,6 +844,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
                 LOG.warn(String.format(
                         "\nskipping creation of document for CSF key: %s %s %s \n(%s)\n",
                         Results[0], Results[1], Results[2], wex.getMessage()));
+                wex.printStackTrace();
                 documentsSkippedinNTS = documentsSkippedinNTS+1;
                 continue;
             }
@@ -864,6 +865,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
                         newBCHdr.getAccountNumber(),
                         newBCHdr.getSubAccountNumber(),
                         wex.getMessage()));
+                wex.printStackTrace();
                 documentsSkippedinNTS = documentsSkippedinNTS+1;
                 continue;
 
@@ -924,6 +926,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
                         (String) Results[1],
                         (String) Results[2],
                         wex.getMessage()));
+                wex.printStackTrace();
                 documentsSkippedinNTS = documentsSkippedinNTS+1;
                 continue;
             }
@@ -944,6 +947,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
                         newBCHdr.getAccountNumber(),
                         newBCHdr.getSubAccountNumber(),
                         wex.getMessage()));
+                wex.printStackTrace();
                 documentsSkippedinNTS = documentsSkippedinNTS+1;
                 continue;
 

@@ -30,7 +30,7 @@ public class VendorAddressLookupableHelperServiceImpl extends KualiLookupableHel
     private boolean searchUsingOnlyPrimaryKeyValues = false;
     
     /**
-     * Overriding the default behavior because we need to restrict the search results to the vendor ids
+     * Overrides the default behavior because we need to restrict the search results to the vendor ids
      * that we are sending in as criteria, but since they are set as hidden in the DD the default behavior 
      * is to remove them from the criteria.
      * 
@@ -59,6 +59,7 @@ public class VendorAddressLookupableHelperServiceImpl extends KualiLookupableHel
         if (defaultSortColumns.size() > 0) {
             Collections.sort(searchResults, new BeanPropertyComparator(getDefaultSortColumns(), true));
         }
+        
         return searchResults;
     }
     
@@ -67,6 +68,7 @@ public class VendorAddressLookupableHelperServiceImpl extends KualiLookupableHel
      */
     @Override
     public boolean isSearchUsingOnlyPrimaryKeyValues() {
+        
         return searchUsingOnlyPrimaryKeyValues;
     }
 }

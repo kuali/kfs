@@ -49,7 +49,7 @@ public class VendorContractLookupableHelperServiceImpl extends AbstractLookupabl
     }
 
     /**
-     * This method overrides the getSearchResults in the super class so that we can do some customization 
+     * Overrides the getSearchResults in the super class so that we can do some customization 
      * in our vendor contract lookup.
      *  
      * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
@@ -84,6 +84,7 @@ public class VendorContractLookupableHelperServiceImpl extends AbstractLookupabl
         if (defaultSortColumns.size() > 0) {
             Collections.sort(finalSearchResults, new BeanPropertyComparator(getDefaultSortColumns(), true));
         }
+        
         return finalSearchResults;
     }
 

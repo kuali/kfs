@@ -31,7 +31,7 @@ import org.kuali.module.vendor.bo.VendorContactPhoneNumber;
 public class VendorContactLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
 
     /**
-     * This method overrides the getSearchResults in the super class so that we can do some customization 
+     * Overrides the getSearchResults in the super class so that we can do some customization 
      * in our vendor contact lookup. For example, we want to be able to display the first phone number, fax 
      * number and toll free number in the vendor contact.
      * 
@@ -69,6 +69,7 @@ public class VendorContactLookupableHelperServiceImpl extends AbstractLookupable
         if (defaultSortColumns.size() > 0) {
             Collections.sort(searchResults, new BeanPropertyComparator(getDefaultSortColumns(), true));
         }
+        
         return searchResults;
     }
 

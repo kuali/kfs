@@ -49,7 +49,12 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
 
     private static String VNDR_LOOKUP_MIN_NAME_LENGTH;
     private static String VNDR_MIN_NUM_LOOKUP_CRITERIA;
-
+    
+    /**
+     * Allows only active parent vendors to create new divisions
+     * 
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
+     */
     @Override
     public String getActionUrls(BusinessObject bo) {
         VendorDetail vendor = (VendorDetail) bo;
@@ -59,17 +64,19 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
             // only allow active parent vendors to create new divisions
             actions.append(getMaintenanceUrl(bo, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION));
         }
+        
         return actions.toString();
     }
 
     /**
-     * @see AbstractLookupableHelperServiceImpl#getMaintenanceUrl(BusinessObject, String) This method is used by getActionUrls to
-     *      print the url on the Vendor Lookup page for the links to edit a Vendor or to create a new division. We won't provide a
-     *      link to copy a vendor because we decided it wouldn't make sense to copy a vendor. We should display the link to create a
-     *      new division only if the vendor is a parent vendor, and also remove the vendor detail assigned id from the query string
-     *      in the link to create a new division. We'll add the vendor detail assigned id in the query string if the vendor is not a
-     *      parent, or if the vendor is a parent and the link is not the create new division link (i.e. if the link is "edit").
-     *      We'll always add the vendor header id in the query string in all links.
+     * Used by getActionUrls to print the url on the Vendor Lookup page for the links to edit a Vendor or to create a new division.
+     * We won't provide a link to copy a vendor because we decided it wouldn't make sense to copy a vendor. We should display the link to create a
+     * new division only if the vendor is a parent vendor, and also remove the vendor detail assigned id from the query string in the link to create 
+     * a new division. We'll add the vendor detail assigned id in the query string if the vendor is not a parent, or if the vendor is a parent and 
+     * the link is not the create new division link (i.e. if the link is "edit").
+     * We'll always add the vendor header id in the query string in all links.
+     * 
+     * @see AbstractLookupableHelperServiceImpl#getMaintenanceUrl(BusinessObject, String) 
      */
     @Override
     public String getMaintenanceUrl(BusinessObject bo, String methodToCall) {
@@ -105,15 +112,17 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
             return url;
         }
         else {
+            
             return KFSConstants.EMPTY_STRING;
         }
     }
 
     /**
-     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map) This method overrides the getSearchResults in the super
-     *      class so that we can do some customization in our vendor lookup. For example, for vendor name as the search criteria, we
-     *      want to search both the vendor detail table and the vendor alias table for the vendor name. Display the vendor's default
-     *      address state in the search results.
+     * Overrides the getSearchResults in the super class so that we can do some customization in our vendor lookup. 
+     * For example, for vendor name as the search criteria, we want to search both the vendor detail table and the vendor 
+     * alias table for the vendor name. Display the vendor's default address state in the search results.
+     * 
+     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
     public List<BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -200,10 +209,15 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         if (defaultSortColumns.size() > 0) {
             Collections.sort(searchResults, new BeanPropertyComparator(getDefaultSortColumns(), true));
         }
+        
         return searchResults;
     }
-
-    // populate state from default address
+    
+    /**
+     * Populates address fields from default address
+     * 
+     * @param vendor
+     */
     private void updatedefaultVendorAddress(VendorDetail vendor) {
         VendorAddress defaultAddress = vendorService.getVendorDefaultAddress(vendor.getVendorAddresses(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
         if (defaultAddress != null && defaultAddress.getVendorState() != null) {
@@ -218,7 +232,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     }
 
     /**
-     * This method overrides a method of the superclass and is now called instead of that one by the Search method of
+     * Overrides a method of the superclass and is now called instead of that one by the Search method of
      * KualiLookupAction when the Lookupable is of this class. This method first calls the method from the superclass, which should
      * do all the required field checking, and then orchestrates all the specific validations which aren't done in at the JSP level.
      * Both the superclass method and the various validation methods side-effect the adding of errors to the global error map when
@@ -240,8 +254,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     }
 
     /**
-     * This method ensures that, if a string is entered in the Vendor Name field, it is at least the minimum number of characters in
-     * length.
+     * Ensures that if a string is entered in the Vendor Name field, it is at least the minimum number of characters in length.
      * 
      * @param fieldValues A Map containing only those key-value pairs that have been filled in on the lookup
      */
@@ -258,10 +271,9 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     }
 
     /**
-     * This method validates that the Vendor Number has no more than one dash in it, and does not consist solely of one dash. Then
+     * Validates that the Vendor Number has no more than one dash in it, and does not consist solely of one dash. Then
      * it calls extractVendorNumberToVendorIds to obtain vendorHeaderGeneratedId and vendorDetailAssignedId and if either one of the
-     * ids cannot be converted to integers, it will add error that the vendor number must be numerics or numerics separated by a
-     * dash.
+     * ids cannot be converted to integers, it will add error that the vendor number must be numerics or numerics separated by a dash.
      * 
      * @param fieldValues A Map containing only those key-value pairs that have been filled in on the lookup
      */
@@ -282,7 +294,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     }
 
     /**
-     * This method parses the vendorNumber string into vendorHeaderGeneratedIdentifier and vendorDetailAssignedIdentifier, validates
+     * Parses the vendorNumber string into vendorHeaderGeneratedIdentifier and vendorDetailAssignedIdentifier, validates
      * that both fields would be able to be converted into integers, if so it will add both fields into the search criterias map in
      * the fieldValues and remove the vendorNumber from the fieldValues. If the two fields cannot be converted into integers, this
      * method will add error message to the errorMap in GlobalVariables that the vendor number must be numeric or numerics separated
@@ -319,7 +331,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     }
 
     /**
-     * This method validates that the tax number is 9 digits long.
+     * Validates that the tax number is 9 digits long.
      * 
      * @param fieldValues A Map containing only those key-value pairs that have been filled in on the lookup
      */

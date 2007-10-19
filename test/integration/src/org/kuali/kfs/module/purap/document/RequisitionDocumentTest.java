@@ -107,7 +107,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.saveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
     }
 
-        // test util methods
+    // test util methods
     private List<RequisitionItem> generateItems() throws Exception {
         List<RequisitionItem> items = new ArrayList<RequisitionItem>();
         // set items to document
@@ -122,20 +122,6 @@ public class RequisitionDocumentTest extends KualiTestBase {
         return RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
     }
 
-//    private Document getDocumentParameterFixture() throws Exception {
-//        RequisitionDocumentFixture reqDocFixture = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS;
-//        return reqDocFixture.createRequisitionDocument(PurchasingAccountsPayableDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS);
-//    }
-    
-//    private RequisitionDocument buildSimpleDocument2() throws Exception {
-//        RequisitionDocument document = (RequisitionDocument) getDocumentParameterFixture();
-//
-//        for (RequisitionItemAccountsFixture itemFixture : getItemParametersFromFixtures()) {
-//            document.addItem(itemFixture.populateItem());
-//        }
-//
-//        return document;
-//    }    
     private UserNameFixture getInitialUserName() {
         return RJWEISS;
     }

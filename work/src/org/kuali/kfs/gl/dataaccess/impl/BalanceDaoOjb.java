@@ -719,6 +719,15 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
             }
             i++;
         }
+        // we only ever calculate on CB, AC, and encumbrance types, so let's only select those
+        Options options= SpringContext.getBean(OptionsService.class).getOptions(year);
+        List organizationReversionBalancesToSelect = new ArrayList();
+        organizationReversionBalancesToSelect.add(options.getActualFinancialBalanceTypeCd());
+        organizationReversionBalancesToSelect.add(options.getFinObjTypeExpenditureexpCd());
+        organizationReversionBalancesToSelect.add(options.getCostShareEncumbranceBalanceTypeCd());
+        organizationReversionBalancesToSelect.add(options.getIntrnlEncumFinBalanceTypCd());
+        organizationReversionBalancesToSelect.add(KFSConstants.BALANCE_TYPE_CURRENT_BUDGET);
+        c.addIn(KFSPropertyConstants.BALANCE_TYPE_CODE, organizationReversionBalancesToSelect);
         QueryByCriteria query = QueryFactory.newQuery(Balance.class, c);
         query.addOrderByAscending(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         query.addOrderByAscending(KFSPropertyConstants.ACCOUNT_NUMBER);

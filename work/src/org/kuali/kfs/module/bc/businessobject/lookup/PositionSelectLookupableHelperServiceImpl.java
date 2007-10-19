@@ -51,7 +51,7 @@ import org.kuali.rice.KNSServiceLocator;
 /**
  * This class...
  */
-public class PositionSelectLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
+public class PositionSelectLookupableHelperServiceImpl extends SelectLookupableHelperServiceImpl {
 
     /**
      * This method differs from the one found in AbstractLookupableHelperServiceImpl in that it also uses a LookupForm
@@ -196,31 +196,6 @@ public class PositionSelectLookupableHelperServiceImpl extends AbstractLookupabl
         }
 
         return displayList;
-    }
-
-    /**
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
-     */
-    @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        //TODO may want to push this method to a parent class to be used by all BC temp table lookups
-
-        // We need to keep the personUniversalIdentifier hidden field in the criteria when
-        // operating against BC temp lookup tables that are built on the fly. This field is
-        // set behind the scenes so as to operate on only those rows associated with the current user.
-        //LookupUtils.removeHiddenCriteriaFields( getBusinessObjectClass(), fieldValues );
-
-        setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
-        setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
-        setReferencesToRefresh(fieldValues.get(KFSConstants.REFERENCES_TO_REFRESH));
-        
-        List searchResults = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, false);
-        // sort list if default sort column given
-        List defaultSortColumns = getDefaultSortColumns();
-        if (defaultSortColumns.size() > 0) {
-            Collections.sort(searchResults, new BeanPropertyComparator(getDefaultSortColumns(), true));
-        }
-        return searchResults;
     }
 
 }

@@ -147,13 +147,6 @@
 	<c:set var="numOfNewRows" value="${remainingCells == 0 ? tempNumOfNewRows : tempNumOfNewRows + 1}"/>
 </c:if>
 
-<bean:write name="numOfOptionalFields" />
-<bean:write name="numOfNewRows" />
-<bean:write name="dataColumnCount" />
-<bean:write name="tempNumOfNewRows" />
-<bean:write name="remainingCells" />
-
-
 <c:set var="rowspan" value="${rowCount + (isOptionalFieldsInNewRow ? 2*numOfNewRows: 0)}" />
 
 

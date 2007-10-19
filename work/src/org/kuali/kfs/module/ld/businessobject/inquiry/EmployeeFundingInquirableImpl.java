@@ -95,7 +95,6 @@ public class EmployeeFundingInquirableImpl extends AbstractLaborInquirableImpl {
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getBaseUrl()
      */
     protected String getBaseUrl() {
-        // TODO: investigate change to this constant
         return KFSConstants.GL_MODIFIED_INQUIRY_ACTION;
     }
 

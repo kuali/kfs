@@ -38,7 +38,6 @@ public class LaborGeneralLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb imple
      * @see org.kuali.module.labor.dao.LaborGeneralLedgerEntryDao#getMaxSequenceNumber(org.kuali.module.labor.bo.LaborGeneralLedgerEntry)
      */
     public Integer getMaxSequenceNumber(LaborGeneralLedgerEntry laborGeneralLedgerEntry) {
-        // TODO: this is a piece of duplicate code. We need to refactor it later
         Criteria criteria = new Criteria();
 
         criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, laborGeneralLedgerEntry.getUniversityFiscalYear());

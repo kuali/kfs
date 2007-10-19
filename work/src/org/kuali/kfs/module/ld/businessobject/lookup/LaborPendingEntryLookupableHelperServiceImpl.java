@@ -80,7 +80,6 @@ public class LaborPendingEntryLookupableHelperServiceImpl extends AbstractLookup
      * @param actualSize the number of all qualified search results
      * @return the serach result list with the given results and actual size
      */
-    // TODO: the piece of code could be used in all lookupable, so it need to be put in a one place
     protected List buildSearchResultList(Collection searchResultsCollection, Long actualSize) {
         CollectionIncomplete results = new CollectionIncomplete(searchResultsCollection, actualSize);
 

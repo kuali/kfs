@@ -41,7 +41,6 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
      * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#getMaxSquenceNumber(org.kuali.module.labor.bo.LedgerEntry)
      */
     public Integer getMaxSquenceNumber(LedgerEntry ledgerEntry) {
-        // TODO: this is a piece of duplicate code. We need to refactor it later
         Criteria criteria = new Criteria();
 
         criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, ledgerEntry.getUniversityFiscalYear());

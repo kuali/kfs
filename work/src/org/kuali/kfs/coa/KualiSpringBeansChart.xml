@@ -57,6 +57,12 @@
 		<property name="jobNames">
 			<list>
 				<value>fiscalYearMakerJob</value>
+				<value>populatePriorYearDataJob</value>
+			</list>
+		</property>
+		<property name="triggerNames">
+			<list>
+				<value>populatePriorYearDataJobTrigger</value>
 			</list>
 		</property>
 	</bean>
@@ -137,6 +143,15 @@
 	<bean id="priorYearAccountService" class="org.kuali.module.chart.service.impl.PriorYearAccountServiceImpl">
 		<property name="priorYearAccountDao">
 			<ref bean="priorYearAccountDao" />
+		</property>
+		<property name="priorYearAccountDaoJdbc">
+			<ref bean="priorYearAccountDaoJdbc" />
+		</property>
+	</bean>
+
+	<bean id="priorYearOrganizationService" class="org.kuali.module.chart.service.impl.PriorYearOrganizationServiceImpl">
+		<property name="priorYearOrganizationDao">
+			<ref bean="priorYearOrganizationDao" />
 		</property>
 	</bean>
 
@@ -226,6 +241,10 @@
 	<bean id="balanceTypeDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.BalanceTypeDaoOjb" />
 
 	<bean id="priorYearAccountDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.PriorYearAccountDaoOjb" />
+
+	<bean id="priorYearAccountDaoJdbc" parent="platformAwareDaoJdbc" class="org.kuali.module.chart.dao.jdbc.PriorYearAccountDaoJdbc" />
+
+	<bean id="priorYearOrganizationDao" parent="platformAwareDaoJdbc" class="org.kuali.module.chart.dao.jdbc.PriorYearOrganizationDaoJdbc" />
 
 	<bean id="subFundGroupDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.SubFundGroupDaoOjb" />
 
@@ -393,10 +412,31 @@
 		</property>
 	</bean>
 	
-		<bean id="fiscalYearStartDate"
-	      class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-	      <property name="staticField"><value>org.kuali.module.chart.dao.ojb.FiscalYearMakersDaoOjb.START_JULY</value>
-	      </property>
+	<bean id="updatePriorYearDataStep" class="org.kuali.module.chart.batch.UpdatePriorYearDataStep" parent="step">
+		<property name="priorYearOrganizationService">
+			<ref bean="priorYearOrganizationService" />
+		</property>
+		<property name="priorYearAccountService">
+			<ref bean="priorYearAccountService" />
+		</property>
+	</bean>
+	
+	<bean id="populatePriorYearDataJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="updatePriorYearDataStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="populatePriorYearDataJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="populatePriorYearDataJob" />
+		<property name="cronExpression" value="00 00 00 30 6 ?" />
+	</bean>
+
+	<bean id="fiscalYearStartDate" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+    	<property name="staticField"><value>org.kuali.module.chart.dao.ojb.FiscalYearMakersDaoOjb.START_JULY</value>
+    	</property>
 	</bean>
 	
 	

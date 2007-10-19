@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 The Kuali Foundation.
+ * Copyright 2007 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,26 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service;
-
-import org.kuali.module.chart.bo.PriorYearAccount;
+package org.kuali.module.chart.dao;
 
 /**
- * 
+ * This interface defines the methods necessary to manage the Prior Year Organization values.
  */
-public interface PriorYearAccountService {
+public interface PriorYearOrganizationDao {
 
     /**
      * 
-     * @param chartCode
-     * @param accountNumber
-     * @return
+     * This method purges all records in the Prior Year Organization table.
      */
-    public PriorYearAccount getByPrimaryKey(String chartCode, String accountNumber);
-    
+    public int purgePriorYearOrganizations();
+
     /**
      * 
-     * This method populates the prior year account table in the database with all the values from the current year account table.
+     * This method copies all current organizations from the Org table into the Prior Year Organization table.
      */
-    public void populatePriorYearAccountsFromCurrent();
+    public int copyCurrentOrganizationsToPriorYearTable();
+
 }

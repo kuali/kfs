@@ -17,15 +17,30 @@
 package org.kuali.module.budget.bo;
 
 import java.sql.Date;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.UniversalUserService;
+import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
+
+import edu.iu.uis.eden.KEWServiceLocator;
+import edu.iu.uis.eden.actiontaken.ActionTakenService;
+import edu.iu.uis.eden.actiontaken.ActionTakenValue;
+import edu.iu.uis.eden.clientapp.WorkflowInfo;
+import edu.iu.uis.eden.clientapp.vo.ActionTakenVO;
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * 
@@ -280,7 +295,36 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 	 * @return Returns the financialDocumentInitiatorIdentifier
 	 * 
 	 */
-	public String getFinancialDocumentInitiatorIdentifier() { 
+	public String getFinancialDocumentInitiatorIdentifier(){
+
+        // TODO need to add method getActionsTakenIgnoreCurrentInd to KualiWorkflowInfo and Workflow support
+        if (this.financialDocumentInitiatorIdentifier == null){
+            try {
+                Long docNum = Long.valueOf(this.getDocumentNumber());
+
+                ActionTakenService actionTakenService = KEWServiceLocator.getActionTakenService();
+                List<ActionTakenValue> actionsTaken = (List<ActionTakenValue>) actionTakenService.findByRouteHeaderIdIgnoreCurrentInd(docNum);
+                if (actionsTaken.size() > 0){
+                    this.financialDocumentInitiatorIdentifier = SpringContext.getBean(UniversalUserService.class).getUniversalUser(actionsTaken.get(actionsTaken.size()-1).getWorkflowId()).getPersonUserIdentifier();
+                    this.financialDocumentCreateDate = new Date(actionsTaken.get(actionsTaken.size()-1).getActionDate().getTime());
+                } else {
+                    this.financialDocumentInitiatorIdentifier = "NotFound";
+                }
+
+//                KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
+//                ActionTakenVO[] actionsTaken = kualiWorkflowInfo.getActionsTaken(docNum);
+//                if (actionsTaken.length > 0) {
+//                    this.financialDocumentInitiatorIdentifier = actionsTaken[actionsTaken.length-1].getUserVO().getNetworkId();
+//                    this.financialDocumentCreateDate = new Date(actionsTaken[actionsTaken.length-1].getActionDate().getTimeInMillis());
+//                } else {
+//                this.financialDocumentInitiatorIdentifier = "NotFound";
+//                }
+
+            }
+            catch (Exception e){
+                this.financialDocumentInitiatorIdentifier = "LookupError";
+            }
+        }
 		return financialDocumentInitiatorIdentifier;
 	}
 
@@ -301,7 +345,32 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 	 * @return Returns the financialDocumentCreateDate
 	 * 
 	 */
-	public Date getFinancialDocumentCreateDate() { 
+	public Date getFinancialDocumentCreateDate() {
+
+        // TODO need to add method getActionsTakenIgnoreCurrentInd to KualiWorkflowInfo and Workflow support
+        if (this.financialDocumentCreateDate == null){
+            try {
+                Long docNum = Long.valueOf(this.getDocumentNumber());
+
+                ActionTakenService actionTakenService = KEWServiceLocator.getActionTakenService();
+                List<ActionTakenValue> actionsTaken = (List<ActionTakenValue>) actionTakenService.findByRouteHeaderIdIgnoreCurrentInd(docNum);
+                if (actionsTaken.size() > 0){
+                    this.financialDocumentInitiatorIdentifier = SpringContext.getBean(UniversalUserService.class).getUniversalUser(actionsTaken.get(actionsTaken.size()-1).getWorkflowId()).getPersonUserIdentifier();
+                    this.financialDocumentCreateDate = new Date(actionsTaken.get(actionsTaken.size()-1).getActionDate().getTime());
+                }
+
+//                KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
+//                ActionTakenVO[] actionsTaken = kualiWorkflowInfo.getActionsTaken(docNum);
+//                if (actionsTaken.length > 0) {
+//                    this.financialDocumentInitiatorIdentifier = actionsTaken[actionsTaken.length-1].getUserVO().getNetworkId();
+//                    this.financialDocumentCreateDate = new Date(actionsTaken[actionsTaken.length-1].getActionDate().getTimeInMillis());
+//                }
+
+            }
+            catch (Exception e){
+                // nothing
+            }
+        }
 		return financialDocumentCreateDate;
 	}
 

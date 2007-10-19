@@ -199,9 +199,6 @@
     <reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>
     <reference-descriptor name="laborObject" class-ref="org.kuali.module.labor.bo.LaborObject" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />
@@ -797,9 +794,6 @@
     <reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="projectCode" />
     </reference-descriptor> 
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>
     <reference-descriptor name="referenceDocumentType" class-ref="org.kuali.core.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="referenceFinancialDocumentTypeCode" />
     </reference-descriptor>
@@ -916,9 +910,6 @@
     </reference-descriptor>
 	<reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="projectCode" />
-    </reference-descriptor>
-    <reference-descriptor name="financialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
     <reference-descriptor name="referenceFinancialDocumentType" class-ref="org.kuali.core.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="referenceFinancialDocumentTypeCode" />

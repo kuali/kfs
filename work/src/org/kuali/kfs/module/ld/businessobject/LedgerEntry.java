@@ -90,6 +90,7 @@ public class LedgerEntry extends Entry {
     private String hrmsCompany;
     private String setid;
     private Timestamp transactionDateTimeStamp;
+    
     private ObjectCode financialObject;
     private Chart chartOfAccounts;
     private Account account;
@@ -104,7 +105,6 @@ public class LedgerEntry extends Entry {
     private Options option;
     private OriginationCode referenceOriginationCode;
     private ProjectCode project;
-    private DocumentHeader documentHeader;
     private OriginationCode financialSystemOrigination;
     private LedgerBalance ledgerBalance;
     private LaborObject laborObject;
@@ -1062,25 +1062,6 @@ public class LedgerEntry extends Entry {
     @Deprecated
     public void setBalanceType(BalanceTyp balanceType) {
         this.balanceType = balanceType;
-    }
-
-    /**
-     * Gets the documentHeader
-     * 
-     * @return Returns the documentHeader.
-     */
-    public DocumentHeader getDocumentHeader() {
-        return documentHeader;
-    }
-
-    /**
-     * Sets the documentHeader
-     * 
-     * @param documentHeader The documentHeader to set.
-     */
-    @Deprecated
-    public void setDocumentHeader(DocumentHeader documentHeader) {
-        this.documentHeader = documentHeader;
     }
 
     /**

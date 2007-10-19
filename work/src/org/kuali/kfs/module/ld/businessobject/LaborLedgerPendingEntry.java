@@ -519,15 +519,6 @@ public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry implement
     }
 
     /**
-     * Gets the documentHeader.
-     * 
-     * @see org.kuali.module.labor.bo.LaborTransaction#getFinancialDocument()
-     */
-    public DocumentHeader getFinancialDocument() {
-        return super.getDocumentHeader();
-    }
-
-    /**
      * Gets the ReferenceDocumentType.
      * 
      * @see org.kuali.module.labor.bo.LaborTransaction#getReferenceFinancialDocumentType()

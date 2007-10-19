@@ -66,7 +66,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     private String hrmsCompany;
     private String setid;
     private Date transactionDateTimeStamp;
-    private DocumentHeader financialDocument;
     private DocumentType referenceFinancialDocumentType;
     private OriginationCode referenceFinancialSystemOrigination;
     private AccountingPeriod payrollEndDateFiscalPeriod;
@@ -128,7 +127,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         setLaborLedgerOriginalFinancialSubObjectCode(t.getLaborLedgerOriginalFinancialSubObjectCode());
         setHrmsCompany(getHrmsCompany());
         setSetid(t.getSetid());
-        setFinancialDocument(t.getFinancialDocument());
         setReferenceFinancialDocumentType(t.getReferenceFinancialDocumentType());
         setReferenceFinancialSystemOrigination(t.getReferenceFinancialSystemOrigination());
         setPayrollEndDateFiscalPeriod(t.getPayrollEndDateFiscalPeriod());
@@ -578,24 +576,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
      */
     public void setTransactionDateTimeStamp(Date transactionDateTimeStamp) {
         this.transactionDateTimeStamp = transactionDateTimeStamp;
-    }
-
-    /**
-     * Gets the financialDocument
-     * 
-     * @return Returns the financialDocument.
-     */
-    public DocumentHeader getFinancialDocument() {
-        return financialDocument;
-    }
-
-    /**
-     * Sets the financialDocument
-     * 
-     * @param financialDocument The financialDocument to set.
-     */
-    public void setFinancialDocument(DocumentHeader financialDocument) {
-        this.financialDocument = financialDocument;
     }
 
     /**

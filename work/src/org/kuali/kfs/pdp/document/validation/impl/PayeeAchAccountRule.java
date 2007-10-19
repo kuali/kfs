@@ -103,11 +103,7 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
         } else if (payeeIdTypeCd.equals("V")) {
             vendorGnrtdId = newPayeeAchAccount.getVendorHeaderGeneratedIdentifier();
             vendorAsndId = newPayeeAchAccount.getVendorDetailAssignedIdentifier(); 
-            if (vendorGnrtdId == null) {
-                putFieldError("error.required", KFSKeyConstants.ERROR_REQUIRED,"Vendor");
-                validEntry = false;
-            }
-            if (vendorAsndId == null) {
+            if ( (vendorGnrtdId == null) |  (vendorAsndId == null) ){
                 putFieldError("error.required", KFSKeyConstants.ERROR_REQUIRED,"Vendor");
                 validEntry = false;
             }

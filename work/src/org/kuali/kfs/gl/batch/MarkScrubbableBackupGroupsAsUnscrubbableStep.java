@@ -16,13 +16,14 @@
 package org.kuali.module.gl.batch;
 
 import org.kuali.kfs.batch.AbstractStep;
+import org.kuali.kfs.batch.TestingStep;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * This step will mark all backup groups in the database so that they will not be scrubbed when the
  * nightly scrubber step runs again.
  */
-public class MarkScrubbableBackupGroupsAsUnscrubbableStep extends AbstractStep{
+public class MarkScrubbableBackupGroupsAsUnscrubbableStep extends AbstractStep implements TestingStep {
     private OriginEntryGroupService originEntryGroupService;
     
     public boolean execute(String jobName) throws InterruptedException {

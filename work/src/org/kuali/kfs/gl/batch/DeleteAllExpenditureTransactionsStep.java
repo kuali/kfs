@@ -16,11 +16,12 @@
 package org.kuali.module.gl.batch;
 
 import org.kuali.kfs.batch.AbstractStep;
+import org.kuali.kfs.batch.TestingStep;
 import org.kuali.module.gl.dao.ExpenditureTransactionDao;
 import org.kuali.module.gl.service.ExpenditureTransactionService;
 import org.springframework.transaction.annotation.Transactional;
 
-public class DeleteAllExpenditureTransactionsStep extends AbstractStep {
+public class DeleteAllExpenditureTransactionsStep extends AbstractStep implements TestingStep {
     private ExpenditureTransactionService expenditureTransactionService;
     
     public boolean execute(String jobName) throws InterruptedException {

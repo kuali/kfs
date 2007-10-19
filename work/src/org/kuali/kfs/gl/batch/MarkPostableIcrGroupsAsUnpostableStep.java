@@ -16,9 +16,10 @@
 package org.kuali.module.gl.batch;
 
 import org.kuali.kfs.batch.AbstractStep;
+import org.kuali.kfs.batch.TestingStep;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 
-public class MarkPostableIcrGroupsAsUnpostableStep extends AbstractStep {
+public class MarkPostableIcrGroupsAsUnpostableStep extends AbstractStep implements TestingStep {
     private OriginEntryGroupService originEntryGroupService;
     
     public boolean execute(String jobName) throws InterruptedException {

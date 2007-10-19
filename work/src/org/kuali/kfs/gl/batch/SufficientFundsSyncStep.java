@@ -16,9 +16,10 @@
 package org.kuali.module.gl.batch;
 
 import org.kuali.kfs.batch.AbstractStep;
+import org.kuali.kfs.batch.TestingStep;
 import org.kuali.module.gl.service.SufficientFundsSyncService;
 
-public class SufficientFundsSyncStep extends AbstractStep {
+public class SufficientFundsSyncStep extends AbstractStep implements TestingStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsSyncStep.class);
     private SufficientFundsSyncService sufficientFundsSyncService;
 

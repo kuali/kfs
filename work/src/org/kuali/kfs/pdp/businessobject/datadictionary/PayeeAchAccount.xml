@@ -29,13 +29,13 @@
                 <field attributeName="bankAccountNumber" />
                 <field attributeName="payeeName" />
                 <field attributeName="payeeEmailAddress" />
+                <field attributeName="payeeIdentifierTypeCode" />
                 <field attributeName="vendorHeaderGeneratedIdentifier" />
                 <field attributeName="vendorDetailAssignedIdentifier" />
                 <field attributeName="disbVchrPayeeIdNumber" />
                 <field attributeName="personUniversalIdentifier" />
                 <field attributeName="payeeSocialSecurityNumber" />
                 <field attributeName="payeeFederalEmployerIdentificationNumber" />
-                <field attributeName="payeeIdentifierTypeCode" />
                 <field attributeName="psdTransactionCode" />
                 <field attributeName="active" />
                 <field attributeName="bankAccountTypeCode" />
@@ -148,6 +148,21 @@
                 <summary>Payee Email Address</summary>
                 <description>Payee Email Address.</description>
              </attribute>
+             
+             <attribute name="payeeIdentifierTypeCode" forceUppercase="true">
+                <label>Payee Type Code</label>
+                <shortLabel>Payee Type Code</shortLabel>
+                <maxLength>1</maxLength>
+                <validationPattern>
+                    <charset validChars="EFPSV" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.PayeeTypeCodeValuesFinder" />
+                </control>
+                <summary>Payee Type Code</summary>
+                <description>E=Employee V=Vendor F=FEIN S=SSN P=DV Payee</description>
+            </attribute>
 
              <attribute name="payeeSocialSecurityNumber" >
                 <label>Social Security Number</label>
@@ -183,21 +198,6 @@
                 <description>Federal Employee Identification Number.</description>
             </attribute>
 
-             <attribute name="payeeIdentifierTypeCode" forceUppercase="true">
-                <label>Payee Type Code</label>
-                <shortLabel>Payee Type Code</shortLabel>
-                <maxLength>1</maxLength>
-                <validationPattern>
-                    <charset validChars="EFPSV" />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.PayeeTypeCodeValuesFinder" />
-                </control>
-                <summary>Payee Type Code</summary>
-                <description>E=Employee V=Vendor F=FEIN S=SSN P=DV Payee</description>
-            </attribute>
-
              <attribute name="psdTransactionCode" forceUppercase="true">
                 <label>PSD Transaction Code</label>
                 <shortLabel>PSD Transaction Code</shortLabel>
@@ -219,7 +219,7 @@
                 <label>Vendor</label>
                 <shortLabel>Vendor</shortLabel>
                 <control>
-                	<text size="10" />
+                    <lookupHidden/>
                 </control>
 			</attributeReference>
 			
@@ -227,7 +227,7 @@
                 <label>Vendor</label>
                 <shortLabel>Vendor</shortLabel>
                 <control>
-                    <text size="10" />
+                    <hidden />
                 </control>
 			</attributeReference>
              

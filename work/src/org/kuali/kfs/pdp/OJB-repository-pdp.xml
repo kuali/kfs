@@ -574,5 +574,9 @@
 	<reference-descriptor name="bankRouting" class-ref="org.kuali.module.pdp.bo.AchBank" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="bankRoutingNumber" />
 	</reference-descriptor>
+	<reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+		<foreignkey field-ref="vendorDetailAssignedIdentifier" />
+	</reference-descriptor>
 </class-descriptor>
 </descriptor-repository>

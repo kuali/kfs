@@ -3,6 +3,7 @@ package org.kuali.module.pdp.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.module.vendor.bo.VendorDetail;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -26,6 +27,7 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
     private String bankAccountTypeCode;
     
     private AchBank bankRouting;
+    private VendorDetail vendorDetail;
     
 	/**
 	 * Default constructor.
@@ -369,6 +371,14 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
             m.put("achAccountGeneratedIdentifier", this.achAccountGeneratedIdentifier.toString());
         }
         return m;
+    }
+
+    public VendorDetail getVendorDetail() {
+        return vendorDetail;
+    }
+
+    public void setVendorDetail(VendorDetail vendorDetail) {
+        this.vendorDetail = vendorDetail;
     }
 
 }

@@ -82,6 +82,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * Constructs a DisbursementVoucherDocumentRule instance.
      */
     public DisbursementVoucherDocumentRule() {
+        setMaxDictionaryValidationDepth(0);
     }
 
     /**

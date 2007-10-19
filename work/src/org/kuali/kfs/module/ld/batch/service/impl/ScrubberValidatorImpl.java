@@ -33,6 +33,8 @@ import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.AccountService;
+import org.kuali.module.chart.service.BalanceTypService;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.ScrubberStep;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryFull;
@@ -58,11 +60,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private ScrubberValidator scrubberValidator;
     private PersistenceStructureService persistenceStructureService;
     private ThreadLocal<OriginEntryLookupService> referenceLookup = new ThreadLocal<OriginEntryLookupService>();
-
-    // TODO: those arrays should go to FS_PARAM_T
-    private String[] continuationAccountBypassOriginationCodes = new String[] { "EU", "PL" };
-    private String[] continuationAccountBypassBalanceTypeCodes = new String[] { "EX", "IE", "PE" };
-    private String[] continuationAccountBypassDocumentTypeCodes = new String[] { "TOPS", "CD", "LOCR" };
+    
     private int numOfAttempts = 10;
     private int numOfExtraMonthsForCGAccount = 3;
 
@@ -279,7 +277,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         Calendar today = Calendar.getInstance();
         today.setTime(universityRunDate.getUniversityDate());
-
+                                                                                                                    
+        String[] continuationAccountBypassOriginationCodes = SpringContext.getBean(ParameterService.class).getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES).toArray(new String[] {});
+        String[] continuationAccountBypassBalanceTypeCodes = SpringContext.getBean(BalanceTypService.class).getContinuationAccountBypassBalanceTypeCodes(universityRunDate.getUniversityFiscalYear()).toArray(new String[] {});
+        String[] continuationAccountBypassDocumentTypeCodes = SpringContext.getBean(ParameterService.class).getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES).toArray(new String[] {});
+        
         if (laborOriginEntry.getAccount() == null) {
             return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ACCOUNT_NOT_FOUND) + "(" + laborOriginEntry.getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber() + ")", Message.TYPE_FATAL);
         }
@@ -583,11 +585,13 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         // Get suspense account
         // TODO: It is temp, will change later.
-        Account account = accountService.getByPrimaryId("UA", "6812756");
+        String suspenseAccountNumber = SpringContext.getBean(ParameterService.class).getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_NUMBER);
+        String suspenseCOAcode = SpringContext.getBean(ParameterService.class).getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNTS_COA_CD); 
+        Account account = accountService.getByPrimaryId(suspenseCOAcode, suspenseAccountNumber);
 
         workingEntry.setAccount(account);
-        workingEntry.setAccountNumber("6812756");
-        workingEntry.setChartOfAccountsCode("UA");
+        workingEntry.setAccountNumber(suspenseAccountNumber);
+        workingEntry.setChartOfAccountsCode(suspenseCOAcode);
 
 
     }

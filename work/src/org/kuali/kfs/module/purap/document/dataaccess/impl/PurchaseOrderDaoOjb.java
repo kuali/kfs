@@ -26,9 +26,8 @@ import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
-
 /**
- * This class is the OJB implementation of the ProjectCodeDao interface.
+ * OJB implementation of PurchaseOrderDao.
  */
 public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements PurchaseOrderDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDaoOjb.class);
@@ -52,6 +51,9 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         return getDocumentNumberUsingPurchaseOrderCriteria(criteria);
     }
 
+    /**
+     * @see org.kuali.module.purap.dao.PurchaseOrderDao#getOldestPurchaseOrderDocumentNumber(java.lang.Integer)
+     */
     public String getOldestPurchaseOrderDocumentNumber(Integer id) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
@@ -90,6 +92,13 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         return null;
     }
     
+    /**
+     * This method returns a list of document numbers of the puchase order returned by the passed in
+     * criteria.
+     * 
+     * @param criteria
+     * @return
+     */
     private Iterator<Object[]> getDocumentNumbersUsingPurchaseOrderCriteria(Criteria criteria) {
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PurchaseOrderDocument.class, criteria);
         rqbc.setAttributes(new String[] {KFSPropertyConstants.DOCUMENT_NUMBER});

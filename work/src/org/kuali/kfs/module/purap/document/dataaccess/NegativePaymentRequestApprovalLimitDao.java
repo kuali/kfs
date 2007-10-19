@@ -20,6 +20,9 @@ import java.util.Collection;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.bo.NegativePaymentRequestApprovalLimit;
 
+/**
+ * Negative Payment Request Approval Limit DAO Interface.
+ */
 public interface NegativePaymentRequestApprovalLimitDao {
 
     /**
@@ -51,12 +54,18 @@ public interface NegativePaymentRequestApprovalLimitDao {
     // These two methods are in here for testing.
     
     /**
+     * Retreive a collection of NegativePaymentRequestApprovalLimit where the NegativePaymentRequestApprovalLimitAmount is
+     * greater than the limit passed in.
+     * 
      * @param limit
      * @return
      */
     public Collection<NegativePaymentRequestApprovalLimit> findAboveLimit(KualiDecimal limit);
     
     /**
+     * Retreive a collection of NegativePaymentRequestApprovalLimit where the NegativePaymentRequestApprovalLimitAmount is
+     * less than the limit passed in.
+     *
      * @param limit
      * @return
      */

@@ -35,6 +35,7 @@ import org.kuali.module.purap.dao.CreditMemoDao;
 import org.kuali.module.purap.document.CreditMemoDocument;
 
 /**
+ * OJB Implementation of CreditMemoDao.
  * Provides persistence layer methods for the credit memo document.
  */
 public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditMemoDao {
@@ -89,7 +90,6 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
     /**
      * @see edu.iu.uis.pur.cm.dao.CreditMemoDao#duplicateExists(java.lang.String, java.lang.String)
      */
-
     public boolean duplicateExists(Integer vendorNumberHeaderId, Integer vendorNumberDetailId, Date date, KualiDecimal amount) {
         LOG.debug("duplicateExists() started");
 
@@ -115,12 +115,21 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
         }
     }
     
+    /**
+     * @see org.kuali.module.purap.dao.CreditMemoDao#getDocumentNumberByCreditMemoId(java.lang.Integer)
+     */
     public String getDocumentNumberByCreditMemoId(Integer id) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
         return getDocumentNumberOfCreditMemoByCriteria(criteria);
     }
 
+    /**
+     * Retreives a document number for a credit memo by user defined criteria.
+     * 
+     * @param criteria - holds field and value pairs defined by the calling method
+     * @return
+     */
     private String getDocumentNumberOfCreditMemoByCriteria(Criteria criteria) {
         LOG.debug("getDocumentNumberOfCreditMemoByCriteria() started");
         Iterator<Object[]> iter = getDocumentNumbersOfCreditMemoByCriteria(criteria, false);
@@ -139,6 +148,14 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
         return null;
     }
 
+    /**
+     * Retreives a document number for a credit memo by user defined criteria and sorts the values ascending if
+     * orderByAscending parameter is true, descending otherwise.
+     * 
+     * @param criteria
+     * @param orderByAscending
+     * @return
+     */
     private Iterator<Object[]> getDocumentNumbersOfCreditMemoByCriteria(Criteria criteria, boolean orderByAscending) {
         LOG.debug("getDocumentNumberOfCreditMemoByCriteria() started");
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(CreditMemoDocument.class, criteria);
@@ -151,5 +168,5 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
         }
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
     }
-
+    
 }

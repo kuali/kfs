@@ -28,8 +28,14 @@ import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.dao.PurApAccountingDao;
 
+/**
+ * OJB Implementation of PurApAccountingDao. 
+ */
 public class PurApAccountingDaoOjb extends PlatformAwareDaoBaseOjb implements PurApAccountingDao {
 
+    /**
+     * @see org.kuali.module.purap.dao.PurApAccountingDao#getAccountingLinesForItem(org.kuali.module.purap.bo.PurApItem)
+     */
     public List getAccountingLinesForItem(PurApItem item) {
         String itemIdentifier = Integer.toString(item.getItemIdentifier());
         Class clazz = item.getAccountingLineClass();

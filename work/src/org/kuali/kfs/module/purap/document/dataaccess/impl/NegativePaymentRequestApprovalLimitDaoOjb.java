@@ -26,6 +26,9 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.bo.NegativePaymentRequestApprovalLimit;
 import org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao;
 
+/**
+ * OJB Implementation of NegativePaymentRequestApprovalLimitDao.
+ */
 public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoBaseOjb implements NegativePaymentRequestApprovalLimitDao {
     private static Logger LOG = Logger.getLogger(NegativePaymentRequestApprovalLimitDaoOjb.class);
 
@@ -67,6 +70,9 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
     
+    /**
+     * @see org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao#findAboveLimit(org.kuali.core.util.KualiDecimal)
+     */
     public Collection<NegativePaymentRequestApprovalLimit> findAboveLimit(KualiDecimal limit) {
         LOG.debug("Entering findAboveLimit(KualiDecimal)");
         Criteria criteria = new Criteria();
@@ -76,6 +82,9 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
+    /**
+     * @see org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao#findBelowLimit(org.kuali.core.util.KualiDecimal)
+     */
     public Collection<NegativePaymentRequestApprovalLimit> findBelowLimit(KualiDecimal limit) {
         LOG.debug("Entering findBelowLimit(KualiDecimal)");
         Criteria criteria = new Criteria();
@@ -84,5 +93,5 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
         LOG.debug("Leaving findBelowLimit(KualiDecimal)");
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
-
+    
 }

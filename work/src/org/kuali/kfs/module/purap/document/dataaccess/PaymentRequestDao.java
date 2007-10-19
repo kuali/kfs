@@ -22,11 +22,13 @@ import java.util.List;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 
-
+/**
+ * Payment Request DAO Interface.
+ */
 public interface PaymentRequestDao {
 
     /**
-     * Get all the payment requests that need to be extracted that match a credit memo
+     * Get all the payment requests that need to be extracted that match a credit memo.
      * 
      * @param campusCode limit results to a single chart
      * @param paymentRequestIdentifier Payment Request Identifier (can be null)
@@ -38,7 +40,7 @@ public interface PaymentRequestDao {
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(String campusCode,Integer paymentRequestIdentifier,Integer purchaseOrderIdentifier,Integer vendorHeaderGeneratedIdentifier,Integer vendorDetailAssignedIdentifier);
 
     /**
-     * Get all the payment requests that need to be extracted to PDP
+     * Get all the payment requests that need to be extracted to PDP.
      * 
      * @param onlySpecialPayments True - only include special payments, False - include all
      * @param chartCode if not null, limit results to a single chart
@@ -47,7 +49,7 @@ public interface PaymentRequestDao {
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments,String chartCode);
 
     /**
-     * Get all the payment requests that are marked immediate that need to be extracted to PDP
+     * Get all the payment requests that are marked immediate that need to be extracted to PDP.
      * 
      * @param chartCode
      * @return
@@ -68,39 +70,21 @@ public interface PaymentRequestDao {
     public List<PaymentRequestDocument> getEligibleForAutoApproval();
 
     /**
-     * Get a payment request document number by id
+     * Get a payment request document number by id.
      * 
      * @param id PaymentRequest Id
      * @return PaymentRequest or null if not found
      */
     public String getDocumentNumberByPaymentRequestId(Integer id);
 
+    /**
+     * Retreives a list of document numbers by purchase order id.
+     * 
+     * @param id
+     * @return
+     */
     public List<String> getDocumentNumbersByPurchaseOrderId(Integer id);
 
-    /**
-     * Retreives a list of Pay Reqs with the given Req Id.
-     * 
-     * @param id
-     * @return List of Pay Reqs.
-     */
-//    public List getPaymentRequestsByRequisitionId(Integer id);
-
-    /**
-     * Retreives a list of Pay Reqs with the given PO Id.
-     * 
-     * @param id
-     * @return List of Pay Reqs.
-     */
-//    public List getPaymentRequestsByPOId(Integer id);
-    
-    /**
-     * Retreives a list of Pay Reqs with the given PO Id.
-     * 
-     * @param id
-     * @return List of Pay Reqs.
-     */
-//    public List getPaymentRequestsByPOId(Integer id, Integer returnListMax);
-    
     /**
      * Retreives a list of Pay Reqs with the given vendor id and invoice number.
      * 
@@ -111,9 +95,7 @@ public interface PaymentRequestDao {
      */
     public List getActivePaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId,
         Integer vendorDetailAssignedId,String invoiceNumber);
-    
-//    public List getAllPREQsByPOIdAndStatus(Integer purchaseOrderID,Collection statusCodes);
-    
+        
     /**
      * Retreives a list of Pay Reqs with the given PO Id, invoice amount, and invoice date.
      * 
@@ -125,13 +107,10 @@ public interface PaymentRequestDao {
     public List getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal invoiceAmount, Date invoiceDate);
 
     /**
-     * Get all the payment requests for a set of statuses
+     * Deletes the summary accounts by purap document id.
      * 
-     * @param statuses
-     * @return
+     * @param purapDocumentIdentifier
      */
-//    public Collection getByStatuses(String statuses[]);
-    
     public void deleteSummaryAccounts(Integer purapDocumentIdentifier);
     
 }

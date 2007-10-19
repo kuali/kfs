@@ -17,10 +17,14 @@ package org.kuali.module.purap.dao;
 
 import org.kuali.module.purap.document.RequisitionDocument;
 
+/**
+ * Requisition DAO Interface.
+ */
 public interface RequisitionDao {
 
     /**
-     * This method...
+     * Retreives the document number by requisition id.
+     * 
      * @param id
      * @return
      */

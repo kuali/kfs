@@ -19,8 +19,17 @@ import java.util.List;
 
 import org.kuali.module.purap.bo.PurApItem;
 
+/**
+ * PurApAccounting DAO Interface.
+ */
 public interface PurApAccountingDao {
 
+    /**
+     * Retreives the accounting lines for a purap item.
+     * 
+     * @param item
+     * @return
+     */
     public List getAccountingLinesForItem(PurApItem item);
     
 }

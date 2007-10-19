@@ -26,8 +26,12 @@ import org.kuali.module.purap.document.AssignContractManagerDocument;
 import org.kuali.module.purap.exceptions.PurError;
 import org.kuali.module.purap.exceptions.PurapConfigurationException;
 
+/**
+ * OJB Implementation of ImageDao.
+ */
 public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
     private static Log LOG = LogFactory.getLog(ImageDaoNet.class);
+
     private KualiConfigurationService configurationService;
     private ParameterService parameterService;
 
@@ -39,10 +43,8 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
         this.configurationService = configurationService;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see edu.iu.uis.pur.po.dao.ImageDao#getPurchasingDirectorImage(java.lang.String,java.lang.String)
+    /** 
+     * @see org.kuali.module.purap.dao.ImageDao#getPurchasingDirectorImage(java.lang.String, java.lang.String, java.lang.String)
      */
     public String getPurchasingDirectorImage(String key, String campusCode, String location) {
         LOG.debug("getPurchasingDirectorImage() started");
@@ -52,10 +54,8 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
         return getFile(prefix, campusCode, key, extension, location);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see edu.iu.uis.pur.po.dao.ImageDao#getContractManagerImage(java.lang.String,java.lang.Integer)
+    /**
+     * @see org.kuali.module.purap.dao.ImageDao#getContractManagerImage(java.lang.String, java.lang.Integer, java.lang.String)
      */
     public String getContractManagerImage(String key, Integer contractManagerId, String location) {
         LOG.debug("getContractManagerImage() started");
@@ -68,10 +68,8 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
         return getFile(prefix, cm, key, extension, location);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see edu.iu.uis.pur.po.dao.ImageDao#getLogo(java.lang.String,java.lang.String)
+    /**
+     * @see org.kuali.module.purap.dao.ImageDao#getLogo(java.lang.String, java.lang.String, java.lang.String)
      */
     public String getLogo(String key, String campusCode, String location) {
         LOG.debug("getLogo() started. key is " + key + ". campusCode is " + campusCode);
@@ -82,11 +80,12 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
     }
 
     /**
-     * Copy a file from a web location to the local system
+     * Copy a file from a web location to the local system.
      * 
      * @param prefix Prefix for the file name
      * @param fileKey File key for file
      * @param key Unique key for the file
+     * @param location
      * @return
      */
     private String getFile(String prefix, String fileKey, String key, String extension, String location) {
@@ -178,10 +177,8 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
         return completeFile;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see edu.iu.uis.pur.po.dao.ImageDao#removeImages(java.lang.String)
+    /**
+     * @see org.kuali.module.purap.dao.ImageDao#removeImages(java.lang.String, java.lang.String)
      */
     public void removeImages(String key, String location) {
         LOG.debug("removeImages() started");
@@ -202,4 +199,5 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
             throw new PurError("Caught exception while trying to remove images at " + location, e);
         }
     }
+    
 }

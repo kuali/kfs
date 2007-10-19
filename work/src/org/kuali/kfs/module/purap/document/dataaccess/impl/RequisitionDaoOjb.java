@@ -26,9 +26,8 @@ import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.dao.RequisitionDao;
 import org.kuali.module.purap.document.RequisitionDocument;
 
-
 /**
- * This class is the OJB implementation of the ProjectCodeDao interface.
+ * OJB implementation of RequisitionDao.
  */
 public class RequisitionDaoOjb extends PlatformAwareDaoBaseOjb implements RequisitionDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionDaoOjb.class);

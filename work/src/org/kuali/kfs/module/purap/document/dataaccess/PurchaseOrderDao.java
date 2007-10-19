@@ -19,6 +19,9 @@ import java.util.List;
 
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
+/**
+ * Purchase Order DAO Interface.
+ */
 public interface PurchaseOrderDao {
 
     /**

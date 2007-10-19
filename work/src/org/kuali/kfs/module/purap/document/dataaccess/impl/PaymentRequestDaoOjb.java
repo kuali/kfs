@@ -47,9 +47,12 @@ import org.kuali.module.purap.service.PurapAccountingService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
+/**
+ * OJB Implementation of PaymentRequestDao.
+ */
 public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements PaymentRequestDao {
-
     private static Logger LOG = Logger.getLogger(PaymentRequestDaoOjb.class);
+    
     private NegativePaymentRequestApprovalLimitDao negativePaymentRequestApprovalLimitDao;
     private DateTimeService dateTimeService;
     private PurapAccountingService purapAccountingService;
@@ -195,12 +198,18 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         
     }
     
+    /**
+     * @see org.kuali.module.purap.dao.PaymentRequestDao#getDocumentNumberByPaymentRequestId(java.lang.Integer)
+     */
     public String getDocumentNumberByPaymentRequestId(Integer id) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
         return getDocumentNumberOfPaymentRequestByCriteria(criteria);
     }
     
+    /**
+     * @see org.kuali.module.purap.dao.PaymentRequestDao#getDocumentNumbersByPurchaseOrderId(java.lang.Integer)
+     */
     public List<String> getDocumentNumbersByPurchaseOrderId(Integer poPurApId) {
         List<String> returnList = new ArrayList<String>();
         Criteria criteria = new Criteria();
@@ -213,6 +222,12 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         return returnList;
     }
     
+    /**
+     * Retreives a document number for a payment request by user defined criteria.
+     * 
+     * @param criteria
+     * @return
+     */
     private String getDocumentNumberOfPaymentRequestByCriteria(Criteria criteria) {
         LOG.debug("getDocumentNumberOfPaymentRequestByCriteria() started");
         Iterator<Object[]> iter = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
@@ -231,6 +246,14 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         return null;
     }
     
+    /**
+     * Retreives a document number for a payment request by user defined criteria and sorts the values ascending if
+     * orderByAscending parameter is true, descending otherwise.
+     * 
+     * @param criteria
+     * @param orderByAscending
+     * @return
+     */
     private Iterator<Object[]> getDocumentNumbersOfPaymentRequestByCriteria(Criteria criteria, boolean orderByAscending) {
         LOG.debug("getDocumentNumberOfPaymentRequestByCriteria() started");
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PaymentRequestDocument.class, criteria);
@@ -244,21 +267,27 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
     }
       
-      private List getPaymentRequestsByQueryByCriteria(QueryByCriteria qbc) {
+    /**
+     * Retrieves a list of payment requests by user defined criteria.
+     * 
+     * @param qbc
+     * @return
+     */
+    private List getPaymentRequestsByQueryByCriteria(QueryByCriteria qbc) {
         LOG.debug("getPaymentRequestsByQueryByCriteria() started");
         List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
         return l;
-      }
+    }
       
-      /**
-       * Retreives a list of Pay Reqs with the given vendor id and invoice number.
-       * 
-       * @param vendorHeaderGeneratedId  header id of the vendor id
-       * @param vendorDetailAssignedId   detail id of the vendor id
-       * @param invoiceNumber            invoice number as entered by AP
-       * @return List of Pay Reqs.
-       */
-      public List getActivePaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId,String invoiceNumber) {
+    /**
+     * Retreives a list of Pay Reqs with the given vendor id and invoice number.
+     * 
+     * @param vendorHeaderGeneratedId  header id of the vendor id
+     * @param vendorDetailAssignedId   detail id of the vendor id
+     * @param invoiceNumber            invoice number as entered by AP
+     * @return List of Pay Reqs.
+     */
+    public List getActivePaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId,String invoiceNumber) {
         LOG.debug("getActivePaymentRequestsByVendorNumberInvoiceNumber() started");
         Criteria criteria = new Criteria();
         criteria.addEqualTo("vendorHeaderGeneratedIdentifier", vendorHeaderGeneratedId);
@@ -266,7 +295,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         criteria.addEqualTo("invoiceNumber", invoiceNumber);
         QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class,criteria);
         return this.getPaymentRequestsByQueryByCriteria(qbc);
-      }
+    }
       
     /**
      * @see org.kuali.module.purap.dao.PaymentRequestDao#getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(java.lang.Integer, org.kuali.core.util.KualiDecimal, java.sql.Date)
@@ -280,7 +309,10 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class, criteria);
         return this.getPaymentRequestsByQueryByCriteria(qbc);
     }
-      
+    
+    /**
+     * @see org.kuali.module.purap.dao.PaymentRequestDao#deleteSummaryAccounts(java.lang.Integer)
+     */
     public void deleteSummaryAccounts(Integer purapDocumentIdentifier) {
         LOG.debug("deleteSummaryAccounts() started");
 
@@ -308,6 +340,6 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
-    }
-          
+    }          
+    
 }

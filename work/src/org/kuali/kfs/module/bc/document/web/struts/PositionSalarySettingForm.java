@@ -76,6 +76,7 @@ public class PositionSalarySettingForm extends DetailSalarySettingForm {
     //pass the value of this as a url parm, false setting means budget by organization
     //this also controls where we return the user when done
     private boolean budgetByAccountMode;
+    private boolean orgSalSetClose = false;
     
     /**
      * Constructs a PositionSalarySettingForm.java.
@@ -467,5 +468,21 @@ public class PositionSalarySettingForm extends DetailSalarySettingForm {
     public void setHideDetails(boolean hideDetails) {
         this.hideDetails = hideDetails;
     }
+
+/**
+ * Gets the orgSalSetClose attribute. 
+ * @return Returns the orgSalSetClose.
+ */
+public boolean isOrgSalSetClose() {
+    return orgSalSetClose;
+}
+
+/**
+ * Sets the orgSalSetClose attribute value.
+ * @param orgSalSetClose The orgSalSetClose to set.
+ */
+public void setOrgSalSetClose(boolean orgSalSetClose) {
+    this.orgSalSetClose = orgSalSetClose;
+}
 
 }

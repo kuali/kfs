@@ -76,6 +76,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     //pass the value of this as a url parm, false setting means budget by organization
     //this also controls where we return the user when done
     private boolean budgetByAccountMode;
+    private boolean orgSalSetClose = false;
 
     //TODO these should be moved to BudgetConstructionIntendedIncumbent.java to be consistent with
     //SalarySettingExpansion.java and BudgetConstructionPosition.java totaling
@@ -604,6 +605,22 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
      */
     public void setCsfStandardHoursTotal(BigDecimal csfStandardHoursTotal) {
         this.csfStandardHoursTotal = csfStandardHoursTotal;
+    }
+
+    /**
+     * Gets the orgSalSetClose attribute. 
+     * @return Returns the orgSalSetClose.
+     */
+    public boolean isOrgSalSetClose() {
+        return orgSalSetClose;
+    }
+
+    /**
+     * Sets the orgSalSetClose attribute value.
+     * @param orgSalSetClose The orgSalSetClose to set.
+     */
+    public void setOrgSalSetClose(boolean orgSalSetClose) {
+        this.orgSalSetClose = orgSalSetClose;
     }
 
 }

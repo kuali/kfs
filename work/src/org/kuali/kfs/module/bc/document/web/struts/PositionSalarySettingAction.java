@@ -130,8 +130,22 @@ public class PositionSalarySettingAction extends KualiAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        // TODO need prompt to save? added
+        PositionSalarySettingForm tForm = (PositionSalarySettingForm) form;
+        
+        if (tForm.isBudgetByAccountMode()){
+            return returnToCaller(mapping, form, request, response);
+        } else {
+            GlobalVariables.getMessageList().add("message.budget.successfulClose");
+            tForm.setOrgSalSetClose(true);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+    }
+
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//TODO this will eventually be spit out into close and save methods, with close calling this method        
+        
         PositionSalarySettingForm positionSalarySettingForm = (PositionSalarySettingForm) form;
         BudgetConstructionPosition budgetConstructionPosition = positionSalarySettingForm.getBudgetConstructionPosition();
 

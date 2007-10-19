@@ -40,6 +40,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
+import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
@@ -201,7 +202,7 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
 
     if (docForm.isPickListMode()){
         // TODO for now just redisplay with a message
-        GlobalVariables.getMessageList().add("message.budget.successfulClose");
+        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
         docForm.setPickListClose(true);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
 

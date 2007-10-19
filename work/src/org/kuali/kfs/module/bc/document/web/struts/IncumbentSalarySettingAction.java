@@ -41,6 +41,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
+import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbent;
 import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.module.budget.web.struts.form.IncumbentSalarySettingForm;
@@ -135,7 +136,7 @@ public class IncumbentSalarySettingAction extends KualiAction {
         if (tForm.isBudgetByAccountMode()){
             return returnToCaller(mapping, form, request, response);
         } else {
-            GlobalVariables.getMessageList().add("message.budget.successfulClose");
+            GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
             tForm.setOrgSalSetClose(true);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }

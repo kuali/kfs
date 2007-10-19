@@ -118,15 +118,19 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             CollectorScrubberStatus collectorScrubberStatus = collectorScrubberService.scrub(batch, collectorReportData);
             collectorScrubberStatuses.add(collectorScrubberStatus);
             processInterDepartmentalBillingAmounts(batch);
-        }
-
-        if (isValid) {
+            
             // store origin group, entries, and id billings
             batch.setDefaultsAndStore(originEntryGroup, collectorReportData);
             collectorReportData.incrementNumPersistedBatches();
+            
+            //mark batch as valid
+            collectorReportData.markValidationStatus( batch , true );
         }
         else {
             collectorReportData.incrementNumNonPersistedBatches();
+            
+            //mark batch as invalid
+            collectorReportData.markValidationStatus( batch , false );
         }
 
         return isValid;

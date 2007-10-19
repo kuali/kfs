@@ -58,6 +58,7 @@ public class CollectorReportData {
     private Map<String, Integer> numInputDetailsForBatchName;
     private Map<String, Integer> numSavedDetailsForBatchName;
     private SortedMap<String, ErrorMap> errorsForBatchName;
+    private Map<String, Boolean> validationStatuses;
     
     private LedgerEntryHolder ledgerEntryHolder;
     
@@ -81,6 +82,7 @@ public class CollectorReportData {
         numInputDetailsForBatchName = new HashMap<String, Integer>();
         numSavedDetailsForBatchName = new HashMap<String, Integer>();
         errorsForBatchName = new TreeMap<String, ErrorMap>();
+        validationStatuses = new HashMap<String, Boolean>();
 
         numPersistedBatches = 0;
         numNotPersistedBatches = 0;
@@ -366,5 +368,25 @@ public class CollectorReportData {
         return numNotPersistedBatches;
     }
     
+    /**
+     * Marks whether or not a batch is valid or not
+     * @param batch
+     * @param validStatus
+     */
+    public void markValidationStatus( CollectorBatch batch, boolean validStatus ){
+        throwExceptionIfBatchNotAdded(batch);
+        
+        validationStatuses.put(batch.getBatchName(), new Boolean( validStatus ) );
+    }
     
+    /**
+     * Returns true if batch is valid; False if invalid
+     * @param batch
+     * @return
+     */
+    public boolean isBatchValid( CollectorBatch batch ){
+        throwExceptionIfBatchNotAdded(batch);
+        
+        return (Boolean)validationStatuses.get(batch.getBatchName()).booleanValue();
+    }
 }

@@ -191,6 +191,7 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
 
                 //SpringContext.getBean(DocumentService.class).saveDocument(docForm.getDocument());
                 // TODO for now just do trivial save eventually need to add validation, routelog stuff, etc
+                docForm.getDocument().getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Updated");
                 SpringContext.getBean(DocumentService.class).updateDocument(docForm.getDocument());
                 
             }
@@ -233,6 +234,7 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         
         // TODO for now just do trivial save eventually need to add validation, routelog stuff, etc
+        bcDocument.getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Updated");
         documentService.updateDocument(bcDocument);
 
         GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);

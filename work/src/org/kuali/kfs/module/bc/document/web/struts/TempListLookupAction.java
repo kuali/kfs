@@ -26,11 +26,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.lookup.Lookupable;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.action.KualiLookupAction;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.service.OrganizationBCDocumentSearchService;
 import org.kuali.module.budget.service.OrganizationSalarySettingSearchService;
 import org.kuali.kfs.KFSConstants;
@@ -61,6 +63,7 @@ public class TempListLookupAction extends KualiLookupAction {
         // TODO may need to pass another parameter for building variations of AccountSelect
         if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionAccountSelect")){
             SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountSelectPullList(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
+            GlobalVariables.getMessageList().add("message.budget.accountList");
         }
 
         forward =  super.start(mapping, form, request, response);

@@ -18,7 +18,7 @@ package org.kuali.module.financial.document;
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE2;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
-import static org.kuali.test.suite.RelatesTo.JiraIssue.KULRNE1612;
+//import static org.kuali.test.suite.RelatesTo.JiraIssue.KULRNE1612;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +70,7 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends KualiTestBase {
     /*
      * This test fails related to https://test.kuali.org/jira/browse/KULEDOCS-1662
      */
-    @RelatesTo(KULRNE1612)
+    //@RelatesTo(KULRNE1612)
     @AnnotationTestSuite(OftenUsefulSuite.class)
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testKULEDOCS_1401() throws Exception {

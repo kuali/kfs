@@ -43,13 +43,7 @@
         <help parameterNamespace="X" parameterName="OTHER_HELP_BANK" />
 
         <lockingKeys>
-            <field attributeName="vendorHeaderGeneratedIdentifier" />
-            <field attributeName="vendorDetailAssignedIdentifier" />
-            <field attributeName="disbVchrPayeeIdNumber" />
-            <field attributeName="personUniversalIdentifier" />
-            <field attributeName="payeeSocialSecurityNumber" />
-            <field attributeName="payeeFederalEmployerIdentificationNumber" />
-            <field attributeName="payeeIdentifierTypeCode" />
+            <field attributeName="achAccountGeneratedIdentifier" />
         </lockingKeys>
 
         <maintainableSections>

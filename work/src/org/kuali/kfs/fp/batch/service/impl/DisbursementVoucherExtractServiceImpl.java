@@ -33,6 +33,7 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
@@ -72,6 +73,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     private PaymentFileService paymentFileService;
     private PaymentGroupService paymentGroupService;
     private ReferenceService referenceService;
+    private int maxNoteLines;
 
     // This should only be set to true when testing this system. Setting this to true will run the code but
     // won't set the doc status to extracted
@@ -81,6 +83,14 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         LOG.debug("extractPayments() started");
 
         Date processRunDate = dateTimeService.getCurrentDate();
+
+        String noteLines = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.MAX_NOTE_LINES);
+
+        try {
+            maxNoteLines = Integer.parseInt(noteLines);
+        } catch (NumberFormatException nfe) {
+            throw new IllegalArgumentException("Invalid Max Notes Lines parameter");
+        }
 
         String userId = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_USER_ID);
         UniversalUser uuser;
@@ -239,9 +249,6 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         pd.setNetPaymentAmount(document.getDisbVchrCheckTotalAmount().bigDecimalValue());
 
         // Handle accounts
-        if (document.getSourceAccountingLines().size() == 0) {
-            LOG.error("buildPaymentDetail() XXXXXXXXXXXXXXXXXXXXXXXXX No lines: " + document.getDocumentNumber());
-        }
         for (Iterator iter = document.getSourceAccountingLines().iterator(); iter.hasNext();) {
             SourceAccountingLine sal = (SourceAccountingLine) iter.next();
 
@@ -353,7 +360,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                 for (Iterator iter = dvnet.getDvNonEmployeeExpenses().iterator(); iter.hasNext();) {
                     DisbursementVoucherNonEmployeeExpense exp = (DisbursementVoucherNonEmployeeExpense) iter.next();
 
-                    if (line < 19) {
+                    if (line < (maxNoteLines - 8)) {
                         pnt = new PaymentNoteText();
                         pnt.setCustomerNoteLineNbr(line++);
                         pnt.setCustomerNoteText(exp.getDisbVchrExpenseCompanyName() + " " + exp.getDisbVchrExpenseAmount());
@@ -373,7 +380,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             for (Iterator iter = dvpcd.getDvPreConferenceRegistrants().iterator(); iter.hasNext();) {
                 DisbursementVoucherPreConferenceRegistrant dvpcr = (DisbursementVoucherPreConferenceRegistrant) iter.next();
 
-                if (line < 19) {
+                if (line < (maxNoteLines - 8)) {
                     pnt = new PaymentNoteText();
                     pnt.setCustomerNoteLineNbr(line++);
                     pnt.setCustomerNoteText(dvpcr.getDvConferenceRegistrantName() + " " + dvpcr.getDisbVchrExpenseAmount());
@@ -386,7 +393,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         if (text.length() > 0) {
             String[] lines = text.split("\\n");
             for (int i = 0; i < lines.length; i++) {
-                if (line < 24) {
+                if (line < (maxNoteLines - 3)) {
                     pnt = new PaymentNoteText();
                     pnt.setCustomerNoteLineNbr(line++);
                     pnt.setCustomerNoteText(lines[i]);

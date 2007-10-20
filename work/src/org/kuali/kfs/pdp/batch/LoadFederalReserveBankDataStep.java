@@ -16,6 +16,7 @@
 package org.kuali.module.pdp.batch;
 
 import org.kuali.kfs.batch.AbstractStep;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.service.AchBankService;
 
@@ -28,7 +29,7 @@ public class LoadFederalReserveBankDataStep extends AbstractStep {
     public boolean execute(String jobName) throws InterruptedException {
         LOG.debug("execute() started");
 
-        String filename = getParameterService().getParameterValue(getClass(), PdpConstants.ApplicationParameterKeys.ACH_BANK_INPUT_FILE);
+        String filename = getParameterService().getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.ACH_BANK_INPUT_FILE);
 
         return achBankService.reloadTable(directoryName + filename);
     }

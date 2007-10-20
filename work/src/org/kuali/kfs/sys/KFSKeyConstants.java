@@ -899,6 +899,7 @@ public class KFSKeyConstants {
         public static final String TRAILER_ERROR_COUNTNOMATCH = "error.collector.countNoMatch";
         public static final String TRAILER_ERROR_AMOUNTNOMATCH1 = "error.collector.amountNoMatch1";
         public static final String TRAILER_ERROR_AMOUNTNOMATCH2 = "error.collector.amountNoMatch2";
+        public static final String TRAILER_ERROR_AMOUNT_SHOULD_BE_ZERO = "error.collector.amountShouldBeZero";
         public static final String MIXED_DOCUMENT_TYPES = "error.collector.mixedDocumentTypes";
         public static final String MIXED_BALANCE_TYPES = "error.collector.mixedBalanceTypes";
         public static final String DUPLICATE_BATCH_HEADER = "error.collector.duplicateHeader";

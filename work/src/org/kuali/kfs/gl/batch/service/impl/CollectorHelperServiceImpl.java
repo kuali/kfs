@@ -425,6 +425,14 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             collectorReportData.setOriginEntryTotals(batch, totals);
         }
 
+        if (batch.getOriginEntries().size() == 0) {
+            if (!KualiDecimal.ZERO.equals(batch.getTotalAmount())) {
+                LOG.error("trailer total should be zero when there are no origin entries");
+                errorMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.TRAILER_ERROR_AMOUNT_SHOULD_BE_ZERO);
+            }
+            return false;
+        }
+        
         // retrieve document types that balance by equal debits and credits
         String[] documentTypes = parameterService.getParameterValues(CollectorStep.class, KFSConstants.SystemGroupParameterNames.COLLECTOR_EQUAL_DC_TOTAL_DOCUMENT_TYPES).toArray(new String[] {});
 

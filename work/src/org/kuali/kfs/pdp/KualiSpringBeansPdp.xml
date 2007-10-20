@@ -55,6 +55,7 @@
 				<value>pdpExtractCanceledChecksJob</value>
 				<value>pdpExtractChecksJob</value>
 				<value>pdpDailyReportJob</value>
+				<value>pdpLoadPaymentsJob</value>
 			</list>
 		</property>
 	</bean>
@@ -137,6 +138,14 @@
 
 	<bean id="pdpAchBankDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.AchBankDaoOjb"/>
 
+	<bean id="pdpLoadPaymentsJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pdpLoadPaymentsStep" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="pdpDailyReportJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -183,6 +192,10 @@
 				<ref bean="pdpExtractChecksStep" />
 			</list>
 		</property>
+	</bean>
+
+	<bean id="pdpLoadPaymentsStep" class="org.kuali.module.pdp.batch.LoadPaymentsStep" parent="step">
+		<property name="paymentFileService" ref="pdpPaymentFileService"/>
 	</bean>
 
 	<bean id="pdpDailyReportStep" class="org.kuali.module.pdp.batch.DailyReportStep" parent="step">
@@ -308,6 +321,9 @@
 		<property name="environmentService" ref="pdpEnvironmentService"/>
 		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
 		<property name="paymentFileLoadDao" ref="pdpPaymentFileLoadDao"/>
+		<property name="universalUserService" ref="universalUserService"/>
+		<property name="incomingDirectoryName" value="${staging.directory}/PDP/incoming"/>
+		<property name="outgoingDirectoryName" value="${staging.directory}/PDP/outgoing"/>
 	</bean>
 
 	<bean id="pdpPaymentGroupService" class="org.kuali.module.pdp.service.impl.PaymentGroupServiceImpl">

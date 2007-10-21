@@ -365,8 +365,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             if (cmd.getPurchaseOrderDocument().getRequisitionIdentifier() != null) {
                 pd.setRequisitionNbr(cmd.getPurchaseOrderDocument().getRequisitionIdentifier().toString());
             }
-            if (cmd.getPurchaseOrderDocument().getDocumentHeader().getOrganizationDocumentNumber() != null) {
-                pd.setOrganizationDocNbr(cmd.getPurchaseOrderDocument().getDocumentHeader().getOrganizationDocumentNumber());
+            if (cmd.getDocumentHeader().getOrganizationDocumentNumber() != null) {
+                pd.setOrganizationDocNbr(cmd.getDocumentHeader().getOrganizationDocumentNumber());
             }
         }
         pd.setFinancialDocumentTypeCode("CM");
@@ -436,8 +436,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         if (prd.getPurchaseOrderDocument().getRequisitionIdentifier() != null) {
             pd.setRequisitionNbr(prd.getPurchaseOrderDocument().getRequisitionIdentifier().toString());
         }
-        if (prd.getPurchaseOrderDocument().getDocumentHeader().getOrganizationDocumentNumber() != null) {
-            pd.setOrganizationDocNbr(prd.getPurchaseOrderDocument().getDocumentHeader().getOrganizationDocumentNumber());
+        if (prd.getDocumentHeader().getOrganizationDocumentNumber() != null) {
+            pd.setOrganizationDocNbr(prd.getDocumentHeader().getOrganizationDocumentNumber());
         }
         pd.setFinancialDocumentTypeCode("PREQ");
         pd.setInvoiceDate(new Timestamp(prd.getInvoiceDate().getTime()));

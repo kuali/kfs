@@ -59,6 +59,15 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     // should stay false for production.
     public static boolean testMode = false;
 
+    private String getOutputFile(String fileprefix,Date runDate) {
+        String filename = directoryName  + fileprefix + "_";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        filename = filename + sdf.format(runDate);
+        filename = filename + ".xml";
+
+        return filename;
+    }
+
     /**
      * @see org.kuali.module.pdp.service.ExtractPaymentService#extractCancelledChecks()
      */
@@ -68,7 +77,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         Date processDate = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-        String filename = directoryName + parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.CHECK_CANCEL_EXTRACT_FILE);
+        String filename = getOutputFile("pdp_cancel",processDate);
         LOG.debug("extractCanceledChecks() filename = " + filename);
 
         // Open file
@@ -128,7 +137,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         PaymentStatus extractedStatus = (PaymentStatus)referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.EXTRACTED);
 
-        String filename = directoryName + parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.ACH_EXTRACT_FILE);
+        String filename = getOutputFile("pdp_ach", processDate);
         LOG.debug("extractAchPayments() filename = " + filename);
 
         // Open file
@@ -242,7 +251,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
             throw new IllegalArgumentException("Invalid process ID");
         }
 
-        String filename = directoryName + parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.CHECK_EXTRACT_FILE);
+        String filename = getOutputFile("pdp_check", processDate);
         LOG.debug("extractChecks() filename: " + filename);
 
         // Open file

@@ -505,14 +505,6 @@
     </reference-descriptor>
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.RestrictedObjectCode" table="PDP_RSTRC_OBJ_CD_T">
-    <field-descriptor name="code" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true"/>
-    <field-descriptor name="description" column="RSTRC_OBJ_CD_DESC" jdbc-type="VARCHAR"/>
-    <field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
-    <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
-    <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
-  </class-descriptor>
-
   <class-descriptor class="org.kuali.module.pdp.bo.TransactionType" table="PDP_TRN_TYP_CD_T">
     <field-descriptor name="code" column="TRN_TYP_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="description" column="TRN_TYP_DESC" jdbc-type="VARCHAR"/>

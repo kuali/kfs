@@ -356,7 +356,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                                 // when Suspense Account Logic Indicator is off
                             }
                             else {
-                                // TODO: Change error message later
+                                // Change error message later
                                 return new Message("SUB FUND WAGE EXCLUSION", Message.TYPE_FATAL);
                             }
                         }
@@ -369,7 +369,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                             return null;
                         }
                         else {
-                            // TODO: Change error message later
+                            // Change error message later
                             // - not existence of alternative account from Reports To Account
 
                             return new Message("Not existence of alternative account from Reports To Account ", Message.TYPE_FATAL);
@@ -394,7 +394,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                             return null;
                         }
                         else {
-                            // TODO: Change error message later
+                            // Change error message later
                             return new Message("SUB FUND WAGE EXCLUSION", Message.TYPE_FATAL);
                         }
                     }
@@ -409,7 +409,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                     return null;
                 }
                 else {
-                    // TODO: Change error message later
+                    // Change error message later
                     // - Sub-fund not accepting Wage
                     return new Message("SUB FUND WAGE EXCLUSION", Message.TYPE_FATAL);
                 }
@@ -434,7 +434,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                     return null;
                 }
                 else {
-                    // TODO: Change error message later
+                    // Change error message later
                     return new Message("SUB FUND WAGE EXCLUSION", Message.TYPE_FATAL);
                 }
             }
@@ -524,7 +524,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             return null;
         }
         else {
-            // TODO: Change error message later
+            // Change error message later
             // - not found a valid continuation account and suspense account logic indicator was off
             return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CONTINUATION_ACCOUNT_LIMIT_REACHED), Message.TYPE_FATAL);
         }
@@ -584,7 +584,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private void useSuspenseAccount(LaborOriginEntry workingEntry) {
 
         // Get suspense account
-        // TODO: It is temp, will change later.
         String suspenseAccountNumber = SpringContext.getBean(ParameterService.class).getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_NUMBER);
         String suspenseCOAcode = SpringContext.getBean(ParameterService.class).getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNTS_COA_CD); 
         Account account = accountService.getByPrimaryId(suspenseCOAcode, suspenseAccountNumber);
@@ -624,7 +623,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     }
 
     public void validateForInquiry(GeneralLedgerPendingEntry entry) {
-        // TODO Auto-generated method stub
+        
 
     }
 

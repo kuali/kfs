@@ -247,8 +247,6 @@ public class LaborScrubberProcess {
         }
 
         // run the demerger
-
-        // TODO: Check
         if (!reportOnlyMode) {
             performDemerger(errorGroup, validGroup);
         }
@@ -360,8 +358,6 @@ public class LaborScrubberProcess {
                 saveValidTransaction = true;
 
                 // See if unit of work has changed
-
-                // TODO: Check it in Unit test
                 if (!unitOfWork.isSameUnitOfWork(scrubbedEntry)) {
                     // Generate offset for last unit of work
 
@@ -396,15 +392,17 @@ public class LaborScrubberProcess {
                 ParameterEvaluator costShareEncDocTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode().trim());
                 ParameterEvaluator costShareFiscalPeriodCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GLConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
 
-                if (costShareObjectTypeCodes.evaluationSucceeds() && costShareEncBalanceTypeCodes.evaluationSucceeds() && scrubbedEntry.getAccount().isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && costShareEncFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
+                //Labor Scrubber doesn't need this
+                /*if (costShareObjectTypeCodes.evaluationSucceeds() && costShareEncBalanceTypeCodes.evaluationSucceeds() && scrubbedEntry.getAccount().isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && costShareEncFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
 
-                    // TODO: Check
-                    /*
-                     * TransactionError te1 = generateCostShareEncumbranceEntries(scrubbedEntry); if (te1 != null) { List errors =
-                     * new ArrayList(); errors.add(te1.message); scrubberReportErrors.put(te1.transaction, errors);
-                     * saveValidTransaction = false; saveErrorTransaction = true; }
-                     */}
+                    
+                     TransactionError te1 = generateCostShareEncumbranceEntries(scrubbedEntry); if (te1 != null) { List errors =
+                     new ArrayList(); errors.add(te1.message); scrubberReportErrors.put(te1.transaction, errors);
+                     saveValidTransaction = false; saveErrorTransaction = true; }
+                 }
 
+                 */                
+                
                 if (costShareObjectTypeCodes.evaluationSucceeds() && scrubbedEntry.getOption().getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntry.getAccount().isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && costShareFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
                     if (scrubbedEntry.isDebit()) {
                         scrubCostShareAmount = scrubCostShareAmount.subtract(transactionAmount);
@@ -414,7 +412,7 @@ public class LaborScrubberProcess {
                     }
                 }
 
-                // TODO: Check
+                // Labor Scrubber doesn't need this
                 /*
                  * if (kualiConfigurationService.succeedsRule( otherDocTypeCodes,scrubbedEntry.getFinancialDocumentTypeCode())) {
                  * String m = processCapitalization(scrubbedEntry); if (m != null) { saveValidTransaction = false;
@@ -424,7 +422,7 @@ public class LaborScrubberProcess {
                  * saveValidTransaction = false; saveErrorTransaction = false; addTransactionError(m, "", Message.TYPE_FATAL); } }
                  */
 
-                // TODO: Check
+                // Labor Scrubber doesn't need this
                 /*
                  * if (!scrubCostShareAmount.isZero()) { TransactionError te = generateCostShareEntries(scrubbedEntry); if (te !=
                  * null) { saveValidTransaction = false; saveErrorTransaction = false; // Make a copy of it so OJB doesn't just
@@ -465,7 +463,6 @@ public class LaborScrubberProcess {
         }
 
         // Generate last offset (if necessary)
-        // TODO: check
         // generateOffset(lastEntry);
     }
 

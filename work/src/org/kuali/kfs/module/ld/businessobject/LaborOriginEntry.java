@@ -741,7 +741,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         sb.append(getField(3, hrmsCompany));
         sb.append(getField(5, setid));
 
-        // TODO: Ask to Sterling about Pad.
+        //Labor need it?
         // pad to full length of 173 chars.
         /*
          * while (173 > sb.toString().length()) { sb.append(' '); }
@@ -801,7 +801,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
             setTransactionLedgerEntryAmount(new KualiDecimal(getValue(line, 114, 133)));
         }
         catch (NumberFormatException e) {
-            // TODO: change the error constants
             GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Ledger Entry Amount" });
             throw new LoadException("Invalid Entry Amount");
         }
@@ -810,7 +809,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
             setTransactionDate(parseDate(getValue(line, 134, 144), false));
         }
         catch (ParseException e) {
-            // TODO: change the error constants
             GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Date" });
             throw new LoadException("Invalid Transaction Date");
         }
@@ -824,7 +822,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
             setTransactionPostingDate(parseDate(getValue(line, 193, 203), false));
         }
         catch (ParseException e) {
-            // TODO: change the error constants
             GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Date" });
             throw new LoadException("Invalid Transaction Date");
         }
@@ -832,7 +829,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
             setPayPeriodEndDate(parseDate(getValue(line, 203, 213), false));
         }
         catch (ParseException e) {
-            // TODO: change the error constants
             GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Date" });
             throw new LoadException("Invalid Transaction Date");
         }
@@ -845,7 +841,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
                 setTransactionTotalHours(new BigDecimal(getValue(line, 213, 222)));
             }
             catch (NumberFormatException e) {
-                // TODO: change the error constants
                 GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Total Hours" });
                 throw new LoadException("Invalid Transaction Total Hours");
             }
@@ -859,7 +854,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
                 setPayrollEndDateFiscalYear(new Integer(getValue(line, 222, 226)));
             }
             catch (NumberFormatException e) {
-                // TODO: change the error constants
                 GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Payroll End Date Fiscal Year" });
                 throw new LoadException("Invalid Payroll EndDate Fiscal Year");
             }
@@ -875,7 +869,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
                 setEmployeeRecord(new Integer(getValue(line, 239, 242)));
             }
             catch (NumberFormatException e) {
-                // TODO: change the error constants
                 GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Employee Record" });
                 throw new LoadException("Invalid Employee Record");
             }
@@ -890,7 +883,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         setLaborLedgerOriginalSubAccountNumber(getValue(line, 274, 279));
         setLaborLedgerOriginalFinancialObjectCode(getValue(line, 279, 283));
         setLaborLedgerOriginalFinancialSubObjectCode(getValue(line, 283, 286));
-        // TODO: is COMPANY HrmsCompany?
         setHrmsCompany(getValue(line, 286, 289));
         setSetid(getValue(line, 289, 294));
     }

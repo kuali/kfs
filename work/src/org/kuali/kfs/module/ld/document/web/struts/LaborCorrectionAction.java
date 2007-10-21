@@ -432,8 +432,7 @@ public class LaborCorrectionAction extends CorrectionAction {
      */
     @Override
     public ActionForward manualEdit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        // TODO Auto-generated method stub
-
+        
         LaborCorrectionForm laborCorrectionForm = (LaborCorrectionForm) form;
         laborCorrectionForm.clearLaborEntryForManualEdit();
 

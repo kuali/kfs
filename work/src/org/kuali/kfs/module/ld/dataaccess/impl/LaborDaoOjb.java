@@ -41,6 +41,7 @@ import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.July1PositionFunding;
+import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.util.ConsolidationUtil;
 
@@ -230,13 +231,26 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
      * @see org.kuali.module.labor.dao.LaborDao#getJuly1PositionFunding(java.util.Map)
      */
     public Collection getJuly1PositionFunding(Map fieldValues) {
-
-        ArrayList objectTypeCodes = new ArrayList();
         Criteria criteria = new Criteria();
-        criteria.addBetween(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, LaborConstants.BalanceInquiries.laborLowValueObjectCode, LaborConstants.BalanceInquiries.laborHighValueObjectCode);
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new July1PositionFunding()));
+        
+        Map laborObjectFieldValues = new HashMap();
+        if (fieldValues.containsKey(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR)) {
+            laborObjectFieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR));
+        }
+        
+        if (fieldValues.containsKey(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)) {
+            laborObjectFieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
+        }
+        
+        Criteria laborObjectCriteria = new Criteria();
+        laborObjectCriteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(laborObjectFieldValues, new LaborObject()));
+       
+        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, laborObjectCriteria);
+       
         QueryByCriteria query = QueryFactory.newQuery(July1PositionFunding.class, criteria);
         OJBUtility.limitResultSize(query);
+        
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 

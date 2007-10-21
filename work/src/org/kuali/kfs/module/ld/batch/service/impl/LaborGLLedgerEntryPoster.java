@@ -20,9 +20,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.batch.poster.PostTransaction;
+import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
@@ -102,9 +106,11 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
         description = StringUtils.isNotEmpty(description) ? description : transaction.getTransactionLedgerEntryDescription();
         
         // make sure the length of the description cannot excess the specified maximum
-        if(StringUtils.isNotEmpty(description) && description.length() > LaborConstants.TRANSACTION_DESCRIPTION_MAX_LENGTH){
-            description = StringUtils.left(description, LaborConstants.TRANSACTION_DESCRIPTION_MAX_LENGTH);
+        int transactionDescriptionMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(Entry.class, KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC).intValue();
+        if(StringUtils.isNotEmpty(description) && description.length() > transactionDescriptionMaxLength){
+            description = StringUtils.left(description, transactionDescriptionMaxLength);
         }       
+        
         return description;
     }
 

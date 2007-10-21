@@ -17,9 +17,14 @@ package org.kuali.module.labor.web.struts.form;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.module.financial.web.struts.form.JournalVoucherForm;
 import org.kuali.module.labor.LaborConstants.JournalVoucherOffsetType;
@@ -39,8 +44,39 @@ public class LaborJournalVoucherForm extends JournalVoucherForm {
     public LaborJournalVoucherForm() {
         super();
         setDocument(new LaborJournalVoucherDocument());
-        setSelectedBalanceType(new BalanceTyp());
-        setOriginalBalanceType("");
+    }
+
+    /**
+     * @see org.kuali.module.financial.web.struts.form.JournalVoucherForm#populateSourceAccountingLineEncumbranceCode(org.kuali.kfs.bo.SourceAccountingLine)
+     */
+    @Override
+    protected void populateSourceAccountingLineEncumbranceCode(SourceAccountingLine sourceLine) {
+        BalanceTyp selectedBalanceType = getPopulatedBalanceTypeInstance(getSelectedBalanceType().getCode());
+        if (selectedBalanceType != null && StringUtils.isNotBlank(selectedBalanceType.getCode())) {
+            sourceLine.setBalanceTyp(selectedBalanceType);
+            sourceLine.setBalanceTypeCode(selectedBalanceType.getCode());
+
+            /*
+             * set the encumbrance update code appropriately. If balance type is an external encumbrance, update code can be D or R. For all other encumbrance types it must
+             * be D. If the balance type is not an encumbrance type the update code is set to null 
+             */ 
+            if (selectedBalanceType.isFinBalanceTypeEncumIndicator()) {
+                if (StringUtils.isBlank(sourceLine.getEncumbranceUpdateCode()) || !KFSConstants.ENCUMB_UPDT_DOCUMENT_CD.equals(sourceLine.getEncumbranceUpdateCode())) {
+                    sourceLine.setEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
+                }
+            }
+            else {
+                sourceLine.setEncumbranceUpdateCode(null);
+            }
+        }
+        else {
+            // it's the first time in, the form will be empty the first time in set up default selection value
+            selectedBalanceType = SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(KFSConstants.BALANCE_TYPE_ACTUAL); 
+            setSelectedBalanceType(selectedBalanceType);
+            setOriginalBalanceType(selectedBalanceType.getCode());
+
+            sourceLine.setEncumbranceUpdateCode(null);
+        }
     }
 
     /**

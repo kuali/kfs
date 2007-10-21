@@ -28,7 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.service.LookupService;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -37,10 +37,10 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.web.Constant;
-import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.LaborKeyConstants;
 import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.bo.July1PositionFunding;
+import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.service.LaborInquiryOptionsService;
@@ -59,7 +59,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     private LaborDao laborDao;
     private LaborLedgerBalanceService balanceService;
     private LaborInquiryOptionsService laborInquiryOptionsService;
-    private LookupService lookupService;
+    private BusinessObjectService businessObjectService;
 
     /**
      * Returns URL
@@ -95,13 +95,19 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         // get the consolidation option
         boolean isConsolidated = laborInquiryOptionsService.isConsolidationSelected(fieldValues, (Collection<Row>) getRows());
 
-        if (((fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE) != null) && (fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE).toString().length() > 0))) {
-            List emptySearchResults = new ArrayList();
+        String searchObjectCodeVal = (String) fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        // Check for a valid labor object code for this inquiry
+        if (StringUtils.isNotBlank(searchObjectCodeVal)) {
+            Map objectCodeFieldValues = new HashMap();
+            objectCodeFieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR));
+            objectCodeFieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
+            objectCodeFieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, searchObjectCodeVal);
+            
+            LaborObject foundObjectCode = (LaborObject) businessObjectService.findByPrimaryKey(LaborObject.class, objectCodeFieldValues);
 
-            // Check for a valid labor object code for this inquiry
-            if (StringUtils.indexOfAny(fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE).toString(), LaborConstants.BalanceInquiries.VALID_LABOR_OBJECT_CODES) != 0) {
+            if (foundObjectCode == null) {
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, LaborKeyConstants.ERROR_INVALID_LABOR_OBJECT_CODE, "2");
-                return new CollectionIncomplete(emptySearchResults, actualCountIfTruncated);
+                return new CollectionIncomplete(new ArrayList(), actualCountIfTruncated);
             }
         }
 
@@ -310,4 +316,13 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     public void setLaborInquiryOptionsService(LaborInquiryOptionsService laborInquiryOptionsService) {
         this.laborInquiryOptionsService = laborInquiryOptionsService;
     }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+    
 }

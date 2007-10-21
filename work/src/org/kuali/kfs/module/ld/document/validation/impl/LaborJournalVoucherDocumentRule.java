@@ -15,6 +15,9 @@
  */
 package org.kuali.module.labor.rules;
 
+import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE;
+import static org.kuali.kfs.KFSConstants.GENERIC_CODE_PROPERTY_NAME;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +34,8 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
+import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.rules.JournalVoucherDocumentRule;
 import org.kuali.module.labor.bo.LaborJournalVoucherDetail;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
@@ -45,6 +50,14 @@ import org.kuali.module.labor.util.ObjectUtil;
  */
 public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule implements GenerateLaborLedgerPendingEntriesRule<LaborLedgerPostingDocument> {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborJournalVoucherDocumentRule.class);
+    
+    /**
+     * @see org.kuali.module.financial.rules.JournalVoucherDocumentRule#processCustomUpdateAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.AccountingLine)
+     */
+    @Override
+    public boolean processCustomUpdateAccountingLineBusinessRules(AccountingDocument document, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
+        return processCustomAddAccountingLineBusinessRules(document, updatedAccountingLine);
+    }
 
     /**
      * Adds an accounting line to the labor journal voucher document
@@ -91,13 +104,31 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
 
         return isValid;
     }
+    
+    /**
+     * @see org.kuali.module.financial.rules.JournalVoucherDocumentRule#isExternalEncumbranceSpecificBusinessRulesValid(org.kuali.kfs.bo.AccountingLine)
+     */
+    @Override
+    protected boolean isExternalEncumbranceSpecificBusinessRulesValid(AccountingLine accountingLine) {
+        boolean encumbranceValid = true;
+
+        BalanceTyp balanceType = accountingLine.getBalanceTyp();
+        if (!AccountingDocumentRuleUtil.isValidBalanceType(balanceType, GENERIC_CODE_PROPERTY_NAME)) {
+            encumbranceValid = false;
+        }
+        else if (balanceType.isFinBalanceTypeEncumIndicator() && KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(accountingLine.getEncumbranceUpdateCode())) {
+            encumbranceValid = isRequiredReferenceFieldsValid(accountingLine);
+        }
+
+        return encumbranceValid;
+    }
 
     /**
      * Processes the G.L. pending entries
      * 
      * @param accountingDocument
-     * @param accountingLine 
-     * @param  sequenceHelper
+     * @param accountingLine
+     * @param sequenceHelper
      * @return boolean
      * @see org.kuali.core.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.AccountingDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)

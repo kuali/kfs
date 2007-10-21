@@ -705,6 +705,9 @@
 		<property name="laborDao">
 			<ref bean="laborDao" />
 		</property>		
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>	
 	</bean>    	
 	
 	<bean id="BaseFundsLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">

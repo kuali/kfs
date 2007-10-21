@@ -50,20 +50,8 @@ public class July1PositionFundingLookupableHelperServiceImpl extends AbstractLoo
      */
     @Override
     public List getSearchResults(Map fieldValues) {
-
-        boolean unbounded = false;
-        Long actualCountIfTruncated = new Long(0);
-
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
-
-        // get the pending entry option. This method must be prior to the get search results
-        String pendingEntryOption = getLaborInquiryOptionsService().getSelectedPendingEntryOption(fieldValues);
-
-        // get the consolidation option
-        boolean isConsolidated = getLaborInquiryOptionsService().isConsolidationSelected(fieldValues, (Collection<Row>) getRows());
-
-        // Parse the map and call the DAO to process the inquiry
 
         Collection searchResultsCollection = getLaborDao().getJuly1PositionFunding(fieldValues);
 
@@ -74,7 +62,7 @@ public class July1PositionFundingLookupableHelperServiceImpl extends AbstractLoo
             Collections.sort(searchResults, new BeanPropertyComparator(defaultSortColumns, true));
         }
 
-        return new CollectionIncomplete(searchResults, actualCountIfTruncated);
+        return new CollectionIncomplete(searchResults, new Long(0));
     }
 
     /**

@@ -195,13 +195,16 @@
             <attributeReference name="documentNumber" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="documentNumber">
                 <shortLabel>Doc. Number</shortLabel>
 			</attributeReference>
-			<attributeReference name="financialDocumentTypeCode" sourceClassName="org.kuali.core.bo.DocumentType" sourceAttributeName="financialDocumentTypeCode"/>
+			<attributeReference name="financialDocumentTypeCode" sourceClassName="org.kuali.core.bo.DocumentType" sourceAttributeName="financialDocumentTypeCode">
+			  <required>false</required>
+			</attributeReference>
 			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />			
 			<attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code" />
 			<attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode" />			
 			<attributeReference name="financialSystemOriginationCode" sourceClassName="org.kuali.kfs.bo.OriginationCode" sourceAttributeName="financialSystemOriginationCode">
 				<label>Origin Code</label>
 				<shortLabel>Origin Code</shortLabel>
+				<required>false</required>
 			</attributeReference>
             <attributeReference name="grade" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="grade" />				
             <attributeReference name="hrmsCompany" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="hrmsCompany" />				
@@ -245,11 +248,13 @@
 			<attributeReference name="referenceFinancialDocumentTypeCode" sourceClassName="org.kuali.core.bo.DocumentType" sourceAttributeName="financialDocumentTypeCode">
 				<label>Reference Document Type Code</label>
                 <shortLabel>Ref Doc Type Code</shortLabel>
+                <required>false</required>
 			</attributeReference>	
 			
 			<attributeReference name="referenceFinancialSystemOriginationCode" sourceClassName="org.kuali.kfs.bo.OriginationCode" sourceAttributeName="financialSystemOriginationCode">		
                 <label>Reference Origin Code</label>
                 <shortLabel>Ref Origin Code</shortLabel>
+                <required>false</required>
 			</attributeReference>	
             <attributeReference name="runIdentifier" sourceClassName="org.kuali.module.labor.bo.LedgerEntry" sourceAttributeName="runIdentifier">
                 <label>Run Identifier</label>

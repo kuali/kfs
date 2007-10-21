@@ -177,6 +177,7 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
             }
             sourceLine.getSubObjectCode().setUniversityFiscalYear(postingYear);
         }
+        
     }
 
     /**

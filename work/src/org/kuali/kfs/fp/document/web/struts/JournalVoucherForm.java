@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -39,8 +40,6 @@ import org.kuali.module.financial.document.JournalVoucherDocument;
  * action class and make decisions based upon the differences. New accounting lines use specific credit and debit amount fields b/c
  * the new line is explicitly known; however, already existing accounting lines need to exist within a list with ordering that
  * matches the accounting lines source list.
- * 
- * 
  */
 public class JournalVoucherForm extends VoucherForm {
     private List balanceTypes;
@@ -53,7 +52,7 @@ public class JournalVoucherForm extends VoucherForm {
     public JournalVoucherForm() {
         super();
         setDocument(new JournalVoucherDocument());
-        selectedBalanceType = new BalanceTyp();
+        selectedBalanceType = new BalanceTyp(KFSConstants.BALANCE_TYPE_ACTUAL);
         originalBalanceType = "";
     }
 
@@ -65,9 +64,8 @@ public class JournalVoucherForm extends VoucherForm {
      * @see org.kuali.core.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
      */
     public void populate(HttpServletRequest request) {
-        // populate the drop downs
-        populateBalanceTypeListForRendering();
         super.populate(request);
+        populateBalanceTypeListForRendering();
     }
 
     /**
@@ -79,28 +77,16 @@ public class JournalVoucherForm extends VoucherForm {
      */
     public void populateSourceAccountingLine(SourceAccountingLine sourceLine) {
         super.populateSourceAccountingLine(sourceLine);
+        populateSourceAccountingLineEncumbranceCode(sourceLine);
+    }
 
-        // set the chosen accounting period into the line
-        String selectedAccountingPeriod = getSelectedAccountingPeriod();
-
-        if (StringUtils.isNotBlank(selectedAccountingPeriod)) {
-            Integer postingYear = new Integer(StringUtils.right(selectedAccountingPeriod, 4));
-            sourceLine.setPostingYear(postingYear);
-
-            if (ObjectUtils.isNull(sourceLine.getObjectCode())) {
-                sourceLine.setObjectCode(new ObjectCode());
-            }
-            sourceLine.getObjectCode().setUniversityFiscalYear(postingYear);
-
-            if (ObjectUtils.isNull(sourceLine.getSubObjectCode())) {
-                sourceLine.setSubObjectCode(new SubObjCd());
-            }
-            sourceLine.getSubObjectCode().setUniversityFiscalYear(postingYear);
-        }
-
-        // set the chosen balance type into the line
+    /**
+     * Sets the encumbrance code of the line based on the balance type.
+     * 
+     * @param sourceLine - line to set code on
+     */
+    protected void populateSourceAccountingLineEncumbranceCode(SourceAccountingLine sourceLine) {
         BalanceTyp selectedBalanceType = getSelectedBalanceType();
-
         if (selectedBalanceType != null && StringUtils.isNotBlank(selectedBalanceType.getCode())) {
             sourceLine.setBalanceTyp(selectedBalanceType);
             sourceLine.setBalanceTypeCode(selectedBalanceType.getCode());
@@ -115,9 +101,8 @@ public class JournalVoucherForm extends VoucherForm {
         }
         else {
             // it's the first time in, the form will be empty the first time in
-            // set up default selection
-            selectedBalanceType = SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(KFSConstants.BALANCE_TYPE_ACTUAL); // default
-            // value
+            // set up default selection value
+            selectedBalanceType = SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(KFSConstants.BALANCE_TYPE_ACTUAL); 
             setSelectedBalanceType(selectedBalanceType);
             setOriginalBalanceType(selectedBalanceType.getCode());
 
@@ -197,7 +182,6 @@ public class JournalVoucherForm extends VoucherForm {
         this.originalBalanceType = changedBalanceType;
     }
 
-    // Helper Methods for Populating the Accounting Period and Balance Type Select Lists
     /**
      * This method retrieves all of the balance types in the system and prepares them to be rendered in a dropdown UI component.
      */
@@ -208,22 +192,13 @@ public class JournalVoucherForm extends VoucherForm {
         // set into the form for rendering
         this.setBalanceTypes(balanceTypes);
 
-        // set the chosen balance type into the form
-        BalanceTyp selectedBalanceType = getSelectedBalanceType();
-
-        if (selectedBalanceType != null && StringUtils.isNotBlank(selectedBalanceType.getCode())) {
-            selectedBalanceType = getPopulatedBalanceTypeInstance(selectedBalanceType.getCode());
-            setSelectedBalanceType(selectedBalanceType);
-            getJournalVoucherDocument().setBalanceTypeCode(selectedBalanceType.getCode());
+        String selectedBalanceTypeCode = getSelectedBalanceType().getCode();
+        if (StringUtils.isBlank(selectedBalanceTypeCode)) {
+            selectedBalanceTypeCode = KFSConstants.BALANCE_TYPE_ACTUAL;
         }
-        else { // it's the first time in, the form will be empty the first time in
-            // set up default selection
-            selectedBalanceType = getPopulatedBalanceTypeInstance(KFSConstants.BALANCE_TYPE_ACTUAL); // default
-            // value
-            setSelectedBalanceType(selectedBalanceType);
-            setOriginalBalanceType(selectedBalanceType.getCode());
-            getJournalVoucherDocument().setBalanceTypeCode(selectedBalanceType.getCode());
-        }
+        
+        setSelectedBalanceType(getPopulatedBalanceTypeInstance(selectedBalanceTypeCode));
+        getJournalVoucherDocument().setBalanceTypeCode(selectedBalanceTypeCode);
     }
 
     /**
@@ -233,7 +208,7 @@ public class JournalVoucherForm extends VoucherForm {
      * @param balanceTypeCode
      * @return BalanceTyp
      */
-    private BalanceTyp getPopulatedBalanceTypeInstance(String balanceTypeCode) {
+    protected BalanceTyp getPopulatedBalanceTypeInstance(String balanceTypeCode) {
         // now we have to get the code and the name of the original and new balance types
         BalanceTypService bts = SpringContext.getBean(BalanceTypService.class);
         return bts.getBalanceTypByCode(balanceTypeCode);

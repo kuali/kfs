@@ -372,7 +372,7 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @param accountingLine
      * @return boolean True if the fields are filled in, true if the balance type is not EXTERNAL ENCUMBRANCE, false otherwise.
      */
-    private boolean isExternalEncumbranceSpecificBusinessRulesValid(AccountingLine accountingLine) {
+    protected boolean isExternalEncumbranceSpecificBusinessRulesValid(AccountingLine accountingLine) {
         // make sure that the line contains a proper balance type like it should
         BalanceTyp balanceType = accountingLine.getBalanceTyp();
         if (!AccountingDocumentRuleUtil.isValidBalanceType(balanceType, GENERIC_CODE_PROPERTY_NAME)) {
@@ -395,7 +395,7 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @param accountingLine
      * @return True if all of the required external encumbrance reference fields are valid, false otherwise.
      */
-    private boolean isRequiredReferenceFieldsValid(AccountingLine accountingLine) {
+    protected boolean isRequiredReferenceFieldsValid(AccountingLine accountingLine) {
         boolean valid = true;
 
         BusinessObjectEntry boe = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(VoucherSourceAccountingLine.class.getName());

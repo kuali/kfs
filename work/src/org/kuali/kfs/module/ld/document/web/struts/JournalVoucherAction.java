@@ -23,6 +23,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.module.financial.web.struts.form.JournalVoucherForm;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 
@@ -54,6 +56,30 @@ public class JournalVoucherAction extends org.kuali.module.financial.web.struts.
         path = path.replaceFirst(KFSConstants.LOOKUP_ACTION, LaborConstants.LONG_ROW_TABLE_INRUIRY_ACTION);
         
         return new ActionForward(path, true);
+    }
+
+    /**
+     * Labor JV allows reference fields on all encumbrance types. So only want to give message if a change is being made from a encumbrance balance type to a nor (or vice-versa).
+     * 
+     * @see org.kuali.module.financial.web.struts.action.JournalVoucherAction#determineBalanceTypeEncumbranceChangeMode(org.kuali.module.financial.web.struts.form.JournalVoucherForm)
+     */
+    @Override
+    protected int determineBalanceTypeEncumbranceChangeMode(JournalVoucherForm journalVoucherForm) throws Exception {
+        int balanceTypeExternalEncumbranceChangeMode = NO_MODE_CHANGE;
+        
+        // retrieve fully populated balance type instances
+        BalanceTyp origBalType = getPopulatedBalanceTypeInstance(journalVoucherForm.getOriginalBalanceType());
+        BalanceTyp newBalType = getPopulatedBalanceTypeInstance(journalVoucherForm.getSelectedBalanceType().getCode());
+
+        // then deal with external encumbrance changes
+        if (origBalType.isFinBalanceTypeEncumIndicator() && !newBalType.isFinBalanceTypeEncumIndicator()) {
+            balanceTypeExternalEncumbranceChangeMode = EXT_ENCUMB_TO_NON_EXT_ENCUMB;
+        }
+        else if (!origBalType.isFinBalanceTypeEncumIndicator() && newBalType.isFinBalanceTypeEncumIndicator()) {
+            balanceTypeExternalEncumbranceChangeMode = NON_EXT_ENCUMB_TO_EXT_ENCUMB;
+        }
+        
+        return balanceTypeExternalEncumbranceChangeMode;
     }
 
 }

@@ -1001,6 +1001,7 @@ public class KFSPropertyConstants {
     public static final String ROUTE_SHEET_TRACK_NUMBER = "routeSheetTrackNumber";
     public static final String ROUTING_FORM_SUBMISSION_DETAILS = "routingFormMainPageSubmissionDetails";
     public static final String SELECTED_ACCOUNTING_PERIOD = "selectedAccountingPeriod";
+    public static final String SELECTED_BALANCE_TYPE = "selectedBalanceType";
     public static final String SEQUENCE_ID = "sequenceId";
     public static final String SEQUENCE_NUMBER = "sequenceNumber";
     public static final String SORT_NUMBER = "sortNumber";

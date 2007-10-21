@@ -41,7 +41,6 @@ public class LaborConstants {
         public static final int laborLowValueObjectCode = 2000;
         public static final String LEDGER_ENTRY_LOOKUPABLE_FOR_EXPENSE_TRANSFER = "laborLedgerEntryForExpenseTransferLookupable";
         public static final String UnknownPersonName = "* Unknown Name *";
-        public static final String[] VALID_LABOR_OBJECT_CODES = { "2000", "2001", "2400", "2401", "2500" };
     }
 
     public static class BenefitExpenseTransfer {
@@ -170,7 +169,7 @@ public class LaborConstants {
     public static final String LONG_ROW_TABLE_INRUIRY_ACTION = "laborLongRowTableInquiry.do";
     public static final Map<String, String> periodCodeMapping = new HashMap<String, String>();
     private static String SPACE_TRANSACTION_DATE = null;
-    public static final int TRANSACTION_DESCRIPTION_MAX_LENGTH = 40;
+    
     static {
         periodCodeMapping.put(KFSPropertyConstants.MONTH1_AMOUNT, KFSConstants.MONTH1);
         periodCodeMapping.put(KFSPropertyConstants.MONTH2_AMOUNT, KFSConstants.MONTH2);

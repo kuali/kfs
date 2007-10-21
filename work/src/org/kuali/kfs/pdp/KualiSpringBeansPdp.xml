@@ -222,7 +222,7 @@
 	</bean>
 
 	<bean id="pdpDailyReportService" class="org.kuali.module.pdp.service.impl.DailyReportServiceImpl">
-		<property name="directoryName" value="${staging.directory}/PDP/"/>
+		<property name="directoryName" value="${reports.directory}/"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
 	</bean>

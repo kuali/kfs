@@ -71,7 +71,7 @@ public class DailyReportServiceImpl implements DailyReportService {
         Date today = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 
-        Document document = openPdfWriter(directoryName, "daily", dateTimeService.getCurrentDate(), "Summary of Payments Eligible For Format On " + sdf.format(today));
+        Document document = openPdfWriter(directoryName, "pdp_daily", dateTimeService.getCurrentDate(), "Summary of Payments Eligible For Format On " + sdf.format(today));
 
         try {
             float[] summaryWidths = { 20, 20, 20, 20, 20 };

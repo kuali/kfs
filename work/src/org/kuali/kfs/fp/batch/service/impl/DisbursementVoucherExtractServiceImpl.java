@@ -130,6 +130,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         batch.setPaymentCount(count);
         batch.setPaymentTotalAmount(totalAmount);
         paymentFileService.saveBatch(batch);
+        paymentFileService.sendLoadEmail(batch);
     }
 
     private void addPayment(DisbursementVoucherDocument document, Batch batch, Date processRunDate) {

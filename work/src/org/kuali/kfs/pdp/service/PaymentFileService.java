@@ -43,6 +43,13 @@ public interface PaymentFileService {
     public LoadPaymentStatus loadPayments(String filename,PdpUser user) throws PaymentLoadException;
 
     /**
+     * Send notification email about a loaded batch
+     * 
+     * @param batch
+     */
+    public void sendLoadEmail(Batch batch);
+
+    /**
      * Save a batch
      * 
      * @param batch

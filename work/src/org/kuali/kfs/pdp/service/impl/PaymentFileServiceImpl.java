@@ -594,6 +594,70 @@ public class PaymentFileServiceImpl implements PaymentFileService {
         }
     }
 
+    /**
+     * @see org.kuali.module.pdp.service.PaymentFileService#sendLoadEmail(org.kuali.module.pdp.bo.Batch)
+     */
+    public void sendLoadEmail(Batch batch) {
+        LOG.debug("sendLoadEmail() starting");
+
+        CustomerProfile customer = batch.getCustomerProfile();
+
+        // To send email or not send email
+        boolean noEmail = parameterService.getIndicatorParameter(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.NO_PAYMENT_FILE_EMAIL);
+        if (noEmail) {
+            LOG.debug("sendLoadEmail() sending payment file email is disabled");
+            return;
+        }
+
+        MailMessage message = new MailMessage();
+
+        if (environmentService.isProduction()) {
+            message.setSubject("PDP --- Payment file loaded");
+        } else {
+            String env = environmentService.getEnvironment();
+            message.setSubject(env + "-PDP --- Payment file loaded");
+        }
+
+        StringBuffer body = new StringBuffer();
+
+        String ccAddresses = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.SOFT_EDIT_CC);
+        String ccAddressList[] = ccAddresses.split(",");
+
+        // Get customer
+        String toAddresses = customer.getProcessingEmailAddr();
+        String toAddressList[] = toAddresses.split(",");
+
+        if (toAddressList.length > 0) {
+            for (int i = 0; i < toAddressList.length; i++) {
+                if (toAddressList[i] != null) {
+                    message.addToAddress(toAddressList[i].trim());
+                }
+            }
+        }
+
+        for (int i = 0; i < ccAddressList.length; i++) {
+            if (ccAddressList[i] != null) {
+                message.addCcAddress(ccAddressList[i].trim());
+            }
+        }
+
+        body.append("The following payment file was loaded\n\n");
+        body.append("Batch ID: " + batch.getId() + "\n");
+        body.append("Chart: " + customer.getChartCode() + "\n");
+        body.append("Organization: " + customer.getOrgCode() + "\n");
+        body.append("Sub Unit: " + customer.getSubUnitCode() + "\n");
+        body.append("Creation Date: " + batch.getCustomerFileCreateTimestamp() + "\n");
+        body.append("\nPayment Count: " + batch.getPaymentCount() + "\n");
+        body.append("Payment Total Amount: " + batch.getPaymentTotalAmount() + "\n");
+
+        message.setMessage(body.toString());
+        try {
+            mailService.sendMessage(message);
+        } catch (InvalidAddressException e) {
+            LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
+        }
+    }
+
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }

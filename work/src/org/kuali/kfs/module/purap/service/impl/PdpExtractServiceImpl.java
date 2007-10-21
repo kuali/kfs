@@ -152,6 +152,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         batch.setPaymentCount(count);
         batch.setPaymentTotalAmount(totalAmount);
         paymentFileService.saveBatch(batch);
+        paymentFileService.sendLoadEmail(batch);
     }
 
     /**

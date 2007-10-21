@@ -1,5 +1,23 @@
 /*
- * Created on Aug 12, 2004
+ * Copyright (c) 2004, 2005 The National Association of College and University Business Officers,
+ * Cornell University, Trustees of Indiana University, Michigan State University Board of Trustees,
+ * Trustees of San Joaquin Delta College, University of Hawai'i, The Arizona Board of Regents on
+ * behalf of the University of Arizona, and the r*smart group.
+ * 
+ * Licensed under the Educational Community License Version 1.0 (the "License"); By obtaining,
+ * using and/or copying this Original Work, you agree that you have read, understand, and will
+ * comply with the terms and conditions of the Educational Community License.
+ * 
+ * You may obtain a copy of the License at:
+ * 
+ * http://kualiproject.org/license.html
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+ * AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES
+ * OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
 package org.kuali.module.pdp.service.impl;
@@ -34,7 +52,6 @@ import org.kuali.module.pdp.bo.PaymentGroup;
 import org.kuali.module.pdp.bo.PaymentProcess;
 import org.kuali.module.pdp.bo.PaymentStatus;
 import org.kuali.module.pdp.bo.PdpUser;
-import org.kuali.module.pdp.bo.PhysicalCampus;
 import org.kuali.module.pdp.bo.ProcessSummary;
 import org.kuali.module.pdp.dao.CustomerProfileDao;
 import org.kuali.module.pdp.dao.DisbursementNumberRangeDao;
@@ -42,7 +59,6 @@ import org.kuali.module.pdp.dao.FormatPaymentDao;
 import org.kuali.module.pdp.dao.FormatProcessDao;
 import org.kuali.module.pdp.dao.PaymentDetailDao;
 import org.kuali.module.pdp.dao.PaymentGroupDao;
-import org.kuali.module.pdp.dao.PhysicalCampusDao;
 import org.kuali.module.pdp.dao.ProcessDao;
 import org.kuali.module.pdp.dao.ProcessSummaryDao;
 import org.kuali.module.pdp.exception.ConfigurationError;
@@ -59,15 +75,10 @@ import org.kuali.module.pdp.service.ReferenceService;
 import org.kuali.module.pdp.utilities.GeneralUtilities;
 import org.springframework.transaction.annotation.Transactional;
 
-
-/**
- * @author jsissom
- */
 @Transactional
 public class FormatServiceImpl implements FormatService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FormatServiceImpl.class);
 
-    private PhysicalCampusDao physicalCampusDao;
     private CustomerProfileDao customerProfileDao;
     private DisbursementNumberRangeDao disbursementNumberRangeDao;
     private FormatProcessDao formatProcessDao;
@@ -87,20 +98,22 @@ public class FormatServiceImpl implements FormatService {
         super();
     }
 
+    /**
+     * @see org.kuali.module.pdp.service.FormatService#formatSelectionAction(org.kuali.module.pdp.bo.PdpUser, boolean)
+     */
     public FormatSelection formatSelectionAction(PdpUser user, boolean clearFormat) {
         LOG.debug("formatSelectionAction() started");
 
         FormatSelection fs = new FormatSelection();
-        PhysicalCampus pc = getPhysicalCampus(user.getUniversalUser().getCampusCode());
 
-        fs.setCampus(pc);
+        fs.setCampus(user.getUniversalUser().getCampusCode());
 
-        Date startDate = getFormatProcessStartDate(pc.getCampus());
+        Date startDate = getFormatProcessStartDate(fs.getCampus());
 
         // If they want to clear the flag, do it
         if ((startDate != null) && clearFormat) {
             startDate = null;
-            endFormatProcess(pc.getCampus());
+            endFormatProcess(fs.getCampus());
         }
         fs.setStartDate(startDate);
 
@@ -109,18 +122,6 @@ public class FormatServiceImpl implements FormatService {
             fs.setRangeList(getAllDisbursementNumberRanges());
         }
         return fs;
-    }
-
-    public PhysicalCampus getPhysicalCampus(String campusCd) {
-        LOG.debug("getPhysicalCampus() started");
-
-        PhysicalCampus pc = physicalCampusDao.getPhysicalCampus(campusCd);
-        if (pc == null) {
-            return physicalCampusDao.getDefaultPhysicalCampus();
-        }
-        else {
-            return pc;
-        }
     }
 
     public Date getFormatProcessStartDate(String campus) {
@@ -622,11 +623,6 @@ public class FormatServiceImpl implements FormatService {
     // Inject
     public void setProcessDao(ProcessDao pd) {
         processDao = pd;
-    }
-
-    // Inject
-    public void setPhysicalCampusDao(PhysicalCampusDao pcd) {
-        physicalCampusDao = pcd;
     }
 
     // Inject

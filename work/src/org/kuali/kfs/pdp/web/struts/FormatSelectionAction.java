@@ -17,6 +17,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.pdp.action.BaseAction;
 import org.kuali.module.pdp.bo.CustomerProfile;
 import org.kuali.module.pdp.bo.PdpUser;
@@ -33,14 +34,12 @@ import org.kuali.module.pdp.service.SecurityRecord;
 public class FormatSelectionAction extends BaseAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FormatSelectionAction.class);
     private FormatService formatService;
+    private ParameterService parameterService;
 
     public FormatSelectionAction() {
         super();
         setFormatService( SpringContext.getBean(FormatService.class) );
-    }
-
-    public void setFormatService(FormatService fas) {
-        formatService = fas;
+        setParameterService( SpringContext.getBean(ParameterService.class) );
     }
 
     protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request,HttpServletResponse response) {
@@ -84,15 +83,13 @@ public class FormatSelectionAction extends BaseAction {
         fsf.setCustomerProfileId(cid);
         fsf.setPaymentTypes("A");
 
-        if ( fs.getCampus().getFormatSelectCustomers().booleanValue() ) {
-            int i = 0;
-            for (Iterator iter = customers.iterator(); iter.hasNext();) {
-                CustomerProfile element = (CustomerProfile)iter.next();
-                if ( user.getUniversalUser().getCampusCode().equals(element.getDefaultPhysicalCampusProcessingCode()) ) {
-                    cid[i] = "on";
-                }
-                i++;
+        int i = 0;
+        for (Iterator iter = customers.iterator(); iter.hasNext();) {
+            CustomerProfile element = (CustomerProfile)iter.next();
+            if ( fs.getCampus().equals(element.getDefaultPhysicalCampusProcessingCode()) ) {
+                cid[i] = "on";
             }
+            i++;
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -106,5 +103,13 @@ public class FormatSelectionAction extends BaseAction {
         session.setAttribute("PdpFormatSelectionForm",fsf);
 
         return mapping.findForward("selection");
+    }
+
+    public void setFormatService(FormatService fas) {
+        formatService = fas;
+    }
+
+    public void setParameterService(ParameterService ps) {
+        parameterService = ps;
     }
 }

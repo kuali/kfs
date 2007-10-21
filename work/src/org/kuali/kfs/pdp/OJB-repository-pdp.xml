@@ -472,14 +472,6 @@
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.PhysicalCampus" table="PDP_PHYS_CMP_T">
-    <field-descriptor name="campus" column="PHYS_CMP_PROC_CD" jdbc-type="VARCHAR" primarykey="true"/>
-    <field-descriptor name="defaultCampus" column="DFLT_CMP_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="formatSelectCustomers" column="FMT_SEL_CUST_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
-    <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
-  </class-descriptor>
-
   <class-descriptor class="org.kuali.module.pdp.bo.PaymentProcess" table="PDP_PROC_T">
     <field-descriptor name="id" column="PROC_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_PROC_ID_SEQ" autoincrement="true"/>
 

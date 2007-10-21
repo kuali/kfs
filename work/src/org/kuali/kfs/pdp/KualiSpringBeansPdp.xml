@@ -124,8 +124,6 @@
 
 	<bean id="pdpPaymentGroupHistoryDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.PaymentGroupHistoryDaoOjb"/>
 
-	<bean id="pdpPhysicalCampusDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.PhysicalCampusDaoOjb"/>
-
 	<bean id="pdpProcessDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.ProcessDaoOjb">
 		<property name="universalUserService" ref="universalUserService" />
 	</bean>
@@ -283,7 +281,6 @@
 	</bean>
 
 	<bean id="pdpFormatService" class="org.kuali.module.pdp.service.impl.FormatServiceImpl">
-		<property name="physicalCampusDao" ref="pdpPhysicalCampusDao"/>
 		<property name="customerProfileDao" ref="pdpCustomerProfileDao"/>
 		<property name="disbursementNumberRangeDao" ref="pdpDisbursementNumberRangeDao"/>
 		<property name="formatProcessDao" ref="pdpFormatProcessDao"/>

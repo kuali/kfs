@@ -111,7 +111,6 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
     public List<ResultRow> retrieveResultsTable(String lookupResultsSequenceNumber, String universalUserId) throws Exception {
         LookupResults lookupResults = retrieveLookupResults(lookupResultsSequenceNumber);
         if (!isAuthorizedToAccessLookupResults(lookupResults, universalUserId)) {
-            // TODO: use the other identifier
             throw new AuthorizationException(universalUserId, "retrieve lookup results", "lookup sequence number " + lookupResultsSequenceNumber);
         }
         List<ResultRow> resultTable = (List<ResultRow>) ObjectUtils.fromByteArray(Base64.decodeBase64(lookupResults.getSerializedLookupResults().getBytes()));
@@ -140,7 +139,6 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
     public Set<String> retrieveSetOfSelectedObjectIds(String lookupResultsSequenceNumber, String universalUserId) throws Exception {
         SelectedObjectIds selectedObjectIds = retrieveSelectedObjectIds(lookupResultsSequenceNumber);
         if (!isAuthorizedToAccessSelectedObjectIds(selectedObjectIds, universalUserId)) {
-            // TODO: use the other identifier
             throw new AuthorizationException(universalUserId, "retrieve lookup results", "lookup sequence number " + lookupResultsSequenceNumber);
         }
         Set<String> retval = LookupUtils.convertStringOfObjectIdsToSet(selectedObjectIds.getSelectedObjectIds());

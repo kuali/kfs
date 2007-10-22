@@ -60,7 +60,7 @@ public class LaborBaseFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Lab
     // get the labor base funds according to the given criteria
     private Iterator<Object[]> findLaborBaseFundsRawData(Map fieldValues, boolean isConsolidated) {
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatusBaseFunds());
-        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
+        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_BASE_BUDGET);
 
         criteria.addEqualToField(LaborPropertyConstants.LABOR_OBJECT + "." + KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         criteria.addEqualToField(LaborPropertyConstants.LABOR_OBJECT + "." + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);

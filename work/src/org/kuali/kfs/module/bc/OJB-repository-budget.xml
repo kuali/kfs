@@ -307,8 +307,6 @@
 	<field-descriptor name="financialDocumentStatusCode" column="FDOC_STATUS_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentInitiatorIdentifier" column="FDOC_INITIATOR_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentCreateDate" column="FDOC_CREATE_DT" jdbc-type="DATE"/>
-
-<!-- leave this out for now, FIS selection screen has no refs to so called related table
 	<reference-descriptor name="budgetConstructionHeader" class-ref="org.kuali.module.budget.bo.BudgetConstructionHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="documentNumber" />
 		<foreignkey field-ref="universityFiscalYear" />
@@ -316,6 +314,8 @@
 		<foreignkey field-ref="accountNumber" />
 		<foreignkey field-ref="subAccountNumber" />
 	</reference-descriptor>
+
+<!-- leave this out for now, FIS selection screen has no refs to so called related table
 	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />

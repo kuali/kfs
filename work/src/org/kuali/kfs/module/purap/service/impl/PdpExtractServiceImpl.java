@@ -357,6 +357,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         if (invNbr.length() > 25) {
             invNbr = invNbr.substring(0, 25);
         }
+
+        pd.setCustPaymentDocNbr(cmd.getDocumentNumber());
         pd.setInvoiceNbr(invNbr);
         if (cmd.getPurapDocumentIdentifier() != null) {
             pd.setPurchaseOrderNbr(cmd.getPurapDocumentIdentifier().toString());
@@ -423,6 +425,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      */
     private PaymentDetail populatePaymentDetail(PaymentRequestDocument prd, Batch batch) {
         PaymentDetail pd = new PaymentDetail();
+
+        pd.setCustPaymentDocNbr(prd.getDocumentNumber());
 
         String invNbr = prd.getInvoiceNumber();
         if (invNbr.length() > 25) {

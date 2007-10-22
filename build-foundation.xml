@@ -5,7 +5,7 @@ are intended for use only by Kuali Foundation developers.
 
 -->
 
-<target name="package-kfs" depends="clean">
+<target name="package-kfs" depends="init-properties,clean">
 	<!-- clean out compiled classes -->
 	<delete>
 		<fileset dir="work/web-root/WEB-INF/classes">
@@ -24,6 +24,18 @@ are intended for use only by Kuali Foundation developers.
 		<replacefilter token="&lt;!DOCTYPE project [ &lt;!ENTITY FoundationTargets SYSTEM &quot;build-foundation.xml&quot;&gt; ]&gt;" value="" />
 		<replacefilter token="&amp;FoundationTargets;" value="" />
 	</replace>
+
+    <!-- demo dataset -->
+    <cvspass cvsroot="${release.cvs.root}" password="${release.cvs.password}" />
+    <cvs command="export -d demo-dataset" dest="temp" cvsroot="${release.cvs.root}" package="${release.database.cvs.project}" failonerror="true" tag="${release.demo.dataset.cvs.tag}" compressionlevel="6" />
+    <!-- bootstrap dataset -->
+    <cvs command="export -d bootstrap-dataset" dest="temp" cvsroot="${release.cvs.root}" package="${release.database.cvs.project}" failonerror="true" tag="${release.bootstrap.dataset.cvs.tag}" compressionlevel="6" />
+    <!-- impex tool -->
+    <cvs command="export" dest="temp" cvsroot="${release.cvs.root}" package="${release.impex.tool.cvs.module}" failonerror="true" tag="${release.impex.tool.cvs.tag}" compressionlevel="6" />
+
+	<ant antfile="temp/${release.impex.tool.cvs.module}/impex/build.xml" inheritall="false" target="package-impex-tool" />
+    <unzip src="temp/${release.impex.tool.cvs.module}/db_impex.zip" dest="temp" />
+    <!-- documentation? -->
 	
 	<!-- zip it up -->
 	<zip destfile="${release.zip.name}">
@@ -38,11 +50,16 @@ are intended for use only by Kuali Foundation developers.
 		<zipfileset dir="temp" prefix="kuali_project">
 			<include name="build.xml" />
 		</zipfileset>
+        <zipfileset dir="temp/demo-dataset" prefix="demo_dataset">
+            <exclude name=".project" />
+        </zipfileset>
+        <zipfileset dir="temp/bootstrap-dataset" prefix="bootstrap_dataset">
+            <exclude name=".project" />
+        </zipfileset>
+        <zipfileset dir="temp/impex" prefix="db_impex" />
 	</zip>
-	
 	<delete dir="temp" verbose="true" />
 </target>
-
 
 <target name="setup-rice" depends="init-property-files">
     <condition property="os.safe.driver.path" value="c:${drivers.directory}/ojdbc14.jar">

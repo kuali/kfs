@@ -55,8 +55,12 @@ import org.kuali.module.vendor.service.VendorService;
 public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
 
     /**
-     * Tabs included on Purchase Order Documents are: Stipulation
+     * Overrides the method in PurchasingDocumentRuleBase class in order to add validation for
+     * the Vendor Stipulation Tab.
+     * Tab included on Purchase Order Documents is Vendor Stipulation.
      * 
+     * @param purapDocument
+     * @return boolean false when an error is found in any validation.
      * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
      */
     @Override
@@ -64,11 +68,13 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         boolean valid = super.processValidation(purapDocument);
         valid &= processAdditionalValidation((PurchasingDocument) purapDocument);
         valid &= processVendorStipulationValidation((PurchaseOrderDocument) purapDocument);
+        
         return valid;
     }
 
     /**
-     * This method performs any validation for the Additional tab.
+     * Performs any validation for the Additional tab, but currently it only returns true. Someday we might be able to
+     * just remove this.
      * 
      * @param purDocument
      * @return
@@ -80,6 +86,11 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     }
 
     /**
+     * Overrides the method in PurchasingDocumentRuleBase in order to call validateEmptyItemWithAccounts, validateItemForAmendment
+     * and validateTradeInAndDiscountCoexistence in addition to what the superclass method has already provided.
+     * 
+     * @param purapDocument
+     * @return boolean false when an error is found in any validation.
      * @see org.kuali.module.purap.rules.PurchasingDocumentRuleBase#processItemValidation(org.kuali.module.purap.document.PurchasingDocument)
      */
     @Override
@@ -93,9 +104,18 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
             }
         }
         valid &= validateTradeInAndDiscountCoexistence((PurchasingDocument)purapDocument);
+        
         return valid;
     }
 
+    /**
+     * 
+     * Validates items for amendment. 
+     * 
+     * @param item
+     * @param identifierString
+     * @return boolean true if it passes the validation and false otherwise.
+     */
     private boolean validateItemForAmendment(PurchaseOrderItem item, String identifierString) {
         boolean valid = true;
         if ((item.getItemInvoicedTotalQuantity() != null) && (!(item.getItemInvoicedTotalQuantity()).isZero())) {
@@ -116,14 +136,16 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
                 GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY , PurapKeyConstants.ERROR_ITEM_AMND_INVALID_AMT, "Item Extended Price", identifierString);
             }
         }
+        
         return valid;
     }
 
     /**
-     * This method validates that the item detail must not be empty if its account is not empty and its item type is ITEM.
+     * Validates that the item detail must not be empty if its account is not empty and its item type is ITEM.
      * 
      * @param item
-     * @return
+     * @param identifierString
+     * @return boolean false if it is an above the line item and the item detail is empty and the account list is not empty.
      */
     boolean validateEmptyItemWithAccounts(PurchaseOrderItem item, String identifierString) {
         boolean valid = true;
@@ -131,14 +153,15 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_ALLOWED, identifierString);
         }
+        
         return valid;
     }
 
     /**
-     * This method validates that the purchase order cannot have both trade in and discount item.
+     * Validates that the purchase order cannot have both trade in and discount item.
      * 
      * @param purDocument
-     * @return
+     * @return boolean false if trade in and discount both exist.
      */
     boolean validateTradeInAndDiscountCoexistence(PurchasingDocument purDocument) {
         boolean discountExists = false;
@@ -149,6 +172,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
                 discountExists = true;
                 if (tradeInExists) {
                     GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_TRADEIN_DISCOUNT_COEXISTENCE);
+                    
                     return false;
                 }
             }
@@ -156,18 +180,20 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
                 tradeInExists = true;
                 if (discountExists) {
                     GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_TRADEIN_DISCOUNT_COEXISTENCE);
+                    
                     return false;
                 }
             }
         }
+        
         return true;
     }
 
     /**
-     * This method performs any validation for the Stipulation tab.
+     * Validation for the Stipulation tab. 
      * 
      * @param poDocument
-     * @return
+     * @return boolean false if the vendor stipulation description is blank.
      */
     public boolean processVendorStipulationValidation(PurchaseOrderDocument poDocument) {
         boolean valid = true;
@@ -179,9 +205,18 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
                 valid = false;
             }
         }
+        
         return valid;
     }
 
+    /**
+     * Overrides the method in PurchasingDocumentRuleBase in order to add validations that are specific for
+     * Purchase Orders that aren't required for Requisitions.
+     * 
+     * @param purapDocument
+     * @return boolean false when there is a failed validation.
+     * @see org.kuali.module.purap.rules.PurchasingDocumentRuleBase#processVendorValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     */
     @Override
     public boolean processVendorValidation(PurchasingAccountsPayableDocument purapDocument) {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
@@ -216,17 +251,17 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
             }
         }
         errorMap.clearErrorPath();
+        
         return valid;
     }
 
-    // TODO check comments; mentions REQ, but this class performs only PO validation
     /**
      * Validate that if Vendor Id (VendorHeaderGeneratedId) is not empty, and tranmission method is fax, vendor fax number cannot be
-     * empty and must be valid. In other words: allow reqs to not force fax # when transmission type is fax if vendor id is empty
-     * because it will not be allowed to become an APO and it will be forced on the PO.
+     * empty and must be valid. 
      * 
-     * @return False if VendorHeaderGeneratedId is not empty, tranmission method is fax, and VendorFaxNumber is empty or invalid.
-     *         True otherwise.
+     * @param purDocument
+     * @return boolean false if VendorHeaderGeneratedId is not empty, tranmission method is fax, and VendorFaxNumber is empty or invalid.
+     *         
      */
     private boolean validateFaxNumberIfTransmissionTypeIsFax(PurchasingDocument purDocument) {
         boolean valid = true;
@@ -239,6 +274,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
             }
         }
         GlobalVariables.getErrorMap().clearErrorPath();
+        
         return valid;
     }
 
@@ -246,6 +282,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      * Validate that if the PurchaseOrderTotalLimit is not null then the TotalDollarAmount cannot be greater than the
      * PurchaseOrderTotalLimit.
      * 
+     * @param purDocument
      * @return True if the TotalDollarAmount is less than the PurchaseOrderTotalLimit. False otherwise.
      */
     public boolean validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(PurchasingDocument purDocument) {
@@ -257,24 +294,46 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
                 GlobalVariables.getMessageList().add(PurapKeyConstants.PO_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT);
             }
         }
+        
         return valid;
     }
 
+    /**
+     * Overrides the method in PurapAccountingDocumentRuleBase in order to check that if the document will stop in
+     * Internal Purchasing Review node, then return true.
+     * 
+     * @param financialDocument
+     * @param accountingLine
+     * @param action
+     * @return boolean true if the document will stop in Internal Purchasing Review node, otherwise return the
+     *         result of the checkAccountingLineAccountAccessibility in PurapAccountingDocumentRuleBase.
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase.AccountingLineAction)
+     */
     @Override
     protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLineAction action) {
         KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
         List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
 
         if (((PurchaseOrderDocument)financialDocument).isDocumentStoppedInRouteNode(NodeDetailEnum.INTERNAL_PURCHASING_REVIEW)) {
-//        if (currentRouteLevels.contains(PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum.INTERNAL_PURCHASING_REVIEW.getName()) && workflowDocument.isApprovalRequested()) {
             // DO NOTHING: do not check that user owns acct lines; at this level, approvers can edit all detail on PO
             return true;
         }
         else {
+            
             return super.checkAccountingLineAccountAccessibility(financialDocument, accountingLine, action);
         }
     }
 
+    /**
+     * Overrides the method in PurapAccountingDocumentRuleBase to call the customizeGeneralLedgerPendingEntry 
+     * of the PurapGeneralLedgerService and set the financialDocumentTypeCode of the explicitEntry to "PO".
+     * 
+     * @param accountingDocument
+     * @param accountingLine
+     * @param explicitEntry
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument, 
+     *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     */
     @Override
     protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);

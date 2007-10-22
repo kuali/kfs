@@ -830,9 +830,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             if(i<currentNotes.size()) {
                 Note currentNote = (currentNotes).get(i);
                 //set the fyi from the current note if not empty
-                AdHocRouteRecipient fyiNoteRecipient = currentNote.getFyiNoteRecipient();
+                AdHocRouteRecipient fyiNoteRecipient = currentNote.getAdHocRouteRecipient();
                 if(ObjectUtils.isNotNull(fyiNoteRecipient)) {
-                    dbNote.setFyiNoteRecipient(fyiNoteRecipient);
+                    dbNote.setAdHocRouteRecipient(fyiNoteRecipient);
                 }
             }
         }

@@ -15,13 +15,6 @@
 -->
 <descriptor-repository version="1.0">
 
-<class-descriptor class="org.kuali.module.chart.bo.KualiSystemCode" table="FS_CODES_DESC_T">
-    <field-descriptor name="code" column="CODE" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR" />
-    <field-descriptor name="className" column="CLASS_NAME" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-</class-descriptor>
-
 <class-descriptor class="org.kuali.kfs.bo.Building" table="SH_BUILDING_T">
     <field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />

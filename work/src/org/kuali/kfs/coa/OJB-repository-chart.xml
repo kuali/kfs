@@ -14,20 +14,6 @@
  limitations under the License.
 -->
 <descriptor-repository version="1.0">
-<!-- 
-<class-descriptor class="org.kuali.module.chart.bo.codes.BudgetAggregationCode" table="FS_CODES_DESC_T">
-    <field-descriptor name="code" column="CODE" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR" />
-    <field-descriptor name="className" column="CLASS_NAME" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-</class-descriptor>
--->
-
-<!-- 
-    <class-descriptor class="org.kuali.module.chart.bo.codes.FederalFundedCode" table="FS_CODES_V">
-    <field-descriptor name="code"             column="CODE"       jdbc-type="VARCHAR" primarykey="true"/>
-    </class-descriptor>
--->
 
 <class-descriptor class="org.kuali.module.chart.bo.Account" table="CA_ACCOUNT_T">
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />

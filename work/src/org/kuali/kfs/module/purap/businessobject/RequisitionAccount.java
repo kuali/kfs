@@ -22,7 +22,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.core.util.KualiDecimal;
 
 /**
- * 
+ * Requisition Account Business Object.
  */
 public class RequisitionAccount extends PurApAccountingLineBase {
 
@@ -30,12 +30,6 @@ public class RequisitionAccount extends PurApAccountingLineBase {
     
     private RequisitionItem requisitionItem;
 
-    /**
-	 * Gets the requisitionItem attribute.
-	 * 
-	 * @return Returns the requisitionItem
-	 * 
-	 */
 	public RequisitionItem getRequisitionItem() { 
 		return requisitionItem;
 	}

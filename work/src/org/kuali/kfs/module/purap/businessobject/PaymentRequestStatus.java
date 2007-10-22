@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Payment Request Status Business Object.
  */
 public class PaymentRequestStatus extends Status {
 
@@ -32,7 +32,5 @@ public class PaymentRequestStatus extends Status {
         super();
         super.ojbConcreteClass = this.getClass().getName();
     }
-
-
 
 }

@@ -22,10 +22,9 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 
 /**
- * 
+ * Purchase Order Account Business Object.
  */
 public class PurchaseOrderAccount extends PurApAccountingLineBase {
-
 
     /**
      * NOTE FOR POTENTIAL ACCOUNTING LINE REFACTORING documentNumber is needed for PO accounts and not for other PURAP docs, however
@@ -33,11 +32,8 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
      */
     // private String documentNumber;
     private KualiDecimal itemAccountOutstandingEncumbranceAmount;
-    //TODO: remove the commented out account line code
-//    private KualiDecimal accountLineAmount;
 
     private PurchaseOrderItem purchaseOrderItem;
-
 
     /**
      * Default constructor.
@@ -57,6 +53,9 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
         this.setSubAccountNumber(ra.getSubAccountNumber());
     }
 
+    /**
+     * @see org.kuali.module.purap.bo.PurApAccountingLine#getAlternateAmountForGLEntryCreation()
+     */
     public KualiDecimal getAlternateAmountForGLEntryCreation() {
         if (ObjectUtils.isNull(super.getAlternateAmountForGLEntryCreation())) {
             return getItemAccountOutstandingEncumbranceAmount();
@@ -64,45 +63,14 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
         return super.getAlternateAmountForGLEntryCreation();
     }
 
-    /**
-     * Gets the itemAccountOutstandingEncumbranceAmount attribute.
-     * 
-     * @return Returns the itemAccountOutstandingEncumbranceAmount
-     */
     public KualiDecimal getItemAccountOutstandingEncumbranceAmount() {
         return itemAccountOutstandingEncumbranceAmount;
     }
 
-    /**
-     * Sets the itemAccountOutstandingEncumbranceAmount attribute.
-     * 
-     * @param itemAccountOutstandingEncumbranceAmount The itemAccountOutstandingEncumbranceAmount to set.
-     */
     public void setItemAccountOutstandingEncumbranceAmount(KualiDecimal itemAccountOutstandingEncumbranceAmount) {
         this.itemAccountOutstandingEncumbranceAmount = itemAccountOutstandingEncumbranceAmount;
     }
 
-//    /**
-//     * Gets the accountLineAmount attribute. 
-//     * @return Returns the accountLineAmount.
-//     */
-//    public KualiDecimal getAccountLineAmount() {
-//        return accountLineAmount;
-//    }
-//
-//    /**
-//     * Sets the accountLineAmount attribute value.
-//     * @param accountLineAmount The accountLineAmount to set.
-//     */
-//    public void setAccountLineAmount(KualiDecimal accountLineAmount) {
-//        this.accountLineAmount = accountLineAmount;
-//    }
-
-    /**
-     * Gets the purchaseOrderItem attribute.
-     * 
-     * @return Returns the purchaseOrderItem.
-     */
     public PurchaseOrderItem getPurchaseOrderItem() {
         return purchaseOrderItem;
     }

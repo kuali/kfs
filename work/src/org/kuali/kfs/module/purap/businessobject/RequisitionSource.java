@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Requisition Source Business Object.
  */
 public class RequisitionSource extends PersistableBusinessObjectBase {
 
@@ -36,59 +36,26 @@ public class RequisitionSource extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the requisitionSourceCode attribute.
-	 * 
-	 * @return Returns the requisitionSourceCode
-	 * 
-	 */
 	public String getRequisitionSourceCode() { 
 		return requisitionSourceCode;
 	}
 
-	/**
-	 * Sets the requisitionSourceCode attribute.
-	 * 
-	 * @param requisitionSourceCode The requisitionSourceCode to set.
-	 * 
-	 */
 	public void setRequisitionSourceCode(String requisitionSourceCode) {
 		this.requisitionSourceCode = requisitionSourceCode;
 	}
 
-
-	/**
-	 * Gets the requisitionSourceDescription attribute.
-	 * 
-	 * @return Returns the requisitionSourceDescription
-	 * 
-	 */
-	public String getRequisitionSourceDescription() { 
+    public String getRequisitionSourceDescription() { 
 		return requisitionSourceDescription;
 	}
 
-	/**
-	 * Sets the requisitionSourceDescription attribute.
-	 * 
-	 * @param requisitionSourceDescription The requisitionSourceDescription to set.
-	 * 
-	 */
 	public void setRequisitionSourceDescription(String requisitionSourceDescription) {
 		this.requisitionSourceDescription = requisitionSourceDescription;
 	}
 
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -101,4 +68,5 @@ public class RequisitionSource extends PersistableBusinessObjectBase {
         m.put("requisitionSourceCode", this.requisitionSourceCode);
 	    return m;
     }
+    
 }

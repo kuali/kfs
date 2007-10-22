@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Restricted Material Business Object.
  */
 public class RestrictedMaterial extends PersistableBusinessObjectBase {
 
@@ -38,101 +38,42 @@ public class RestrictedMaterial extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the restrictedMaterialCode attribute.
-	 * 
-	 * @return Returns the restrictedMaterialCode
-	 * 
-	 */
 	public String getRestrictedMaterialCode() { 
 		return restrictedMaterialCode;
 	}
 
-	/**
-	 * Sets the restrictedMaterialCode attribute.
-	 * 
-	 * @param restrictedMaterialCode The restrictedMaterialCode to set.
-	 * 
-	 */
 	public void setRestrictedMaterialCode(String restrictedMaterialCode) {
 		this.restrictedMaterialCode = restrictedMaterialCode;
 	}
 
-
-	/**
-	 * Gets the restrictedMaterialDescription attribute.
-	 * 
-	 * @return Returns the restrictedMaterialDescription
-	 * 
-	 */
 	public String getRestrictedMaterialDescription() { 
 		return restrictedMaterialDescription;
 	}
 
-	/**
-	 * Sets the restrictedMaterialDescription attribute.
-	 * 
-	 * @param restrictedMaterialDescription The restrictedMaterialDescription to set.
-	 * 
-	 */
 	public void setRestrictedMaterialDescription(String restrictedMaterialDescription) {
 		this.restrictedMaterialDescription = restrictedMaterialDescription;
 	}
 
-
-	/**
-	 * Gets the restrictedMaterialDefaultDescription attribute.
-	 * 
-	 * @return Returns the restrictedMaterialDefaultDescription
-	 * 
-	 */
 	public String getRestrictedMaterialDefaultDescription() { 
 		return restrictedMaterialDefaultDescription;
 	}
 
-	/**
-	 * Sets the restrictedMaterialDefaultDescription attribute.
-	 * 
-	 * @param restrictedMaterialDefaultDescription The restrictedMaterialDefaultDescription to set.
-	 * 
-	 */
 	public void setRestrictedMaterialDefaultDescription(String restrictedMaterialDefaultDescription) {
 		this.restrictedMaterialDefaultDescription = restrictedMaterialDefaultDescription;
 	}
 
-
-	/**
-	 * Gets the restrictedMaterialWorkgroupName attribute.
-	 * 
-	 * @return Returns the restrictedMaterialWorkgroupName
-	 * 
-	 */
 	public String getRestrictedMaterialWorkgroupName() { 
 		return restrictedMaterialWorkgroupName;
 	}
 
-	/**
-	 * Sets the restrictedMaterialWorkgroupName attribute.
-	 * 
-	 * @param restrictedMaterialWorkgroupName The restrictedMaterialWorkgroupName to set.
-	 * 
-	 */
 	public void setRestrictedMaterialWorkgroupName(String restrictedMaterialWorkgroupName) {
 		this.restrictedMaterialWorkgroupName = restrictedMaterialWorkgroupName;
 	}
 
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -145,4 +86,5 @@ public class RestrictedMaterial extends PersistableBusinessObjectBase {
         m.put("restrictedMaterialCode", this.restrictedMaterialCode);
 	    return m;
     }
+    
 }

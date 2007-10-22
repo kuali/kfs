@@ -7,35 +7,22 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.service.PurchaseOrderService;
 
-
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * Purchase Order View Business Object.
  */
 public class PurchaseOrderView extends AbstractRelatedView {
-	private Boolean purchaseOrderCurrentIndicator;
-
+	
+    private Boolean purchaseOrderCurrentIndicator;
     private List<Note> notes;
 
-    /**
-     * Gets the purchaseOrderCurrentIndicator attribute. 
-     * @return Returns the purchaseOrderCurrentIndicator.
-     */
     public boolean isPurchaseOrderCurrentIndicator() {
         return purchaseOrderCurrentIndicator;
     }
 
-    /**
-     * Gets the purchaseOrderCurrentIndicator attribute. 
-     * @return Returns the purchaseOrderCurrentIndicator.
-     */
     public boolean getPurchaseOrderCurrentIndicator() {
         return purchaseOrderCurrentIndicator;
     }
 
-    /**
-     * Sets the purchaseOrderCurrentIndicator attribute value.
-     * @param purchaseOrderCurrentIndicator The purchaseOrderCurrentIndicator to set.
-     */
     public void setPurchaseOrderCurrentIndicator(boolean purchaseOrderCurrentIndicator) {
         this.purchaseOrderCurrentIndicator = purchaseOrderCurrentIndicator;
     }
@@ -43,17 +30,25 @@ public class PurchaseOrderView extends AbstractRelatedView {
     /**
      * The next four methods are overridden but shouldnt be!
      * If they arent overridden, they dont show up in the tag, not sure why at this point! (AAP)
+     *  
+     * @see org.kuali.module.purap.bo.AbstractRelatedView#getPurapDocumentIdentifier()
      */
     @Override
     public Integer getPurapDocumentIdentifier() {
         return super.getPurapDocumentIdentifier();
     }
-    
+
+    /**
+     * @see org.kuali.module.purap.bo.AbstractRelatedView#getDocumentNumber()
+     */
     @Override
     public String getDocumentNumber() {
         return super.getDocumentNumber();
     }
 
+    /**
+     * @see org.kuali.module.purap.bo.AbstractRelatedView#getNotes()
+     */
     @Override
     public List<Note> getNotes() {
         if (this.isPurchaseOrderCurrentIndicator()) {
@@ -70,6 +65,9 @@ public class PurchaseOrderView extends AbstractRelatedView {
         return notes;
     }
     
+    /**
+     * @see org.kuali.module.purap.bo.AbstractRelatedView#getUrl()
+     */
     @Override
     public String getUrl() {
         return super.getUrl();

@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Requisition Status Business Object.
  */
 public class RequisitionStatus extends Status {
 

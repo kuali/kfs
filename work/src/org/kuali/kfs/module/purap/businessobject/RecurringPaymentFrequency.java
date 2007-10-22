@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Recurring Payment Frequency Business Object.
  */
 public class RecurringPaymentFrequency extends PersistableBusinessObjectBase {
 
@@ -36,60 +36,26 @@ public class RecurringPaymentFrequency extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the recurringPaymentFrequencyCode attribute.
-	 * 
-	 * @return Returns the recurringPaymentFrequencyCode
-	 * 
-	 */
 	public String getRecurringPaymentFrequencyCode() { 
 		return recurringPaymentFrequencyCode;
 	}
 
-	/**
-	 * Sets the recurringPaymentFrequencyCode attribute.
-	 * 
-	 * @param recurringPaymentFrequencyCode The recurringPaymentFrequencyCode to set.
-	 * 
-	 */
 	public void setRecurringPaymentFrequencyCode(String recurringPaymentFrequencyCode) {
 		this.recurringPaymentFrequencyCode = recurringPaymentFrequencyCode;
 	}
 
-
-	/**
-	 * Gets the recurringPaymentFrequencyDescription attribute.
-	 * 
-	 * @return Returns the recurringPaymentFrequencyDescription
-	 * 
-	 */
 	public String getRecurringPaymentFrequencyDescription() { 
 		return recurringPaymentFrequencyDescription;
 	}
 
-	/**
-	 * Sets the recurringPaymentFrequencyDescription attribute.
-	 * 
-	 * @param recurringPaymentFrequencyDescription The recurringPaymentFrequencyDescription to set.
-	 * 
-	 */
 	public void setRecurringPaymentFrequencyDescription(String recurringPaymentFrequencyDescription) {
 		this.recurringPaymentFrequencyDescription = recurringPaymentFrequencyDescription;
 	}
 
-
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -102,4 +68,5 @@ public class RecurringPaymentFrequency extends PersistableBusinessObjectBase {
         m.put("recurringPaymentFrequencyCode", this.recurringPaymentFrequencyCode);
 	    return m;
     }
+    
 }

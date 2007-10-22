@@ -24,7 +24,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.context.SpringContext;
 
 /**
- * 
+ * Purchase Order Contract Language Business Object.
  */
 public class PurchaseOrderContractLanguage extends PersistableBusinessObjectBase {
 
@@ -41,101 +41,42 @@ public class PurchaseOrderContractLanguage extends PersistableBusinessObjectBase
         this.setContractLanguageCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
 	}
 
-	/**
-	 * Gets the purchaseOrderContractLanguageIdentifier attribute.
-	 * 
-	 * @return Returns the purchaseOrderContractLanguageIdentifier
-	 * 
-	 */
 	public Integer getPurchaseOrderContractLanguageIdentifier() { 
 		return purchaseOrderContractLanguageIdentifier;
 	}
 
-	/**
-	 * Sets the purchaseOrderContractLanguageIdentifier attribute.
-	 * 
-	 * @param purchaseOrderContractLanguageIdentifier The purchaseOrderContractLanguageIdentifier to set.
-	 * 
-	 */
 	public void setPurchaseOrderContractLanguageIdentifier(Integer purchaseOrderContractLanguageIdentifier) {
 		this.purchaseOrderContractLanguageIdentifier = purchaseOrderContractLanguageIdentifier;
 	}
 
-
-	/**
-	 * Gets the campusCode attribute.
-	 * 
-	 * @return Returns the campusCode
-	 * 
-	 */
 	public String getCampusCode() { 
 		return campusCode;
 	}
 
-	/**
-	 * Sets the campusCode attribute.
-	 * 
-	 * @param campusCode The campusCode to set.
-	 * 
-	 */
 	public void setCampusCode(String campusCode) {
 		this.campusCode = campusCode;
 	}
 
-
-	/**
-	 * Gets the purchaseOrderContractLanguageDescription attribute.
-	 * 
-	 * @return Returns the purchaseOrderContractLanguageDescription
-	 * 
-	 */
 	public String getPurchaseOrderContractLanguageDescription() { 
 		return purchaseOrderContractLanguageDescription;
 	}
 
-	/**
-	 * Sets the purchaseOrderContractLanguageDescription attribute.
-	 * 
-	 * @param purchaseOrderContractLanguageDescription The purchaseOrderContractLanguageDescription to set.
-	 * 
-	 */
 	public void setPurchaseOrderContractLanguageDescription(String purchaseOrderContractLanguageDescription) {
 		this.purchaseOrderContractLanguageDescription = purchaseOrderContractLanguageDescription;
 	}
 
-
-	/**
-	 * Gets the contractLanguageCreateDate attribute.
-	 * 
-	 * @return Returns the contractLanguageCreateDate
-	 * 
-	 */
 	public Date getContractLanguageCreateDate() { 
 		return contractLanguageCreateDate;
 	}
 
-	/**
-	 * Sets the contractLanguageCreateDate attribute.
-	 * 
-	 * @param contractLanguageCreateDate The contractLanguageCreateDate to set.
-	 * 
-	 */
 	public void setContractLanguageCreateDate(Date contractLanguageCreateDate) {
 		this.contractLanguageCreateDate = contractLanguageCreateDate;
 	}
 
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -150,4 +91,5 @@ public class PurchaseOrderContractLanguage extends PersistableBusinessObjectBase
         }
 	    return m;
     }
+    
 }

@@ -23,7 +23,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 /**
- * 
+ * Requisition Item Business Object.
  */
 public class RequisitionItem extends PurchasingItemBase {
 
@@ -35,41 +35,20 @@ public class RequisitionItem extends PurchasingItemBase {
 	 * Default constructor.
 	 */
 	public RequisitionItem() {
-        //add the first blank accounting line
-//        RequisitionAccount ra = new RequisitionAccount();
-//        ra.setAccountLinePercent(new Integer(99));
-//        ra.setBudgetYear("2006");
-//        getAccountingLines().add(ra);
 	}
 
-    /**
-     * Gets the itemRestrictedIndicator attribute. 
-     * @return Returns the itemRestrictedIndicator.
-     */
     public boolean isItemRestrictedIndicator() {
         return itemRestrictedIndicator;
     }
 
-    /**
-     * Sets the itemRestrictedIndicator attribute value.
-     * @param itemRestrictedIndicator The itemRestrictedIndicator to set.
-     */
     public void setItemRestrictedIndicator(boolean itemRestrictedIndicator) {
         this.itemRestrictedIndicator = itemRestrictedIndicator;
     }
 
-    /**
-     * Gets the requisition attribute. 
-     * @return Returns the requisition.
-     */
     public RequisitionDocument getRequisition() {
         return requisition;
     }
 
-    /**
-     * Sets the requisition attribute value.
-     * @param requisition The requisition to set.
-     */
     public void setRequisition(RequisitionDocument requisition) {
         this.requisition = requisition;
     }
@@ -81,4 +60,5 @@ public class RequisitionItem extends PurchasingItemBase {
     public Class getAccountingLineClass() {
        return RequisitionAccount.class;
     }
+    
 }

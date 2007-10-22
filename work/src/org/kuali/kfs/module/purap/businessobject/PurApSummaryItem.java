@@ -18,6 +18,9 @@ package org.kuali.module.purap.bo;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.SourceAccountingLine;
 
+/**
+ * Purap Summary Item Business Object.
+ */
 public class PurApSummaryItem extends PurApItemBase {
 
     private KualiDecimal estimatedEncumberanceAmount;
@@ -26,31 +29,28 @@ public class PurApSummaryItem extends PurApItemBase {
         this(KualiDecimal.ZERO);
     }
     
-    
     public PurApSummaryItem(KualiDecimal estimatedEncumberanceAmount){
         this.estimatedEncumberanceAmount = estimatedEncumberanceAmount;
     }
-    /**
-     * Gets the estimatedEncumberanceAmount attribute. 
-     * @return Returns the estimatedEncumberanceAmount.
-     */
+
     public KualiDecimal getEstimatedEncumberanceAmount() {
         return estimatedEncumberanceAmount;
     }
 
-    /**
-     * Sets the estimatedEncumberanceAmount attribute value.
-     * @param estimatedEncumberanceAmount The estimatedEncumberanceAmount to set.
-     */
     public void setEstimatedEncumberanceAmount(KualiDecimal estimatedEncumberanceAmount) {
         this.estimatedEncumberanceAmount = estimatedEncumberanceAmount;
     }
 
-    @Override
+    /**
+     * @see org.kuali.module.purap.bo.PurApItem#getAccountingLineClass()
+     */
     public Class getAccountingLineClass() {
         return SourceAccountingLine.class;
     }
 
+    /**
+     * @see org.kuali.module.purap.bo.PurApItem#isConsideredEntered()
+     */
     public boolean isConsideredEntered() {
         return false;
     }

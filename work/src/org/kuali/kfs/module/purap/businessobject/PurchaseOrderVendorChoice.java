@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Purchase Order Vendor Choice Business Object.
  */
 public class PurchaseOrderVendorChoice extends PersistableBusinessObjectBase {
 
@@ -36,59 +36,26 @@ public class PurchaseOrderVendorChoice extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the purchaseOrderVendorChoiceCode attribute.
-	 * 
-	 * @return Returns the purchaseOrderVendorChoiceCode
-	 * 
-	 */
 	public String getPurchaseOrderVendorChoiceCode() { 
 		return purchaseOrderVendorChoiceCode;
 	}
 
-	/**
-	 * Sets the purchaseOrderVendorChoiceCode attribute.
-	 * 
-	 * @param purchaseOrderVendorChoiceCode The purchaseOrderVendorChoiceCode to set.
-	 * 
-	 */
 	public void setPurchaseOrderVendorChoiceCode(String purchaseOrderVendorChoiceCode) {
 		this.purchaseOrderVendorChoiceCode = purchaseOrderVendorChoiceCode;
 	}
 
-
-	/**
-	 * Gets the purchaseOrderVendorChoiceDescription attribute.
-	 * 
-	 * @return Returns the purchaseOrderVendorChoiceDescription
-	 * 
-	 */
 	public String getPurchaseOrderVendorChoiceDescription() { 
 		return purchaseOrderVendorChoiceDescription;
 	}
 
-	/**
-	 * Sets the purchaseOrderVendorChoiceDescription attribute.
-	 * 
-	 * @param purchaseOrderVendorChoiceDescription The purchaseOrderVendorChoiceDescription to set.
-	 * 
-	 */
 	public void setPurchaseOrderVendorChoiceDescription(String purchaseOrderVendorChoiceDescription) {
 		this.purchaseOrderVendorChoiceDescription = purchaseOrderVendorChoiceDescription;
 	}
 
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -101,4 +68,5 @@ public class PurchaseOrderVendorChoice extends PersistableBusinessObjectBase {
         m.put("purchaseOrderVendorChoiceCode", this.purchaseOrderVendorChoiceCode);
 	    return m;
     }
+    
 }

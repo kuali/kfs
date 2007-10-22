@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Vendor Stipulation Business Object.
  */
 public class VendorStipulation extends PersistableBusinessObjectBase {
 
@@ -37,81 +37,34 @@ public class VendorStipulation extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the vendorStipulationIdentifier attribute.
-	 * 
-	 * @return Returns the vendorStipulationIdentifier
-	 * 
-	 */
 	public Integer getVendorStipulationIdentifier() { 
 		return vendorStipulationIdentifier;
 	}
 
-	/**
-	 * Sets the vendorStipulationIdentifier attribute.
-	 * 
-	 * @param vendorStipulationIdentifier The vendorStipulationIdentifier to set.
-	 * 
-	 */
 	public void setVendorStipulationIdentifier(Integer vendorStipulationIdentifier) {
 		this.vendorStipulationIdentifier = vendorStipulationIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorStipulationName attribute.
-	 * 
-	 * @return Returns the vendorStipulationName
-	 * 
-	 */
 	public String getVendorStipulationName() { 
 		return vendorStipulationName;
 	}
 
-	/**
-	 * Sets the vendorStipulationName attribute.
-	 * 
-	 * @param vendorStipulationName The vendorStipulationName to set.
-	 * 
-	 */
 	public void setVendorStipulationName(String vendorStipulationName) {
 		this.vendorStipulationName = vendorStipulationName;
 	}
 
-
-	/**
-	 * Gets the vendorStipulationDescription attribute.
-	 * 
-	 * @return Returns the vendorStipulationDescription
-	 * 
-	 */
 	public String getVendorStipulationDescription() { 
 		return vendorStipulationDescription;
 	}
 
-	/**
-	 * Sets the vendorStipulationDescription attribute.
-	 * 
-	 * @param vendorStipulationDescription The vendorStipulationDescription to set.
-	 * 
-	 */
-	public void setVendorStipulationDescription(String vendorStipulationDescription) {
+    public void setVendorStipulationDescription(String vendorStipulationDescription) {
 		this.vendorStipulationDescription = vendorStipulationDescription;
 	}
 
-
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -126,4 +79,5 @@ public class VendorStipulation extends PersistableBusinessObjectBase {
         }
         return m;
     }
+    
 }

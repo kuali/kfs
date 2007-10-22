@@ -21,7 +21,9 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 
-
+/**
+ * Purap Accounting Line Interface.
+ */
 public interface PurApAccountingLine extends AccountingLine {
     
     public abstract Integer getAccountIdentifier();
@@ -35,15 +37,45 @@ public interface PurApAccountingLine extends AccountingLine {
     public abstract BigDecimal getAccountLinePercent();
 
     public abstract void setAccountLinePercent(BigDecimal accountLinePercent);
-    
+
+    /**
+     * Determines if the current purap accounting line is in an empty state.
+     * 
+     * @return
+     */
     public abstract boolean isEmpty();
     
+    /**
+     * Creates a copy of the current purap accounting line and sets the percentage
+     * and the amount to zero.
+     * 
+     * @return
+     */
     public abstract PurApAccountingLine createBlankAmountsCopy();
     
+    /**
+     * Compares the current accounting line values with a source accounting line
+     * to see if both accounting lines are equal.
+     * 
+     * @param accountingLine
+     * @return
+     */
     public abstract boolean accountStringsAreEqual(SourceAccountingLine accountingLine);
 
+    /**
+     * Compares the current accounting line values with a purap accounting line
+     * to see if both accounting lines are equal.
+     * 
+     * @param accountingLine
+     * @return
+     */
     public abstract boolean accountStringsAreEqual(PurApAccountingLine accountingLine);
     
+    /**
+     * Creates a source accounting line from the current purap accounting line.
+     * 
+     * @return
+     */
     public abstract SourceAccountingLine generateSourceAccountingLine();
 
     public KualiDecimal getAlternateAmountForGLEntryCreation();
@@ -51,4 +83,5 @@ public interface PurApAccountingLine extends AccountingLine {
     public void setAlternateAmountForGLEntryCreation(KualiDecimal alternateAmountForGLEntryCreation);
     
     public String getString();
+    
 }

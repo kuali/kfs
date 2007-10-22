@@ -24,7 +24,7 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.vendor.bo.ContractManager;
 
 /**
- * 
+ * Purchase Order Quote List Business Object.
  */
 public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase {
 
@@ -43,64 +43,26 @@ public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase {
         quoteListVendors = new TypedArrayList(PurchaseOrderQuoteListVendor.class);
 	}
 
-	/**
-	 * Gets the purchaseOrderQuoteListIdentifier attribute.
-	 * 
-	 * @return Returns the purchaseOrderQuoteListIdentifier
-	 * 
-	 */
 	public Integer getPurchaseOrderQuoteListIdentifier() { 
 		return purchaseOrderQuoteListIdentifier;
 	}
 
-	/**
-	 * Sets the purchaseOrderQuoteListIdentifier attribute.
-	 * 
-	 * @param purchaseOrderQuoteListIdentifier The purchaseOrderQuoteListIdentifier to set.
-	 * 
-	 */
 	public void setPurchaseOrderQuoteListIdentifier(Integer purchaseOrderQuoteListIdentifier) {
 		this.purchaseOrderQuoteListIdentifier = purchaseOrderQuoteListIdentifier;
 	}
 
-
-	/**
-	 * Gets the purchaseOrderQuoteListName attribute.
-	 * 
-	 * @return Returns the purchaseOrderQuoteListName
-	 * 
-	 */
 	public String getPurchaseOrderQuoteListName() { 
 		return purchaseOrderQuoteListName;
 	}
 
-	/**
-	 * Sets the purchaseOrderQuoteListName attribute.
-	 * 
-	 * @param purchaseOrderQuoteListName The purchaseOrderQuoteListName to set.
-	 * 
-	 */
 	public void setPurchaseOrderQuoteListName(String purchaseOrderQuoteListName) {
 		this.purchaseOrderQuoteListName = purchaseOrderQuoteListName;
 	}
 
-
-	/**
-	 * Gets the contractManagerCode attribute.
-	 * 
-	 * @return Returns the contractManagerCode
-	 * 
-	 */
 	public Integer getContractManagerCode() { 
 		return contractManagerCode;
 	}
 
-	/**
-	 * Sets the contractManagerCode attribute.
-	 * 
-	 * @param contractManagerCode The contractManagerCode to set.
-	 * 
-	 */
 	public void setContractManagerCode(Integer contractManagerCode) {
 		this.contractManagerCode = contractManagerCode;
 	}
@@ -111,6 +73,10 @@ public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase {
 
     public void setQuoteListVendors(List<PurchaseOrderQuoteListVendor> quoteListVendors) {
         this.quoteListVendors = quoteListVendors;
+    }
+
+    public ContractManager getContractManager() {
+        return contractManager;
     }
 
     /**
@@ -124,11 +90,4 @@ public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase {
 	    return m;
     }
 
-    /**
-     * Gets the contractManager attribute. 
-     * @return Returns the contractManager.
-     */
-    public ContractManager getContractManager() {
-        return contractManager;
-    }
 }

@@ -23,7 +23,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Chart;
 
 /**
- * 
+ * Payment Request Threshold Not To Exceed Business Object.
  */
 public class PaymentRequestThresholdNotToExceed extends PersistableBusinessObjectBase {
 
@@ -39,54 +39,22 @@ public class PaymentRequestThresholdNotToExceed extends PersistableBusinessObjec
 
 	}
 
-	/**
-	 * Gets the chartOfAccountsCode attribute.
-	 * 
-	 * @return Returns the chartOfAccountsCode
-	 * 
-	 */
 	public String getChartOfAccountsCode() { 
 		return chartOfAccountsCode;
 	}
 
-	/**
-	 * Sets the chartOfAccountsCode attribute.
-	 * 
-	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
-	 * 
-	 */
 	public void setChartOfAccountsCode(String chartOfAccountsCode) {
 		this.chartOfAccountsCode = chartOfAccountsCode;
 	}
 
-
-	/**
-	 * Gets the accountsPayableThresholdNotToExceedAmount attribute.
-	 * 
-	 * @return Returns the accountsPayableThresholdNotToExceedAmount
-	 * 
-	 */
 	public KualiDecimal getAccountsPayableThresholdNotToExceedAmount() { 
 		return accountsPayableThresholdNotToExceedAmount;
 	}
 
-	/**
-	 * Sets the accountsPayableThresholdNotToExceedAmount attribute.
-	 * 
-	 * @param accountsPayableThresholdNotToExceedAmount The accountsPayableThresholdNotToExceedAmount to set.
-	 * 
-	 */
 	public void setAccountsPayableThresholdNotToExceedAmount(KualiDecimal accountsPayableThresholdNotToExceedAmount) {
 		this.accountsPayableThresholdNotToExceedAmount = accountsPayableThresholdNotToExceedAmount;
 	}
 
-
-	/**
-	 * Gets the chartOfAccounts attribute.
-	 * 
-	 * @return Returns the chartOfAccounts
-	 * 
-	 */
 	public Chart getChartOfAccounts() { 
 		return chartOfAccounts;
 	}
@@ -109,4 +77,5 @@ public class PaymentRequestThresholdNotToExceed extends PersistableBusinessObjec
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
 	    return m;
     }
+    
 }

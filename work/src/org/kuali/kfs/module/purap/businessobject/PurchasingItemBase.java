@@ -21,8 +21,14 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ObjectUtils;
 
+/**
+ * Purchasing Item Base Business Object.
+ */
 public abstract class PurchasingItemBase extends PurApItemBase implements PurchasingItem {
 
+    /**
+     * @see org.kuali.module.purap.bo.PurApItem#isConsideredEntered()
+     */
     public boolean isConsideredEntered() {
         // TODO PURAP - this check is here because PO 'Change' docs all extend this class not PurchaseOrderDocumentRule... is that hierarchy necessary?
         if (this instanceof PurchaseOrderItem) {
@@ -40,6 +46,11 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
         return true;
     }
     
+    /**
+     * Determines if the Purchasing Item is empty.
+     * 
+     * @return
+     */
     public boolean isEmpty() {
         return ! ( StringUtils.isNotEmpty(getItemUnitOfMeasureCode()) ||
                    StringUtils.isNotEmpty(getItemCatalogNumber()) ||
@@ -52,6 +63,11 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
                    (!this.isAccountListEmpty()));                  
     }
 
+    /**
+     * Determines if the Purchasing Item Detail is empty.
+     * 
+     * @return
+     */
     public boolean isItemDetailEmpty() {
         boolean empty = true;
         empty &= ObjectUtils.isNull(getItemQuantity()) || StringUtils.isEmpty(getItemQuantity().toString());
@@ -61,4 +77,5 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
         empty &= ObjectUtils.isNull(getItemUnitPrice()) || (getItemUnitPrice().compareTo(BigDecimal.ZERO) == 0);
         return empty;
     }
+    
 }

@@ -16,9 +16,8 @@
 
 package org.kuali.module.purap.bo;
 
-
 /**
- * 
+ * Purchase Order Status Business Object.
  */
 public class PurchaseOrderStatus extends Status {
 

@@ -38,6 +38,9 @@ import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.module.purap.util.PurApItemUtils;
 import org.kuali.module.purap.util.PurApObjectUtils;
 
+/**
+ * Payment Request Item Business Object.
+ */
 public class PaymentRequestItem extends AccountsPayableItemBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestItem.class);
     
@@ -93,7 +96,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     }
 
     /**
-     * This method constructs a new payment request item, but also merges expired accounts.
+     * Constructs a new payment request item, but also merges expired accounts.
      *  
      * @param poi
      * @param preq
@@ -139,6 +142,12 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         this.paymentRequest = preq;
     }
 
+    /**
+     * Retreives a purchase order item by inspecting the item type to see if its
+     * above the line or below the line and returns the appropriate type.
+     * 
+     * @return
+     */
     public PurchaseOrderItem getPurchaseOrderItem() {
         // TODO (KULPURAP-1393) look into, this is total hackery but works for now, revisit during QA
         if (ObjectUtils.isNotNull(this.getPurapDocumentIdentifier())) {
@@ -196,7 +205,8 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     }
 
     /** 
-     * This method is here due to a setter requirement by the htmlControlAttribute
+     * Exists due to a setter requirement by the htmlControlAttribute
+     * 
      * @param amount
      */
     public void setPoOutstandingAmount(KualiDecimal amount){
@@ -215,7 +225,8 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     }
 
     /** 
-     * This method is here due to a setter requirement by the htmlControlAttribute
+     * Exists due to a setter requirement by the htmlControlAttribute
+     * 
      * @param amount
      */
     public void setPoOutstandingQuantity(KualiDecimal qty){
@@ -268,93 +279,42 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         return totalEncumberance.subtract(outstandingAmount);
     }
       
-	/**
-	 * Gets the purchaseOrderItemUnitPrice attribute.
-	 * 
-	 * @return Returns the purchaseOrderItemUnitPrice
-	 * 
-	 */
 	public BigDecimal getPurchaseOrderItemUnitPrice() { 
 		return purchaseOrderItemUnitPrice;
 	}
 
-	/**
-	 * Sets the purchaseOrderItemUnitPrice attribute.
-	 * 
-	 * @param purchaseOrderItemUnitPrice The purchaseOrderItemUnitPrice to set.
-	 * 
-	 */
 	public void setPurchaseOrderItemUnitPrice(BigDecimal purchaseOrderItemUnitPrice) {
 		this.purchaseOrderItemUnitPrice = purchaseOrderItemUnitPrice;
 	}
 
-	/**
-	 * Gets the purchaseOrderCommodityCode attribute.
-	 * 
-	 * @return Returns the purchaseOrderCommodityCode
-	 * 
-	 */
 	public String getPurchaseOrderCommodityCode() { 
 		return purchaseOrderCommodityCode;
 	}
 
-	/**
-	 * Sets the purchaseOrderCommodityCode attribute.
-	 * 
-	 * @param purchaseOrderCommodityCode The purchaseOrderCommodityCode to set.
-	 * 
-	 */
 	public void setPurchaseOrderCommodityCode(String purchaseOrderCommodityCode) {
 		this.purchaseOrderCommodityCode = purchaseOrderCommodityCode;
 	}
 
-    /**
-     * Gets the itemOutstandingInvoiceAmount attribute. 
-     * @return Returns the itemOutstandingInvoiceAmount.
-     */
     public KualiDecimal getItemOutstandingInvoiceAmount() {
         return itemOutstandingInvoiceAmount;
     }
 
-    /**
-     * Sets the itemOutstandingInvoiceAmount attribute value.
-     * @param itemOutstandingInvoiceAmount The itemOutstandingInvoiceAmount to set.
-     */
     public void setItemOutstandingInvoiceAmount(KualiDecimal itemOutstandingInvoiceAmount) {
         this.itemOutstandingInvoiceAmount = itemOutstandingInvoiceAmount;
     }
 
-    /**
-     * Gets the itemOutstandingInvoiceQuantity attribute. 
-     * @return Returns the itemOutstandingInvoiceQuantity.
-     */
     public KualiDecimal getItemOutstandingInvoiceQuantity() {
         return itemOutstandingInvoiceQuantity;
     }
 
-    /**
-     * Sets the itemOutstandingInvoiceQuantity attribute value.
-     * @param itemOutstandingInvoiceQuantity The itemOutstandingInvoiceQuantity to set.
-     */
     public void setItemOutstandingInvoiceQuantity(KualiDecimal itemOutstandingInvoiceQuantity) {
         this.itemOutstandingInvoiceQuantity = itemOutstandingInvoiceQuantity;
     }
     
-	/**
-	 * Gets the paymentRequest attribute.
-	 * 
-	 * @return Returns the paymentRequest
-	 * 
-	 */
 	public PaymentRequestDocument getPaymentRequest() { 
 		return paymentRequest;
 	}
 
-	/**
-	 * Sets the paymentRequest attribute.
-	 * 
-	 * @param paymentRequest The paymentRequest to set
-	 */
 	public void setPaymentRequest(PaymentRequestDocument paymentRequest) {
 		this.paymentRequest = paymentRequest;
 	}
@@ -367,11 +327,10 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
             }
         }
     }
-    
-     /**
-     * @see org.kuali.module.purap.bo.PurchasingItemBase#getAccountingLineClass()
+
+    /**
+     * @see org.kuali.module.purap.bo.PurApItem#getAccountingLineClass()
      */
-    @Override
     public Class getAccountingLineClass() {
         return PaymentRequestAccount.class;
     }
@@ -415,6 +374,11 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         }
     }
 
+    /**
+     * sets account line percentage to zero.
+     * 
+     * @see org.kuali.module.purap.bo.PurApItem#resetAccount()
+     */
     @Override
     public void resetAccount() {
         super.resetAccount();
@@ -422,6 +386,8 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     }
 
     /**
+     * Refreshes payment request object.
+     * 
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup(org.apache.ojb.broker.PersistenceBroker)
      */
     @Override
@@ -433,6 +399,5 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
             }
         }
     }
-    
     
 }

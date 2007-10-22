@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Requisition Item Capital Asset Business Object.
  */
 public class RequisitionItemCapitalAsset extends PersistableBusinessObjectBase {
 
@@ -39,77 +39,41 @@ public class RequisitionItemCapitalAsset extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the requisitionItemCapitalAssetIdentifier attribute.
-	 * 
-	 * @return Returns the requisitionItemCapitalAssetIdentifier
-	 * 
-	 */
 	public Integer getRequisitionItemCapitalAssetIdentifier() { 
 		return requisitionItemCapitalAssetIdentifier;
 	}
 
-	/**
-	 * Sets the requisitionItemCapitalAssetIdentifier attribute.
-	 * 
-	 * @param requisitionItemCapitalAssetIdentifier The requisitionItemCapitalAssetIdentifier to set.
-	 * 
-	 */
 	public void setRequisitionItemCapitalAssetIdentifier(Integer requisitionItemCapitalAssetIdentifier) {
 		this.requisitionItemCapitalAssetIdentifier = requisitionItemCapitalAssetIdentifier;
 	}
 
-
-	/**
-	 * Gets the requisitionItemIdentifier attribute.
-	 * 
-	 * @return Returns the requisitionItemIdentifier
-	 * 
-	 */
 	public Integer getRequisitionItemIdentifier() { 
 		return requisitionItemIdentifier;
 	}
 
-	/**
-	 * Sets the requisitionItemIdentifier attribute.
-	 * 
-	 * @param requisitionItemIdentifier The requisitionItemIdentifier to set.
-	 * 
-	 */
 	public void setRequisitionItemIdentifier(Integer requisitionItemIdentifier) {
 		this.requisitionItemIdentifier = requisitionItemIdentifier;
 	}
 
-	/**
-	 * Gets the capitalAssetNumber attribute.
-	 * 
-	 * @return Returns the capitalAssetNumber
-	 * 
-	 */
 	public Long getCapitalAssetNumber() { 
 		return capitalAssetNumber;
 	}
 
-	/**
-	 * Sets the capitalAssetNumber attribute.
-	 * 
-	 * @param capitalAssetNumber The capitalAssetNumber to set.
-	 * 
-	 */
 	public void setCapitalAssetNumber(Long capitalAssetNumber) {
 		this.capitalAssetNumber = capitalAssetNumber;
 	}
 
-
-	/**
-	 * Gets the requisitionItem attribute.
-	 * 
-	 * @return Returns the requisitionItem
-	 * 
-	 */
 	public RequisitionItem getRequisitionItem() { 
 		return requisitionItem;
 	}
+
+    public String getAddCapitalAssetNumber() {
+        return addCapitalAssetNumber;
+    }
+
+    public void setAddCapitalAssetNumber(String addCapitalAssetNumber) {
+        this.addCapitalAssetNumber = addCapitalAssetNumber;
+    }
 
 	/**
 	 * Sets the requisitionItem attribute.
@@ -132,11 +96,4 @@ public class RequisitionItemCapitalAsset extends PersistableBusinessObjectBase {
 	    return m;
     }
 
-    public String getAddCapitalAssetNumber() {
-        return addCapitalAssetNumber;
-    }
-
-    public void setAddCapitalAssetNumber(String addCapitalAssetNumber) {
-        this.addCapitalAssetNumber = addCapitalAssetNumber;
-    }
 }

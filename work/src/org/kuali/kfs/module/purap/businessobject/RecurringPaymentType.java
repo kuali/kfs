@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Recurring Payment Type Business Object. 
  */
 public class RecurringPaymentType extends PersistableBusinessObjectBase {
 
@@ -36,60 +36,26 @@ public class RecurringPaymentType extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the recurringPaymentTypeCode attribute.
-	 * 
-	 * @return Returns the recurringPaymentTypeCode
-	 * 
-	 */
 	public String getRecurringPaymentTypeCode() { 
 		return recurringPaymentTypeCode;
 	}
 
-	/**
-	 * Sets the recurringPaymentTypeCode attribute.
-	 * 
-	 * @param recurringPaymentTypeCode The recurringPaymentTypeCode to set.
-	 * 
-	 */
 	public void setRecurringPaymentTypeCode(String recurringPaymentTypeCode) {
 		this.recurringPaymentTypeCode = recurringPaymentTypeCode;
 	}
 
-
-	/**
-	 * Gets the recurringPaymentTypeDescription attribute.
-	 * 
-	 * @return Returns the recurringPaymentTypeDescription
-	 * 
-	 */
 	public String getRecurringPaymentTypeDescription() { 
 		return recurringPaymentTypeDescription;
 	}
 
-	/**
-	 * Sets the recurringPaymentTypeDescription attribute.
-	 * 
-	 * @param recurringPaymentTypeDescription The recurringPaymentTypeDescription to set.
-	 * 
-	 */
 	public void setRecurringPaymentTypeDescription(String recurringPaymentTypeDescription) {
 		this.recurringPaymentTypeDescription = recurringPaymentTypeDescription;
 	}
 
-
-    /**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }

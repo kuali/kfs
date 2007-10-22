@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Purchase Order Item Capital Asset Business Object.
  */
 public class PurchaseOrderItemCapitalAsset extends PersistableBusinessObjectBase {
 
@@ -39,90 +39,38 @@ public class PurchaseOrderItemCapitalAsset extends PersistableBusinessObjectBase
 
 	}
 
-	/**
-     * Gets the documentNumber attribute. 
-     * @return Returns the documentNumber.
-     */
     public String getDocumentNumber() {
         return documentNumber;
     }
 
-    /**
-     * Sets the documentNumber attribute value.
-     * @param documentNumber The documentNumber to set.
-     */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
 
-    /**
-	 * Gets the purchaseOrderItemCapitalAssetIdentifier attribute.
-	 * 
-	 * @return Returns the purchaseOrderItemCapitalAssetIdentifier
-	 * 
-	 */
 	public Integer getPurchaseOrderItemCapitalAssetIdentifier() { 
 		return purchaseOrderItemCapitalAssetIdentifier;
 	}
 
-	/**
-	 * Sets the purchaseOrderItemCapitalAssetIdentifier attribute.
-	 * 
-	 * @param purchaseOrderItemCapitalAssetIdentifier The purchaseOrderItemCapitalAssetIdentifier to set.
-	 * 
-	 */
 	public void setPurchaseOrderItemCapitalAssetIdentifier(Integer purchaseOrderItemCapitalAssetIdentifier) {
 		this.purchaseOrderItemCapitalAssetIdentifier = purchaseOrderItemCapitalAssetIdentifier;
 	}
 
-
-	/**
-	 * Gets the purchaseOrderItemIdentifier attribute.
-	 * 
-	 * @return Returns the purchaseOrderItemIdentifier
-	 * 
-	 */
 	public Integer getPurchaseOrderItemIdentifier() { 
 		return purchaseOrderItemIdentifier;
 	}
 
-	/**
-	 * Sets the purchaseOrderItemIdentifier attribute.
-	 * 
-	 * @param purchaseOrderItemIdentifier The purchaseOrderItemIdentifier to set.
-	 * 
-	 */
 	public void setPurchaseOrderItemIdentifier(Integer purchaseOrderItemIdentifier) {
 		this.purchaseOrderItemIdentifier = purchaseOrderItemIdentifier;
 	}
 
-	/**
-	 * Gets the capitalAssetNumber attribute.
-	 * 
-	 * @return Returns the capitalAssetNumber
-	 * 
-	 */
 	public Long getCapitalAssetNumber() { 
 		return capitalAssetNumber;
 	}
 
-	/**
-	 * Sets the capitalAssetNumber attribute.
-	 * 
-	 * @param capitalAssetNumber The capitalAssetNumber to set.
-	 * 
-	 */
 	public void setCapitalAssetNumber(Long capitalAssetNumber) {
 		this.capitalAssetNumber = capitalAssetNumber;
 	}
 
-
-	/**
-	 * Gets the purchaseOrderItem attribute.
-	 * 
-	 * @return Returns the purchaseOrderItem
-	 * 
-	 */
 	public PurchaseOrderItem getPurchaseOrderItem() { 
 		return purchaseOrderItem;
 	}
@@ -148,4 +96,5 @@ public class PurchaseOrderItemCapitalAsset extends PersistableBusinessObjectBase
         }
 	    return m;
     }
+    
 }

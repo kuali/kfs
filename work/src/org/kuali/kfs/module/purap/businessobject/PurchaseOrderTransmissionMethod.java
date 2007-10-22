@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Purchase Order Transmission Method Business Object.
  */
 public class PurchaseOrderTransmissionMethod extends PersistableBusinessObjectBase {
 
@@ -36,59 +36,26 @@ public class PurchaseOrderTransmissionMethod extends PersistableBusinessObjectBa
 
 	}
 
-	/**
-	 * Gets the purchaseOrderTransmissionMethodCode attribute.
-	 * 
-	 * @return Returns the purchaseOrderTransmissionMethodCode
-	 * 
-	 */
 	public String getPurchaseOrderTransmissionMethodCode() { 
 		return purchaseOrderTransmissionMethodCode;
 	}
 
-	/**
-	 * Sets the purchaseOrderTransmissionMethodCode attribute.
-	 * 
-	 * @param purchaseOrderTransmissionMethodCode The purchaseOrderTransmissionMethodCode to set.
-	 * 
-	 */
 	public void setPurchaseOrderTransmissionMethodCode(String purchaseOrderTransmissionMethodCode) {
 		this.purchaseOrderTransmissionMethodCode = purchaseOrderTransmissionMethodCode;
 	}
 
-
-	/**
-	 * Gets the purchaseOrderTransmissionMethodDescription attribute.
-	 * 
-	 * @return Returns the purchaseOrderTransmissionMethodDescription
-	 * 
-	 */
 	public String getPurchaseOrderTransmissionMethodDescription() { 
 		return purchaseOrderTransmissionMethodDescription;
 	}
 
-	/**
-	 * Sets the purchaseOrderTransmissionMethodDescription attribute.
-	 * 
-	 * @param purchaseOrderTransmissionMethodDescription The purchaseOrderTransmissionMethodDescription to set.
-	 * 
-	 */
 	public void setPurchaseOrderTransmissionMethodDescription(String purchaseOrderTransmissionMethodDescription) {
 		this.purchaseOrderTransmissionMethodDescription = purchaseOrderTransmissionMethodDescription;
 	}
 
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -101,4 +68,5 @@ public class PurchaseOrderTransmissionMethod extends PersistableBusinessObjectBa
         m.put("purchaseOrderTransmissionMethodCode", this.purchaseOrderTransmissionMethodCode);
 	    return m;
     }
+    
 }

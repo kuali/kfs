@@ -23,7 +23,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 /**
- * 
+ * Purchase Order Vendor Stipulation.
  */
 public class PurchaseOrderVendorStipulation extends PersistableBusinessObjectBase {
 
@@ -38,111 +38,46 @@ public class PurchaseOrderVendorStipulation extends PersistableBusinessObjectBas
     public PurchaseOrderVendorStipulation() {
     }
 
-    /**
-     * Gets the documentNumber attribute. 
-     * @return Returns the documentNumber.
-     */
     public String getDocumentNumber() {
         return documentNumber;
     }
 
-    /**
-     * Sets the documentNumber attribute value.
-     * @param documentNumber The documentNumber to set.
-     */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
 
-    /**
-	 * Gets the purchaseOrderVendorStipulationIdentifier attribute.
-	 * 
-	 * @return Returns the purchaseOrderVendorStipulationIdentifier
-	 * 
-	 */
 	public Integer getPurchaseOrderVendorStipulationIdentifier() { 
 		return purchaseOrderVendorStipulationIdentifier;
 	}
 
-	/**
-	 * Sets the purchaseOrderVendorStipulationIdentifier attribute.
-	 * 
-	 * @param purchaseOrderVendorStipulationIdentifier The purchaseOrderVendorStipulationIdentifier to set.
-	 * 
-	 */
 	public void setPurchaseOrderVendorStipulationIdentifier(Integer purchaseOrderVendorStipulationIdentifier) {
 		this.purchaseOrderVendorStipulationIdentifier = purchaseOrderVendorStipulationIdentifier;
 	}
 
-	/**
-	 * Gets the vendorStipulationDescription attribute.
-	 * 
-	 * @return Returns the vendorStipulationDescription
-	 * 
-	 */
 	public String getVendorStipulationDescription() { 
 		return vendorStipulationDescription;
 	}
 
-	/**
-	 * Sets the vendorStipulationDescription attribute.
-	 * 
-	 * @param vendorStipulationDescription The vendorStipulationDescription to set.
-	 * 
-	 */
 	public void setVendorStipulationDescription(String vendorStipulationDescription) {
 		this.vendorStipulationDescription = vendorStipulationDescription;
 	}
 
-
-	/**
-	 * Gets the vendorStipulationAuthorEmployeeIdentifier attribute.
-	 * 
-	 * @return Returns the vendorStipulationAuthorEmployeeIdentifier
-	 * 
-	 */
 	public String getVendorStipulationAuthorEmployeeIdentifier() { 
 		return vendorStipulationAuthorEmployeeIdentifier;
 	}
 
-	/**
-	 * Sets the vendorStipulationAuthorEmployeeIdentifier attribute.
-	 * 
-	 * @param vendorStipulationAuthorEmployeeIdentifier The vendorStipulationAuthorEmployeeIdentifier to set.
-	 * 
-	 */
 	public void setVendorStipulationAuthorEmployeeIdentifier(String vendorStipulationAuthorEmployeeIdentifier) {
 		this.vendorStipulationAuthorEmployeeIdentifier = vendorStipulationAuthorEmployeeIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorStipulationCreateDate attribute.
-	 * 
-	 * @return Returns the vendorStipulationCreateDate
-	 * 
-	 */
 	public Date getVendorStipulationCreateDate() { 
 		return vendorStipulationCreateDate;
 	}
 
-	/**
-	 * Sets the vendorStipulationCreateDate attribute.
-	 * 
-	 * @param vendorStipulationCreateDate The vendorStipulationCreateDate to set.
-	 * 
-	 */
 	public void setVendorStipulationCreateDate(Date vendorStipulationCreateDate) {
 		this.vendorStipulationCreateDate = vendorStipulationCreateDate;
 	}
 
-
-	/**
-	 * Gets the purchaseOrder attribute.
-	 * 
-	 * @return Returns the purchaseOrder
-	 * 
-	 */
 	public PurchaseOrderDocument getPurchaseOrder() { 
 		return purchaseOrder;
 	}
@@ -168,4 +103,5 @@ public class PurchaseOrderVendorStipulation extends PersistableBusinessObjectBas
         }
 	    return m;
     }
+    
 }

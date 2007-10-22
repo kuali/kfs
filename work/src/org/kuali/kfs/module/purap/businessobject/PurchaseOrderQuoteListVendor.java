@@ -22,7 +22,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.vendor.bo.VendorDetail;
 
 /**
- * 
+ * Purchase Order Quote List Vendor Business Object.
  */
 public class PurchaseOrderQuoteListVendor extends PersistableBusinessObjectBase {
 
@@ -41,72 +41,30 @@ public class PurchaseOrderQuoteListVendor extends PersistableBusinessObjectBase 
 
 	}
 
-	/**
-	 * Gets the purchaseOrderQuoteListIdentifier attribute.
-	 * 
-	 * @return Returns the purchaseOrderQuoteListIdentifier
-	 * 
-	 */
 	public Integer getPurchaseOrderQuoteListIdentifier() { 
 		return purchaseOrderQuoteListIdentifier;
 	}
 
-	/**
-	 * Sets the purchaseOrderQuoteListIdentifier attribute.
-	 * 
-	 * @param purchaseOrderQuoteListIdentifier The purchaseOrderQuoteListIdentifier to set.
-	 * 
-	 */
 	public void setPurchaseOrderQuoteListIdentifier(Integer purchaseOrderQuoteListIdentifier) {
 		this.purchaseOrderQuoteListIdentifier = purchaseOrderQuoteListIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorHeaderGeneratedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorHeaderGeneratedIdentifier
-	 * 
-	 */
 	public Integer getVendorHeaderGeneratedIdentifier() { 
 		return vendorHeaderGeneratedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorHeaderGeneratedIdentifier attribute.
-	 * 
-	 * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
-	 * 
-	 */
 	public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
 		this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
 	}
 
-
-	/**
-	 * Gets the vendorDetailAssignedIdentifier attribute.
-	 * 
-	 * @return Returns the vendorDetailAssignedIdentifier
-	 * 
-	 */
 	public Integer getVendorDetailAssignedIdentifier() { 
 		return vendorDetailAssignedIdentifier;
 	}
 
-	/**
-	 * Sets the vendorDetailAssignedIdentifier attribute.
-	 * 
-	 * @param vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
-	 * 
-	 */
 	public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
 		this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
 	}
 
-    /**
-     * Gets the purchaseOrderQuoteList attribute. 
-     * @return Returns the purchaseOrderQuoteList.
-     */
     public PurchaseOrderQuoteList getPurchaseOrderQuoteList() {
         return purchaseOrderQuoteList;
     }
@@ -119,7 +77,6 @@ public class PurchaseOrderQuoteListVendor extends PersistableBusinessObjectBase 
     public void setPurchaseOrderQuoteList(PurchaseOrderQuoteList purchaseOrderQuoteList) {
         this.purchaseOrderQuoteList = purchaseOrderQuoteList;
     }
-
 
     public VendorDetail getVendorDetail() {
         return vendorDetail;

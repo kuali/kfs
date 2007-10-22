@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Purchase Order Quote Status Business Object.
  */
 public class PurchaseOrderQuoteStatus extends PersistableBusinessObjectBase {
 
@@ -36,60 +36,26 @@ public class PurchaseOrderQuoteStatus extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the purchaseOrderQuoteStatusCode attribute.
-	 * 
-	 * @return Returns the purchaseOrderQuoteStatusCode
-	 * 
-	 */
 	public String getPurchaseOrderQuoteStatusCode() { 
 		return purchaseOrderQuoteStatusCode;
 	}
 
-	/**
-	 * Sets the purchaseOrderQuoteStatusCode attribute.
-	 * 
-	 * @param purchaseOrderQuoteStatusCode The purchaseOrderQuoteStatusCode to set.
-	 * 
-	 */
 	public void setPurchaseOrderQuoteStatusCode(String purchaseOrderQuoteStatusCode) {
 		this.purchaseOrderQuoteStatusCode = purchaseOrderQuoteStatusCode;
 	}
 
-
-	/**
-	 * Gets the purchaseOrderQuoteStatusDescription attribute.
-	 * 
-	 * @return Returns the purchaseOrderQuoteStatusDescription
-	 * 
-	 */
 	public String getPurchaseOrderQuoteStatusDescription() { 
 		return purchaseOrderQuoteStatusDescription;
 	}
 
-	/**
-	 * Sets the purchaseOrderQuoteStatusDescription attribute.
-	 * 
-	 * @param purchaseOrderQuoteStatusDescription The purchaseOrderQuoteStatusDescription to set.
-	 * 
-	 */
 	public void setPurchaseOrderQuoteStatusDescription(String purchaseOrderQuoteStatusDescription) {
 		this.purchaseOrderQuoteStatusDescription = purchaseOrderQuoteStatusDescription;
 	}
 
-
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -102,4 +68,5 @@ public class PurchaseOrderQuoteStatus extends PersistableBusinessObjectBase {
         m.put("purchaseOrderQuoteStatusCode", this.purchaseOrderQuoteStatusCode);
 	    return m;
     }
+    
 }

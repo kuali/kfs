@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Status Business Object.
  */
 public class Status extends PersistableBusinessObjectBase {
 
@@ -37,76 +37,34 @@ public class Status extends PersistableBusinessObjectBase {
 
 	}
 
-    /**
-     * Gets the statusCode attribute.
-     * 
-     * @return Returns the statusCode
-     * 
-     */
 	public String getStatusCode() {
         return statusCode;
     }
 
-    /**
-     * Sets the statusCode attribute.
-     * 
-     * @param statusCode The statusCode to set.
-     * 
-     */
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
     }
 
-    /**
-     * Gets the statusDescription attribute.
-     * 
-     * @return Returns the statusDescription
-     * 
-     */
     public String getStatusDescription() {
         return statusDescription;
     }
 
-    /**
-     * Sets the statusDescription attribute.
-     * 
-     * @param statusDescription The statusDescription to set.
-     * 
-     */
     public void setStatusDescription(String statusDescription) {
         this.statusDescription = statusDescription;
     }
 
-    /**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
 
-    /**
-     * Gets the ojbConcreteClass attribute. 
-     * 
-     * @return Returns the ojbConcreteClass.
-     */
     public String getOjbConcreteClass() {
         return ojbConcreteClass;
     }
 
-    /**
-     * Sets the ojbConcreteClass attribute value.
-     * 
-     * @param ojbConcreteClass The ojbConcreteClass to set.
-     */
     public void setOjbConcreteClass(String ojbConcreteClass) {
         this.ojbConcreteClass = ojbConcreteClass;
     }
@@ -119,4 +77,5 @@ public class Status extends PersistableBusinessObjectBase {
         m.put("statusCode", this.statusCode);
 	    return m;
     }
+    
 }

@@ -13,7 +13,7 @@ import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * Payment Request Summary Account Business Object.
  */
 public class PaymentRequestSummaryAccount extends PaymentRequestAccount {
 
@@ -51,6 +51,7 @@ public class PaymentRequestSummaryAccount extends PaymentRequestAccount {
     /**
      * ItemIdentifier is not a valid field in this table because it is the 
      * summary of accounts for the document, not per item
+     * 
      * @deprecated
      */
     @Override
@@ -61,6 +62,7 @@ public class PaymentRequestSummaryAccount extends PaymentRequestAccount {
     /**
      * ItemIdentifier is not a valid field in this table because it is the 
      * summary of accounts for the document, not per item
+     * 
      * @deprecated
      */
     @Override
@@ -75,6 +77,5 @@ public class PaymentRequestSummaryAccount extends PaymentRequestAccount {
     public void setPurapDocumentIdentifier(Integer purapDocumentIdentifier) {
         this.purapDocumentIdentifier = purapDocumentIdentifier;
     }
-
 
 }

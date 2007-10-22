@@ -9,27 +9,15 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * Requisition View Business Object.
  */
 public class RequisitionView extends AbstractRelatedView {
     private Integer requisitionIdentifier;
 
-	/**
-	 * Gets the requisitionIdentifier attribute.
-	 *
-	 * @return Returns the requisitionIdentifier
-	 *
-	 */
 	public Integer getRequisitionIdentifier() {
 		return requisitionIdentifier;
 	}
 
-	/**
-	 * Sets the requisitionIdentifier attribute.
-	 *
-	 * @param requisitionIdentifier The requisitionIdentifier to set.
-	 *
-	 */
 	public void setRequisitionIdentifier(Integer requisitionIdentifier) {
 		this.requisitionIdentifier = requisitionIdentifier;
 	}
@@ -37,17 +25,25 @@ public class RequisitionView extends AbstractRelatedView {
     /**
      * The next three methods are overridden but shouldnt be!
      * If they arent overridden, they dont show up in the tag, not sure why at this point! (AAP)
+     * 
+     * @see org.kuali.module.purap.bo.AbstractRelatedView#getPurapDocumentIdentifier()
      */
     @Override
     public Integer getPurapDocumentIdentifier() {
         return super.getPurapDocumentIdentifier();
     }
 
+    /**
+     * @see org.kuali.module.purap.bo.AbstractRelatedView#getNotes()
+     */
     @Override
     public List<Note> getNotes() {
         return super.getNotes();
     }
-    
+
+    /**
+     * @see org.kuali.module.purap.bo.AbstractRelatedView#getUrl()
+     */
     @Override
     public String getUrl() {
         return super.getUrl();

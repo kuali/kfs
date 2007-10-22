@@ -24,6 +24,9 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.SourceAccountingLine;
 
+/**
+ * Purap Accounting Line Base Business Object.
+ */
 public abstract class PurApAccountingLineBase extends SourceAccountingLine implements PurApAccountingLine, Comparable {
 
     protected Integer accountIdentifier;
@@ -55,6 +58,9 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
         this.accountLinePercent = accountLinePercent;
     }
 
+    /**
+     * @see org.kuali.module.purap.bo.PurApAccountingLine#isEmpty()
+     */
     public boolean isEmpty() {
         return !(StringUtils.isNotEmpty(getAccountNumber()) || 
                  StringUtils.isNotEmpty(getChartOfAccountsCode()) || 
@@ -66,6 +72,9 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
                  ObjectUtils.isNotNull(getAccountLinePercent()));
     }
 
+    /**
+     * @see org.kuali.module.purap.bo.PurApAccountingLine#createBlankAmountsCopy()
+     */
     public PurApAccountingLine createBlankAmountsCopy() {
         PurApAccountingLine newAccount = (PurApAccountingLine)ObjectUtils.deepCopy(this);
         newAccount.setAccountLinePercent(BigDecimal.ZERO);
@@ -73,8 +82,12 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
         return newAccount;
     }
 
-    // TODO PURAP - need more fields for comparison or not? - look at org.kuali.kfs.bo.AccountingLineBase#getValuesMap()
+
+    /**
+     * @see org.kuali.module.purap.bo.PurApAccountingLine#accountStringsAreEqual(org.kuali.kfs.bo.SourceAccountingLine)
+     */
     public boolean accountStringsAreEqual(SourceAccountingLine accountingLine) {
+        // TODO PURAP - need more fields for comparison or not? - look at org.kuali.kfs.bo.AccountingLineBase#getValuesMap()
         if (accountingLine == null) { return false;}
         return new EqualsBuilder()
           .append(getChartOfAccountsCode(), accountingLine.getChartOfAccountsCode())
@@ -95,9 +108,12 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
         
     }
 
-    // TODO PURAP - this method needs to copy any account field we need to display 
-    //              and its fields should probably match method 'accountStringsAreEqual' above
+    /**
+     * @see org.kuali.module.purap.bo.PurApAccountingLine#generateSourceAccountingLine()
+     */
     public SourceAccountingLine generateSourceAccountingLine() {
+        // TODO PURAP - this method needs to copy any account field we need to display 
+        //              and its fields should probably match method 'accountStringsAreEqual' above
         SourceAccountingLine sourceLine = new SourceAccountingLine();
         sourceLine.setChartOfAccountsCode(getChartOfAccountsCode());
         sourceLine.setAccountNumber(getAccountNumber());
@@ -111,7 +127,6 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     }
     
     /**
-     * 
      * @see org.kuali.kfs.bo.AccountingLineBase#toStringMapper()
      */
     @Override

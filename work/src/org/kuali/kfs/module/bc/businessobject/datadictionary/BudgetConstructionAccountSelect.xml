@@ -70,8 +70,8 @@
             </lookupFields>
 
             <resultFields>
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountNumber" />
+                <field attributeName="chartOfAccountsCode" noInquiry="true" />
+                <field attributeName="accountNumber" noInquiry="true" />
                 <field attributeName="subAccountNumber" />
                 <field attributeName="financialDocumentStatusCode" />
                 <field attributeName="financialDocumentCreateDate" />
@@ -79,6 +79,7 @@
                 <field attributeName="organizationLevelCode" />
                 <field attributeName="organizationChartOfAccountsCode" />
                 <field attributeName="organizationCode" />
+                <field attributeName="budgetConstructionHeader.budgetLockUser.personUserIdentifier" />
                 <field attributeName="dummyBusinessObject.linkButtonOption" />
             </resultFields>
         </lookup>
@@ -264,6 +265,13 @@
                 <summary>universityFiscalYear</summary>
                 <description>universityFiscalYear description...</description>
 			</attribute>
+
+			<attributeReference name="budgetConstructionHeader.budgetLockUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
+				<label>Bdgt. Lock</label>
+				<shortLabel>Bdgt. Lock</shortLabel>
+				<summary>Bdgt. Lock</summary>
+				<description>Bdgt. Lock</description>
+            </attributeReference>
 
 			<attributeReference name="dummyBusinessObject.linkButtonOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="linkButtonOption">
                 <label>Load Document</label>

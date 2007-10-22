@@ -1,0 +1,142 @@
+<!-- CONFIGURATION MANAGEMENT TARGETS 
+
+Tasks in this file will not be deployed with the application.  Tasks that 
+are intended for use only by Kuali Foundation developers.
+
+-->
+
+<target name="package-kfs" depends="clean">
+	<!-- clean out compiled classes -->
+	<delete>
+		<fileset dir="work/web-root/WEB-INF/classes">
+			<include name="**/*" />
+		</fileset>
+		<fileset dir="test/classes">
+			<include name="**/*" />
+		</fileset>
+	</delete>
+	<!-- copy build file to temp dir -->
+	<delete dir="temp" failonerror="false" />
+	<mkdir dir="temp" />
+	<copy todir="temp" file="build.xml" />
+	<!-- copy altered build.xml file -->
+	<replace file="temp/build.xml">
+		<replacefilter token="&lt;!DOCTYPE project [ &lt;!ENTITY FoundationTargets SYSTEM &quot;build-foundation.xml&quot;&gt; ]&gt;" value="" />
+		<replacefilter token="&amp;FoundationTargets;" value="" />
+	</replace>
+	
+	<!-- zip it up -->
+	<zip destfile="${release.zip.name}">
+		<zipfileset dir="." prefix="kuali_project">
+			<exclude name="temp/**" />
+			<exclude name="**/CVS" />
+			<exclude name="build-foundation.xml" />
+			<exclude name="build.xml" />
+			<exclude name=".apt_generated" />
+			<exclude name="**/*.log" />
+		</zipfileset>
+		<zipfileset dir="temp" prefix="kuali_project">
+			<include name="build.xml" />
+		</zipfileset>
+	</zip>
+	
+	<delete dir="temp" verbose="true" />
+</target>
+
+
+<target name="setup-rice" depends="init-property-files">
+    <condition property="os.safe.driver.path" value="c:${drivers.directory}/ojdbc14.jar">
+        <os family="windows"/>
+    </condition>
+    <property name="os.safe.driver.path" value="${drivers.directory}/ojdbc14.jar" />
+    <maven goals="install:install-file" options="-U -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.1.0.3.0 -Dpackaging=jar -Dfile=${os.safe.driver.path}" />
+    <copy todir="${user.home}/kuali">
+        <fileset dir="${build.user.directory}/${ant.project.name}" includes="**/**" />
+        <filterset>
+            <filter token="dev-rice-password" value="${rice.datasource.password.dev}" />
+            <filter token="test-rice-password" value="${rice.datasource.password.test}" />
+        </filterset>
+    </copy>
+    <maven goals="clean:clean install source:jar javadoc:jar" options="-U -Pinstall-kns-dev -Dpackaging=jar" />
+    <touch file="${rice.project.directory}/pom.xml" />
+</target>
+
+<target name="update-rice-dev" depends="update-rice-basic,dist-local" />
+
+<target name="update-rice" depends="update-rice-basic,update-rice-extended,dist-local" />
+
+<target name="update-rice-basic" depends="init-property-files,update-rice-jars,update-rice-web" />
+
+<target name="update-rice-jars" depends="init-property-files">
+    <delete>
+        <fileset dir="${basedir}" includes="${lib.directory}/${rice.output.file.prefix}${rice.output.lib.suffix}" />
+    </delete>
+    <maven goals="clean:clean package" />
+    <copy todir="${lib.directory}" flatten="true">
+        <fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.lib.suffix}" excludes="${rice.excludes}" />
+    </copy>
+    <get src="https://onestart.iu.edu/dav/MY/maven-mirror/maven2/${workflow.name}/${workflow.name}/${workflow.version}/${workflow.name}-${workflow.version}.jar" dest="${basedir}/${lib.directory}/${rice.name}-${workflow.name}-${workflow.version}.jar" />
+</target>
+
+<target name="update-rice-web" depends="init-property-files">
+    <delete>
+        <fileset dir="${build.project.directory}" includes="${rice.name}*${rice.output.web.suffix}" />
+    </delete>
+    <zip destfile="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" basedir="${rice.sampleapp.directory}" includes="${rice.application}/**/**,${tags.directory}/${rice.application}/**/*.tag,${workflow.application}/**/**,${ksb.application}/**/**" excludes="**/CVS" />
+</target>
+
+<target name="update-rice-extended" depends="init-property-files,update-rice-kuali-dependencies,update-rice-licenses" />
+
+<target name="update-rice-kuali-dependencies" depends="init-property-files">
+    <delete>
+        <fileset dir="${dependencies.project.directory}" includes="${rice.output.file.prefix}" />
+    </delete>
+    <maven goals="source:jar javadoc:jar" />
+    <copy todir="${dependencies.project.directory}">
+        <fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.src.suffix},${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.doc.suffix}" excludes="${rice.excludes}" />
+        <chainedmapper>
+            <flattenmapper />
+            <globmapper from="*.jar" to="*.zip" />
+        </chainedmapper>
+    </copy>
+    <!--<property name="${workflow.application}.workflow.environment" value="${build.environment}" />
+    <property name="${workflow.application}.tomcat5.home" value="${appserver.home}" />
+    <property name="${workflow.application}.plugin.dir" value="${basedir}" />
+    <property name="${workflow.application}.institution" value="${ant.project.name}" />
+    <property name="${workflow.application}.src.dist.loc" value="${workflow.project.directory}/dist" />
+    <propertyset id="en-properties">
+        <propertyref prefix="${workflow.application}."/>
+        <mapper type="glob" from="${workflow.application}.*" to="*"/>
+    </propertyset>
+    <ant dir="${workflow.project.directory}" target="bundle-workflow" inheritall="false">
+        <propertyset refid="${workflow.application}-properties" />
+    </ant>
+    <copy file="${workflow.project.directory}/dist/workflow_${workflow.version}.zip" tofile="${dependencies.project.directory}/${rice.name}-${workflow.name}-${workflow.version}-src.zip" overwrite="true"/>
+    <ant dir="${workflow.project.directory}" target="clean" inheritall="false"/>
+    <ant dir="${workflow.project.directory}" target="javadoc" inheritall="false">
+        <propertyset refid="${workflow.application}-properties" />
+    </ant>
+    <zip destfile="${dependencies.project.directory}/${rice.name}-${workflow.name}-${workflow.version}-doc.zip" basedir="${workflow.project.directory}/dist/api" />-->
+</target>
+
+<target name="update-rice-licenses" depends="init-property-files">
+    <zip destfile="${build.project.directory}/${rice.name}-${rice.version}-licenses.zip" basedir="${rice.project.directory}/${licenses.directory}" excludes="**/CVS" />
+</target>
+
+<macrodef name="maven">
+    <attribute name="goals" />
+    <attribute name="options" default="--offline" />
+    <sequential>
+        <java classname="org.codehaus.classworlds.Launcher" dir="${rice.project.directory}" fork="true" failonerror="true">
+            <arg line="@{options} @{goals}"/>
+            <sysproperty key="classworlds.conf" value="${maven.home.directory}/bin/m2.conf"/>
+            <sysproperty key="maven.home" value="${maven.home.directory}"/>
+            <sysproperty key="maven.test.skip" value="true"/>
+            <classpath>
+                <fileset dir="${maven.home.directory}/boot">
+                    <include name="classworlds-*.jar"/>
+                </fileset>
+            </classpath>
+        </java>
+    </sequential>
+</macrodef>

@@ -585,7 +585,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         // Get suspense account
         String suspenseAccountNumber = SpringContext.getBean(ParameterService.class).getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_NUMBER);
-        String suspenseCOAcode = SpringContext.getBean(ParameterService.class).getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNTS_COA_CD); 
+        String suspenseCOAcode = SpringContext.getBean(ParameterService.class).getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_CHART); 
         Account account = accountService.getByPrimaryId(suspenseCOAcode, suspenseAccountNumber);
 
         workingEntry.setAccount(account);

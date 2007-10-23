@@ -43,7 +43,7 @@ import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.util.CollectorReportData;
 import org.kuali.module.gl.util.CollectorScrubberStatus;
 import org.kuali.test.ConfigureContext;
-import org.kuali.test.suite.RelatesTo;
+//import org.kuali.test.suite.RelatesTo;
 
 /**
  * Test the CollectorService.
@@ -67,7 +67,7 @@ public class CollectorServiceTest extends KualiTestBase {
     /**
      * Verifies system parameters needed to send the collector email exists.
      */
-    @RelatesTo(RelatesTo.JiraIssue.KULUT31)
+    //@RelatesTo(RelatesTo.JiraIssue.KULUT31)
     public final void testEmailSystemParametersExist() throws Exception {
         String subject = parameterService.getParameterValue(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_VALIDATOR_EMAIL_SUBJECT_PARAMETER_NAME);
         assertTrue("system parameter " + SystemGroupParameterNames.COLLECTOR_VALIDATOR_EMAIL_SUBJECT_PARAMETER_NAME + " is not setup or is empty", StringUtils.isNotBlank(subject));
@@ -79,7 +79,7 @@ public class CollectorServiceTest extends KualiTestBase {
     /**
      * Verifies an error is added when the batch header is a duplicate (a batch loaded previously had the same header).
      */
-    @RelatesTo(RelatesTo.JiraIssue.KULUT31)
+    //@RelatesTo(RelatesTo.JiraIssue.KULUT31)
     public final void testPerformValidate_duplicateHeader() throws Exception {
 
     }
@@ -88,7 +88,7 @@ public class CollectorServiceTest extends KualiTestBase {
      * Verifies an error is added when the batch entries contain multiple document types. Note: Actual test values here do not have
      * to be valid document types, only need to be different.
      */
-    @RelatesTo(RelatesTo.JiraIssue.KULUT31)
+    //@RelatesTo(RelatesTo.JiraIssue.KULUT31)
     public final void testPerformValidation_mixedDocumentTypes() throws Exception {
         MockCollectorBatch collectorBatch = new MockCollectorBatch();
 
@@ -109,7 +109,7 @@ public class CollectorServiceTest extends KualiTestBase {
      * Verifies an error is added when a collector detail key does not have a matching gl entry. Note: Actual test values do have to
      * be valid, only need to be different from the gl record to the detail
      */
-    @RelatesTo(RelatesTo.JiraIssue.KULUT31)
+    //@RelatesTo(RelatesTo.JiraIssue.KULUT31)
     public final void testPerformValidation_unmatchedDetailKey() throws Exception {
         MockCollectorBatch collectorBatch = new MockCollectorBatch();
 
@@ -134,7 +134,7 @@ public class CollectorServiceTest extends KualiTestBase {
      * Verifies an error is added when the batch entries contain multiple balance types. Note: Actual test values here do not have
      * to be valid balance types, only need to be different.
      */
-    @RelatesTo(RelatesTo.JiraIssue.KULUT31)
+    //@RelatesTo(RelatesTo.JiraIssue.KULUT31)
     public final void testPerformValidation_mixedBalanceTypes() throws Exception {
         MockCollectorBatch collectorBatch = new MockCollectorBatch();
 
@@ -157,7 +157,7 @@ public class CollectorServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @RelatesTo(RelatesTo.JiraIssue.KULUT31)
+    //@RelatesTo(RelatesTo.JiraIssue.KULUT31)
     public final void testNegativeCollectorDetailBillingAmounts() throws Exception {
         String collectorDirectoryName = SpringContext.getBean(CollectorInputFileType.class).getDirectoryPath();
         String fileName = collectorDirectoryName + File.separator + "gl_collector3.xml";

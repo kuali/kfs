@@ -86,6 +86,7 @@ public class RequisitionServiceImpl implements RequisitionService {
         if (ObjectUtils.isNotNull(documentNumber)) {
             try {
                 RequisitionDocument doc = (RequisitionDocument)documentService.getByDocumentHeaderId(documentNumber);
+                
                 return doc;
             }
             catch (WorkflowException e) {
@@ -94,6 +95,7 @@ public class RequisitionServiceImpl implements RequisitionService {
                 throw new RuntimeException(errorMessage,e);
             }
         }
+        
         return null;
     }
 
@@ -119,10 +121,12 @@ public class RequisitionServiceImpl implements RequisitionService {
                 throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE+" "+e);
             }
             LOG.debug("isAutomaticPurchaseOrderAllowed() return false; " + note);
+            
             return false;
         }
 
         LOG.debug("isAutomaticPurchaseOrderAllowed() You made it!  Your REQ can become an APO; return true.");
+        
         return true;
     }
 
@@ -146,27 +150,32 @@ public class RequisitionServiceImpl implements RequisitionService {
         
         LOG.debug("isAPO() reqId = " + requisition.getPurapDocumentIdentifier() + "; apoLimit = " + apoLimit + "; reqTotal = " + reqTotal);
         if (apoLimit == null) {
+            
             return "APO limit is empty.";
         }
         else {
             if (reqTotal.compareTo(apoLimit) == 1) {
+                
                 return "Requisition total is greater than the APO limit.";
             }
         }
 
         if (reqTotal.compareTo(KFSConstants.ZERO) <= 0) {
+            
             return "Requisition total is not greater than zero.";
         }
 
         for (Iterator iter = requisition.getItems().iterator(); iter.hasNext();) {
             RequisitionItem item = (RequisitionItem) iter.next();
             if (item.isItemRestrictedIndicator()) {
+                
                 return "Requisition contains an item that is marked as restricted.";
             }
         }//endfor items
 
         LOG.debug("isAPO() vendor #" + requisition.getVendorHeaderGeneratedIdentifier() + "-" + requisition.getVendorDetailAssignedIdentifier());
         if (requisition.getVendorHeaderGeneratedIdentifier() == null || requisition.getVendorDetailAssignedIdentifier() == null) {
+            
             return "Vendor was not selected from the vendor database.";
         }
         else {
@@ -175,21 +184,25 @@ public class RequisitionServiceImpl implements RequisitionService {
             vendorDetail.setVendorDetailAssignedIdentifier(requisition.getVendorDetailAssignedIdentifier());
             vendorDetail = (VendorDetail) businessObjectService.retrieve(vendorDetail);
             if (vendorDetail == null) {
+                
                 return "Error retrieving vendor from the database.";
             }
 
             requisition.setVendorRestrictedIndicator(vendorDetail.getVendorRestrictedIndicator());
             if (requisition.getVendorRestrictedIndicator() != null && requisition.getVendorRestrictedIndicator()) {
+                
                 return "Selected vendor is marked as restricted.";
             }
         }
 
         if (StringUtils.isNotEmpty(requisition.getRecurringPaymentTypeCode())) {
+            
             return "Payment type is marked as recurring.";
         }
 
         if ((requisition.getPurchaseOrderTotalLimit() != null) && (KFSConstants.ZERO.compareTo(requisition.getPurchaseOrderTotalLimit()) != 0)) {
             LOG.debug("isAPO() po total limit is not null and not equal to zero; return false.");
+            
             return "The 'PO not to exceed' amount has been entered.";
         }
 
@@ -199,6 +212,7 @@ public class RequisitionServiceImpl implements RequisitionService {
                 StringUtils.isNotEmpty(requisition.getAlternate4VendorName()) || 
                 StringUtils.isNotEmpty(requisition.getAlternate5VendorName())) {
             LOG.debug("isAPO() alternate vendor name exists; return false.");
+            
             return "Requisition contains alternate vendor names.";
         }
 

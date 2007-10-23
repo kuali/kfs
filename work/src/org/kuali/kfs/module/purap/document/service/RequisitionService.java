@@ -20,11 +20,35 @@ import org.kuali.module.purap.document.RequisitionDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
+/**
+ * Defines methods that must be implemented by classes providing a RequisitionService.
+ */
 public interface RequisitionService {
 
+    /**
+     * Saves the document without doing validation by invoking the 
+     * saveDocument method of documentService.
+     * 
+     * @param requisitionDocument  the requisition document to be saved
+     */
     public void saveDocumentWithoutValidation(RequisitionDocument requisitionDocument);
 
+    /**
+     * Obtains the requisition document from the database given a
+     * requisition id as the input parameter
+     * @param id  the requisition id of the document we want to obtain.
+     * @return    RequisitionDocument the requisition document whose requisition id is
+     *            the id in the input parameter of this method.
+     */
     public RequisitionDocument getRequisitionById(Integer id);
 
+    /**
+     * 
+     * Checks whether the requisition is eligible to become an Automated
+     * Purchase Order (APO)
+     * 
+     * @param requisition  the requisition document to be checked.
+     * @return             boolean true if the requisition is eligible to become APO.
+     */    
     public boolean isAutomaticPurchaseOrderAllowed(RequisitionDocument requisition);
 }

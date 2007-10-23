@@ -64,6 +64,9 @@ public class RequisitionServiceImpl implements RequisitionService {
     private VendorService vendorService;
     private KualiConfigurationService kualiConfigurationService;
 
+    /**
+     * @see org.kuali.module.purap.service.RequisitionService#saveDocumentWithoutValidation(org.kuali.module.purap.document.RequisitionDocument)
+     */
     public void saveDocumentWithoutValidation(RequisitionDocument document) {
         try {
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
@@ -75,6 +78,9 @@ public class RequisitionServiceImpl implements RequisitionService {
         }
     }
     
+    /**
+     * @see org.kuali.module.purap.service.RequisitionService#getRequisitionById(java.lang.Integer)
+     */
     public RequisitionDocument getRequisitionById(Integer id) {
         String documentNumber = requisitionDao.getDocumentNumberForRequisitionId(id);
         if (ObjectUtils.isNotNull(documentNumber)) {
@@ -90,7 +96,10 @@ public class RequisitionServiceImpl implements RequisitionService {
         }
         return null;
     }
-    
+
+    /**
+     * @see org.kuali.module.purap.service.RequisitionService#isAutomaticPurchaseOrderAllowed(org.kuali.module.purap.document.RequisitionDocument)
+     */
     public boolean isAutomaticPurchaseOrderAllowed(RequisitionDocument requisition) {
         LOG.debug("isAutomaticPurchaseOrderAllowed() started");
 
@@ -116,7 +125,18 @@ public class RequisitionServiceImpl implements RequisitionService {
         LOG.debug("isAutomaticPurchaseOrderAllowed() You made it!  Your REQ can become an APO; return true.");
         return true;
     }
-       
+
+    /**
+     * Checks the rule for Automatic Purchase Order eligibility of the requisition and
+     * return a String containing the reason why the requisition was not eligible to
+     * become an APO if it was not eligible, or return an empty String if the requisition
+     * is eligible to become an APO
+     * 
+     * @param requisition  the requisition document to be checked for APO eligibility.
+     * @return             String containing the reason why the requisition was not eligible
+     *                     to become an APO if it was not eligible, or an empty String if the
+     *                     requisition is eligible to become an APO.
+     */
     private String checkAutomaticPurchaseOrderRules(RequisitionDocument requisition) {
         String requisitionSource = requisition.getRequisitionSourceCode();
         KualiDecimal reqTotal = requisition.getTotalDollarAmount();

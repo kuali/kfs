@@ -242,6 +242,14 @@
 		<zip destfile="../security.zip" basedir="${basedir}" includes="${security.file}" />
 		<zip destfile="../skel.zip" basedir="${build.work.directory}" />
 	</target>
+	
+	<target name="butt" depends="init-properties">
+		<echo file="${deploy.working.directory}/${log4j.file}" message="${log4j}" />
+		<echo file="${deploy.working.directory}/${security.file}" message="${security}"  />
+		<zip destfile="${deploy.working.directory}/settings.zip" basedir="${deploy.working.directory}" includes="${log4j.file}" />
+		<zip destfile="${deploy.working.directory}/security.zip" basedir="${deploy.working.directory}" includes="${security.file}" />
+		<zip destfile="${deploy.working.directory}/skel.zip" basedir="${build.work.directory}" />
+	</target>
 
 	<target name="continuous-integration" depends="clean,make-tests,test">
 		<fail if="tests.failed" message="Tests failed" />

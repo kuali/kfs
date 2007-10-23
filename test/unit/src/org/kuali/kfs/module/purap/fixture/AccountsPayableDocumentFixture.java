@@ -44,7 +44,9 @@ public enum AccountsPayableDocumentFixture {
     public final boolean continuationAccountIndicator;
     public final boolean closePurchaseOrderIndicator;
     public final boolean reopenPurchaseOrderIndicator;  
-/*
+    
+    //TODO: decide if we need to do anything for not persisted attributes
+    /*
     private boolean unmatchedOverride; // not persisted
     
     // NOT PERSISTED IN DB
@@ -107,6 +109,7 @@ public enum AccountsPayableDocumentFixture {
         doc.setNoteLine2Text(this.noteLine2Text);
         doc.setNoteLine3Text(this.noteLine3Text);
         doc.setContinuationAccountIndicator(this.continuationAccountIndicator);
+        // TODO: are these needed?
         /* We don't have setters for these
         doc.setClosePurchaseOrderIndicator(this.closePurchaseOrderIndicator);
         doc.setReopenPurchaseOrderIndicator(this.reopenPurchaseOrderIndicator);

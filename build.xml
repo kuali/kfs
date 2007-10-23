@@ -239,7 +239,7 @@
 		<zip destfile="${deploy.working.directory}/skel.zip" basedir="${build.work.directory}" />
 	</target>
 
-	<target name="dist" depends="make-source,dist-external">
+	<target name="dist" unless="no.web.deployment" depends="make-source,dist-external">
 		<copy todir="${war.directory}">
 			<fileset dir="${webroot.directory}" excludes="WEB-INF/classes/**/**" />
 		</copy>

@@ -45,8 +45,6 @@ import org.kuali.test.fixtures.AccountingLineFixture;
 import org.kuali.test.monitor.ChangeMonitor;
 import org.kuali.test.monitor.DocumentStatusMonitor;
 import org.kuali.test.monitor.DocumentWorkflowStatusMonitor;
-import org.kuali.test.suite.RelatesTo;
-import org.kuali.test.suite.RelatesTo.JiraIssue;
 import org.kuali.workflow.WorkflowTestUtils;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -83,7 +81,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
      * 
      * @see org.kuali.core.document.AccountingDocumentTestBase#testConvertIntoCopy()
      */
-    @RelatesTo(JiraIssue.KULRNE4926)
+    //@RelatesTo(JiraIssue.KULRNE4926)
     @ConfigureContext(session = DFOGLE, shouldCommitTransactions=true)
     public void testConvertIntoCopy() throws Exception {
         // save the original doc, wait for status change
@@ -152,7 +150,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
      * 
      * @see org.kuali.core.document.AccountingDocumentTestBase#testConvertIntoErrorCorrection()
      */
-    @RelatesTo(JiraIssue.KULRNE4926)
+    //@RelatesTo(JiraIssue.KULRNE4926)
     @ConfigureContext(session = DFOGLE, shouldCommitTransactions=true)
     public void testConvertIntoErrorCorrection() throws Exception {
         AccountingDocument document = buildDocument();
@@ -244,7 +242,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
      * 
      * @see org.kuali.core.document.DocumentTestBase#testRouteDocument()
      */
-    @RelatesTo(JiraIssue.KULRNE4926)
+    //@RelatesTo(JiraIssue.KULRNE4926)
     @ConfigureContext(session = DFOGLE, shouldCommitTransactions=true)
     public void testRouteDocument() throws Exception {
         // save the original doc, wait for status change
@@ -306,7 +304,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear(buildDocument(), SpringContext.getBean(TransactionalDocumentDictionaryService.class), SpringContext.getBean(AccountingPeriodService.class));
     }
 
-    @RelatesTo(JiraIssue.KULRNE4926)
+    //@RelatesTo(JiraIssue.KULRNE4926)
     @ConfigureContext(session = DFOGLE, shouldCommitTransactions=true)
     public final void testSaveDocument() throws Exception {
         AccountingDocumentTestUtils.testSaveDocument(buildDocument(), SpringContext.getBean(DocumentService.class));

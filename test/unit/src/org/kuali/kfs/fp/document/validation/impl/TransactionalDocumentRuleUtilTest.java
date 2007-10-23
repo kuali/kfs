@@ -29,8 +29,7 @@ import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.test.ConfigureContext;
-import org.kuali.test.suite.RelatesTo;
-import org.kuali.test.suite.RelatesTo.JiraIssue;
+
 /**
  * Class for unit testing the functionality of <code>{@link TransactionalDocumentRuleUtil}</code>
  * 
@@ -181,7 +180,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod
      */
-    @RelatesTo(JiraIssue.KULRNE4926)
+    //@RelatesTo(JiraIssue.KULRNE4926)
     public void testIsValidOpenAccountingPeriod_Open() {
         testIsValidOpenAccountingPeriod(getAnnualBalanceAccountingPeriod(), true);
     }
@@ -200,7 +199,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod
      */
-    @RelatesTo(JiraIssue.KULRNE4926)
+    //@RelatesTo(JiraIssue.KULRNE4926)
     public void testIsValidOpenAccountingPeriod_Null() {
         testIsValidOpenAccountingPeriod(null, false);
     }

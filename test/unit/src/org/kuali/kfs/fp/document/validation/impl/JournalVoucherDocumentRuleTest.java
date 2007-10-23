@@ -59,8 +59,6 @@ import org.kuali.kfs.rule.AddAccountingLineRule;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.suite.RelatesTo;
-import org.kuali.test.suite.RelatesTo.JiraIssue;
 
 @ConfigureContext(session = DFOGLE)
 public class JournalVoucherDocumentRuleTest extends KualiTestBase {
@@ -191,7 +189,7 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
         testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getValidObjectSubTypeTargetLine(), true);
     }
 
-    @RelatesTo(JiraIssue.KULRNE4926)
+    //@RelatesTo(JiraIssue.KULRNE4926)
     public void testProcessSaveDocument_Valid() throws Exception {
         testSaveDocumentRule_ProcessSaveDocument(buildDocument(), true);
     }

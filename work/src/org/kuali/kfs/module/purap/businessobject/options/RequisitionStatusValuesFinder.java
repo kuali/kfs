@@ -29,5 +29,4 @@ public class RequisitionStatusValuesFinder extends PurApStatusKeyValuesBase {
     public Class getStatusClass() {
         return RequisitionStatus.class;
     }
-
 }

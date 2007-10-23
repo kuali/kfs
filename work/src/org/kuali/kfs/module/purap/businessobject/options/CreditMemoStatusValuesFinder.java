@@ -29,5 +29,4 @@ public class CreditMemoStatusValuesFinder extends PurApStatusKeyValuesBase {
     public Class getStatusClass() {
         return CreditMemoStatus.class;
     }
-
 }

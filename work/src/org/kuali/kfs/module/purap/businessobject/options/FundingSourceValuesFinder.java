@@ -48,5 +48,4 @@ public class FundingSourceValuesFinder extends KeyValuesBase {
         
         return labels;
     }
-
 }

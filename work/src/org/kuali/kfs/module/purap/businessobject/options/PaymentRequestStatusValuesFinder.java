@@ -29,5 +29,4 @@ public class PaymentRequestStatusValuesFinder extends PurApStatusKeyValuesBase {
     public Class getStatusClass() {
         return PaymentRequestStatus.class;
     }
-
 }

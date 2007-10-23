@@ -52,6 +52,9 @@ import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.PhoneNumberService;
 import org.kuali.module.vendor.service.VendorService;
 
+/**
+ * Business rule(s) applicable to Purchase Order document.
+ */
 public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
 
     /**

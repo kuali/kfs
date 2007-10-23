@@ -49,6 +49,9 @@ import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorHeader;
 import org.kuali.module.vendor.service.VendorService;
 
+/**
+ * Business rule(s) applicable to Purchasing document.
+ */
 public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase {
 
     /**

@@ -365,12 +365,14 @@
 
 			<attributeReference name="universityFiscalPeriodCode" sourceClassName="org.kuali.module.chart.bo.AccountingPeriod" sourceAttributeName="universityFiscalPeriodCode">				
                 <label>Fiscal Period</label>
-                <shortLabel>Period</shortLabel>				
+                <shortLabel>Period</shortLabel>		
+                <required>false</required>		
 			</attributeReference>
 
             <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <label>Fiscal Year</label>
                 <shortLabel>Fiscal Year</shortLabel>
+                <required>false</required>
             </attributeReference>
 
             <attribute name="documentHeader.financialDocumentStatusCode" forceUppercase="false">

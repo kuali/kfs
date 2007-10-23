@@ -94,7 +94,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
     private String getEncumbranceUpdateCode(Transaction transaction) {
         String documentTypeCode = transaction.getFinancialDocumentTypeCode();
         boolean isEncumbrance = LaborConstants.PayrollDocumentTypeCode.ENCUMBRANCE.equals(documentTypeCode);
-        return isEncumbrance ? KFSConstants.ENCUMB_UPDT_DOCUMENT_CD : KFSConstants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD;
+        return isEncumbrance ? KFSConstants.ENCUMB_UPDT_DOCUMENT_CD : null;
     }
 
     /**

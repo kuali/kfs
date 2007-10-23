@@ -670,12 +670,17 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         // if both fields arent present, then we're done
         if (incomeStreamAccountIsValid) {
-            // do an existence/active test
-            DictionaryValidationService dvService = super.getDictionaryValidationService();
-            boolean referenceExists = dvService.validateReferenceExists(newAccount, "incomeStreamAccount");
-            if (!referenceExists) {
-                putFieldError("incomeStreamAccountNumber", KFSKeyConstants.ERROR_EXISTENCE, "Income Stream Account: " + newAccount.getIncomeStreamFinancialCoaCode() + "-" + newAccount.getIncomeStreamAccountNumber());
-                incomeStreamAccountIsValid = false;
+            // KULCG-310
+            // If the object ID is null then the new account has not yet been saved. It would therefore fail this check even though
+            // it satisfies the rule. So, we don't want to check that the reference exists in that case.
+            if(!(newAccount.getIncomeStreamAccountNumber() == newAccount.getAccountNumber() && null == newAccount.getObjectId())) {
+                // do an existence/active test
+                DictionaryValidationService dvService = super.getDictionaryValidationService();
+                boolean referenceExists = dvService.validateReferenceExists(newAccount, "incomeStreamAccount");
+                if (!referenceExists) {
+                    putFieldError("incomeStreamAccountNumber", KFSKeyConstants.ERROR_EXISTENCE, "Income Stream Account: " + newAccount.getIncomeStreamFinancialCoaCode() + "-" + newAccount.getIncomeStreamAccountNumber());
+                    incomeStreamAccountIsValid = false;
+                }
             }
         }
 

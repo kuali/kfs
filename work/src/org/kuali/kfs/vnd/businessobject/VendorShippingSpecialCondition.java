@@ -103,6 +103,7 @@ public class VendorShippingSpecialCondition extends PersistableBusinessObjectBas
 
     /**
      * Sets the vendorShippingSpecialCondition attribute value.
+     * 
      * @param vendorShippingSpecialCondition The vendorShippingSpecialCondition to set.
      * @deprecated
      */

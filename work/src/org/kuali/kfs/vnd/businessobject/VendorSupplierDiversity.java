@@ -138,6 +138,9 @@ public class VendorSupplierDiversity extends PersistableBusinessObjectBase imple
     /**
      *  This method overrides the superclass method to return the description of
      *  the supplier diversity.
+     *  
+     *  @param  mapper  A LinkedHashMap
+     *  @return         A String rendition of this object.
      */
     @Override
     public String toStringBuilder(LinkedHashMap mapper) {

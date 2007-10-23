@@ -160,6 +160,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 
     /**
      * Sets the vendorNumber attribute value.
+     * 
      * @param vendorNumber The vendorNumber to set.
      */
     public void setVendorNumber(String vendorNumber) {
@@ -179,7 +180,8 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     /**
-     * Gets the vendorSoldToNumber attribute. 
+     * Gets the vendorSoldToNumber attribute.
+     * 
      * @return Returns the vendorSoldToNumber.
      */
     public String getVendorSoldToNumber() {
@@ -202,6 +204,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 
     /**
      * Sets the vendorSoldToNumber attribute value.
+     * 
      * @param vendorSoldToNumber The vendorSoldToNumber to set.
      */
     public void setVendorSoldToNumber(String vendorSoldToNumber) {

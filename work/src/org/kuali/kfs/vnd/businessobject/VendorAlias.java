@@ -109,6 +109,7 @@ public class VendorAlias extends PersistableBusinessObjectBase implements Inacti
     /**
      *  This method has to be overriden so that we will print only the vendorAliasName in the
      *  vendor lookup result.
+     * 
      * @see org.kuali.core.bo.BusinessObjectBase#toStringBuilder(java.util.LinkedHashMap)
      */
     @Override

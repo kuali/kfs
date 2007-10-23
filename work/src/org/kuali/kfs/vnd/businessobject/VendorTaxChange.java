@@ -44,9 +44,17 @@ public class VendorTaxChange extends PersistableBusinessObjectBase {
 	 * Default constructor.
 	 */
 	public VendorTaxChange() {
-
 	}
 
+    /**
+     * Constructs a VendorTaxChange.
+     * 
+     * @param vndrHdrGenId          The generated Id of the Vendor Header
+     * @param taxChangeDate         The date of this change
+     * @param prevTaxNum            The tax number previously
+     * @param prevTaxTypeCode       The tax type previously
+     * @param taxChangePersonId     The Id of the user who is making this change
+     */
     public VendorTaxChange( Integer vndrHdrGenId, Date taxChangeDate, String prevTaxNum, 
             String prevTaxTypeCode, String taxChangePersonId ) {
         this.vendorHeaderGeneratedIdentifier = vndrHdrGenId;

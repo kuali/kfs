@@ -204,6 +204,7 @@ public class VendorHeader extends PersistableBusinessObjectBase {
 
     /**
      * Sets the vendorDebarredIndicator attribute value.
+     * 
      * @param vendorDebarredIndicator The vendorDebarredIndicator to set.
      */
     public void setVendorDebarredIndicator(Boolean vendorDebarredIndicator) {
@@ -217,6 +218,7 @@ public class VendorHeader extends PersistableBusinessObjectBase {
 
     /**
      * Sets the vendorForeignIndicator attribute value.
+     * 
      * @param vendorForeignIndicator The vendorForeignIndicator to set.
      */
     public void setVendorForeignIndicator(Boolean vendorForeignIndicator) {

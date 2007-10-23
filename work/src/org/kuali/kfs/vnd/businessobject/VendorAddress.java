@@ -273,34 +273,18 @@ public class VendorAddress extends PersistableBusinessObjectBase implements Vend
         this.vendorDefaultAddressIndicator = vendorDefaultAddressIndicator;
     }
 
-    /**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
     public boolean isActive() {
         return active;
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
     public void setActive(boolean active) {
         this.active = active;
     }    
     
-    /**
-     * Gets the vendorDefaultAddresses attribute. 
-     * @return Returns the vendorDefaultAddresses.
-     */
     public List<VendorDefaultAddress> getVendorDefaultAddresses() {
         return vendorDefaultAddresses;
     }
 
-    /**
-     * Sets the vendorDefaultAddresses attribute value.
-     * @param vendorDefaultAddresses The vendorDefaultAddresses to set.
-     */
     public void setVendorDefaultAddresses(List<VendorDefaultAddress> vendorDefaultAddresses) {
         this.vendorDefaultAddresses = vendorDefaultAddresses;
     }

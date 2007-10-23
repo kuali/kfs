@@ -94,7 +94,7 @@ public class CollectorStepTest extends KualiTestBase {
     /**
      * Tests the whole step completes successfully.
      */
-    @RelatesTo(RelatesTo.JiraIssue.KULUT29)
+    //@RelatesTo(RelatesTo.JiraIssue.KULUT29)
     public void testAll() throws Exception {
         try {
             CollectorStep collectorStep = SpringContext.getBean(CollectorStep.class);

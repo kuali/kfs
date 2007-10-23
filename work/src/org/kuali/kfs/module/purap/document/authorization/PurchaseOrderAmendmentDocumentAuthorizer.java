@@ -29,11 +29,13 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 
 /**
- * Document Authorizer for the PO document.
- * 
+ * Document Authorizer for the PO Amendment document. 
  */
 public class PurchaseOrderAmendmentDocumentAuthorizer extends PurchaseOrderDocumentAuthorizer {
 
+    /**
+     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizer#getEditMode(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser, java.util.List, java.util.List)
+     */
     @Override
     public Map getEditMode(Document d, UniversalUser u, List sourceAccountingLines, List targetAccountingLines) {
         Map editModeMap = new HashMap();
@@ -45,6 +47,7 @@ public class PurchaseOrderAmendmentDocumentAuthorizer extends PurchaseOrderDocum
             editMode = PurapAuthorizationConstants.PurchaseOrderEditMode.AMENDMENT_ENTRY;
         }
         editModeMap.put(editMode, "TRUE");
+        
         return editModeMap;
     }
 }

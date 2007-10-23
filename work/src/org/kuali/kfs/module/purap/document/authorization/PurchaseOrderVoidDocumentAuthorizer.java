@@ -22,10 +22,12 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 
 /**
  * Document Authorizer for the PO document.
- * 
  */
 public class PurchaseOrderVoidDocumentAuthorizer extends PurchaseOrderDocumentAuthorizer {
 
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         DocumentActionFlags flags = super.getDocumentActionFlags(document, user);

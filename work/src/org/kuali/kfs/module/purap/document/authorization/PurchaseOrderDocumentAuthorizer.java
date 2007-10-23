@@ -45,6 +45,9 @@ import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
  */
 public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
     @Override
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
         String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_INITIATE_ACTION);

@@ -27,11 +27,13 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 
 /**
- * Document Authorizer for the PO document.
- * 
+ * Document Authorizer for the PO Retransmit document.
  */
 public class PurchaseOrderRetransmitDocumentAuthorizer extends PurchaseOrderDocumentAuthorizer {
 
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
@@ -48,6 +50,9 @@ public class PurchaseOrderRetransmitDocumentAuthorizer extends PurchaseOrderDocu
         return flags;
     }
     
+    /**
+     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizer#getEditMode(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser, java.util.List, java.util.List)
+     */
     @Override
     public Map getEditMode(Document d, UniversalUser u, List sourceAccountingLines, List targetAccountingLines) {
         Map editModeMap = new HashMap();

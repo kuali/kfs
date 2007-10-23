@@ -27,7 +27,7 @@ import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapService;
 
 /**
- * This class determines permissions for a user
+ * This class determines permissions for a user of the Payment Request document
  */
 public class PaymentRequestDocumentActionAuthorizer {
 
@@ -46,6 +46,11 @@ public class PaymentRequestDocumentActionAuthorizer {
     private boolean fiscalOfficerDelegateUser;
     private boolean approver;
 
+    /**
+     * Constructs a PaymentRequestDocumentActionAuthorizer.
+     * 
+     * @param preq      A PaymentRequestDocument
+     */
     public PaymentRequestDocumentActionAuthorizer(PaymentRequestDocument preq) {
 
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
@@ -151,7 +156,11 @@ public class PaymentRequestDocumentActionAuthorizer {
     public void setFullEntryCompleted(boolean fullEntryCompleted) {
         this.fullEntryCompleted = fullEntryCompleted;
     }
-
+    /**
+     * Predicate to determine whether the current user can calculate the PREQ.
+     * 
+     * @return  True if the current user can calculate
+     */
     public boolean canCalculate() {
         boolean hasPermission = false;
 
@@ -164,6 +173,11 @@ public class PaymentRequestDocumentActionAuthorizer {
         return hasPermission;
     }
 
+    /**
+     * Predicate to determine whether the current user can approve the PREQ. 
+     *
+     * @return  True if the current user can approve.
+     */
     public boolean canApprove() {
         boolean hasPermission = false;
 
@@ -173,7 +187,12 @@ public class PaymentRequestDocumentActionAuthorizer {
 
         return hasPermission;
     }
-
+    
+    /**
+     * Predicate to determine whether the current user can save the PREQ.
+     * 
+     * @return  True if the current user can save.
+     */
     public boolean canSave() {
         boolean hasPermission = false;
 
@@ -184,6 +203,11 @@ public class PaymentRequestDocumentActionAuthorizer {
         return hasPermission;
     }
 
+    /**
+     * Predicate to determine whether the current user can place the PREQ on hold.
+     * 
+     * @return  True if the current user can place the PREQ on hold.
+     */
     public boolean canHold() {
         boolean hasPermission = false;
 
@@ -195,6 +219,11 @@ public class PaymentRequestDocumentActionAuthorizer {
         return hasPermission;
     }
 
+    /**
+     * Predicate to determine whether the current user can remove the PREQ from being on hold.
+     * 
+     * @return  True if the current user can remove the PREQ from hold.
+     */
     public boolean canRemoveHold() {
         boolean hasPermission = false;
 
@@ -208,6 +237,11 @@ public class PaymentRequestDocumentActionAuthorizer {
         return hasPermission;
     }
 
+    /**
+     * Predicate to determine whether the current user can cancel the PREQ.
+     * 
+     * @return  True if the current user can cancel.
+     */
     public boolean canCancel() {
         boolean hasPermission = false;
 
@@ -223,6 +257,11 @@ public class PaymentRequestDocumentActionAuthorizer {
         return hasPermission;
     }
 
+    /**
+     * Predicate to determine whether the current user can request that the PREQ be canceled.
+     * 
+     * @return  True if the current user can request that the PREQ be canceled
+     */
     public boolean canRequestCancel() {
         boolean hasPermission = false;
 
@@ -233,6 +272,12 @@ public class PaymentRequestDocumentActionAuthorizer {
         return hasPermission;
     }
 
+    /**
+     * Predicate to determine whether the current user can remove a request that the
+     * PREQ be canceled.
+     * 
+     * @return  True if the current user can remove a request that the PREQ be canceled.
+     */
     public boolean canRemoveRequestCancel() {
         boolean hasPermission = false;
 
@@ -243,10 +288,20 @@ public class PaymentRequestDocumentActionAuthorizer {
         return hasPermission;
     }
 
+    /**
+     * Predicate to determine whether the current user can edit the pre-extract fields.
+     * 
+     * @return  True if the current user can edit the fields
+     */
     public boolean canEditPreExtractFields() {
         return !this.isExtracted() && this.apUser;
     }
 
+    /**
+     * Predicate to determine whether the current user can exit.
+     * 
+     * @return  True if the current user can exit.
+     */
     public boolean canExit() {
         boolean hasPermission = true;
         return hasPermission;

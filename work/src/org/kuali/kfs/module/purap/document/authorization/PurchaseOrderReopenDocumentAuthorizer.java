@@ -21,11 +21,13 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 
 /**
- * Document Authorizer for the PO document.
- * 
+ * Document Authorizer for the PO Reopen document. 
  */
 public class PurchaseOrderReopenDocumentAuthorizer extends PurchaseOrderDocumentAuthorizer {
 
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         DocumentActionFlags flags = super.getDocumentActionFlags(document, user);

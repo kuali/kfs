@@ -39,7 +39,7 @@ import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PurapService;
 
 /**
- * Document Authorizer for the credit memo document.
+ * Document Authorizer for the Credit Memo document.
  */
 public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 

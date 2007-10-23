@@ -43,11 +43,13 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.service.PurapService;
 
 /**
- * Document Authorizer for the PREQ document.
- * 
+ * Document Authorizer for the PREQ document. 
  */
 public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
-
+    
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
     @Override
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
         String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
@@ -130,6 +132,9 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
         return editModeMap;
     }
 
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         DocumentActionFlags flags = super.getDocumentActionFlags(document, user);

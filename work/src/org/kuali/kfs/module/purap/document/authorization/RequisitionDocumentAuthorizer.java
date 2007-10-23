@@ -39,16 +39,21 @@ import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
 /**
  * Document Authorizer for the Requisition document.
- * 
  */
 public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
     @Override
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
         //anyone with access to the system can complete a REQ document
         return true;
     }
 
+    /**
+     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizer#getEditMode(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser, java.util.List, java.util.List)
+     */
     @Override
     public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
         Map editModeMap = super.getEditMode(document, user);
@@ -118,6 +123,9 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
         return editModeMap;
     }
     
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
@@ -129,6 +137,7 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
             // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
             this.setAnnotateFlag(flags);
         }
+        
         return flags;
     }
 

@@ -147,6 +147,7 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
      * been stored in the nextSourceLineNumber variable, adds the accounting line to the list that is aggregated by this object, and
      * then handles incrementing the nextSourceLineNumber variable.
      * 
+     * @param line the accounting line to add to the list.
      * @see org.kuali.kfs.document.AccountingDocument#addSourceAccountingLine(SourceAccountingLine)
      */
     public void addAccountDistributionsourceAccountingLine(PurApAccountingLine line) {

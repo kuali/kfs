@@ -56,13 +56,13 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     private PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine;
     private PurchaseOrderVendorQuote newPurchaseOrderVendorQuote;
     private Long awardedVendorNumber;
-
+  
     // Retransmit.
     private String[] retransmitItemsSelected = {};
     private String retransmitTransmissionMethod;
     private String retransmitFaxNumber;
     private String retransmitHeader;
-
+    
     // Need this for amendment for accounting line only
     protected Map accountingLineEditingMode;
 
@@ -118,7 +118,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
         this.purchaseOrderIdentifier = purchaseOrderIdentifier;
     }
-    
+  
     public String[] getRetransmitItemsSelected() {
         return retransmitItemsSelected;
     }
@@ -318,7 +318,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             ExtraButton removeHoldButton = (ExtraButton) buttonsMap.get("methodToCall.removeHoldPo");
             this.getExtraButtons().add(removeHoldButton);
         }
-
     }
 
     /**
@@ -401,7 +400,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      */
     @Override
     public void populate(HttpServletRequest request) {
-
         PurchaseOrderDocument po = (PurchaseOrderDocument) this.getDocument();
 
         // TODO - ctk can we remove this since we are refreshing at the bottom now

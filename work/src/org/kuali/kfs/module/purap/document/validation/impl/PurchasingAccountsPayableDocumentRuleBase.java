@@ -289,9 +289,13 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
         BigDecimal totalPercent = BigDecimal.ZERO;
         BigDecimal desiredPercent = new BigDecimal("100");
         for (PurApAccountingLine account : purAccounts) {
-            totalPercent = totalPercent.add(account.getAccountLinePercent());
+            if (account.getAccountLinePercent() != null) {
+                totalPercent = totalPercent.add(account.getAccountLinePercent());
+            }
+            else {
+                totalPercent = totalPercent.add(BigDecimal.ZERO);
+            }
         }
-
         if (desiredPercent.compareTo(totalPercent) != 0) {
             GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_TOTAL, itemLineNumber);
             valid = false;

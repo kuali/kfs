@@ -33,7 +33,7 @@ import org.kuali.module.vendor.service.VendorService;
 import org.kuali.module.vendor.util.VendorRoutingComparable;
 
 /**
- * Purchasing Contracts with specific Vendors
+ * Purchasing Contracts with specific Vendors.
  */
 public class VendorContract extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivateable {
     private static Logger LOG = Logger.getLogger(VendorContract.class);

@@ -27,8 +27,9 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.bo.ShippingPaymentTerms;
 
 /**
- * This class returns list containg A = Active or I = Inactive
+ * Values Finder for <code>ShippingPaymentTerms</code>.
  * 
+ * @see org.kuali.module.vendor.bo.ShippingPaymentTerms
  */
 public class ShippingPaymentTermsValuesFinder extends KeyValuesBase {
 

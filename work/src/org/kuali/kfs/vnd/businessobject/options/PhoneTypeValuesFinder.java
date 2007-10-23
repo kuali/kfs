@@ -26,6 +26,11 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.bo.PhoneType;
 
+/**
+ * Values finder for <code>PhoneType</code>.
+ * 
+ * @see org.kuali.module.vendor.bo.PhoneType
+ */
 public class PhoneTypeValuesFinder extends KeyValuesBase {
 
     /*
@@ -41,6 +46,7 @@ public class PhoneTypeValuesFinder extends KeyValuesBase {
             PhoneType type = (PhoneType) iter.next();
             labels.add(new KeyLabelPair(type.getVendorPhoneTypeCode(), type.getVendorPhoneTypeDescription()));
         }
+        
         return labels;
     }
 

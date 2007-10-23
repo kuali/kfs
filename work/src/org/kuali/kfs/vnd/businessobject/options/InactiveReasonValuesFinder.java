@@ -26,6 +26,11 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.bo.VendorInactiveReason;
 
+/**
+ * Values finder for <code>VendorInactiveReason</code>.
+ * 
+ * @see org.kuali.module.vendor.bo.VendorInactiveReason
+ */
 public class InactiveReasonValuesFinder extends KeyValuesBase {
 
     /*

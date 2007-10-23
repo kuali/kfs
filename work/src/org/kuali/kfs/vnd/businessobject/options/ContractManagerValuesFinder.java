@@ -27,8 +27,9 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.bo.ContractManager;
 
 /**
- * This class...
+ * Values finder for <code>ContractManager</code>.
  * 
+ * @see org.kuali.module.vendor.bo.ContractManager
  */
 public class ContractManagerValuesFinder extends KeyValuesBase {
 

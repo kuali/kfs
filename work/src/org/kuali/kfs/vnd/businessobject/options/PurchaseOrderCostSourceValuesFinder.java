@@ -27,8 +27,9 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
 
 /**
- * This class...
+ * Values Finder for <code>PurchaseOrderCostSource</code>.
  * 
+ * @see org.kuali.module.vendor.bo.PurchaseOrderCostSource
  */
 public class PurchaseOrderCostSourceValuesFinder extends KeyValuesBase {
 

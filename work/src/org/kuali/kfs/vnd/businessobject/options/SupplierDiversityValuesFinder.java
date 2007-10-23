@@ -26,6 +26,11 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.bo.SupplierDiversity;
 
+/**
+ * Values Finder for <code>SupplierDiversity</code>.
+ * 
+ * @see org.kuali.module.vendor.bo.SupplierDiversity
+ */
 public class SupplierDiversityValuesFinder extends KeyValuesBase {
 
     /*

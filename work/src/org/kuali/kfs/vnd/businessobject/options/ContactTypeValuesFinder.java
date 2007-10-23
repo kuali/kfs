@@ -27,8 +27,9 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.bo.ContactType;
 
 /**
- * This class...
+ * Values finder for <code>ContactType</code>.
  * 
+ * @see org.kuali.module.vendor.bo.ContactType
  */
 public class ContactTypeValuesFinder extends KeyValuesBase {
 

@@ -27,8 +27,9 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.bo.AddressType;
 
 /**
- * This class...
+ * Values Finder for <code>AddressType</code>.
  * 
+ * @see org.kuali.module.vendor.bo.AddressType
  */
 public class AddressTypeValuesFinder extends KeyValuesBase {
 

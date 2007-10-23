@@ -26,6 +26,11 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.bo.ShippingSpecialCondition;
 
+/**
+ * Values Finder for <code>ShippingSpecialCondition</code>.
+ * 
+ * @see org.kuali.module.vendor.bo.ShippingSpecialCondition
+ */
 public class ShippingSpecialConditionValuesFinder extends KeyValuesBase {
 
     /*

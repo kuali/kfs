@@ -27,8 +27,9 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.bo.VendorType;
 
 /**
+ * Values Finder for <code>VendorType</code>.
  * 
- * 
+ * @see org.kuali.module.vendor.bo.VendorType
  */
 public class VendorTypeValuesFinder extends KeyValuesBase {
 

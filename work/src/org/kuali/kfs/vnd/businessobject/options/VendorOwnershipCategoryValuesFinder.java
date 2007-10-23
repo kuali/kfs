@@ -27,8 +27,9 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.bo.OwnershipCategory;
 
 /**
- * This class returns list containg A = Active or I = Inactive
+ * Values Finder for <code>OwnershipCategory</code>.
  * 
+ * @see org.kuali.module.vendor.bo.OwnershipCategory
  */
 public class VendorOwnershipCategoryValuesFinder extends KeyValuesBase {
 

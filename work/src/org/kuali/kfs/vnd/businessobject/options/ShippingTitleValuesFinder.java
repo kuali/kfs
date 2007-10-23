@@ -27,9 +27,9 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.bo.ShippingTitle;
 
 /**
- * This class returns list containg A = Active or I = Inactive
+ * Values Finder for <code>ShippingTitle</code>.
  * 
- * 
+ * @see org.kuali.module.vendor.bo.ShippingTitle
  */
 public class ShippingTitleValuesFinder extends KeyValuesBase {
 

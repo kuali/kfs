@@ -29,6 +29,7 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.service.BudgetPersonnelService;
@@ -405,10 +406,18 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
                 this.baseSalary = new KualiDecimal(0);
             }
 
-            StringTokenizer chartOrg = new StringTokenizer(this.user.getPrimaryDepartmentCode(), "-");
+            String chart = "";
+            String org = "";
+            if ( this.user.getModuleUser(ChartUser.MODULE_ID) != null ) {
+                chart = ((ChartUser)this.user.getModuleUser(ChartUser.MODULE_ID)).getChartOfAccountsCode();
+                org   = ((ChartUser)this.user.getModuleUser(ChartUser.MODULE_ID)).getOrganizationCode();
+            } else {
+                chart = SpringContext.getBean(ChartUserService.class).getDefaultChartCode( this.user );
+                org   = SpringContext.getBean(ChartUserService.class).getDefaultOrganizationCode( this.user );
+            }
             
-            this.fiscalCampusCode = chartOrg.nextToken();
-            this.primaryDepartmentCode = chartOrg.hasMoreElements() ? chartOrg.nextToken() : this.fiscalCampusCode;
+            this.fiscalCampusCode = chart;
+            this.primaryDepartmentCode = org;
         }
         else {
             this.baseSalary = new KualiDecimal(0);

@@ -37,6 +37,8 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
+import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
@@ -376,10 +378,10 @@ public class BudgetForm extends ResearchDocumentFormBase {
      */
     public String getInitiatorOrgCode() {
         if (this.getInitiator() != null) {
-            if ( !StringUtils.isEmpty( this.getInitiator().getPrimaryDepartmentCode() ) ) {
-                return this.getInitiator().getPrimaryDepartmentCode();
+            if ( this.getInitiator().getModuleUser(ChartUser.MODULE_ID) != null ) {
+                return ((ChartUser)this.getInitiator().getModuleUser(ChartUser.MODULE_ID)).getOrganizationCode();
             } else {
-                return this.getInitiator().getCampusCode();
+                return SpringContext.getBean(ChartUserService.class).getDefaultOrganizationCode( this.getInitiator() );
             }
         }
         return "";

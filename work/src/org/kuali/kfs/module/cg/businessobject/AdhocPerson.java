@@ -145,22 +145,6 @@ public class AdhocPerson extends AbstractAdhoc {
     }
     
     /**
-     * Gets the org code based on deptid.
-     * 
-     * @return Returns the user.
-     */
-    public String getOrgCode() {
-        if (this.getUser() != null) {
-            if ( !StringUtils.isEmpty( this.getUser().getPrimaryDepartmentCode() ) ) {
-                return this.getUser().getPrimaryDepartmentCode();
-            } else {
-                return this.getUser().getCampusCode();
-            }
-        }
-        return "";
-    }
-
-    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {

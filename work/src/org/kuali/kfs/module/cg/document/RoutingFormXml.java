@@ -32,6 +32,7 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
@@ -196,8 +197,18 @@ public class RoutingFormXml {
                 projectDirectorElement.setAttribute("PERCENT_CREDIT", ObjectUtils.toString(projectDirector.getPersonCreditPercent()));
 
                 Element homeOrgElement = xmlDoc.createElement("HOME_ORG");
-                homeOrgElement.setAttribute("HOME_CHART", ObjectUtils.toString(projectDirector.getUser().getCampusCode()));
-                homeOrgElement.setAttribute("HOME_ORG", ObjectUtils.toString(projectDirector.getUser().getPrimaryDepartmentCode()));
+                String chart = "";
+                String org = "";
+                if ( projectDirector.getUser().getModuleUser(ChartUser.MODULE_ID) != null ) {
+                    chart = ((ChartUser)projectDirector.getUser().getModuleUser(ChartUser.MODULE_ID)).getChartOfAccountsCode();
+                    org   = ((ChartUser)projectDirector.getUser().getModuleUser(ChartUser.MODULE_ID)).getOrganizationCode();
+                } else {
+                    chart = SpringContext.getBean(ChartUserService.class).getDefaultChartCode( projectDirector.getUser() );
+                    org   = SpringContext.getBean(ChartUserService.class).getDefaultOrganizationCode( projectDirector.getUser() );
+                }
+                
+                homeOrgElement.setAttribute("HOME_CHART", ObjectUtils.toString(chart));
+                homeOrgElement.setAttribute("HOME_ORG", ObjectUtils.toString(org));
                 projectDirectorElement.appendChild(homeOrgElement);
             }
 

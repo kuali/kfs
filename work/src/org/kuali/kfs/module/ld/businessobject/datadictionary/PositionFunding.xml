@@ -45,8 +45,8 @@
         </inquiry>
 
         <lookup>
+            <lookupableID>laborPositionFundingLookupable</lookupableID>	        
             <title>Position Funding</title>
-
             <instructions>Look up a Calculated Salary Foundation Tracker</instructions>
 
             <defaultSort sortAscending="true">

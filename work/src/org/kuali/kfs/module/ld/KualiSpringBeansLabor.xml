@@ -858,4 +858,29 @@
 			<ref bean="positionObjectBenefitLookupableHelperService" />
 		</property>
 	</bean>
+
+	
+	<bean id="laborPositionFundingLookupableHelperService" class="org.kuali.module.labor.web.lookupable.PositionFundingLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>		
+	</bean>
+	
+	<bean id="laborPositionFundingLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="laborPositionFundingLookupableHelperService" />
+		</property>
+	</bean>	
 </beans>

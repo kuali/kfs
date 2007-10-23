@@ -810,6 +810,9 @@
     <reference-descriptor name="option" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.LaborOriginEntry" table="LD_LBR_ORIGIN_ENTRY_T">

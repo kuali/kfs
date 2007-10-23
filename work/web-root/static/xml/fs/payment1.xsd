@@ -2,7 +2,6 @@
 <xsd:schema elementFormDefault="qualified"
     targetNamespace="http://kuali.org/pdp/payment1"
     xmlns="http://kuali.org/pdp/payment1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <!-- $Id: payment1.xsd,v 1.1 2007-10-14 21:04:53 abyrne Exp $ -->
     <!-- simple data types -->
     <xsd:simpleType name="chartType">
         <xsd:restriction base="xsd:string">

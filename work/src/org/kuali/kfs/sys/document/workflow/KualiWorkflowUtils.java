@@ -62,17 +62,18 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     /* the following is so verbose because most times the match anywhere prefix is used and the
      * verboseness prevents bad matching if a document has an attribute named 'report'
      */
+    public static final String XPATH_ELEMENT_SEPARATOR = "/";
     private static final String GENERATED_CONTENT_MAIN_TAG = "generatedContent";
     private static final String GENERATED_CONTENT_SUB_TAG = "report_for_routing_purposes";
     public static final String XML_REPORT_DOC_CONTENT_PREFIX = "<" + GENERATED_CONTENT_MAIN_TAG + "><" + GENERATED_CONTENT_SUB_TAG + ">";
     public static final String XML_REPORT_DOC_CONTENT_SUFFIX = "</" + GENERATED_CONTENT_SUB_TAG + "></" + GENERATED_CONTENT_MAIN_TAG + ">";
-    public static final String XML_REPORT_DOC_CONTENT_XPATH_PREFIX = GENERATED_CONTENT_MAIN_TAG + "/" + GENERATED_CONTENT_SUB_TAG;
+    public static final String XML_REPORT_DOC_CONTENT_XPATH_PREFIX = GENERATED_CONTENT_MAIN_TAG + XPATH_ELEMENT_SEPARATOR + GENERATED_CONTENT_SUB_TAG;
 
     // no trailing slash
     public static final String NEW_MAINTAINABLE_PREFIX_NTS = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "newMaintainableObject/businessObject";
     public static final String OLD_MAINTAINABLE_PREFIX_NTS = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "oldMaintainableObject/businessObject";
-    public static final String NEW_MAINTAINABLE_PREFIX = NEW_MAINTAINABLE_PREFIX_NTS + "/";
-    public static final String OLD_MAINTAINABLE_PREFIX = KualiWorkflowUtils.OLD_MAINTAINABLE_PREFIX_NTS + "/";
+    public static final String NEW_MAINTAINABLE_PREFIX = NEW_MAINTAINABLE_PREFIX_NTS + XPATH_ELEMENT_SEPARATOR;
+    public static final String OLD_MAINTAINABLE_PREFIX = KualiWorkflowUtils.OLD_MAINTAINABLE_PREFIX_NTS + XPATH_ELEMENT_SEPARATOR;
     public static final String ACCOUNT_DOC_TYPE = "AccountMaintenanceDocument";
     public static final String ACCOUNT_DEL_DOC_TYPE = "DelegateMaintenanceDocument";
     public static final String ACCOUNT_DELEGATE_GLOBAL_DOC_TYPE = "DelegateGlobal";
@@ -105,7 +106,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     public static final String CHART_ORG_WORKGROUP_DOC_TYPE = "ChartOrgWorkgroup";
 	public static final String ACCOUNTS_PAYABLE_CREDIT_MEMO_DOCUMENT_TYPE = "CreditMemoDocument";
     public static final String ACCOUNTS_PAYABLE_PAYMENT_REQUEST_DOCUMENT_TYPE = "PaymentRequestDocument";
-    public static final String FINANCIAL_DOCUMENT_TOTAL_AMOUNT_XPATH = xstreamSafeXPath(XSTREAM_MATCH_ANYWHERE_PREFIX + RicePropertyConstants.DOCUMENT_HEADER + "/" + RicePropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT + "/value");
+    public static final String FINANCIAL_DOCUMENT_TOTAL_AMOUNT_XPATH = xstreamSafeXPath(XSTREAM_MATCH_ANYWHERE_PREFIX + RicePropertyConstants.DOCUMENT_HEADER + XPATH_ELEMENT_SEPARATOR + RicePropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT + "/value");
     public static final String ACCOUNT_GLOBAL_DETAILS_XPATH = xstreamSafeXPath(NEW_MAINTAINABLE_PREFIX + "accountGlobalDetails/list/org.kuali.module.chart.bo.AccountGlobalDetail");
     public static final String ORG_REVERSION_GLOBALS_XPATH = xstreamSafeXPath(NEW_MAINTAINABLE_PREFIX + "organizationReversionGlobalOrganizations/list/org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization");
 

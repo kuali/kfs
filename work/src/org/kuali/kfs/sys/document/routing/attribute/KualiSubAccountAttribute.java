@@ -109,8 +109,6 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
         fieldConversionMap = new HashMap();
         fieldConversionMap.put(CHART_CODE_FIELD_PROPERTY, FIN_COA_CD_KEY);
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(ACCOUNT_NUMBER_FIELD_CLASS, ACCOUNT_NUMBER_FIELD_PROPERTY, ACCOUNT_NBR_KEY));
-        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(ORG_CODE_FIELD_CLASS, ORG_CODE_FIELD_PROPERTY, ORG_CD_KEY));
-        fieldConversionMap.put(ACCOUNT_NUMBER_FIELD_PROPERTY, ACCOUNT_NBR_KEY);
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(SUB_ACCOUNT_NUMBER_FIELD_CLASS, SUB_ACCOUNT_NUMBER_FIELD_PROPERTY, SUB_ACCOUNT_NBR_KEY));
     }
 
@@ -118,21 +116,13 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getDocContent()
      */
     public String getDocContent() {
-        if (Utilities.isEmpty(getFinCoaCd()) || Utilities.isEmpty(getSubAccountNbr()) || ( (Utilities.isEmpty(getSubAccountNbr())) && (Utilities.isEmpty(getOrgCd())) ) ) {
+        if (Utilities.isEmpty(getFinCoaCd()) || Utilities.isEmpty(getAccountNbr()) || Utilities.isEmpty(getSubAccountNbr())) {
             return "";
         }
-        StringBuffer chartCode = new StringBuffer();
-        StringBuffer accountOrOrg = new StringBuffer();
-        if (Utilities.isEmpty(getAccountNbr())) {
-            // we do not have account... do org values
-            chartCode.append("<" + KFSPropertyConstants.FINANCIAL_REPORT_CHART_CODE + ">").append(getFinCoaCd()).append("</" + KFSPropertyConstants.FINANCIAL_REPORT_CHART_CODE + ">");
-            accountOrOrg.append("<" + KFSPropertyConstants.FIN_REPORT_ORGANIZATION_CODE + ">").append(getOrgCd()).append("</" + KFSPropertyConstants.ORGANIZATION_CODE + ">");
-        } else {
-            // we have account
-            chartCode.append("<" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + ">").append(getFinCoaCd()).append("</" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + ">");
-            accountOrOrg.append("<" + KFSPropertyConstants.ACCOUNT_NUMBER + ">").append(getAccountNbr()).append("</" + KFSPropertyConstants.ACCOUNT_NUMBER + ">");
-        }
-        return new StringBuffer(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_PREFIX).append(chartCode).append(accountOrOrg).append("<" + KFSPropertyConstants.SUB_ACCOUNT_NUMBER + ">").append(getSubAccountNbr()).append("</" + KFSPropertyConstants.SUB_ACCOUNT_NUMBER + ">" + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_SUFFIX).toString();
+        StringBuffer chartCode = new StringBuffer().append("<" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + ">").append(getFinCoaCd()).append("</" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + ">");
+        StringBuffer accountNumber = new StringBuffer().append("<" + KFSPropertyConstants.ACCOUNT_NUMBER + ">").append(getAccountNbr()).append("</" + KFSPropertyConstants.ACCOUNT_NUMBER + ">");
+        StringBuffer subAccountNumber = new StringBuffer().append("<" + KFSPropertyConstants.SUB_ACCOUNT_NUMBER + ">").append(getSubAccountNbr()).append("</" + KFSPropertyConstants.SUB_ACCOUNT_NUMBER + ">");
+        return new StringBuffer(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_PREFIX).append(chartCode).append(accountNumber).append(subAccountNumber).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_SUFFIX).toString();
     }
 
     /**
@@ -345,16 +335,17 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
                 String account = null;
                 String org = null;
                 String subAccount = null;
+                String reportMatchAnywhereExpressionPrefix = new StringBuffer(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX).toString();
                 boolean isReport = ((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
                 if (isReport) {
-                    account = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX).append(KFSPropertyConstants.ACCOUNT_NUMBER).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
-                    org = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX).append(KFSPropertyConstants.ORGANIZATION_CODE).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
-                    subAccount = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX).append(KFSPropertyConstants.SUB_ACCOUNT_NUMBER).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
+                    account = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(reportMatchAnywhereExpressionPrefix).append(KualiWorkflowUtils.XPATH_ELEMENT_SEPARATOR).append(KFSPropertyConstants.ACCOUNT_NUMBER).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
+                    org = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(reportMatchAnywhereExpressionPrefix).append(KualiWorkflowUtils.XPATH_ELEMENT_SEPARATOR).append(KFSPropertyConstants.ORGANIZATION_CODE).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
+                    subAccount = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(reportMatchAnywhereExpressionPrefix).append(KualiWorkflowUtils.XPATH_ELEMENT_SEPARATOR).append(KFSPropertyConstants.SUB_ACCOUNT_NUMBER).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
                     String chartFieldName = KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
                     if (StringUtils.isBlank(account)) {
                         chartFieldName = KFSPropertyConstants.FINANCIAL_REPORT_CHART_CODE;
                     }
-                    chart = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX).append(chartFieldName).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
+                    chart = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(reportMatchAnywhereExpressionPrefix).append(KualiWorkflowUtils.XPATH_ELEMENT_SEPARATOR).append(chartFieldName).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
                     subAccountValues.addAll(attemptSubAccountRetrieval(chart, account, org, subAccount));
                 }
                 else {

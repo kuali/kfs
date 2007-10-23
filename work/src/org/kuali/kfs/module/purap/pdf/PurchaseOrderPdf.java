@@ -14,11 +14,13 @@ import java.util.Locale;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.PurchaseOrderRetransmitDocument;
 import org.kuali.module.purap.exceptions.PurError;
 
 import com.lowagie.text.Chunk;
@@ -600,8 +602,14 @@ public class PurchaseOrderPdf extends PurapPdf {
         tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         itemsTable.addCell(tableCell);
         itemsTable.addCell(" ");
-        // getTotalCost() calculates based on the items in the po, so works for retransmit.
-        tableCell = new PdfPCell(new Paragraph(numberFormat.format(po.getTotalDollarAmount()) + " ", cour_10_normal));
+        KualiDecimal totalDollarAmount = new KualiDecimal(BigDecimal.ZERO);
+        if (po instanceof PurchaseOrderRetransmitDocument) {
+            totalDollarAmount = ((PurchaseOrderRetransmitDocument)po).getTotalDollarAmountForRetransmit();
+        }
+        else {
+            totalDollarAmount = po.getTotalDollarAmount();
+        }
+        tableCell = new PdfPCell(new Paragraph(numberFormat.format(totalDollarAmount) + " ", cour_10_normal));
         tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         itemsTable.addCell(tableCell);
         // Blank line after totals

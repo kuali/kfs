@@ -16,11 +16,15 @@
 
 package org.kuali.module.purap.document;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 
@@ -41,6 +45,26 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
         //do not set the accounts in sourceAccountingLines; this document should not create GL entries
     }
 
+    /**
+     * Adds up the total amount of the items selected by the user for retransmit, 
+     * then return the amount.
+     * 
+     * @return KualiDecimal the total amount of the items selected by the user for retransmit.
+     */
+    public KualiDecimal getTotalDollarAmountForRetransmit() {
+        //We should only add up the amount of the items that were selected for retransmit.
+        KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
+        for (PurchaseOrderItem item : (List<PurchaseOrderItem>)getItems()) {
+            if (item.isItemSelectedForRetransmitIndicator()) {
+                KualiDecimal extendedPrice = item.getExtendedPrice();
+                KualiDecimal itemTotal = (extendedPrice != null) ? extendedPrice : KualiDecimal.ZERO;
+                total = total.add(itemTotal);
+            }
+        }
+        
+        return total;
+    }
+    
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();

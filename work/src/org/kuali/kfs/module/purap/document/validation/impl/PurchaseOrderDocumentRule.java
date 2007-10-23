@@ -59,9 +59,9 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      * the Vendor Stipulation Tab.
      * Tab included on Purchase Order Documents is Vendor Stipulation.
      * 
-     * @param purapDocument
-     * @return boolean false when an error is found in any validation.
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @param purapDocument  the purchase order document to be validated
+     * @return               boolean false when an error is found in any validation.
+     * @see                  org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
      */
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
@@ -76,8 +76,8 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      * Performs any validation for the Additional tab, but currently it only returns true. Someday we might be able to
      * just remove this.
      * 
-     * @param purDocument
-     * @return
+     * @param purDocument  the purchase order document to be validated
+     * @return             boolean true (always return true for now)
      */
     public boolean processAdditionalValidation(PurchasingDocument purDocument) {
         boolean valid = true;
@@ -89,9 +89,9 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      * Overrides the method in PurchasingDocumentRuleBase in order to call validateEmptyItemWithAccounts, validateItemForAmendment
      * and validateTradeInAndDiscountCoexistence in addition to what the superclass method has already provided.
      * 
-     * @param purapDocument
-     * @return boolean false when an error is found in any validation.
-     * @see org.kuali.module.purap.rules.PurchasingDocumentRuleBase#processItemValidation(org.kuali.module.purap.document.PurchasingDocument)
+     * @param purapDocument     the purchase order document to be validated
+     * @return                  boolean false when an error is found in any validation.
+     * @see                     org.kuali.module.purap.rules.PurchasingDocumentRuleBase#processItemValidation(org.kuali.module.purap.document.PurchasingDocument)
      */
     @Override
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
@@ -112,9 +112,9 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      * 
      * Validates items for amendment. 
      * 
-     * @param item
-     * @param identifierString
-     * @return boolean true if it passes the validation and false otherwise.
+     * @param item               the item to be validated
+     * @param identifierString   the identifier string of the item to be validated
+     * @return                   boolean true if it passes the validation and false otherwise.
      */
     private boolean validateItemForAmendment(PurchaseOrderItem item, String identifierString) {
         boolean valid = true;
@@ -143,9 +143,9 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     /**
      * Validates that the item detail must not be empty if its account is not empty and its item type is ITEM.
      * 
-     * @param item
-     * @param identifierString
-     * @return boolean false if it is an above the line item and the item detail is empty and the account list is not empty.
+     * @param item              the item to be validated
+     * @param identifierString  the identifier string of the item to be validated
+     * @return                   boolean false if it is an above the line item and the item detail is empty and the account list is not empty.
      */
     boolean validateEmptyItemWithAccounts(PurchaseOrderItem item, String identifierString) {
         boolean valid = true;
@@ -160,8 +160,8 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     /**
      * Validates that the purchase order cannot have both trade in and discount item.
      * 
-     * @param purDocument
-     * @return boolean false if trade in and discount both exist.
+     * @param purDocument   the purchase order document to be validated
+     * @return              boolean false if trade in and discount both exist.
      */
     boolean validateTradeInAndDiscountCoexistence(PurchasingDocument purDocument) {
         boolean discountExists = false;
@@ -192,8 +192,8 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     /**
      * Validation for the Stipulation tab. 
      * 
-     * @param poDocument
-     * @return boolean false if the vendor stipulation description is blank.
+     * @param poDocument   the purchase order document to be validated
+     * @return             boolean false if the vendor stipulation description is blank.
      */
     public boolean processVendorStipulationValidation(PurchaseOrderDocument poDocument) {
         boolean valid = true;
@@ -213,9 +213,9 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      * Overrides the method in PurchasingDocumentRuleBase in order to add validations that are specific for
      * Purchase Orders that aren't required for Requisitions.
      * 
-     * @param purapDocument
-     * @return boolean false when there is a failed validation.
-     * @see org.kuali.module.purap.rules.PurchasingDocumentRuleBase#processVendorValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @param purapDocument   the purchase order document to be validated
+     * @return                boolean false when there is a failed validation.
+     * @see                   org.kuali.module.purap.rules.PurchasingDocumentRuleBase#processVendorValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
      */
     @Override
     public boolean processVendorValidation(PurchasingAccountsPayableDocument purapDocument) {
@@ -259,8 +259,8 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      * Validate that if Vendor Id (VendorHeaderGeneratedId) is not empty, and tranmission method is fax, vendor fax number cannot be
      * empty and must be valid. 
      * 
-     * @param purDocument
-     * @return boolean false if VendorHeaderGeneratedId is not empty, tranmission method is fax, and VendorFaxNumber is empty or invalid.
+     * @param purDocument   the purchase order document to be validated
+     * @return              boolean false if VendorHeaderGeneratedId is not empty, tranmission method is fax, and VendorFaxNumber is empty or invalid.
      *         
      */
     private boolean validateFaxNumberIfTransmissionTypeIsFax(PurchasingDocument purDocument) {
@@ -282,8 +282,8 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      * Validate that if the PurchaseOrderTotalLimit is not null then the TotalDollarAmount cannot be greater than the
      * PurchaseOrderTotalLimit.
      * 
-     * @param purDocument
-     * @return True if the TotalDollarAmount is less than the PurchaseOrderTotalLimit. False otherwise.
+     * @param purDocument   the purchase order document to be validated
+     * @return              True if the TotalDollarAmount is less than the PurchaseOrderTotalLimit. False otherwise.
      */
     public boolean validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(PurchasingDocument purDocument) {
         boolean valid = true;
@@ -302,12 +302,12 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      * Overrides the method in PurapAccountingDocumentRuleBase in order to check that if the document will stop in
      * Internal Purchasing Review node, then return true.
      * 
-     * @param financialDocument
-     * @param accountingLine
-     * @param action
-     * @return boolean true if the document will stop in Internal Purchasing Review node, otherwise return the
-     *         result of the checkAccountingLineAccountAccessibility in PurapAccountingDocumentRuleBase.
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase.AccountingLineAction)
+     * @param financialDocument   the purchase order document to be validated
+     * @param accountingLine      the accounting line to be validated
+     * @param action              the AccountingLineAction enum that indicates what is being done to an accounting line
+     * @return                    boolean true if the document will stop in Internal Purchasing Review node, otherwise return the
+     *                            result of the checkAccountingLineAccountAccessibility in PurapAccountingDocumentRuleBase.
+     * @see                       org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase.AccountingLineAction)
      */
     @Override
     protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLineAction action) {
@@ -328,9 +328,9 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      * Overrides the method in PurapAccountingDocumentRuleBase to call the customizeGeneralLedgerPendingEntry 
      * of the PurapGeneralLedgerService and set the financialDocumentTypeCode of the explicitEntry to "PO".
      * 
-     * @param accountingDocument
-     * @param accountingLine
-     * @param explicitEntry
+     * @param accountingDocument   
+     * @param accountingLine       
+     * @param explicitEntry        
      * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument, 
      *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
      */

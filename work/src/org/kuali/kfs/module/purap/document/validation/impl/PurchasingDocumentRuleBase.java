@@ -55,9 +55,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * Overrides the method in PurchasingAccountsPayableDocumentRuleBase to add validations for Payment Info 
      * and Delivery tabs.
      * 
-     * @param purapDocument
-     * @return boolean false if there is any validation that fails.
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @param purapDocument  the purchasing document to be validated
+     * @return               boolean false if there is any validation that fails.
+     * @see                  org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
      */
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
@@ -73,9 +73,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * the unit price, unit of measure, item quantity (for above the line items), 
      * the validateBelowTheLineItemNoUnitcost, validateTotalCost and validateContainsAtLeastOneItem.
      * 
-     * @param purDocument
-     * @return boolean false if there is any validation  fails.
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processItemValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @param purDocument  the purchasing document to be validated
+     * @return             boolean false if there is any validation  fails.
+     * @see                org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processItemValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
      */
     @Override
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
@@ -113,9 +113,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * Validates that if the item unit price is null and the source accounting lines is not empty, add error
      * message and return false.
      * 
-     * @param item
-     * @param identifierString
-     * @return boolean false if the item unit price is null and the source accounting lines is not empty.
+     * @param item               the item to be validated
+     * @param identifierString   the identifierString of the item to be validated
+     * @return                   boolean false if the item unit price is null and the source accounting lines is not empty.
      */
     private boolean validateBelowTheLineItemNoUnitCost(PurApItem item, String identifierString) {
         if (ObjectUtils.isNull(item.getItemUnitPrice()) && ObjectUtils.isNotNull(item.getSourceAccountingLines()) && !item.getSourceAccountingLines().isEmpty()) {
@@ -130,8 +130,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     /**
      * Validates that the document contains at least one item.
      * 
-     * @param purDocument
-     * @return boolean false if the document does not contain at least one item.
+     * @param purDocument   the purchasing document to be validated
+     * @return              boolean false if the document does not contain at least one item.
      */
     private boolean validateContainsAtLeastOneItem(PurchasingDocument purDocument) {
         boolean valid = false;
@@ -154,8 +154,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * Validates the unit price for all applicable item types. It also validates that the unit price and description
      * fields were entered for all above the line items.
      * 
-     * @param purDocument
-     * @return boolean false if there is any validation that fails.
+     * @param purDocument   the purchasing document to be validated
+     * @return              boolean false if there is any validation that fails.
      */
     private boolean validateItemUnitPrice(PurApItem item) {
         boolean valid = true;
@@ -188,10 +188,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     /**
      * Overrides the method in PurchasingAccountsPayableDocumentRuleBase to add invocation to validateItemUnitPrice.
      * 
-     * @param financialDocument
-     * @param item
-     * @return boolean false if there is any fail validation
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processAddItemBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.module.purap.bo.PurApItem)
+     * @param financialDocument   the purchasing document to be validated
+     * @param item                the item to be validated
+     * @return                    boolean false if there is any fail validation
+     * @see                       org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processAddItemBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.module.purap.bo.PurApItem)
      */
     public boolean processAddItemBusinessRules(AccountingDocument financialDocument, PurApItem item) {
         boolean valid = super.processAddItemBusinessRules(financialDocument, item);
@@ -205,8 +205,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     /**
      * Validates that the total cost must be greater or equal to zero
      * 
-     * @param purDocument
-     * @return boolean false if the total cost is less than zero.
+     * @param purDocument   the purchasing document to be validated
+     * @return              boolean false if the total cost is less than zero.
      */
     private boolean validateTotalCost(PurchasingDocument purDocument) {
         boolean valid = true;
@@ -221,8 +221,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     /**
      * Validates that if the item type is quantity based, the unit of measure is required.
      * 
-     * @param item
-     * @return boolean false  if the item type is quantity based and the unit of measure is empty.
+     * @param item   the item to be validated
+     * @return       boolean false  if the item type is quantity based and the unit of measure is empty.
      */
     private boolean validateUnitOfMeasure(PurApItem item, String identifierString) {
         boolean valid = true;
@@ -242,8 +242,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * Validates that if the item type is quantity based, the item quantity is required and if the item type
      * is amount based, the quantity is not allowed.
      * 
-     * @param item
-     * @return boolean false if there's any validation that fails.
+     * @param item   the item to be validated
+     * @return       boolean false if there's any validation that fails.
      */
     private boolean validateItemQuantity(PurApItem item, String identifierString) {
         boolean valid = true;
@@ -263,8 +263,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     /**
      * Performs any validation for the Payment Info tab.
      * 
-     * @param purDocument
-     * @return boolean false if there's any validation that fails.
+     * @param purDocument   the purchasing document to be validated
+     * @return              boolean false if there's any validation that fails.
      */
     public boolean processPaymentInfoValidation(PurchasingDocument purDocument) {
         boolean valid = true;
@@ -301,8 +301,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     /**
      * Performs any validation for the Delivery tab.
      * 
-     * @param purDocument
-     * @return boolean true (for now it will always return true; this might change someday in the future)
+     * @param purDocument   the purchasing document to be validated
+     * @return              boolean true (for now it will always return true; this might change someday in the future)
      */
     public boolean processDeliveryValidation(PurchasingDocument purDocument) {
         boolean valid = true;
@@ -315,9 +315,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * The method in PurchasingAccountsPayableDocumentBase currently does not do any validation (it only
      * returns true all the time).
      * 
-     * @param purapDocument
-     * @return boolean false if there's any validation that fails.
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processVendorValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @param purapDocument   the purchasing document to be validated
+     * @return                boolean false if there's any validation that fails.
+     * @see                   org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processVendorValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
      */
     @Override
     public boolean processVendorValidation(PurchasingAccountsPayableDocument purapDocument) {
@@ -370,8 +370,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * year, since we were dealing just with month and day, but we don't need to do that here; we're dealing with the whole Date
      * object.
      * 
-     * @param purDocument
-     * @return boolean false if the begin date is not before the end date.
+     * @param purDocument   the purchasing document to be validated
+     * @return              boolean false if the begin date is not before the end date.
      */
     private boolean checkBeginDateBeforeEndDate(PurchasingDocument purDocument) {
         boolean valid = true;
@@ -393,11 +393,11 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     /**
      * Overrides the method in PurapAccountingDocumentRuleBase to invoke the verifyAccountingLinePercent.
      * 
-     * @param accountingDocument
-     * @param originalAccountingLine
-     * @param updatedAccountingLine
-     * @return boolean false if there's any validation that fails.
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.AccountingLine)
+     * @param accountingDocument       the purchasing document to be validated
+     * @param originalAccountingLine   the original accounting line
+     * @param updatedAccountingLine    the updated accounting line
+     * @return                         boolean false if there's any validation that fails.
+     * @see                            org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.AccountingLine)
      */
     @Override
     protected boolean processCustomUpdateAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
@@ -411,10 +411,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     /**
      * Overrides the method in PurapAccountingDocumentRuleBase to also invoke the verifyAccountingLinePercent.
      * 
-     * @param financialDocument
-     * @param accountingLine
-     * @return boolean false if there's any validation that fails.
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
+     * @param financialDocument   the purchasing document to be validated
+     * @param accountingLine      the accounting line to be validated before being added
+     * @return                    boolean false if there's any validation that fails.
+     * @see                       org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
      */
     @Override
     public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
@@ -426,11 +426,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
 
     /**
-     * 
      * Verifies that the accounting line percent is a whole number.
      * 
-     * @param purapAccountingLine
-     * @return boolean false if the accounting line percent is not a whole number.
+     * @param purapAccountingLine   the accounting line to be validated
+     * @return                      boolean false if the accounting line percent is not a whole number.
      */
     private boolean verifyAccountingLinePercent(PurApAccountingLine purapAccountingLine) {
         // make sure it's a whole number

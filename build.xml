@@ -238,8 +238,8 @@
 		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false" />
 		<echo file="${log4j.file}" message="${log4j}" />
 		<echo file="${security.file}" message="${security}"  />
-		<zip destfile="../settings.zip" includes="${log4j.file}" />
-		<zip destfile="../security.zip" includes="${security.file}" />
+		<zip destfile="../settings.zip" basedir="${basedir}" includes="${log4j.file}" />
+		<zip destfile="../security.zip" basedir="${basedir}" includes="${security.file}" />
 		<zip destfile="../skel.zip" basedir="${build.work.directory}" />
 	</target>
 

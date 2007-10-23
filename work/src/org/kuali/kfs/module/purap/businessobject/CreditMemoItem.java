@@ -46,6 +46,9 @@ public class CreditMemoItem extends AccountsPayableItemBase {
 
     /**
      * Constructs a CreditMemoItem object from an existing Purchase Order Item.
+     * 
+     * @param cmDocument the Credit Memo Document this item belongs to.
+     * @param poItem the Purchase Order Item to copy from.
      */
     public CreditMemoItem(CreditMemoDocument cmDocument, PurchaseOrderItem poItem) {
         super();
@@ -77,7 +80,12 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     }
 
     /**
-     * Constructs a CreditMemoItem object from an existing Purchase Order Item.
+     * Constructs a CreditMemoItem object from an existing Purchase Order Item, 
+     * and check and process expired or closed accounts item might contain.
+     * 
+     * @param cmDocument the Credit Memo Document this item belongs to.
+     * @param poItem the Purchase Order Item to copy from.
+     * @param expiredOrClosedAccountList the list of expired or closed accounts to check against.
      */
     public CreditMemoItem(CreditMemoDocument cmDocument, PurchaseOrderItem poItem, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
         //TODO (KULPURAP-1575) Merge this method with the other constructor. cleanup
@@ -89,6 +97,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         setPoUnitPrice(poItem.getItemUnitPrice());
         setPoExtendedPrice(poItem.getItemInvoicedTotalAmount());
         setItemTypeCode(poItem.getItemTypeCode());
+        
         if( (ObjectUtils.isNotNull(this.getItemType()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator()) ) {
             //setting unit price to be null to be more consistent with other below the line
             this.setItemUnitPrice(null);
@@ -120,7 +129,11 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     }
     
     /**
-     * Constructs a CreditMemoItem object from an existing Payment Request Item.
+     * Constructs a CreditMemoItem object from an existing Payment Request or Purchase Order Item.
+     * 
+     * @param cmDocument the Credit Memo Document this item belongs to.
+     * @param preqItem the Payment Request Item to copy from.
+     * @param poItem the Purchase Order Item to copy from.
      */
     public CreditMemoItem(CreditMemoDocument cmDocument, PaymentRequestItem preqItem, PurchaseOrderItem poItem) {
         super();
@@ -140,12 +153,14 @@ public class CreditMemoItem extends AccountsPayableItemBase {
 
         setPreqUnitPrice(preqItem.getItemUnitPrice());
         setItemTypeCode(preqItem.getItemTypeCode());
+        
         if( (ObjectUtils.isNotNull(this.getItemType()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator()) ) {
             //setting unit price to be null to be more consistent with other below the line
             this.setItemUnitPrice(null);
         } else {
             setItemUnitPrice(preqItem.getItemUnitPrice());
         }
+        
         setItemCatalogNumber(preqItem.getItemCatalogNumber());
         setItemDescription(preqItem.getItemDescription());
 
@@ -166,7 +181,13 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     }
 
     /**
-     * Constructs a CreditMemoItem object from an existing Payment Request Item.
+     * Constructs a CreditMemoItem object from an existing Payment Request Item,
+     * and check and process expired or closed accounts item might contain.
+     * 
+     * @param cmDocument the Credit Memo Document this item belongs to.
+     * @param preqItem the Payment Request Item to copy from.
+     * @param poItem the Purchase Order Item to copy from.
+     * @param expiredOrClosedAccountList the list of expired or closed accounts to check against.
      */
     public CreditMemoItem(CreditMemoDocument cmDocument, PaymentRequestItem preqItem, PurchaseOrderItem poItem, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
         super();

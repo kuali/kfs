@@ -46,6 +46,9 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
 
     /**
      * Constructs a AssignContractManagerDetail object from an existing AssignContractManagerDocument object.
+     * 
+     * @param acmDocument the AssignContractManagerDocument to copy from.
+     * @param requisitionDocument reference to the related requisition document.
      */
     public AssignContractManagerDetail(AssignContractManagerDocument acmDocument, RequisitionDocument requisitionDocument) {
         this.documentNumber = acmDocument.getDocumentNumber();
@@ -118,6 +121,5 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
             m.put("requisitionIdentifier", this.requisitionIdentifier.toString());
         }
         return m;
-    }
-    
+    }   
 }

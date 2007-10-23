@@ -94,5 +94,4 @@ public class ItemType extends PersistableBusinessObjectBase {
         m.put("itemTypeCode", this.itemTypeCode);
         return m;
     }
-
 }

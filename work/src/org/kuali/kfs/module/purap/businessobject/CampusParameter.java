@@ -190,5 +190,4 @@ public class CampusParameter extends PersistableBusinessObjectBase {
         m.put("campusCode", this.campusCode);
         return m;
     }    
-
 }

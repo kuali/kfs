@@ -33,6 +33,8 @@ public class CreditMemoAccount extends PurApAccountingLineBase {
 
     /**
      * Constructs a Credit Memo Account object from an existing PurAp Accounting Line object.
+     * 
+     * @param accountingLine the accounting line to copy from.
      */
     public CreditMemoAccount(PurApAccountingLineBase accountingLine) {
         super();

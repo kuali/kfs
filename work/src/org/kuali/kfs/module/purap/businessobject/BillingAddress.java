@@ -145,5 +145,4 @@ public class BillingAddress extends PersistableBusinessObjectBase {
         m.put("billingCampusCode", this.billingCampusCode);
         return m;
     }
-
 }

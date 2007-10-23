@@ -57,7 +57,8 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
      * determine when it's necessary to run rules on items (so that lines
      * processors don't touch won't be validated) and to determine when to
      * show items (in combination with the full entry mode)
-     * @param allowsZero if this is true zero will be considered the same as null
+     * 
+     * @param allowsZero if this is true zero will be considered the same as null.
      * @return true if the item is considered entered false otherwise
      */
     private boolean isConsideredEntered(boolean allowsZero) {
@@ -79,6 +80,7 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
                 return false;
             }
         }
+        
         return true;
     }
    
@@ -91,22 +93,20 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
      * this override is necessary because extended price needs to be set based
      * on the unit price for below the line(without this it would always be empty)
      * NOTE: this should always return zero instead of null.
+     * 
      * @return Returns the extendedPrice.
      */
     public KualiDecimal getExtendedPrice() {
         if(ObjectUtils.isNotNull(this.getItemUnitPrice()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator() ){
            extendedPrice = new KualiDecimal(this.getItemUnitPrice().toString());
-        }
-        
+        }        
         if(ObjectUtils.isNull(extendedPrice)) {
            extendedPrice = KualiDecimal.ZERO;
-        }
-        
+        }        
         return extendedPrice;
     }
 
     public void setExtendedPrice(KualiDecimal extendedPrice) {
         this.extendedPrice = extendedPrice;
-    }
-    
+    }    
 }

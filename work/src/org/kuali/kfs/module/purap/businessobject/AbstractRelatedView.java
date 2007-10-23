@@ -70,6 +70,5 @@ abstract class AbstractRelatedView extends PersistableBusinessObjectBase {
             m.put("accountsPayablePurchasingDocumentLinkIdentifier", this.accountsPayablePurchasingDocumentLinkIdentifier.toString());
         }
         return m;
-    }
-    
+    }    
  }

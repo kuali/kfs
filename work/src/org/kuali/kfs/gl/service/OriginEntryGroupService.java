@@ -22,7 +22,7 @@ import java.util.Map;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 
 public interface OriginEntryGroupService {
-    public Collection getGroupsFromSourceForDate(String sourceCode, Date date);
+    public Collection getGroupsFromSource(String sourceCode);
 
     /**
      * Mark a group as don't process

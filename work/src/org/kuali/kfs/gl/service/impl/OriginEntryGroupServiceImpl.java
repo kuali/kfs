@@ -15,19 +15,16 @@
  */
 package org.kuali.module.gl.service.impl;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.Guid;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -139,10 +136,10 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         return newest;
     }
     
-    public Collection getGroupsFromSourceForDate(String sourceCode, Date date) {
+    public Collection getGroupsFromSource(String sourceCode) {
         LOG.debug("getGroupsFromSourceForDate() started");
         
-        return originEntryGroupDao.getGroupsFromSourceForDate(sourceCode, date);
+        return originEntryGroupDao.getGroupsFromSource(sourceCode);
     }
 
     /**

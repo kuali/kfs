@@ -24,10 +24,9 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 public interface OriginEntryGroupDao {
     /**
      * @param sourceCode
-     * @param date
      * @return
      */
-    public Collection<OriginEntryGroup> getGroupsFromSourceForDate(String sourceCode, Date date);
+    public Collection<OriginEntryGroup> getGroupsFromSource(String sourceCode);
 
     /**
      * Get all the groups that are older than a date

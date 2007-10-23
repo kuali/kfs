@@ -42,11 +42,10 @@ public class OriginEntryGroupDaoOjb extends PlatformAwareDaoBaseOjb implements O
     private static final String VALID = "valid";
     private static final String SCRUB = "scrub";
 
-    public Collection<OriginEntryGroup> getGroupsFromSourceForDate(String sourceCode, Date date) {
+    public Collection<OriginEntryGroup> getGroupsFromSource(String sourceCode) {
         LOG.debug("getGroupsFromSourceForDay() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(DATE, date);
         criteria.addEqualTo(SOURCE_CODE, sourceCode);
         
         return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(OriginEntryGroup.class, criteria));

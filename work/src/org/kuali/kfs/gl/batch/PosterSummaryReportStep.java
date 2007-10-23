@@ -88,10 +88,9 @@ public class PosterSummaryReportStep extends AbstractStep {
         originEntrySourceCodeList.add(OriginEntrySource.REVERSAL_POSTER_VALID);
         originEntrySourceCodeList.add(OriginEntrySource.ICR_POSTER_VALID);
         Collection originEntryGroups = new ArrayList();
-        java.sql.Date reportingDate = new java.sql.Date(runDate.getTime());
         for (Iterator groupIterator = originEntrySourceCodeList.iterator(); groupIterator.hasNext();) {
             String originEntrySourceCode = (String) groupIterator.next();
-            originEntryGroups.addAll(originEntryGroupService.getGroupsFromSourceForDate(originEntrySourceCode, reportingDate));
+            originEntryGroups.addAll(originEntryGroupService.getGroupsFromSource(originEntrySourceCode));
         }
         reportService.generatePosterOutputTransactionSummaryReport(runDate, originEntryGroups);
     }

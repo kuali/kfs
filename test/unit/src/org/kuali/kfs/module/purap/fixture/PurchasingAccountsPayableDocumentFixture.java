@@ -17,6 +17,7 @@ package org.kuali.module.purap.fixtures;
 
 import org.kuali.core.service.DocumentService;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
@@ -37,6 +38,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
 
     //PAYMENT REQUEST FIXTURES
     //CREDIT MEMO FIXTURES
+    CM_ONLY_REQUIRED_FIELDS(null, CreditMemoStatuses.IN_PROCESS, null, null, null, null, null, null, null, null, null, null, null),
     ;
     
     public final Integer purapDocumentIdentifier;

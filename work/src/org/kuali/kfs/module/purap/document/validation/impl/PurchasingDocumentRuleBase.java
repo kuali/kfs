@@ -401,12 +401,11 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      */
     @Override
     protected boolean processCustomUpdateAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
-        if (!verifyAccountingLinePercent((PurApAccountingLine) updatedAccountingLine)) {
+        if (!super.processCustomUpdateAccountingLineBusinessRules(accountingDocument, originalAccountingLine, updatedAccountingLine)) {
             
             return false;
         }
-        
-        return super.processCustomUpdateAccountingLineBusinessRules(accountingDocument, originalAccountingLine, updatedAccountingLine);
+        return verifyAccountingLinePercent((PurApAccountingLine) updatedAccountingLine);
     }
 
     /**
@@ -419,12 +418,11 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      */
     @Override
     public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
-        if (!verifyAccountingLinePercent((PurApAccountingLine) accountingLine)) {
+        if (!super.processAddAccountingLineBusinessRules(financialDocument, accountingLine)) {
         
             return false;
         }
-        
-        return super.processAddAccountingLineBusinessRules(financialDocument, accountingLine);
+        return verifyAccountingLinePercent((PurApAccountingLine) accountingLine);
     }
 
     /**

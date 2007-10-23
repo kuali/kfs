@@ -32,13 +32,13 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.dao.GeneralLedgerPendingEntryDao;
 import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.util.KFSUtils;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.chart.service.ObjectTypeService;
@@ -99,7 +99,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         KualiDecimal rv = null;
         Iterator iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
         if (iterator.hasNext()) {
-            rv = (KualiDecimal) ((Object[]) KFSUtils.retrieveFirstAndExhaustIterator(iterator))[0];
+            rv = (KualiDecimal) ((Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(iterator))[0];
         }
         return (rv == null) ? KualiDecimal.ZERO : rv;
     }
@@ -183,7 +183,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         KualiDecimal rv = null;
         Iterator iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
         if (iterator.hasNext()) {
-            rv = (KualiDecimal) ((Object[]) KFSUtils.retrieveFirstAndExhaustIterator(iterator))[0];
+            rv = (KualiDecimal) ((Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(iterator))[0];
         }
         return (rv == null) ? KualiDecimal.ZERO : rv;
     }
@@ -270,7 +270,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         query.setAttributes(new String[] { "count(*)" });
         Iterator i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         if (i.hasNext()) {
-            Object[] values = (Object[]) KFSUtils.retrieveFirstAndExhaustIterator(i);
+            Object[] values = (Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(i);
             if (values[0] instanceof BigDecimal) {
                 return ((BigDecimal) values[0]).intValue();
             }

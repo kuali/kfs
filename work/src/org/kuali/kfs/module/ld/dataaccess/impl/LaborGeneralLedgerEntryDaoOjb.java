@@ -22,8 +22,8 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.KFSUtils;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
 import org.kuali.module.labor.dao.LaborGeneralLedgerEntryDao;
 
@@ -60,7 +60,7 @@ public class LaborGeneralLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb imple
         Integer maxSequenceNumber = Integer.valueOf(0);
 
         if (iterator.hasNext()) {
-            Object[] data = (Object[]) KFSUtils.retrieveFirstAndExhaustIterator(iterator);
+            Object[] data = (Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(iterator);
             if (data[0] != null) {
                 maxSequenceNumber = ((BigDecimal) data[0]).intValue();
             }

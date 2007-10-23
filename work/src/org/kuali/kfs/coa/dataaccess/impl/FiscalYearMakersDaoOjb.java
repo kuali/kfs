@@ -37,6 +37,7 @@ import java.lang.RuntimeException;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.PersistenceStructureService;
+import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -64,7 +65,6 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.util.KFSUtils;
 
 /*
  *   this stuff is here support the inhibitCascading routine that should probably go into PersistenceStructureService
@@ -719,7 +719,7 @@ implements FiscalYearMakersDao {
         if (resultRow.hasNext())
         {
             currentFiscalYear = (Integer) ((BigDecimal)
-                        ((Object[]) KFSUtils.retrieveFirstAndExhaustIterator(resultRow))[0]).intValue();
+                        ((Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(resultRow))[0]).intValue();
         }
         //TODO:
         LOG.debug(String.format("\nreturned from fiscalYearFromToday: %d",

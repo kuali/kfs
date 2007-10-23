@@ -25,8 +25,8 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.KFSUtils;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.dao.BudgetConstructionOrganizationReportsDao;
 
@@ -98,7 +98,7 @@ public class BudgetConstructionOrganizationReportsDaoOjb
         ReportQueryByCriteria query = new ReportQueryByCriteria(BudgetConstructionOrganizationReports.class, queryAttr, criteria, true);
         Iterator rowsReturned = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         if (rowsReturned.hasNext()){
-            KFSUtils.exhaustIterator(rowsReturned);
+            TransactionalServiceUtils.exhaustIterator(rowsReturned);
             return false;
         } else {
             return true;

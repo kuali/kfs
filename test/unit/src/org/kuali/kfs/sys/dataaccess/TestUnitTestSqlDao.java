@@ -20,10 +20,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.KFSUtils;
 import org.kuali.test.ConfigureContext;
 
 @ConfigureContext
@@ -58,7 +58,7 @@ public class TestUnitTestSqlDao extends KualiTestBase {
             BigDecimal value = (BigDecimal) m.get("1");
             assertEquals("Field should equal 1", 1.00, value.doubleValue(), 0.01);
         }
-        KFSUtils.exhaustIterator(i);
+        TransactionalServiceUtils.exhaustIterator(i);
     }
 
     public void testAllSql() throws Exception {

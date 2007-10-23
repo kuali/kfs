@@ -33,9 +33,9 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.KFSUtils;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
@@ -237,7 +237,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
                 // the iterator should have held only a single doc id of data but it holds 2 or more
                 String errorMsg = "Expected single document number for given criteria but multiple (at least 2) were returned";
                 LOG.error(errorMsg);
-                KFSUtils.exhaustIterator(iter);
+                TransactionalServiceUtils.exhaustIterator(iter);
                 throw new RuntimeException();
             }
             // at this part of the code, we know there's no more elements in iterator

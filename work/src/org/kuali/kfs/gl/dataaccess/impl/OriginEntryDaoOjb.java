@@ -28,9 +28,9 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.KFSUtils;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -92,7 +92,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
 
         Iterator i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
         if ( i.hasNext() ) {
-            Object[] data = (Object[]) KFSUtils.retrieveFirstAndExhaustIterator(i);
+            Object[] data = (Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(i);
             return (KualiDecimal)data[0];
         } else {
             return null;
@@ -110,7 +110,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
 
         Iterator i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
         if ( i.hasNext() ) {
-            Object[] data = (Object[]) KFSUtils.retrieveFirstAndExhaustIterator(i);
+            Object[] data = (Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(i);
 
             if (data[0] instanceof BigDecimal) {
                 return ((BigDecimal)data[0]).intValue();

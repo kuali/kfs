@@ -43,31 +43,4 @@ public class KFSUtils {
         
         return fileNameList;
     }
-    
-    /**
-     * Returns the first element and exhausts an iterator
-     * 
-     * @param <E> the type of elements in the iterator
-     * @param iterator the iterator to exhaust
-     * @return the first element of the iterator; null if the iterator's empty
-     */
-    public static <E> E retrieveFirstAndExhaustIterator(Iterator<E> iterator) {
-        E returnVal = null;
-        if (iterator.hasNext()) {
-            returnVal = iterator.next();
-        }
-        exhaustIterator(iterator);
-        return returnVal;
-    }
-    
-    /**
-     * Exhausts (i.e. complete iterates through) an iterator
-     * 
-     * @param iterator
-     */
-    public static void exhaustIterator(Iterator<?> iterator) {
-        while (iterator.hasNext()) {
-            iterator.next();
-        }
-    }
 }

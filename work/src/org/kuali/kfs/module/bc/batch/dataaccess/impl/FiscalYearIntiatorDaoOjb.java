@@ -31,6 +31,7 @@ import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.PersistenceStructureService;
+import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 import org.apache.log4j.Logger;
@@ -53,7 +54,6 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.util.KFSUtils;
 
 
 
@@ -551,7 +551,7 @@ implements FiscalYearInitiatorDao {
         if (resultRow.hasNext())
         {
             currentFiscalYear = (Integer) ((BigDecimal)
-                        ((Object[]) KFSUtils.retrieveFirstAndExhaustIterator(resultRow))[0]).intValue();
+                        ((Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(resultRow))[0]).intValue();
         }
         //TODO:
         LOG.debug(String.format("\nreturned from fiscalYearFromToday: %d",

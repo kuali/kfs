@@ -901,7 +901,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
         }
         else {
-            if ((originEntry.getTransactionDebitCreditCode() == null) || (" ".equals(originEntry.getTransactionDebitCreditCode()))) {
+            if ((originEntry.getTransactionDebitCreditCode() == null) || (" ".equals(originEntry.getTransactionDebitCreditCode())) || ("".equals(originEntry.getTransactionDebitCreditCode())) ) {
                 workingEntry.setTransactionDebitCreditCode(KFSConstants.GL_BUDGET_CODE);
             }
             else {

@@ -508,7 +508,7 @@ public class PosterServiceTest extends OriginEntryTestBase {
         assertEquals("ACLN_ENCUM_BAL_AMT is wrong", 340.00, getAmount(bal, "ACLN_ENCUM_BAL_AMT"), 0.01);
     }
 
-    @RelatesTo(RelatesTo.JiraIssue.KULRNE4797)
+    //@RelatesTo(RelatesTo.JiraIssue.KULRNE4797)
     public void testPostExpenditureTransaction() throws Exception {
         LOG.debug("testPostExpenditureTransaction() started");
 

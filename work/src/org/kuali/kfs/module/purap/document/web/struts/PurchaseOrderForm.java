@@ -45,6 +45,7 @@ import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.PurchaseOrderRetransmitDocument;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 
@@ -250,8 +251,9 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         }
 
         // This is the button to print the pdf on a retransmit document. We're currently sharing the same button image as
-        // the button for creating a retransmit document but this may change someday.
-        if (isUserAuthorized && this.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB)) {
+        // the button for creating a retransmit document but this may change someday. It should only appear on Retransmit
+        // Document.
+        if (isUserAuthorized && this.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB) && (purchaseOrder instanceof PurchaseOrderRetransmitDocument)) {        
             ExtraButton printingRetransmitButton = (ExtraButton) buttonsMap.get("methodToCall.printingRetransmitPo");
             this.getExtraButtons().add(printingRetransmitButton);
         }

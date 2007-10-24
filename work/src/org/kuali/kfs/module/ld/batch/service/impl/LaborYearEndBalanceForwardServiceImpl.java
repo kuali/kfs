@@ -27,7 +27,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -41,7 +40,6 @@ import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
@@ -106,7 +104,6 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
     public void forwardBalance(Integer fiscalYear, Integer newFiscalYear) {
         String reportsDirectory = ReportRegistry.getReportsDirectory();
         Date runDate = dateTimeService.getCurrentSqlDate();
-        
 
         List<Summary> reportSummary = new ArrayList<Summary>();
         Map<Transaction, List<Message>> errorMap = new HashMap<Transaction, List<Message>>();
@@ -115,18 +112,18 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear.toString());
         int numberOfBalance = businessObjectService.countMatching(LedgerBalance.class, fieldValues);
-        
+
         Options options = optionsService.getOptions(fiscalYear);
         List<String> processableBalanceTypeCodes = this.getProcessableBalanceTypeCode(options);
         List<String> processableObjectTypeCodes = this.getProcessableObjectTypeCodes(options);
-        
+
         fieldValues.clear();
         int numberOfSelectedBalance = 0;
-        for(String balanceTypeCode : processableBalanceTypeCodes){
+        for (String balanceTypeCode : processableBalanceTypeCodes) {
             fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypeCode);
-            
-            for(String objectTypeCode : processableObjectTypeCodes){
-                fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, objectTypeCode);                
+
+            for (String objectTypeCode : processableObjectTypeCodes) {
+                fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, objectTypeCode);
                 Iterator<LedgerBalance> balanceIterator = laborLedgerBalanceService.findBalancesForFiscalYear(fiscalYear, fieldValues);
                 numberOfSelectedBalance += postSelectedBalancesAsOriginEntries(balanceIterator, newFiscalYear, validGroup, errorMap, runDate);
             }
@@ -163,14 +160,14 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             List<Message> errors = null;
 
             boolean isValidBalance = validateBalance(balance, errors);
-            LaborOriginEntry laborOriginEntry = new LaborOriginEntry();            
-            if (isValidBalance) { 
+            LaborOriginEntry laborOriginEntry = new LaborOriginEntry();
+            if (isValidBalance) {
                 laborOriginEntry.setEntryGroupId(validGroup.getId());
                 laborOriginEntry.setUniversityFiscalYear(newFiscalYear);
                 laborOriginEntry.setFinancialDocumentTypeCode(documentTypeCode);
                 laborOriginEntry.setFinancialSystemOriginationCode(originationCode);
                 laborOriginEntry.setTransactionLedgerEntryDescription(description);
-                
+
                 this.postAsOriginEntry(balance, laborOriginEntry, runDate);
                 numberOfSelectedBalance++;
             }
@@ -303,10 +300,10 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      */
     private List<String> getProcessableObjectTypeCodes(Options options) {
         List<String> processableObjectTypeCodes = new ArrayList<String>();
-        
+
         processableObjectTypeCodes.add(options.getFinObjTypeExpenditureexpCd());
         processableObjectTypeCodes.add(options.getFinObjTypeExpNotExpendCode());
-        
+
         return processableObjectTypeCodes;
     }
 

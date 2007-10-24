@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE project [ <!ENTITY FoundationTargets SYSTEM "build-foundation.xml"> ]>
+
 <project name="kuali" default="dist-local" basedir=".">
 	<!-- run the help target to view usage instructions for public targets -->
 	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
@@ -314,6 +314,7 @@
 		</echo>
 	</target>
 	
-	&FoundationTargets;
+	
+	<import file="build-foundation.xml"/>
 
 </project>

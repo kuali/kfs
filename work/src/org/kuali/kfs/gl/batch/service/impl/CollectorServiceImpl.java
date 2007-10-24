@@ -75,9 +75,7 @@ public class CollectorServiceImpl implements CollectorService {
                 catch (RuntimeException e) {
                     LOG.error("Caught exception trying to load collector file: " + inputFileName, e);
                 }
-                if (processSuccess) {
-                    processedFiles.add(inputFileName);
-                }
+                processedFiles.add(inputFileName);
             }
             updateCollectorReportDataWithExecutionStatistics(collectorReportData, collectorScrubberStatuses);
         }

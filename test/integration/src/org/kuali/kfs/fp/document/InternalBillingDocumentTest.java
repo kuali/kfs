@@ -47,7 +47,6 @@ import org.kuali.test.fixtures.AccountingLineFixture;
 import org.kuali.test.fixtures.UserNameFixture;
 import org.kuali.test.suite.AnnotationTestSuite;
 import org.kuali.test.suite.CrossSectionSuite;
-import org.kuali.test.suite.RelatesTo;
 
 /**
  * This class is used to test InternalBillingDocument.
@@ -55,7 +54,7 @@ import org.kuali.test.suite.RelatesTo;
  * 
  */
 @ConfigureContext(session = KHUNTLEY)
-@RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
+//@RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class InternalBillingDocumentTest extends KualiTestBase {
     public static final Class<InternalBillingDocument> DOCUMENT_CLASS = InternalBillingDocument.class;
 

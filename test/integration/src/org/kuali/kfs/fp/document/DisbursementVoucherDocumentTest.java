@@ -46,7 +46,6 @@ import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.fixtures.AccountingLineFixture;
-import org.kuali.test.suite.RelatesTo;
 import org.kuali.workflow.WorkflowTestUtils;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -57,7 +56,7 @@ import edu.iu.uis.eden.EdenConstants;
  * 
  */
 @ConfigureContext(session = HSCHREIN)
-@RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
+//@RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
     public static final Class<DisbursementVoucherDocument> DOCUMENT_CLASS = DisbursementVoucherDocument.class;

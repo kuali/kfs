@@ -81,8 +81,11 @@
             <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].documentNumber" attributeEntry="${subcontractorAttributes.documentNumber}"/>
             <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].objectId" attributeEntry="${subcontractorAttributes.objectId}" />
             <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].versionNumber" attributeEntry="${subcontractorAttributes.versionNumber}"/>
-            <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorNumber}" onblur="onblur_subcontractorNumber('document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumber')" />
+            <c:if test="${readOnly or budgetLinked}">
+            	<html:hidden property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumber" />
+   			</c:if>
               <c:if test="${not readOnly and not budgetLinked}">
+                <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorNumber}" onblur="onblur_subcontractorNumber('document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumber')" />
                 <kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" lookupParameters="document.routingFormSubcontractor[${status.index}].subcontractor.subcontractorName:subcontractorName,document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumber:subcontractorNumber" fieldConversions="subcontractorName:document.routingFormSubcontractor[${status.index}].subcontractor.subcontractorName,subcontractorNumber:document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumber" tabindexOverride="5100" anchor="${currentTabIndex}" />
               </c:if>
               <html:hidden property="document.routingFormSubcontractor[${status.index}].subcontractor.subcontractorName" />

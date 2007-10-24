@@ -168,9 +168,12 @@
                 <td align=left valign=middle >
 			    	<html:hidden property="document.routingFormCatalogOfFederalDomesticAssistanceNumber" />
 			    	<html:hidden property="document.cfda.cfdaProgramTitleName" />
-			    	<html:text property="document.cfda.cfdaNumber" onblur="cfdaLookup('document.cfda.cfdaNumber')"/>
+			    	<c:if test="${viewOnly}">
+			    	    <html:hidden property="document.cfda.cfdaNumber"/>
+			    	</c:if>
 			    	<c:if test="${!viewOnly}">
 			    	    <!--  <c:if test="${empty KualiForm.document.routingFormCatalogOfFederalDomesticAssistanceNumber}">&nbsp;</c:if> -->
+			    	     <html:text property="document.cfda.cfdaNumber" onblur="cfdaLookup('document.cfda.cfdaNumber')"/>
 			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Cfda" lookupParameters="document.routingFormCatalogOfFederalDomesticAssistanceNumber:cfdaNumber" fieldConversions="cfdaNumber:document.routingFormCatalogOfFederalDomesticAssistanceNumber,cfdaNumber:document.cfda.cfdaNumber,cfdaProgramTitleName:document.cfda.cfdaProgramTitleName" anchor="${currentTabIndex}" />
                 	</c:if>
 		          <div id="document.cfda.cfdaProgramTitleName.div" >

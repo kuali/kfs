@@ -93,7 +93,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     /** 
      * This method is here due to a setter requirement by the htmlControlAttribute
      * 
-     * @param amount
+     * @param amount - Grand total for document, excluding discount
      */
     public void setGrandTotalExcludingDiscount(KualiDecimal amount) {
         //do nothing
@@ -112,6 +112,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * 
      * @see org.kuali.kfs.document.GeneralLedgerPostingDocumentBase#removeGeneralLedgerPendingEntries()
      */
+    @Override
     protected void removeGeneralLedgerPendingEntries() {
         //do not delete entries for PREQ or CM (hjs)
     }
@@ -132,15 +133,15 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
     /**
      * Checks whether an attachment is required
-     * 
-     * @return
+     *  
+     * @return - true if attachment is required, otherwise false
      */
     protected abstract boolean isAttachmentRequired();
     
     /**
      * Checks all documents notes for attachments.
      * 
-     * @return
+     * @return - true if document does not have an image attached, false otherwise
      */
     private boolean documentHasNoImagesAttached() {
         List boNotes = this.getDocumentBusinessObject().getBoNotes();
@@ -191,6 +192,8 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     /**
      * Helper method to be called from custom prepare for save and to be
      * overriden by sub class.
+     * 
+     * @return - Po Document Type
      */
     public abstract String getPoDocumentTypeForAccountsPayableDocumentCancel();
     
@@ -239,17 +242,17 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     /**
      * Hook to allow processing after a route level is passed.
      * 
-     * @param newNodeName
-     * @param oldNodeName
-     * @return
+     * @param newNodeName - current route level
+     * @param oldNodeName - previous route level
+     * @return - true if process completes to valid state
      */
     public abstract boolean processNodeChange(String newNodeName, String oldNodeName);
     
     /**
      * Retrieves node details object based on name.
      * 
-     * @param nodeName
-     * @return
+     * @param nodeName - route level
+     * @return - Information about the supplied route level
      */
     public abstract NodeDetails getNodeDetailEnum(String nodeName);
     
@@ -427,7 +430,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     /**
      * Retrieves the person name for the last person to perform an action on the document.
      * 
-     * @return
+     * @return - the person's name who last performed an action on the document.
      */
     public String getLastActionPerformedByPersonName(){
         UniversalUser user = getLastActionPerformedByUser();
@@ -447,16 +450,10 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         this.debitCreditCodeForGLEntries = debitCreditCodeForGLEntries;
     }
 
-    /**
-     * @see org.kuali.module.purap.document.AccountsPayableDocument#isUnmatchedOverride()
-     */
     public boolean isUnmatchedOverride() {
         return unmatchedOverride;
     }
 
-    /**
-     * @see org.kuali.module.purap.document.AccountsPayableDocument#setUnmatchedOverride(boolean)
-     */
     public void setUnmatchedOverride(boolean unmatchedOverride) {
         this.unmatchedOverride = unmatchedOverride;
     }
@@ -465,11 +462,9 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * @see org.kuali.module.purap.document.AccountsPayableDocument#getGrandTotal()
      */
     public abstract KualiDecimal getGrandTotal();
-    
-    /** 
-     * Returns the amount entered on the initial screen.
-     * 
-     * @return
+
+    /**
+     * @see org.kuali.module.purap.document.AccountsPayableDocument#getInitialAmount()
      */
     public abstract KualiDecimal getInitialAmount();
 
@@ -477,25 +472,16 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         return continuationAccountIndicator;
     }
     
-    /**
-     * @see org.kuali.module.purap.document.AccountsPayableDocument#setContinuationAccountIndicator(boolean)
-     */
     public void setContinuationAccountIndicator(boolean continuationAccountIndicator) {
         this.continuationAccountIndicator = continuationAccountIndicator;
     }
 
-    /**
-     * @see org.kuali.module.purap.document.AccountsPayableDocument#isExtracted()
-     */
     public boolean isExtracted() {
         return (ObjectUtils.isNotNull(getExtractedDate()));
     }
     
     public abstract AccountsPayableDocumentSpecificService getDocumentSpecificService();
 
-    /**
-     * @see org.kuali.module.purap.document.AccountsPayableDocument#getAPItemFromPOItem(org.kuali.module.purap.bo.PurchaseOrderItem)
-     */
     public AccountsPayableItem getAPItemFromPOItem(PurchaseOrderItem poi) {
         for (AccountsPayableItem preqItem : (List<AccountsPayableItem>)this.getItems()) {
             if(preqItem.getItemType().isItemTypeAboveTheLineIndicator()) {
@@ -512,7 +498,6 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getItemClass()
      */
-    @Override
     public Class getItemClass() {
         // TODO Auto-generated method stub
         return null;
@@ -521,7 +506,6 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentIfPossible()
      */
-    @Override
     public PurchasingAccountsPayableDocument getPurApSourceDocumentIfPossible() {
         // TODO Auto-generated method stub
         return null;
@@ -530,7 +514,6 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentLabelIfPossible()
      */
-    @Override
     public String getPurApSourceDocumentLabelIfPossible() {
         // TODO Auto-generated method stub
         return null;

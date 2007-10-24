@@ -69,7 +69,6 @@ import org.kuali.module.vendor.service.VendorService;
 import edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
-
 /**
  * Payment Request Document Business Object. Contains the fields associated with the main document table.
  */
@@ -396,7 +395,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * TODO (KULPURAP-436: ctk) this should be cleaned up
      * Populates a preq from a PO
      * 
-     * @param po
+     * @param po - Purchase Order Document used for populating the PREQ
      */
     public void populatePaymentRequestFromPurchaseOrder(PurchaseOrderDocument po) {
         this.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());
@@ -465,7 +464,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * TODO (KULPURAP-1575) this should be cleaned up.. it is also a replica of the method above except it performs account replacement
      * Populates a preq from a PO
      * 
-     * @param po
+     * @param po - Purchase Order Document used for populating the PREQ
      */
     public void populatePaymentRequestFromPurchaseOrder(PurchaseOrderDocument po, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
         this.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());
@@ -549,7 +548,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * Depending on what route level the document is currently in, the PO, vendor, 
      * amount, account number, dept, campus may be added to the documents title.
      * 
-     * @return
+     * @return - Customized document title text dependent upon route level.
      */
     private String getCustomDocumentTitle() {
         try{
@@ -581,7 +580,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     /**
      * Returns the first payment item's first account (assuming the item list is sequentially ordered).
      * 
-     * @return
+     * @return - Accounting Line object for first account of first payment item.
      */
     private PurApAccountingLine getFirstAccount(){
         // loop through items, and pick the first item
@@ -603,7 +602,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     /**
      * Determines the indicator text that will appear in the workflow document title
      * 
-     * @return
+     * @return - Text of hold or request cancel
      */
     private String getTitleIndicator(){
         if (isHoldIndicator()) {
@@ -846,7 +845,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     /** 
      * Returns the name of who requested cancel.
      * 
-     * @return
+     * @return - name of who requested cancel.
      */
     public String getAccountsPayableRequestCancelPersonName(){
         String personName = null;
@@ -864,7 +863,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     /** 
      * Exists due to a setter requirement by the htmlControlAttribute
      * 
-     * @param amount
+     * @param amount - total po amount paid 
      */
     public void setItemTotalPoPaidAmount(KualiDecimal amount){
         //do nothing
@@ -873,7 +872,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     /** 
      * Exists due to a setter requirement by the htmlControlAttribute
      * 
-     * @param amount
+     * @param amount - total po encumbrance
      */
     public void setItemTotalPoEncumbranceAmount(KualiDecimal amount) {
         //do nothing
@@ -882,7 +881,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     /** 
      * Exists due to a setter requirement by the htmlControlAttribute
      * 
-     * @param amount
+     * @param amount - total po encumbrance amount relieved
      */
     public void setItemTotalPoEncumbranceAmountRelieved(KualiDecimal amount) {
         //do nothing
@@ -891,8 +890,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     /**
      * Determinines the route levels for a given document.
      * 
-     * @param workflowDocument
-     * @return List
+     * @param workflowDocument - work flow document
+     * @return List - list of route levels
      */
     protected List getCurrentRouteLevels(KualiWorkflowDocument workflowDocument) {
         try {
@@ -1009,4 +1008,5 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         }
         return item;
     }    
+    
 }

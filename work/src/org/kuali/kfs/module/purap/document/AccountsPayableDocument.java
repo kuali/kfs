@@ -23,11 +23,8 @@ import org.kuali.module.purap.bo.AccountsPayableItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 
-
-
 /**
  * Accounts Payable Document Interface
- * 
  */
 public interface AccountsPayableDocument extends PurchasingAccountsPayableDocument {
 
@@ -77,22 +74,47 @@ public interface AccountsPayableDocument extends PurchasingAccountsPayableDocume
     
     public void setPurchaseOrderDocument(PurchaseOrderDocument purchaseOrderDocument);
     
+    /**
+     * Determines if review route node is required.
+     * 
+     * @return - true if review is required, false otherwise.
+     */
     public boolean requiresAccountsPayableReviewRouting();
     
+    /**
+     * Determines if approval is an option during review.
+     * 
+     * @return - true if approval is available during review, false otherwise.
+     */
     public boolean approvalAtAccountsPayableReviewAllowed();
 
     public boolean isUnmatchedOverride();
         
     public void setUnmatchedOverride(boolean unmatchedOverride);
-            
+
+    /**
+     * Retrieves grand total amount for document.
+     * 
+     * @return - grand total
+     */
     public KualiDecimal getGrandTotal();
     
+    /** 
+     * Returns the amount entered on the initial screen.
+     * 
+     * @return - amount entered by user on initial screen
+     */
     public KualiDecimal getInitialAmount();
 
     public boolean isContinuationAccountIndicator();
 
     public void setContinuationAccountIndicator(boolean continuationAccountIndicator);
     
+    /**
+     * Determines if document has been extracted.
+     * 
+     * @return - true if document has been extracted, false otherwise.
+     */
     public boolean isExtracted();
     
     public AccountsPayableItem getAPItemFromPOItem(PurchaseOrderItem poi);

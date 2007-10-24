@@ -157,7 +157,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     /**
      * Determines if the purchase order has notes, using the note service.
      * 
-     * @return true if po has notes, false if po does not have notes
+     * @return - true if po has notes, false if po does not have notes
      */
     public boolean getPurchaseOrderNotes() {
         boolean hasNotes = false;
@@ -511,4 +511,5 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     public AccountsPayableDocumentSpecificService getDocumentSpecificService() {
         return SpringContext.getBean(CreditMemoService.class);
     }
+    
 }

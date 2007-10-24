@@ -73,6 +73,22 @@
 			</li>
 		</c:if>
 
+		<%-- Labor Modules --%>
+		<c:if test='${selectedTab == "portalLaborDistributionBody"}'>
+			<li class="red">
+				<a class="red"
+					href="portal.do?selectedTab=portalLaborDistributionBody"
+					title="Labor Distribution">Labor Distribution</a>
+			</li>
+		</c:if>
+		<c:if test='${selectedTab != "portalLaborDistributionBody"}'>
+			<li class="green">
+				<a class="green"
+					href="portal.do?selectedTab=portalLaborDistributionBody"
+					title="Labor Distribution">Labor Distribution</a>
+			</li>
+		</c:if>
+		
 		<%-- Purchasing/AP --%>
 		<c:if test='${selectedTab == "portalPurchasingAccountsPayableBody"}'>
 			<li class="red">
@@ -89,21 +105,7 @@
 			</li>
 		</c:if>
 
-		<%-- Labor Modules --%>
-		<c:if test='${selectedTab == "portalLaborDistributionBody"}'>
-			<li class="red">
-				<a class="red"
-					href="portal.do?selectedTab=portalLaborDistributionBody"
-					title="Labor Distribution">Labor Distribution</a>
-			</li>
-		</c:if>
-		<c:if test='${selectedTab != "portalLaborDistributionBody"}'>
-			<li class="green">
-				<a class="green"
-					href="portal.do?selectedTab=portalLaborDistributionBody"
-					title="Labor Distribution">Labor Distribution</a>
-			</li>
-		</c:if>
+		<%-- Future Modules --%>		
 		<c:if test='${selectedTab == "portalFutureModulesBody"}'>
 			<li class="red">
 				<a class="red" href="portal.do?selectedTab=portalFutureModulesBody"

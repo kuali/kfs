@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <project name="kuali" default="dist-local" basedir=".">
 	<!-- run the help target to view usage instructions for public targets -->
 	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
@@ -239,7 +238,7 @@
 		<zip destfile="skel.zip" basedir="${build.work.directory}" />
 	</target>
 
-	<target name="dist" unless="no.web.deployment" depends="make-source,dist-external">
+	<target name="dist" depends="make-source">
 		<copy todir="${war.directory}">
 			<fileset dir="${webroot.directory}" excludes="WEB-INF/classes/**/**" />
 		</copy>
@@ -314,7 +313,7 @@
 		</echo>
 	</target>
 	
-	
+
 	<import file="build-foundation.xml"/>
 
 </project>

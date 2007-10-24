@@ -32,45 +32,155 @@ import org.kuali.module.vendor.bo.VendorDetail;
 
 
 /**
- * Purchasing-Accounts Payable Document Interface
+ * Interface for Purchasing-Accounts Payable Documents.
  */
 public interface PurchasingAccountsPayableDocument extends AccountingDocument {
     
     /**
-     * Convenience method to set vendor address fields based on a given VendorAddress.
+     * Returns the Item Class.
+     * 
+     * @return the Item Class.
+     */
+    public Class getItemClass();    
+
+    /**
+     * Returns the source of this Purchasing Accounts Payable Document if exists.
+     * 
+     * @return the source of this document if exists, else null.
+     */
+    public PurchasingAccountsPayableDocument getPurApSourceDocumentIfPossible();
+    
+    /**
+     * Returns the label of the source of this Purchasing Accounts Payable Document if exists.
+     * 
+     * @return the label of the document source if exists, else null.
+     */
+    public String getPurApSourceDocumentLabelIfPossible();
+    
+    /**
+     * Returns true if this document is stopped in the specified route node.
+     * 
+     * @param nodeDetails the node details of the specified node.
+     * @return true if this document is stopped in the specified route node.
+     */
+    public boolean isDocumentStoppedInRouteNode(NodeDetails nodeDetails);
+        
+    /**
+     * Adds the specified item to this document.
+     * 
+     * @param item the specified item to add.
+     */
+    public void addItem(PurApItem item);
+    
+    /**
+     * Deletes the specified item from this document.
+     * 
+     * @param item the specified item to delete.
+     */
+    public void deleteItem(int lineNum);
+
+    /**
+     * Renumbers the item starting from the specified index.
+     * 
+     * @param start the index of the starting item to be renumbered.
+     */
+    public void renumberItems(int start);
+
+    /**
+     * Swaps the specified two items based on their item line numbers (which are one higher than the item positions in the list).
+     * 
+     * @param position1 the position of the first item
+     * @param position2 the position of the second item
+     */
+    public void itemSwap(int position1, int position2);
+    
+    /**
+     * Determines the item line position if the user did not specify the line number on 
+     * an above the line items before clicking on the add button. 
+     * It subtracts the number of the below the line items on the list with the total item list size.
+     * 
+     * @return the item line position of the last (highest) line number of above the line items.
+     */
+    public int getItemLinePosition();
+    
+    /**
+     * Gets the item at the specified index.
+     * 
+     * @param pos the specified index.
+     * @return the item at the specified index.
+     */
+    public PurApItem getItem(int pos);
+    
+    /**
+     * Gets all below the line item types. 
+     * 
+     * @return Returns a list of below the line item types. 
+     */
+    public String[] getBelowTheLineTypes();
+
+    /**
+     * Computes the total dollar amount of all items.
+     * 
+     * @return the total dollar amount of all items.
+     */
+    public KualiDecimal getTotalDollarAmount();
+    
+    /**
+     * Sets the total dollar amount to the specified amount.
+     * 
+     * @param the specified total amount.
+     */
+    public void setTotalDollarAmount(KualiDecimal totalDollarAmount);
+
+    /**
+     * Computes the total dollar amount with the specified item types excluded.
+     * 
+     * @param excludedTypes the types of items to be excluded.
+     * @return the total dollar amount with the specified item types excluded.
+     */
+    public KualiDecimal getTotalDollarAmountAllItems(String[] excludedTypes);
+    
+    /**
+     * Sets vendor address fields based on a given VendorAddress.
      * 
      * @param vendorAddress
      */
     public void templateVendorAddress(VendorAddress vendorAddress);
+    
+    /**
+     * Gets the related Requisition Views for this document.
+     * 
+     * @return the list of related Requisition Views.
+     */
     public List<RequisitionView> getRelatedRequisitionViews();
-    public List<CreditMemoView> getRelatedCreditMemoViews();
-    public List<PaymentRequestView> getRelatedPaymentRequestViews();
-    public List<PurchaseOrderView> getRelatedPurchaseOrderViews();
-    public List<PurApItem> getItems();
-    
-    public void addItem(PurApItem item);
-    
-    public void setItems(List items);
-    
-    public void deleteItem(int lineNum);
 
-    public void itemSwap(int position1, int position2);
-    
-    public int getItemLinePosition();
-    
-    public PurApItem getItem(int pos);
-    
-    public KualiDecimal getTotalDollarAmount();
-    
-    public void setTotalDollarAmount(KualiDecimal totalDollarAmount);
-    
-    public abstract Class getItemClass();
-    public void renumberItems(int start);
-    
+    /**
+     * Gets the related Purchase Order Views for this document.
+     * 
+     * @return the list of related Purchase Order Views.
+     */
+    public List<PurchaseOrderView> getRelatedPurchaseOrderViews();
+        
+    /**
+     * Gets the related Payment Request Views for this document.
+     * 
+     * @return the list of related Payment Request Views.
+     */
+    public List<PaymentRequestView> getRelatedPaymentRequestViews();
+
+    /**
+     * Gets the related Credit Memo Views for this document.
+     * 
+     * @return the list of related Credit Memo Views.
+     */
+    public List<CreditMemoView> getRelatedCreditMemoViews();
+
     public Country getVendorCountry();
     public Status getStatus();
-    public VendorDetail getVendorDetail();
-
+    public VendorDetail getVendorDetail();    
+    
+    public List<PurApItem> getItems();    
+    public void setItems(List items);
     public String getVendorNumber();
     public void setVendorNumber(String vendorNumber);
     public Integer getVendorHeaderGeneratedIdentifier();
@@ -100,20 +210,5 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
     public Integer getAccountsPayablePurchasingDocumentLinkIdentifier();
     public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier);
     public Integer getVendorAddressGeneratedIdentifier();
-    public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier);
-
-    /**
-     * Gets the belowTheLineTypes attribute. 
-     * @return Returns the belowTheLineTypes.
-     */
-    public String[] getBelowTheLineTypes();
-
-    public PurchasingAccountsPayableDocument getPurApSourceDocumentIfPossible();
-    
-    public String getPurApSourceDocumentLabelIfPossible();
-    
-    public boolean isDocumentStoppedInRouteNode(NodeDetails nodeDetails);
-    
-    public KualiDecimal getTotalDollarAmountAllItems(String[] excludedTypes);
-    
+    public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier);    
 }

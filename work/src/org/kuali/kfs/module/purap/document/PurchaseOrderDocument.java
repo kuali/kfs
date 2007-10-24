@@ -140,6 +140,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.purchaseOrderVendorQuotes = new TypedArrayList( PurchaseOrderVendorQuote.class );
     }
 
+    /**
+     * @see org.kuali.core.document.Document#getDocumentRepresentationForSerialization()
+     */
     @Override
     protected Document getDocumentRepresentationForSerialization() {
         return SpringContext.getBean(ConciseXmlDocumentConversionService.class).getDocumentForSerialization(this);
@@ -153,22 +156,10 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.contractManager = contractManager;
     }
 
-    /**
-     * Gets the contractManagerCode attribute.
-     * 
-     * @return Returns the contractManagerCode
-     * 
-     */
     public Integer getContractManagerCode() { 
         return contractManagerCode;
     }
 
-    /**
-     * Sets the contractManagerCode attribute.
-     * 
-     * @param contractManagerCode The contractManagerCode to set.
-     * 
-     */
     public void setContractManagerCode(Integer contractManagerCode) {
         this.contractManagerCode = contractManagerCode;
     }
@@ -193,6 +184,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         return true;
     }
 
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#customPrepareForSave()
+     */
     @Override
     public void customPrepareForSave(KualiDocumentEvent event) {
         super.customPrepareForSave(event);
@@ -225,12 +219,14 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                     account.setItemAccountOutstandingEncumbranceAmount(account.getAmount());
                 }
             }//endfor accounts
-
         }//endfor items
 
         this.setSourceAccountingLines(SpringContext.getBean(PurapAccountingService.class).generateSummaryWithNoZeroTotals(this.getItems()));
     }//end customPrepareForSave(KualiDocumentEvent)
     
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#prepareForSave()
+     */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT.equals(getDocumentHeader().getWorkflowDocument().getDocumentType())) {
@@ -244,24 +240,29 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         }
     }
 
+    /**
+     * Sets default values for APO.
+     */
     public void setDefaultValuesForAPO() {
         this.setPurchaseOrderAutomaticIndicator(Boolean.TRUE);
-
         if (!RequisitionSources.B2B.equals(this.getRequisitionSourceCode())) {
             this.setPurchaseOrderVendorChoiceCode(VendorChoice.SMALL_ORDER);
         }
     }
     
+    /**
+     * Populates this Purchase Order from the related Requisition Document.
+     * 
+     * @param requisitionDocument the Requisition Document from which field values are copied.
+     */
     public void populatePurchaseOrderFromRequisition(RequisitionDocument requisitionDocument) {
-// TODO fix this (is this data correct?  is there a better way of doing this?
-//        this.setPurchaseOrderCreateDate(requisitionDocument.getDocumentHeader().getWorkflowDocument().getCreateDate());
-        this.setPurchaseOrderCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
-        
+        // TODO fix this (is this data correct?  is there a better way of doing this?
+        //this.setPurchaseOrderCreateDate(requisitionDocument.getDocumentHeader().getWorkflowDocument().getCreateDate());
+        this.setPurchaseOrderCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());       
         this.getDocumentHeader().setOrganizationDocumentNumber(requisitionDocument.getDocumentHeader().getOrganizationDocumentNumber());
         this.getDocumentHeader().setFinancialDocumentDescription(requisitionDocument.getDocumentHeader().getFinancialDocumentDescription());
 
-        this.setPurchaseOrderBeginDate(requisitionDocument.getPurchaseOrderBeginDate());
-        
+        this.setPurchaseOrderBeginDate(requisitionDocument.getPurchaseOrderBeginDate());       
         this.setBillingCityName(requisitionDocument.getBillingCityName());
         this.setBillingCountryCode(requisitionDocument.getBillingCountryCode());
         this.setBillingLine1Address(requisitionDocument.getBillingLine1Address());
@@ -331,10 +332,15 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         for (PurApItem reqItem : ((PurchasingAccountsPayableDocument) requisitionDocument).getItems()) {
           items.add(new PurchaseOrderItem((RequisitionItem)reqItem, this));
         }
-        this.setItems(items);
-        
+        this.setItems(items);        
     }
 
+    /**
+     * Returns the Vendor Stipulation at the specified index in this Purchase Order.
+     * 
+     * @param index the specified index. 
+     * @return the Vendor Stipulation at the specified index.
+     */
     public PurchaseOrderVendorStipulation getPurchaseOrderVendorStipulation(int index) {
         while (getPurchaseOrderVendorStipulations().size() <= index) {
             getPurchaseOrderVendorStipulations().add(new PurchaseOrderVendorStipulation());
@@ -382,10 +388,16 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
             catch (WorkflowException e) {
                 logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
             }
-        }
-        
+        }        
     }
     
+    /**
+     * Returns the name of the current route node.
+     * 
+     * @param wd the current workflow document.
+     * @return the name of the current route node.
+     * @throws WorkflowException
+     */
     private String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
         String[] nodeNames = wd.getNodeNames();
         if ( (nodeNames == null) || (nodeNames.length == 0) ) {
@@ -395,13 +407,22 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         }
       }
 
+    /**
+     * Sends FYI workflow request to the given user on this document.
+     * 
+     * @param workflowDocument the associated workflow document.
+     * @param userNetworkId the network ID of the user to be sent to.
+     * @param annotation the annotation notes contained in this document.
+     * @param responsibility the responsibility specified in the request.
+     * @throws WorkflowException
+     */
     private void appSpecificRouteDocumentToUser(KualiWorkflowDocument workflowDocument, String userNetworkId, String annotation, String responsibility) throws WorkflowException {
         if (ObjectUtils.isNotNull(workflowDocument)) {
-        String annotationNote = (ObjectUtils.isNull(annotation)) ? "" : annotation;
-        String responsibilityNote = (ObjectUtils.isNull(responsibility)) ? "" : responsibility;
-        String currentNodeName = getCurrentRouteNodeName(workflowDocument);
-        workflowDocument.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, annotationNote, new NetworkIdVO(userNetworkId), responsibilityNote, true);
-    }
+            String annotationNote = (ObjectUtils.isNull(annotation)) ? "" : annotation;
+            String responsibilityNote = (ObjectUtils.isNull(responsibility)) ? "" : responsibility;
+            String currentNodeName = getCurrentRouteNodeName(workflowDocument);
+            workflowDocument.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, annotationNote, new NetworkIdVO(userNetworkId), responsibilityNote, true);
+        }
     }
 
     /**
@@ -455,7 +476,12 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         super.doActionTaken(event);
         // additional processing
     }
-    
+        
+    /**
+     * Gets the active items in this Purchase Order.
+     * 
+     * @return the list of all active items in this Purchase Order.
+     */
     public List getItemsActiveOnly() {
         List returnList = new ArrayList();
         for (Iterator iter = getItems().iterator(); iter.hasNext();) {
@@ -467,6 +493,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         return returnList;
     }
 
+    /**
+     * Gets the active items in this Purchase Order, and sets up the alternate amount for GL entry creation.
+     * 
+     * @return the list of all active items in this Purchase Order.
+     */
     public List getItemsActiveOnlySetupAlternateAmount() {
         List returnList = new ArrayList();
         for (Iterator iter = getItems().iterator(); iter.hasNext();) {
@@ -482,7 +513,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         return returnList;
     }
 
-    // SETTERS AND GETTERS
     public Integer getAlternateVendorDetailAssignedIdentifier() {
         return alternateVendorDetailAssignedIdentifier;
     }
@@ -738,56 +768,33 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.retransmitHeader = retransmitHeader;
     }
 
-    /**
-     * Gets the pendingActionIndicator attribute. 
-     * @return Returns the pendingActionIndicator.
-     */
     public boolean isPendingActionIndicator() {
         return pendingActionIndicator;
     }
 
-    /**
-     * Sets the pendingActionIndicator attribute value.
-     * @param pendingActionIndicator The pendingActionIndicator to set.
-     */
     public void setPendingActionIndicator(boolean pendingActionIndicator) {
         this.pendingActionIndicator = pendingActionIndicator;
     }
 
-    /**
-     * Gets the purchaseOrderCurrentIndicator attribute. 
-     * @return Returns the purchaseOrderCurrentIndicator.
-     */
     public boolean isPurchaseOrderCurrentIndicator() {
         return purchaseOrderCurrentIndicator;
     }
 
-    /**
-     * Sets the purchaseOrderCurrentIndicator attribute value.
-     * @param purchaseOrderCurrentIndicator The purchaseOrderCurrentIndicator to set.
-     */
     public void setPurchaseOrderCurrentIndicator(boolean purchaseOrderCurrentIndicator) {
         this.purchaseOrderCurrentIndicator = purchaseOrderCurrentIndicator;
     }
-    
-    /**
-     * Gets the purchaseOrderFirstTransmissionDate attribute. 
-     * @return Returns the purchaseOrderFirstTransmissionDate.
-     */
+
     public Date getPurchaseOrderFirstTransmissionDate() {
         return purchaseOrderFirstTransmissionDate;
     }
 
-    /**
-     * Sets the purchaseOrderFirstTransmissionDate attribute value.
-     * @param purchaseOrderFirstTransmissionDate The purchaseOrderFirstTransmissionDate to set.
-     */
     public void setPurchaseOrderFirstTransmissionDate(Date purchaseOrderFirstTransmissionDate) {
         this.purchaseOrderFirstTransmissionDate = purchaseOrderFirstTransmissionDate;
     }    
     
     /**
      * Gets the alternateVendorNumber attribute. 
+     * 
      * @return Returns the alternateVendorNumber.
      */
     public String getAlternateVendorNumber() {
@@ -805,8 +812,10 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         }
         return vendorNumber;
     }
+    
     /**
      * Sets the alternateVendorNumber attribute value.
+     * 
      * @param alternateVendorNumber The vendorNumber to set.
      */
     public void setAlternateVendorNumber(String vendorNumber) {
@@ -826,15 +835,14 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     }
     
     /**
-     * Convenience method to set alternate vendor fields based on a given VendorDetail.
+     * Sets alternate vendor fields based on a given VendorDetail.
      * 
-     * @param vendorDetail
+     * @param vendorDetail the vendor detail used to set vendor fields.
      */
     public void templateAlternateVendor(VendorDetail vendorDetail) {
         if (vendorDetail == null) {
             return;
-        }
-    
+        }  
         this.setAlternateVendorNumber(vendorDetail.getVendorHeaderGeneratedIdentifier() + VendorConstants.DASH + vendorDetail.getVendorDetailAssignedIdentifier());
         this.setAlternateVendorName(vendorDetail.getVendorName());
     }
@@ -862,7 +870,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 
     public void setDocumentBusinessObject(PurchaseOrderDocument po) {
         documentBusinessObject = po;
-    }    
+    }
     
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getItemClass()
@@ -916,10 +924,20 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.purchaseOrderQuoteListIdentifier = purchaseOrderQuoteListIdentifier;
     }
 
+    /**
+     * Returns true if a vendor has been awarded for this Purchase Order. 
+     * 
+     * @return true if a vendor has been awarded for this Purchase Order. 
+     */
     public boolean isPurchaseOrderAwarded() {
         return (getAwardedVendorQuote() != null);
     }
 
+    /**
+     * Returns the quote from the awarded vendor.
+     * 
+     * @return the quote from the awarded vendor.
+     */
     public PurchaseOrderVendorQuote getAwardedVendorQuote() {
         for (PurchaseOrderVendorQuote vendorQuote : purchaseOrderVendorQuotes) {
             if (vendorQuote.getPurchaseOrderQuoteAwardDate() != null) {
@@ -929,6 +947,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         return null;
     }
     
+    /**
+     * @see org.kuali.module.purap.document.PurchasingDocumentBase#getTotalDollarAmount()
+     */
     @Override
     public KualiDecimal getTotalDollarAmount() {
         //return total without inactive and with below the line
@@ -943,6 +964,13 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         return getTotalDollarAmount(false, false);
     }
 
+    /**
+     * Gets the total dollar amount for this Purchase Order.
+     *  
+     * @param includeInactive indicates whether inactive items shall be included.
+     * @param includeBelowTheLine indicates whether below the line items shall be included.
+     * @return the total dollar amount for this Purchase Order.
+     */
     public KualiDecimal getTotalDollarAmount(boolean includeInactive, boolean includeBelowTheLine) {
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
         for (PurchaseOrderItem item : (List<PurchaseOrderItem>)getItems()) {
@@ -957,6 +985,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         return total;
     }
     
+    /**
+     * Returns true if this Purchase Order contains unpaid items in the Payment Request or Credie Memo.
+     * 
+     * @return true if this Purchase Order contains unpaid items in the Payment Request or Credie Memo.
+     */
     public boolean getContainsUnpaidPaymentRequestsOrCreditMemos() {
         if (getRelatedPaymentRequestViews() != null) {
             for (PaymentRequestView element : getRelatedPaymentRequestViews()) {
@@ -982,31 +1015,27 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         }
         return false;
     }
-    
-    /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getSourceAccountingLineClass()
-     */
-//    @Override
-//    public Class getSourceAccountingLineClass() {
-//        return PurchaseOrderAccount.class;
-//    }
 
     /**
-     * USED FOR ROUTING ONLY
+     * Used for routing only.
+     *
      * @deprecated
      */
     public String getContractManagerName() {
         return "";
-}
+    }
+    
     /**
-     * USED FOR ROUTING ONLY
+     * Used for routing only.
+     *
      * @deprecated
      */
     public void setContractManagerName(String contractManagerName) {
     }
 
     /**
-     * USED FOR ROUTING ONLY
+     * Used for routing only.
+     *
      * @deprecated
      */
     public String getStatusDescription() {
@@ -1014,7 +1043,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     }
 
     /**
-     * USED FOR ROUTING ONLY
+     * Used for routing only.
+     *
      * @deprecated
      */
     public void setStatusDescription(String statusDescription) {
@@ -1027,5 +1057,4 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     public void setInternalPurchasingLimit(KualiDecimal internalPurchasingLimit) {
         this.internalPurchasingLimit = internalPurchasingLimit;
     }
-
 }

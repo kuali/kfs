@@ -69,7 +69,7 @@ import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * Requisition Document
+ * Document class for the Requisition.
  */
 public class RequisitionDocument extends PurchasingDocumentBase implements Copyable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionDocument.class);
@@ -91,6 +91,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         super();
     }
 
+    /**
+     * @see org.kuali.core.document.Document#getDocumentRepresentationForSerialization()
+     */
     @Override
     protected Document getDocumentRepresentationForSerialization() {
         return SpringContext.getBean(ConciseXmlDocumentConversionService.class).getDocumentForSerialization(this);
@@ -105,7 +108,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * Perform logic needed to initiate Requisition Document
+     * Performs logic needed to initiate Requisition Document.
      */
     public void initiateDocument() {
         this.setRequisitionSourceCode(PurapConstants.RequisitionSources.STANDARD_ORDER);
@@ -138,9 +141,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * This method determines what PO transmission method to use.
+     * Determines what PO transmission method to use.
      * 
-     * @return
+     * @return the PO PO transmission method to use.
      */
     private String determinePurchaseOrderTransmissionMethod() {
         // KULPURAP-826: Return a value based on a sys param. Perhaps later change it to more dynamic logic
@@ -148,8 +151,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * A method in which to do checks as to whether copying of this document should be allowed. Copying is not to be allowed if this
-     * is a B2B req. and more than a set number of days have passed since the document's creation.
+     * Checks whether copying of this document should be allowed. Copying is not allowed if this
+     * is a B2B requistion, and more than a set number of days have passed since the document's creation.
      * 
      * @return True if copying of this requisition is allowed.
      * @see org.kuali.core.document.Document#getAllowsCopy()
@@ -169,7 +172,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             String allowedCopyDays = SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), PurapConstants.B2_B_ALLOW_COPY_DAYS);
             c.add(Calendar.DATE, Integer.parseInt(allowedCopyDays));
             Date allowedCopyDate = c.getTime();
-
             Date currentDate = dateTimeService.getCurrentDate();
 
             // Return true if the current time is before the allowed copy date.
@@ -179,17 +181,16 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * Perform logic needed to copy Requisition Document
+     * Performs logic needed to copy Requisition Document.
+     * 
+     * @see org.kuali.core.document.Document#toCopy()
      */
     @Override
     public void toCopy() throws WorkflowException, ValidationException {
         // Need to clear this identifier before copy so that related documents appear to be none
         this.setAccountsPayablePurchasingDocumentLinkIdentifier(null);
-
         super.toCopy();
-
         PurapUser currentUser = (PurapUser) GlobalVariables.getUserSession().getUniversalUser().getModuleUser(PurapUser.MODULE_ID);
-
         this.setPurapDocumentIdentifier(null);
 
         // Set req status to INPR.
@@ -198,14 +199,11 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         // Set fields from the user.
         this.setChartOfAccountsCode(currentUser.getChartOfAccountsCode());
         this.setOrganizationCode(currentUser.getOrganizationCode());
-
         this.setPostingYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
 
         boolean activeVendor = true;
         boolean activeContract = true;
-
         Date today = SpringContext.getBean(DateTimeService.class).getCurrentDate();
-
         VendorContract vendorContract = new VendorContract();
         vendorContract.setVendorContractGeneratedIdentifier(this.getVendorContractGeneratedIdentifier());
         Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(vendorContract);
@@ -259,13 +257,17 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                 account.setItemIdentifier(null);
             }
         }
+
         SpringContext.getBean(PurapService.class).addBelowLineItems(this);
-
         this.setOrganizationAutomaticPurchaseOrderLimit(SpringContext.getBean(PurapService.class).getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
-
         this.refreshNonUpdateableReferences();
     }
 
+    /**
+     * Updates status of this document and saves it.
+     * 
+     * @param statusCode the status code of the current status.
+     */
     private void updateStatusAndSave(String statusCode) {
         SpringContext.getBean(PurapService.class).updateStatus(this, statusCode);
         SpringContext.getBean(RequisitionService.class).saveDocumentWithoutValidation(this);
@@ -343,7 +345,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         }
     }
 
-    // SETTERS AND GETTERS
     public String getVendorPaymentTermsCode() {
         if (ObjectUtils.isNotNull(getVendorDetail())) {
             return getVendorDetail().getVendorPaymentTermsCode();
@@ -365,183 +366,84 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         return "";
     }
 
-    /**
-     * Gets the requisitionOrganizationReference1Text attribute.
-     * 
-     * @return Returns the requisitionOrganizationReference1Text
-     */
     public String getRequisitionOrganizationReference1Text() {
         return requisitionOrganizationReference1Text;
     }
 
-    /**
-     * Sets the requisitionOrganizationReference1Text attribute.
-     * 
-     * @param requisitionOrganizationReference1Text The requisitionOrganizationReference1Text to set.
-     */
     public void setRequisitionOrganizationReference1Text(String requisitionOrganizationReference1Text) {
         this.requisitionOrganizationReference1Text = requisitionOrganizationReference1Text;
     }
 
-
-    /**
-     * Gets the requisitionOrganizationReference2Text attribute.
-     * 
-     * @return Returns the requisitionOrganizationReference2Text
-     */
     public String getRequisitionOrganizationReference2Text() {
         return requisitionOrganizationReference2Text;
     }
 
-    /**
-     * Sets the requisitionOrganizationReference2Text attribute.
-     * 
-     * @param requisitionOrganizationReference2Text The requisitionOrganizationReference2Text to set.
-     */
     public void setRequisitionOrganizationReference2Text(String requisitionOrganizationReference2Text) {
         this.requisitionOrganizationReference2Text = requisitionOrganizationReference2Text;
     }
 
-
-    /**
-     * Gets the requisitionOrganizationReference3Text attribute.
-     * 
-     * @return Returns the requisitionOrganizationReference3Text
-     */
     public String getRequisitionOrganizationReference3Text() {
         return requisitionOrganizationReference3Text;
     }
 
-    /**
-     * Sets the requisitionOrganizationReference3Text attribute.
-     * 
-     * @param requisitionOrganizationReference3Text The requisitionOrganizationReference3Text to set.
-     */
     public void setRequisitionOrganizationReference3Text(String requisitionOrganizationReference3Text) {
         this.requisitionOrganizationReference3Text = requisitionOrganizationReference3Text;
     }
 
-
-    /**
-     * Gets the alternate1VendorName attribute.
-     * 
-     * @return Returns the alternate1VendorName
-     */
     public String getAlternate1VendorName() {
         return alternate1VendorName;
     }
 
-    /**
-     * Sets the alternate1VendorName attribute.
-     * 
-     * @param alternate1VendorName The alternate1VendorName to set.
-     */
     public void setAlternate1VendorName(String alternate1VendorName) {
         this.alternate1VendorName = alternate1VendorName;
     }
 
-
-    /**
-     * Gets the alternate2VendorName attribute.
-     * 
-     * @return Returns the alternate2VendorName
-     */
     public String getAlternate2VendorName() {
         return alternate2VendorName;
     }
 
-    /**
-     * Sets the alternate2VendorName attribute.
-     * 
-     * @param alternate2VendorName The alternate2VendorName to set.
-     */
     public void setAlternate2VendorName(String alternate2VendorName) {
         this.alternate2VendorName = alternate2VendorName;
     }
 
-
-    /**
-     * Gets the alternate3VendorName attribute.
-     * 
-     * @return Returns the alternate3VendorName
-     */
     public String getAlternate3VendorName() {
         return alternate3VendorName;
     }
 
-    /**
-     * Sets the alternate3VendorName attribute.
-     * 
-     * @param alternate3VendorName The alternate3VendorName to set.
-     */
     public void setAlternate3VendorName(String alternate3VendorName) {
         this.alternate3VendorName = alternate3VendorName;
     }
 
-
-    /**
-     * Gets the alternate4VendorName attribute.
-     * 
-     * @return Returns the alternate4VendorName
-     */
     public String getAlternate4VendorName() {
         return alternate4VendorName;
     }
 
-    /**
-     * Sets the alternate4VendorName attribute.
-     * 
-     * @param alternate4VendorName The alternate4VendorName to set.
-     */
     public void setAlternate4VendorName(String alternate4VendorName) {
         this.alternate4VendorName = alternate4VendorName;
     }
 
-
-    /**
-     * Gets the alternate5VendorName attribute.
-     * 
-     * @return Returns the alternate5VendorName
-     */
     public String getAlternate5VendorName() {
         return alternate5VendorName;
     }
 
-    /**
-     * Sets the alternate5VendorName attribute.
-     * 
-     * @param alternate5VendorName The alternate5VendorName to set.
-     */
     public void setAlternate5VendorName(String alternate5VendorName) {
         this.alternate5VendorName = alternate5VendorName;
     }
 
-
-    /**
-     * Gets the organizationAutomaticPurchaseOrderLimit attribute.
-     * 
-     * @return Returns the organizationAutomaticPurchaseOrderLimit
-     */
     public KualiDecimal getOrganizationAutomaticPurchaseOrderLimit() {
         return organizationAutomaticPurchaseOrderLimit;
     }
 
-    /**
-     * Sets the organizationAutomaticPurchaseOrderLimit attribute.
-     * 
-     * @param organizationAutomaticPurchaseOrderLimit The organizationAutomaticPurchaseOrderLimit to set.
-     */
     public void setOrganizationAutomaticPurchaseOrderLimit(KualiDecimal organizationAutomaticPurchaseOrderLimit) {
         this.organizationAutomaticPurchaseOrderLimit = organizationAutomaticPurchaseOrderLimit;
     }
 
-    @Override
     public List<RequisitionView> getRelatedRequisitionViews() {
         return null;
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingDocumentBase#getItemClass()
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getItemClass()
      */
     @Override
     public Class getItemClass() {
@@ -549,7 +451,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * METHOD WILL RETURN NULL AS REQUISITION HAS NO SOURCE DOCUMENT
+     * Returns null as requistion has no source document.
      * 
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentIfPossible()
      */
@@ -559,7 +461,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * METHOD WILL RETURN NULL AS REQUISITION HAS NO SOURCE DOCUMENT
+     * Returns null as requistion has no source document.
      * 
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentLabelIfPossible()
      */
@@ -591,7 +493,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * This method gives this requisition's Chart/Account of the first accounting line from the first item.
+     * Gets this requisition's Chart/Account of the first accounting line from the first item.
      * 
      * @return The first Chart and Account, or an empty string if there is none.
      */
@@ -616,7 +518,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * USED FOR ROUTING ONLY
+     * Used for routing only.
      * 
      * @deprecated
      */
@@ -625,11 +527,10 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * USED FOR ROUTING ONLY
+     * Used for routing only.
      * 
      * @deprecated
      */
     public void setStatusDescription(String statusDescription) {
     }
-
 }

@@ -14,10 +14,11 @@
 	<target name="clean" depends="clean-project,clean-local" description="Remove all build output" />
 
 	<target name="init-property-files">
+		<echoproperties />
 		<property file="${user.home}/${ant.project.name}-build.properties" />
 		<property file="${shared.external.build.properties}" />
-		<echo message="${datasource.username}" />
 		<property file="build.properties" />
+		<echoproperties />
 	</target>
 
 	<target name="init-properties" depends="init-property-files">

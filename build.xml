@@ -16,7 +16,8 @@
 	<target name="init-property-files">
 		<property file="${user.home}/${ant.project.name}-build.properties" />
 		<property file="${shared.external.build.properties}" />
-		<property file="build.properties" />
+		<property file="${basedir}/build.properties" />
+		<echoproperties />
 	</target>
 
 	<target name="init-properties" depends="init-property-files">

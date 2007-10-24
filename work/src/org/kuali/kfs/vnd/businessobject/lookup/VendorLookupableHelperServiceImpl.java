@@ -76,7 +76,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
      * the link is not the create new division link (i.e. if the link is "edit").
      * We'll always add the vendor header id in the query string in all links.
      * 
-     * @see AbstractLookupableHelperServiceImpl#getMaintenanceUrl(BusinessObject, String) 
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getMaintenanceUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
      */
     @Override
     public String getMaintenanceUrl(BusinessObject bo, String methodToCall) {
@@ -216,7 +216,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     /**
      * Populates address fields from default address
      * 
-     * @param vendor
+     * @param vendor venodrDetail
      */
     private void updatedefaultVendorAddress(VendorDetail vendor) {
         VendorAddress defaultAddress = vendorService.getVendorDefaultAddress(vendor.getVendorAddresses(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
@@ -238,7 +238,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
      * Both the superclass method and the various validation methods side-effect the adding of errors to the global error map when
      * the input is found to have an issue.
      * 
-     * @param fieldValues A Map containing only those key-value pairs that have been filled in on the lookup
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
      */
     @Override
     public void validateSearchParameters(Map fieldValues) {
@@ -256,7 +256,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     /**
      * Ensures that if a string is entered in the Vendor Name field, it is at least the minimum number of characters in length.
      * 
-     * @param fieldValues A Map containing only those key-value pairs that have been filled in on the lookup
+     * @param fieldValues a Map containing only those key-value pairs that have been filled in on the lookup
      */
     private void validateVendorName(Map fieldValues) {
         String vendorName = (String) fieldValues.get(VendorPropertyConstants.VENDOR_NAME);
@@ -275,7 +275,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
      * it calls extractVendorNumberToVendorIds to obtain vendorHeaderGeneratedId and vendorDetailAssignedId and if either one of the
      * ids cannot be converted to integers, it will add error that the vendor number must be numerics or numerics separated by a dash.
      * 
-     * @param fieldValues A Map containing only those key-value pairs that have been filled in on the lookup
+     * @param fieldValues a Map containing only those key-value pairs that have been filled in on the lookup
      */
     private void validateVendorNumber(Map fieldValues) {
         String vendorNumber = (String) fieldValues.get(VendorPropertyConstants.VENDOR_NUMBER);
@@ -300,8 +300,8 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
      * method will add error message to the errorMap in GlobalVariables that the vendor number must be numeric or numerics separated
      * by a dash.
      * 
-     * @param fieldValues
-     * @param vendorNumber
+     * @param fieldValues   a Map containing only those key-value pairs that have been filled in on the lookup
+     * @param vendorNumber  venodr number String
      */
     private void extractVendorNumberToVendorIds(Map fieldValues, String vendorNumber) {
         String vendorHeaderGeneratedIdentifier = null;
@@ -333,7 +333,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     /**
      * Validates that the tax number is 9 digits long.
      * 
-     * @param fieldValues A Map containing only those key-value pairs that have been filled in on the lookup
+     * @param fieldValues a Map containing only those key-value pairs that have been filled in on the lookup
      */
     private void validateTaxNumber(Map fieldValues) {
         String taxNumber = (String) fieldValues.get(VendorPropertyConstants.VENDOR_TAX_NUMBER);

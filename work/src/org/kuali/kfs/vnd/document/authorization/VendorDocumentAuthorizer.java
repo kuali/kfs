@@ -129,9 +129,9 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
      * Sets the vendor contract and vendor contract organization fields to be read only if the current user is not a
      * member of purchasing workgroup.
      * 
-     * @param vendor
-     * @param auths
-     * @param user
+     * @param vendor  an instance of VendorDetail document
+     * @param auths   an instance of MaintenanceDocumentAuthorizations which is used to define the read only fields 
+     * @param user    current logged-in  user
      */
     private void setVendorContractFieldsAuthorization(VendorDetail vendor, MaintenanceDocumentAuthorizations auths, UniversalUser user) {
         String purchasingWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, VendorConstants.Workgroups.WORKGROUP_PURCHASING);

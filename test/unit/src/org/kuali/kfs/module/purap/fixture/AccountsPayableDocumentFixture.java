@@ -26,7 +26,20 @@ public enum AccountsPayableDocumentFixture {
 
     // PAYMENT REQUEST FIXTURES
     // Credit Memo FIXTURES
-    CM_ONLY_REQUIRED_FIELDS(null, null, null, false, null, null, null, null, null, null, false, false, false)
+    CM_ONLY_REQUIRED_FIELDS(null,  // accountsPayableApprovalDate
+                            null,  // lastActionPerformedByUniversalUserId
+                            null,  // accountsPayableProcessorIdentifier
+                            false, // holdIndicator
+                            null,  // extractedDate
+                            null,  // purchaseOrderIdentifier
+                            null,  // processingCampusCode
+                            null,  // noteLine1Text
+                            null,  // noteLine2Text
+                            null,  // noteLine3Text
+                            false, // continuationAccountIndicator
+                            false, // closePurchaseOrderIndicator
+                            false  // reopenPurchaseOrderIndicator
+                            )
            
     ;
     

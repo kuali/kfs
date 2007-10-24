@@ -471,32 +471,24 @@
                 <label>Proposal Organizations</label>
                 <shortLabel>Organizations</shortLabel>
                 <elementLabel>Organization</elementLabel>
-                <summary>blank</summary>
-                <description>blank</description>
             </collection>
 
             <collection name="proposalProjectDirectors">
                 <label>Proposal Project Directors</label>
                 <shortLabel>Project Directors</shortLabel>
                 <elementLabel>Project Director</elementLabel>
-                <summary>blank</summary>
-                <description>blank</description>
             </collection>
 
             <collection name="proposalSubcontractors">
                 <label>Proposal Subcontractor</label>
                 <shortLabel>Subcontractors</shortLabel>
                 <elementLabel>Subcontractor</elementLabel>
-                <summary>blank</summary>
-                <description>blank</description>
             </collection>
 
 			<collection name="proposalResearchRisks">
                 <label>Proposal Research Risks</label>
                 <shortLabel>Research Risks</shortLabel>
                 <elementLabel>Research Risk</elementLabel>
-                <summary>blank</summary>
-                <description>blank</description>
             </collection>
             
         </collections>

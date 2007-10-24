@@ -519,29 +519,21 @@
                 <label>Project Directors</label>
                 <shortLabel>Project Director</shortLabel>
                 <elementLabel>Project Director</elementLabel>
-                <summary>blank</summary>
-                <description>blank</description>
             </collection>
             <collection name="awardAccounts">
                 <label>Award Accounts</label>
                 <shortLabel>Accounts</shortLabel>
                 <elementLabel>Account</elementLabel>
-                <summary>blank</summary>
-                <description>blank</description>
             </collection>
             <collection name="awardOrganizations">
                 <label>Award Organizations</label>
                 <shortLabel>Organizations</shortLabel>
                 <elementLabel>Organization</elementLabel>
-                <summary>blank</summary>
-                <description>blank</description>
             </collection>
             <collection name="awardSubcontractors">
                 <label>Award Subcontractors</label>
                 <shortLabel>Subcontractors</shortLabel>
                 <elementLabel>Subcontractor</elementLabel>
-                <summary>blank</summary>
-                <description>blank</description>
             </collection>
         </collections>
         

@@ -35,8 +35,8 @@ import org.kuali.module.vendor.bo.VendorTaxChange;
 import org.kuali.module.vendor.bo.VendorType;
 
 /**
- * 
- * PreRules checks for the VendorDetail that needs to occur while still in the 
+ * Business Prerules applicable to VendorDetail documents.
+ * Theses PreRules checks for the VendorDetail that needs to occur while still in the 
  * Struts processing. This includes setting the vendorName field using the
  * values from vendorLastName and vendorFirstName, and could be used for
  * many other purposes.
@@ -53,13 +53,23 @@ public class VendorPreRules extends MaintenancePreRulesBase {
     public VendorPreRules() {
     }
     
+    /**
+     * Returns the Universal User Id of the curretn logged-in user
+     * 
+     * @return String the UniversalUserId 
+     */
+    
     public String getUniversalUserId() {
         if (ObjectUtils.isNull(universalUserId)) {
             this.universalUserId = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
         }
         return this.universalUserId;
     }
-
+    /**
+     * Sets up a convenience object and few other vendor attributes
+     * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     */
+    @Override
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);
         setVendorNamesAndIndicator(document);
@@ -71,9 +81,8 @@ public class VendorPreRules extends MaintenancePreRulesBase {
  
     /**
      * 
-     * This method sets the convenience objects like newVendorDetail and oldVendorDetail, so you have short and easy handles to the new and
+     * Sets the convenience objects like newVendorDetail and oldVendorDetail, so you have short and easy handles to the new and
      * old objects contained in the maintenance document.
-     * 
      * It also calls the BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys,
      * if available.
      * 
@@ -88,8 +97,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
     }
 
     /**
-     * 
-     * This method sets the vendorFirstLastNameIndicator to true if the first name and
+     * Sets the vendorFirstLastNameIndicator to true if the first name and
      * last name fields were filled in but the vendorName field is blank and it sets
      * the vendorFirstLastNameIndicator to false if the vendorName field is filled in
      * and the first name and last name fields were both blank.
@@ -113,7 +121,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
     }
     
     /**
-     * This method set the vendorRestrictedDate and vendorRestrictedPersonIdentifier
+     * Sets the vendorRestrictedDate and vendorRestrictedPersonIdentifier
      * if the vendor restriction has changed from No to Yes.
      * 
      * @param document - the maintenanceDocument being evaluated
@@ -143,7 +151,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
     }
     
     /**
-     * This method create the VendorTaxChange if there are any changes related to
+     * Creates the VendorTaxChange if there are any changes related to
      * either the tax number or the tax type code, set the tax change to the list
      * of changes and set the list to the new vendor detail
      * 
@@ -181,7 +189,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
     }
     
     /**
-     * This method is a helper method to remove all the delimiters from the vendor name
+     * This is a helper method to remove all the delimiters from the vendor name
      * 
      * @param str the original vendorName
      * @return result String the vendorName after the delimiters have been removed
@@ -193,7 +201,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
 
 
     /**
-     * This method displays a review if indicated byt the vendor type and the associated text from that type
+     * Displays a review if indicated by the vendor type and the associated text from that type
      * 
      * @param document - vendordetail document
      */

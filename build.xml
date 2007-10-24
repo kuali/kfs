@@ -16,8 +16,6 @@
 	<target name="init-property-files">
 		<property file="${user.home}/${ant.project.name}-build.properties" />
 		<property file="${shared.external.build.properties}" />
-		<echo message="${shared.external.build.properties}" />
-		<echo message="${ojb.platform}" />
 		<property file="build.properties" />
 	</target>
 

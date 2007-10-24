@@ -326,7 +326,6 @@ public class ScrubberProcess {
             }
         }
 
-        long startAfterGroups = System.currentTimeMillis();
         // generate the scrubber status summary report
         if (reportOnlyMode) {
             reportService.generateOnlineScrubberStatisticsReport(group.getId(), runDate, scrubberReport, scrubberReportErrors, documentNumber);
@@ -337,14 +336,12 @@ public class ScrubberProcess {
         else {
             reportService.generateBatchScrubberStatisticsReport(runDate, scrubberReport, scrubberReportErrors);
         }
-        LOG.fatal("After report1 " + (System.currentTimeMillis() - startAfterGroups));
 
         // run the demerger if during regular nightly processing and collector processing
         if (!reportOnlyMode) {
             performDemerger(errorGroup, validGroup);
         }
 
-        LOG.fatal("After demerger " + (System.currentTimeMillis() - startAfterGroups));
 
         // Run the reports
         if (reportOnlyMode) {
@@ -355,15 +352,10 @@ public class ScrubberProcess {
             // defer report generation for later
         }
         else {
-            long start2 = System.currentTimeMillis();
             // Run bad balance type report and removed transaction report
             reportService.generateScrubberBadBalanceTypeListingReport(runDate, groupsToScrub);
-            LOG.fatal("Bad Bal report " + (System.currentTimeMillis() - start2));
-            start2 = System.currentTimeMillis();
             reportService.generateScrubberRemovedTransactions(runDate, errorGroup);
-            LOG.fatal("Removed trans report " + (System.currentTimeMillis() - start2));
         }
-        LOG.fatal("After report2 " + (System.currentTimeMillis() - startAfterGroups));
     }
 
     /**
@@ -385,7 +377,6 @@ public class ScrubberProcess {
         OriginEntryStatistics eOes = originEntryService.getStatistics(errorGroup.getId());
         demergerReport.setErrorTransactionsRead(eOes.getRowCount());
 
-        long start = System.currentTimeMillis();
         // Read all the documents from the error group and move all non-generated
         // transactions for these documents from the valid group into the error group
         Collection<OriginEntryFull> errorDocuments = originEntryService.getDocumentsByGroup(errorGroup);
@@ -432,9 +423,7 @@ public class ScrubberProcess {
                 }
             }
         }
-        LOG.fatal("Dem1 " + (System.currentTimeMillis() - start));
 
-        start = System.currentTimeMillis();
         // Read all the transactions in the error group and delete the generated ones
         Iterator<OriginEntryLite> ie = originEntryLiteService.getEntriesByGroup(errorGroup);
         while (ie.hasNext()) {
@@ -467,9 +456,7 @@ public class ScrubberProcess {
                 originEntryLiteService.delete(transaction);
             }
         }
-        LOG.fatal("Dem2 " + (System.currentTimeMillis() - start));
 
-        start = System.currentTimeMillis();
         // Read all the transactions in the valid group and update the cost share transactions
         Iterator<OriginEntryLite> it = originEntryLiteService.getEntriesByGroup(validGroup);
         while (it.hasNext()) {
@@ -495,22 +482,12 @@ public class ScrubberProcess {
             }
         }
 
-        LOG.fatal("Dem3 " + (System.currentTimeMillis() - start));
-
-        start = System.currentTimeMillis();
-
         eOes = originEntryService.getStatistics(errorGroup.getId());
         demergerReport.setErrorTransactionWritten(eOes.getRowCount());
-
-        LOG.fatal("Dem4 " + (System.currentTimeMillis() - start));
-
-        start = System.currentTimeMillis();
 
         if (!collectorMode) {
             reportService.generateScrubberDemergerStatisticsReports(runDate, demergerReport);
         }
-        LOG.fatal("Dem5 " + (System.currentTimeMillis() - start));
-
     }
 
     /**
@@ -566,9 +543,6 @@ public class ScrubberProcess {
         LOG.info("Starting Scrubber Process process group...");
         Iterator entries = originEntryLiteService.getEntriesByGroup(originEntryGroup);
         while (entries.hasNext()) {
-            // warren: logging code
-            long start1 = System.currentTimeMillis();
-
             OriginEntry unscrubbedEntry = (OriginEntry) entries.next();
             scrubberReport.incrementUnscrubbedRecordsRead();
 
@@ -613,8 +587,6 @@ public class ScrubberProcess {
             }
 
             if (!isFatal(transactionErrors)) {
-                // warren: testcode
-                long start2 = System.currentTimeMillis();
                 saveValidTransaction = true;
 
                 if (collectorMode) {
@@ -743,8 +715,6 @@ public class ScrubberProcess {
                     lastEntry = scrubbedEntry;
 
                 }
-                // LOG.fatal("non-fatal processing time: " + (System.currentTimeMillis() - start2));
-
             }
             else {
                 // Error transaction
@@ -753,7 +723,6 @@ public class ScrubberProcess {
                 scrubberReportErrors.put(OriginEntryFull.copyFromOriginEntryable(unscrubbedEntry), transactionErrors);
             }
 
-            long start3 = System.currentTimeMillis();
             if (saveValidTransaction) {
                 scrubbedEntry.setTransactionScrubberOffsetGenerationIndicator(false);
                 createOutputEntry(scrubbedEntry, validGroup);
@@ -768,8 +737,6 @@ public class ScrubberProcess {
                 createOutputEntry(errorEntry, errorGroup);
                 scrubberReport.incrementErrorRecordWritten();
             }
-            // LOG.fatal("save line processing time: " + (System.currentTimeMillis() - start3));
-            // LOG.fatal("line processing time: " + (System.currentTimeMillis() - start1));
         }
 
         if (!collectorMode) {

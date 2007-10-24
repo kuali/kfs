@@ -862,12 +862,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 
     public void setDocumentBusinessObject(PurchaseOrderDocument po) {
         documentBusinessObject = po;
-    }
-    
-    @Override
-    public List<PurchaseOrderView> getRelatedPurchaseOrderViews() {
-        return null;
-    }
+    }    
     
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getItemClass()

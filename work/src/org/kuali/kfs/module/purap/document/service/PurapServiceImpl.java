@@ -33,6 +33,7 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.service.UniversityDateService;
@@ -43,7 +44,6 @@ import org.kuali.module.purap.bo.AccountsPayableItem;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.OrganizationParameter;
 import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.module.purap.document.CreditMemoDocument;
@@ -107,10 +107,7 @@ public class PurapServiceImpl implements PurapService {
     public List getRelatedViews(Class clazz, Integer accountsPayablePurchasingDocumentLinkIdentifier) {
         Map criteria = new HashMap();
         criteria.put("accountsPayablePurchasingDocumentLinkIdentifier", accountsPayablePurchasingDocumentLinkIdentifier);
-//        if (clazz == PurchaseOrderView.class) {
-//            criteria.put("purchaseOrderCurrentIndicator", true);
-//        }
-        List boList = (List) businessObjectService.findMatching(clazz, criteria);
+        List boList = (List) businessObjectService.findMatchingOrderBy(clazz, criteria, KFSPropertyConstants.DOCUMENT_NUMBER, true);
         return boList;
     }
 

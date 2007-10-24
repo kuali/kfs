@@ -46,9 +46,11 @@ public class LedgerBalance extends Balance {
     private String financialObjectFringeOrSalaryCode;
     private Chart chartOfAccounts;
     private ObjectType financialObjectType;
-    private Balance financialBalance;
     private UniversalUser ledgerPerson;
     private LaborObject laborObject;
+    
+    @Deprecated
+    private Balance financialBalance; // this field is unnecessary
 
     /**
      * Default constructor.
@@ -102,6 +104,7 @@ public class LedgerBalance extends Balance {
      * 
      * @return Returns the financialBalance.
      */
+    @Deprecated
     public Balance getFinancialBalance() {
         return financialBalance;
     }
@@ -111,6 +114,7 @@ public class LedgerBalance extends Balance {
      * 
      * @param financialBalance The financialBalance to set.
      */
+    @Deprecated
     public void setFinancialBalance(Balance financialBalance) {
         this.financialBalance = financialBalance;
     }

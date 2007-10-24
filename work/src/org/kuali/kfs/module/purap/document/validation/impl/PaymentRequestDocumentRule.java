@@ -32,6 +32,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.service.ParameterService;
@@ -52,6 +53,7 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.authorization.PaymentRequestDocumentActionAuthorizer;
 import org.kuali.module.purap.service.PaymentRequestService;
+import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -114,7 +116,27 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
         isValid &= validateRouteFiscal(paymentRequestDocument);
         isValid &= processValidation(paymentRequestDocument);
+        isValid &= checkNegativeAccounts(paymentRequestDocument);
         return isValid;
+    }
+
+    private boolean checkNegativeAccounts(PaymentRequestDocument paymentRequestDocument) {
+        boolean valid = true;
+        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
+        
+        //if this was set somewhere on the doc(for later use) in prepare for save we could avoid this call
+        List<SourceAccountingLine>sourceLines = SpringContext.getBean(PurapAccountingService.class).generateSummary(paymentRequestDocument.getItems());
+        
+        for (SourceAccountingLine sourceAccountingLine : sourceLines) {
+            if(sourceAccountingLine.getAmount().isNegative()) {
+                String accountString = sourceAccountingLine.getChartOfAccountsCode()+" - "+sourceAccountingLine.getAccountNumber()+" - "+sourceAccountingLine.getFinancialObjectCode();
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY,PurapKeyConstants.ERROR_ACCOUNT_AMOUNT_TOTAL,accountString,sourceAccountingLine.getAmount()+"");        
+                valid &= false;
+            }
+        }
+        GlobalVariables.getErrorMap().clearErrorPath();
+        return valid;
     }
 
     public boolean processContinueAccountsPayableBusinessRules(AccountsPayableDocument apDocument) {

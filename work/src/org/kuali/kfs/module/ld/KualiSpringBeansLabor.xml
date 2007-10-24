@@ -342,10 +342,10 @@
         <property name="originEntryGroupService">
             <ref bean="originEntryGroupService" />
         </property>
+        <property name="laborOriginEntryService">
+            <ref bean="laborOriginEntryService" />
+        </property>        
 
-        <property name="accountService">
-            <ref bean="accountService" />
-        </property>
         <property name="optionsService">
             <ref bean="optionsService" />
         </property>
@@ -857,7 +857,7 @@
 		<property name="lookupableHelperService">
 			<ref bean="positionObjectBenefitLookupableHelperService" />
 		</property>
-	</bean>
+	</bean>	
 
 	
 	<bean id="laborPositionFundingLookupableHelperService" class="org.kuali.module.labor.web.lookupable.PositionFundingLookupableHelperServiceImpl" singleton="false">

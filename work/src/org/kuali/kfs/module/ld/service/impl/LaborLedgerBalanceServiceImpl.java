@@ -27,7 +27,6 @@ import org.kuali.core.bo.user.UserId;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.LaborConstants;
@@ -53,7 +52,14 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
      * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findBalancesForFiscalYear(java.lang.Integer)
      */
     public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear) {
-        return (Iterator<LedgerBalance>) TransactionalServiceUtils.copyToExternallyUsuableIterator(laborLedgerBalanceDao.findBalancesForFiscalYear(fiscalYear));
+        return laborLedgerBalanceDao.findBalancesForFiscalYear(fiscalYear);
+    }
+    
+    /**
+     * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findBalancesForFiscalYear(java.lang.Integer, java.util.Map)
+     */
+    public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues) {
+        return laborLedgerBalanceDao.findBalancesForFiscalYear(fiscalYear, fieldValues);
     }
 
     /**
@@ -61,7 +67,7 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
      */
     public Iterator findBalance(Map fieldValues, boolean isConsolidated) {
         LOG.debug("findBalance() started");
-        return TransactionalServiceUtils.copyToExternallyUsuableIterator(laborLedgerBalanceDao.findBalance(fieldValues, isConsolidated));
+        return laborLedgerBalanceDao.findBalance(fieldValues, isConsolidated);
     }
 
     /**

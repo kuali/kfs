@@ -101,4 +101,11 @@ public interface LaborLedgerBalanceDao {
      * @param ledgerBalance the given ledger balance
      */
     public void save(LedgerBalance ledgerBalance);
+
+    /**
+     * @param fiscalYear the given fiscal year
+     * @param fieldValues the given field values
+     * @return an iterator over all balances for a given fiscal year
+     */
+    public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues);
 }

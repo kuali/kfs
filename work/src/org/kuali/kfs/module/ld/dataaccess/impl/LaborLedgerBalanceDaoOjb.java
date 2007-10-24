@@ -91,6 +91,27 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
+    
+    /**
+     * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#findBalancesForFiscalYear(java.lang.Integer, java.util.Map)
+     */
+    public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues) {
+
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance());
+        criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+
+        QueryByCriteria query = QueryFactory.newQuery(LedgerBalance.class, criteria);
+        
+        query.addOrderByAscending(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.ACCOUNT_NUMBER);
+        query.addOrderByAscending(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        query.addOrderByAscending(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+
+        return getPersistenceBrokerTemplate().getIteratorByQuery(query);
+    }
 
     /**
      * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#findBalance(java.util.Map, boolean)

@@ -32,6 +32,13 @@ public interface LaborLedgerBalanceService {
      * @return an Iterator over all balances for a given year
      */
     public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear);
+    
+    /**
+     * @param fiscalYear the given fiscal year
+     * @param fieldValues the input fields and values
+     * @return an Iterator over all balances for a given year and search criteria
+     */
+    public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues);
 
     /**
      * This method gets the size of balance entries according to input fields and values

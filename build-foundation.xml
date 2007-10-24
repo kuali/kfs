@@ -11,32 +11,18 @@ are intended for use only by Kuali Foundation developers.
     <target name="dist-local" />
     <target name="clean" />
 
-    <target name="package-kfs" depends="init-properties,clean">
-    	<!-- clean out compiled classes -->
-    	<delete>
-    		<fileset dir="work/web-root/WEB-INF/classes">
-    			<include name="**/*" />
-    		</fileset>
-    		<fileset dir="test/classes">
-    			<include name="**/*" />
-    		</fileset>
-    	</delete>
+    <target name="package-kfs" depends="init-properties">
     	<!-- copy build file to temp dir -->
-    	<!-- <delete dir="temp" failonerror="false" /> -->
+    	<delete dir="temp" failonerror="false" />
     	<mkdir dir="temp" />
-    	<copy todir="temp" file="build.xml" />
-    	<!-- copy altered build.xml file -->
-    	<replace file="temp/build.xml">
-    		<replacefilter token="&lt;import file=&quot;build-foundation.xml&quot;/&gt;" value="" />
-    	</replace>
     
         <!-- demo dataset -->
         <cvspass cvsroot="${release.cvs.root}" password="${release.cvs.password}" />
     	<mkdir dir="temp/demo-dataset" />
-        <cvs command="export -d demo-dataset" dest="temp" cvsroot="${release.cvs.root}" package="${release.database.cvs.project}" failonerror="true" tag="${release.demo.dataset.cvs.tag}" compressionlevel="6" />
+        <cvs command="export -d demo-dataset" dest="temp" cvsroot="${release.cvs.root}" package="${release.database.cvs.module}" failonerror="true" tag="${release.demo.dataset.cvs.tag}" compressionlevel="6" />
         <!-- bootstrap dataset -->
     	<mkdir dir="temp/bootstrap-dataset" />
-        <cvs command="export -d bootstrap-dataset" dest="temp" cvsroot="${release.cvs.root}" package="${release.database.cvs.project}" failonerror="true" tag="${release.bootstrap.dataset.cvs.tag}" compressionlevel="6" />
+        <cvs command="export -d bootstrap-dataset" dest="temp" cvsroot="${release.cvs.root}" package="${release.database.cvs.module}" failonerror="true" tag="${release.bootstrap.dataset.cvs.tag}" compressionlevel="6" />
         <!-- impex tool -->
     	<mkdir dir="temp/${release.impex.tool.cvs.module}" />
         <cvs command="export" dest="temp" cvsroot="${release.cvs.root}" package="${release.impex.tool.cvs.module}" failonerror="true" tag="${release.impex.tool.cvs.tag}" compressionlevel="6" />
@@ -51,22 +37,40 @@ are intended for use only by Kuali Foundation developers.
         <!-- workflow -->
     	<mkdir dir="temp/${release.workflow.cvs.module}" />
         <cvs command="export" dest="temp" cvsroot="${release.cvs.root}" package="${release.workflow.cvs.module}" failonerror="true" tag="${release.workflow.cvs.tag}" compressionlevel="6" />
-        <!-- documentation? -->
+
     	
     	<mkdir dir="${release.patches.dir}" />
+
+		<!-- KFS -->
+    	<cvs command="export" dest="temp" cvsroot="${release.cvs.root}" package="${release.kfs.cvs.module}" failonerror="true" tag="${release.kfs.cvs.tag}" compressionlevel="6" />
+    	<!-- remove foundation-only target import -->
+    	<replace file="temp/kuali_project/build.xml">
+    		<replacefilter token="&lt;import file=&quot;build-foundation.xml&quot;/&gt;" value="" />
+    	</replace>
+    	<!-- replace foundation database URLs -->
+    	<replace file="temp/kuali_project/build/external/user/kuali-build.properties">
+    		<replacefilter token="mysql.datasource.url=jdbc:mysql://wsa127.uits.indiana.edu:3306/${datasource.username}" 
+    					   value="mysql.datasource.url=jdbc:mysql://localhost:3306/${datasource.username}" />
+    		<replacefilter token="oracle.datasource.url=jdbc:oracle:thin:@esdb12-k.uits.indiana.edu:1521:KUALI" 
+    					   value="oracle.datasource.url=jdbc:oracle:thin:@localhost:1521:KUALI" />
+    	</replace>
+    	
+    	
+    	<!-- dump a file with the extracted tags -->
+    	<echo file="temp/release-details.txt">
+KFS Tag: ${release.kfs.cvs.tag}
+Demo Dataset Tag: ${release.demo.dataset.cvs.tag}
+Bootstrap Dataset Tag: ${release.bootstrap.dataset.cvs.tag}
+Impex Tag: ${release.impex.tool.cvs.tag}
+Rice Tag: ${release.rice.cvs.tag}
+Workflow Tag: ${release.workflow.cvs.tag}   	
+    	</echo>
     	
     	<!-- zip it up -->
     	<zip destfile="${release.zip.name}">
-    		<zipfileset dir="." prefix="kuali-financial-system">
-    			<exclude name="temp/**" />
-    			<exclude name="**/CVS" />
+    		<zipfileset dir="temp/${release.kfs.cvs.module}" prefix="kuali-financial-system">
     			<exclude name="build-foundation.xml" />
-    			<exclude name="build.xml" />
     			<exclude name=".apt_generated" />
-    			<exclude name="**/*.log" />
-    		</zipfileset>
-    		<zipfileset dir="temp" prefix="kuali-financial-system">
-    			<include name="build.xml" />
     		</zipfileset>
             <zipfileset dir="temp/demo-dataset" prefix="demo-data-set">
                 <exclude name=".project" />
@@ -75,11 +79,13 @@ are intended for use only by Kuali Foundation developers.
                 <exclude name=".project" />
             </zipfileset>
             <zipfileset dir="temp/impex" prefix="database-import-export" />
-            <zipfileset dir="temp/rice" prefix="kuali-rice" />
-            <zipfileset dir="temp/workflow" prefix="kuali-enterprise-workflow" />
+            <zipfileset dir="temp/${release.rice.cvs.module}" prefix="kuali-rice" />
+            <zipfileset dir="temp/${release.workflow.cvs.module}" prefix="kuali-enterprise-workflow" />
             <zipfileset dir="${release.patches.dir}" prefix="patches" />
+    		<zipfileset file="temp/${release.kfs.cvs.module}/build/README.txt" prefix="" />
+    		<zipfileset file="temp/release-details.txt" prefix="" />
     	</zip>
-    	<delete dir="temp" verbose="true" />
+    	<delete dir="temp" verbose="false" />
     </target>
     
     <target name="setup-rice" depends="init-property-files">

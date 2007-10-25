@@ -155,6 +155,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         PaymentGroup pg = new PaymentGroup();
         pg.setBatch(batch);
         pg.setCombineGroups(Boolean.TRUE);
+        pg.setCampusAddress(Boolean.FALSE);
 
         DisbursementVoucherPayeeDetail pd = document.getDvPayeeDetail();
         String rc = pd.getDisbVchrPaymentReasonCode();

@@ -47,7 +47,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class handles specific Actions requests for the Requisition.
- * 
  */
 public class PaymentRequestAction extends AccountsPayableActionBase {
     static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestAction.class);
@@ -79,7 +78,17 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         return super.refresh(mapping, form, request, response);
     }
 
-
+    /**
+     * Executes the continue action on a payment request.
+     * Populates and initializes the rest of the payment request besides what was shown on the init screen.
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     */
     public ActionForward continuePREQ(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("continuePREQ() method");
 
@@ -89,6 +98,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         // preform duplicate check which will forward to a question prompt if one is found
         ActionForward forward = performDuplicatePaymentRequestCheck(mapping, form, request, response, paymentRequestDocument);
         if (forward != null) {
+            
             return forward;
         }
 
@@ -106,9 +116,18 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         preqForm.updateItemCounts();
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-
     }
-
+    
+    /**
+     * Clears the initial fields on the <code>PaymentRequestDocument</code> which should be accessible from the given form.
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm, which must be a PaymentRequestForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     */
     public ActionForward clearInitFields(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("clearInitValues() method");
 
@@ -120,9 +139,17 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     }
 
     /**
-     * Calls PaymentRequestService to perform the duplicate payment request check. If one is found, a question is setup and control is
+     * Calls <code>PaymentRequestService</code> to perform the duplicate payment request check. If one is found, a question is setup and control is
      * forwarded to the question action method. Coming back from the question prompt the button that was clicked is checked and if
      * 'no' was selected they are forward back to the page still in init mode.
+     * 
+     * @param   mapping                     An ActionMapping
+     * @param   form                        An ActionForm
+     * @param   request                     The HttpServletRequest
+     * @param   response                    The HttpServletResponse
+     * @param   paymentRequestDocument      The PaymentRequestDocument
+     * @throws  Exception
+     * @return      An ActionForward 
      */
     private ActionForward performDuplicatePaymentRequestCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, PaymentRequestDocument paymentRequestDocument) throws Exception {
         ActionForward forward = null;
@@ -143,17 +170,16 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         return forward;
     }
 
-
     /**
      * This action puts a payment on hold, prompting for a reason before hand.
      * This stops further approvals or routing.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
      */
     public ActionForward addHoldOnPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String operation = "Hold ";
@@ -170,12 +196,12 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     /**
      * This action removes a hold on the PREQ.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
      */
     public ActionForward removeHoldFromPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String operation = "Remove ";
@@ -193,12 +219,12 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      * This action requests a cancel on a preq, prompting for a reason before hand.
      * This stops further approvals or routing.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
      */
     public ActionForward requestCancelOnPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String operation = "Cancel ";
@@ -217,6 +243,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      */
     @Override
     protected PurQuestionCallback cancelPOActionCallbackMethod() {
+        
         return new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 PaymentRequestDocument preqDocument = (PaymentRequestDocument)document;
@@ -232,12 +259,12 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     /**
      * This action removes a request for cancel on a PREQ.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
      */
     public ActionForward removeCancelRequestFromPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String operation = "Cancel ";
@@ -252,7 +279,9 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     }
 
     /**
-     * calls a service method to calculate for a payment request document
+     * Calls a service method to calculate for a payment request document.
+     * 
+     * @param   apDoc   The AccountsPayableDocument
      */
     @Override
     protected void customCalculate(AccountsPayableDocument apDoc) {

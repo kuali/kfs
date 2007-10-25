@@ -111,6 +111,12 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
     /**
      * Perform calculation on item line.
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @return              An ActionForward
      */
     public ActionForward calculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
@@ -130,37 +136,40 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     /**
      * This method is an overridable area to do calculate specific tasks
      * 
-     * @param apDoc
+     * @param apDoc     An AccountsPayableDocument
      */
     protected void customCalculate(AccountsPayableDocument apDoc) {
         // do nothing by default
     }
     
     /**
-     * 
      * This method checks if calculation is required.  Currently it is required when it has not already been calculated and full document entry
      * status has not already passed.
      * 
-     * @param apForm
-     * @param purapDocument
+     * @param apForm            A Form, which must inherit from <code>AccountsPayableFormBase</code>
      * @return true if calculation is required, false otherwise
      */
     protected boolean requiresCaculate(AccountsPayableFormBase apForm) {
         boolean requiresCalculate = true;
         PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument)apForm.getDocument();
         requiresCalculate = !apForm.isCalculated() && !SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(purapDocument);
+        
         return requiresCalculate;
     }
     
     /**
      * This method returns the current action name
      * 
-     * @return
+     * @return  A String. Set to null!
      */
     public String getActionName(){
+        
         return null;
     }
     
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
@@ -169,6 +178,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         //if form is not yet calculated, return and prompt user to calculate
         if (requiresCaculate(apForm)) {
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
+            
             return mapping.findForward(KFSConstants.MAPPING_BASIC);            
         }
                 
@@ -195,38 +205,65 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         return forward;
     }
 
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
         if (!requiresCaculate(apForm)) {
+            
             return super.save(mapping, form, request, response);
         }
         GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_SAVE_REQUIRES_CALCULATE);
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
     }
 
     /**
-     * This method prompts for a reason to hold a payment request or credit memo.
+     * A wrapper method which prompts for a reason to hold a payment request or credit memo.
+     * 
+     * @param mapping       An ActionMapping
+     * @param form          An ActionForm
+     * @param request       The HttpServletRequest
+     * @param response      The HttpServletResponse
+     * @param questionType  A String used to distinguish which question is being asked
+     * @param notePrefix    A String explaining what action was taken, to be prepended to the note containing the reason,
+     *                      which gets written to the document
+     * @param operation     A one-word String description of the action to be taken, to be substituted into the message.
+     *                      (Can be an empty String for some messages.)
+     * @param messageKey    A key to the message which will appear on the question screen 
+     * @param callback      A PurQuestionCallback
+     * @return              An ActionForward
+     * @throws  Exception
      */
     protected ActionForward askQuestionWithInput(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String notePrefix, String operation, String messageKey, PurQuestionCallback callback) throws Exception {
         TreeMap<String,PurQuestionCallback> questionsAndCallbacks = new TreeMap<String,PurQuestionCallback>();
         questionsAndCallbacks.put(questionType, callback);
+        
         return askQuestionWithInput(mapping, form, request, response, questionType, notePrefix, operation, messageKey, questionsAndCallbacks, "", mapping.findForward(KFSConstants.MAPPING_BASIC));
     }
 
     /**
-     * This method...
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @param questionType
-     * @param notePrefix
-     * @param operation
-     * @param messageKey
-     * @param callback
-     * @return
+     * Builds and asks questions which require text input by the user for a payment request or a credit memo.
+     * 
+     * @param mapping                   An ActionMapping
+     * @param form                      An ActionForm
+     * @param request                   The HttpServletRequest
+     * @param response                  The HttpServletResponse
+     * @param questionType              A String used to distinguish which question is being asked
+     * @param notePrefix                A String explaining what action was taken, to be prepended to the note containing the reason,
+     *                                  which gets written to the document
+     * @param operation                 A one-word String description of the action to be taken, to be substituted into the message.
+     *                                  (Can be an empty String for some messages.)
+     * @param messageKey                A (whole) key to the message which will appear on the question screen
+     * @param questionsAndCallbacks     A TreeMap associating the type of question to be asked and the type of callback which should happen
+     *                                  in that case
+     * @param messagePrefix             The most general part of a key to a message text to be retrieved from KualiConfigurationService,
+     *                                  Describes a collection of questions.
+     * @param redirect                  An ActionForward to return to if done with questions
+     * @return                          An ActionForward
      * @throws Exception
      */
     private ActionForward askQuestionWithInput(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String notePrefix, String operation, String messageKey, TreeMap<String,PurQuestionCallback> questionsAndCallbacks, String messagePrefix, ActionForward redirect) throws Exception {
@@ -252,11 +289,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
             // Ask question if not already asked.
             return this.performQuestionWithInput(mapping, form, request, response, firstQuestion, message, KFSConstants.CONFIRMATION_QUESTION, questionType, "");
         }
-        else {
-            
-            
-            
-     
+        else {    
             //find callback for this question
             while (questions.hasNext()) {
                 mapQuestion = (String) questions.next();
@@ -277,10 +310,12 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                 if(questions.hasNext()) {
                     nextQuestion = (String) questions.next();
                     key = getQuestionProperty(messageKey, messagePrefix, kualiConfiguration, nextQuestion);
+                    
                     return this.performQuestionWithInput(mapping, form, request, response, nextQuestion, key, KFSConstants.CONFIRMATION_QUESTION, questionType, "");
                 } else {
-                return mapping.findForward(KFSConstants.MAPPING_BASIC);
-            }
+                    
+                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                }
             }
             // Have to check length on value entered.
             String introNoteMessage = notePrefix + KFSConstants.BLANK_SPACE;
@@ -305,30 +340,33 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         
         // make callback
         if(ObjectUtils.isNotNull(callback)) {
-        callback.doPostQuestion(apDocument, noteText);
+            callback.doPostQuestion(apDocument, noteText);
         }
         String nextQuestion = null;
         // ask another question if more left
         if(questions.hasNext()) {
             nextQuestion = (String) questions.next();
             key = getQuestionProperty(messageKey, messagePrefix, kualiConfiguration, nextQuestion);
+            
             return this.performQuestionWithInput(mapping, form, request, response, nextQuestion, key, KFSConstants.CONFIRMATION_QUESTION, questionType, "");
         }
-
-        
-        
+       
         return redirect;
     }
 
     /**
-     * This method...
-     * @param messageKey
-     * @param messagePrefix
-     * @param kualiConfiguration
-     * @param question
-     * @return
+     * Used to look up messages to be displayed, from the KualiConfigurationService, given either a whole key or two parts of a key
+     * that may be concatenated together.
+     *
+     * @param messageKey            String.  One of the message keys in PurapKeyConstants.
+     * @param messagePrefix         String.  A prefix to the question key, such as "ap.question." that, concatenated with the question, 
+     *                              comprises the whole key of the message.
+     * @param kualiConfiguration    An instance of KualiConfigurationService
+     * @param question              String.  The most specific part of the message key in PurapKeyConstants.
+     * @return                      The message to be displayed given the key
      */
     private String getQuestionProperty(String messageKey, String messagePrefix, KualiConfigurationService kualiConfiguration, String question) {
+        
         return kualiConfiguration.getPropertyString((StringUtils.isEmpty(messagePrefix))?messageKey:messagePrefix+question);
 	}    
 
@@ -345,12 +383,23 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         boolean rulePassed = KNSServiceLocator.getKualiRuleService().applyRules(new CancelAccountsPayableEvent(document));
         
         if(!rulePassed) {
+            
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
          
         return  askCancelQuestion(mapping, form, request, response);
     }
 
+    /**
+     * Constructs and asks the question as to whether the user wants to cancel, for payment requests and credit memos.
+     * 
+     * @param mapping       An ActionMapping
+     * @param form          An ActionForm
+     * @param request       The HttpServletRequest
+     * @param response      The HttpServletResponse
+     * @return              An ActionForward
+     * @throws Exception
+     */
     private ActionForward askCancelQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AccountsPayableFormBase apForm = (AccountsPayableFormBase)form;
         String operation = "Cancel ";
@@ -364,14 +413,17 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
             PurQuestionCallback callback2 = cancelPOActionCallbackMethod();
             questionsAndCallbacks.put("actionOnPoCancel", callback2);    
         }
+        
         return askQuestionWithInput(mapping, form, request, response, CMDocumentsStrings.CANCEL_CM_QUESTION, AccountsPayableDocumentStrings.CANCEL_NOTE_PREFIX, operation, PurapKeyConstants.CREDIT_MEMO_QUESTION_CANCEL_DOCUMENT, questionsAndCallbacks, PurapKeyConstants.AP_QUESTION_PREFIX, mapping.findForward(KFSConstants.MAPPING_PORTAL));
     }
 
     /**
-     * This method returns a question callback for cancel po action
-     * @return
+     * Returns a question callback for the Cancel PO action.
+     * 
+     * @return  A PurQuestionCallback with a post-question activity appropriate to the Cancel PO action
      */
     protected PurQuestionCallback cancelPOActionCallbackMethod() {
+        
         return new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 //base impl do nothing
@@ -380,10 +432,12 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     }
 
     /**
-     * This method returns a question callback for cancel action
-     * @return purQuestionCallback
+     * Returns a question callback for the Cancel action.
+     * 
+     * @return A PurQuestionCallback which does post-question tasks appropriate to Cancellation.
      */
     protected PurQuestionCallback cancelCallbackMethod() {
+        
         return new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 DocumentService documentService = SpringContext.getBean(DocumentService.class);
@@ -411,23 +465,21 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                 if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(document)) {
                     //for now this works but if place of full entry changes it may need to be based on something else since may need disaprove
                     //if past full entry and workflow not in final state (should this be checking preq states?)
-                    if(!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {    
-                        
-                    try {
-                        // need to run a super user cancel since person canceling may not have an action requested on the document
-                        GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
-                        documentService.superUserDisapproveDocument(documentService.getByDocumentHeaderId(document.getDocumentNumber()), "Document Cancelled by user " + originalUserSession.getUniversalUser().getPersonName() + " (" + originalUserSession.getUniversalUser().getPersonUserIdentifier() + ")");
-                    }
-                    finally {
-                        GlobalVariables.setUserSession(originalUserSession);
-                    }
+                    if(!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {                           
+                        try {
+                            // need to run a super user cancel since person canceling may not have an action requested on the document
+                            GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
+                            documentService.superUserDisapproveDocument(documentService.getByDocumentHeaderId(document.getDocumentNumber()), "Document Cancelled by user " + originalUserSession.getUniversalUser().getPersonName() + " (" + originalUserSession.getUniversalUser().getPersonUserIdentifier() + ")");
+                        }
+                        finally {
+                            GlobalVariables.setUserSession(originalUserSession);
+                        }
                     } else {
                         //call gl method here (no reason for post processing since workflow done)
                         SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(document, "");
                     }
                 }
-                else {
-                    
+                else {                   
                     try {//TODO: ckirschenman - delyea do we really need this superCancel?
                         // need to run a super user cancel since person canceling may not have an action requested on the document
                         GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
@@ -435,14 +487,11 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                     }
                     finally {
                         GlobalVariables.setUserSession(originalUserSession);
-                    }
-                    
-                }
-                
+                    }                   
+                }               
                 Note noteObj = documentService.createNoteFromDocument(document, noteText);
                 documentService.addNoteToDocument(document, noteObj);
-                SpringContext.getBean(NoteService.class).save(noteObj);
-    
+                SpringContext.getBean(NoteService.class).save(noteObj);   
             }
         };
     }

@@ -25,7 +25,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * This class handles Actions for AssignContractManager.
  */
-
 public class AssignContractManagerAction extends KualiTransactionalDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerAction.class);
 

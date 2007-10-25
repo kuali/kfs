@@ -57,8 +57,7 @@ import org.kuali.module.vendor.service.VendorService;
 public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingActionBase.class);
 
-    /**
-     * 
+    /** 
      * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -145,6 +144,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             document.refreshReferenceObject("vendorDetail");
             document.templateVendorDetail(document.getVendorDetail());
         }
+        
         return super.refresh(mapping, form, request, response);
     }
 
@@ -191,18 +191,19 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 baseForm.setNotOtherDeliveryBuilding(true);
             }
         }
+        
         return refresh(mapping, form, request, response);
     }
 
     /**
      * Add a new item to the document.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
      */
     public ActionForward addItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
@@ -216,18 +217,19 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             item = purchasingForm.getAndResetNewPurchasingItemLine();
             purDocument.addItem(item);
         }
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
      * Delete an item from the document.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
      */
     public ActionForward deleteItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
@@ -235,45 +237,59 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         purDocument.deleteItem(getSelectedLine(request));
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * move item up one position
+     * Moves the selected item up one position.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
      */
     public ActionForward upItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         int line = getSelectedLine(request);
         purDocument.itemSwap(line,line-1);
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * move item down one position (these two methods up/down could easily be consolidated - for now it seems more straightforward to keep separate)
+     * Moves the selected item down one position 
+     * (These two methods up/down could easily be consolidated. For now, it seems more straightforward to keep them separate.)
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
      */
     public ActionForward downItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         int line = getSelectedLine(request);
         purDocument.itemSwap(line,line+1);
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
+    /**
+     * Reveals the account distribution section.
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     */
     public ActionForward setupAccountDistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
 
@@ -282,6 +298,16 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Clear out the accounting lines from all the items.
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     */
     public ActionForward removeAccounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
 
@@ -290,6 +316,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
         if (question == null) {
             String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapConstants.QUESTION_REMOVE_ACCOUNTS);
+            
             return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.REMOVE_ACCOUNTS_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "0");
         }
         else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
@@ -299,9 +326,22 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
             GlobalVariables.getMessageList().add(PurapKeyConstants.PURAP_GENERAL_ACCOUNTS_REMOVED);
         }
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Distribute accounting line(s) to the item(s).
+     * Does not distribute the accounting line(s) to an item if the item if there are already accounting lines associated with that
+     * item, if the item is a below-the-line item and has no unit cost, or if the item is inactive.
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     */
     public ActionForward doAccountDistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
 
@@ -336,6 +376,16 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Simply hides the account distribution section.
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     */
     public ActionForward cancelAccountDistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
 
@@ -384,19 +434,22 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             PurApItem item = (PurApItem) ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItem((itemIndex));
             item.getSourceAccountingLines().remove(accountIndex);
         }
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     /**
      * This method sets the line for account distribution
-     * @param accountIndex
-     * @param purchasingAccountsPayableForm
-     * @return
+     * 
+     * @param accountIndex                      The index of the account into the request parameter
+     * @param purchasingAccountsPayableForm     A form which inherits from PurchasingAccountsPayableFormBase
+     * @return      A SourceAccountingLine
      */
     protected SourceAccountingLine customAccountRetrieval(int accountIndex, PurchasingAccountsPayableFormBase purchasingAccountsPayableForm) {
         PurchasingFormBase purchasingForm = (PurchasingFormBase)purchasingAccountsPayableForm;
         SourceAccountingLine line;
         line = (SourceAccountingLine) ObjectUtils.deepCopy(purchasingForm.getAccountDistributionsourceAccountingLines().get(accountIndex));
+        
         return line;
     }
 }

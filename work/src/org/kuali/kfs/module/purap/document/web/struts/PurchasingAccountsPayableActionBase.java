@@ -50,6 +50,9 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 public class PurchasingAccountsPayableActionBase extends KualiAccountingDocumentActionBase {
 
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
@@ -71,8 +74,9 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     }
 
     /**
-     * This method updates the baseline accounts on form and doc
-     * @param document
+     * Updates the baseline accounts on form and doc.
+     * 
+     * @param document  A descendant of PurchasingAccountsPayableDocument
      */
      private <T extends PurchasingAccountsPayableDocument, V extends KualiAccountingDocumentFormBase> void updateBaseline(T document, V form) {
         //update baseline accounts for purap
@@ -91,6 +95,16 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         }
     }
 
+    /**
+     * Invokes a service method to refresh the account summary.
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     */
     public ActionForward refreshAccountSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase purapForm = (PurchasingAccountsPayableFormBase) form;        
         PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) purapForm.getDocument();
@@ -136,6 +150,13 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Insert the given Accounting Line in several appropriate places in the given item and given form.
+     * 
+     * @param financialDocumentForm     A form that inherits from PurchasingAccountsPaybleFormBase
+     * @param item                      A PurApItem
+     * @param line                      A PurApAccountingLine
+     */
     protected void insertAccountingLine(PurchasingAccountsPayableFormBase financialDocumentForm, PurApItem item, PurApAccountingLine line) {
         PurchasingAccountsPayableDocument preq = (PurchasingAccountsPayableDocument)financialDocumentForm.getDocument();
         // this decorator stuff should be moved out in parent class so we don't need to copy it here
@@ -168,7 +189,13 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         return false;
     }
 
-
+    /**
+     * Insert the given Accounting Line in several appropriate places in the given item and given form.
+     * 
+     * @param financialDocumentForm     A form that inherits from KualiAccountingDocumentFormBase
+     * @param item                      A PurApItem
+     * @param line                      A PurApAccountingLine
+     */
     protected void insertAccountingLine(KualiAccountingDocumentFormBase financialDocumentForm, PurApItem item, PurApAccountingLine line) {
         // this decorator stuff should be moved out in parent class so we don't need to copy it here
         // create and init a decorator
@@ -235,10 +262,11 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     }
 
     /**
-     * This method does custom processing on accounting lines
-     * @param accountIndex
-     * @param purchasingAccountsPayableForm
-     * @return
+     * This method does custom processing on accounting lines.  See <code>getSelectedLineForAccounts</code>.
+     * 
+     * @param accountIndex                      The index of the account into the request parameter
+     * @param purchasingAccountsPayableForm     A form which inherits from PurchasingAccountsPayableFormBase
+     * @return      A SourceAccountingLine
      */
     protected SourceAccountingLine customAccountRetrieval(int accountIndex, PurchasingAccountsPayableFormBase purchasingAccountsPayableForm) {
         //default impl returns null
@@ -250,8 +278,8 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
      * the account index. These are obtained by parsing the method to call parameter from the request, between the word ".line" and
      * "." The indexes are separated by a semicolon (:)
      * 
-     * @param request
-     * @return
+     * @param request       The HttpServletRequest
+     * @return      An array of Strings containing pairs of two indices, an item index and a account index
      */
     protected String[] getSelectedLineForAccounts(HttpServletRequest request) {
         String accountString = new String();

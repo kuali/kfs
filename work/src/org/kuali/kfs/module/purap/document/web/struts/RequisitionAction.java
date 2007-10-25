@@ -31,7 +31,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class handles specific Actions requests for the Requisition.
- * 
  */
 public class RequisitionAction extends PurchasingActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionAction.class);
@@ -59,6 +58,7 @@ public class RequisitionAction extends PurchasingActionBase {
     	
         // super.refresh() must occur before this line to get the correct APO limit
         document.setOrganizationAutomaticPurchaseOrderLimit(SpringContext.getBean(PurapService.class).getApoLimit(document.getVendorContractGeneratedIdentifier(), document.getChartOfAccountsCode(), document.getOrganizationCode()));
+        
         return forward;
     }
 

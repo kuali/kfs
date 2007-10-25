@@ -201,12 +201,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     /**
      * Inactivate an item from the po document.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
      */
     public ActionForward inactivateItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
@@ -219,7 +219,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     
     /**
      * This method is for use with a specific set of methods of this class that create new PO-derived document types in response to user
-     * actions, including closePo, reopenPo, paymentHoldPo, removeHoldP, amendPo, and voidPo.  It employs the question framework to ask
+     * actions, including closePo, reopenPo, paymentHoldPo, removeHoldPo, amendPo, and voidPo.  It employs the question framework to ask
      * the user for a reponse before creating and routing the new document.  The response should consist of a note detailing a reason,
      * and either yes or no.  This method can be better understood if it is noted that it will be gone through twice (via the question
      * framework); when each question is originally asked, and again when the yes/no response is processed, for confirmation.
@@ -296,9 +296,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             ActionForward returnActionForward = null;
             if (!po.isPendingActionIndicator()) {
                 /*  Below if-else code block calls PurchaseOrderService methods that will throw ValidationException
-                 *  objects if errors occur during any process in the attempt to perform it's actions.  Assume
-                 *  if these return successfully that the PurchaseOrderDocument object returned from each is the 
-                 *  newly created document and that all actions in the method were run correctly
+                 *  objects if errors occur during any process in the attempt to perform its actions.  Assume,
+                 *  if these return successfully, that the PurchaseOrderDocument object returned from each is the 
+                 *  newly created document and that all actions in the method were run correctly.
                  * 
                  *  NOTE: IF BELOW IF-ELSE IS EDITED THE NEW METHODS CALLED MUST THROW ValidationException OBJECT
                  *  IF AN ERROR IS ADDED TO THE GlobalVariables
@@ -373,18 +373,59 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
     }
 
+    /**
+     * This method is invoked when the user pressed on the Close Order button on a Purchase Order page to Close the PO. It will display 
+     * the question page to the user to ask whether the user really wants to close the PO and ask the user to enter a reason in the 
+     * text area. If the user has entered the reason, it will invoke a service method to do the processing for closing a PO, 
+     * then display a Single Confirmation page to inform the user that the PO Close Document has been routed.
+     *
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     */
     public ActionForward closePo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("ClosePO started.");
         String operation = "Close ";
         return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.CLOSE_QUESTION, PODocumentsStrings.CLOSE_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT, PODocumentsStrings.CLOSE_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT, operation);
     }
 
+    /**
+     * This method is invoked when the user pressed on the Payment Hold button on a Purchase Order page to put the PO on hold. 
+     * It will display the question page to the user to ask whether the user really wants to put the PO on hold and ask the user 
+     * to enter a reason in the text area. If the user has entered the reason, it will invoke a service method to do the processing 
+     * for putting a PO on hold, then display a Single Confirmation page to inform the user that the PO Payment Hold Document has 
+     * been routed. 
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     */
     public ActionForward paymentHoldPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("PaymentHoldPO started.");
         String operation = "Hold Payment ";
         return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.PAYMENT_HOLD_QUESTION, PODocumentsStrings.PAYMENT_HOLD_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT, PODocumentsStrings.PAYMENT_HOLD_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_PAYMENT_HOLD, operation);
     }
 
+    /**
+     * This method is invoked when the user pressed on the Remove Hold button on a Payment Hold PO page to remove the PO from hold. 
+     * It will display the question page to the user to ask whether the user really wants to remove the PO from hold and ask the user 
+     * to enter a reason in the text area. If the user has entered the reason, it will invoke a service method to do the processing 
+     * for removing a PO from hold, then display a Single Confirmation page to inform the user that the PO Remove Hold Document has 
+     * been routed. 
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     */
     public ActionForward removeHoldPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("RemoveHoldPO started.");
         String operation = "Remove Payment Hold ";
@@ -404,16 +445,17 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     /**
      * This method is invoked when the user pressed on the Open Order button on a Purchase Order page that has status "Close" to
      * reopen the PO. It will display the question page to the user to ask whether the user really wants to reopen the PO and ask
-     * the user to enter a reason in the text area. If the user has entered the reason, it will invoke the updateFlagsAndRoute
-     * service method to do the processing for reopening a PO, then display a Single Confirmation page to inform the user that the
-     * PO Reopen Document has been routed.
+     * the user to enter a reason in the text area. If the user has entered the reason, it will invoke the a service method to do 
+     * the processing for reopening a PO, then display a Single Confirmation page to inform the user that the
+     * <code>PurchaseOrderReopenDocument</code> has been routed.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     * @see org.kuali.module.purap.document.PurchaseOrderReopenDocument
      */
     public ActionForward reopenPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Reopen PO started");
@@ -422,14 +464,19 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
-     * This method...
+     * This method is invoked when the user pressed on the Amend button on a Purchase Order page to amend the PO. 
+     * It will display the question page to the user to ask whether the user really wants to amend the PO and ask the user 
+     * to enter a reason in the text area. If the user has entered the reason, it will invoke a service method to do the processing 
+     * for amending the PO, then display a Single Confirmation page to inform the user that the <code>PurchaseOrderAmendmentDocument</code> 
+     * has been routed. 
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     * @see org.kuali.module.purap.document.PurchaseOrderAmendmentDocument
      */
     public ActionForward amendPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Amend PO started");
@@ -437,6 +484,21 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.AMENDMENT_PO_QUESTION, PODocumentsStrings.CONFIRM_AMENDMENT_QUESTION, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PODocumentsStrings.AMENDMENT_NOTE_PREFIX, null, operation);
     }
 
+    /**
+     * This method is invoked when the user pressed on the Void button on a Purchase Order page to void the PO. 
+     * It will display the question page to the user to ask whether the user really wants to void the PO and ask the user 
+     * to enter a reason in the text area. If the user has entered the reason, it will invoke a service method to do the processing 
+     * for voiding the PO, then display a Single Confirmation page to inform the user that the <code>PurchaseOrderVoidDocument</code> 
+     * has been routed.
+     *  
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     * @see org.kuali.module.purap.document.PurchaseOrderVoidDocument
+     */
     public ActionForward voidPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Void PO started");
         String operation = "Void ";
@@ -455,10 +517,18 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
+    /**
+     * Add the buttons to the form that need to be present besides the default buttons
+     * 
+     * @param kualiDocumentFormBase     A KualiDocumentFormBase that must be a PurchaseOrderForm
+     */
     private void addExtraButtons(KualiDocumentFormBase kualiDocumentFormBase) {
         ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
     }
     
+    /**
+     * @see org.kuali.module.purap.web.struts.action.PurchasingAccountsPayableActionBase#refreshAccountSummary(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward refreshAccountSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.refreshAccountSummary(mapping, form, request, response);
@@ -468,19 +538,19 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
-     * This method is executed when the user click on the "print" button on a Purchase Order Print Document page. On a non
+     * This method is executed when the user clicks on the "print" button on a Purchase Order Print Document page. On a non
      * javascript enabled browser, it will display a page with 2 buttons. One is to display the PDF, the other is to view
-     * the PO tabbed page where the PO document statuses, buttons, etc had already been updated (the updates of those
-     * occurred while the performPurchaseOrderFirstTransmitViaPrinting method is invoked.
+     * the PO tabbed page where the PO document statuses, buttons, etc have already been updated (the updates of those
+     * occurred while the <code>performPurchaseOrderFirstTransmitViaPrinting</code> method is invoked.
      * On a javascript enabled browser, it will display both the PO tabbed page containing the updated PO document info
      * and the pdf on the next window/tab of the browser.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
      */
     public ActionForward firstTransmitPrintPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String poDocId = request.getParameter("docId");
@@ -506,6 +576,14 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return mapping.findForward("printPurchaseOrderPDF");
     }
 
+    /**
+     * Creates a URL to be used in printing the purchase order.
+     * 
+     * @param basePath          String: The base path of the current URL
+     * @param docId             String: The document ID of the document to be printed
+     * @param methodToCall      String: The name of the method that will be invoked to do this particular print
+     * @return          The URL
+     */
     private String getUrlForPrintPO(String basePath, String docId, String methodToCall) {
         StringBuffer result = new StringBuffer(basePath);
         result.append("/purapPurchaseOrder.do?methodToCall=");
@@ -516,6 +594,17 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return result.toString();
     }
     
+    /**
+     * Prints the PDF only, as opposed to <code>firstTransmitPrintPo</code>, which calls this method (indirectly) to print the PDF,
+     * and calls the doc handler to display the PO tabbed page.
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     */
     public ActionForward printPurchaseOrderPDFOnly(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String poDocId = request.getParameter("docId");
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
@@ -563,7 +652,16 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return null;
     }
     
-    
+    /**
+     * Print a particular selected PO Quote as a PDF.
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm -- The PO Quote must be selected here.
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     */
     public ActionForward printPoQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 //        String poDocId = request.getParameter("docId");
 //        PurchaseOrderDocument po = (PurchaseOrderDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
@@ -621,6 +719,16 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return null;
     }
 
+    /**
+     * Print the list of PO Quote requests.
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     */
     public ActionForward printPoQuoteList(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
@@ -675,6 +783,16 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     /*  TODO PURAP - should this method be transmitting the PO or just setting up the dates?
      *             - should this method be saving the entire PO or just the vendorQuote object (if in fact nothing on the PO is edited)
      */
+    /**
+     * Initiates transmission of a PO Quote request.
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     */
     public ActionForward transmitPurchaseOrderQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
@@ -694,12 +812,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * This method is invoked when the user clicks on the Select All button on a Purchase Order Retransmit document. It will select
      * the checkboxes of all the items to be included in the retransmission of the PO.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
      */
     public ActionForward selectAllForRetransmit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
@@ -715,12 +833,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * This method is invoked when the user clicks on the Deselect All button on a Purchase Order Retransmit document. It will
      * uncheck the checkboxes of all the items to be excluded from the retransmission of the PO.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
      */
     public ActionForward deselectAllForRetransmit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
@@ -735,7 +853,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     /**
      * This method is invoked when the user clicks on the Retransmit button on both the PO tabbed page and on the Purchase Order
      * Retransmit Document page, which is essentially a PO tabbed page with the other irrelevant tabs being hidden. If it was
-     * invoked from the PO tabbed page, if the PO's pending indicator is false, this method will invoke the updateFlagsAndRoute in
+     * invoked from the PO tabbed page, if the PO's pending indicator is false, this method will invoke a method in
      * the PurchaseOrderService to update the flags, create the PurchaseOrderRetransmitDocument and route it. If the routing was
      * successful, we'll display the Purchase Order Retransmit Document page to the user, containing the newly created and routed
      * PurchaseOrderRetransmitDocument and a retransmit button as well as a list of items that the user can select to be
@@ -743,12 +861,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * retransmitPurchaseOrderPDF method to create a PDF document based on the PO information and the items that were selected by
      * the user on the Purchase Order Retransmit Document page to be retransmitted, then display the PDF to the browser.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
      */
     public ActionForward retransmitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
@@ -774,6 +892,17 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return returnToPreviousPage(mapping, kualiDocumentFormBase);
     }
 
+    /**
+     * Creates a PDF document based on the PO information and the items that were selected by the user on the Purchase Order 
+     * Retransmit Document page to be retransmitted, then display the PDF to the browser.
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     */
     public ActionForward printingRetransmitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
@@ -868,12 +997,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     /**
      * Add a stipulation to the document.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
      */
     public ActionForward addStipulation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
@@ -893,12 +1022,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     /**
      * Delete a stipulation from the document.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
      */
     public ActionForward deleteStipulation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
@@ -908,11 +1037,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
+     * This method overrides the docHandler method in the superclass. In addition to doing the normal process in the superclass and
+     * returning its action forward from the superclass, it also invokes the checkForPOWarnings method to check on a few
+     * conditions that could have caused warning messages to be displayed on top of Purchase Order page.
+     * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse) This
-     *      method overrides the docHandler method in the superclass. In addition to doing the normal process in the superclass and
-     *      returning its action forward from the superclass, it also invokes the checkForPOWarnings method to check on a few
-     *      conditions that could have caused warning messages to be displayed on top of Purchase Order page.
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse) 
      */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -928,6 +1058,16 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
    
     /*  TODO PURAP/delyea - should the following be a custom save event instead of the current business logic in the action method?
+     */
+    /**
+     * Set up the PO document for Quote processing.
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
      */
     public ActionForward initiateQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
@@ -946,6 +1086,16 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Add to the Quotes a line to contain a Vendor.
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     */
     public ActionForward addVendor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
@@ -956,6 +1106,16 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Delete a Vendor from the list of those from which a Quote should be obtained.
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     */
     public ActionForward deleteVendor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
@@ -965,6 +1125,17 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /*  TODO PURAP/delyea - should the following be a custom save event instead of the current business logic in the action method?
+     */
+    /**
+     * Once an awarded Vendor number is present on the PO, this method verifies the fact, asks the user for confirmation to complete
+     * the quoting process with the awarded Vendor, and sets the Vendor information on the PO if confirmation is obtained.
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
      */
     public ActionForward completeQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
@@ -1053,6 +1224,18 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
     /*  TODO PURAP/delyea - should the following be a custom save event instead of the current business logic in the action method?
      */
+    /**
+     * Cancels the process of obtaining quotes.  Checks whether any of the quote requests have been transmitted.  If none have,
+     * tries to obtain confirmation from the user for the cancellation.  If confirmation is obtained, clears out the list of
+     * Vendors from which to obtain quotes and writes the given reason to a note on the PO.
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @throws  Exception
+     * @return      An ActionForward
+     */
     public ActionForward cancelQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
@@ -1097,6 +1280,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#cancel(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
@@ -1123,6 +1309,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return returnToSender(mapping, kualiDocumentFormBase);
     }
     
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderForm poForm = (PurchaseOrderForm)form;
@@ -1141,6 +1330,16 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return super.save(mapping, form, request, response);
     }
     
+    /**
+     * Obtains confirmation and records reasons for the manual status changes which can take place before the PO has been
+     * routed.  If confirmation is given, changes the status, saves, and records the given reason in an note on the PO.
+     * 
+     * @param   mapping     An ActionMapping
+     * @param   form        An ActionForm
+     * @param   request     The HttpServletRequest
+     * @param   response    The HttpServletResponse
+     * @return      An ActionForward
+     */
     private ActionForward askSaveQuestions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType) {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
@@ -1231,6 +1430,11 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return forward;
     }
     
+    /**
+     * Applies a manual change of status to the given PO document 
+     * 
+     * @param po    A PurchaseOrderDocument
+     */
     private void executeManualStatusChange(PurchaseOrderDocument po) {
         try {           
             SpringContext.getBean(PurapService.class).updateStatus(po, po.getStatusChange());

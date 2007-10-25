@@ -34,7 +34,35 @@ public enum RequisitionDocumentFixture {
             new RequisitionItemFixture[] {RequisitionItemFixture.REQ_QTY_UNRESTRICTED_ITEM_1}  // requisitionItemMultiFixtures
             ),
             
-    REQ_BREAK_APO_ENTER_ALTERNATE_VENDOR_NAMES(null,  // requisitionOrganizationReference1Text
+    REQ_NO_APO_VALID(null,  // requisitionOrganizationReference1Text
+            null,                   // requisitionOrganizationReference2Text
+            null,                   // requisitionOrganizationReference3Text
+            null,                   // alternate1VendorName
+            null,                   // alternate2VendorName
+            null,                   // alternate3VendorName
+            null,                   // alternate4VendorName
+            null,                   // alternate5VendorName
+            null,                   // organizationAutomaticPurchaseOrderLimit
+            PurchasingAccountsPayableDocumentFixture.REQ_VALID_APO,  // purapDocumentFixture
+            PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS,                 // purchasingDocumentFixture
+            new RequisitionItemFixture[] {RequisitionItemFixture.REQ_ITEM_NO_APO}  // requisitionItemMultiFixtures
+            ),
+                                    
+    REQ_APO_VALID(null,  // requisitionOrganizationReference1Text
+            null,                   // requisitionOrganizationReference2Text
+            null,                   // requisitionOrganizationReference3Text
+            null,                   // alternate1VendorName
+            null,                   // alternate2VendorName
+            null,                   // alternate3VendorName
+            null,                   // alternate4VendorName
+            null,                   // alternate5VendorName
+            null,                   // organizationAutomaticPurchaseOrderLimit
+            PurchasingAccountsPayableDocumentFixture.REQ_VALID_APO,  // purapDocumentFixture
+            PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS,                 // purchasingDocumentFixture
+            new RequisitionItemFixture[] {RequisitionItemFixture.REQ_QTY_UNRESTRICTED_ITEM_1}  // requisitionItemMultiFixtures
+            ),
+                            
+    REQ_APO_INVALID_ALTERNATE_VENDOR_NAMES(null,  // requisitionOrganizationReference1Text
             null,                   // requisitionOrganizationReference2Text
             null,                   // requisitionOrganizationReference3Text
             "NFL Shop",             // alternate1VendorName

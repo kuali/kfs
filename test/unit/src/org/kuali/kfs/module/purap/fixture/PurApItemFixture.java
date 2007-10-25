@@ -38,8 +38,7 @@ public enum PurApItemFixture {
             false,                  // itemAssignedToTradeInIndicator
             new KualiDecimal(1),    // extendedPrice
             new KualiDecimal(1)     // itemQuantity
-            )
-    ,
+            ),
     BASIC_QTY_ITEM_2 (
             null,  // itemIdentifier
             new Integer(2),         // itemLineNumber
@@ -56,6 +55,23 @@ public enum PurApItemFixture {
             false,                  // itemAssignedToTradeInIndicator
             new KualiDecimal(1),    // extendedPrice
             new KualiDecimal(1)     // itemQuantity
+            ),
+    BASIC_QTY_ITEM_NO_APO (
+            null,  // itemIdentifier
+            new Integer(2),         // itemLineNumber
+            "",                     // capitalAssetTransactionTypeCode
+            "PCS",                  // itemUnitOfMeasureCode
+            "",                     // itemCatalogNumber
+            "description",          // itemDescription
+            "",                     // itemCapitalAssetNoteText
+            new BigDecimal(100),      // itemUnitPrice
+            "ITEM",                 // itemTypeCode
+            "",                     // itemAuxiliaryPartIdentifier
+            "",                     // externalOrganizationB2bProductReferenceNumber
+            "",                     // externalOrganizationB2bProductTypeName
+            false,                  // itemAssignedToTradeInIndicator
+            new KualiDecimal(10000),    // extendedPrice
+            new KualiDecimal(100)     // itemQuantity
             )
     ;
     

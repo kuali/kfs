@@ -28,8 +28,36 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public enum PurchasingAccountsPayableDocumentFixture {
 
     // REQUISITION FIXTURES
-    REQ_ONLY_REQUIRED_FIELDS(null, RequisitionStatuses.IN_PROCESS, null, null, null, null, null, null, null, null, null, null, null),
+    REQ_ONLY_REQUIRED_FIELDS(
+            null, //purapDocumentIdentifier
+            RequisitionStatuses.IN_PROCESS, //statusCode
+            null, //vendorHeaderGeneratedIdentifier
+            null, //vendorDetailAssignedIdentifier
+            null, //vendorName
+            null, //vendorLine1Address
+            null, //vendorLine2Address
+            null, //vendorCityName
+            null, //vendorStateCode
+            null, //vendorPostalCode
+            null, //vendorCountryCode
+            null, //vendorCustomerNumber
+            null), //accountsPayablePurchasingDocumentLinkIdentifier
     REQ_WITH_MANUALLY_ENTERED_VENDOR(null, RequisitionStatuses.IN_PROCESS, null, null, "Colts Gear Shop", "111 Champs St", null, "Indy Rocks", "IN", "11111", "US", null, null),
+    // APO FIXTURES
+    REQ_VALID_APO(
+            null, //purapDocumentIdentifier
+            RequisitionStatuses.IN_PROCESS, //statusCode
+            1002, //vendorHeaderGeneratedIdentifier
+            0, //vendorDetailAssignedIdentifier
+            "ABC Cleaning Services", //vendorName
+            "123456 BROAD ST", //vendorLine1Address
+            null, //vendorLine2Address
+            "TRUMANSBURG", //vendorCityName
+            "NY", //vendorStateCode
+            "14886", //vendorPostalCode
+            "US", //vendorCountryCode
+            null, //vendorCustomerNumber
+            null), //accountsPayablePurchasingDocumentLinkIdentifier
 
     // PURCHASE ORDER FIXTURES
     //TODO f2f: fix the PO one because actually, the vendor must be selected from the database

@@ -20,6 +20,7 @@ import static org.kuali.module.purap.fixtures.RequisitionItemAccountsFixture.WIT
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import static org.kuali.test.fixtures.UserNameFixture.RJWEISS;
 import static org.kuali.test.fixtures.UserNameFixture.RORENFRO;
+import static org.kuali.test.fixtures.UserNameFixture.VPUTMAN;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,13 +32,20 @@ import org.kuali.core.service.TransactionalDocumentDictionaryService;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.document.AccountingDocumentTestUtils;
+import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.PurchasingItem;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.fixtures.RequisitionDocumentFixture;
 import org.kuali.module.purap.fixtures.RequisitionItemAccountsFixture;
+import org.kuali.module.purap.service.PurapService;
+import org.kuali.module.purap.service.PurchaseOrderService;
+import org.kuali.module.purap.service.RequisitionService;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.fixtures.UserNameFixture;
+import org.kuali.workflow.WorkflowTestUtils;
+
+import edu.iu.uis.eden.EdenConstants;
 
 /**
  * This class is used to test InternalBillingDocument.
@@ -47,6 +55,7 @@ import org.kuali.test.fixtures.UserNameFixture;
 @ConfigureContext(session = KHUNTLEY)
 public class RequisitionDocumentTest extends KualiTestBase {
     public static final Class<RequisitionDocument> DOCUMENT_CLASS = RequisitionDocument.class;
+    private static final String ACCOUNT_REVIEW = "Account Review";
 
     private List<RequisitionItemAccountsFixture> getItemParametersFromFixtures() {
         List<RequisitionItemAccountsFixture> list = new ArrayList<RequisitionItemAccountsFixture>();
@@ -102,10 +111,102 @@ public class RequisitionDocumentTest extends KualiTestBase {
     }
     
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
-    public final void testTony() throws Exception {
-        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
-        AccountingDocumentTestUtils.saveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+    public final void testRouteDocumentToFinal() throws Exception {
+        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_NO_APO_VALID.createRequisitionDocument();
+        final String docId = requisitionDocument.getDocumentNumber();
+        AccountingDocumentTestUtils.routeDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+        WorkflowTestUtils.waitForNodeChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
+
+        // the document should now be routed to VPUTMAN as Fiscal Officer
+        changeCurrentUser(RORENFRO);
+        requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(requisitionDocument, ACCOUNT_REVIEW));
+        assertTrue("Document should be enroute.", requisitionDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
+        assertTrue("RORENFRO should have an approve request.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
+        SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as RORENFRO", null); 
+
+        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+
+        changeCurrentUser(KHUNTLEY);
+        requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        assertTrue("Document should now be final.", requisitionDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
     }
+
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    public final void testAPOValid() throws Exception {
+        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
+        final String docId = requisitionDocument.getDocumentNumber();
+        AccountingDocumentTestUtils.routeDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+        WorkflowTestUtils.waitForNodeChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
+
+        // the document should now be routed to VPUTMAN as Fiscal Officer
+        changeCurrentUser(RORENFRO);
+        requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(requisitionDocument, ACCOUNT_REVIEW));
+        assertTrue("Document should be enroute.", requisitionDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
+        assertTrue("RORENFRO should have an approve request.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
+        SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as RORENFRO", null); 
+
+        WorkflowTestUtils.waitForStatusChange(600, requisitionDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+
+        changeCurrentUser(KHUNTLEY);
+        requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        assertTrue("Document should now be final.", requisitionDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+
+        // get related POs, if count = 1 then all is well
+        Integer linkIdentifier = requisitionDocument.getAccountsPayablePurchasingDocumentLinkIdentifier();
+        List<PurchaseOrderView> relatedPOs = SpringContext.getBean(PurapService.class).getRelatedViews(PurchaseOrderView.class, linkIdentifier);
+        assertNotNull(relatedPOs);
+        assertTrue(relatedPOs.size() > 0);
+    }
+//
+//    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+//    public final void testAPOInvalidLimit() throws Exception {
+//        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_ALTERNATE_VENDOR_NAMES.createRequisitionDocument();
+//        AccountingDocumentTestUtils.saveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+//    }
+//
+//    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+//    public final void testAPOInvalidZeroTotal() throws Exception {
+//        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
+//        AccountingDocumentTestUtils.saveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+//    }
+//
+//    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+//    public final void testAPOInvalidRestrictedItem() throws Exception {
+//        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
+//        AccountingDocumentTestUtils.saveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+//    }
+//
+//    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+//    public final void testAPOInvalidNoVendor() throws Exception {
+//        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
+//        AccountingDocumentTestUtils.saveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+//    }
+//
+//    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+//    public final void testAPOInvalidRestrictedVendor() throws Exception {
+//        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
+//        AccountingDocumentTestUtils.saveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+//    }
+//
+//    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+//    public final void testAPOInvalidRecurringPaymentType() throws Exception {
+//        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
+//        AccountingDocumentTestUtils.saveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+//    }
+//
+//    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+//    public final void testAPOInvalidNotToExceedEntered() throws Exception {
+//        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
+//        AccountingDocumentTestUtils.saveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+//    }
+//
+//    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+//    public final void testAPOInvalidAltVendorName() throws Exception {
+//        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
+//        AccountingDocumentTestUtils.saveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+//    }
 
     // test util methods
     private List<RequisitionItem> generateItems() throws Exception {

@@ -42,11 +42,13 @@ import org.kuali.module.pdp.bo.PaymentAccountDetail;
 import org.kuali.module.pdp.bo.PaymentDetail;
 import org.kuali.module.pdp.bo.PaymentGroup;
 import org.kuali.module.pdp.bo.PaymentNoteText;
+import org.kuali.module.pdp.bo.PaymentStatus;
 import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.service.CustomerProfileService;
 import org.kuali.module.pdp.service.PaymentDetailService;
 import org.kuali.module.pdp.service.PaymentFileService;
 import org.kuali.module.pdp.service.PaymentGroupService;
+import org.kuali.module.pdp.service.ReferenceService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.bo.AccountsPayableItemBase;
@@ -76,7 +78,10 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private PaymentGroupService paymentGroupService;
     private PaymentDetailService paymentDetailService;
     private CreditMemoService creditMemoService;
+    private ReferenceService referenceService;
 
+    private PaymentStatus openPaymentStatus;
+    
     // This should only be set to true when testing this system. Setting this to true will run the code but
     // won't set the extracted date on the credit memos or payment requests
     boolean testMode = false;
@@ -101,6 +106,10 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     private void extractPayments(boolean immediateOnly) {
         LOG.debug("extractPayments() started");
+
+        if ( openPaymentStatus == null ) {
+            openPaymentStatus = (PaymentStatus)referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
+        }
 
         Date processRunDate = dateTimeService.getCurrentDate();
 
@@ -297,7 +306,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private void updateCreditMemo(CreditMemoDocument cmd, PdpUser puser, Date processRunDate) {
         if (!testMode) {
             cmd.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
-            creditMemoService.saveDocumentWithoutValidation(cmd);
+            // TODO creditMemoService.saveDocumentWithoutValidation(cmd);
+            businessObjectService.save(cmd);
         }
     }
 
@@ -311,7 +321,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private void updatePaymentRequest(PaymentRequestDocument prd, PdpUser puser, Date processRunDate) {
         if (!testMode) {
             prd.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
-            paymentRequestService.saveDocumentWithoutValidation(prd);
+            // TODO paymentRequestService.saveDocumentWithoutValidation(prd);
+            businessObjectService.save(prd);
         }
     }
 
@@ -590,6 +601,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         LOG.debug("populatePaymentGroup() documentNumber: " + prd.getDocumentNumber());
         PaymentGroup pg = new PaymentGroup();
         pg.setBatch(batch);
+        pg.setPaymentStatus(openPaymentStatus);
 
         String postalCode = prd.getVendorPostalCode();
         if ("US".equals(prd.getVendorCountry())) {
@@ -866,5 +878,9 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    public void setReferenceService(ReferenceService rs) {
+        referenceService = rs;
     }
 }

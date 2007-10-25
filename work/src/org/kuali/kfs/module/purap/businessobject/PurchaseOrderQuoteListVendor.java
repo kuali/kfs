@@ -71,6 +71,7 @@ public class PurchaseOrderQuoteListVendor extends PersistableBusinessObjectBase 
 
     /**
      * Sets the purchaseOrderQuoteList attribute value.
+     * 
      * @param purchaseOrderQuoteList The purchaseOrderQuoteList to set.
      * @deprecated
      */

@@ -36,7 +36,10 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
 	}
 
     /**
-     * Default constructor.
+     * Constructor.
+     * 
+     * @param item - payment request item
+     * @param poa - purchase order account
      */
     public PaymentRequestAccount(PaymentRequestItem item, PurchaseOrderAccount poa) {
         // copy base attributes

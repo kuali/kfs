@@ -56,8 +56,8 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     /**
      * Constructor.
      * 
-     * @param ri
-     * @param po
+     * @param ri - Requisition Item
+     * @param po - Purchase Order Document
      */
     public PurchaseOrderItem(RequisitionItem ri, PurchaseOrderDocument po) {
         super();

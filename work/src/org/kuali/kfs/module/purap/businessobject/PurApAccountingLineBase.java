@@ -172,4 +172,5 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     public Integer getSequenceNumber() {
         return this.getAccountIdentifier();
     }
+    
 }

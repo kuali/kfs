@@ -60,6 +60,9 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 
     /**
      * preq item constructor.
+     * 
+     * @param poi - purchase order item
+     * @param preq - payment request document
      */
     public PaymentRequestItem(PurchaseOrderItem poi,PaymentRequestDocument preq) {
         //copy base attributes w/ extra array of fields not to be copied
@@ -98,9 +101,9 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     /**
      * Constructs a new payment request item, but also merges expired accounts.
      *  
-     * @param poi
-     * @param preq
-     * @param expiredOrClosedAccountList
+     * @param poi - purchase order item
+     * @param preq - payment request document
+     * @param expiredOrClosedAccountList - list of expired or closed accounts to merge
      */
     public PaymentRequestItem(PurchaseOrderItem poi,PaymentRequestDocument preq, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
         //TODO (KULPURAP-1575) Merge this method with the other constructor. cleanup
@@ -146,7 +149,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
      * Retreives a purchase order item by inspecting the item type to see if its
      * above the line or below the line and returns the appropriate type.
      * 
-     * @return
+     * @return - purchase order item
      */
     public PurchaseOrderItem getPurchaseOrderItem() {
         // TODO (KULPURAP-1393) look into, this is total hackery but works for now, revisit during QA
@@ -207,7 +210,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     /** 
      * Exists due to a setter requirement by the htmlControlAttribute
      * 
-     * @param amount
+     * @param amount - po outstanding amount
      */
     public void setPoOutstandingAmount(KualiDecimal amount){
         //do nothing
@@ -227,7 +230,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     /** 
      * Exists due to a setter requirement by the htmlControlAttribute
      * 
-     * @param amount
+     * @param amount - po outstanding quantity
      */
     public void setPoOutstandingQuantity(KualiDecimal qty){
         //do nothing

@@ -41,7 +41,7 @@ public interface PurApAccountingLine extends AccountingLine {
     /**
      * Determines if the current purap accounting line is in an empty state.
      * 
-     * @return
+     * @return boolean - true if empty state
      */
     public abstract boolean isEmpty();
     
@@ -49,7 +49,7 @@ public interface PurApAccountingLine extends AccountingLine {
      * Creates a copy of the current purap accounting line and sets the percentage
      * and the amount to zero.
      * 
-     * @return
+     * @return - purap accounting line copy with blank percent and amount
      */
     public abstract PurApAccountingLine createBlankAmountsCopy();
     
@@ -57,8 +57,8 @@ public interface PurApAccountingLine extends AccountingLine {
      * Compares the current accounting line values with a source accounting line
      * to see if both accounting lines are equal.
      * 
-     * @param accountingLine
-     * @return
+     * @param accountingLine - accounting line to compare
+     * @return boolean - true if passed in and current accounting line are equal, false otherwise
      */
     public abstract boolean accountStringsAreEqual(SourceAccountingLine accountingLine);
 
@@ -66,15 +66,15 @@ public interface PurApAccountingLine extends AccountingLine {
      * Compares the current accounting line values with a purap accounting line
      * to see if both accounting lines are equal.
      * 
-     * @param accountingLine
-     * @return
+     * @param accountingLine - accounting line to compare
+     * @return boolean - true if passed in and current accounting line are equal, false otherwise
      */
     public abstract boolean accountStringsAreEqual(PurApAccountingLine accountingLine);
     
     /**
      * Creates a source accounting line from the current purap accounting line.
      * 
-     * @return
+     * @return - source accounting line based on current purap accounting line
      */
     public abstract SourceAccountingLine generateSourceAccountingLine();
 

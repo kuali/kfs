@@ -49,7 +49,7 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
     /**
      * Determines if the Purchasing Item is empty.
      * 
-     * @return
+     * @return boolean - true if item is empty, false if conditions show its not empty.
      */
     public boolean isEmpty() {
         return ! ( StringUtils.isNotEmpty(getItemUnitOfMeasureCode()) ||
@@ -66,7 +66,7 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
     /**
      * Determines if the Purchasing Item Detail is empty.
      * 
-     * @return
+     * @return boolean - true if item is empty, false if conditions show its not empty.
      */
     public boolean isItemDetailEmpty() {
         boolean empty = true;

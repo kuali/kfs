@@ -245,7 +245,9 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             }
             ObjectType objectType = collectorDetail.getFinancialObject().getFinancialObjectType();
 
-            negateAmountIfNecessary(collectorDetail, balanceTyp, objectType, batch);
+            /** Commented out for KULRNE-5922 */
+            //negateAmountIfNecessary(collectorDetail, balanceTyp, objectType, batch);
+            
         }
     }
 
@@ -253,7 +255,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * Negates the amount of the internal departmental billing detail record if necessary. For this default implementation, if the
      * balance type's offset indicator is yes and the object type has a debit indicator, then the amount is negated.
      * 
-     * @param interDepartmentalBilling the ID billing detail
+     * @param collectorDetail the collector detail
      * @param balanceTyp the balance type
      * @param objectType the object type
      * @param batch the patch to which the interDepartmentalBilling parameter belongs

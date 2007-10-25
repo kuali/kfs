@@ -808,9 +808,11 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
                     reportError(DOCUMENT_ERRORS, ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE);
                     return false;
                 }
+            } else {
+                // not a numeric period and this is a recode?  Then we won't allow it; ref KULRNE-6001
+                reportError(DOCUMENT_ERRORS, ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVRC);
+                return false;
             }
-            // but what if the period wasn't numeric?  well...in that case, someone turned the parameter to avoid these off and therefore,
-            // I think we just let it slide...
         }
         return valid;
     }

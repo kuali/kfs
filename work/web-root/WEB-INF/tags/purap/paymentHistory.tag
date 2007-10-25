@@ -77,7 +77,7 @@
 		        		<c:out value="${preqHistory.paymentExtractedDate}" />
 	        			<c:if test="${not empty preqHistory.paymentExtractedDate}">
 	        			  <c:url var="page" value="/pdp/epicpaymentdetail.do">
-	        			    <c:param name="sourceDocNbr" value="${preqHistory.purapDocumentIdentifier}"/>
+	        			    <c:param name="sourceDocNbr" value="${preqHistory.documentNumber}"/>
 	        			    <c:param name="docTypeCode" value="PREQ"/>
 	        			  </c:url>
 	        			  <c:url var="image" value="/pdp/images/tinybutton-disbursinfo.gif"/>
@@ -156,7 +156,7 @@
 	        				<c:out value="${cmHistory.creditMemoExtractedDate}" />
                 			<c:if test="${not empty cmHistory.creditMemoExtractedDate}">
 	                          <c:url var="page" value="/pdp/epicpaymentdetail.do">
-	        			        <c:param name="sourceDocNbr" value="${cmHistory.purapDocumentIdentifier}"/>
+	        			        <c:param name="sourceDocNbr" value="${cmHistory.documentNumber}"/>
 	        			        <c:param name="docTypeCode" value="CM"/>
                  			  </c:url>
 	        			      <c:url var="image" value="/pdp/images/tinybutton-disbursinfo.gif"/>

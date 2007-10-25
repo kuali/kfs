@@ -14,7 +14,7 @@ import org.kuali.kfs.context.SpringContext;
 /**
  * Base class for Related View Business Objects.
  */
-abstract class AbstractRelatedView extends PersistableBusinessObjectBase {
+public abstract class AbstractRelatedView extends PersistableBusinessObjectBase {
 
 	private Integer accountsPayablePurchasingDocumentLinkIdentifier;
     private Integer purapDocumentIdentifier;

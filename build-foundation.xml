@@ -11,26 +11,35 @@ are intended for use only by Kuali Foundation developers.
     <target name="dist-local" />
     <target name="clean" />
 
+	<target name="export-dataset">
+    	<mkdir dir="temp/${name}-dataset" />
+        <cvs command="export -d ${name}-dataset" dest="temp" cvsroot="${release.cvs.root}" package="${release.database.cvs.module}" failonerror="true" tag="${branch}" compressionlevel="6" />
+	</target>
+	
     <target name="package-kfs" depends="init-properties">
     	<!-- copy build file to temp dir -->
     	<delete dir="temp" failonerror="false" />
     	<mkdir dir="temp" />
-    
-        <!-- demo dataset -->
-        <cvspass cvsroot="${release.cvs.root}" password="${release.cvs.password}" />
-    	<mkdir dir="temp/demo-dataset" />
-        <cvs command="export -d demo-dataset" dest="temp" cvsroot="${release.cvs.root}" package="${release.database.cvs.module}" failonerror="true" tag="${release.demo.dataset.cvs.tag}" compressionlevel="6" />
-        <!-- bootstrap dataset -->
-    	<mkdir dir="temp/bootstrap-dataset" />
-        <cvs command="export -d bootstrap-dataset" dest="temp" cvsroot="${release.cvs.root}" package="${release.database.cvs.module}" failonerror="true" tag="${release.bootstrap.dataset.cvs.tag}" compressionlevel="6" />
+
+    	<cvspass cvsroot="${release.cvs.root}" password="${release.cvs.password}" />
+    	
+    	<antcall target="export-dataset">
+    		<param name="branch" value="${release.demo.dataset.cvs.tag}" />
+    		<param name="name" value="demo" />
+    	</antcall>
+    	<antcall target="export-dataset">
+    		<param name="branch" value="${release.bootstrap.dataset.cvs.tag}" />
+    		<param name="name" value="bootstrap" />
+    	</antcall>
+
         <!-- impex tool -->
-    	<mkdir dir="temp/${release.impex.tool.cvs.module}" />
+    	<mkdir dir="temp/impex" />
         <cvs command="export" dest="temp" cvsroot="${release.cvs.root}" package="${release.impex.tool.cvs.module}" failonerror="true" tag="${release.impex.tool.cvs.tag}" compressionlevel="6" />
     
     	<ant antfile="temp/${release.impex.tool.cvs.module}/impex/build.xml" inheritall="false" target="package-impex-tool" />
         <unzip src="temp/${release.impex.tool.cvs.module}/db_impex.zip" dest="temp" />
-
         <!-- rice -->
+    	
     	<mkdir dir="temp/${release.rice.cvs.module}" />
         <cvs command="export" dest="temp" cvsroot="${release.cvs.root}" package="${release.rice.cvs.module}" failonerror="true" tag="${release.rice.cvs.tag}" compressionlevel="6" />
     	
@@ -38,15 +47,36 @@ are intended for use only by Kuali Foundation developers.
     	<mkdir dir="temp/${release.workflow.cvs.module}" />
         <cvs command="export" dest="temp" cvsroot="${release.cvs.root}" package="${release.workflow.cvs.module}" failonerror="true" tag="${release.workflow.cvs.tag}" compressionlevel="6" />
 
+    	<property name="${workflow.application}.workflow.environment" value="${build.environment}" />
+        <property name="${workflow.application}.tomcat5.home" value="${appserver.home}" />
+        <property name="${workflow.application}.plugin.dir" value="${basedir}" />
+        <property name="${workflow.application}.institution" value="${ant.project.name}" />
+        <property name="${workflow.application}.src.dist.loc" value="${basedir}/temp/${release.workflow.cvs.module}/dist" />
+        <propertyset id="en-properties">
+            <propertyref prefix="${workflow.application}."/>
+            <mapper type="glob" from="${workflow.application}.*" to="*"/>
+        </propertyset>
+        <ant dir="${basedir}/temp/${release.workflow.cvs.module}" target="bundle-workflow" inheritall="false">
+            <propertyset refid="${workflow.application}-properties" />
+        </ant>
+        <copy file="${basedir}/temp/${release.workflow.cvs.module}/dist/workflow_${workflow.version}.zip" todir="temp" overwrite="true"/>
+        <ant dir="${basedir}/temp/${release.workflow.cvs.module}" target="clean" inheritall="false"/>
+        <ant dir="${basedir}/temp/${release.workflow.cvs.module}" target="javadoc" inheritall="false">
+            <propertyset refid="${workflow.application}-properties" />
+        </ant>
+        <zip destfile="temp/workflow-${workflow.version}-doc.zip" basedir="${basedir}/temp/${release.workflow.cvs.module}/dist/api" />    	
     	
     	<mkdir dir="${release.patches.dir}" />
 
 		<!-- KFS -->
+    	<mkdir dir="temp/${release.kfs.cvs.module}" />
     	<cvs command="export" dest="temp" cvsroot="${release.cvs.root}" package="${release.kfs.cvs.module}" failonerror="true" tag="${release.kfs.cvs.tag}" compressionlevel="6" />
-    	<!-- remove foundation-only target import -->
+
+    	<!-- remove foundation-only targets import -->
     	<replace file="temp/kuali_project/build.xml">
     		<replacefilter token="&lt;import file=&quot;build-foundation.xml&quot;/&gt;" value="" />
     	</replace>
+
     	<!-- replace foundation database URLs -->
     	<replace file="temp/kuali_project/build/external/user/kuali-build.properties">
     		<replacefilter token="mysql.datasource.url=jdbc:mysql://wsa127.uits.indiana.edu:3306/$${datasource.username}" 
@@ -55,6 +85,7 @@ are intended for use only by Kuali Foundation developers.
     					   value="oracle.datasource.url=jdbc:oracle:thin:@localhost:1521:KUALI" />
     	</replace>
     	
+    	<copy file="temp/${release.kfs.cvs.module}/build/README.txt" todir="temp" />
     	
     	<!-- dump a file with the extracted tags -->
     	<echo file="temp/release-details.txt">
@@ -80,10 +111,13 @@ Workflow Tag: ${release.workflow.cvs.tag}
             </zipfileset>
             <zipfileset dir="temp/impex" prefix="database-import-export" />
             <zipfileset dir="temp/${release.rice.cvs.module}" prefix="kuali-rice" />
-            <zipfileset dir="temp/${release.workflow.cvs.module}" prefix="kuali-enterprise-workflow" />
             <zipfileset dir="${release.patches.dir}" prefix="patches" />
-    		<zipfileset file="temp/${release.kfs.cvs.module}/build/README.txt" prefix="" />
-    		<zipfileset file="temp/release-details.txt" prefix="" />
+    		<zipfileset dir="temp" prefix="">
+    			<include name="workflow_${workflow.version}.zip" />
+    			<include name="workflow-${workflow.version}-doc.zip" />
+    			<include name="README.txt" />
+    			<include name="release-details.txt" />
+    		</zipfileset>
     	</zip>
     	<delete dir="temp" verbose="false" />
     </target>

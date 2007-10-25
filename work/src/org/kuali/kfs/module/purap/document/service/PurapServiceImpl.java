@@ -440,7 +440,12 @@ public class PurapServiceImpl implements PurapService {
         }
 
         
-        SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(apDocument.getPurchaseOrderDocument().getDocumentNumber(), docType, assemblePurchaseOrderNote(apDocument, docType, action), new ArrayList(), newStatus);
+        Integer poId = apDocument.getPurchaseOrderIdentifier();
+        PurchaseOrderDocument purchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(poId);
+        if(!StringUtils.equalsIgnoreCase(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().getDocumentType(),docType)) {
+            //we are skipping the validation above because it would be too late to correct any errors (i.e. because in post-processing)
+            SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(purchaseOrderDocument.getDocumentNumber(), docType, assemblePurchaseOrderNote(apDocument, docType, action), new ArrayList(), newStatus);
+        }
 
         /*
          * if we made it here, route document has not errored out, so set appropriate indicator depending on what is being

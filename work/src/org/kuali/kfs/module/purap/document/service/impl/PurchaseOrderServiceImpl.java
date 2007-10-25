@@ -75,6 +75,7 @@ import org.kuali.module.vendor.service.VendorService;
 import org.kuali.rice.RiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.iu.uis.eden.clientapp.WorkflowDocument;
 import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -657,12 +658,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             throw new RuntimeException(errorMsg, we);
         }
     }
-
+    
     public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String currentDocumentStatusCode) {
-        PurchaseOrderDocument currentDocument = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(documentNumber);
+        PurchaseOrderDocument currentDocument = getPurchaseOrderByDocumentNumber(documentNumber);
         //see KULPURAP-1983 for discussion of why we need to do this
         if(ObjectUtils.isNotNull(currentDocument)) {
+            KualiWorkflowDocument workflowDocument = currentDocument.getDocumentHeader().getWorkflowDocument();
             currentDocument.refreshReferenceObject(RicePropertyConstants.DOCUMENT_HEADER);
+            currentDocument.getDocumentHeader().setWorkflowDocument(workflowDocument);
         }
         
         purapService.updateStatus(currentDocument, currentDocumentStatusCode );
@@ -675,9 +678,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 }
                 // if we catch a ValidationException it means the new PO doc found errors
                 catch (ValidationException ve) {
-                    // TODO PURAP/delyea - old system used to just return the current document
-//                    return currentDocument;
-                    throw ve;
+                        throw ve;
                 }
                 // if no validation exception was thrown then rules have passed and we are ok to edit the current PO
                 currentDocument.setPendingActionIndicator(true);

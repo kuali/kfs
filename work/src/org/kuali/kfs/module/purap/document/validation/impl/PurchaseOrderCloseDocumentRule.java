@@ -32,6 +32,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
@@ -103,16 +104,33 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, PurapKeyConstants.ERROR_PURCHASE_ORDER_CLOSE_NO_PREQ, PODocumentsStrings.OPEN_STATUS);
             }
             else {
-                // None of the PREQs against this PO may be in 'In Process' status.
+                boolean checkInProcess = true;
+                boolean hasInProcess = false;
+
                 for (PaymentRequestDocument pReq : pReqs) {
-                    if (StringUtils.equalsIgnoreCase(pReq.getStatusCode(), PaymentRequestStatuses.IN_PROCESS) &&
-                        !pReq.getDocumentHeader().getWorkflowDocument().stateIsException()) {
-                        valid = false;
-                        GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, PurapKeyConstants.ERROR_PURCHASE_ORDER_CLOSE_PREQ_IN_PROCESS, PREQDocumentsStrings.IN_PROCESS);
+                    //skip exception docs
+                    if(pReq.getDocumentHeader().getWorkflowDocument().stateIsException()) {
+                        continue;
                     }
+                    //NOTE for below, this could/should be changed to look at the first route level after full entry instead of being tied to AwaitingFiscal (in case full entry is moved)
+                    //look for a doc that is currently routing, that will probably be the one that called this close if called from preq (with close po box)
+                    if(StringUtils.equalsIgnoreCase(pReq.getStatusCode(), PaymentRequestStatuses.AWAITING_FISCAL_REVIEW) && 
+                            !StringUtils.equalsIgnoreCase(pReq.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(),PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum.ACCOUNT_REVIEW.getName())) {
+                        //terminate the search since this close doc is probably being called by this doc, a doc should never be In Process and enroute in any other case
+                        checkInProcess = false;
+                        break;
+                    }
+                    if (StringUtils.equalsIgnoreCase(pReq.getStatusCode(), PaymentRequestStatuses.IN_PROCESS)) {
+                        hasInProcess = true;
+                    }
+                }
+                if(checkInProcess && hasInProcess) {
+                    valid = false;
+                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, PurapKeyConstants.ERROR_PURCHASE_ORDER_CLOSE_PREQ_IN_PROCESS, PREQDocumentsStrings.IN_PROCESS);
                 }
             }
         }
+
         return valid;
     }
 

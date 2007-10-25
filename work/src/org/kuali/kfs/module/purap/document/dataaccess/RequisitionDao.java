@@ -25,8 +25,8 @@ public interface RequisitionDao {
     /**
      * Retreives the document number by requisition id.
      * 
-     * @param id
-     * @return
+     * @param id - Requisition id
+     * @return - Document Number
      */
     public String getDocumentNumberForRequisitionId(Integer id);
 

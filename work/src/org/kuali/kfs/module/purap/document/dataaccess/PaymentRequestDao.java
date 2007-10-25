@@ -30,29 +30,29 @@ public interface PaymentRequestDao {
     /**
      * Get all the payment requests that need to be extracted that match a credit memo.
      * 
-     * @param campusCode limit results to a single chart
-     * @param paymentRequestIdentifier Payment Request Identifier (can be null)
-     * @param purchaseOrderIdentifier PO Identifier (can be null)
-     * @param vendorHeaderGeneratedIdentifier Vendor Header ID
-     * @param vendorDetailAssignedIdentifier Vendor Detail ID
-     * @return
+     * @param campusCode - limit results to a single chart
+     * @param paymentRequestIdentifier - Payment Request Identifier (can be null)
+     * @param purchaseOrderIdentifier - PO Identifier (can be null)
+     * @param vendorHeaderGeneratedIdentifier - Vendor Header ID
+     * @param vendorDetailAssignedIdentifier - Vendor Detail ID
+     * @return - list of payment requests that need to be extracted
      */
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(String campusCode,Integer paymentRequestIdentifier,Integer purchaseOrderIdentifier,Integer vendorHeaderGeneratedIdentifier,Integer vendorDetailAssignedIdentifier);
 
     /**
      * Get all the payment requests that need to be extracted to PDP.
      * 
-     * @param onlySpecialPayments True - only include special payments, False - include all
-     * @param chartCode if not null, limit results to a single chart
-     * @return Iterator of payment requests
+     * @param onlySpecialPayments - true only include special payments, False - include all
+     * @param chartCode - if not null, limit results to a single chart
+     * @return - Iterator of payment requests
      */
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments,String chartCode);
 
     /**
      * Get all the payment requests that are marked immediate that need to be extracted to PDP.
      * 
-     * @param chartCode
-     * @return
+     * @param chartCode - chart of accounts code
+     * @return - Iterator of payment requests
      */
     public Iterator<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode);
 
@@ -65,33 +65,33 @@ public interface PaymentRequestDao {
      * be determined from chart associations a default minimum specified as a 
      * system parameter is used to determine the minimum amount threshold.
      * 
-     * @return an Iterator over all payment request documents eligible for automatic approval
+     * @return - an Iterator over all payment request documents eligible for automatic approval
      */
     public List<PaymentRequestDocument> getEligibleForAutoApproval();
 
     /**
      * Get a payment request document number by id.
      * 
-     * @param id PaymentRequest Id
-     * @return PaymentRequest or null if not found
+     * @param id - PaymentRequest Id
+     * @return - PaymentRequest or null if not found
      */
     public String getDocumentNumberByPaymentRequestId(Integer id);
 
     /**
      * Retreives a list of document numbers by purchase order id.
      * 
-     * @param id
-     * @return
+     * @param id - purchase order id
+     * @return - list of document numbers
      */
     public List<String> getDocumentNumbersByPurchaseOrderId(Integer id);
 
     /**
      * Retreives a list of Pay Reqs with the given vendor id and invoice number.
      * 
-     * @param vendorHeaderGeneratedId  header id of the vendor id
-     * @param vendorDetailAssignedId   detail id of the vendor id
-     * @param invoiceNumber            invoice number as entered by AP
-     * @return List of Pay Reqs.
+     * @param vendorHeaderGeneratedId - header id of the vendor id
+     * @param vendorDetailAssignedId  - detail id of the vendor id
+     * @param invoiceNumber           - invoice number as entered by AP
+     * @return - List of Pay Reqs.
      */
     public List getActivePaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId,
         Integer vendorDetailAssignedId,String invoiceNumber);
@@ -99,17 +99,17 @@ public interface PaymentRequestDao {
     /**
      * Retreives a list of Pay Reqs with the given PO Id, invoice amount, and invoice date.
      * 
-     * @param poId           purchase order ID
-     * @param invoiceAmount  amount of the invoice as entered by AP
-     * @param invoiceDate    date of the invoice as entered by AP
-     * @return List of Pay Reqs.
+     * @param poId          - purchase order ID
+     * @param invoiceAmount - amount of the invoice as entered by AP
+     * @param invoiceDate   - date of the invoice as entered by AP
+     * @return - List of Pay Reqs.
      */
     public List getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal invoiceAmount, Date invoiceDate);
 
     /**
      * Deletes the summary accounts by purap document id.
      * 
-     * @param purapDocumentIdentifier
+     * @param purapDocumentIdentifier - purap document id
      */
     public void deleteSummaryAccounts(Integer purapDocumentIdentifier);
     

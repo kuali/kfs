@@ -225,8 +225,8 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     /**
      * Retreives a document number for a payment request by user defined criteria.
      * 
-     * @param criteria
-     * @return
+     * @param criteria - list of criteria to use in the retrieve
+     * @return - document number
      */
     private String getDocumentNumberOfPaymentRequestByCriteria(Criteria criteria) {
         LOG.debug("getDocumentNumberOfPaymentRequestByCriteria() started");
@@ -250,9 +250,9 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      * Retreives a document number for a payment request by user defined criteria and sorts the values ascending if
      * orderByAscending parameter is true, descending otherwise.
      * 
-     * @param criteria
-     * @param orderByAscending
-     * @return
+     * @param criteria - list of criteria to use in the retrieve
+     * @param orderByAscending - boolean to sort results ascending if true, descending otherwise
+     * @return - Iterator of document numbers
      */
     private Iterator<Object[]> getDocumentNumbersOfPaymentRequestByCriteria(Criteria criteria, boolean orderByAscending) {
         LOG.debug("getDocumentNumberOfPaymentRequestByCriteria() started");
@@ -270,8 +270,8 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     /**
      * Retrieves a list of payment requests by user defined criteria.
      * 
-     * @param qbc
-     * @return
+     * @param qbc - query with critria
+     * @return - list of payment requests
      */
     private List getPaymentRequestsByQueryByCriteria(QueryByCriteria qbc) {
         LOG.debug("getPaymentRequestsByQueryByCriteria() started");
@@ -282,10 +282,10 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     /**
      * Retreives a list of Pay Reqs with the given vendor id and invoice number.
      * 
-     * @param vendorHeaderGeneratedId  header id of the vendor id
-     * @param vendorDetailAssignedId   detail id of the vendor id
-     * @param invoiceNumber            invoice number as entered by AP
-     * @return List of Pay Reqs.
+     * @param vendorHeaderGeneratedId - header id of the vendor id
+     * @param vendorDetailAssignedId  - detail id of the vendor id
+     * @param invoiceNumber           - invoice number as entered by AP
+     * @return - List of Pay Reqs.
      */
     public List getActivePaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId,String invoiceNumber) {
         LOG.debug("getActivePaymentRequestsByVendorNumberInvoiceNumber() started");

@@ -27,8 +27,8 @@ public interface PurApAccountingDao {
     /**
      * Retreives the accounting lines for a purap item.
      * 
-     * @param item
-     * @return
+     * @param item - purap item
+     * @return - list of accounting lines
      */
     public List getAccountingLinesForItem(PurApItem item);
     

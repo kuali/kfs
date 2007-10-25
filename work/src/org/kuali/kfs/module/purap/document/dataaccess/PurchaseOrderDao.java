@@ -28,8 +28,8 @@ public interface PurchaseOrderDao {
      * This method gets the Purchase Order Document's document number
      * using the purapDocumentIdentifier as criteria
      * 
-     * @param id Integer the purapDocumentIdentifier.
-     * @return the document number of the purchase order found or null if no purchase order found 
+     * @param id - purapDocument Identifier
+     * @return - the document number of the purchase order found or null if no purchase order found 
      */
     public String getDocumentNumberForPurchaseOrderId(Integer id);
     
@@ -37,8 +37,8 @@ public interface PurchaseOrderDao {
      * This method gets the current Purchase Order Document's document number
      * by the purapDocumentIdentifier.
      * 
-     * @param id Integer the purapDocumentIdentifier.
-     * @return the document number of the purchase order found or null if no purchase order found 
+     * @param id - purapDocument Identifier
+     * @return - the document number of the purchase order found or null if no purchase order found 
      */
     public String getDocumentNumberForCurrentPurchaseOrder(Integer id);
 
@@ -46,8 +46,8 @@ public interface PurchaseOrderDao {
      * This method gets the oldest purchase order's (defined by the one having the smallest
      * document number) document number.
      * 
-     * @param id Integer the purapDocumentIdentifier.
-     * @return the document numbers of the purchase order found or null if none found
+     * @param id - the purapDocumentIdentifier.
+     * @return - the document numbers of the purchase order found or null if none found
      */
     public String getOldestPurchaseOrderDocumentNumber(Integer id);
 }

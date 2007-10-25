@@ -73,7 +73,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
      * criteria.
      * 
      * @param criteria - list of criteria to use in the retrieve
-     * @return a document number string if a valid purchase order is found, null if no purchase order is found
+     * @return - a document number string if a valid purchase order is found, null if no purchase order is found
      */
     private String getDocumentNumberUsingPurchaseOrderCriteria(Criteria criteria) {
         Iterator<Object[]> iter = getDocumentNumbersUsingPurchaseOrderCriteria(criteria);
@@ -96,8 +96,8 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
      * This method returns a list of document numbers of the puchase order returned by the passed in
      * criteria.
      * 
-     * @param criteria
-     * @return
+     * @param criteria - list of criteria to use in the retrieve
+     * @return - Iterator of document numbers
      */
     private Iterator<Object[]> getDocumentNumbersUsingPurchaseOrderCriteria(Criteria criteria) {
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PurchaseOrderDocument.class, criteria);

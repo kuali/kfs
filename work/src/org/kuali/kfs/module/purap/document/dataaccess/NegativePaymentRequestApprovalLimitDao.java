@@ -28,26 +28,26 @@ public interface NegativePaymentRequestApprovalLimitDao {
     /**
      * Find limits by chart.
      * 
-     * @param chartCode
-     * @return
+     * @param chartCode - chart of accounts code
+     * @return - collection of negative payment request approval limits
      */
     public Collection<NegativePaymentRequestApprovalLimit> findByChart(String chartCode);
     
     /**
      * Find limits by chart and account.
      * 
-     * @param chartCode
+     * @param chartCode - chart of accounts code
      * @param accountNumber
-     * @return
+     * @return - collection of negative payment request approval limits
      */
     public Collection<NegativePaymentRequestApprovalLimit> findByChartAndAccount(String chartCode, String accountNumber);
     
     /**
      * Find limits by chart and organization.
      * 
-     * @param chartCode
-     * @param organizationCode
-     * @return
+     * @param chartCode - chart of accounts code
+     * @param organizationCode - organization code
+     * @return - collection of negative payment request approval limits
      */
     public Collection<NegativePaymentRequestApprovalLimit> findByChartAndOrganization(String chartCode, String organizationCode);
     
@@ -57,8 +57,8 @@ public interface NegativePaymentRequestApprovalLimitDao {
      * Retreive a collection of NegativePaymentRequestApprovalLimit where the NegativePaymentRequestApprovalLimitAmount is
      * greater than the limit passed in.
      * 
-     * @param limit
-     * @return
+     * @param limit - lower limit
+     * @return - collection of negative payment request approval limits
      */
     public Collection<NegativePaymentRequestApprovalLimit> findAboveLimit(KualiDecimal limit);
     
@@ -66,8 +66,8 @@ public interface NegativePaymentRequestApprovalLimitDao {
      * Retreive a collection of NegativePaymentRequestApprovalLimit where the NegativePaymentRequestApprovalLimitAmount is
      * less than the limit passed in.
      *
-     * @param limit
-     * @return
+     * @param limit - upper limit
+     * @return - collection of negative payment request approval limits
      */
     public Collection<NegativePaymentRequestApprovalLimit> findBelowLimit(KualiDecimal limit);
 

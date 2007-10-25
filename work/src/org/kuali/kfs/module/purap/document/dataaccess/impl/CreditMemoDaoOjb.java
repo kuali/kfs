@@ -128,7 +128,7 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
      * Retreives a document number for a credit memo by user defined criteria.
      * 
      * @param criteria - holds field and value pairs defined by the calling method
-     * @return
+     * @return - document number
      */
     private String getDocumentNumberOfCreditMemoByCriteria(Criteria criteria) {
         LOG.debug("getDocumentNumberOfCreditMemoByCriteria() started");
@@ -152,9 +152,9 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
      * Retreives a document number for a credit memo by user defined criteria and sorts the values ascending if
      * orderByAscending parameter is true, descending otherwise.
      * 
-     * @param criteria
-     * @param orderByAscending
-     * @return
+     * @param criteria - list of criteria to use in the retrieve
+     * @param orderByAscending - boolean indicating results should be sorted ascending, descending otherwise
+     * @return - Iterator of document numbers
      */
     private Iterator<Object[]> getDocumentNumbersOfCreditMemoByCriteria(Criteria criteria, boolean orderByAscending) {
         LOG.debug("getDocumentNumberOfCreditMemoByCriteria() started");

@@ -30,8 +30,8 @@ public interface CreditMemoDao {
     /**
      * Get all the credit memos that need to be extracted
      * 
-     * @param chartCode if not null, limit results to a single chart
-     * @return Iterator of credit memos
+     * @param chartCode - if not null, limit results to a single chart
+     * @return - Iterator of credit memos
      */
     public Iterator<CreditMemoDocument> getCreditMemosToExtract(String chartCode);
 
@@ -54,6 +54,8 @@ public interface CreditMemoDao {
      * 
      * @param vendorNumberHeaderId
      * @param vendorNumberDetailId
+     * @param date - date of transaction
+     * @param amount - amount of transaction
      * @return boolean - true if a match exists in the db, false if not
      */
     public boolean duplicateExists(Integer vendorNumberHeaderId, Integer vendorNumberDetailId, Date date, KualiDecimal amount);
@@ -61,8 +63,8 @@ public interface CreditMemoDao {
     /** 
      * This method returns a credit memo document number by id.
      * 
-     * @param id
-     * @return
+     * @param id - credit memo id 
+     * @return - document number 
      */
     public String getDocumentNumberByCreditMemoId(Integer id);
 }

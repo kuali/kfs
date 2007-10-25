@@ -82,11 +82,11 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
     /**
      * Copy a file from a web location to the local system.
      * 
-     * @param prefix Prefix for the file name
-     * @param fileKey File key for file
-     * @param key Unique key for the file
-     * @param location
-     * @return
+     * @param prefix - Prefix for the file name
+     * @param fileKey - File key for file
+     * @param key - Unique key for the file
+     * @param location - location of file
+     * @return - location to copied file
      */
     private String getFile(String prefix, String fileKey, String key, String extension, String location) {
         LOG.debug("getFile() started");

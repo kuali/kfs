@@ -15,10 +15,17 @@
  */
 package org.kuali.module.pdp.rules;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.bo.PayeeAchAccount;
 /*
 import java.util.Iterator;
@@ -71,10 +78,7 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
         // Save always succeeds, even if there are business rule failures
         return true;
     }
- /*
-        String label = boe.getAttributeDefinition(propertyName).getShortLabel();
-        GlobalVariables.getErrorMap().putError(propertyName, KFSKeyConstants.ERROR_REQUIRED, label);
-  */   
+   
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         
         boolean validEntry = true;
@@ -88,17 +92,21 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
         
         if (payeeIdTypeCd == null)
             return validEntry;
-
+        
+        // Create a query to do a lookup on.
+        Map criteria = new HashMap();
+        
         if (payeeIdTypeCd.equals("E")) {
             payeeUserId = newPayeeAchAccount.getPersonUniversalIdentifier();
             if (payeeUserId == null)
                 putFieldError("error.required", KFSKeyConstants.ERROR_REQUIRED,"Payee User Id");
             else {
-                newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber(null);
-                newPayeeAchAccount.setDisbVchrPayeeIdNumber(null);
-                newPayeeAchAccount.setPayeeSocialSecurityNumber(null);
+                newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber("");
+                newPayeeAchAccount.setDisbVchrPayeeIdNumber("");
+                newPayeeAchAccount.setPayeeSocialSecurityNumber("");
                 newPayeeAchAccount.setVendorHeaderGeneratedIdentifier(null);
                 newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
+                criteria.put("personUniversalIdentifier", payeeUserId);
             } 
         } else if (payeeIdTypeCd.equals("V")) {
             vendorGnrtdId = newPayeeAchAccount.getVendorHeaderGeneratedIdentifier();
@@ -108,10 +116,12 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
                 validEntry = false;
             }
             if (validEntry) {
-                newPayeeAchAccount.setPersonUniversalIdentifier(null);
-                newPayeeAchAccount.setDisbVchrPayeeIdNumber(null);
-                newPayeeAchAccount.setPayeeSocialSecurityNumber(null);
-                newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber(null);
+                newPayeeAchAccount.setPersonUniversalIdentifier("");
+                newPayeeAchAccount.setDisbVchrPayeeIdNumber("");
+                newPayeeAchAccount.setPayeeSocialSecurityNumber("");
+                newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber("");
+                criteria.put("vendorHeaderGeneratedIdentifier", vendorGnrtdId);
+                criteria.put("vendorDetailAssignedIdentifier", vendorAsndId);
             }       
         } else if (payeeIdTypeCd.equals("F")) {
             feinNumber = newPayeeAchAccount.getPayeeFederalEmployerIdentificationNumber();
@@ -120,11 +130,12 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
                 validEntry = false;
             }
             else {
-                newPayeeAchAccount.setPersonUniversalIdentifier(null);
-                newPayeeAchAccount.setDisbVchrPayeeIdNumber(null);
-                newPayeeAchAccount.setPayeeSocialSecurityNumber(null);
+                newPayeeAchAccount.setPersonUniversalIdentifier("");
+                newPayeeAchAccount.setDisbVchrPayeeIdNumber("");
+                newPayeeAchAccount.setPayeeSocialSecurityNumber("");
                 newPayeeAchAccount.setVendorHeaderGeneratedIdentifier(null);
                 newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
+                criteria.put("payeeFederalEmployerIdentificationNumber", feinNumber);  
             } 
         } else if (payeeIdTypeCd.equals("S")) {
             ssn = newPayeeAchAccount.getPayeeSocialSecurityNumber();
@@ -132,11 +143,12 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
                 putFieldError("error.required", KFSKeyConstants.ERROR_REQUIRED,"Social Security Number");
                 validEntry = false;
             } else {
-                newPayeeAchAccount.setPersonUniversalIdentifier(null);
-                newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber(null);
-                newPayeeAchAccount.setDisbVchrPayeeIdNumber(null);
+                newPayeeAchAccount.setPersonUniversalIdentifier("");
+                newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber("");
+                newPayeeAchAccount.setDisbVchrPayeeIdNumber("");
                 newPayeeAchAccount.setVendorHeaderGeneratedIdentifier(null);
                 newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
+                criteria.put("payeeSocialSecurityNumber", ssn);
             }   
         } else if (payeeIdTypeCd.equals("P")) {
             dvPayeeId = newPayeeAchAccount.getDisbVchrPayeeIdNumber();
@@ -144,14 +156,66 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
                 putFieldError("error.required", KFSKeyConstants.ERROR_REQUIRED,"Disbursement Voucher Payee ID");
                 validEntry = false;
         } else {
-                newPayeeAchAccount.setPersonUniversalIdentifier(null);
-                newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber(null);
-                newPayeeAchAccount.setPayeeSocialSecurityNumber(null);
+                newPayeeAchAccount.setPersonUniversalIdentifier("");
+                newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber("");
+                newPayeeAchAccount.setPayeeSocialSecurityNumber("");
                 newPayeeAchAccount.setVendorHeaderGeneratedIdentifier(null);
                 newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
+                criteria.put("disbVchrPayeeIdNumber", dvPayeeId);
             }   
          } 
+        if (validEntry)
+            validEntry &= checkForDuplicateRecord(criteria);
+        
         return validEntry;
+    }
+    
+    private boolean checkForDuplicateRecord(Map criteria) {
+        
+        Integer oldPrimaryKey = oldPayeeAchAccount.getAchAccountGeneratedIdentifier();
+        String newPayeeIdTypeCd = newPayeeAchAccount.getPayeeIdentifierTypeCode();
+        String newPsdTransactionCd = newPayeeAchAccount.getPsdTransactionCode();
+        boolean valid = true;
+        
+        // Do not check for a duplicate record if the following conditions are true
+        // 1. editing an existing record (old primary key = new primary key)
+        // 2. new PSD code = old PSD code
+        // 3. new payee type code = old payee type code
+        // 4. depending of the value of payee type code, new correspoding PayeeId = old corresponding PayeeId
+        
+        if ((oldPrimaryKey != null) && newPayeeAchAccount.getAchAccountGeneratedIdentifier().equals(oldPrimaryKey)) {
+            if (newPayeeIdTypeCd.equals(oldPayeeAchAccount.getPayeeIdentifierTypeCode()) &&
+                newPsdTransactionCd.equals(oldPayeeAchAccount.getPsdTransactionCode())) {
+                if (newPayeeIdTypeCd.equals("E")) {
+                  if (newPayeeAchAccount.getPersonUniversalIdentifier().equals(oldPayeeAchAccount.getPersonUniversalIdentifier()))
+                      return valid;
+                } else if (newPayeeIdTypeCd.equals("V")) {
+                    if (newPayeeAchAccount.getVendorHeaderGeneratedIdentifier().equals(oldPayeeAchAccount.getVendorHeaderGeneratedIdentifier()) &&
+                        newPayeeAchAccount.getVendorDetailAssignedIdentifier().equals(oldPayeeAchAccount.getVendorDetailAssignedIdentifier()))
+                       return valid;
+                } else if (newPayeeIdTypeCd.equals("F")) {
+                    if (newPayeeAchAccount.getPayeeFederalEmployerIdentificationNumber().equals(oldPayeeAchAccount.getPayeeFederalEmployerIdentificationNumber()))
+                        return valid;
+                } else if (newPayeeIdTypeCd.equals("S")) {
+                    if (newPayeeAchAccount.getPayeeSocialSecurityNumber().equals(oldPayeeAchAccount.getPayeeSocialSecurityNumber()))
+                        return valid;  
+                } else if (newPayeeIdTypeCd.equals("P")) {
+                    if (newPayeeAchAccount.getDisbVchrPayeeIdNumber().equals(oldPayeeAchAccount.getDisbVchrPayeeIdNumber()))
+                        return valid;
+                }
+            }    
+        }
+        
+        // check for a duplicate record if creating a new record or editing an old one and above mentioned conditions are not true
+        criteria.put("psdTransactionCode", newPsdTransactionCd);
+        criteria.put("payeeIdentifierTypeCode", newPayeeIdTypeCd);
+        
+        List duplRecList = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(PayeeAchAccount.class,criteria);
+        if (!duplRecList.isEmpty()) {
+            putFieldError("error.document.payeeAchAccountMaintenance.duplicateAccount", KFSKeyConstants.ERROR_DOCUMENT_PAYEEACHACCOUNTMAINT_DUPLICATE_RECORD);
+            valid = false;   
+        }
+        return valid;
     }
 
 }

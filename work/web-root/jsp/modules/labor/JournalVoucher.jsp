@@ -161,7 +161,7 @@
 		isDebitCreditAmount="${KualiForm.selectedBalanceType.financialOffsetGenerationIndicator}"
 		optionalFields="positionNumber,emplid,employeeRecord,earnCode,payGroup,salaryAdministrationPlan,grade,runIdentifier,payPeriodEndDate,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,transactionTotalHours,laborLedgerOriginalChartOfAccountsCode,laborLedgerOriginalAccountNumber,laborLedgerOriginalSubAccountNumber,laborLedgerOriginalFinancialObjectCode,laborLedgerOriginalFinancialSubObjectCode,hrmsCompany,encumbranceUpdateCode,setid"
 		isOptionalFieldsInNewRow="true"
-		displayExternalEncumbranceFields="${KualiForm.selectedBalanceType.code==KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE}"
+		displayExternalEncumbranceFields="${KualiForm.selectedBalanceType.finBalanceTypeEncumIndicator}"
 		editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}"
 		includeObjectTypeCode="true" />

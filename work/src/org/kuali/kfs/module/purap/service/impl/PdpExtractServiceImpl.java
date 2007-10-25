@@ -386,7 +386,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         pd.setInvoiceDate(new Timestamp(cmd.getCreditMemoDate().getTime()));
         pd.setOrigInvoiceAmount(cmd.getCreditMemoAmount().bigDecimalValue().negate());
 
-        pd.setNetPaymentAmount(cmd.getDocumentHeader().getFinancialDocumentTotalAmount().bigDecimalValue());
+        pd.setNetPaymentAmount(cmd.getDocumentHeader().getFinancialDocumentTotalAmount().bigDecimalValue().negate());
 
         BigDecimal shippingAmount = new BigDecimal("0");
         BigDecimal discountAmount = new BigDecimal("0");

@@ -156,9 +156,9 @@
                     <html:option value="Y">Yes</html:option>
                   </html:select>
                 </td>
-                <th align=right nowrap >Customer Number for IU:</th>
+                <th align=right nowrap >Customer Number for Institution:</th>
                 <td align=left class="datacell">
-                  <html:text name="PdpPaymentDetailSearchForm" property="iuIdForCustomer" tabindex="22" maxlength="30" />
+                  <html:text name="PdpPaymentDetailSearchForm" property="customerInstitutionNumber" tabindex="22" maxlength="30" />
                 </td>
               </tr>
               <tr>

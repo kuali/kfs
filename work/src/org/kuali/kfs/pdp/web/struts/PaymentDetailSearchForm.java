@@ -42,7 +42,7 @@ public class PaymentDetailSearchForm extends ActionForm {
   private String pymtSpecialHandling;
   private String processImmediate;
   private String requisitionNbr;
-  private String iuIdForCustomer;
+  private String customerInstitutionNumber;
   private String processId;
   private String paymentId;
   private String chartCode;
@@ -77,7 +77,7 @@ public class PaymentDetailSearchForm extends ActionForm {
     pds.setBeginPaymentDate(GeneralUtilities.convertStringToDate(this.getBeginPaymentDate()));
     pds.setEndPaymentDate(GeneralUtilities.convertStringToDate(this.getEndPaymentDate()));
     pds.setRequisitionNbr(this.getRequisitionNbr());
-    pds.setCustomerInstitutionNumber(this.getIuIdForCustomer());
+    pds.setCustomerInstitutionNumber(this.getCustomerInstitutionNumber());
     pds.setProcessId(GeneralUtilities.convertStringToInteger(this.getProcessId()));
     pds.setPaymentId(GeneralUtilities.convertStringToInteger(this.getPaymentId()));
     pds.setChartCode(this.getChartCode());
@@ -108,7 +108,7 @@ public class PaymentDetailSearchForm extends ActionForm {
     this.setEndPaymentDate("");
     this.advancedSearch = new Boolean(false);
     this.setRequisitionNbr("");
-    this.setIuIdForCustomer("");
+    this.setCustomerInstitutionNumber("");
     this.setProcessId("");
     this.setPaymentId("");
     this.setChartCode("");
@@ -143,7 +143,7 @@ public class PaymentDetailSearchForm extends ActionForm {
             (GeneralUtilities.isStringEmpty(this.orgCode)) &&
             (GeneralUtilities.isStringEmpty(this.subUnitCode)) &&
             (GeneralUtilities.isStringEmpty(this.requisitionNbr)) &&
-            (GeneralUtilities.isStringEmpty(this.iuIdForCustomer)) &&
+            (GeneralUtilities.isStringEmpty(this.customerInstitutionNumber)) &&
             (GeneralUtilities.isStringEmpty(this.pymtAttachment)) &&
             (GeneralUtilities.isStringEmpty(this.processImmediate)) &&
             (GeneralUtilities.isStringEmpty(this.pymtSpecialHandling))) {
@@ -486,8 +486,8 @@ public class PaymentDetailSearchForm extends ActionForm {
   /**
    * @return Returns the iuIdForCustomer.
    */
-  public String getIuIdForCustomer() {
-    return iuIdForCustomer;
+  public String getCustomerInstitutionNumber() {
+    return customerInstitutionNumber;
   }
   /**
    * @return Returns the requisitionNbr.
@@ -498,8 +498,8 @@ public class PaymentDetailSearchForm extends ActionForm {
   /**
    * @param iuIdForCustomer The iuIdForCustomer to set.
    */
-  public void setIuIdForCustomer(String iuIdForCustomer) {
-    this.iuIdForCustomer = iuIdForCustomer;
+  public void setCustomerInstitutionNumber(String iuIdForCustomer) {
+    this.customerInstitutionNumber = iuIdForCustomer;
   }
   /**
    * @param requisitionNbr The requisitionNbr to set.

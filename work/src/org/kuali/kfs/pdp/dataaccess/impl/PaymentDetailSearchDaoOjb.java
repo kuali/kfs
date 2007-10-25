@@ -63,7 +63,7 @@ public class PaymentDetailSearchDaoOjb extends PlatformAwareDaoBaseOjb implement
       criteria.addLike("purchaseOrderNbr","%" + pds.getPurchaseOrderNbr() + "%");
     }
     if ((!(pds.getCustomerInstitutionNumber() == null)) && (!(pds.getCustomerInstitutionNumber().equals("")))) {
-      criteria.addLike("paymentGroup.customerInstituionNumber","%" + pds.getCustomerInstitutionNumber() + "%");
+      criteria.addLike("paymentGroup.customerInstitutionNumber","%" + pds.getCustomerInstitutionNumber() + "%");
     }      
     if ((!(pds.getPayeeName() == null)) && (!(pds.getPayeeName().equals("")))) {
       criteria.addLike("paymentGroup.payeeName","%" + pds.getPayeeName().toUpperCase() + "%");

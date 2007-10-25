@@ -213,7 +213,6 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
                         return;
                     }
                 }
-                // TODO (KULPURAP-1579: ckirshenman/hjs) delyea - what to do in a disapproval where no status to set exists?
                 logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
             }
             // DOCUMENT CANCELED

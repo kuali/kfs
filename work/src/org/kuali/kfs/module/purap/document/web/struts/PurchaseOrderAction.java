@@ -359,7 +359,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 }
             }
             if (ObjectUtils.isNotNull(returnActionForward)) {
-                // TODO delyea - should this be a privatized method?
                 addExtraButtons(kualiDocumentFormBase);
                 return returnActionForward;
             }
@@ -1057,7 +1056,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return forward;
     }
    
-    /*  TODO PURAP/delyea - should the following be a custom save event instead of the current business logic in the action method?
+    /*  TODO RELEASE 3 (KULPURAP-2052, delyea) - QUOTE, https://test.kuali.org/jira/browse/KULPURAP-2052
      */
     /**
      * Set up the PO document for Quote processing.
@@ -1124,7 +1123,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    /*  TODO PURAP/delyea - should the following be a custom save event instead of the current business logic in the action method?
+    /*  TODO RELEASE 3 (KULPURAP-2052, delyea) - QUOTE, https://test.kuali.org/jira/browse/KULPURAP-2052
      */
     /**
      * Once an awarded Vendor number is present on the PO, this method verifies the fact, asks the user for confirmation to complete
@@ -1222,7 +1221,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    /*  TODO PURAP/delyea - should the following be a custom save event instead of the current business logic in the action method?
+    /*  TODO RELEASE 3 (KULPURAP-2052, delyea) - QUOTE, https://test.kuali.org/jira/browse/KULPURAP-2052
      */
     /**
      * Cancels the process of obtaining quotes.  Checks whether any of the quote requests have been transmitted.  If none have,
@@ -1262,11 +1261,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 if (StringUtils.isEmpty(reason)) {
                     return performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PODocumentsStrings.CONFIRM_CANCEL_QUESTION, message, KFSConstants.CONFIRMATION_QUESTION,  PODocumentsStrings.CONFIRM_CANCEL_RETURN, "", "", PurapKeyConstants.ERROR_PURCHASE_ORDER_REASON_REQUIRED, KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "250");
                 }
-                /*   TODO PURAP - should this code below have a save at the end?
-                 *                Isn't that why we're asking the confirming question because this code below will cancel the quote 
-                 *                and save the PO... otherwise why do we need a confirming question since they would have to save 
-                 *                after canceling anyway?
-                 */
                 document.getPurchaseOrderVendorQuotes().clear();
                 Note cancelNote = new Note();
                 cancelNote.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());

@@ -217,11 +217,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         return new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 CreditMemoDocument cmDocument = (CreditMemoDocument)document;
-                DocumentService documentService = SpringContext.getBean(DocumentService.class);
                 cmDocument.setClosePurchaseOrderIndicator(true);
-                //don't think we need this
-//                //TODO: ckirschenman - delyea is this the right event for this case?
-//                documentService.saveDocument(cmDocument, DocumentSystemSaveEvent.class);
             }
         };
     }

@@ -300,7 +300,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                         return;
                     }
                 }
-                // TODO PURAP/delyea - what to do in a disapproval where no status to set exists?
                 logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
             }
             // DOCUMENT CANCELED

@@ -106,7 +106,7 @@ public class PurapConstants extends JstlConstants {
     public static final String PDF_IMAGES_AVAILABLE_INDICATOR = "PDF_IMAGES_AVAILABLE_IND";
 
     public static class RequisitionStatuses {
-        // TODO delyea - check statuses for use/MDS entry
+        // TODO RELEASE 2 (KULPURAP-2050, delyea) - Status Codes need checked, https://test.kuali.org/jira/browse/KULPURAP-2050
         public static final String IN_PROCESS = "INPR";
         public static final String CANCELLED = "CANC";
         public static final String CLOSED = "CLOS";
@@ -176,7 +176,7 @@ public class PurapConstants extends JstlConstants {
     // Credit Memo Tab Constants
 
     public static class PurchaseOrderStatuses {
-        // TODO delyea - check statuses for use/MDS entry
+        // TODO RELEASE 2 (KULPURAP-2050, delyea) - Status Codes need checked, https://test.kuali.org/jira/browse/KULPURAP-2050
         public static final String IN_PROCESS = "INPR";
         public static final String WAITING_FOR_VENDOR = "WVEN";
         public static final String WAITING_FOR_DEPARTMENT = "WDPT";
@@ -353,7 +353,7 @@ public class PurapConstants extends JstlConstants {
     }
     
     public static final class PaymentRequestStatuses {
-        // TODO delyea - check statuses for use/MDS entry
+        // TODO RELEASE 2 (KULPURAP-2050, delyea) - Status Codes need checked, https://test.kuali.org/jira/browse/KULPURAP-2050
         public static final String INITIATE = "INIT"; 
         public static final String IN_PROCESS = "INPR";
         public static final String CANCELLED_IN_PROCESS = "CIPR";
@@ -495,9 +495,8 @@ public class PurapConstants extends JstlConstants {
     public static final String ITEM_ALLOWS_NEGATIVE = "ITEM_TYPES_ALLOWING_NEGATIVE";
     public static final String ITEM_REQUIRES_USER_ENTERED_DESCRIPTION = "ITEM_TYPES_REQUIRING_USER_ENTERED_DESCRIPTION";
 
+    // TODO RELEASE 2 (KULPURAP-2049, delyea) - DD Labels, https://test.kuali.org/jira/browse/KULPURAP-2049
     public static class ItemFields {
-        // TODO - can we not use the DataDictionaryService to get the labels (either standard, short, or error) instead of using
-        // these below
         public static final String QUANTITY = "Quantity";
         public static final String UNIT_OF_MEASURE = "Unit of Measure";
         public static final String DESCRIPTION = "Description";
@@ -511,7 +510,7 @@ public class PurapConstants extends JstlConstants {
     public static final String CREDIT_MEMO_ACTION_NAME = "CreditMemo";
 
     public static class CreditMemoStatuses {
-        // TODO delyea - check statuses for use/MDS entry
+        // TODO RELEASE 2 (KULPURAP-2050, delyea) - Status Codes need checked, https://test.kuali.org/jira/browse/KULPURAP-2050
         public static final String INITIATE = "INIT";
         public static final String IN_PROCESS = "INPR";
         public static final String CANCELLED_IN_PROCESS = "CIPR";
@@ -600,8 +599,6 @@ public class PurapConstants extends JstlConstants {
         fields.put(KFSConstants.VERSION_NUMBER, null);
         fields.put("LOG", null);
         fields.put(KFSPropertyConstants.GENERAL_LEDGER_PENDING_ENTRIES, null);
-        // TODO delyea/cck - add this back into the list?  Needs testing in PO Change Doc creation
-//        fields.put("serialVersionUID", null);
         return fields;
     }
     /*

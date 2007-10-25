@@ -646,7 +646,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                         return;
                     }
                 }
-                // TODO (KULPURAP-1579: ctk) delyea - what to do in a disapproval where no status to set exists?
                 logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
             }
             // DOCUMENT CANCELED
@@ -661,7 +660,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                         return;
                     }
                 }
-                // TODO (KULPURAP-1579: ctk) delyea - what to do in a cancel where no status to set exists?
+                // TODO RELEASE 2 (KULPURAP-2048, delyea) - Throw Runtime, https://test.kuali.org/jira/browse/KULPURAP-2048
                 LOG.warn("No status found to set for document being disapproved in node '" + currentNodeName + "'");
             }
         }

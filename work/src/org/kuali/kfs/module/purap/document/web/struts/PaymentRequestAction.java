@@ -247,11 +247,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         return new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 PaymentRequestDocument preqDocument = (PaymentRequestDocument)document;
-                DocumentService documentService = SpringContext.getBean(DocumentService.class);
                 preqDocument.setReopenPurchaseOrderIndicator(true);
-                //well be saved on cancel I believe
-                //TODO: ckirschenman - delyea is this the right event for this case?
-//                documentService.saveDocument(preqDocument, DocumentSystemSaveEvent.class);
             }
         };
     }

@@ -155,7 +155,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
 
-    // TODO delyea - investigate need for this method... in most places if error map has an entry then validation exception is thrown correctly?
     private void saveDocumentNoValidationUsingClearErrorMap(PurchaseOrderDocument document) {
         ErrorMap errorHolder = GlobalVariables.getErrorMap();
         GlobalVariables.setErrorMap(new ErrorMap());
@@ -363,14 +362,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             }
         }
     }
+
     
-    /* TODO delyea/PURAP - Below method may be incorrect
+    /**
+     * TODO RELEASE 3 (KULPURAP-2052, delyea) - QUOTE, https://test.kuali.org/jira/browse/KULPURAP-2052
      * 
-     * This method appears to try to print the quote request list which may or may not return errors.  If no errors are returned the PO
-     * is saved.  The PO doesn't appear to be edited in the PrintService and should not be.  If any editing of the PO is occurring that
-     * should be happening here in the PO Service leaving the PrintService to simply generate PDFs and potential errors if needed.  If
-     * in fact PO is not edited when this method is called the save should be removed completely
-     * 
+     * @see org.kuali.module.purap.service.PurchaseOrderService#printPurchaseOrderQuoteRequestsListPDF(org.kuali.module.purap.document.PurchaseOrderDocument, java.io.ByteArrayOutputStream)
      */
     public boolean printPurchaseOrderQuoteRequestsListPDF(PurchaseOrderDocument po, ByteArrayOutputStream baosPDF) {
         String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
@@ -381,13 +378,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             return false;
         }
         else {
-            // TODO QUOTE - update PurchaseOrderVendorQuote here (delyea - does printing the quote request list update anything on the doc... if not no save needed here)
             saveDocumentStandardSave(po);
             return true;
         }
     }
     
     /**
+     * TODO RELEASE 3 (KULPURAP-2052, delyea) - QUOTE, https://test.kuali.org/jira/browse/KULPURAP-2052
+     * 
      * @see org.kuali.module.purap.service.PurchaseOrderService#printPurchaseOrderQuotePDF(org.kuali.module.purap.document.PurchaseOrderDocument, org.kuali.module.purap.bo.PurchaseOrderVendorQuote, java.io.ByteArrayOutputStream)
      */
     public boolean printPurchaseOrderQuotePDF(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq, ByteArrayOutputStream baosPDF) {
@@ -400,8 +398,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             return false;
         }
         else {
-            // TODO QUOTE - update PurchaseOrderVendorQuote here
-            // TODO QUOTE - PURAP/delyea - if standard save causes errors here examine potential for saving individual updated PurchaseOrderVendorQuote
             saveDocumentStandardSave(po);
             return true;
         }
@@ -460,8 +456,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             }
             if (!docTransRequests.isEmpty()) {
                 for (ActionRequestVO actionRequest : docTransRequests) {
-                    // TODO delyea - UNCOMMENT BELOW ONCE KEW IS UPDATED
-//                    po.getDocumentHeader().getWorkflowDocument().superUserActionRequestApproveAction(actionRequest.getActionRequestId(), annotation);
+                    po.getDocumentHeader().getWorkflowDocument().superUserActionRequestApprove(actionRequest.getActionRequestId(), annotation);
                 }
             }
             if (po.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
@@ -637,8 +632,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 }
                 // if we catch a ValidationException it means the new PO doc found errors
                 catch (ValidationException ve) {
-                    // TODO PURAP/delyea - old system used to just return the current document
-//                    return currentDocument;
                     throw ve;
                 }
                 // if no validation exception was thrown then rules have passed and we are ok to edit the current PO

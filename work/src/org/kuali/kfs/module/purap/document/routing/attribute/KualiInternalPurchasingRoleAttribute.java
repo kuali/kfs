@@ -82,7 +82,6 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
     /**
      * @see edu.iu.uis.eden.routetemplate.AbstractRoleAttribute#isMatch(edu.iu.uis.eden.routeheader.DocumentContent, java.util.List)
      */
-    // TODO delyea - check for if it is a report being run
     @Override
     public boolean isMatch(DocumentContent docContent, List<RuleExtension> ruleExtensions) {
         String documentNumber = docContent.getRouteContext().getDocument().getRouteHeaderId().toString();

@@ -30,6 +30,7 @@ import org.kuali.RiceKeyConstants;
 import org.kuali.RicePropertyConstants;
 import org.kuali.core.UserSession;
 import org.kuali.core.bo.Note;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
@@ -50,11 +51,14 @@ import org.kuali.module.purap.PurapConstants.AccountsPayableDocumentStrings;
 import org.kuali.module.purap.PurapConstants.CMDocumentsStrings;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.AccountsPayableDocumentBase;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.rule.event.CancelAccountsPayableEvent;
 import org.kuali.module.purap.rule.event.PreCalculateAccountsPayableEvent;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.AccountsPayableService;
+import org.kuali.module.purap.service.LogicContainer;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.util.PurQuestionCallback;
 import org.kuali.module.purap.web.struts.form.AccountsPayableFormBase;
@@ -445,27 +449,27 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                 // one way or another we will have to fake the user session so get the current one
                 UserSession originalUserSession = GlobalVariables.getUserSession();
                 
-                //FIXME: FOLOWING IS NOT BEING SUPPORTED UNTIL RELEASE 3 - see KULPURAP-1712
-                //try to get the user, if null assume we should cancel as super
-//                UniversalUser user = apDocumentSpecificService.getUniversalUserForCancel(document);
-//                if (ObjectUtils.isNotNull(user)) {
-//    
-//                    try {
-//                        // need to run the disapprove as the user who requested the document be canceled
-//                        GlobalVariables.setUserSession(new UserSession(user.getPersonUserIdentifier()));
-//    
-//                        documentService.disapproveDocument(document, noteText);
-//                    }
-//                    finally {
-//                        GlobalVariables.setUserSession(originalUserSession);
-//                    }
-//    
-//                } else 
-                    
+                //try to get the user, if null assume we should cancel as super user
+/*              FIXME: FOLOWING IS NOT BEING SUPPORTED UNTIL RELEASE 3 - see KULPURAP-1712
+                UniversalUser user = apDocumentSpecificService.getUniversalUserForCancel(document);
+                if (ObjectUtils.isNotNull(user)) {
+                    // need to run the disapprove as the user who requested the document be canceled
+                    LogicContainer logicToRun = new LogicContainer() {
+                        public Object runLogic(Object[] objects) throws Exception {
+                            RequisitionDocument doc = (RequisitionDocument)objects[0];
+                            String noteText = (String)objects[1];
+                            SpringContext.getBean(DocumentService.class).disapproveDocument(doc, noteText);
+                            return null;
+                        }
+                    };
+                    SpringContext.getBean(PurapService.class).performLogicWithFakedUserSession(user.getPersonUserIdentifier(), logicToRun, new Object[]{document, noteText});
+    
+                } else 
+*/                    
                 if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(document)) {
-                    //for now this works but if place of full entry changes it may need to be based on something else since may need disaprove
-                    //if past full entry and workflow not in final state (should this be checking preq states?)
-                    if(!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {                           
+                    //for now this works but if place of full entry changes it may need to be based on something else since may need disapprove
+                    //if past full entry and workflow not in final state
+                    if(!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {    
                         try {
                             // need to run a super user cancel since person canceling may not have an action requested on the document
                             GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
@@ -479,8 +483,9 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                         SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(document, "");
                     }
                 }
-                else {                   
-                    try {//TODO: ckirschenman - delyea do we really need this superCancel?
+                else {
+                    try {
+                        // TODO RELEASE 3 (KULPURAP-2051, delyea) - Super User Cancel Needed?, https://test.kuali.org/jira/browse/KULPURAP-2051
                         // need to run a super user cancel since person canceling may not have an action requested on the document
                         GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
                         documentService.superUserCancelDocument(documentService.getByDocumentHeaderId(document.getDocumentNumber()), "Document Cancelled by user " + originalUserSession.getUniversalUser().getPersonName() + " (" + originalUserSession.getUniversalUser().getPersonUserIdentifier() + ")");

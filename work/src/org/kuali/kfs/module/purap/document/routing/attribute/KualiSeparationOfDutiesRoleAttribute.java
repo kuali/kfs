@@ -89,7 +89,6 @@ public class KualiSeparationOfDutiesRoleAttribute extends UnqualifiedRoleAttribu
      * @return a ResolvedQualifiedRole
      */
     @Override
-    // TODO delyea - edit for REPORT functionality
     public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) throws EdenUserNotFoundException {
         DocumentRouteHeaderValue document = routeContext.getDocument();
         Set documentReviewers = new HashSet();

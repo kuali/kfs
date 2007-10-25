@@ -424,7 +424,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             return cancelledStatusCode;
         }
         else {
-            // TODO (KULPURAP-1579: ckirshenman/hjs) delyea - what to do in a cancel where no status to set exists?
+            // TODO RELEASE 2 (KULPURAP-2048, delyea) - Throw Runtime, https://test.kuali.org/jira/browse/KULPURAP-2048
             LOG.warn("No status found to set for document being disapproved in node '" + currentNodeName + "'");
         }
         return cancelledStatusCode;

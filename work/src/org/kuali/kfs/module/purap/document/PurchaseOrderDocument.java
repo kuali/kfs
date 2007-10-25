@@ -43,6 +43,7 @@ import org.kuali.kfs.service.ConciseXmlDocumentConversionService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
+import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.module.purap.PurapConstants.VendorChoice;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
@@ -376,12 +377,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                             return;
                         }
                     }
-                    // TODO PURAP/delyea - what to do in a disapproval where no status to set exists?
                     logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
                 }
                 // DOCUMENT CANCELED
                 else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-                    // TODO PURAP/delyea - what status to use if this cancel is a super user cancel while ENROUTE?
+                    SpringContext.getBean(PurapService.class).updateStatus(this, PurchaseOrderStatuses.CANCELLED);
                     SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
                 }
             }

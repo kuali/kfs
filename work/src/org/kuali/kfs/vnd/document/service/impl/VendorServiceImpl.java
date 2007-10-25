@@ -258,7 +258,6 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.module.vendor.service.VendorService#isVendorInstitutionEmployee(java.lang.Integer)
      */
-    // TODO delyea - is this right? Logic copied from KualiPayeeTaxIdAttribute
     public boolean isVendorInstitutionEmployee(Integer vendorHeaderGeneratedIdentifier) {
         VendorDetail vendorToUse = getParentVendor(vendorHeaderGeneratedIdentifier);
         if (ObjectUtils.isNull(vendorToUse)) {
@@ -271,7 +270,7 @@ public class VendorServiceImpl implements VendorService {
             if (StringUtils.isNotBlank(ssnTaxId)) {
                 try {
                     UniversalUser user = universalUserService.getUniversalUser(new PersonTaxId(ssnTaxId));
-                    return user.getModuleUser(VendorUser.MODULE_ID).isActive();
+                    return ObjectUtils.isNotNull(user);
                 }
                 catch (UserNotFoundException e) {
                     // user is not in the system... assume non-employee

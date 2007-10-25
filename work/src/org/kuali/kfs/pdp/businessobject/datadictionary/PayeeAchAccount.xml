@@ -100,6 +100,12 @@
                 <control>
                     <text size="17" />
                 </control>
+                <attributeAuthorization>
+					<displayWorkgroup>KUALI_PDP_ACH</displayWorkgroup>
+					<displayMask>
+						<maskLiteral literal="*****************" />
+					</displayMask>
+				</attributeAuthorization>
                 <summary>Bank Account Number</summary>
                 <description>Bank Account Number.</description>
             </attribute>
@@ -175,7 +181,7 @@
                     <text size="9" />
                 </control>
                 <attributeAuthorization>
-					<displayWorkgroup>UNIVERSAL_USER_MAINTAINERS</displayWorkgroup>
+					<displayWorkgroup>KAULI_PDP_ACH</displayWorkgroup>
 					<displayMask>
 						<maskLiteral literal="*********" />
 					</displayMask>

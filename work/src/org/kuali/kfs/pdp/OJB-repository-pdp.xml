@@ -549,7 +549,7 @@
 	<field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="disbVchrPayeeIdNumber" column="DV_PAYEE_ID_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="payeeSocialSecurityNumber" column="PAYEE_SSN_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="payeeSocialSecurityNumber" column="PAYEE_SSN_NBR" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbKualiEncryptDecryptFieldConversion"/>
 	<field-descriptor name="payeeFederalEmployerIdentificationNumber" column="PAYEE_FEIN_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="payeeIdentifierTypeCode" column="PAYEE_ID_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="psdTransactionCode" column="PSD_TRN_CD" jdbc-type="VARCHAR"/>

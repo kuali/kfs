@@ -132,7 +132,7 @@ public class LaborConstants {
         public static final String PARAMETER_GROUP = "LaborScrubberStep";
         public static final String SUBFUND_WAGE_EXCLUSION_PARAMETER = "SUB_FUND_GROUPS_NOT_ACCEPTING_WAGES_IND";
         public static final String SUSPENSE_ACCOUNT_LOGIC_PARAMETER = "SUSPENSE_ACCOUNT_LOGIC_IND";
-        public static final String SUSPENSE_ACCOUNT_NUMBER = "SUSPENSE_ACCOUNT_NUMBER";
+        public static final String SUSPENSE_ACCOUNT = "SUSPENSE_ACCOUNT";
         public static final String SUSPENSE_CHART = "SUSPENSE_CHART"; 
         public static final String CLOSED_FISCAL_PERIOD_BYPASS_BALANCE_TYPES = "CLOSED_FISCAL_PERIOD_BYPASS_BALANCE_TYPES";
         public static final String CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES = "CONTINUATION_ACCOUNT_BYPASS_ORIGINATIONS";

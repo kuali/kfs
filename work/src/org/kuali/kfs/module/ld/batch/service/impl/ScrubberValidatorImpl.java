@@ -60,7 +60,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private ScrubberValidator scrubberValidator;
     private PersistenceStructureService persistenceStructureService;
     private ThreadLocal<OriginEntryLookupService> referenceLookup = new ThreadLocal<OriginEntryLookupService>();
-    
+
     private int numOfAttempts = 10;
     private int numOfExtraMonthsForCGAccount = 3;
 
@@ -74,7 +74,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         LaborOriginEntry laborOriginEntry = (LaborOriginEntry) originEntry;
         LaborOriginEntry laborScrubbedEntry = (LaborOriginEntry) scrubbedEntry;
-        
+
         scrubberValidator.setReferenceLookup(referenceLookup.get());
 
         // For labor scrubber.
@@ -277,11 +277,12 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         Calendar today = Calendar.getInstance();
         today.setTime(universityRunDate.getUniversityDate());
-                                                                                                                    
+
         String[] continuationAccountBypassOriginationCodes = SpringContext.getBean(ParameterService.class).getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES).toArray(new String[] {});
         String[] continuationAccountBypassBalanceTypeCodes = SpringContext.getBean(BalanceTypService.class).getContinuationAccountBypassBalanceTypeCodes(universityRunDate.getUniversityFiscalYear()).toArray(new String[] {});
         String[] continuationAccountBypassDocumentTypeCodes = SpringContext.getBean(ParameterService.class).getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES).toArray(new String[] {});
-        
+
+
         if (laborOriginEntry.getAccount() == null) {
             return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ACCOUNT_NOT_FOUND) + "(" + laborOriginEntry.getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber() + ")", Message.TYPE_FATAL);
         }
@@ -294,31 +295,40 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         Account account = laborOriginEntry.getAccount();
 
-        if ((account.getAccountExpirationDate() == null) && !account.isAccountClosedIndicator()) {
-            // account is neither closed nor expired
-            laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
-            laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
-            return null;
+        if (!laborOriginEntry.getAccount().getSubFundGroup().isSubFundGroupWagesIndicator()) {
+
+
+            if ((account.getAccountExpirationDate() == null) && !account.isAccountClosedIndicator()) {
+                // account is neither closed nor expired
+                laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
+                laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
+                return null;
+            }
+
+            // Has an expiration date or is closed
+            if ((org.apache.commons.lang.StringUtils.isNumeric(laborOriginEntry.getFinancialSystemOriginationCode()) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes)) && account.isAccountClosedIndicator()) {
+                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT) + " (" + laborOriginEntry.getAccount().getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber() + ")", Message.TYPE_FATAL);
+            }
+
+            if ((org.apache.commons.lang.StringUtils.isNumeric(laborOriginEntry.getFinancialSystemOriginationCode()) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialBalanceTypeCode(), continuationAccountBypassBalanceTypeCodes) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialDocumentTypeCode().trim(), continuationAccountBypassDocumentTypeCodes)) && !account.isAccountClosedIndicator()) {
+                laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
+                laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
+                return null;
+            }
+
+
+            adjustAccountIfContractsAndGrants(account);
         }
-
-        // Has an expiration date or is closed
-        if ((org.apache.commons.lang.StringUtils.isNumeric(laborOriginEntry.getFinancialSystemOriginationCode()) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes)) && account.isAccountClosedIndicator()) {
-            return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT) + " (" + laborOriginEntry.getAccount().getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber() + ")", Message.TYPE_FATAL);
-        }
-
-        if ((org.apache.commons.lang.StringUtils.isNumeric(laborOriginEntry.getFinancialSystemOriginationCode()) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialBalanceTypeCode(), continuationAccountBypassBalanceTypeCodes) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialDocumentTypeCode().trim(), continuationAccountBypassDocumentTypeCodes)) && !account.isAccountClosedIndicator()) {
-            laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
-            laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
-            return null;
-        }
-
-
-        adjustAccountIfContractsAndGrants(account);
-
+        
+        
         // Labor's new features
+        // Indicator for Labor Scrubber Sub-Fund Wage Exclusion
         boolean subfundWageExclusionInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUBFUND_WAGE_EXCLUSION_PARAMETER);
+        // Indicator for Labor Scrubber's Account Fringe Exclusion
         boolean accountFringeExclusionInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.ACCOUNT_FRINGE_EXCLUSION_PARAMETER);
+        // Indicator for Labor Scrubber's Suspense Account Logic
         boolean suspenseAccountLogicInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
+        // Indicator for Labor Scrubber's Continuation Account Logic
         boolean continuationAccountLogicInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_LOGIC_PARAMETER);
 
         // checking Sub-Fund Wage Exclusion indicator
@@ -584,8 +594,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private void useSuspenseAccount(LaborOriginEntry workingEntry) {
 
         // Get suspense account
-        String suspenseAccountNumber = SpringContext.getBean(ParameterService.class).getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_NUMBER);
-        String suspenseCOAcode = SpringContext.getBean(ParameterService.class).getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_CHART); 
+        String suspenseAccountNumber = SpringContext.getBean(ParameterService.class).getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT);
+        String suspenseCOAcode = SpringContext.getBean(ParameterService.class).getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_CHART);
         Account account = accountService.getByPrimaryId(suspenseCOAcode, suspenseAccountNumber);
 
         workingEntry.setAccount(account);
@@ -623,7 +633,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     }
 
     public void validateForInquiry(GeneralLedgerPendingEntry entry) {
-        
+
 
     }
 

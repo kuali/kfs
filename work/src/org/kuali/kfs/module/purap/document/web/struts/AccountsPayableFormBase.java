@@ -70,7 +70,7 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     /**
      * This method should be overriden (or see accountingLines for an alternate way of doing this with newInstance)
      * 
-     * @return
+     * @return - null, enforces overriding
      */
     public PurApItem setupNewPurchasingItemLine() {
         return null;
@@ -111,7 +111,7 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     /**
      * Determines if the current user is an AP user and returns true, false otherwise.
      * 
-     * @return
+     * @return - true if current user is AP user, false otherwise.
      */
     public boolean isApUser() {
 
@@ -130,9 +130,9 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     /**
      * Adds a new button to the extra buttons collection.
      * 
-     * @param property
-     * @param source
-     * @param altText
+     * @param property - property for button
+     * @param source - location of image
+     * @param altText - alternate text for button if images don't appear
      */
     protected void addExtraButton(String property, String source, String altText) {
 

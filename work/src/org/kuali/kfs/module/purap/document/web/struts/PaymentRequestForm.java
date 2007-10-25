@@ -95,7 +95,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
     /**
      * Recreates the purchase order vendor stipulation line using the current user and current date stamp.
      * 
-     * @return
+     * @return - PO vendor stipulation based on current but with current user and date stamp.
      */
     public PurchaseOrderVendorStipulation getAndResetNewPurchaseOrderVendorStipulationLine() {
         PurchaseOrderVendorStipulation aPurchaseOrderVendorStipulationLine = getNewPurchaseOrderVendorStipulationLine();
@@ -119,7 +119,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
     /**
      * Determines if the payment request document has reached the INITIATE status.
      * 
-     * @return
+     * @return - true if preq is initiated, false otherwise
      */
     public boolean isPaymentRequestInitiated() { 
         return StringUtils.equals(this.getPaymentRequestDocument().getStatusCode(),PurapConstants.PaymentRequestStatuses.INITIATE);
@@ -129,7 +129,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
      * Determines if a user is able to close a purchase order.
      * This is used by the checkbox "close PO" on the payment request form.
      * 
-     * @return
+     * @return - true if able to close a PO, false otherwise
      */
     public boolean isAbleToClosePurchaseOrder(){
         boolean valid = false;
@@ -149,7 +149,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
     /**
      * Helper method to indicate if the current document has reached full document entry.
      * 
-     * @return
+     * @return - true if document has reached full entry, false otherwise
      */
     public boolean isFullDocumentEntryCompleted(){
         PaymentRequestDocument preq = (PaymentRequestDocument)this.getDocument();
@@ -158,6 +158,8 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
     
     /**
      * Build additional payment request specific buttons and set extraButtons list.
+     * 
+     * @return - list of extra buttons to be displayed to the user 
      */
     @Override
     public List<ExtraButton> getExtraButtons() {
@@ -207,4 +209,5 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
 
         return extraButtons;
     }
+    
 }

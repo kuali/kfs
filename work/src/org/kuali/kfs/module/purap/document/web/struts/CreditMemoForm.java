@@ -69,7 +69,7 @@ public class CreditMemoForm extends AccountsPayableFormBase {
     /**
      * Determines if the credit memo document has reached the INITIATE status.
      * 
-     * @return
+     * @return - true if credit memo has been initiated, false otherwise
      */
     public boolean isCreditMemoInitiated() {
         return StringUtils.equals(((CreditMemoDocument) getDocument()).getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE);
@@ -79,7 +79,7 @@ public class CreditMemoForm extends AccountsPayableFormBase {
      * This method determines if a user is able to reopen a purchase order.
      * This is used by the checkbox "reopen PO" on the credit memo form.
      * 
-     * @return
+     * @return - true if able to reopen a purchase order, false otherwise
      */
     public boolean isAbleToReopenPurchaseOrder(){
         boolean valid = false;
@@ -99,7 +99,7 @@ public class CreditMemoForm extends AccountsPayableFormBase {
     /**
      * Helper method to indicate if the current document has reached full document entry.
      * 
-     * @return
+     * @return - true if document has been fully entered, false otherwise
      */    
     public boolean isFullDocumentEntryCompleted(){
         CreditMemoDocument creditMemo = (CreditMemoDocument)this.getDocument();
@@ -108,6 +108,7 @@ public class CreditMemoForm extends AccountsPayableFormBase {
 
     /**
      * Build additional credit memo specific buttons and set extraButtons list.
+     * @return - list of extra buttons to be displayed to the user 
      */
     @Override
     public List<ExtraButton> getExtraButtons() {

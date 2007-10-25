@@ -781,7 +781,13 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
             }
         }
 
-        Integer period = new Integer(document.getPostingPeriodCode());
+        boolean numericPeriod = true;
+        Integer period = null;
+        try {
+            period = new Integer(document.getPostingPeriodCode());
+        } catch (NumberFormatException nfe) {
+            numericPeriod = false;
+        }
         Integer year = document.getPostingYear();
 
         // check for specific posting issues
@@ -792,15 +798,19 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
                 reportError(DOCUMENT_ERRORS, ERROR_DOCUMENT_AV_INCORRECT_FISCAL_YEAR_AVRC);
                 return false;
             }
-            // check the posting period, throw out if period 13
-            if (period > 12) {
-                reportError(DOCUMENT_ERRORS, ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVRC);
-                return false;
+            if (numericPeriod) {
+                // check the posting period, throw out if period 13
+                if (period > 12) {
+                    reportError(DOCUMENT_ERRORS, ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVRC);
+                    return false;
+                }
+                else if (period < 1) {
+                    reportError(DOCUMENT_ERRORS, ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE);
+                    return false;
+                }
             }
-            else if (period < 1) {
-                reportError(DOCUMENT_ERRORS, ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE);
-                return false;
-            }
+            // but what if the period wasn't numeric?  well...in that case, someone turned the parameter to avoid these off and therefore,
+            // I think we just let it slide...
         }
         return valid;
     }

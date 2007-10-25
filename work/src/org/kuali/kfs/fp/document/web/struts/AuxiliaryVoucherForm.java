@@ -180,6 +180,7 @@ public class AuxiliaryVoucherForm extends VoucherForm {
         private AccountingPeriodService acctPeriodService;
         private Document auxiliaryVoucherDocument;
         private AccountingPeriod currPeriod;
+        private ParameterEvaluator evaluator;
 
         public OpenAuxiliaryVoucherPredicate(Document doc) {
             this.parameterService = SpringContext.getBean(ParameterService.class);
@@ -196,7 +197,11 @@ public class AuxiliaryVoucherForm extends VoucherForm {
 
                 java.sql.Date currentDate = new java.sql.Date(new java.util.Date().getTime());
 
-                ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(AuxiliaryVoucherDocument.class, AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES, period.getUniversityFiscalPeriodCode(), period.getUniversityFiscalPeriodCode());
+                if (evaluator == null) {
+                    evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(AuxiliaryVoucherDocument.class, AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES, period.getUniversityFiscalPeriodCode());
+                } else {
+                    evaluator.setConstrainedValue(period.getUniversityFiscalPeriodCode());
+                }
                 result = evaluator.evaluationSucceeds();
                 if (result) {
                     result = (period.getUniversityFiscalYear().equals(dateService.getCurrentFiscalYear()));

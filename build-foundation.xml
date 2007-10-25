@@ -64,7 +64,6 @@ are intended for use only by Kuali Foundation developers.
         <ant dir="${basedir}/temp/${release.workflow.cvs.module}" target="javadoc" inheritall="false">
             <propertyset refid="${workflow.application}-properties" />
         </ant>
-        <zip destfile="temp/workflow-${workflow.version}-doc.zip" basedir="${basedir}/temp/${release.workflow.cvs.module}/dist/api" />    	
     	
     	<mkdir dir="${release.patches.dir}" />
 
@@ -114,7 +113,6 @@ Workflow Tag: ${release.workflow.cvs.tag}
             <zipfileset dir="${release.patches.dir}" prefix="patches" />
     		<zipfileset dir="temp" prefix="">
     			<include name="workflow_${workflow.version}.zip" />
-    			<include name="workflow-${workflow.version}-doc.zip" />
     			<include name="README.txt" />
     			<include name="release-details.txt" />
     		</zipfileset>

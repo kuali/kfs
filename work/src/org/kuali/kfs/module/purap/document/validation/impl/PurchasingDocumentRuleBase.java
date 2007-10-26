@@ -27,6 +27,7 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
@@ -111,6 +112,26 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return valid;
     }
 
+    /**
+     * Overrides the method in PurchasingAccountsPayableDocumentRuleBase to also invoke the 
+     * validateAccountNotExpired for each of the accounts.
+     * 
+     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processAccountValidation(org.kuali.kfs.document.AccountingDocument, java.util.List, java.lang.String)
+     */
+    @Override
+    public boolean processAccountValidation(AccountingDocument accountingDocument, List<PurApAccountingLine> purAccounts, String itemLineNumber) {
+        boolean valid = true;
+        for (PurApAccountingLine accountingLine : purAccounts) {    
+            boolean notExpired = this.validateAccountNotExpired(accountingLine);
+            if (!notExpired) {
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNT_EXPIRED, itemLineNumber + " has ", accountingLine.getAccount().getAccountNumber());
+            }
+        }
+        valid &= super.processAccountValidation(accountingDocument, purAccounts, itemLineNumber);
+        
+        return valid;
+    }
+    
     /**
      * 
      * Validates that if the item unit price is null and the source accounting lines is not empty, add error
@@ -408,11 +429,14 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             
             return false;
         }
+        
         return verifyAccountingLinePercent((PurApAccountingLine) updatedAccountingLine);
     }
 
+    
     /**
-     * Overrides the method in PurapAccountingDocumentRuleBase to also invoke the verifyAccountingLinePercent.
+     * Overrides the method in PurapAccountingDocumentRuleBase to also invoke the validateAccountNotExpired
+     * and verifyAccountingLinePercent.
      * 
      * @param financialDocument   the purchasing document to be validated
      * @param accountingLine      the accounting line to be validated before being added
@@ -421,13 +445,35 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      */
     @Override
     public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
-        if (!super.processAddAccountingLineBusinessRules(financialDocument, accountingLine)) {
+        boolean valid = validateAccountNotExpired(accountingLine);
+        if (!valid) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, PurapKeyConstants.ERROR_ITEM_ACCOUNT_EXPIRED, KFSConstants.EMPTY_STRING, accountingLine.getAccountNumber() );
+        }
+        valid &= super.processAddAccountingLineBusinessRules(financialDocument, accountingLine);
+        if (!valid) {
         
             return false;
         }
+        
         return verifyAccountingLinePercent((PurApAccountingLine) accountingLine);
     }
-
+    
+    /**
+     * Validates that the account is not expired.
+     * 
+     * @param accountingLine   The account to be validated.
+     * @return                 boolean false if the account is expired.
+     */
+    private boolean validateAccountNotExpired(AccountingLine accountingLine) {
+        accountingLine.refreshNonUpdateableReferences();
+        if (accountingLine.getAccount() != null && accountingLine.getAccount().isExpired()) {
+            
+            return false;
+        }
+        
+        return true;
+    }
+    
     /**
      * Verifies that the accounting line percent is a whole number.
      * 

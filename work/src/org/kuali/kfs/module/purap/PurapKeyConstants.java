@@ -171,6 +171,8 @@ public class PurapKeyConstants {
     public static final String ERROR_PURCHASING_PERCENT_NOT_WHOLE="errors.purchasing.percent.not.whole";
     public static final String ERROR_ITEM_ACCOUNTING_AMOUNT_TOTAL="errors.item.accounting.amount.total";
     public static final String ERROR_ACCOUNT_AMOUNT_TOTAL="errors.accountString.totalAmount.negative";
+    public static final String ERROR_ITEM_ACCOUNT_EXPIRED="errors.item.accounting.expired";
+    
     //Credit Memo
     public static final String ERROR_CREDIT_MEMO_REQUIRED_FIELDS = "errors.creditMemo.required.fields";
     public static final String ERROR_CREDIT_MEMO_PURCHASE_ORDER_INVALID = "errors.creditMemo.purchaseOrder.invalid";

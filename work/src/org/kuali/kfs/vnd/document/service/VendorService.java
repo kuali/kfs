@@ -31,7 +31,7 @@ public interface VendorService {
     public VendorDetail getVendorDetail(Integer headerId, Integer detailId);
     
     /**
-     * This method retrieves the VendorDetail which is the parent vendor with the given headerId.  This is the method to use
+     * Retrieves the VendorDetail which is the parent vendor with the given headerId.  This is the method to use
      * when working backward from a division vendor to its parent vendor.  This method throws RuntimeExceptions if there are
      * found to be no parent vendor or more than one parent vendor for the associated corporate structure.
      * 
@@ -42,7 +42,7 @@ public interface VendorService {
     public VendorDetail getParentVendor(Integer vendorHeaderGeneratedIdentifier);
 
     /**
-     * This method gets the apo limit for the given parameters using the following logic:<br> 
+     * Gets the apo limit for the given parameters using the following logic:<br> 
      * <br>
      * First it checks to see if an existing {@link org.kuali.module.vendor.bo.VendorContractOrganization} object exists for 
      * the associated parameters. If one exists and it is not excluded 
@@ -65,7 +65,7 @@ public interface VendorService {
     public KualiDecimal getApoLimitFromContract(Integer contractId, String chart, String org);
 
     /**
-     * This method finds the addresses for the given vendor and then calls the method to determine the default address from this
+     * Finds the addresses for the given vendor and then calls the method to determine the default address from this
      * list.
      * 
      * @param vendorHeaderId    Integer - Header ID of vendor.
@@ -77,7 +77,7 @@ public interface VendorService {
     public VendorAddress getVendorDefaultAddress(Integer vendorHeaderId, Integer vendorDetailId, String addressType, String campus);
 
     /**
-     * This method finds the default address for the given addressType and campus from the address list passed in based on the
+     * Finds the default address for the given addressType and campus from the address list passed in based on the
      * following logic: 
      * 
      * 1) The allDefaultAddress is defined by defaultAddressIndicator on VendorAddress. 
@@ -93,7 +93,7 @@ public interface VendorService {
     public VendorAddress getVendorDefaultAddress(List<VendorAddress> addresses, String addressType, String campus);
 
     /**
-     * This method checks to see if a the Vendor Document associated with the given document ID should route
+     * Checks to see if a the Vendor Document associated with the given document ID should route
      * to the route path branch in workflow where the document will stop for approvals.
      * 
      * @param documentId
@@ -102,7 +102,7 @@ public interface VendorService {
     public boolean shouldVendorRouteForApproval(String documentId);
     
     /**
-     * This method compares lists which have an isEqualForRouting method by using that method.
+     * Compares lists which have an isEqualForRouting method by using that method.
      * An Equals() method would be wrong for the purpose of comparing these because we want to
      * compare only using certain specified attributes, which is what our isEqualForRouting
      * methods will do. 
@@ -131,7 +131,7 @@ public interface VendorService {
             VendorDetail oldVDtl, VendorHeader oldVHdr );
     
     /**
-     * This method will indicate whether the vendor identified by the given <code>vendorHeaderGeneratedIdentifier</code>
+     * Indicates whether the vendor identified by the given <code>vendorHeaderGeneratedIdentifier</code>
      * is an employee of the institution.  The vendor must have a valid tax id and it must be of type SSN (see  
      * {@link org.kuali.module.vendor.VendorConstants#TAX_TYPE_SSN}).
      * 
@@ -144,7 +144,7 @@ public interface VendorService {
     public boolean isVendorInstitutionEmployee(Integer vendorHeaderGeneratedIdentifier);
 
     /**
-     * This method will indicate whether the vendor identified by the given <code>vendorHeaderGeneratedIdentifier</code>
+     * Indicates whether the vendor identified by the given <code>vendorHeaderGeneratedIdentifier</code>
      * is a non-resident alien by checking the value of {@link org.kuali.module.vendor.bo.VendorHeader#getVendorForeignIndicator()}.
      * 
      * @param vendorHeaderGeneratedIdentifier       The Header Id in Integer form

@@ -49,20 +49,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
+/**
+ * Implementation of RequisitionService
+ */
 @Transactional
 public class RequisitionServiceImpl implements RequisitionService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
-    private ObjectCodeService objectCodeService;
-    private DateTimeService dateTimeService;
     private DocumentService documentService;
     private PurapService purapService;
     private RequisitionDao requisitionDao;
-    private UniversalUserService universalUserService;
-    private UniversityDateService universityDateService;
-    private VendorService vendorService;
-    private KualiConfigurationService kualiConfigurationService;
 
     /**
      * @see org.kuali.module.purap.service.RequisitionService#saveDocumentWithoutValidation(org.kuali.module.purap.document.RequisitionDocument)
@@ -223,14 +220,6 @@ public class RequisitionServiceImpl implements RequisitionService {
         this.businessObjectService = boService;    
     }
 
-    public void setObjectCodeService(ObjectCodeService objectService) {
-        this.objectCodeService = objectService;    
-    }
-
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;    
-    }
-    
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
@@ -239,24 +228,8 @@ public class RequisitionServiceImpl implements RequisitionService {
         this.requisitionDao = requisitionDao;
     }
 
-    public void setVendorService(VendorService vendorService) {
-        this.vendorService = vendorService;    
-    }
-
     public void setPurapService(PurapService purapService) {
         this.purapService = purapService;
-    }
-
-    public void setUniversalUserService(UniversalUserService universalUserService) {
-        this.universalUserService = universalUserService;
-    }
-
-    public void setUniversityDateService(UniversityDateService universityDateService) {
-        this.universityDateService = universityDateService;
-    }
-
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
     }
 
 }

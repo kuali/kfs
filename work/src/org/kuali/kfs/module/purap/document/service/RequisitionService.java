@@ -36,6 +36,7 @@ public interface RequisitionService {
     /**
      * Obtains the requisition document from the database given a
      * requisition id as the input parameter
+     * 
      * @param id  the requisition id of the document we want to obtain.
      * @return    RequisitionDocument the requisition document whose requisition id is
      *            the id in the input parameter of this method.
@@ -43,8 +44,7 @@ public interface RequisitionService {
     public RequisitionDocument getRequisitionById(Integer id);
 
     /**
-     * 
-     * Checks whether the requisition is eligible to become an Automated
+     * Checks whether the requisition is eligible to become an Automatic
      * Purchase Order (APO)
      * 
      * @param requisition  the requisition document to be checked.

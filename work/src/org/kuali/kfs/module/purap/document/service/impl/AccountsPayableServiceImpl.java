@@ -68,74 +68,18 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     private PurapService purapService;
     private ParameterService parameterService;
 
-    /**
-     * Gets the purapService attribute.
-     * 
-     * @return Returns the purapService.
-     */
-    public PurapService getPurapService() {
-        return purapService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
-
-    /**
-     * Sets the purapService attribute value.
-     * 
-     * @param purapService The purapService to set.
-     */
     public void setPurapService(PurapService purapService) {
         this.purapService = purapService;
     }
-
-    /**
-     * Gets the purapAccountingService attribute.
-     * 
-     * @return Returns the purapAccountingService.
-     */
-    public PurapAccountingService getPurapAccountingService() {
-        return purapAccountingService;
-    }
-
-    /**
-     * Sets the purapAccountingService attribute value.
-     * 
-     * @param purapAccountingService The purapAccountingService to set.
-     */
     public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
         this.purapAccountingService = purapAccountingService;
     }
-
-    /**
-     * Gets the purapGeneralLedgerService attribute.
-     * 
-     * @return Returns the purapGeneralLedgerService.
-     */
-    public PurapGeneralLedgerService getPurapGeneralLedgerService() {
-        return purapGeneralLedgerService;
-    }
-
-    /**
-     * Sets the purapGeneralLedgerService attribute value.
-     * 
-     * @param purapGeneralLedgerService The purapGeneralLedgerService to set.
-     */
     public void setPurapGeneralLedgerService(PurapGeneralLedgerService purapGeneralLedgerService) {
         this.purapGeneralLedgerService = purapGeneralLedgerService;
     }
-
-    /**
-     * Gets the documentService attribute.
-     * 
-     * @return Returns the documentService.
-     */
-    public DocumentService getDocumentService() {
-        return documentService;
-    }
-
-    /**
-     * Sets the documentService attribute value.
-     * 
-     * @param documentService The documentService to set.
-     */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
@@ -391,22 +335,13 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
      * Sets ap doc to canceled. If gl entries have been created cancel entries are created.
      */
     public void cancelAccountsPayableDocument(AccountsPayableDocument apDocument, String currentNodeName) {
-        // retrieve and save with canceled status, clear gl entries
-        // AccountsPayableDocument apDoc;
-        // try {
-        // apDoc = (AccountsPayableDocument)documentService.getByDocumentHeaderId(apDocument.getDocumentNumber());
-        // }
-        // catch (WorkflowException e) {
-        // throw new RuntimeException("Can't get workflow doc "+e);
-        // }
-
         if (purapService.isFullDocumentEntryCompleted(apDocument)) {
             purapGeneralLedgerService.generateEntriesCancelAccountsPayableDocument(apDocument);
         }
         AccountsPayableDocumentSpecificService accountsPayableDocumentSpecificService = apDocument.getDocumentSpecificService();
-        String cancelledStatusCode = accountsPayableDocumentSpecificService.updateStatusByNode(currentNodeName, apDocument);
-        // apDocument.setStatusCode(cancelledStatusCode);
+        accountsPayableDocumentSpecificService.updateStatusByNode(currentNodeName, apDocument);
         apDocument.refreshReferenceObject(PurapPropertyConstants.STATUS);
+
         // close/reopen po?
         accountsPayableDocumentSpecificService.takePurchaseOrderCancelAction(apDocument);
     }
@@ -576,10 +511,6 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
             return false;
         }
 
-    }
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
     }
 
 }

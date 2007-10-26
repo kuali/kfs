@@ -881,8 +881,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             return;
         }
 
-        // FIXME (KULPURAP-1580: hjs) add call to new method once added
-        // generalLedgerService.generateEntriesCancelPreq(paymentRequest);
         try {
             Note cancelNote = documentService.createNoteFromDocument(paymentRequest, note);
             documentService.addNoteToDocument(paymentRequest, cancelNote);
@@ -890,8 +888,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         catch (Exception e) {
             throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE + " " + e);
         }
-        purapService.updateStatus(paymentRequest, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE);
-        this.saveDocumentWithoutValidation(paymentRequest);
+
+        //FIXME shouldn't be using springcontext inside a service, but having problems with adding to spring bean file (hjs)
+        SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(paymentRequest, "");
         LOG.debug("cancelExtractedPaymentRequest() PREQ " + paymentRequest.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
         LOG.debug("cancelExtractedPaymentRequest() ended");
     }

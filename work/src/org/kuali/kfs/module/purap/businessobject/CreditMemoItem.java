@@ -45,38 +45,14 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     }
 
     /**
-     * Constructs a CreditMemoItem object from an existing Purchase Order Item.
+     * 
+     * Constructs a CreditMemoItem object from an existing Purchase Order Item. - Delegate
      * 
      * @param cmDocument the Credit Memo Document this item belongs to.
      * @param poItem the Purchase Order Item to copy from.
      */
     public CreditMemoItem(CreditMemoDocument cmDocument, PurchaseOrderItem poItem) {
-        super();
-
-        setPurapDocumentIdentifier(cmDocument.getPurapDocumentIdentifier());
-        setItemLineNumber(poItem.getItemLineNumber());
-        setPoInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity());
-        setPoUnitPrice(poItem.getItemUnitPrice());
-        setPoExtendedPrice(poItem.getItemInvoicedTotalAmount());
-        setItemTypeCode(poItem.getItemTypeCode());
-        setItemUnitPrice(poItem.getItemUnitPrice());
-        setItemCatalogNumber(poItem.getItemCatalogNumber());
-        setItemDescription(poItem.getItemDescription());
-
-        if (getPoInvoicedTotalQuantity() == null) {
-            setPoInvoicedTotalQuantity(KualiDecimal.ZERO);
-        }
-        if (getPoUnitPrice() == null) {
-            setPoUnitPrice(BigDecimal.ZERO);
-        }
-        if (getPoExtendedPrice() == null) {
-            setPoExtendedPrice(KualiDecimal.ZERO);
-        }
-
-        for (Iterator iter = poItem.getSourceAccountingLines().iterator(); iter.hasNext();) {
-            PurchaseOrderAccount account = (PurchaseOrderAccount) iter.next();
-            getSourceAccountingLines().add(new CreditMemoAccount(account));
-        }
+        this(cmDocument, poItem, new HashMap<String, ExpiredOrClosedAccountEntry>());
     }
 
     /**
@@ -88,7 +64,6 @@ public class CreditMemoItem extends AccountsPayableItemBase {
      * @param expiredOrClosedAccountList the list of expired or closed accounts to check against.
      */
     public CreditMemoItem(CreditMemoDocument cmDocument, PurchaseOrderItem poItem, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
-        //TODO (KULPURAP-1575) Merge this method with the other constructor. cleanup
         super();
 
         setPurapDocumentIdentifier(cmDocument.getPurapDocumentIdentifier());

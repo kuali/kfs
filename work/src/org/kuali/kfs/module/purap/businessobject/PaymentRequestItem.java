@@ -59,43 +59,13 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 	}
 
     /**
-     * preq item constructor.
+     * preq item constructor - Delegate
      * 
      * @param poi - purchase order item
      * @param preq - payment request document
      */
     public PaymentRequestItem(PurchaseOrderItem poi,PaymentRequestDocument preq) {
-        //copy base attributes w/ extra array of fields not to be copied
-        PurApObjectUtils.populateFromBaseClass(PurApItemBase.class, poi, this, PurapConstants.PREQ_ITEM_UNCOPYABLE_FIELDS);
-        
-        //set up accounts
-        List accounts = new ArrayList();
-        for (PurApAccountingLine account : poi.getSourceAccountingLines()) {
-            PurchaseOrderAccount poa = (PurchaseOrderAccount)account;
-            accounts.add(new PaymentRequestAccount(this,poa));
-        }
-        this.setSourceAccountingLines(accounts);
-
-        //clear amount and desc on below the line - we probably don't need that null 
-        //itemType check but it's there just in case remove if it causes problems
-        // also do this if of type service, kulpurap - 1242
-        if( (ObjectUtils.isNotNull(this.getItemType()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator()) ) {
-            //setting unit price to be null to be more consistent with other below the line
-            this.setItemUnitPrice(null);
-            
-            //if below the line item
-            if( !this.getItemType().isItemTypeAboveTheLineIndicator() ){
-                this.setItemDescription("");
-            }
-        }        
-
-        //copy custom
-        this.purchaseOrderItemUnitPrice = poi.getItemUnitPrice();
-        this.purchaseOrderCommodityCode = poi.getPurchaseOrderCommodityCd();
-        
-        //set doc fields
-        this.setPurapDocumentIdentifier(preq.getPurapDocumentIdentifier());
-        this.paymentRequest = preq;
+        this(poi, preq, new HashMap<String, ExpiredOrClosedAccountEntry>());
     }
 
     /**
@@ -106,7 +76,6 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
      * @param expiredOrClosedAccountList - list of expired or closed accounts to merge
      */
     public PaymentRequestItem(PurchaseOrderItem poi,PaymentRequestDocument preq, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
-        //TODO (KULPURAP-1575) Merge this method with the other constructor. cleanup
         
         //copy base attributes w/ extra array of fields not to be copied
         PurApObjectUtils.populateFromBaseClass(PurApItemBase.class, poi, this, PurapConstants.PREQ_ITEM_UNCOPYABLE_FIELDS);

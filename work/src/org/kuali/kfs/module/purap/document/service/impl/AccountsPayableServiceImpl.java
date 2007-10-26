@@ -504,7 +504,6 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
 
             }
         }
-        // TODO: ctk - call calculate here?
     }
 
     /**

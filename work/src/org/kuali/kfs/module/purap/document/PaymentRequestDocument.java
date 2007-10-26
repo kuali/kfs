@@ -392,79 +392,20 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
   
     /**
-     * TODO (KULPURAP-436: ctk) this should be cleaned up
-     * Populates a preq from a PO
+     * Populates a preq from a PO - delegate method
      * 
-     * @param po - Purchase Order Document used for populating the PREQ
+     * @param po - 
      */
     public void populatePaymentRequestFromPurchaseOrder(PurchaseOrderDocument po) {
-        this.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());
-        this.setPostingYear(po.getPostingYear());
-        this.setVendorCustomerNumber(po.getVendorCustomerNumber());
-        if (po.getPurchaseOrderCostSource() != null ){
-            this.setPaymentRequestCostSource(po.getPurchaseOrderCostSource());
-            this.setPaymentRequestCostSourceCode(po.getPurchaseOrderCostSourceCode()); 
-        }
-        if (po.getVendorShippingPaymentTerms()!= null){
-            this.setVendorShippingPaymentTerms(po.getVendorShippingPaymentTerms());
-            this.setVendorShippingPaymentTermsCode(po.getVendorShippingPaymentTermsCode());
-        }
-        
-        if (po.getRecurringPaymentType() !=null){
-            this.setRecurringPaymentType(po.getRecurringPaymentType());
-            this.setRecurringPaymentTypeCode(po.getRecurringPaymentTypeCode());
-        }
-        
-        this.setVendorHeaderGeneratedIdentifier(po.getVendorHeaderGeneratedIdentifier());
-        this.setVendorDetailAssignedIdentifier(po.getVendorDetailAssignedIdentifier());
-        this.setVendorCustomerNumber(po.getVendorCustomerNumber());
-        this.setVendorName(po.getVendorName());
-
-        // populate preq vendor address with the default remit address type for the vendor if found
-        String userCampus = GlobalVariables.getUserSession().getUniversalUser().getCampusCode();
-        VendorAddress vendorAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(po.getVendorHeaderGeneratedIdentifier(), po.getVendorDetailAssignedIdentifier(), VendorConstants.AddressTypes.REMIT, userCampus);
-        if (vendorAddress != null) {
-            this.templateVendorAddress(vendorAddress);
-            this.setVendorAddressGeneratedIdentifier(vendorAddress.getVendorAddressGeneratedIdentifier());
-        }
-        else {
-            // set address from PO
-            this.setVendorAddressGeneratedIdentifier(po.getVendorAddressGeneratedIdentifier());
-        this.setVendorLine1Address(po.getVendorLine1Address());
-        this.setVendorLine2Address(po.getVendorLine2Address());
-        this.setVendorCityName(po.getVendorCityName());
-        this.setVendorStateCode(po.getVendorStateCode());
-        this.setVendorPostalCode(po.getVendorPostalCode());
-        this.setVendorCountryCode(po.getVendorCountryCode());
-        }
-
-        if ((po.getVendorPaymentTerms() == null) || ("".equals(po.getVendorPaymentTerms().getVendorPaymentTermsCode())) ) {
-            this.setVendorPaymentTerms(new PaymentTermType());
-            this.vendorPaymentTerms.setVendorPaymentTermsCode("");
-        } else {
-            this.setVendorPaymentTermsCode(po.getVendorPaymentTermsCode());
-            this.setVendorPaymentTerms(po.getVendorPaymentTerms());
-        }
-        this.setPaymentRequestPayDate(SpringContext.getBean(PaymentRequestService.class).calculatePayDate(this.getInvoiceDate(), this.getVendorPaymentTerms()));
-        for (PurchaseOrderItem poi : (List<PurchaseOrderItem>)po.getItems()) {
-            //TODO (KULPURAP-1393: ctk) add this back if we end up building the list of items at every load
-//            if(poi.isItemActiveIndicator()) {
-                this.getItems().add(new PaymentRequestItem(poi,this));                
-//            }
-            }
-        //add missing below the line
-        SpringContext.getBean(PurapService.class).addBelowLineItems(this);
-        this.setAccountsPayablePurchasingDocumentLinkIdentifier(po.getAccountsPayablePurchasingDocumentLinkIdentifier());
-
-        this.refreshNonUpdateableReferences();
+        populatePaymentRequestFromPurchaseOrder(po,new HashMap<String, ExpiredOrClosedAccountEntry>());
     }
     
    
     /**
-     * TODO (KULPURAP-1575) this should be cleaned up.. it is also a replica of the method above except it performs account replacement
-     * Populates a preq from a PO
      * 
-     * @param po - Purchase Order Document used for populating the PREQ
+     * Populates a preq from a PO
+     * @param po Purchase Order Document used for populating the PREQ
+     * @param expiredOrClosedAccountList a list of closed or expired accounts
      */
     public void populatePaymentRequestFromPurchaseOrder(PurchaseOrderDocument po, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
         this.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());

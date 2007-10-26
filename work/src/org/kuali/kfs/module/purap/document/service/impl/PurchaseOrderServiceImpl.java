@@ -143,7 +143,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public void setRequisitionService(RequisitionService requisitionService) {
         this.requisitionService = requisitionService;
     }
-    
+
     public void saveDocumentNoValidation(PurchaseOrderDocument document) {
         try {
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
@@ -166,6 +166,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
 
+    /**
+     * Calls the saveDocument method of documentService to save the document.
+     * 
+     * @param document  The document to be saved.
+     */
     private void saveDocumentStandardSave(PurchaseOrderDocument document) {
         try {
             documentService.saveDocument(document);
@@ -218,6 +223,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 //            throw new RuntimeException(errorMsg, e);
 //        }
 //    }
+
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#createAutomaticPurchaseOrderDocument(org.kuali.module.purap.document.RequisitionDocument)
+     */
     public void createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument) {
         String newSessionUserId = KFSConstants.SYSTEM_USER;
         try {
@@ -252,10 +261,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     * Creates a PurchaseOrderDocument from given RequisitionDocument. Both documents need to be saved after this method is called.
-     * 
-     * @param reqDocument - RequisitionDocument that the PO is being created from
-     * @return PurchaseOrderDocument
+     * @see org.kuali.module.purap.service.PurchaseOrderService#createPurchaseOrderDocument(org.kuali.module.purap.document.RequisitionDocument, java.lang.String, java.lang.Integer)
      */
     public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument, String newSessionUserId, Integer contractManagerCode) {
         try {
@@ -289,10 +295,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     /**
      * Create Purchase Order and populate with data from Requisition and other default data
      * 
-     * @param reqDocument
-     * @return
+     * @param reqDocument         The requisition document from which we create the purchase order document.
+     * @return                    The purchase order document created by this method.
      * @throws WorkflowException
-     */
+     */  
     private PurchaseOrderDocument generatePurchaseOrderFromRequisition(RequisitionDocument reqDocument) throws WorkflowException {
         PurchaseOrderDocument poDocument = null;
         poDocument = (PurchaseOrderDocument) documentService.getNewDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
@@ -324,6 +330,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return poDocument;
     }
 
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#getInternalPurchasingDollarLimit(org.kuali.module.purap.document.PurchaseOrderDocument)
+     */
     public KualiDecimal getInternalPurchasingDollarLimit(PurchaseOrderDocument document) {
         if ((document.getVendorContract() != null) && (document.getContractManager() != null)) {
             KualiDecimal contractDollarLimit = vendorService.getApoLimitFromContract(document.getVendorContract().getVendorContractGeneratedIdentifier(), document.getChartOfAccountsCode(), document.getOrganizationCode());
@@ -354,6 +363,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
     
+    /**
+     * Loops through the collection of error messages and adding each of them
+     * to the error map.
+     * 
+     * @param errorKey  The resource key used to retrieve the error text from the error message resource bundle.
+     * @param errors    The collection of error messages.
+     */
     private void addStringErrorMessagesToErrorMap(String errorKey, Collection<String> errors) {
         if (ObjectUtils.isNotNull(errors)) {
             for (String error : errors) {
@@ -433,6 +449,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         attemptSetupOfInitialOpenOfDocument(po);
     }
     
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#performPrintPurchaseOrderPDFOnly(java.lang.String, java.io.ByteArrayOutputStream)
+     */
     public void performPrintPurchaseOrderPDFOnly(String documentNumber, ByteArrayOutputStream baosPDF) {
         PurchaseOrderDocument po = getPurchaseOrderByDocumentNumber(documentNumber);
         String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
@@ -443,6 +462,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
     
+    /**
+     * Invokes the documentService to perform the appropriate workflow actions depending on the boolean flags
+     * on the workflowDocument of the documentHeader of the purchase order.
+     * 
+     * @param po           The purchase order document upon which the workflow actions would be taken
+     * @param annotation
+     */
     private void takeWorkflowActionsForDocumentTransmission(PurchaseOrderDocument po, String annotation) {
         try {
             List<ActionRequestVO> docTransRequests = new ArrayList<ActionRequestVO>();
@@ -617,6 +643,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return newPurchaseOrderChangeDocument;
     }
     
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#createAndSavePotentialChangeDocument(java.lang.String, java.lang.String, java.lang.String)
+     */
     public PurchaseOrderDocument createAndSavePotentialChangeDocument(String documentNumber, String docType, String currentDocumentStatusCode) {
         PurchaseOrderDocument currentDocument = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(documentNumber);
         try {
@@ -651,7 +680,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             throw new RuntimeException(errorMsg, we);
         }
     }
-    
+
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#createAndRoutePotentialChangeDocument(java.lang.String, java.lang.String, java.lang.String, java.util.List, java.lang.String)
+     */
     public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String currentDocumentStatusCode) {
         PurchaseOrderDocument currentDocument = getPurchaseOrderByDocumentNumber(documentNumber);
         //see KULPURAP-1983 for discussion of why we need to do this
@@ -691,6 +723,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
 
+    /**
+     * Returns the current route node name.
+     * 
+     * @param wd    The KualiWorkflowDocument object whose current route node we're trying to get.
+     * @return      The current route node name.
+     * @throws      WorkflowException
+     */
     private String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
         String[] nodeNames = wd.getNodeNames();
         if ((nodeNames == null) || (nodeNames.length == 0)) {
@@ -701,6 +740,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
 
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#completePurchaseOrder(org.kuali.module.purap.document.PurchaseOrderDocument)
+     */
     public void completePurchaseOrder(PurchaseOrderDocument po) {
         LOG.debug("completePurchaseOrder() started");
         setCurrentAndPendingIndicatorsForApprovedPODocuments(po);
@@ -709,7 +751,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             attemptSetupOfInitialOpenOfDocument(po);
         }
     }
-    
+
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#setupDocumentForPendingFirstTransmission(org.kuali.module.purap.document.PurchaseOrderDocument, boolean)
+     */
     public void setupDocumentForPendingFirstTransmission(PurchaseOrderDocument po, boolean hasActionRequestForDocumentTransmission) {
         if (POTransmissionMethods.PRINT.equals(po.getPurchaseOrderTransmissionMethodCode())) {
             String newStatusCode = PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.get(po.getPurchaseOrderTransmissionMethodCode());
@@ -731,7 +776,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             attemptSetupOfInitialOpenOfDocument(po);
         }
     }
-    
+
+    /**
+     * If the status of the purchase order is not OPEN and the initial open date is null, sets the 
+     * initial open date to current date and update the status to OPEN, then save the purchase order.
+     * 
+     * @param po   The purchase order document whose initial open date and status we want to update.
+     * @return     boolean false if the initial open date, status update and the saving of the purchase
+     *             order did not occur.
+     */
     private boolean attemptSetupOfInitialOpenOfDocument(PurchaseOrderDocument po) {
         LOG.debug("attemptSetupOfInitialOpenOfDocument() started using document with doc id " + po.getDocumentNumber());
         boolean documentWasSaved = false;
@@ -754,10 +807,16 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return documentWasSaved;
     }
 
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#getCurrentPurchaseOrder(java.lang.Integer)
+     */
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id) {
         return getPurchaseOrderByDocumentNumber(purchaseOrderDao.getDocumentNumberForCurrentPurchaseOrder(id));
     }
 
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#getPurchaseOrderByDocumentNumber(java.lang.String)
+     */
     public PurchaseOrderDocument getPurchaseOrderByDocumentNumber(String documentNumber) {
         if (ObjectUtils.isNotNull(documentNumber)) {
             try {
@@ -795,9 +854,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     * This method...
-     * @param po
-     * @param documentBusinessObject
+     * If the purchase order's object id is not null (I think this means if it's an existing
+     * purchase order that had already been saved to the db previously), get the notes of the purchase order from the database, 
+     * fix the notes' fields by calling the fixDbNoteFields, then set the notes to the purchase order.
+     * Otherwise (I think this means if it's a new purchase order), set the notes of this
+     * purchase order to be the notes of the documentBusinessObject.
+     * 
+     * @param po                        The current purchase order.
+     * @param documentBusinessObject    The oldest purchase order whose purapDocumentIdentifier is the same as the po's purapDocumentIdentifier.
      */
     private void updateNotes(PurchaseOrderDocument po, PurchaseOrderDocument documentBusinessObject) {
         if(ObjectUtils.isNotNull(documentBusinessObject)) {
@@ -814,8 +878,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     /**
      * This method fixes non ojb managed missing fields from the db FIXME we should do this reflectively and do more than FYI if necessary
-     * @param documentBusinessObject
-     * @param dbNotes
+     * 
+     * @param documentBusinessObject   The oldest purchase order whose purapDocumentIdentifier is the same as the po's purapDocumentIdentifier.
+     * @param dbNotes                  The notes of the purchase order obtained from the database.
      */
     private void fixDbNoteFields(PurchaseOrderDocument documentBusinessObject, List<Note> dbNotes) {
         for (int i = 0; i < dbNotes.size(); i++) {
@@ -832,6 +897,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
     
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#getPurchaseOrderNotes(java.lang.Integer)
+     */
     public ArrayList<Note> getPurchaseOrderNotes(Integer id) {
         ArrayList notes = new TypedArrayList(Note.class);
         PurchaseOrderDocument po = getPurchaseOrderByDocumentNumber(purchaseOrderDao.getOldestPurchaseOrderDocumentNumber(id));
@@ -841,6 +909,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return notes;
     }
 
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#setCurrentAndPendingIndicatorsForApprovedPODocuments(org.kuali.module.purap.document.PurchaseOrderDocument)
+     */
     public void setCurrentAndPendingIndicatorsForApprovedPODocuments(PurchaseOrderDocument newPO) {
         // Get the "current PO" that's in the database, i.e. the PO row that contains current indicator = Y
         PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(newPO.getPurapDocumentIdentifier());
@@ -862,26 +933,44 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         newPO.setPendingActionIndicator(false);
     }
 
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(org.kuali.module.purap.document.PurchaseOrderDocument)
+     */
     public void setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(PurchaseOrderDocument newPO) {
         updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.DISAPPROVED_CHANGE, PurapConstants.PurchaseOrderStatuses.OPEN);
     }
 
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#setCurrentAndPendingIndicatorsForCancelledChangePODocuments(org.kuali.module.purap.document.PurchaseOrderDocument)
+     */
     public void setCurrentAndPendingIndicatorsForCancelledChangePODocuments(PurchaseOrderDocument newPO) {
         updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.CANCELLED_CHANGE, PurapConstants.PurchaseOrderStatuses.OPEN);
     }
-    
+
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#setCurrentAndPendingIndicatorsForCancelledReopenPODocuments(org.kuali.module.purap.document.PurchaseOrderDocument)
+     */
     public void setCurrentAndPendingIndicatorsForCancelledReopenPODocuments(PurchaseOrderDocument newPO) {
         updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.CANCELLED_CHANGE, PurapConstants.PurchaseOrderStatuses.CLOSED);
     }
-    
+
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#setCurrentAndPendingIndicatorsForDisapprovedReopenPODocuments(org.kuali.module.purap.document.PurchaseOrderDocument)
+     */
     public void setCurrentAndPendingIndicatorsForDisapprovedReopenPODocuments(PurchaseOrderDocument newPO) {
         updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.DISAPPROVED_CHANGE, PurapConstants.PurchaseOrderStatuses.CLOSED);
     }
-    
+
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#setCurrentAndPendingIndicatorsForCancelledRemoveHoldPODocuments(org.kuali.module.purap.document.PurchaseOrderDocument)
+     */
     public void setCurrentAndPendingIndicatorsForCancelledRemoveHoldPODocuments(PurchaseOrderDocument newPO) {
         updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.CANCELLED_CHANGE, PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD);
     }
-    
+
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#setCurrentAndPendingIndicatorsForDisapprovedRemoveHoldPODocuments(org.kuali.module.purap.document.PurchaseOrderDocument)
+     */
     public void setCurrentAndPendingIndicatorsForDisapprovedRemoveHoldPODocuments(PurchaseOrderDocument newPO) {
         updateCurrentDocumentForNoPendingAction(newPO, PurapConstants.PurchaseOrderStatuses.DISAPPROVED_CHANGE, PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD);
     }
@@ -900,6 +989,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 //        }
 //    }
 
+    /**
+     * Update the statuses of both the old purchase order and the new purchase orders,
+     * then save the old and the new purchase orders.
+     * @param newPO         The new change purchase order document (e.g. the PurchaseOrderAmendmentDocument that was resulted from the user clicking on the amend button).
+     * @param newPOStatus   The status to be set on the new change purchase order document.
+     * @param oldPOStatus   The status to be set on the existing (old) purchase order document.
+     */
     private void updateCurrentDocumentForNoPendingAction(PurchaseOrderDocument newPO, String newPOStatus, String oldPOStatus) {
         // Get the "current PO" that's in the database, i.e. the PO row that contains current indicator = Y
         PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(newPO.getPurapDocumentIdentifier());

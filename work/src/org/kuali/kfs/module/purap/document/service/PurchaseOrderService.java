@@ -27,53 +27,189 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
 import org.kuali.module.purap.document.RequisitionDocument;
 
-
+/**
+ * Defines methods that must be implemented by classes providing a PurchaseOrderService.
+ */
 public interface PurchaseOrderService {
 
-//    public void saveDocumentStandardSave(PurchaseOrderDocument document);
+    /**
+     * Saves the document without doing validation by invoking the 
+     * saveDocument method of documentService.
+     * 
+     * @param document  The purchase order document to be saved.
+     */
     public void saveDocumentNoValidation(PurchaseOrderDocument document);
-//    public void saveDocumentNoValidationUsingClearErrorMap(PurchaseOrderDocument document);
 
+    /**
+     * Creates an automatic purchase order document using the given requisition document
+     * 
+     * @param reqDocument  The requisition document that this method will use to create the APO.
+     */
     public void createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument);
 
+    /**
+     * Creates a PurchaseOrderDocument from given RequisitionDocument. Both documents need to be saved after this method is called.
+     * 
+     * @param reqDocument           The requisition document that this method will use to create the purchase order.
+     * @param newSessionUserId      The session user id that we'll use to invoke the performLogicWithFakedUserSession method of PurapService.
+     * @param contractManagerCode   The contract manager code that we'll need to set on the purchase order.
+     * @return                      The purchase order document object that is created by this method.
+     */
     public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument, String newSessionUserId, Integer contractManagerCode);
 
+    /**
+     * Creates and saves the purchase order change document (for example, PurchaseOrderAmendmentDocument) based on an existing purchase order document.
+     * 
+     * @param documentNumber           The document number of the existing purchase order document from which we try to create a new change document.
+     * @param docType                  The document type of the new change document.
+     * @param newDocumentStatusCode    The status code that we want to set on the existing purchase order document after the new change document is created.
+     * @return                         The resulting new purchase order change document created by this method.
+     */
     public PurchaseOrderDocument createAndSavePotentialChangeDocument(String documentNumber, String docType, String newDocumentStatusCode);
-    
+
+    /**
+     * Creates and routes the purchase order change document (for example, PurchaseOrderCloseDocument) based on an existing purchase order document.
+     * 
+     * @param documentNumber           The document number of the existing purchase order document from which we try to create a new change document.
+     * @param docType                  The document type of the new change document.
+     * @param annotation               The annotation that we'll use to invoke the routeDocument method of DocumentService.
+     * @param adhocRoutingRecipients   The adhocRoutingRecipients that we'll use to invoke the routeDocument method of DocumentService.
+     * @param newDocumentStatusCode    The status code that we want to set on the existing purchase order document after the new change document is created.
+     * @return                         The resulting new purchase order change document created by this method.
+     */
     public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String newDocumentStatusCode);
 
+    /**
+     * Obtains the internal purchasing dollar limit amount for a purchase order document.
+     * 
+     * @param po   The purchase order document for which this method is obtaining the internal purchasing dollar limit.
+     * @return     The internal purchasing dollar limit for the given purchase order document.
+     */
     public KualiDecimal getInternalPurchasingDollarLimit(PurchaseOrderDocument po);
 
     public boolean printPurchaseOrderQuoteRequestsListPDF(PurchaseOrderDocument po, ByteArrayOutputStream baosPDF);
 
     public boolean printPurchaseOrderQuotePDF(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq, ByteArrayOutputStream baosPDF);
 
+    /**
+     * Creates and displays the pdf document for the purchase order, sets the transmit dates, calls the takeAllActionsForGivenCriteria method in 
+     * PurApWorkflowIntegrationService to perform all the workflow related steps that are necessary as part of the document
+     * initial print transmission and then performs the setup of initial of open document of the purchase order.
+     * 
+     * @param documentNumber  The document number of the purchase order document that we want to perform the first transmit.
+     * @param baosPDF         The ByteArrayOutputStream object that was passed in from the struts action so that we could display the pdf on the browser.
+     */
     public void performPurchaseOrderFirstTransmitViaPrinting(String documentNumber, ByteArrayOutputStream baosPDF);
     
+    /**
+     * Generates and displays the purchase order pdf by invoking the generatePurchaseOrderPdf method of the PrintService.
+     * 
+     * @param documentNumber  The document number of the purchase order document that we want to print the pdf.
+     * @param baosPDF         The ByteArrayOutputStream object that we'll use to display the pdf on the browser.
+     */
     public void performPrintPurchaseOrderPDFOnly(String documentNumber, ByteArrayOutputStream baosPDF);
 
+    /**
+     * Generates and displays the purchase order retransmit pdf by invoking the generatePurchaseOrderPdfForRetransmission
+     * method of the PrintService.
+     * 
+     * @param po        The purchase order document to be retransmitted.
+     * @param baosPDF   The ByteArrayOutputStream object that we'll use to display the pdf on the browser.
+     */
     public void retransmitPurchaseOrderPDF(PurchaseOrderDocument po, ByteArrayOutputStream baosPDF);
 
+    /**
+     * Performs the steps needed to complete the newly approved purchase order document, 
+     * which consists of setting the current and pending indicators for the purchase
+     * order document and if the status is not pending transmission, then calls the
+     * attemptsSetupOfInitialOpenOfDocument to set the statuses, the initial open
+     * date and save the document.
+     * 
+     * @param po   The newly approved purchase order document that we want to complete.
+     */
     public void completePurchaseOrder(PurchaseOrderDocument po);
 
+    /**
+     * Obtains the purchase order document whose current indicator is true, given a po id
+     * which is the purapDocumentIdentifier.
+     * 
+     * @param id   The po id (purapDocumentIdentifier) that we'll use to retrieve the current purchase order document.
+     * @return     The current purchase order document (the po whose current indicator is true).
+     */
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id);
 
+    /**
+     * Obtains the purchase order document given the document number.
+     * 
+     * @param documentNumber  The document number of the purchase order that we want to retrieve.
+     * @return                The purchase order document whose document number is the given document number.
+     */
     public PurchaseOrderDocument getPurchaseOrderByDocumentNumber(String documentNumber);
 
+    /**
+     *  Sets the current and pending indicators of the new PO and the old PO as well as its
+     *  status, then save the PO.
+     *  
+     * @param newPO   The new purchase order document that has been approved.
+     */
     public void setCurrentAndPendingIndicatorsForApprovedPODocuments(PurchaseOrderDocument newPO);
 
+    /**
+     *  Sets the pending indicators of the new PO and the old PO as well as their
+     *  statuses, then save the PO.
+     *  
+     * @param newPO   The new purchase order document that has been disapproved.
+     */
     public void setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(PurchaseOrderDocument newPO);
 
+    /**
+     *  Sets the pending indicators of the new PO and the old PO as well as their
+     *  statuses, then save the PO.
+     *  
+     * @param newPO   The new purchase order document that has been cancelled.
+     */
     public void setCurrentAndPendingIndicatorsForCancelledChangePODocuments(PurchaseOrderDocument newPO);
     
+    /**
+     *  Sets the pending indicators of the new PO and the old PO as well as their
+     *  statuses, then save the PO.
+     *  
+     * @param newPO   The new purchase order reopen document that has been cancelled.
+     */
     public void setCurrentAndPendingIndicatorsForCancelledReopenPODocuments(PurchaseOrderDocument newPO);
     
+    /**
+     *  Sets the pending indicators of the new PO and the old PO as well as their
+     *  statuses, then save the PO.
+     *  
+     * @param newPO   The new purchase order reopen document that has been disapproved.
+     */
     public void setCurrentAndPendingIndicatorsForDisapprovedReopenPODocuments(PurchaseOrderDocument newPO);
     
+    /**
+     *  Sets the pending indicators of the new PO and the old PO as well as their
+     *  statuses, then save the PO.
+     *  
+     * @param newPO   The new purchase order remove hold document that has been cancelled.
+     */    
     public void setCurrentAndPendingIndicatorsForCancelledRemoveHoldPODocuments(PurchaseOrderDocument newPO);
     
+    /**
+     *  Sets the pending indicators of the new PO and the old PO as well as their
+     *  statuses, then save the PO.
+     *  
+     * @param newPO   The new purchase order remove hold document that has been disapproved.
+     */       
     public void setCurrentAndPendingIndicatorsForDisapprovedRemoveHoldPODocuments(PurchaseOrderDocument newPO);
     
+    /**
+     * Obtains the oldest purchase order given the po object to be used to search, then calls the updateNotes
+     * method to set the notes on the oldest purchase order and finally return the oldest purchase order.
+     * 
+     * @param po
+     * @param documentBusinessObject
+     * @return
+     */
     public PurchaseOrderDocument getOldestPurchaseOrder(PurchaseOrderDocument po, PurchaseOrderDocument documentBusinessObject);
 
     public ArrayList<Note> getPurchaseOrderNotes(Integer id);

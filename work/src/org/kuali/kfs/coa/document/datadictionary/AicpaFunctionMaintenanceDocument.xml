@@ -35,8 +35,7 @@
         <documentTypeName>AicpaFunctionMaintenanceDocument</documentTypeName>
         <documentTypeCode>AFUN</documentTypeCode>
 
-        <label>AICPA Function Maintenance Document</label>
-        <shortLabel>AICPA Function Maint Doc</shortLabel>
+        <label>AICPA Function</label>
 
         <summary>AICPA Function Maintenance Document</summary>
         <description>Document used to create or update AICPA Function Maintenance Document objects</description>

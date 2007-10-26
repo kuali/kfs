@@ -35,8 +35,7 @@
         <documentTypeName>CapitalAssetTransactionTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMTT</documentTypeCode>
 
-        <label>Capital Asset Transaction Type Maintenance Document</label>
-        <shortLabel>Capital Asset Transaction Type Maint Doc</shortLabel>
+        <label>Capital Asset Transaction Type</label>
 
         <lockingKeys>
             <field attributeName="capitalAssetTransactionTypeCode" />

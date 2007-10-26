@@ -35,8 +35,7 @@
         <documentTypeName>RequisitionStatusMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMRS</documentTypeCode>
 
-        <label>Requisition Status Maintenance Document</label>
-        <shortLabel>Requisition Status Maint Doc</shortLabel>
+        <label>Requisition Status</label>
 
         <lockingKeys>
             <field attributeName="statusCode" />

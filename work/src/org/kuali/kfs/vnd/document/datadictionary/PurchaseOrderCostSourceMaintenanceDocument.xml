@@ -35,8 +35,7 @@
         <documentTypeName>PurchaseOrderCostSourceMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMCS</documentTypeCode>
 
-        <label>Purchase Order Cost Source Maintenance Document</label>
-        <shortLabel>Purchase Order Cost Source Maint Doc</shortLabel>
+        <label>Purchase Order Cost Source</label>
 
         <lockingKeys>
             <field attributeName="purchaseOrderCostSourceCode" />

@@ -21,7 +21,7 @@
     <businessObject businessObjectClass="org.kuali.module.purap.bo.AutoApproveExclude">
 
         <inquiry>
-            <title>Auto Approve Exclude Inquiry</title>
+            <title>Payment Request Auto Approve Exclusions Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountNumber" />
@@ -31,7 +31,7 @@
         </inquiry>
 
         <lookup>
-            <title>Auto Approve Exclude Lookup</title>
+            <title>Payment Request Auto Approve Exclusions Lookup</title>
 
             <instructions>Lookup an Auto Approve Exclude</instructions>
 
@@ -67,5 +67,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
  
         </attributes>
+        <objectLabel>Payment Request Auto Approve Exclusions</objectLabel>
     </businessObject>
 </dictionaryEntry>

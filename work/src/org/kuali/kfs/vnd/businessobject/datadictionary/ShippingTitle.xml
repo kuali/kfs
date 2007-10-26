@@ -91,5 +91,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 			
         </attributes>
+        <objectLabel>Shipping Title</objectLabel>
     </businessObject>
 </dictionaryEntry>

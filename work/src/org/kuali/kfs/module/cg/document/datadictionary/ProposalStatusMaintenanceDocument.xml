@@ -35,8 +35,7 @@
         <documentTypeName>ProposalStatusMaintenanceDocument</documentTypeName>
         <documentTypeCode>PRST</documentTypeCode>
 
-        <label>Proposal Status Maintenance Document</label>
-        <shortLabel>ProposalStatusMaintDoc</shortLabel>
+        <label>Proposal Status</label>
 
         <summary>Proposal Status Maintenance Document</summary>
         <description>Document used to create or update Proposal Status objects</description>

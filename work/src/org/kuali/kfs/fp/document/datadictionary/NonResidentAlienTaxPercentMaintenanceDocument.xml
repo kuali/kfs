@@ -35,8 +35,7 @@
         <documentTypeName>NonResidentAlienTaxPercentMaintenanceDocument</documentTypeName>
         <documentTypeCode>DVOT</documentTypeCode>
 
-        <label>Non Resident Alien Tax Percent Maintenance Document</label>
-        <shortLabel>Tax percent Maint Doc</shortLabel>
+        <label>Non-Resident Alien Tax Percent</label>
 
         <summary>Non resident alien tax percent</summary>
         <description>Document used to create or update Tax Percent objects</description>

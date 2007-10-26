@@ -35,7 +35,6 @@
         <documentTypeCode>CR</documentTypeCode>
 
         <label>Cash Receipt</label>
-        <shortLabel>CRDoc</shortLabel>
 
         <attributes>
             <attributeReference name="totalCheckAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">

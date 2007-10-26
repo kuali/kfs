@@ -34,8 +34,7 @@
         <documentTypeName>CashManagementDocument</documentTypeName>
         <documentTypeCode>CMD</documentTypeCode>
 
-        <label>Cash Management Document</label>
-        <shortLabel>Cash Mgmt Doc</shortLabel>
+        <label>Cash Management</label>
 
         <attributes>
             <attributeReference name="workgroupName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">

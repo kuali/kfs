@@ -35,8 +35,7 @@
         <documentTypeName>ShippingSpecialConditionMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMSS</documentTypeCode>
 
-        <label>Shipping Special Condition Maintenance Document</label>
-        <shortLabel>Shipping Special Condition Maint Doc</shortLabel>
+        <label>Shipping Special Conditions</label>
 
         <lockingKeys>
             <field attributeName="vendorShippingSpecialConditionCode" />

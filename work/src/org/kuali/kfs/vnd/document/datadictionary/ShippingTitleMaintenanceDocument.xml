@@ -35,8 +35,7 @@
         <documentTypeName>ShippingTitleMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMST</documentTypeCode>
 
-        <label>Shipping Title Maintenance Document</label>
-        <shortLabel>Shipping Title Maint Doc</shortLabel>
+        <label>Shipping Title</label>
 
         <lockingKeys>
             <field attributeName="vendorShippingTitleCode" />

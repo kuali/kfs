@@ -35,8 +35,7 @@
         <documentTypeName>SupplierDiversityMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMSD</documentTypeCode>
 
-        <label>Supplier Diversity Maintenance Document</label>
-        <shortLabel>Supplier Diversity Maint Doc</shortLabel>
+        <label>Supplier Diversity</label>
 
         <lockingKeys>
             <field attributeName="vendorSupplierDiversityCode" />

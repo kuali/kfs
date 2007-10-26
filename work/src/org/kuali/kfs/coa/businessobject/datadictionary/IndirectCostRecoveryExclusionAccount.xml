@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Indirect Cost Recovery Exclusion by Account Inquiry</title>
+            <title>Indirect Cost Recovery Exclusion Account Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="chartOfAccountsCode" />
@@ -33,7 +33,7 @@
         </inquiry>
 
         <lookup>
-            <title>Indirect Cost Recovery Exclusion by Account Lookup</title>
+            <title>Indirect Cost Recovery Exclusion Account Lookup</title>
 
             <instructions>Lookup an Indirect Cost Recovery Exclusion by Account</instructions>
 
@@ -99,7 +99,7 @@
 
         </attributes>
         
-        <objectLabel>Indirect Cost Recovery Exclusion by Account</objectLabel>
+        <objectLabel>Indirect Cost Recovery Exclusion Account</objectLabel>
     </businessObject>
 </dictionaryEntry>
 

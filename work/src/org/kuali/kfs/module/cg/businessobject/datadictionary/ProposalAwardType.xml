@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Proposal Award Type Inquiry</title>
+            <title>Proposal Type Inquiry</title>
 
             <inquirySections><inquirySection title="Proposal Award Type Details"><inquiryFields>
                 <field attributeName="proposalAwardTypeCode" />
@@ -32,7 +32,7 @@
         </inquiry>
 
         <lookup>
-            <title>Proposal Award Type Lookup</title>
+            <title>Proposal Type Lookup</title>
 
             <instructions>Look up a Proposal Award Type</instructions>
 
@@ -98,5 +98,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        <objectLabel>Proposal Type</objectLabel>
     </businessObject>
 </dictionaryEntry>

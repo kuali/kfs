@@ -33,8 +33,7 @@
         </authorizations>
         <documentTypeName>KualiSalaryExpenseTransferDocument</documentTypeName>
         <documentTypeCode>ST</documentTypeCode>
-        <label>Salary Expense Transfer Document</label>
-        <shortLabel>STDoc</shortLabel>
+        <label>Salary Expense Transfer</label>
         
         <summary>
             <![CDATA[&nbsp;]]>

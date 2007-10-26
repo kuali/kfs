@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Labor Object Group Inquiry</title>
+            <title>Labor Position Object Code Group Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="positionObjectGroupCode" />
@@ -32,7 +32,7 @@
         </inquiry>
 
         <lookup>
-            <title>Labor Object Group Lookup</title>
+            <title>Labor Position Object Code Group Lookup</title>
 
             <instructions>Look up a Labor Object Group</instructions>
 
@@ -95,5 +95,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        <objectLabel>Labor Position Object Code Group</objectLabel>
     </businessObject>
 </dictionaryEntry>

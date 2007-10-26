@@ -35,8 +35,7 @@
         <documentTypeName>RecurringPaymentFrequencyMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMRF</documentTypeCode>
 
-        <label>Recurring Payment Frequency Maintenance Document</label>
-        <shortLabel>Recurring Payment Frequency Maint Doc</shortLabel>
+        <label>Recurring Payment Frequency</label>
 
         <lockingKeys>
             <field attributeName="recurringPaymentFrequencyCode" />

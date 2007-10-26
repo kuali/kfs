@@ -39,8 +39,7 @@
         <webScriptFile>../dwr/interface/ObjectCodeService.js</webScriptFile>
         <webScriptFile>../scripts/chart/objConsDocument.js</webScriptFile>
         
-        <label>Object Consolidation Maintenance Document</label>
-        <shortLabel>ObjConsMaintDoc</shortLabel>
+        <label>Object Consolidation</label>
         <summary>Object Consolidation Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Object Consolidations, or modify existing Object Consolidations.</description>
         <help parameterNamespace="KFS-CA" parameterDetailType="ObjectConsolidation" parameterName="OBJECT_CONSOLIDATION" />

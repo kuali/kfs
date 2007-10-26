@@ -35,8 +35,7 @@
 		<documentTypeName>KualiLaborBenefitsTypeMaintenanceDocument</documentTypeName>
 		<documentTypeCode>BENT</documentTypeCode>
 
-		<label>Benefits Type Maintenance Document</label>
-		<shortLabel>Benefit Type Maint Doc</shortLabel>
+		<label>Labor Benefits Type</label>
 		
 		<summary>Benefits Type Maintenance Document</summary>
 		<description>Document used to create or update Benefit type codes.</description>

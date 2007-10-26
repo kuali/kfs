@@ -35,8 +35,7 @@
         <documentTypeName>NegativePaymentRequestApprovalLimitMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMNP</documentTypeCode>
 
-        <label>Negative Payment Request Approval Limit Maintenance Document</label>
-        <shortLabel>Negative PREQ Approval Limit Maint Doc</shortLabel>
+        <label>Negative Payment Request Approval Limit</label>
 
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />

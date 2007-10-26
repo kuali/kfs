@@ -37,8 +37,7 @@
         <documentTypeName>KualiAppointmentTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>APPT</documentTypeCode>
 
-        <label>Appointment Type Maintenance Document</label>
-        <shortLabel>Appointment Type</shortLabel>
+        <label>Appointment Type</label>
 
         <summary>Appointment Type maintenance document</summary>
         <description>Document used to create or update AppointmentType objects</description>

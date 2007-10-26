@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Wire Charge Inquiry</title>
+            <title>Disbursement Voucher Wire Charge Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="universityFiscalYear" />
@@ -36,7 +36,7 @@
         </inquiry>
 
         <lookup>
-            <title>Wire Charge Lookup</title>
+            <title>Disbursement Voucher Wire Charge Lookup</title>
 
             <instructions>Lookup a Wire Charge</instructions>
 
@@ -90,5 +90,6 @@
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
         </attributes>
+        <objectLabel>Disbursement Voucher Wire Charge</objectLabel>
     </businessObject>
 </dictionaryEntry>

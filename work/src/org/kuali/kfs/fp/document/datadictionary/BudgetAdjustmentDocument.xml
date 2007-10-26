@@ -37,7 +37,6 @@
         <documentTypeCode>BA</documentTypeCode>
 
         <label>Budget Adjustment</label>
-        <shortLabel>BADoc</shortLabel>
 
         <attributes>
             <attribute name="nextPositionSourceLineNumber" forceUppercase="false">

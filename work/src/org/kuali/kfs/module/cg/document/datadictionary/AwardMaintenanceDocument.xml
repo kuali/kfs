@@ -43,8 +43,7 @@
         <webScriptFile>../dwr/interface/SubcontractorService.js</webScriptFile>
 		<webScriptFile>../scripts/cg/proposalDocument.js</webScriptFile>
 
-        <label>Award Maintenance Document</label>
-        <shortLabel>AwardMaintDoc</shortLabel>
+        <label>Award</label>
 
         <summary>Award maintenance document</summary>
         <description>Document used to create or update Award objects</description>

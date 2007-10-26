@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Nonpersonnel Category Inquiry</title>
+            <title>Non-Personnel Category Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="code" />
@@ -33,7 +33,7 @@
         </inquiry>
 
         <lookup>
-            <title>Nonpersonnel Category Lookup</title>
+            <title>Non-Personnel Category Lookup</title>
 
             <instructions>Lookup a Nonpersonnel Category</instructions>
 
@@ -120,5 +120,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        <objectLabel>Non-Personnel Category</objectLabel>
     </businessObject>
 </dictionaryEntry>

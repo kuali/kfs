@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Indirect Cost Recovery Type Code Inquiry</title>
+            <title>Indirect Cost Recovery Type Inquiry</title>
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="code" />
                 <field attributeName="name" />
@@ -30,7 +30,7 @@
         </inquiry>
 
         <lookup>
-            <title>ICR Type Code Lookup</title>
+            <title>Indirect Cost Recovery Type Lookup</title>
 
             <instructions>Lookup an Indirect Cost Recovery Type Code</instructions>
 
@@ -90,6 +90,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
-        <objectLabel>Indirect Cost Recovery Type Code</objectLabel>
+        <objectLabel>Indirect Cost Recovery Type</objectLabel>
     </businessObject>
 </dictionaryEntry>

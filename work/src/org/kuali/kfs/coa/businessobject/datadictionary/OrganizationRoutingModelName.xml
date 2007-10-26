@@ -20,7 +20,7 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.chart.bo.OrganizationRoutingModelName">
         <inquiry>
-            <title>Account Delegate Model Name Inquiry</title>
+            <title>Account Delegate Model Inquiry</title>
 
             <inquirySections>
             	<inquirySection title="Account Delegate Model Name">
@@ -46,7 +46,7 @@
 
         <lookup>
         	<lookupableID>organizationRoutingModelLookupable</lookupableID>
-            <title>Account Delegate Model Name Lookup</title>
+            <title>Account Delegate Model Lookup</title>
 
             <instructions>Look up an Account Delegate Model Name</instructions>
 
@@ -114,6 +114,6 @@
             					sourceAttributeName="versionNumber" />
 
         </attributes>
-        <objectLabel>Account Delegate Model Name</objectLabel>
+        <objectLabel>Account Delegate Model</objectLabel>
     </businessObject>
 </dictionaryEntry>

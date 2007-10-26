@@ -35,8 +35,7 @@
 		<documentTypeName>KualiLaborObjectMaintenanceDocument</documentTypeName>
 		<documentTypeCode>LOBJ</documentTypeCode>
 
-		<label>Labor Object Code Maintenance Document</label>
-		<shortLabel>Lab Obj Maint Doc</shortLabel>
+		<label>Labor Object Code</label>
 		
 		<summary>Labor Object Code Maintenance Document</summary>
 		<description>Document used to create or update Labor objects</description>

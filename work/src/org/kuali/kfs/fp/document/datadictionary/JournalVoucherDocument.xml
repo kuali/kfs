@@ -35,8 +35,7 @@
         <documentTypeName>JournalVoucherDocument</documentTypeName>
         <documentTypeCode>JV</documentTypeCode>
 
-        <label>Journal Voucher Document</label>
-        <shortLabel>JVDoc</shortLabel>
+        <label>Journal Voucher</label>
 
         <attributes>
             <attribute name="accountingPeriod" forceUppercase="false">

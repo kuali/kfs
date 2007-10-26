@@ -35,8 +35,7 @@
         <documentTypeName>PurchaseOrderStatusMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMPS</documentTypeCode>
 
-        <label>Purchase Order Status Maintenance Document</label>
-        <shortLabel>Purchase Order Status Maint Doc</shortLabel>
+        <label>Purchase Order Status</label>
 
         <lockingKeys>
             <field attributeName="statusCode" />

@@ -35,8 +35,7 @@
         <documentTypeName>ContractManagerMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMCO</documentTypeCode>
 
-        <label>Contract Manager Maintenance Document</label>
-        <shortLabel>Contract Manager Maint Doc</shortLabel>
+        <label>Contract Manager</label>
 
         <lockingKeys>
             <field attributeName="contractManagerCode" />

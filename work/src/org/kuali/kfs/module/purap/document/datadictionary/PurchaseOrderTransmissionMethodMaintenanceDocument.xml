@@ -35,8 +35,7 @@
         <documentTypeName>PurchaseOrderTransmissionMethodMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMTM</documentTypeCode>
 
-        <label>Purchase Order Transmission Method Maintenance Document</label>
-        <shortLabel>PO Transmission Method Maint Doc</shortLabel>
+        <label>Purchase Order Transmission Method</label>
 
         <lockingKeys>
             <field attributeName="purchaseOrderTransmissionMethodCode" />

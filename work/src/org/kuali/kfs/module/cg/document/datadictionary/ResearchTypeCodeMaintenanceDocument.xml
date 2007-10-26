@@ -35,8 +35,7 @@
         <documentTypeName>KualiResearchTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>RTCM</documentTypeCode>
 
-        <label>Research Type Code Maintenance Document</label>
-        <shortLabel>ResearchTypeCodeMainDoc</shortLabel>
+        <label>Research Type</label>
 
         <summary>Research Type Code maintenance document</summary>
         <description>Document used to create or update Research Type Code objects</description>

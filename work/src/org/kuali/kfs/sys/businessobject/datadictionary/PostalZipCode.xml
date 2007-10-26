@@ -142,5 +142,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        <objectLabel>Postal Code</objectLabel>
     </businessObject>
 </dictionaryEntry>

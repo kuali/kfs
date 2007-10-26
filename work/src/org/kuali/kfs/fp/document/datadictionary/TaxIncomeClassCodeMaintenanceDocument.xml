@@ -35,8 +35,7 @@
         <documentTypeName>TaxIncomeClassCodeMaintenanceDocument</documentTypeName>
         <documentTypeCode>DVIC</documentTypeCode>
 
-        <label>Tax Income Class Code Maintenance Document</label>
-        <shortLabel>Tax Income Class Maint Doc</shortLabel>
+        <label>Disbursement Voucher Tax Income Class</label>
 
         <summary>Tax Income Class Code Maintenance Document</summary>
         <description>Document used to create or update Tax Income Class objects</description>

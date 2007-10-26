@@ -21,7 +21,7 @@
     <businessObject businessObjectClass="org.kuali.core.bo.ParameterDetailType">
 
         <inquiry>
-            <title>Parameter Component Inquiry</title>
+            <title>Parameter Detailed Type Inquiry</title>
             <inquirySections>
                 <inquirySection title="Parameter Component Information">
                     <inquiryFields>
@@ -35,7 +35,7 @@
         </inquiry>
         <lookup>
             <lookupableID>parameterDetailTypeLookupable</lookupableID>
-            <title>Parameter Component Lookup</title>
+            <title>Parameter Detailed Type Lookup</title>
 
             <instructions>Look up a Parameter Component.</instructions>
             <defaultSort attributeName="parameterDetailTypeName" sortAscending="true" />
@@ -111,5 +111,6 @@
                 sourceAttributeName="versionNumber"
             />
         </attributes>
+        <objectLabel>Parameter Detailed Type</objectLabel>
     </businessObject>
 </dictionaryEntry>

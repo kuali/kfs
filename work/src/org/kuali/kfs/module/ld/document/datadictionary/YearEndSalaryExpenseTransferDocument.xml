@@ -33,8 +33,7 @@
         </authorizations>
         <documentTypeName>KualiYearEndSalaryExpenseTransferDocument</documentTypeName>
         <documentTypeCode>YEST</documentTypeCode>
-        <label>Year End Salary Expense Transfer Document</label>
-        <shortLabel>YearEndSTDoc</shortLabel>
+        <label>Year End Salary Expense Transfer</label>
         
         <summary>
             <![CDATA[&nbsp;]]>

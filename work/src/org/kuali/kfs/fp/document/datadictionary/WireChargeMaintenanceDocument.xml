@@ -35,8 +35,7 @@
         <documentTypeName>WireChargeMaintenanceDocument</documentTypeName>
         <documentTypeCode>DVWT</documentTypeCode>
 
-        <label>Wire Charge Maintenance Document</label>
-        <shortLabel>Wire Charge Maint Doc</shortLabel>
+        <label>Disbursement Voucher Wire Charge</label>
 
         <summary>Wire Charge Maintenance Document</summary>
         <description>Document used to create or update wire charges.</description>

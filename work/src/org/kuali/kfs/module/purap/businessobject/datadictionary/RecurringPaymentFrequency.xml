@@ -89,5 +89,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        <objectLabel>Recurring Payment Frequency</objectLabel>
     </businessObject>
 </dictionaryEntry>

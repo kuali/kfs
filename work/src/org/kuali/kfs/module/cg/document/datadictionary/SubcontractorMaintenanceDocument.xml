@@ -37,8 +37,7 @@
         <documentTypeName>SubcontractorMaintenanceDocument</documentTypeName>
         <documentTypeCode>SUBC</documentTypeCode>
 
-        <label>Subcontractor Maintenance Document</label>
-        <shortLabel>SubcontractorMainDoc</shortLabel>
+        <label>Sub-Contractor</label>
 
         <summary>Subcontractor Maintenance Document</summary>
         <description>Document used to create or update Subcontractor objects</description>

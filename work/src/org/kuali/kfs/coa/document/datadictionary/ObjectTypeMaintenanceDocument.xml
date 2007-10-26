@@ -36,8 +36,7 @@
 
         <documentTypeName>ObjectTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>OTYP</documentTypeCode>
-        <label>Object Type Maintenance Document</label>
-        <shortLabel>ObjTypeMaintDoc</shortLabel>
+        <label>Object Type</label>
         <summary>Object Type Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Object Types, or modify existing Object Types.</description>
         <help parameterNamespace="KFS-CA" parameterDetailType="ObjectType" parameterName="OBJECT_TYPE" />

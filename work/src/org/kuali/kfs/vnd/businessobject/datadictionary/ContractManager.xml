@@ -163,5 +163,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        <objectLabel>Contract Manager</objectLabel>
     </businessObject>
 </dictionaryEntry>

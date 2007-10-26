@@ -35,8 +35,7 @@
         <documentTypeName>PaymentRequestStatusMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMPR</documentTypeCode>
 
-        <label>Payment Request Status Maintenance Document</label>
-        <shortLabel>Payment Request Status Maint Doc</shortLabel>
+        <label>Payment Request Status</label>
 
         <lockingKeys>
             <field attributeName="statusCode" />

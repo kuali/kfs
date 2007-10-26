@@ -34,8 +34,7 @@
         <documentTypeName>CreditCardTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>CCTY</documentTypeCode>
 
-        <label>Credit Card Type Maintenance Document</label>
-        <shortLabel>CreditCardTypeMaintenanceDocument</shortLabel>
+        <label>Credit Card Type</label>
 
         <summary>Credit Card Type Maintenance Document</summary>
         <description>Document used to create or update a credit card type.</description>

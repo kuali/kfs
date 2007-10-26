@@ -35,8 +35,7 @@
         <documentTypeName>ItemTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMIT</documentTypeCode>
 
-        <label>Item Type Maintenance Document</label>
-        <shortLabel>Item Type Maint Doc</shortLabel>
+        <label>Item Type</label>
 
         <lockingKeys>
             <field attributeName="itemTypeCode" />

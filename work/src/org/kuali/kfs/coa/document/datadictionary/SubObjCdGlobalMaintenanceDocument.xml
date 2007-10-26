@@ -37,8 +37,7 @@
         <documentTypeName>SubObjCdGlobalMaintenanceDocument</documentTypeName>
         <documentTypeCode>GSOB</documentTypeCode>
 
-        <label>Global Sub Object Code Maintenance Document</label>
-        <shortLabel>GlobalSubObjCdMaintDoc</shortLabel>
+        <label>Sub-Object Code Global</label>
 
         <summary>Global Sub Object Code Maintenance Document</summary>
         <description>Global Sub Object Code Maintenance Document</description>

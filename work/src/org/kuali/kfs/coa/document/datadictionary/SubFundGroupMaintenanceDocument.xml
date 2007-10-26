@@ -35,8 +35,7 @@
         <documentTypeName>SubFundGroupMaintenanceDocument</documentTypeName>
         <documentTypeCode>SFGR</documentTypeCode>
 
-        <label>Sub-Fund Group Maintenance Document</label>
-        <shortLabel>SubFundMaintDoc</shortLabel>
+        <label>Sub-Fund Group</label>
 
         <summary>Sub-Fund Group maintenance document</summary>
         <description>Document used to create or update Sub-Fund Group objects.</description>

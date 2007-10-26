@@ -36,8 +36,7 @@
         <documentTypeName>VendorDetailMaintenanceDocument</documentTypeName>
         <documentTypeCode>PVEN</documentTypeCode>
 
-        <label>Vendor Maintenance Document</label>
-        <shortLabel>Vendor Maint Doc</shortLabel>
+        <label>Vendor</label>
 
         <lockingKeys>
             <field attributeName="vendorHeaderGeneratedIdentifier" />

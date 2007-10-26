@@ -106,5 +106,6 @@
 
             <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
         </attributes>
+        <objectLabel>Agency Type</objectLabel>
     </businessObject>
 </dictionaryEntry>

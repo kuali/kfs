@@ -33,8 +33,7 @@
         </authorizations>
         <documentTypeName>TransferOfFundsDocument</documentTypeName>
         <documentTypeCode>TF</documentTypeCode>
-        <label>Transfer of Funds Document</label>
-        <shortLabel>TOFDoc</shortLabel>
+        <label>Transfer Of Funds</label>
 
         <summary>
             <![CDATA[&nbsp;]]>

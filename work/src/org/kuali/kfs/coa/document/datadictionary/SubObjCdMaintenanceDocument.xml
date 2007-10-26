@@ -36,8 +36,7 @@
         <documentTypeName>SubObjCdMaintenanceDocument</documentTypeName>
         <documentTypeCode>SOBJ</documentTypeCode>
 
-        <label>Sub Object Maintenance Document</label>
-        <shortLabel>SubObjectMainDoc</shortLabel>
+        <label>Sub-Object Code</label>
 
         <summary>Sub Object maintenance document</summary>
         <description>Document used to create or update Sub Objects</description>

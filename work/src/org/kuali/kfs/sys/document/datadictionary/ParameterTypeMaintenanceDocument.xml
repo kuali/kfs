@@ -38,8 +38,7 @@
         </authorizations>
         <documentTypeName>ParameterTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PTYP</documentTypeCode>
-        <label>Parameter Type Maintenance Document</label>
-        <shortLabel>Parm Type Maint. Doc.</shortLabel>
+        <label>Parameter Type</label>
         <summary>Parameter Type Maintenance Document</summary>
         <description>
             This document can be used to create or update parameter types.

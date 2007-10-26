@@ -34,8 +34,7 @@
         <documentTypeName>CloseDocument</documentTypeName>
         <documentTypeCode>CLOS</documentTypeCode>
 
-        <label>Close</label>
-        <shortLabel>ClosDoc</shortLabel>
+        <label>Contracts And Grants Close</label>
 
         <help parameterNamespace="Kuali.ContractsAndGrants.CloseDocument" parameterName="CG_HELP_CLOSE_DOCUMENT" />
   

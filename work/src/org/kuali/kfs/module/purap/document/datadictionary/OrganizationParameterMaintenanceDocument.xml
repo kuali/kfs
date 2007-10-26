@@ -36,8 +36,7 @@
 		<documentTypeName>OrganizationParameterMaintenanceDocument</documentTypeName>
 		<documentTypeCode>PMOP</documentTypeCode>
 
-		<label>Organization Parameter Maintenance Document</label>
-		<shortLabel>Organization Parameter Maint Doc</shortLabel>
+		<label>Organization Parameter</label>
 
         <lockingKeys>
 			<field attributeName="chartOfAccountsCode" />

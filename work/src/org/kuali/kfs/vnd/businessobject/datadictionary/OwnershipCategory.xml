@@ -21,7 +21,7 @@
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.OwnershipCategory">
 
         <inquiry>
-            <title>Owner Category Inquiry</title>
+            <title>Ownership Category Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="vendorOwnershipCategoryDescription" />
@@ -31,7 +31,7 @@
         </inquiry>
 
         <lookup>
-            <title>Owner Category Lookup</title>
+            <title>Ownership Category Lookup</title>
 
             <instructions>Lookup an Owner Category</instructions>
 
@@ -91,5 +91,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        <objectLabel>Ownership Category</objectLabel>
     </businessObject>
 </dictionaryEntry>

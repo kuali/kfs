@@ -39,8 +39,7 @@
 		<webScriptFile>../dwr/interface/AccountService.js</webScriptFile>
 		<webScriptFile>../scripts/chart/subAccountDocument.js</webScriptFile>
 
-        <label>Sub-Account Maintenance Document</label>
-        <shortLabel>SubAccountMainDoc</shortLabel>
+        <label>Sub-Account</label>
 
         <summary>Sub-Account maintenance document</summary>
         <description>Document used to create or update Sub-Account objects</description>

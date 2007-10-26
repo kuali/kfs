@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Account Type</title>
+            <title>Account Type Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountTypeCode" />

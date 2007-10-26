@@ -35,8 +35,7 @@
         <documentTypeName>GrantDescriptionMaintenanceDocument</documentTypeName>
         <documentTypeCode>GDES</documentTypeCode>
 
-        <label>Grant Description Maintenance Document</label>
-        <shortLabel>GrantDescriptionMaintDoc</shortLabel>
+        <label>Grant Description</label>
 
         <summary>Grant Description Maintenance Document</summary>
         <description>Document used to create or update Grant Description objects</description>

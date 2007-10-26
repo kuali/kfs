@@ -98,5 +98,6 @@
 			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        <objectLabel>Negative Payment Request Approval Limit</objectLabel>
     </businessObject>
 </dictionaryEntry>

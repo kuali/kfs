@@ -35,7 +35,6 @@
         <documentTypeCode>CCR</documentTypeCode>
 
         <label>Credit Card Receipt</label>
-        <shortLabel>Crdt Card Doc</shortLabel>
 
         <attributes>
             <attributeReference name="totalCreditCardAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">

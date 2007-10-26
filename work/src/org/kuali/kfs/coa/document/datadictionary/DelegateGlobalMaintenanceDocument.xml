@@ -41,8 +41,7 @@
 		<webScriptFile>../scripts/chart/accountGlobal.js</webScriptFile>
 		<webScriptFile>../scripts/kfs/objectInfo.js</webScriptFile>
 
-        <label>Global Account Delegate Maintenance Document</label>
-        <shortLabel>GlobalDelMaintDoc</shortLabel>
+        <label>Account Delegate Global</label>
 
         <summary>Global Account Delegate Maintenance Document</summary>
         <description>Document used to create or update global account delegate document.</description>

@@ -21,7 +21,7 @@
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.ShippingSpecialCondition">
 
         <inquiry>
-            <title>Shipping Special Condition Inquiry</title>
+            <title>Shipping Special Conditions Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="vendorShippingSpecialConditionCode" />
@@ -31,7 +31,7 @@
         </inquiry>
 
         <lookup>
-            <title>Shipping Special Condition Lookup</title>
+            <title>Shipping Special Conditions Lookup</title>
 
             <instructions>Lookup a Shipping Special Condition</instructions>
 
@@ -89,5 +89,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        <objectLabel>Shipping Special Conditions</objectLabel>
     </businessObject>
 </dictionaryEntry>

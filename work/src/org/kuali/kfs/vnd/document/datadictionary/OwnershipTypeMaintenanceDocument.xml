@@ -35,8 +35,7 @@
         <documentTypeName>OwnershipTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMOT</documentTypeCode>
 
-        <label>Ownership Type Maintenance Document</label>
-        <shortLabel>Ownership Type Maint Doc</shortLabel>
+        <label>Ownership Type</label>
 
         <lockingKeys>
             <field attributeName="vendorOwnershipCode" />

@@ -22,7 +22,7 @@
 
 		<boNotesEnabled>true</boNotesEnabled>
         <inquiry>
-            <title>Vendor Detail Inquiry</title>
+            <title>Vendor Inquiry</title>
 
             <inquirySections>
                 <inquirySection title="Vendor Detail" numberOfColumns="2">
@@ -247,7 +247,7 @@
         <lookup>
             <lookupableID>vendorLookupable</lookupableID>
            
-            <title>Vendor Detail Lookup</title>
+            <title>Vendor Lookup</title>
 
             <instructions>Lookup a Vendor Detail</instructions>
 
@@ -671,5 +671,6 @@
             </relationship>
         </relationships>
         
+        <objectLabel>Vendor</objectLabel>
     </businessObject>
 </dictionaryEntry>

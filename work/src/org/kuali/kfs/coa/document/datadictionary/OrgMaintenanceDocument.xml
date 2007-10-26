@@ -40,8 +40,7 @@
 		<webScriptFile>../dwr/interface/PostalZipCodeService.js</webScriptFile>
 		<webScriptFile>../scripts/chart/organizationDocument.js</webScriptFile>
 		
-        <label>Organization Maintenance Document</label>
-        <shortLabel>OrgMainDoc</shortLabel>
+        <label>Organization</label>
 
         <summary>Organization maintenance document</summary>
         <description>Document used to create or update Organization objects</description>

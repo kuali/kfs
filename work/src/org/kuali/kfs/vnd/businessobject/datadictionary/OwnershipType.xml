@@ -106,5 +106,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        <objectLabel>Ownership Type</objectLabel>
     </businessObject>
 </dictionaryEntry>

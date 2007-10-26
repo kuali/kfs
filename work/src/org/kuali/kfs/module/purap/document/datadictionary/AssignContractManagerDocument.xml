@@ -34,8 +34,7 @@
 		<documentTypeName>AssignContractManagerDocument</documentTypeName>
 		<documentTypeCode>ACM</documentTypeCode>
 
-		<label>Assign A Contract Manager</label>
-		<shortLabel>AssignContractManager</shortLabel>
+		<label>Contract Manager Assignment</label>
 
 <!-- 
 nalavi: these attributes are added for the purpose of labels display in assingContractManager.tag

@@ -35,8 +35,7 @@
         <documentTypeName>PurchaseOrderVendorChoiceMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMVC</documentTypeCode>
 
-        <label>Purchase Order Vendor Choice Maintenance Document</label>
-        <shortLabel>PO Vendor Choice Maint Doc</shortLabel>
+        <label>Purchase Order Vendor Choice</label>
 
         <lockingKeys>
             <field attributeName="purchaseOrderVendorChoiceCode" />

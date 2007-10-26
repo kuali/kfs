@@ -113,5 +113,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        <objectLabel>Due Date Type</objectLabel>
     </businessObject>
 </dictionaryEntry>

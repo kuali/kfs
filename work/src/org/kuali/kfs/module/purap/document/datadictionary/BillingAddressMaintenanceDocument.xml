@@ -35,8 +35,7 @@
         <documentTypeName>BillingAddressMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMBA</documentTypeCode>
 
-        <label>Billing Address Maintenance Document</label>
-        <shortLabel>Billing Address Maint Doc</shortLabel>
+        <label>Billing Address</label>
 
         <lockingKeys>
             <field attributeName="billingCampusCode" />

@@ -43,8 +43,7 @@
 		</documentTypeName>
 		<documentTypeCode>PMAA</documentTypeCode>
 
-		<label>Auto Approve Exclude Maintenance Document</label>
-		<shortLabel>Auto Approve Exclude Maint Doc</shortLabel>
+		<label>Payment Request Auto Approve Exclusions</label>
 
 		<lockingKeys>
 			<field attributeName="accountNumber" />

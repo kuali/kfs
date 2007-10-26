@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Sub-Account Code Inquiry</title>
+            <title>Sub-Account Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <!-- Previous version which is little different from Maintainable Fields       -->

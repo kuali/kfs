@@ -35,8 +35,7 @@
         <documentTypeName>OffsetAccountMaintenanceDocument</documentTypeName>
         <documentTypeCode>OFAC</documentTypeCode>
 
-        <label>Offset Account Maintenance Document</label>
-        <shortLabel>OffsetAccountMaintenanceDocument</shortLabel>
+        <label>Offset Account</label>
 
         <summary>OffsetAccountMaintenanceDocument</summary>
         <description>Document used to create or update Offset Accounts</description>

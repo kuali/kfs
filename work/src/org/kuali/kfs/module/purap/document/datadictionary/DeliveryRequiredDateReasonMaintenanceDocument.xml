@@ -35,8 +35,7 @@
         <documentTypeName>DeliveryRequiredDateReasonMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMDR</documentTypeCode>
 
-        <label>Delivery Required Date Reason Maintenance Document</label>
-        <shortLabel>Contact Type Maint Doc</shortLabel>
+        <label>Delivery Required Date Reason</label>
 
         <lockingKeys>
             <field attributeName="deliveryRequiredDateReasonCode" />

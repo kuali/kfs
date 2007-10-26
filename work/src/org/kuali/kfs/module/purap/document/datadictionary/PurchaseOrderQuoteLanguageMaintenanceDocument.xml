@@ -36,8 +36,7 @@
         <documentTypeName>PurchaseOrderQuoteLanguageMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMQL</documentTypeCode>
 
-        <label>Purchase Order Quote Language Maintenance Document</label>
-        <shortLabel>PO Quote Language Maint Doc</shortLabel>
+        <label>Purchase Order Quote Language</label>
 
         <lockingKeys>
             <field attributeName="purchaseOrderQuoteLanguageIdentifier" />

@@ -35,8 +35,7 @@
         <documentTypeName>CreditMemoStatusMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMCM</documentTypeCode>
 
-        <label>Credit Memo Status Maintenance Document</label>
-        <shortLabel>Credit Memo Status Maint Doc</shortLabel>
+        <label>Credit Memo Status</label>
 
         <lockingKeys>
             <field attributeName="statusCode" />

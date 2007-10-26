@@ -36,8 +36,7 @@
 		<documentTypeName>KualiLaborBenefitsCalculationMaintenanceDocument</documentTypeName>
 		<documentTypeCode>BCAL</documentTypeCode>
 
-		<label>Labor Maintenance Calculation Document</label>
-		<shortLabel>Labor Calc Maint Doc</shortLabel>
+		<label>Labor Benefits Calculation</label>
 		
 		<summary>Labor Calculation Maintenance Document</summary>
 		<description>Document used to create or update Labor calculations.</description>

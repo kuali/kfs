@@ -73,5 +73,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        <objectLabel>Organization Parameter</objectLabel>
     </businessObject>
 </dictionaryEntry>

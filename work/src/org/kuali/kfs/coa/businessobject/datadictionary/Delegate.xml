@@ -159,7 +159,7 @@
             </relationship>
         </relationships>
 
-		<objectLabel>Account Delegate</objectLabel>
+        <objectLabel>Account Delegate</objectLabel>
     </businessObject>
 </dictionaryEntry>
 

@@ -35,9 +35,8 @@
         <documentTypeName>YearEndDistributionOfIncomeAndExpenseDocument</documentTypeName>
         <documentTypeCode>YEDI</documentTypeCode>
 
-        <label>Year End Distribution of Income and Expense</label>
+        <label>Year End Distribution Of Income And Expense</label>
         
-        <shortLabel>YEDIEDoc</shortLabel>
        
         <summary><![CDATA[&nbsp;]]></summary>
         <description>The Year End version of the Distribution of Income and Expense (DI) document. &lt;br&gt; &lt;br&gt; See FIS documentation here: &lt;a target="_blank" href="http://www.fms.indiana.edu/fis/documentation/di.pdf"&gt; http://www.fms.indiana.edu/fis/documentation/di.pdf &lt;/a&gt;</description>

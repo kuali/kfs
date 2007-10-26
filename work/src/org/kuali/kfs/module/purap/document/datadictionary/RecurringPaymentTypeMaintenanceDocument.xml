@@ -35,8 +35,7 @@
         <documentTypeName>RecurringPaymentTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMRP</documentTypeCode>
 
-        <label>Recurring Payment Type Maintenance Document</label>
-        <shortLabel>Recurring Payment Type Maint Doc</shortLabel>
+        <label>Recurring Payment Type</label>
 
         <lockingKeys>
             <field attributeName="recurringPaymentTypeCode" />

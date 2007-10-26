@@ -125,6 +125,7 @@
             </relationship>
         </relationships>
         
+        <objectLabel>Project Director</objectLabel>
     </businessObject>
 </dictionaryEntry>
 

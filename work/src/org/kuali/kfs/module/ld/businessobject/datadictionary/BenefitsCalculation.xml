@@ -105,5 +105,6 @@
                             sourceAttributeName="versionNumber" />
 
         </attributes>
+        <objectLabel>Labor Benefits Calculation</objectLabel>
     </businessObject>
 </dictionaryEntry>

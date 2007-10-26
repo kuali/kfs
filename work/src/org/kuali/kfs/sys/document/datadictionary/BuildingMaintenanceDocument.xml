@@ -35,8 +35,7 @@
         <documentTypeName>BuildingMaintenanceDocument</documentTypeName>
         <documentTypeCode>BLDG</documentTypeCode>
 
-        <label>Building Maintenance Document</label>
-        <shortLabel>BuildingMaintDoc</shortLabel>
+        <label>Building</label>
 
         <summary>Building maintenance document</summary>
         <description>Document used to create or update Building objects</description>

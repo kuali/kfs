@@ -35,7 +35,6 @@
         <documentTypeName>KualiRoutingFormDocument</documentTypeName>
         <documentTypeCode>KRFD</documentTypeCode>
         <label>Routing Form</label>
-        <shortLabel>Routing Form</shortLabel>
         
                 <attributes>
 

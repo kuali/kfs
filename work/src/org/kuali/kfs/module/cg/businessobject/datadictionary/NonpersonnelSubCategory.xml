@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Nonpersonnel Sub Category</title>
+            <title>Non-Personnel Sub-Category Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="code" />
@@ -34,7 +34,7 @@
         </inquiry>
 
         <lookup>
-            <title>Nonpersonnel Sub Category Lookup</title>
+            <title>Non-Personnel Sub-Category Lookup</title>
 
             <instructions>Lookup a Nonpersonnel Sub Category</instructions>
 
@@ -138,6 +138,6 @@
 
         </attributes>
         
-        <objectLabel>Nonpersonnel Sub Category</objectLabel>
+        <objectLabel>Non-Personnel Sub-Category</objectLabel>
     </businessObject>
 </dictionaryEntry>

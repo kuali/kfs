@@ -34,8 +34,7 @@
         <documentTypeName>PurchaseOrderPaymentHoldDocument</documentTypeName>
         <documentTypeCode>POPH</documentTypeCode>
 
-        <label>Purchase Order PaymentHold</label>
-        <shortLabel>PurchaseOrderPaymentHold</shortLabel>
+        <label>Purchase Order Payment Hold</label>
 
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>

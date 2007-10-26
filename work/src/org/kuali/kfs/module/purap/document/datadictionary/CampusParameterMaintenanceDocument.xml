@@ -37,8 +37,7 @@
 		<documentTypeName>CampusParameterMaintenanceDocument</documentTypeName>
 		<documentTypeCode>PMCP</documentTypeCode>
 
-		<label>Campus Parameter Maintenance Document</label>
-		<shortLabel>Campus Parameter Maint Doc</shortLabel>
+		<label>Campus Parameter</label>
 
         <lockingKeys>
 			<field attributeName="campusCode" />

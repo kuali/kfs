@@ -37,8 +37,7 @@
 
         <documentTypeName>DelegateMaintenanceDocument</documentTypeName>
         <documentTypeCode>ADEL</documentTypeCode>
-        <label>Account Delegate Maintenance Document</label>
-        <shortLabel>AcctDelMaintDoc</shortLabel>
+        <label>Account Delegate</label>
         <summary>Account Delegate Maintenance Document</summary>
         <description>Maintenance document which allows you to create, remove or modify Account Delegates.</description>
 

@@ -35,7 +35,6 @@
         <documentTypeCode>PORT</documentTypeCode>
 
         <label>Purchase Order Retransmit</label>
-        <shortLabel>PurchaseOrderRetransmit</shortLabel>
 
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>

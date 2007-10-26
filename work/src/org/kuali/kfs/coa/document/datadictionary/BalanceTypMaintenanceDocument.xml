@@ -34,8 +34,7 @@
 
         <documentTypeName>BalanceTypMaintenanceDocument</documentTypeName>
         <documentTypeCode>BTYP</documentTypeCode>
-        <label>Balance Type Maintenance Document</label>
-        <shortLabel>BalanceTypeMaintDoc</shortLabel>
+        <label>Balance Type</label>
         <summary>Balance Type Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Balance Types, or modify existing Balance Types.</description>
         <help parameterNamespace="KFS-CA" parameterDetailType="BalanceType" parameterName="BALANCE_TYPE" />

@@ -35,8 +35,7 @@
         <documentTypeName>CarrierMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMCA</documentTypeCode>
 
-        <label>Carrier Maintenance Document</label>
-        <shortLabel>Carrier Maint Doc</shortLabel>
+        <label>Carrier</label>
 
         <lockingKeys>
             <field attributeName="carrierCode" />

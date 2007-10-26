@@ -35,8 +35,7 @@
         <documentTypeName>CountryMaintenanceDocument</documentTypeName>
         <documentTypeCode>CTRY</documentTypeCode>
 
-        <label>Country Maintenance Document</label>
-        <shortLabel>CountryMaintDoc</shortLabel>
+        <label>Country</label>
 
         <summary>Country maintenance document</summary>
         <description>Document used to create or update Country objects</description>

@@ -206,6 +206,7 @@
             </relationship>
 		</relationships>
 
+        <objectLabel>Agency</objectLabel>
     </businessObject>
 </dictionaryEntry>
 

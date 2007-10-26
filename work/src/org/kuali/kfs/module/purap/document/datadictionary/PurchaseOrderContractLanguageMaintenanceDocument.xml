@@ -36,8 +36,7 @@
         <documentTypeName>PurchaseOrderContractLanguageMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMCL</documentTypeCode>
 
-        <label>Purchase Order Contract Language Maintenance Document</label>
-        <shortLabel>PO Contract Language Maint Doc</shortLabel>
+        <label>Purchase Order Contract Language</label>
 
         <lockingKeys>
             <field attributeName="purchaseOrderContractLanguageIdentifier" />

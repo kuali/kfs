@@ -35,8 +35,7 @@
         <documentTypeName>RestrictedStatusMaintenanceDocument</documentTypeName>
         <documentTypeCode>RSTA</documentTypeCode>
 
-        <label>Restricted Status Maintenance Document</label>
-        <shortLabel>RestrictedStatusMaintDoc</shortLabel>
+        <label>Restricted Status</label>
 
         <summary>Restricted Status Maintenance Document</summary>
         <description>Document used to create or update RestrictedStatus objects</description>

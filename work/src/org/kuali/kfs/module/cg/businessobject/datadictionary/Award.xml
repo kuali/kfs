@@ -554,5 +554,6 @@
             	<primitiveAttribute sourceName="primaryAwardOrganization.organizationCode" targetName="organizationCode" />
             </relationship>
         </relationships>
+        <objectLabel>Award</objectLabel>
     </businessObject>
 </dictionaryEntry>

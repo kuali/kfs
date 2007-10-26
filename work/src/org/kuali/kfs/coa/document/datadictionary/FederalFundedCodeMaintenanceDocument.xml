@@ -35,8 +35,7 @@
 
         <documentTypeName>FederalFundedCodeMaintenanceDocument</documentTypeName>
         <documentTypeCode>FFC</documentTypeCode>
-        <label>Federal Funded Code Maintenance Document</label>
-        <shortLabel>FederalFundedCodeMaintDoc</shortLabel>
+        <label>Federal Funded Code</label>
         <summary>Federal Funded Code Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Federal Funded Codes, or modify existing Federal Funded Codes.</description>
         <help parameterNamespace="KFS-CA" parameterDetailType="FederalFundedCode" parameterName="FEDERAL_FUNDED_CODE" />

@@ -34,8 +34,7 @@
         <documentTypeName>YearEndGeneralErrorCorrectionDocument</documentTypeName>
         <documentTypeCode>YEGE</documentTypeCode>
 
-        <label>Year End General Error Correction Document</label>
-        <shortLabel>YE GEC Doc</shortLabel>
+        <label>Year End General Error Correction</label>
 
         <summary><![CDATA[&nbsp;]]></summary>
         <description>The Year End version of the General Error Correction Document (GEC) document. &lt;br&gt; &lt;br&gt; See FIS documentation here: &lt;a 

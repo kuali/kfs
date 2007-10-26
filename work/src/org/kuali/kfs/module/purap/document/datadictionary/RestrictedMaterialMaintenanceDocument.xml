@@ -35,8 +35,7 @@
         <documentTypeName>RestrictedMaterialMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMRM</documentTypeCode>
 
-        <label>Restricted Material Maintenance Document</label>
-        <shortLabel>Restricted Material Maint Doc</shortLabel>
+        <label>Restricted Material</label>
 
         <lockingKeys>
             <field attributeName="restrictedMaterialCode" />

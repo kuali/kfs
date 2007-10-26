@@ -188,5 +188,6 @@
                 sourceAttributeName="versionNumber"
             />
         </attributes>
+        <objectLabel>Parameter</objectLabel>
     </businessObject>
 </dictionaryEntry>

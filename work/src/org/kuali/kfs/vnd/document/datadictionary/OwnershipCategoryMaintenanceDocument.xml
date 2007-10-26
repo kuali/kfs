@@ -35,8 +35,7 @@
         <documentTypeName>OwnershipCategoryMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMOC</documentTypeCode>
 
-        <label>Ownership Category Maintenance Document</label>
-        <shortLabel>Ownership Category Maint Doc</shortLabel>
+        <label>Ownership Category</label>
 
         <lockingKeys>
             <field attributeName="vendorOwnershipCategoryCode" />

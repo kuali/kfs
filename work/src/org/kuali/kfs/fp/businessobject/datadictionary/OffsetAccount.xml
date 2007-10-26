@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Offset Acount Inquiry</title>
+            <title>Offset Account Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="chartOfAccountsCode" />
@@ -34,7 +34,7 @@
         </inquiry>
 
         <lookup>
-            <title>Offset Acount Lookup</title>
+            <title>Offset Account Lookup</title>
 
             <instructions>Lookup an Offset Acount</instructions>
 
@@ -88,5 +88,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        <objectLabel>Offset Account</objectLabel>
     </businessObject>
 </dictionaryEntry>

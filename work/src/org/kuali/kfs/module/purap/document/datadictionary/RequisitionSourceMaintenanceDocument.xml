@@ -35,8 +35,7 @@
         <documentTypeName>RequisitionSourceMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMSO</documentTypeCode>
 
-        <label>Requisition Source Maintenance Document</label>
-        <shortLabel>Requisition Source Maint Doc</shortLabel>
+        <label>Requisition Source</label>
 
         <lockingKeys>
             <field attributeName="requisitionSourceCode" />

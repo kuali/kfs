@@ -42,8 +42,7 @@
         <webScriptFile>../dwr/interface/SubcontractorService.js</webScriptFile>
         <webScriptFile>../scripts/cg/proposalDocument.js</webScriptFile>
 
-        <label>Proposal Maintenance Document</label>
-        <shortLabel>PrpslMaintDoc</shortLabel>
+        <label>Proposal</label>
 
         <summary>Proposal maintenance document</summary>
         <description>Document used to create or update Proposal objects</description>

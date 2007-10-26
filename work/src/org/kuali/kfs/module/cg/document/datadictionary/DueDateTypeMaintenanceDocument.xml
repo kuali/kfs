@@ -35,8 +35,7 @@
         <documentTypeName>KualiDueDateTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>DDT</documentTypeCode>
 
-        <label>Due Date Type Maintenance Document</label>
-        <shortLabel>DueDateTypeMainDoc</shortLabel>
+        <label>Due Date Type</label>
 
         <summary>Due Date Type maintenance document</summary>
         <description>Document used to create or update Due Date Type objects</description>

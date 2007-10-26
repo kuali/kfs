@@ -75,6 +75,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
         </attributes>
         
-        <objectLabel>Global Organization Reversion</objectLabel>
+        <objectLabel>Organization Reversion Global</objectLabel>
     </businessObject>
 </dictionaryEntry>

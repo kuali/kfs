@@ -24,7 +24,7 @@
 
 
         <inquiry>
-            <title>Restricted Status inquiry</title>
+            <title>Restricted Status Inquiry</title>
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountRestrictedStatusCode" />
                 <field attributeName="accountRestrictedStatusName" />
@@ -32,7 +32,7 @@
         </inquiry>
 
         <lookup>
-            <title>Restricted Status lookup</title>
+            <title>Restricted Status Lookup</title>
 
             <instructions>Lookup an Restricted Status Code</instructions>
             <defaultSort attributeName="accountRestrictedStatusCode" sortAscending="true" />

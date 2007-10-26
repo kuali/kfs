@@ -35,8 +35,7 @@
         <documentTypeName>AddressTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMAT</documentTypeCode>
 
-        <label>Address Type Maintenance Document</label>
-        <shortLabel>Address Type Maint Doc</shortLabel>
+        <label>Address Type</label>
 
         <lockingKeys>
             <field attributeName="vendorAddressTypeCode" />

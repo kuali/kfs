@@ -22,7 +22,7 @@
     <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.NonpersonnelObjectCode">
 
         <inquiry>
-            <title>Object Code Inquiry</title>
+            <title>Non-Personnel Object Code Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="budgetNonpersonnelObjectCode" />
@@ -33,7 +33,7 @@
         </inquiry>
 
         <lookup>
-            <title>Nonpersonnel Object Code Lookup</title>
+            <title>Non-Personnel Object Code Lookup</title>
 
             <instructions>Lookup a Nonpersonnel Object Code</instructions>
 
@@ -86,6 +86,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
         </attributes>
         
-        <objectLabel>Nonpersonnel Object Code</objectLabel>
+        <objectLabel>Non-Personnel Object Code</objectLabel>
     </businessObject>
 </dictionaryEntry>

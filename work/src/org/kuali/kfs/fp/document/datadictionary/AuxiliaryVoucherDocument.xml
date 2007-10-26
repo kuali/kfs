@@ -36,7 +36,6 @@
         <documentTypeCode>AV</documentTypeCode>
 	
 		<label>Auxiliary Voucher</label>
-		<shortLabel>AVDoc</shortLabel>
         
         <attributes>
         	<attribute name="accountingPeriod" forceUppercase="false">

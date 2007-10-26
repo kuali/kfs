@@ -118,5 +118,6 @@
                 sourceAttributeName="versionNumber"
             />
         </attributes>
+        <objectLabel>Parameter Type</objectLabel>
     </businessObject>
 </dictionaryEntry>

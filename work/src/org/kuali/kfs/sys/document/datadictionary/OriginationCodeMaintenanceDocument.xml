@@ -35,8 +35,7 @@
         <documentTypeName>OriginationCodeMaintenanceDocument</documentTypeName>
         <documentTypeCode>ORIG</documentTypeCode>
 
-        <label>Origination Code Maintenance Document</label>
-        <shortLabel>OriginCodeMaintDoc</shortLabel>
+        <label>Origination Code</label>
 
         <summary>Origination Code maintenance document</summary>
         <description>Document used to create or update Origination Code objects</description>

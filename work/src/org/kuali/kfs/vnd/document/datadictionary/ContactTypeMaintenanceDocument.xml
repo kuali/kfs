@@ -35,8 +35,7 @@
         <documentTypeName>ContactTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMCT</documentTypeCode>
 
-        <label>Contact Type Maintenance Document</label>
-        <shortLabel>Contact Type Maint Doc</shortLabel>
+        <label>Contact Type</label>
 
         <lockingKeys>
             <field attributeName="vendorContactTypeCode" />

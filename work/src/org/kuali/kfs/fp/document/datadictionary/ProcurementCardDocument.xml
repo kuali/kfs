@@ -36,7 +36,6 @@
         <documentTypeCode>PCDO</documentTypeCode>
 
         <label>Procurement Card</label>
-        <shortLabel>PCardDoc</shortLabel>
 
         <summary>Procurement Card Document</summary>
         <description>Document for the distribution of procurement card expenses.</description>

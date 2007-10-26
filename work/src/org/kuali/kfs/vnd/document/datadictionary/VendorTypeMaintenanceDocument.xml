@@ -35,8 +35,7 @@
         <documentTypeName>VendorTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMVT</documentTypeCode>
 
-        <label>Vendor Type Maintenance Document</label>
-        <shortLabel>Vendor Type Maint Doc</shortLabel>
+        <label>Vendor Type</label>
 
         <lockingKeys>
             <field attributeName="vendorTypeCode" />

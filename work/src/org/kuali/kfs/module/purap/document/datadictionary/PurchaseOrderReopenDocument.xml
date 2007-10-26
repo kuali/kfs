@@ -35,7 +35,6 @@
         <documentTypeCode>POR</documentTypeCode>
 
         <label>Purchase Order Reopen</label>
-        <shortLabel>PurchaseOrderReopen</shortLabel>
 
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>

@@ -35,8 +35,7 @@
         <documentTypeName>FundingSourceMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMFS</documentTypeCode>
 
-        <label>Funding Source Maintenance Document</label>
-        <shortLabel>Funding Source Maint Doc</shortLabel>
+        <label>Funding Source</label>
 
         <lockingKeys>
             <field attributeName="fundingSourceCode" />

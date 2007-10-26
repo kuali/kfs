@@ -35,8 +35,7 @@
         <documentTypeName>PurchaseOrderQuoteStatusMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMQS</documentTypeCode>
 
-        <label>Purchase Order Quote Status Maintenance Document</label>
-        <shortLabel>PO Quote Status Maint Doc</shortLabel>
+        <label>Purchase Order Quote Status</label>
 
         <lockingKeys>
             <field attributeName="purchaseOrderQuoteStatusCode" />

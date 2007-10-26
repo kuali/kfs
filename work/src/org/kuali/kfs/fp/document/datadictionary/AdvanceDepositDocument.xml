@@ -34,8 +34,7 @@
         <documentTypeName>AdvanceDepositDocument</documentTypeName>
         <documentTypeCode>AD</documentTypeCode>
 
-        <label>Advance Deposit Document</label>
-        <shortLabel>Advance Deposit Document</shortLabel>
+        <label>Advance Deposit</label>
 
         <summary>
             <![CDATA[&nbsp;]]>

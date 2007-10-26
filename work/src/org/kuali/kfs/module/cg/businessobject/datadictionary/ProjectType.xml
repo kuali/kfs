@@ -110,5 +110,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        <objectLabel>Project Type</objectLabel>
     </businessObject>
 </dictionaryEntry>

@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Catalog Of Federal Domestic Assistance Reference Inquiry</title>
+            <title>CFDA Reference Inquiry</title>
 
             <inquirySections><inquirySection title="Catalog of Federal Domestic Assistance Details"><inquiryFields>
                 <field attributeName="cfdaMaintenanceTypeId" />
@@ -33,7 +33,7 @@
         </inquiry>
 
         <lookup>
-            <title>Catalog Of Federal Domestic Assistance Reference Lookup</title>
+            <title>CFDA Reference Lookup</title>
 
             <instructions>Look up a Catalog Of Federal Domestic Assistance Reference</instructions>
 
@@ -110,5 +110,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        <objectLabel>CFDA Reference</objectLabel>
     </businessObject>
 </dictionaryEntry>

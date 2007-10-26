@@ -102,5 +102,6 @@
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>         
 
         </attributes>
+        <objectLabel>Vendor Stipulation</objectLabel>
     </businessObject>
 </dictionaryEntry>

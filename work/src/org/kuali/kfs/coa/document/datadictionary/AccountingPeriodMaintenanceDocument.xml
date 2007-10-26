@@ -36,8 +36,7 @@
         <documentTypeName>AccountingPeriodMaintenanceDocument</documentTypeName>
         <documentTypeCode>APRD</documentTypeCode>
 
-        <label>Accounting Period Maintenance Document</label>
-        <shortLabel>AcctPeriodMaintDoc</shortLabel>
+        <label>Accounting Period</label>
 
         <summary>Accounting Period maintenance document</summary>
         <description>Document used to create or update Accounting Period objects</description>

@@ -35,8 +35,7 @@
         <documentTypeName>KualiNonpersonnelCategoryMaintenanceDocument</documentTypeName>
         <documentTypeCode>NPC</documentTypeCode>
 
-        <label>Nonpersonnel Category Maintenance Document</label>
-        <shortLabel>NonpersonnelCategoryMainDoc</shortLabel>
+        <label>Non-Personnel Category</label>
 
         <summary>Nonpersonnel Category maintenance document</summary>
         <description>Document used to create or update Nonpersonnel Category objects</description>

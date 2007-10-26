@@ -35,8 +35,7 @@
 
         <documentTypeName>ReportingCodesMaintenanceDocument</documentTypeName>
         <documentTypeCode>RPTC</documentTypeCode>
-        <label>Financial Reporting Code Maintenance Document</label>
-        <shortLabel>FinRptCdMaintDoc</shortLabel>
+        <label>Financial Reporting Code</label>
         <summary>Financial Reporting Code Maintenance Document</summary>
         <description>Maintenance document which allows you to create, remove or modify Financial Reporting Codes.</description>
         <help parameterNamespace="KFS-CA" parameterDetailType="FinancialReportingCode" parameterName="FINANCIAL_REPORTING_CODE" />

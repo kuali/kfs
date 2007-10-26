@@ -38,8 +38,7 @@
         <documentTypeName>ObjectCodeGlobalMaintenanceDocument</documentTypeName>
         <documentTypeCode>GOBJ</documentTypeCode>
 
-        <label>Global Object Code Maintenance Document</label>
-        <shortLabel>GlobalObjCodeMaintDoc</shortLabel>
+        <label>Object Code Global</label>
 
         <summary>Global Object Code Maintenance Document</summary>
         <description>Document used to create or update global account document.</description>

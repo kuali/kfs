@@ -37,8 +37,7 @@
         <documentTypeName>ProjectCodeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PROJ</documentTypeCode>
 
-        <label>Project Code Maintenance Document</label>
-        <shortLabel>ProjectMaintDoc</shortLabel>
+        <label>Project Code</label>
 
         <summary>Project Code maintenance document</summary>
         <description>Document used to create or update Project Code objects</description>

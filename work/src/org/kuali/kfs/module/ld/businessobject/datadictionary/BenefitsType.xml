@@ -98,5 +98,6 @@
                             sourceAttributeName="versionNumber" />
 
         </attributes>
+        <objectLabel>Labor Benefits Type</objectLabel>
     </businessObject>
 </dictionaryEntry>

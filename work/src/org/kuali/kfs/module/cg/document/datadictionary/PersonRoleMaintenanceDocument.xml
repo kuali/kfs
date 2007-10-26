@@ -35,8 +35,7 @@
         <documentTypeName>KualiPersonRoleMaintenanceDocument</documentTypeName>
         <documentTypeCode>PRSN</documentTypeCode>
 
-        <label>Person Role Maintenance Document</label>
-        <shortLabel>PersonRoleMainDoc</shortLabel>
+        <label>Person Role</label>
 
         <summary>Person Role maintenance document</summary>
         <description>Document used to create or update Person Role objects</description>

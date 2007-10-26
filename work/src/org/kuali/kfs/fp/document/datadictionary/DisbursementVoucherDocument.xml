@@ -38,7 +38,6 @@
         <documentTypeCode>DV</documentTypeCode>
 
         <label>Disbursement Voucher</label>
-        <shortLabel>DVDoc</shortLabel>
 
         <attributes>
             <attributeReference name="documentHeader.financialDocumentDescription" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="financialDocumentDescription" />

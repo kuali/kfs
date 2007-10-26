@@ -40,8 +40,7 @@
         <webScriptFile>../dwr/interface/ObjectCodeService.js</webScriptFile>
         <webScriptFile>../scripts/chart/orgReversionChangeDocument.js</webScriptFile>
 
-        <label>Global Organization Reversion Maintenance Document</label>
-        <shortLabel>GlobOrgRevMaintDoc</shortLabel>
+        <label>Organization Reversion Global</label>
 
         <summary>Global Organization Reversion Maintenance Document</summary>
         <description>Global Organization Reversion Maintenance Document</description>

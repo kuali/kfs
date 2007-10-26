@@ -35,8 +35,7 @@
         <documentTypeName>VendorInactiveReasonMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMIR</documentTypeCode>
 
-        <label>Vendor Inactive Reason Maintenance Document</label>
-        <shortLabel>Vendor Inactive Reason Maint Doc</shortLabel>
+        <label>Vendor Inactive Reason</label>
 
         <lockingKeys>
             <field attributeName="vendorInactiveReasonCode" />

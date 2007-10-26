@@ -39,8 +39,7 @@
         </authorizations>
         <documentTypeName>ParameterMaintenanceDocument</documentTypeName>
         <documentTypeCode>PARM</documentTypeCode>
-        <label>Parameter Maintenance Document</label>
-        <shortLabel>Parm Maint. Doc.</shortLabel>
+        <label>Parameter</label>
         <summary>Parameter Maintenance Document</summary>
         <description>
             This document can be used to create or update system parameters.

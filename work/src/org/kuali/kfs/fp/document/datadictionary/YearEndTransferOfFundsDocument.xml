@@ -33,8 +33,7 @@
         </authorizations>
         <documentTypeName>YearEndTransferOfFundsDocument</documentTypeName>
         <documentTypeCode>YETF</documentTypeCode>
-        <label>Year End Transfer of Funds</label>
-        <shortLabel>YETOFDoc</shortLabel>
+        <label>Year End Transfer Of Funds</label>
 
         <summary>
             <![CDATA[&nbsp;]]>

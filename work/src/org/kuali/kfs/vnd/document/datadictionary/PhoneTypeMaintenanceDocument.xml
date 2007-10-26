@@ -35,8 +35,7 @@
         <documentTypeName>PhoneTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMPT</documentTypeCode>
 
-        <label>Phone Type Maintenance Document</label>
-        <shortLabel>Phone Type Maint Doc</shortLabel>
+        <label>Phone Type</label>
 
         <lockingKeys>
             <field attributeName="vendorPhoneTypeCode" />

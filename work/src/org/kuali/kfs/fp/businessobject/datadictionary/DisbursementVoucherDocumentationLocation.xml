@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Documentation Location Inquiry</title>
+            <title>Disbursement Voucher Documentation Location Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="disbursementVoucherDocumentationLocationCode" />
@@ -32,7 +32,7 @@
         </inquiry>
 
         <lookup>
-            <title>Documentation Location Lookup</title>
+            <title>Disbursement Voucher Documentation Location Lookup</title>
 
             <instructions>Lookup a Disbursement Voucher Documentation Location</instructions>
 
@@ -92,6 +92,7 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        <objectLabel>Disbursement Voucher Documentation Location</objectLabel>
     </businessObject>
 </dictionaryEntry>
 

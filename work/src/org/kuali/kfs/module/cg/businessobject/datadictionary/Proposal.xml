@@ -510,5 +510,6 @@
             </relationship>
         </relationships>
         
+        <objectLabel>Proposal</objectLabel>
     </businessObject>
 </dictionaryEntry>

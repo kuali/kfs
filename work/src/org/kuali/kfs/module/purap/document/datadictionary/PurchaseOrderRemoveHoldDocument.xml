@@ -34,8 +34,7 @@
         <documentTypeName>PurchaseOrderRemoveHoldDocument</documentTypeName>
         <documentTypeCode>PORH</documentTypeCode>
 
-        <label>Purchase Order RemoveHold</label>
-        <shortLabel>PurchaseOrderRemoveHold</shortLabel>
+        <label>Purchase Order Remove Payment Hold</label>
 
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>

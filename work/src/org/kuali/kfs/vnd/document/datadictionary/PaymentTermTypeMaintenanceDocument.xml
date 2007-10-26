@@ -35,8 +35,7 @@
         <documentTypeName>PaymentTermTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMPA</documentTypeCode>
 
-        <label>Payment Terms Type Maintenance Document</label>
-        <shortLabel>Payment Terms Type Maint Doc</shortLabel>
+        <label>Payment Terms Type</label>
 
         <lockingKeys>
             <field attributeName="vendorPaymentTermsCode" />

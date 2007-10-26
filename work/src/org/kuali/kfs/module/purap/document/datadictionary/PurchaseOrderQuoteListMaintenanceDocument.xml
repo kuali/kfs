@@ -35,8 +35,7 @@
         <documentTypeName>PurchaseOrderQuoteListMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMQT</documentTypeCode>
 
-        <label>Quote List Maintenance Document</label>
-        <shortLabel>Quote List Maint Doc</shortLabel>
+        <label>Purchase Order Quote List</label>
 
         <lockingKeys>
             <field attributeName="purchaseOrderQuoteListIdentifier" />

@@ -33,8 +33,7 @@
         </authorizations>
         <documentTypeName>KualiBenefitExpenseTransferDocument</documentTypeName>
         <documentTypeCode>BT</documentTypeCode>
-        <label>Benefit Expense Transfer Document</label>
-        <shortLabel>BTDoc</shortLabel>
+        <label>Benefit Expense Transfer</label>
         
         <summary>
             <![CDATA[&nbsp;]]>

@@ -21,7 +21,7 @@
 
 
         <inquiry>
-            <title>Organization Code Inquiry</title>
+            <title>Organization Inquiry</title>
 			<inquirableClass>org.kuali.module.chart.maintenance.OrgInquirable</inquirableClass>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
@@ -82,7 +82,7 @@
         </inquiry>
 
         <lookup>
-            <title>Organization Code Lookup</title>
+            <title>Organization Lookup</title>
 
             <instructions>Lookup an Organization</instructions>
 
@@ -587,7 +587,7 @@
             </relationship> 
         </relationships>
 
-		<objectLabel>Organization Code</objectLabel>
+        <objectLabel>Organization</objectLabel>
     </businessObject>
 </dictionaryEntry>
 

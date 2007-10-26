@@ -21,7 +21,7 @@
     <businessObject businessObjectClass="org.kuali.core.bo.ParameterNamespace">
 
         <inquiry>
-            <title>Module Inquiry</title>
+            <title>Parameter Namespace Inquiry</title>
             <inquirySections>
                 <inquirySection title="Module Information">
                     <inquiryFields>
@@ -33,7 +33,7 @@
             </inquirySections>
         </inquiry>
         <lookup>
-            <title>Module Lookup</title>
+            <title>Parameter Namespace Lookup</title>
 
             <instructions>Look up a Module.</instructions>
             <defaultSort attributeName="name" sortAscending="true" />
@@ -118,5 +118,6 @@
                 sourceAttributeName="versionNumber"
             />
         </attributes>
+        <objectLabel>Parameter Namespace</objectLabel>
     </businessObject>
 </dictionaryEntry>

@@ -34,8 +34,7 @@
 
         <documentTypeName>OrgTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>ORTY</documentTypeCode>
-        <label>Organization Type Maintenance Document</label>
-        <shortLabel>OrgTypeMaintDoc</shortLabel>
+        <label>Organization Type</label>
         <summary>Organization Type Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Organization Types, or modify existing Organization Types.</description>
         <help parameterNamespace="KFS-CA" parameterDetailType="OrganizationType" parameterName="ORGANIZATION_TYPE" />

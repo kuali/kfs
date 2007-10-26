@@ -35,8 +35,7 @@
         <documentTypeName>KualiGraduateAssistantRateMaintenanceDocument</documentTypeName>
         <documentTypeCode>GAR</documentTypeCode>
 
-        <label>Graduate Assistant Rate Maintenance Document</label>
-        <shortLabel>GraduateAssistantRateMainDoc</shortLabel>
+        <label>Graduate Assistant Rate</label>
 
         <summary>Graduate Assistant Rate maintenance document</summary>
         <description>Document used to create or update Graduate Assistant Rate objects</description>

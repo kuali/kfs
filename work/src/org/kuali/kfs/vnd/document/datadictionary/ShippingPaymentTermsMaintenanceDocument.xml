@@ -35,8 +35,7 @@
         <documentTypeName>ShippingPaymentTermsMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMSP</documentTypeCode>
 
-        <label>Shipping Payment Terms Maintenance Document</label>
-        <shortLabel>Shipping Payment Terms Maint Doc</shortLabel>
+        <label>Shipping Payment Terms</label>
 
         <lockingKeys>
             <field attributeName="vendorShippingPaymentTermsCode" />

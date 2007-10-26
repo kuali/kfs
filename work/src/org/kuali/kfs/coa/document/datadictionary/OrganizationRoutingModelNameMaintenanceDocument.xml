@@ -37,8 +37,7 @@
         <documentTypeName>OrganizationRoutingModelNameMaintenanceDocument</documentTypeName>
         <documentTypeCode>GDLM</documentTypeCode>
 
-        <label>Account Delegate Model Maintenance Document</label>
-        <shortLabel>AcctDlgModelMaintDoc</shortLabel>
+        <label>Account Delegate Model</label>
 
         <summary>Account Delegate Model Maintenance Document</summary>
         <description>Account Delegate Model Maintenance Document</description>

@@ -35,8 +35,7 @@
         <documentTypeName>ProjectDirectorMaintenanceDocument</documentTypeName>
         <documentTypeCode>ADPD</documentTypeCode>
 
-        <label>Project Director Maintenance Document</label>
-        <shortLabel>PdMaintDoc</shortLabel>
+        <label>Project Director</label>
 
         <summary>Project Director Maintenance Document</summary>
         <description>Document used to create or update Project Director objects</description>

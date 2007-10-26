@@ -35,8 +35,7 @@
         <documentTypeName>VendorStipulationMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMSI</documentTypeCode>
 
-        <label>Vendor Stipulation Maintenance Document</label>
-        <shortLabel>Vendor Stipulation Maint Doc</shortLabel>
+        <label>Vendor Stipulation</label>
 
         <lockingKeys>
             <field attributeName="vendorStipulationIdentifier" />

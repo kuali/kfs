@@ -34,8 +34,7 @@
         <documentTypeName>PurchaseOrderCloseDocument</documentTypeName>
         <documentTypeCode>POC</documentTypeCode>
 
-        <label>Close a Purchase Order</label>
-        <shortLabel>PurchaseOrderClose</shortLabel>
+        <label>Purchase Order Close</label>
 
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>

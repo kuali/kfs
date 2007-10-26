@@ -34,8 +34,7 @@
 
         <documentTypeName>IndirectCostAdjustmentDocument</documentTypeName>
         <documentTypeCode>ICA</documentTypeCode>
-        <label>Indirect Cost Adjustment Document</label>
-        <shortLabel>ICADoc</shortLabel>
+        <label>Indirect Cost Adjustment</label>
         
         <summary>
             <![CDATA[&nbsp;]]>

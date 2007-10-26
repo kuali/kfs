@@ -35,7 +35,6 @@
         <documentTypeCode>POV</documentTypeCode>
 
         <label>Purchase Order Void</label>
-        <shortLabel>PurchaseOrderVoid</shortLabel>
 
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>

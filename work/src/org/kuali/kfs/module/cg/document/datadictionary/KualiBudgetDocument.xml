@@ -45,8 +45,7 @@
 
         <documentTypeName>KualiBudgetDocument</documentTypeName>
         <documentTypeCode>KBD</documentTypeCode>
-        <label>Budget</label>
-        <shortLabel>Budget</shortLabel>
+        <label>Research Budget</label>
         <summary>Budget document</summary>
         <description>Filling out budgets is a delight which all persons should be so lucky as to be able to do dailly twice</description>
         <allowsCopy>true</allowsCopy>

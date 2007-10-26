@@ -34,8 +34,7 @@
 
         <documentTypeName>DistributionOfIncomeAndExpenseDocument</documentTypeName>
         <documentTypeCode>DI</documentTypeCode>
-        <label>Distribution of Income and Expense Document</label>
-        <shortLabel>DIEDoc</shortLabel>
+        <label>Distribution Of Income And Expense</label>
 
         <summary>
             <![CDATA[&nbsp;]]>

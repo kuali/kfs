@@ -24,7 +24,7 @@
 
 
         <inquiry>
-            <title>Payment Reason Code inquiry</title>
+            <title>Disbursement Voucher Payment Reason Inquiry</title>
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="code" />
                 <field attributeName="name" />
@@ -34,7 +34,7 @@
         </inquiry>
 
         <lookup>
-            <title>Payment Reason Code lookup</title>
+            <title>Disbursement Voucher Payment Reason Lookup</title>
 
             <instructions>Lookup a Payment Reason Code</instructions>
             <defaultSort attributeName="code" sortAscending="false" />
@@ -99,5 +99,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        <objectLabel>Disbursement Voucher Payment Reason</objectLabel>
     </businessObject>
 </dictionaryEntry>

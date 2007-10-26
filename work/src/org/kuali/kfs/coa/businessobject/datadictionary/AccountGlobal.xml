@@ -264,6 +264,6 @@
             </relationship>
         </relationships>
 
-		<objectLabel>Account Change Document</objectLabel>
+        <objectLabel>Account Global</objectLabel>
     </businessObject>
 </dictionaryEntry>

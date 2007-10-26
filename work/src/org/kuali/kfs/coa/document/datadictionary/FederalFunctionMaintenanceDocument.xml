@@ -35,8 +35,7 @@
         <documentTypeName>FederalFunctionMaintenanceDocument</documentTypeName>
         <documentTypeCode>FFUN</documentTypeCode>
 
-        <label>Federal Function Maintenance Document</label>
-        <shortLabel>Federal Function Maint Doc</shortLabel>
+        <label>Federal Function</label>
 
         <summary>Federal Function Maintenance Document</summary>
         <description>Document used to create or update Federal Function Maintenance Document objects</description>

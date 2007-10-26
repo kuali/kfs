@@ -39,8 +39,7 @@
         <webScriptFile>../dwr/interface/ObjectCodeService.js</webScriptFile>
         <webScriptFile>../scripts/chart/orgReversionDocument.js</webScriptFile>
         
-        <label>Organization Reversion Maintenance Document</label>
-        <shortLabel>OrganizationRefersionMaintenanceDocument</shortLabel>
+        <label>Organization Reversion</label>
         <summary>Organization Reversion Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Organization Reversions, remove exsiting Organization Reversions, or modify existing Organization Reversions.</description>
 

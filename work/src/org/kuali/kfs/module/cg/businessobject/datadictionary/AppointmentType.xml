@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Appointment Type</title>
+            <title>Appointment Type Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="appointmentTypeCode" />

@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Budget Fringe Rate</title>
+            <title>Budget Fringe Rate Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="documentNumber" />
@@ -36,7 +36,7 @@
         </inquiry>
 
         <lookup>
-            <title>Budget Fringe Rate</title>
+            <title>Budget Fringe Rate Lookup</title>
 
             <instructions>Lookup a Budget Fringe Rate</instructions>
 

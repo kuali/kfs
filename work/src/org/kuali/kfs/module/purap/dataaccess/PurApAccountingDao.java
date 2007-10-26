@@ -25,7 +25,7 @@ import org.kuali.module.purap.bo.PurApItem;
 public interface PurApAccountingDao {
 
     /**
-     * Retreives the accounting lines for a purap item.
+     * Retrieves the accounting lines for a purap item.
      * 
      * @param item - purap item
      * @return - list of accounting lines

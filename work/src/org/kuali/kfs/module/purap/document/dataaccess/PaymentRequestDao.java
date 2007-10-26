@@ -78,7 +78,7 @@ public interface PaymentRequestDao {
     public String getDocumentNumberByPaymentRequestId(Integer id);
 
     /**
-     * Retreives a list of document numbers by purchase order id.
+     * Retrieves a list of document numbers by purchase order id.
      * 
      * @param id - purchase order id
      * @return - list of document numbers
@@ -86,18 +86,18 @@ public interface PaymentRequestDao {
     public List<String> getDocumentNumbersByPurchaseOrderId(Integer id);
 
     /**
-     * Retreives a list of Pay Reqs with the given vendor id and invoice number.
+     * Retrieves a list of Payment Requests with the given vendor id and invoice number.
      * 
      * @param vendorHeaderGeneratedId - header id of the vendor id
      * @param vendorDetailAssignedId  - detail id of the vendor id
      * @param invoiceNumber           - invoice number as entered by AP
-     * @return - List of Pay Reqs.
+     * @return - List of Payment Requests.
      */
     public List getActivePaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId,
         Integer vendorDetailAssignedId,String invoiceNumber);
         
     /**
-     * Retreives a list of Pay Reqs with the given PO Id, invoice amount, and invoice date.
+     * Retrieves a list of Payment Requests with the given PO Id, invoice amount, and invoice date.
      * 
      * @param poId          - purchase order ID
      * @param invoiceAmount - amount of the invoice as entered by AP

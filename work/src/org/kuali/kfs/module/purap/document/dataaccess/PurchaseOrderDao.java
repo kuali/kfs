@@ -25,7 +25,7 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 public interface PurchaseOrderDao {
 
     /**
-     * This method gets the Purchase Order Document's document number
+     * Retrieves the Purchase Order Document's document number
      * using the purapDocumentIdentifier as criteria
      * 
      * @param id - purapDocument Identifier
@@ -34,7 +34,7 @@ public interface PurchaseOrderDao {
     public String getDocumentNumberForPurchaseOrderId(Integer id);
     
     /**
-     * This method gets the current Purchase Order Document's document number
+     * Retrieves the current Purchase Order Document's document number
      * by the purapDocumentIdentifier.
      * 
      * @param id - purapDocument Identifier
@@ -43,7 +43,7 @@ public interface PurchaseOrderDao {
     public String getDocumentNumberForCurrentPurchaseOrder(Integer id);
 
     /**
-     * This method gets the oldest purchase order's (defined by the one having the smallest
+     * Retrieves the oldest purchase order's (defined by the one having the smallest
      * document number) document number.
      * 
      * @param id - the purapDocumentIdentifier.

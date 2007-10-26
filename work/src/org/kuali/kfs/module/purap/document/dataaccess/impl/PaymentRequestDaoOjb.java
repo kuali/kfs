@@ -223,7 +223,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     }
     
     /**
-     * Retreives a document number for a payment request by user defined criteria.
+     * Retrieves a document number for a payment request by user defined criteria.
      * 
      * @param criteria - list of criteria to use in the retrieve
      * @return - document number
@@ -247,7 +247,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     }
     
     /**
-     * Retreives a document number for a payment request by user defined criteria and sorts the values ascending if
+     * Retrieves a document number for a payment request by user defined criteria and sorts the values ascending if
      * orderByAscending parameter is true, descending otherwise.
      * 
      * @param criteria - list of criteria to use in the retrieve
@@ -270,7 +270,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     /**
      * Retrieves a list of payment requests by user defined criteria.
      * 
-     * @param qbc - query with critria
+     * @param qbc - query with criteria
      * @return - list of payment requests
      */
     private List getPaymentRequestsByQueryByCriteria(QueryByCriteria qbc) {
@@ -280,12 +280,12 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     }
       
     /**
-     * Retreives a list of Pay Reqs with the given vendor id and invoice number.
+     * Retrieves a list of payment requests with the given vendor id and invoice number.
      * 
      * @param vendorHeaderGeneratedId - header id of the vendor id
      * @param vendorDetailAssignedId  - detail id of the vendor id
      * @param invoiceNumber           - invoice number as entered by AP
-     * @return - List of Pay Reqs.
+     * @return - List of payment requests.
      */
     public List getActivePaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId,String invoiceNumber) {
         LOG.debug("getActivePaymentRequestsByVendorNumberInvoiceNumber() started");
@@ -325,19 +325,15 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         }
     }
 
-    //GETTERS & SETTERS
     public void setNegativePaymentRequestApprovalLimitDao(NegativePaymentRequestApprovalLimitDao negativePaymentRequestApprovalLimitDao) {
         this.negativePaymentRequestApprovalLimitDao = negativePaymentRequestApprovalLimitDao;
     }
-
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-
     public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
         this.purapAccountingService = purapAccountingService;
     }
-
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }          

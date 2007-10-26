@@ -41,10 +41,6 @@ import org.kuali.module.purap.document.CreditMemoDocument;
 public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditMemoDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreditMemoDaoOjb.class);
 
-    public CreditMemoDaoOjb() {
-        super();
-    }
-
     /**
      * @see org.kuali.module.purap.dao.CreditMemoDao#getCreditMemosToExtract(java.lang.String)
      */
@@ -72,7 +68,6 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
         criteria.addEqualTo("vendorDetailAssignedIdentifier", vendorNumberDetailId);
         criteria.addEqualTo("creditMemoNumber", creditMemoNumber);
 
-        //added for KULPURAP-1915
         criteria.addNotIn(PurapPropertyConstants.STATUS_CODE, PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES);
         
         // use the criteria to do a Count against the DB, and return the resulting
@@ -100,7 +95,6 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
         criteria.addEqualTo("creditMemoDate", date);
         criteria.addEqualTo("creditMemoAmount", amount);
 
-        //added for KULPURAP-1915
         criteria.addNotIn(PurapPropertyConstants.STATUS_CODE, PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES);
         
         // use the criteria to do a Count against the DB, and return the resulting
@@ -125,7 +119,7 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
     }
 
     /**
-     * Retreives a document number for a credit memo by user defined criteria.
+     * Retrieves a document number for a credit memo by user defined criteria.
      * 
      * @param criteria - holds field and value pairs defined by the calling method
      * @return - document number
@@ -149,7 +143,7 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
     }
 
     /**
-     * Retreives a document number for a credit memo by user defined criteria and sorts the values ascending if
+     * Retrieves a document number for a credit memo by user defined criteria and sorts the values ascending if
      * orderByAscending parameter is true, descending otherwise.
      * 
      * @param criteria - list of criteria to use in the retrieve

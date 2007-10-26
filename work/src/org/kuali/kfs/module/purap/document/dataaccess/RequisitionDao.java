@@ -23,7 +23,7 @@ import org.kuali.module.purap.document.RequisitionDocument;
 public interface RequisitionDao {
 
     /**
-     * Retreives the document number by requisition id.
+     * Retrieves the document number by requisition id.
      * 
      * @param id - Requisition id
      * @return - Document Number

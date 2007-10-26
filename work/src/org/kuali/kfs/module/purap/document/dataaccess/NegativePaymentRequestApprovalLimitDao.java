@@ -54,7 +54,7 @@ public interface NegativePaymentRequestApprovalLimitDao {
     // These two methods are in here for testing.
     
     /**
-     * Retreive a collection of NegativePaymentRequestApprovalLimit where the NegativePaymentRequestApprovalLimitAmount is
+     * Retrieve a collection of NegativePaymentRequestApprovalLimit where the NegativePaymentRequestApprovalLimitAmount is
      * greater than the limit passed in.
      * 
      * @param limit - lower limit
@@ -63,7 +63,7 @@ public interface NegativePaymentRequestApprovalLimitDao {
     public Collection<NegativePaymentRequestApprovalLimit> findAboveLimit(KualiDecimal limit);
     
     /**
-     * Retreive a collection of NegativePaymentRequestApprovalLimit where the NegativePaymentRequestApprovalLimitAmount is
+     * Retrieve a collection of NegativePaymentRequestApprovalLimit where the NegativePaymentRequestApprovalLimitAmount is
      * less than the limit passed in.
      *
      * @param limit - upper limit

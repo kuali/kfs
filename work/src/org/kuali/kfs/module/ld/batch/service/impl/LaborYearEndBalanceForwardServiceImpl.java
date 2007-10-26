@@ -39,7 +39,6 @@ import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
@@ -117,6 +116,9 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
         List<String> processableBalanceTypeCodes = this.getProcessableBalanceTypeCode(options);
         List<String> processableObjectTypeCodes = this.getProcessableObjectTypeCodes(options);
 
+        List<String> subFundGroupCodes = this.getSubFundGroupProcessed();
+        List<String> fundGroupCodes = this.getFundGroupProcessed();
+
         fieldValues.clear();
         int numberOfSelectedBalance = 0;
         for (String balanceTypeCode : processableBalanceTypeCodes) {
@@ -124,7 +126,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
 
             for (String objectTypeCode : processableObjectTypeCodes) {
                 fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, objectTypeCode);
-                Iterator<LedgerBalance> balanceIterator = laborLedgerBalanceService.findBalancesForFiscalYear(fiscalYear, fieldValues);
+                Iterator<LedgerBalance> balanceIterator = laborLedgerBalanceService.findBalancesForFiscalYear(fiscalYear, fieldValues, subFundGroupCodes, fundGroupCodes);
                 numberOfSelectedBalance += postSelectedBalancesAsOriginEntries(balanceIterator, newFiscalYear, validGroup, errorMap, runDate);
             }
         }
@@ -197,26 +199,6 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             errors = new ArrayList<Message>();
             errors.add(MessageBuilder.buildErrorMessage(LaborKeyConstants.ERROR_ACCOUNT_NOT_FOUND, invalidAccountValue.toString(), Message.TYPE_FATAL));
             return false;
-        }
-
-        SubFundGroup subFundGroup = account.getSubFundGroup();
-        String subFundGroupCode = account.getSubFundGroupCode();
-        if (subFundGroup == null) {
-            StringBuilder invalidSubFundValue = new StringBuilder();
-            invalidSubFundValue.append(chartOfAccountsCode).append("-").append(accountNumber).append("-").append(subFundGroupCode);
-
-            errors = new ArrayList<Message>();
-            errors.add(MessageBuilder.buildErrorMessage(LaborKeyConstants.ERROR_SUB_FUND_GROUP_NOT_FOUND, invalidSubFundValue.toString(), Message.TYPE_FATAL));
-            return false;
-        }
-
-        // Exclude the balance if the fund group code or sub fund group code is not in the specific list
-        String fundGroupCode = subFundGroup.getFundGroupCode();
-        if (!this.getFundGroupProcessed().contains(fundGroupCode)) {
-            if (!this.getSubFundGroupProcessed().contains(subFundGroupCode)) {
-                LOG.warn("Cannot process the balance with the subfund group code: " + subFundGroupCode + "; fund group code " + fundGroupCode);
-                return false;
-            }
         }
         return true;
     }

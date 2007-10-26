@@ -20,9 +20,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.LaborBalanceSummary;
 import org.kuali.module.labor.bo.LaborTransaction;
-import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.LedgerBalance;
 
 public interface LaborLedgerBalanceService {
@@ -32,13 +32,23 @@ public interface LaborLedgerBalanceService {
      * @return an Iterator over all balances for a given year
      */
     public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear);
-    
+
     /**
      * @param fiscalYear the given fiscal year
      * @param fieldValues the input fields and values
      * @return an Iterator over all balances for a given year and search criteria
      */
     public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues);
+
+    /**
+     * @param fiscalYear the given fiscal year
+     * @param fieldValues the input fields and values
+     * @param subFundGroupCodes the given list of qualified sub fund group codes
+     * @param fundGroupCodes the given list of qualified group codes
+     * @return an Iterator over all balances for a given year and search criteria that include the accounts of balances must belong
+     *         to the given sub fund group or fund group
+     */
+    public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes);
 
     /**
      * This method gets the size of balance entries according to input fields and values
@@ -57,7 +67,7 @@ public interface LaborLedgerBalanceService {
      * @return the summary records of balance entries
      */
     public Integer getBalanceRecordCount(Map fieldValues, boolean isConsolidated);
-    
+
     /**
      * find a ledger balance from the given ledger balance collection with the given transaction information
      * 
@@ -101,7 +111,7 @@ public interface LaborLedgerBalanceService {
      * @return the funding by employee
      */
     public List<EmployeeFunding> findEmployeeFunding(Map fieldValues, boolean isConsolidated);
-    
+
     /**
      * find the employee funding with the corresponding CSF trakers
      * 
@@ -109,17 +119,19 @@ public interface LaborLedgerBalanceService {
      * @return the employee funding with the corresponding CSF trakers
      */
     public List<EmployeeFunding> findEmployeeFundingWithCSFTracker(Map fieldValues, boolean isConsolidated);
-    
+
     /**
      * find the summary of the ledger balances for the given fiscal year and balance types
+     * 
      * @param fiscalYear the given fiscal year
      * @param balanceTypes the given balance type codes
      * @return the ledger balances for the given fiscal year and balance types
      */
     public List<LaborBalanceSummary> findBalanceSummary(Integer fiscalYear, Collection<String> balanceTypes);
-    
+
     /**
      * save the given ledger balance into the underlying data store
+     * 
      * @param ledgerBalance the given ledger balance
      */
     public void save(LedgerBalance ledgerBalance);

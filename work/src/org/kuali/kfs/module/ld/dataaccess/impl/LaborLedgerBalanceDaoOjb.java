@@ -33,7 +33,6 @@ import static org.kuali.module.labor.util.ConsolidationUtil.buildGroupByCollecti
 import static org.kuali.module.labor.util.ConsolidationUtil.sum;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -49,9 +48,7 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.service.BalanceTypService;
-import org.kuali.module.chart.service.ObjectTypeService;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.EmployeeFunding;
@@ -71,6 +68,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     private KualiConfigurationService kualiConfigurationService;
 
     private BalanceTypService balanceTypService;
+
     /**
      * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#findBalancesForFiscalYear(java.lang.Integer)
      */
@@ -91,7 +89,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
-    
+
     /**
      * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#findBalancesForFiscalYear(java.lang.Integer, java.util.Map)
      */
@@ -101,7 +99,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
 
         QueryByCriteria query = QueryFactory.newQuery(LedgerBalance.class, criteria);
-        
+
         query.addOrderByAscending(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         query.addOrderByAscending(KFSPropertyConstants.ACCOUNT_NUMBER);
         query.addOrderByAscending(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
@@ -192,7 +190,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
             String propertyValue = (String) localFieldValues.get(propertyName);
             if (KFSConstants.AGGREGATE_ENCUMBRANCE_BALANCE_TYPE_CODE.equals(propertyValue)) {
                 localFieldValues.remove(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-                
+
                 // parse the university fiscal year since it's a required field from the lookups
                 String universityFiscalYearStr = (String) localFieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
                 Integer universityFiscalYear = new Integer(universityFiscalYearStr);
@@ -426,5 +424,42 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
 
     public void setBalanceTypService(BalanceTypService balanceTypService) {
         this.balanceTypService = balanceTypService;
+    }
+
+    /**
+     * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#findBalancesForFiscalYear(java.lang.Integer, java.util.Map,
+     *      java.util.List, java.util.List)
+     */
+    public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes) {
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance());
+        criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+
+        if (subFundGroupCodes != null && !subFundGroupCodes.isEmpty()) {
+            Criteria criteriaForSubFundGroup = new Criteria();
+            String subFundGroupFieldName = KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.SUB_FUND_GROUP_CODE;
+            criteriaForSubFundGroup.addIn(subFundGroupFieldName, subFundGroupCodes);
+
+            if (fundGroupCodes != null && !fundGroupCodes.isEmpty()) {
+
+                Criteria criteriaForFundGroup = new Criteria();
+                String fundGroupFieldName = KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.SUB_FUND_GROUP + "." + KFSPropertyConstants.FUND_GROUP_CODE;
+                criteriaForFundGroup.addIn(fundGroupFieldName, fundGroupCodes);
+
+                criteriaForSubFundGroup.addOrCriteria(criteriaForFundGroup);
+            }
+            criteria.addAndCriteria(criteriaForSubFundGroup);
+        }
+
+        QueryByCriteria query = QueryFactory.newQuery(LedgerBalance.class, criteria);
+
+        query.addOrderByAscending(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.ACCOUNT_NUMBER);
+        query.addOrderByAscending(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        query.addOrderByAscending(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+
+        return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
 }

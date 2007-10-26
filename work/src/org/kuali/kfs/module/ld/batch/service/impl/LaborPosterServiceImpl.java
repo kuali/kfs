@@ -109,9 +109,10 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         int numberOfOriginEntry = laborOriginEntryService.getCountOfEntriesInGroups(postingGroups);
         int numberOfSelectedOriginEntry = 0;
 
-        for (OriginEntryGroup entryGroup : postingGroups) {            
-            Collection<LaborOriginEntry> entries = laborOriginEntryService.getEntryCollectionByGroup(entryGroup);
-            for(LaborOriginEntry originEntry : entries){
+        for (OriginEntryGroup entryGroup : postingGroups) {
+            Iterator<LaborOriginEntry> entries = laborOriginEntryService.getEntriesByGroup(entryGroup);
+            while (entries != null && entries.hasNext()) {
+                LaborOriginEntry originEntry = entries.next();
                 if (postSingleEntryIntoLaborLedger(originEntry, reportSummary, errorMap, validGroup, invalidGroup, runDate)) {
                     numberOfSelectedOriginEntry++;
                     originEntry = null;
@@ -206,12 +207,12 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      */
     private void postAsProcessedOriginEntry(LaborOriginEntry originEntry, OriginEntryGroup entryGroup, Date postDate) {
         LaborOriginEntry newOriginEntry = new LaborOriginEntry();
-        
+
         ObjectUtil.buildObject(newOriginEntry, originEntry);
         newOriginEntry.setEntryId(null);
         newOriginEntry.setEntryGroupId(entryGroup.getId());
         newOriginEntry.setTransactionPostingDate(postDate);
-        
+
         laborOriginEntryService.save(newOriginEntry);
     }
 

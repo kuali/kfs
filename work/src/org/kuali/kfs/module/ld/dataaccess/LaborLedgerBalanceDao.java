@@ -95,9 +95,10 @@ public interface LaborLedgerBalanceDao {
      * @return the ledger balances for the given fiscal year and balance types
      */
     public List<LaborBalanceSummary> findBalanceSummary(Integer fiscalYear, Collection<String> balanceTypes);
-    
+
     /**
      * save the given ledger balance into the underlying data store
+     * 
      * @param ledgerBalance the given ledger balance
      */
     public void save(LedgerBalance ledgerBalance);
@@ -108,4 +109,14 @@ public interface LaborLedgerBalanceDao {
      * @return an iterator over all balances for a given fiscal year
      */
     public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues);
+
+    /**
+     * @param fiscalYear the given fiscal year
+     * @param fieldValues the input fields and values
+     * @param subFundGroupCodes the given list of qualified sub fund group codes
+     * @param fundGroupCodes the given list of qualified group codes
+     * @return an Iterator over all balances for a given year and search criteria that include the accounts of balances must belong
+     *         to the given sub fund group or fund group
+     */
+    public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes);
 }

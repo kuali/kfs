@@ -21,15 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.IteratorUtils;
-import org.kuali.core.bo.user.PersonPayrollId;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.bo.user.UserId;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.util.OJBUtility;
-import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.LaborBalanceSummary;
 import org.kuali.module.labor.bo.LaborTransaction;
@@ -54,7 +47,7 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
     public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear) {
         return laborLedgerBalanceDao.findBalancesForFiscalYear(fiscalYear);
     }
-    
+
     /**
      * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findBalancesForFiscalYear(java.lang.Integer, java.util.Map)
      */
@@ -213,18 +206,12 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
         laborLedgerBalanceDao.save(ledgerBalance);
     }
 
-    // get the person name through employee id
-    private String getPersonName(String emplid) {
-        UserId empl = new PersonPayrollId(emplid);
-        UniversalUser universalUser = null;
-
-        try {
-            universalUser = SpringContext.getBean(UniversalUserService.class).getUniversalUser(empl);
-        }
-        catch (UserNotFoundException e) {
-            return LaborConstants.BalanceInquiries.UnknownPersonName;
-        }
-        return universalUser.getPersonName();
+    /**
+     * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findBalancesForFiscalYear(java.lang.Integer, java.util.Map,
+     *      java.util.List, java.util.List)
+     */
+    public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes) {
+        return laborLedgerBalanceDao.findBalancesForFiscalYear(fiscalYear, fieldValues, subFundGroupCodes, fundGroupCodes);
     }
 
     /**

@@ -73,7 +73,6 @@
             <call-method-rule pattern="universityFiscalAccountingPeriod"       methodname="setUniversityFiscalPeriodCode" paramcount="0" />
             <call-method-rule pattern="universityFiscalYear"                   methodname="setUniversityFiscalYear" paramcount="0" paramtypes="java.lang.Integer"/>
             <call-method-rule pattern="createDate"                             methodname="setCreateDate" paramcount="0" paramtypes="java.sql.Date"/>
-            <call-method-rule pattern="createSequence"                         methodname="setCreateSequence" paramcount="0" />
             <call-method-rule pattern="chartOfAccountsCode"                    methodname="setChartOfAccountsCode" paramcount="0" />
             <call-method-rule pattern="accountNumber"                          methodname="setAccountNumber" paramcount="0" />
             <call-method-rule pattern="subAccountNumber"                       methodname="setSubAccountNumber" paramcount="0" />

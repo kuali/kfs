@@ -58,7 +58,6 @@
 	<detail>
 		<universityFiscalAccountingPeriod>06</universityFiscalAccountingPeriod>
 		<universityFiscalYear>2006</universityFiscalYear>
-		<createSequence>2006</createSequence>
 		<chartOfAccountsCode>IN</chartOfAccountsCode>
 		<accountNumber>6182560</accountNumber>
 		<subAccountNumber>6182</subAccountNumber>
@@ -104,7 +103,6 @@
 	<detail>
 		<universityFiscalAccountingPeriod>06</universityFiscalAccountingPeriod>
 		<universityFiscalYear>2006</universityFiscalYear>
-		<createSequence>2006</createSequence>
 		<balanceTypeCode>AC</balanceTypeCode>
 		<objectTypeCode>EX</objectTypeCode>
 		<chartOfAccountsCode>IN</chartOfAccountsCode>

@@ -295,9 +295,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         Account account = laborOriginEntry.getAccount();
 
-        if (!laborOriginEntry.getAccount().getSubFundGroup().isSubFundGroupWagesIndicator()) {
+/*        if (!laborOriginEntry.getAccount().getSubFundGroup().isSubFundGroupWagesIndicator()) {
 
-
+*/
             if ((account.getAccountExpirationDate() == null) && !account.isAccountClosedIndicator()) {
                 // account is neither closed nor expired
                 laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
@@ -318,8 +318,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
 
             adjustAccountIfContractsAndGrants(account);
-        }
-        
+  /*      }
+  */      
         
         // Labor's new features
         // Indicator for Labor Scrubber Sub-Fund Wage Exclusion

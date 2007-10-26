@@ -28,7 +28,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="vendorTypeCode" column="VNDR_TYP_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="vendorTaxNumber" column="VNDR_TAX_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorTaxNumber" column="VNDR_TAX_NBR" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbKualiEncryptDecryptFieldConversion"/>
     <field-descriptor name="vendorTaxTypeCode" column="VNDR_TAX_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorOwnershipCode" column="VNDR_OWNR_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorOwnershipCategoryCode" column="VNDR_OWNR_CTGRY_CD" jdbc-type="VARCHAR"/>
@@ -314,7 +314,7 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorTaxChangeDate" column="VNDR_TAX_CHG_DT" jdbc-type="DATE"/>
-    <field-descriptor name="vendorPreviousTaxNumber" column="VNDR_PREV_TAX_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorPreviousTaxNumber" column="VNDR_PREV_TAX_NBR" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbKualiEncryptDecryptFieldConversion"/>
     <field-descriptor name="vendorPreviousTaxTypeCode" column="VNDR_PREV_TAX_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorTaxChangePersonIdentifier" column="VNDR_TAX_CHG_PRSN_ID" jdbc-type="VARCHAR"/>
     <reference-descriptor name="vendorHeader" class-ref="org.kuali.module.vendor.bo.VendorHeader" auto-retrieve="true" auto-update="none" auto-delete="none">

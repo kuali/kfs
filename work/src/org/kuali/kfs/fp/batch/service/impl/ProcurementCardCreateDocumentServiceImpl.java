@@ -457,9 +457,6 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         sourceLine.setChartOfAccountsCode(getDefaultChartCode());
         sourceLine.setAccountNumber(getDefaultAccountNumber());
         sourceLine.setFinancialObjectCode(getDefaultObjectCode());
-        sourceLine.setSubAccountNumber("");
-        sourceLine.setFinancialSubObjectCode("");
-        sourceLine.setProjectCode("");
 
         if (GL_CREDIT_CODE.equals(transaction.getTransactionDebitCreditCode())) {
             sourceLine.setAmount(transaction.getFinancialDocumentTotalAmount().negated());

@@ -23,7 +23,7 @@
         <businessObjectClass>org.kuali.module.pdp.bo.PayeeAchAccount</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
         <businessRulesClass>org.kuali.module.pdp.rules.PayeeAchAccountRule</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <documentAuthorizerClass>org.kuali.module.pdp.document.authorization.PayeeAchAccountDocumentAuthorizer</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
@@ -51,7 +51,12 @@
                 <maintainableItems>
                     <maintainableField name="achAccountGeneratedIdentifier" />
                     <maintainableField name="bankRoutingNumber" required="true" />
-                    <maintainableField name="bankAccountNumber" required="true" />
+                    <maintainableField name="bankAccountNumber" required="true" >
+                    	<fieldAuthorization>
+                    		<displayEditMode>entry</displayEditMode>
+                    		<displayMask><maskLiteral literal="*****************"/></displayMask>
+                    	</fieldAuthorization>
+                    </maintainableField>
                     <maintainableField name="bankAccountTypeCode" required="true" />
                     <maintainableField name="payeeName" required="true" />
                		<maintainableField name="payeeEmailAddress" required="true" />
@@ -61,7 +66,12 @@
                 	<maintainableField name="vendorDetailAssignedIdentifier" />
                 	<maintainableField name="disbVchrPayeeIdNumber" />
                 	<maintainableField name="personUniversalIdentifier" />
- 					<maintainableField name="payeeSocialSecurityNumber" />
+ 					<maintainableField name="payeeSocialSecurityNumber" >
+ 						<fieldAuthorization>
+ 							<displayEditMode>entry</displayEditMode>
+ 							<displayMask><maskLiteral literal="*********"/></displayMask>
+ 						</fieldAuthorization>
+ 					</maintainableField>
  					<maintainableField name="payeeFederalEmployerIdentificationNumber" />
  					<maintainableField name="active" required="true" />
                     <maintainableField name="versionNumber" />

@@ -24,6 +24,8 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.dao.ojb.DocumentDaoOjb;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.rule.event.KualiDocumentEvent;
@@ -368,21 +370,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getItem(int pos)
      */
     public PurApItem getItem(int pos) {
-        // TODO: we probably don't need this because of the TypedArrayList
-        while (getItems().size() <= pos) {
-            try {
-                getItems().add(getItemClass().newInstance());
-            }
-            catch (InstantiationException e) {
-                logAndThrowRuntimeException("Unable to instantiate class", e);
-            }
-            catch (IllegalAccessException e) {
-                logAndThrowRuntimeException("Unable to get class", e);
-            }
-            catch (NullPointerException e) {
-                logAndThrowRuntimeException("Can't instantiate Purchasing Item from base", e);
-            }
-        }
         return (PurApItem) items.get(pos);
     }
     

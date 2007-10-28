@@ -309,8 +309,13 @@
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
     <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.RequisitionItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="itemLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
+        <query-customizer class="org.kuali.module.purap.dao.ojb.PurapItemQueryCustomizer">
+    	    <attribute
+            	attribute-name="orderByField.itemLineNumber"
+            	attribute-value="ASC"
+        	/>
+    	</query-customizer> 
     </collection-descriptor>
 
     <!-- COMMON TO REQ AND PO DOCUMENTS -->
@@ -525,8 +530,13 @@
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
     <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="itemLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
+    	<query-customizer class="org.kuali.module.purap.dao.ojb.PurapItemQueryCustomizer">
+    	    <attribute
+            	attribute-name="orderByField.itemLineNumber"
+            	attribute-value="ASC"
+        	/>
+    	</query-customizer> 
     </collection-descriptor>
 
     <!-- COMMON TO REQ AND PO DOCUMENTS -->
@@ -729,8 +739,13 @@
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
     <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="itemLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
+        <query-customizer class="org.kuali.module.purap.dao.ojb.PurapItemQueryCustomizer">
+    	    <attribute
+            	attribute-name="orderByField.itemLineNumber"
+            	attribute-value="ASC"
+        	/>
+    	</query-customizer> 
     </collection-descriptor>
 
     <!-- COMMON TO REQ AND PO DOCUMENTS -->
@@ -933,8 +948,13 @@
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
     <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="itemLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
+        <query-customizer class="org.kuali.module.purap.dao.ojb.PurapItemQueryCustomizer">
+    	    <attribute
+            	attribute-name="orderByField.itemLineNumber"
+            	attribute-value="ASC"
+        	/>
+    	</query-customizer> 
     </collection-descriptor>
 
     <!-- COMMON TO REQ AND PO DOCUMENTS -->
@@ -1140,8 +1160,14 @@
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
     <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="itemLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
+        <query-customizer class="org.kuali.module.purap.dao.ojb.PurapItemQueryCustomizer">
+    	    <attribute
+            	attribute-name="orderByField.itemLineNumber"
+            	attribute-value="ASC"
+        	/>
+    	</query-customizer> 
+        
     </collection-descriptor>
 
     <!-- COMMON TO REQ AND PO DOCUMENTS -->
@@ -1344,8 +1370,13 @@
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
     <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="itemLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
+        <query-customizer class="org.kuali.module.purap.dao.ojb.PurapItemQueryCustomizer">
+    	    <attribute
+            	attribute-name="orderByField.itemLineNumber"
+            	attribute-value="ASC"
+        	/>
+    	</query-customizer> 
     </collection-descriptor>
 
     <!-- COMMON TO REQ AND PO DOCUMENTS -->
@@ -1548,8 +1579,13 @@
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
     <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="itemLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
+        <query-customizer class="org.kuali.module.purap.dao.ojb.PurapItemQueryCustomizer">
+    	    <attribute
+            	attribute-name="orderByField.itemLineNumber"
+            	attribute-value="ASC"
+        	/>
+    	</query-customizer> 
     </collection-descriptor>
 
     <!-- COMMON TO REQ AND PO DOCUMENTS -->
@@ -1752,8 +1788,13 @@
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
     <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="itemLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
+        <query-customizer class="org.kuali.module.purap.dao.ojb.PurapItemQueryCustomizer">
+    	    <attribute
+            	attribute-name="orderByField.itemLineNumber"
+            	attribute-value="ASC"
+        	/>
+    	</query-customizer> 
     </collection-descriptor>
 
     <!-- COMMON TO REQ AND PO DOCUMENTS -->
@@ -1956,8 +1997,13 @@
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
     <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="itemLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
+        <query-customizer class="org.kuali.module.purap.dao.ojb.PurapItemQueryCustomizer">
+    	    <attribute
+            	attribute-name="orderByField.itemLineNumber"
+            	attribute-value="ASC"
+        	/>
+    	</query-customizer> 
     </collection-descriptor>
 
     <!-- COMMON TO REQ AND PO DOCUMENTS -->
@@ -2117,8 +2163,13 @@
         <foreignkey field-ref="processingCampusCode" />
     </reference-descriptor>
     <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.PaymentRequestItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="itemLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
+        <query-customizer class="org.kuali.module.purap.dao.ojb.PurapItemQueryCustomizer">
+    	    <attribute
+            	attribute-name="orderByField.itemLineNumber"
+            	attribute-value="ASC"
+        	/>
+    	</query-customizer> 
     </collection-descriptor>
 <!--<reference-descriptor name="purchaseOrderDocument" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderIdentifier" />
@@ -2982,8 +3033,13 @@
         <foreignkey field-ref="statusCode" />
     </reference-descriptor>
     <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.CreditMemoItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="itemLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
+        <query-customizer class="org.kuali.module.purap.dao.ojb.PurapItemQueryCustomizer">
+    	    <attribute
+            	attribute-name="orderByField.itemLineNumber"
+            	attribute-value="ASC"
+        	/>
+    	</query-customizer> 
     </collection-descriptor>
 
    <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">

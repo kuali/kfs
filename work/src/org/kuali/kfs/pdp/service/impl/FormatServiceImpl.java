@@ -190,6 +190,7 @@ public class FormatServiceImpl implements FormatService {
                 }
             }
 
+            pg.setDisbursementDate(proc.getProcessTimestamp());
             pg.setPhysCampusProcessCd(proc.getCampus());
             pg.setProcess(proc);
 

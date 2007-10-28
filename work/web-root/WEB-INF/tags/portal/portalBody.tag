@@ -22,19 +22,15 @@
 <portal:immutableBar />
 
  <table border="0" width="100%"  cellspacing="0" cellpadding="0" id="iframe_portlet_container_table">
-        <c:choose>
-          	<c:when test='${empty channelTitle && empty channelUrl}'>
+<c:set var="motd" value="<%= (new org.kuali.kfs.lookup.valuefinder.MessageOfTheDayFinder()).getValue() %>" scope="page"/>
+<c:if test="${!empty pageScope.motd}">
   	<tr valign="top" bgcolor="#FFFFFF">
 				<td width="15" class="leftback-focus">&nbsp;</td>
 					<td colspan="3">
-<c:set var="motd" value="<%= (new org.kuali.kfs.lookup.valuefinder.MessageOfTheDayFinder()).getValue() %>" scope="page"/>
-<c:if test="${!empty pageScope.motd}">
   &nbsp;&nbsp;&nbsp;<strong>${pageScope.motd}</strong>
-</c:if>
 					</td>
    	</tr>
-         	</c:when>
-        </c:choose>
+</c:if>
  	<tr valign="top" bgcolor="#FFFFFF">
        <td width="15" class="leftback-focus">&nbsp;</td>
         <c:choose>

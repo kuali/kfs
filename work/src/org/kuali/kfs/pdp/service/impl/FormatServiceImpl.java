@@ -316,7 +316,7 @@ public class FormatServiceImpl implements FormatService {
 
         // step 5 tell the extract batch job to start
         LOG.debug("performFormat() Start extract batch job");
-        triggerExtract(proc);
+        triggerExtract(procId);
 
         // step 6 end the format process for this campus
         LOG.debug("performFormat() End the format process for this campus");
@@ -327,10 +327,10 @@ public class FormatServiceImpl implements FormatService {
         return convertProcessSummary2FormatResult(processSummaryResults);
     }
 
-    private void triggerExtract(PaymentProcess proc) {
+    private void triggerExtract(Integer procId) {
         LOG.debug("triggerExtract() started");
 
-        saveProcessId(proc.getId());
+        saveProcessId(procId);
         String emailAddress = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.NO_PAYMENT_FILE_EMAIL);
         schedulerService.runJob("pdpExtractChecksJob", emailAddress);
     }

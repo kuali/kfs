@@ -103,6 +103,12 @@
 		<property name="creditMemoService">
 			<ref bean="creditMemoService"/>
 		</property>
+		<property name="referenceService">
+			<ref bean="pdpReferenceService"/>
+		</property>
+		<property name="documentService">
+			<ref bean="documentService"/>
+		</property>
 	</bean>
 
 	<bean id="requisitionService" class="org.kuali.module.purap.service.impl.RequisitionServiceImpl">

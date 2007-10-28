@@ -30,6 +30,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
@@ -64,6 +65,8 @@ import org.kuali.module.purap.service.PdpExtractService;
 import org.kuali.module.vendor.VendorConstants;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
 @Transactional
 public class PdpExtractServiceImpl implements PdpExtractService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PdpExtractServiceImpl.class);
@@ -79,6 +82,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private PaymentDetailService paymentDetailService;
     private CreditMemoService creditMemoService;
     private ReferenceService referenceService;
+    private DocumentService documentService;
 
     private PaymentStatus openPaymentStatus;
     
@@ -305,9 +309,13 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      */
     private void updateCreditMemo(CreditMemoDocument cmd, PdpUser puser, Date processRunDate) {
         if (!testMode) {
-            cmd.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
-            // TODO creditMemoService.saveDocumentWithoutValidation(cmd);
-            businessObjectService.save(cmd);
+            try {
+                CreditMemoDocument doc = (CreditMemoDocument)documentService.getByDocumentHeaderId(cmd.getDocumentNumber());
+                doc.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
+                creditMemoService.saveDocumentWithoutValidation(cmd);
+            } catch (WorkflowException e) {
+                throw new IllegalArgumentException("Unable to retrieve credit memo: " + cmd.getDocumentNumber());
+            }
         }
     }
 
@@ -320,9 +328,13 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      */
     private void updatePaymentRequest(PaymentRequestDocument prd, PdpUser puser, Date processRunDate) {
         if (!testMode) {
-            prd.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
-            // TODO paymentRequestService.saveDocumentWithoutValidation(prd);
-            businessObjectService.save(prd);
+            try {
+                PaymentRequestDocument doc = (PaymentRequestDocument)documentService.getByDocumentHeaderId(prd.getDocumentNumber());
+                doc.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
+                paymentRequestService.saveDocumentWithoutValidation(prd);
+            } catch (WorkflowException e) {
+                throw new IllegalArgumentException("Unable to retrieve payment request: " + prd.getDocumentNumber());
+            }
         }
     }
 
@@ -882,5 +894,9 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     public void setReferenceService(ReferenceService rs) {
         referenceService = rs;
+    }
+
+    public void setDocumentService(DocumentService ds) {
+        documentService = ds;
     }
 }

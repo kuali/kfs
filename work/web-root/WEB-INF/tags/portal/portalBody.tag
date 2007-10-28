@@ -19,17 +19,22 @@
 <%@ attribute name="channelUrl" required="true" %>
 <%@ attribute name="selectedTab" required="true" %>
 
- <portal:immutableBar />
+<portal:immutableBar />
 
  <table border="0" width="100%"  cellspacing="0" cellpadding="0" id="iframe_portlet_container_table">
-  	<tr valign="top" bgcolor="#FFFFFF">
         <c:choose>
           	<c:when test='${empty channelTitle && empty channelUrl}'>
+  	<tr valign="top" bgcolor="#FFFFFF">
 				<td width="15" class="leftback-focus">&nbsp;</td>
-			 	<portal:portalMessageOfTheDayBody />
+					<td colspan="3">
+<c:set var="motd" value="<%= (new org.kuali.kfs.lookup.valuefinder.MessageOfTheDayFinder()).getValue() %>" scope="page"/>
+<c:if test="${!empty pageScope.motd}">
+  &nbsp;&nbsp;&nbsp;<strong>${pageScope.motd}</strong>
+</c:if>
+					</td>
+   	</tr>
          	</c:when>
         </c:choose>
-   	</tr>
  	<tr valign="top" bgcolor="#FFFFFF">
        <td width="15" class="leftback-focus">&nbsp;</td>
         <c:choose>
@@ -51,16 +56,9 @@
           <c:when test='${selectedTab == "portalAdministrationBody"}'>
               <portal:portalAdministrationBody />
           </c:when>
-          <c:when test='${selectedTab == "portalContractsAndGrantsBody"}'>
-              <portal:portalContractsAndGrantsBody />
+          <c:when test='${selectedTab == "portalAdditionalAdministrationBody"}'>
+              <portal:portalAdditionalAdministrationBody />
           </c:when>
-          <c:when test='${selectedTab == "portalPurchasingAccountsPayableBody"}'>
-              <portal:portalPurchasingAccountsPayableBody />
-          </c:when>
-          <c:when test='${selectedTab == "portalLaborDistributionBody"}'>
-              <portal:portalLaborDistributionBody />
-          </c:when>
-
           <c:when test='${selectedTab == "portalFutureModulesBody"}'>
           	  <portal:portalFutureModulesBody />
           </c:when>

@@ -57,51 +57,18 @@
 			</li>
 		</c:if>
 
-		<%-- Contracts & Grants --%>
-		<c:if test='${selectedTab == "portalContractsAndGrantsBody"}'>
+		<%-- Additional Administration  --%>
+		<c:if test='${selectedTab == "portalAdditionalAdministrationBody"}'>
 			<li class="red">
-				<a class="red"
-					href="portal.do?selectedTab=portalContractsAndGrantsBody"
-					title="Contracts & Grants">Contracts & Grants</a>
+				<a class="red" href="portal.do?selectedTab=portalAdditionalAdministrationBody"
+					title="Additional Administration">Additional Administration</a>
 			</li>
 		</c:if>
-		<c:if test='${selectedTab != "portalContractsAndGrantsBody"}'>
+		<c:if test='${selectedTab != "portalAdditionalAdministrationBody"}'>
 			<li class="green">
 				<a class="green"
-					href="portal.do?selectedTab=portalContractsAndGrantsBody"
-					title="Contracts & Grants">Contracts & Grants</a>
-			</li>
-		</c:if>
-
-		<%-- Labor Modules --%>
-		<c:if test='${selectedTab == "portalLaborDistributionBody"}'>
-			<li class="red">
-				<a class="red"
-					href="portal.do?selectedTab=portalLaborDistributionBody"
-					title="Labor Distribution">Labor Distribution</a>
-			</li>
-		</c:if>
-		<c:if test='${selectedTab != "portalLaborDistributionBody"}'>
-			<li class="green">
-				<a class="green"
-					href="portal.do?selectedTab=portalLaborDistributionBody"
-					title="Labor Distribution">Labor Distribution</a>
-			</li>
-		</c:if>
-		
-		<%-- Purchasing/AP --%>
-		<c:if test='${selectedTab == "portalPurchasingAccountsPayableBody"}'>
-			<li class="red">
-				<a class="red"
-					href="portal.do?selectedTab=portalPurchasingAccountsPayableBody"
-					title="Purchasing/Accounts Payable">Purchasing/Accounts Payable</a>
-			</li>
-		</c:if>
-		<c:if test='${selectedTab != "portalPurchasingAccountsPayableBody"}'>
-			<li class="green">
-				<a class="green"
-					href="portal.do?selectedTab=portalPurchasingAccountsPayableBody"
-					title="Purchasing/Accounts Payable">Purchasing/Accounts Payable</a>
+					href="portal.do?selectedTab=portalAdditionalAdministrationBody"
+					title="Additional Administration">Additional Administration</a>
 			</li>
 		</c:if>
 

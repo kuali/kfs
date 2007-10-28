@@ -18,7 +18,7 @@
 <beans>
 	<bean id="cgModule" class="org.kuali.core.KualiModule">
 		<property name="moduleId" value="cg" />
-		<property name="moduleName" value="Contracts and Grants" />
+		<property name="moduleName" value="Post-Award" />
 		<property name="moduleCode" value="CG" />
 		<property name="moduleUserService" ref="cgUserService" />
 		<property name="initializeDataDictionary" value="true" />

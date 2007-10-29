@@ -137,5 +137,14 @@ public interface LaborLedgerBalanceService {
      */
     public void save(LedgerBalance ledgerBalance);
 
+    /**
+     * find the accounts (chart of accounts code + account number) in the given fund groups
+     * 
+     * @param fiscalYear the given fiscal year
+     * @param fieldValues the input fields and values
+     * @param subFundGroupCodes the given list of qualified sub fund group codes
+     * @param fundGroupCodes the given list of qualified group codes
+     * @return the accounts (chart of accounts code + account number) in the given fund groups
+     */
     public List<List<String>> findAccountsInFundGroups(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes);
 }

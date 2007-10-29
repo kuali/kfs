@@ -21,21 +21,41 @@ import org.apache.ojb.broker.metadata.JdbcConnectionDescriptor;
 import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.service.ScrubberService;
+import org.springframework.util.StopWatch;
 
+/**
+ * A step to run the scrubber process.
+ */
 public class ScrubberStep extends AbstractStep {
     private ScrubberService scrubberService;
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberStep.class);
     
+    /**
+     * Runs the scrubber process.
+     * 
+     * @param jobName the name of the job this step is being run as part of
+     * @return true if the job completed successfully, false if otherwise
+     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     */
     public boolean execute(String jobName) {
-        long start = System.currentTimeMillis();
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start(jobName);
+        
         scrubberService.scrubEntries();
-        long end = System.currentTimeMillis();
-        long total = end - start;
-        LOG.fatal("Time elapsed " + (total/60000) + ":" + ((total % 60000) / 1000));
-        LOG.fatal("After scrub commit" + System.currentTimeMillis());
+        
+        
+        stopWatch.stop();
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("scrubber step of "+jobName+" took "+(stopWatch.getTotalTimeSeconds()/60.0)+" minutes to complete");
+        }
         return true;
     }
 
+    /**
+     * Sets the scrubberSerivce, allowing the injection of an implementation of that service
+     * @param scrubberService the scrubberServiceService implementation to set
+     * @see org.kuali.module.gl.service.ScrubberService
+     */
     public void setScrubberService(ScrubberService ss) {
         scrubberService = ss;
     }

@@ -28,6 +28,10 @@ public class EnterpriseFeedStep extends AbstractStep {
     private EnterpriseFeederService enterpriseFeederService;
     
     /**
+     * Runs the enterprise feeder process
+     * 
+     * @jobName the name of the job this step is being execute as part of
+     * @return true if the job completed successfully, false if otherwise
      * @see org.kuali.kfs.batch.Step#execute()
      */
     public boolean execute(String jobName) throws InterruptedException {
@@ -38,6 +42,7 @@ public class EnterpriseFeedStep extends AbstractStep {
     /**
      * Gets the enterpriseFeederService attribute. 
      * @return Returns the enterpriseFeederService.
+     * @see org.kuali.module.gl.service.EnterpriseFeederService
      */
     public EnterpriseFeederService getEnterpriseFeederService() {
         return enterpriseFeederService;
@@ -46,6 +51,7 @@ public class EnterpriseFeedStep extends AbstractStep {
     /**
      * Sets the enterpriseFeederService attribute value.
      * @param enterpriseFeederService The enterpriseFeederService to set.
+     * @see org.kuali.module.gl.service.EnterpriseFeederService
      */
     public void setEnterpriseFeederService(EnterpriseFeederService enterpriseFeederService) {
         this.enterpriseFeederService = enterpriseFeederService;

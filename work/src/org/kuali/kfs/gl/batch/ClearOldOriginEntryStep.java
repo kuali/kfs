@@ -19,10 +19,20 @@ import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 
+/**
+ * A step which runs the process to remove old origin entry groups and associated origin entries
+ */
 public class ClearOldOriginEntryStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ClearOldOriginEntryStep.class);
     private OriginEntryGroupService originEntryGroupService;
 
+    /**
+     * Peforms the process of clearing old origin entry groups and entries
+     * 
+     * @param the name of the job that this step is a part of
+     * @return that the job completed successfully
+     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     */
     public boolean execute(String jobName) {
         LOG.debug("performStep() started");
         String daysStr = getParameterService().getParameterValue(getClass(), GLConstants.RETAIN_DAYS);
@@ -31,6 +41,11 @@ public class ClearOldOriginEntryStep extends AbstractStep {
         return true;
     }
 
+    /**
+     * Sets the originEntryService attribute, allowing injection of an implementation of the service
+     * @param oes
+     * @see org.kuali.module.gl.service.OriginEntryGroupService
+     */
     public void setOriginEntryGroupService(OriginEntryGroupService oes) {
         originEntryGroupService = oes;
     }

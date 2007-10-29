@@ -31,6 +31,9 @@ import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.springframework.util.StopWatch;
 
+/**
+ * The step tha truns the year end nominal activity closing process.
+ */
 public class NominalActivityClosingStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(NominalActivityClosingStep.class);
     private YearEndService yearEndService;
@@ -39,6 +42,12 @@ public class NominalActivityClosingStep extends AbstractStep {
     public static final String TRANSACTION_DATE_FORMAT_STRING = "yyyy-MM-dd";
 
     /**
+     * Runs the nominal activity process, including retrieving system parameters for the process,
+     * creating the origin entry group for output origin entries, and generating reports based
+     * on the run
+     * 
+     * @param jobName the name of the job this step is being run as part of
+     * @return true if the job completed successfully, false if otherwise
      * @see org.kuali.kfs.batch.Step#performStep()
      */
     public boolean execute(String jobName) {
@@ -72,7 +81,10 @@ public class NominalActivityClosingStep extends AbstractStep {
     }
 
     /**
-     * @param yearEndService
+     * Sets the yearEndService attribute, allowing the injection of an implementation of the service
+     * 
+     * @param yearEndService the year end service to set
+     * @see org.kuali.module.gl.service.YearEndService
      */
     public void setYearEndService(YearEndService yearEndService) {
         this.yearEndService = yearEndService;
@@ -81,7 +93,8 @@ public class NominalActivityClosingStep extends AbstractStep {
     /**
      * This method returns the YearEndService object associated with this step
      * 
-     * @return
+     * @return the yearEndService this step is using to complete its process
+     * @see org.kuali.module.gl.service.YearEndSErvice
      */
     public YearEndService getYearEndService() {
         return yearEndService;
@@ -91,6 +104,7 @@ public class NominalActivityClosingStep extends AbstractStep {
      * Sets the originEntryGroupService attribute value.
      * 
      * @param originEntryGroupService The originEntryGroupService to set.
+     * @see org.kuali.module.gl.service.OriginEntryGroupService
      */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
         this.originEntryGroupService = originEntryGroupService;

@@ -18,10 +18,20 @@ package org.kuali.module.gl.batch;
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.service.NightlyOutService;
 
+/**
+ * A step to clear pending ledger entries.
+ */
 public class ClearPendingStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ClearPendingStep.class);
     private NightlyOutService nightlyOutService;
 
+    /**
+     * Runs the process of deleting copied ledger entries
+     * 
+     * @param the name of the job that this step is being run as part of
+     * @return that the job completed successfully
+     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     */
     public boolean execute(String jobName) {
         nightlyOutService.deleteCopiedPendingLedgerEntries();
         return true;
@@ -31,6 +41,7 @@ public class ClearPendingStep extends AbstractStep {
      * Sets the nightlyOutService attribute value.
      * 
      * @param nightlyOutService The nightlyOutService to set.
+     * @see org.kuali.module.gl.service.NightlyOutService
      */
     public void setNightlyOutService(NightlyOutService nightlyOutService) {
         this.nightlyOutService = nightlyOutService;

@@ -18,15 +18,31 @@ package org.kuali.module.gl.batch;
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.service.PosterService;
 
+/**
+ * The step that runs the poster service on indirect cost recovery entries.
+ */
 public class PosterIndirectCostRecoveryEntriesStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterIndirectCostRecoveryEntriesStep.class);
     private PosterService posterService;
 
+    /**
+     * Runs the poster service on indirect cost recovery entries
+     * 
+     * @param jobName the name of the job this step is being run as part of
+     * @return true if the job completed successfully, false if otherwise
+     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     */
     public boolean execute(String jobName) {
         posterService.postIcrEntries();
         return true;
     }
 
+    /**
+     * Sets the posterService attribute, allowing the injection of an implementation of the service
+     * 
+     * @param ps the implementation of the posterService to set
+     * @see org.kuali.module.gl.service.PosterService
+     */
     public void setPosterService(PosterService ps) {
         posterService = ps;
     }

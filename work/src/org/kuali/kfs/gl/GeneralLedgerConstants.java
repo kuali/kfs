@@ -31,7 +31,7 @@ import org.kuali.module.gl.bo.OriginEntryFull;
 
 
 /**
- * This class...
+ * This class holds constants specifically for use within the General Ledger module.
  */
 public class GLConstants {
 

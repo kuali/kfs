@@ -27,6 +27,9 @@ import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.chart.service.ChartService;
 import org.kuali.module.gl.service.EntryService;
 
+/**
+ * A step to remove old general ledger entries from the database.
+ */
 public class PurgeEntryStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurgeEntryStep.class);
     private ChartService chartService;
@@ -36,6 +39,10 @@ public class PurgeEntryStep extends AbstractStep {
      * This step will purge data from the gl_entry_t table older than a specified year. It purges the data one chart at a time each
      * within their own transaction so database transaction logs don't get completely filled up when doing this. This step class
      * should NOT be transactional.
+     * 
+     * @param jobName the name of the job this step is being run as part of
+     * @return true if the job completed successfully, false if otherwise
+     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
      */
     public boolean execute(String jobName) {
         String yearStr = getParameterService().getParameterValue(getClass(), KFSConstants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR);
@@ -48,10 +55,22 @@ public class PurgeEntryStep extends AbstractStep {
         return true;
     }
 
+    /**
+     * Sets the entryService attribute, allowing the injection of an implementation of the service.
+     * 
+     * @param entryService the entryService implementation to set
+     * @see org.kuali.module.gl.service.EntryService
+     */
     public void setEntryService(EntryService entryService) {
         this.entryService = entryService;
     }
 
+    /**
+     * Sets the chartService attribute, allowing the injection of an implementation of the service.
+     * 
+     * @param chartService the chartService implementation to set
+     * @see org.kuali.module.chart.service.ChartService
+     */
     public void setChartService(ChartService chartService) {
         this.chartService = chartService;
     }

@@ -18,15 +18,30 @@ package org.kuali.module.gl.batch;
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 
+/**
+ * A step to create a backup group for entries about to be processed by the scrubber and poster
+ */
 public class CreateBackupGroupStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreateBackupGroupStep.class);
     private OriginEntryGroupService originEntryGroupService;
 
+    /**
+     * Runs the backup group creation process
+     * 
+     * @param jobName the name of the job that this step is being run as part of
+     * @return true if this job completed successfully, false if otherwise
+     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     */
     public boolean execute(String jobName) {
         originEntryGroupService.createBackupGroup();
         return true;
     }
 
+    /**
+     * Sets the originEntryGroupService attribute, allowing the injection of an implementation of the service
+     * @param oegs
+     * @see org.kuali.module.gl.OriginEntryGroupService
+     */
     public void setOriginEntryGroupService(OriginEntryGroupService oegs) {
         originEntryGroupService = oegs;
     }

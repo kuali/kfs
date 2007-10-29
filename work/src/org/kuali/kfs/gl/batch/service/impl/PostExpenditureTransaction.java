@@ -165,6 +165,7 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
 
         ExpenditureTransaction et = expenditureTransactionDao.getByTransaction(t);
         if (et == null) {
+            LOG.warn("Posting expenditure transation");
             et = new ExpenditureTransaction(t);
             returnCode = GLConstants.INSERT_CODE;
         }

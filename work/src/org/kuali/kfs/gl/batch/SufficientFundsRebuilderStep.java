@@ -18,14 +18,29 @@ package org.kuali.module.gl.batch;
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.service.SufficientFundsRebuilderService;
 
+/**
+ * A step to run the process that rebuilds information that supports sufficient funds inquiries
+ */
 public class SufficientFundsRebuilderStep extends AbstractStep {
     private SufficientFundsRebuilderService sufficientFundsRebuilderService;
 
+    /**
+     * Runs the sufficient funds rebuilder step.
+     * 
+     * @param jobName the name of the job this step is being run as part of
+     * @return true if the job completed successfully, false if otherwise
+     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     */
     public boolean execute(String jobName) {
         sufficientFundsRebuilderService.rebuildSufficientFunds();
         return true;
     }
 
+    /**
+     * Sets the sufficientFundsRebuilderService, allowing the injection of an implementation of that service
+     * @param sufficientFundsRebuilderService an implementation sufficientFundsRebuilderService to set
+     * @see org.kuali.module.gl.service.SufficientFundsRebuilderService
+     */
     public void setSufficientFundsRebuilderService(SufficientFundsRebuilderService sfrs) {
         sufficientFundsRebuilderService = sfrs;
     }

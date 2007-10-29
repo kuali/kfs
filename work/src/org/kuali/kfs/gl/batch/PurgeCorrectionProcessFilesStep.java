@@ -26,11 +26,18 @@ import org.kuali.module.gl.dao.CorrectionDocumentDao;
 import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.service.CorrectionDocumentService;
 
+/**
+ * A step to remove old correction document origin entries from the database.
+ */
 public class PurgeCorrectionProcessFilesStep extends AbstractStep {
     private static Logger LOG = Logger.getLogger(PurgeCorrectionProcessFilesStep.class);
     private CorrectionDocumentService correctionDocumentService;
     
     /**
+     * Runs the process of purging old correction document origin entries from the database.
+     * 
+     * @param jobName the name of the job this step is being run as part of
+     * @return true if the job completed successfully, false if otherwise
      * @see org.kuali.kfs.batch.Step#performStep()
      */
     public boolean execute(String jobName) {
@@ -46,8 +53,10 @@ public class PurgeCorrectionProcessFilesStep extends AbstractStep {
     }
 
     /**
-     * Sets the correctionDocumentService attribute value. For use by Spring.
+     * Sets the correctionDocumentService attribute value, allowing the injection of an implementation of that service.
+     * 
      * @param correctionDocumentService The correctionDocumentService to set.
+     * @see org.kuali.module.gl.service.CorrectionDocumentService.
      */
     public void setCorrectionDocumentService(CorrectionDocumentService correctionDocumentService) {
         this.correctionDocumentService = correctionDocumentService;

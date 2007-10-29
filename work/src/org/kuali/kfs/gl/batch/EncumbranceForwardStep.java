@@ -31,6 +31,9 @@ import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.springframework.util.StopWatch;
 
+/**
+ * A step to run the year end process of forwarding encumbrances into the next fiscal year
+ */
 public class EncumbranceForwardStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EncumbranceForwardStep.class);
     private YearEndService yearEndService;
@@ -39,6 +42,12 @@ public class EncumbranceForwardStep extends AbstractStep {
     public static final String TRANSACTION_DATE_FORMAT_STRING = "yyyy-MM-dd";
 
     /**
+     * This step runs the forward encumbrance process, including retrieving the parameters needed
+     * to run the job, creating the origin entry group where output origin entries will go, and
+     * having the job's reports generated.
+     * 
+     * @jobName the name of the job that this step is being run as part of
+     * @return true if the job completed successfully, false if otherwise
      * @see org.kuali.kfs.batch.Step#performStep()
      */
     public boolean execute(String jobName) {
@@ -82,7 +91,10 @@ public class EncumbranceForwardStep extends AbstractStep {
     }
 
     /**
-     * @param yearEndService
+     * Sets the yearEndService attribute, allowing the injection of an implementation of that service
+     * 
+     * @param yearEndService the yearEndService to set
+     * @see org.kuali.module.gl.service.YearEndService
      */
     public void setYearEndService(YearEndService yearEndService) {
         this.yearEndService = yearEndService;
@@ -92,6 +104,7 @@ public class EncumbranceForwardStep extends AbstractStep {
      * Sets the originEntryGroupService attribute value.
      * 
      * @param originEntryGroupService The originEntryGroupService to set.
+     * @see org.kuali.module.gl.service.OriginEntryGroupService
      */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
         this.originEntryGroupService = originEntryGroupService;

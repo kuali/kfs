@@ -26,11 +26,23 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 public class MarkScrubbableBackupGroupsAsUnscrubbableStep extends AbstractStep implements TestingStep {
     private OriginEntryGroupService originEntryGroupService;
     
+    /**
+     * Marks all scrubbable backup groups as unscrubbable
+     * 
+     * @param jobName the name of the job this step is being run as part of
+     * @return true if the job completed successfully, false if otherwise
+     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     */
     public boolean execute(String jobName) throws InterruptedException {
         originEntryGroupService.markScrubbableBackupGroupsAsUnscrubbable();
         return true;
     }
 
+    /**
+     * Sets the originEntryGroupSerivce, allowing the injection of an implementation of that service
+     * @param originEntryGroupService an implementation originEntryGroupService to set
+     * @see org.kuali.module.gl.service.OriginEntryGroupService
+     */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
         this.originEntryGroupService = originEntryGroupService;
     }

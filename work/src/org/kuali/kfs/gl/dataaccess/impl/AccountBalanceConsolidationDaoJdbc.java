@@ -165,7 +165,7 @@ public class AccountBalanceConsolidationDaoJdbc extends
 		List<Object> params = new ArrayList<Object>( 20 ); 
 		
 		String selectSql = "SELECT ?, p.FS_ORIGIN_CD, p.FDOC_NBR, p.TRN_ENTR_SEQ_NBR,"
-				+ "p.FIN_COA_CD, p.ACCOUNT_NBR, NVL(p.SUB_ACCT_NBR,'-----'), p.FIN_OBJECT_CD, NVL(p.FIN_SUB_OBJ_CD,'---'), p.FIN_BALANCE_TYP_CD,p.FIN_OBJ_TYP_CD, p.UNIV_FISCAL_YR, p.UNIV_FISCAL_PRD_CD, "
+				+ "p.FIN_COA_CD, p.ACCOUNT_NBR, " + getDbPlatform().getIsNullFunction("p.SUB_ACCT_NBR", "'-----'") + ", p.FIN_OBJECT_CD, " + getDbPlatform().getIsNullFunction("p.FIN_SUB_OBJ_CD", "'---'") + " , p.FIN_BALANCE_TYP_CD,p.FIN_OBJ_TYP_CD, p.UNIV_FISCAL_YR, p.UNIV_FISCAL_PRD_CD, "
 				+ "p.TRN_LDGR_ENTR_DESC, p.TRN_LDGR_ENTR_AMT, p.TRN_DEBIT_CRDT_CD, p.TRANSACTION_DT, p.FDOC_TYP_CD, p.ORG_DOC_NBR, PROJECT_CD, p.ORG_REFERENCE_ID,p.FDOC_REF_TYP_CD, "
 				+ "p.FS_REF_ORIGIN_CD,p.FDOC_REF_NBR, p.FDOC_REVERSAL_DT, p.TRN_ENCUM_UPDT_CD, p.FDOC_APPROVED_CD, p.ACCT_SF_FINOBJ_CD,p.TRN_ENTR_OFST_CD,p.TRNENTR_PROCESS_TM "
 				+ " FROM gl_pending_entry_t p,fp_doc_header_t d "

@@ -77,6 +77,13 @@ public class PurapTestConstants {
     }
     
     @SuppressWarnings("deprecation")
+    static class PO {
+        static final Integer REQ_ID = new Integer("8888");
+        static final Date CREATE_DATE = new Date(107,10,10); //2008-01-01
+        static final KualiDecimal AMOUNT = new KualiDecimal(32);
+    }
+    
+    @SuppressWarnings("deprecation")
     static class PREQInvoice {
         static final Integer PO_ID = new Integer("9999");
         static final Date INVOICE_DATE = new Date(108,1,1); //2008-01-01

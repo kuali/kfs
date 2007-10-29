@@ -282,6 +282,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
 
         // retrieve
         AccountingDocument result = (AccountingDocument) documentService.getByDocumentHeaderId(document.getDocumentNumber());
+
         // verify
         assertMatch(document, result);
     }

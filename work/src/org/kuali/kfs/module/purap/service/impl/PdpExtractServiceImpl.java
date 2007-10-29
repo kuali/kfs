@@ -312,7 +312,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             try {
                 CreditMemoDocument doc = (CreditMemoDocument)documentService.getByDocumentHeaderId(cmd.getDocumentNumber());
                 doc.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
-                creditMemoService.saveDocumentWithoutValidation(cmd);
+                creditMemoService.saveDocumentWithoutValidation(doc);
             } catch (WorkflowException e) {
                 throw new IllegalArgumentException("Unable to retrieve credit memo: " + cmd.getDocumentNumber());
             }

@@ -972,8 +972,10 @@ public class KFSPropertyConstants {
     public static final String PROPOSAL_PROJECT_DIRECTORS = "proposalProjectDirectors";
     public static final String PROPOSAL_SUBCONTRACTORS = "proposalSubcontractors";
     public static final String REFERENCE_DOCUMENT_NUMBER = "referenceDocumentNumber";
+    public static final String REFERENCE_FINANCIAL_DOCUMENT_NUMBER = "referenceFinancialDocumentNumber";
     public static final String REFERENCE_DOCUMENT_TYPE = "referenceDocumentType";
     public static final String REFERENCE_FIN_DOCUMENT_TYPE_CODE = "referenceFinancialDocumentTypeCode";
+    public static final String REFERENCE_FINANCIAL_DOCUMENT_TYPE_CODE = "referenceFinancialDocumentTypeCode";
     public static final String REFERENCE_FINANCIAL_SYSTEM_ORIGINATION_CODE = "referenceFinancialSystemOriginationCode";
     public static final String REFERENCE_NUMBER = "referenceNumber";
     public static final String REFERENCE_ORIGIN = "referenceOrigin";

@@ -94,7 +94,14 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
     private String getEncumbranceUpdateCode(Transaction transaction) {
         String documentTypeCode = transaction.getFinancialDocumentTypeCode();
         boolean isEncumbrance = LaborConstants.PayrollDocumentTypeCode.ENCUMBRANCE.equals(documentTypeCode);
-        return isEncumbrance ? KFSConstants.ENCUMB_UPDT_DOCUMENT_CD : null;
+
+        if (isEncumbrance) {
+            String encumbranceUpdateCode = transaction.getTransactionEncumbranceUpdateCode();
+            if (KFSConstants.ENCUMB_UPDT_DOCUMENT_CD.equals(encumbranceUpdateCode) || KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(encumbranceUpdateCode)) {
+                return encumbranceUpdateCode;
+            }
+        }
+        return null;
     }
 
     /**
@@ -102,15 +109,15 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
      */
     private String getTransactionDescription(Transaction transaction) {
         String documentTypeCode = transaction.getFinancialDocumentTypeCode();
-        String description = getDescriptionMap().get(documentTypeCode);         
+        String description = getDescriptionMap().get(documentTypeCode);
         description = StringUtils.isNotEmpty(description) ? description : transaction.getTransactionLedgerEntryDescription();
-        
+
         // make sure the length of the description cannot excess the specified maximum
         int transactionDescriptionMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(Entry.class, KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC).intValue();
-        if(StringUtils.isNotEmpty(description) && description.length() > transactionDescriptionMaxLength){
+        if (StringUtils.isNotEmpty(description) && description.length() > transactionDescriptionMaxLength) {
             description = StringUtils.left(description, transactionDescriptionMaxLength);
-        }       
-        
+        }
+
         return description;
     }
 

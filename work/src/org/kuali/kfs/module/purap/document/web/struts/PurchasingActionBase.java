@@ -52,7 +52,7 @@ import org.kuali.module.vendor.service.PhoneNumberService;
 import org.kuali.module.vendor.service.VendorService;
 
 /**
- * This class handles specific Actions requests for the Purchasing Ap.
+ * Struts Action for Purchasing documents.
  */
 public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingActionBase.class);
@@ -149,9 +149,8 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     }
 
     /**
-     * This method is intended to be used by the refresh button that appears in the delivery tab to refresh the delivery building,
-     * as specified in KULPURAP-260. Since this is a refresh method, it is calling the general refresh method when it's done.
-     * Typical Struts signature.
+     * This method is intended to be used by the refresh button that appears in the delivery tab to refresh 
+     * the delivery building.  Since this is a refresh method, it is calling the general refresh method when it's done.
      * 
      * @param mapping An ActionMapping
      * @param form An ActionForm
@@ -167,7 +166,6 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             if (document.isDeliveryBuildingOther()) {
                 document.setDeliveryBuildingName(PurapConstants.DELIVERY_BUILDING_OTHER);
                 document.setDeliveryBuildingCode(PurapConstants.DELIVERY_BUILDING_OTHER_CODE);
-                document.setDeliveryCampusCode(null);
                 document.setDeliveryBuildingLine1Address(null);               
                 document.setDeliveryBuildingLine2Address(null);                
                 document.setDeliveryBuildingRoomNumber(null);                
@@ -180,7 +178,6 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             else {
                 document.setDeliveryBuildingName(null);
                 document.setDeliveryBuildingCode(null);
-                document.setDeliveryCampusCode(null);
                 document.setDeliveryBuildingLine1Address(null);               
                 document.setDeliveryBuildingLine2Address(null);                
                 document.setDeliveryBuildingRoomNumber(null);                
@@ -331,9 +328,9 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     }
 
     /**
-     * Distribute accounting line(s) to the item(s).
-     * Does not distribute the accounting line(s) to an item if the item if there are already accounting lines associated with that
-     * item, if the item is a below-the-line item and has no unit cost, or if the item is inactive.
+     * Distribute accounting line(s) to the item(s).  Does not distribute the accounting line(s) to an item if 
+     * the item if there are already accounting lines associated with that item, if the item is a below-the-line 
+     * item and has no unit cost, or if the item is inactive.
      * 
      * @param   mapping     An ActionMapping
      * @param   form        An ActionForm
@@ -388,9 +385,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      */
     public ActionForward cancelAccountDistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
-
         purchasingForm.setHideDistributeAccounts(true);
-
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
@@ -399,7 +394,6 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      */
     @Override
     public boolean processCustomInsertAccountingLine(PurchasingAccountsPayableFormBase purapForm, HttpServletRequest request) {
-
         boolean success = false;
         PurchasingFormBase purchasingForm = (PurchasingFormBase) purapForm;
 
@@ -439,7 +433,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     }
     
     /**
-     * This method sets the line for account distribution
+     * Sets the line for account distribution
      * 
      * @param accountIndex                      The index of the account into the request parameter
      * @param purchasingAccountsPayableForm     A form which inherits from PurchasingAccountsPayableFormBase
@@ -449,7 +443,6 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingFormBase purchasingForm = (PurchasingFormBase)purchasingAccountsPayableForm;
         SourceAccountingLine line;
         line = (SourceAccountingLine) ObjectUtils.deepCopy(purchasingForm.getAccountDistributionsourceAccountingLines().get(accountIndex));
-        
         return line;
     }
 }

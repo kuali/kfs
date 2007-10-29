@@ -30,7 +30,7 @@ import org.kuali.module.purap.web.struts.form.RequisitionForm;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * This class handles specific Actions requests for the Requisition.
+ * Struts Action for Requisition document.
  */
 public class RequisitionAction extends PurchasingActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionAction.class);

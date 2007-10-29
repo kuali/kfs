@@ -109,6 +109,9 @@
     <label>Delivery Campus</label>
     <shortLabel>Delivery Campus</shortLabel>
     <required>true</required>
+    <control>
+        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.CampusNoBlankValuesFinder"/>
+    </control>
 </attributeReference>
 
 <attribute name="deliveryBuildingOther">

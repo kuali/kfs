@@ -18,12 +18,26 @@ package org.kuali.module.purap.document.authorization;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
+import org.kuali.core.exceptions.GroupNotFoundException;
+import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 /**
- * Document Authorizer for th PO Close document
+ * Document Authorizer for the PO Close document
  */
 public class PurchaseOrderCloseDocumentAuthorizer extends PurchaseOrderDocumentAuthorizer {
+
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
+    @Override
+    public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
+        return true;
+    }
 
     /**
      * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)

@@ -50,7 +50,7 @@ import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 
 /**
- * Struts Action Form for the Purchase Order Document.
+ * Struts Action Form for Purchase Order document.
  */
 public class PurchaseOrderForm extends PurchasingFormBase {
     private Integer purchaseOrderIdentifier;
@@ -128,20 +128,10 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         this.retransmitItemsSelected = retransmitItemsSelected;
     }
 
-    /**
-     * Returns the internalBillingDocument.
-     * 
-     * @return the internalBillingDocument.
-     */
     public PurchaseOrderDocument getPurchaseOrderDocument() {
         return (PurchaseOrderDocument) getDocument();
     }
 
-    /**
-     * Sets the internalBillingDocument to the specified one.
-     * 
-     * @param purchaseOrderDocument the internalBillingDocument to set.
-     */
     public void setPurchaseOrderDocument(PurchaseOrderDocument purchaseOrderDocument) {
         setDocument(purchaseOrderDocument);
     }
@@ -253,7 +243,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // This is the button to print the pdf on a retransmit document. We're currently sharing the same button image as
         // the button for creating a retransmit document but this may change someday. It should only appear on Retransmit
         // Document.
-        if (isUserAuthorized && this.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB) && (purchaseOrder instanceof PurchaseOrderRetransmitDocument)) {        
+        if ((isUserAuthorized || purchaseOrder.getPurchaseOrderAutomaticIndicator()) && this.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB) && (purchaseOrder instanceof PurchaseOrderRetransmitDocument)) {        
             ExtraButton printingRetransmitButton = (ExtraButton) buttonsMap.get("methodToCall.printingRetransmitPo");
             this.getExtraButtons().add(printingRetransmitButton);
         }

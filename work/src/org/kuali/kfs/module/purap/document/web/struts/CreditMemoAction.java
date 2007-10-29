@@ -43,7 +43,7 @@ import org.kuali.module.purap.web.struts.form.CreditMemoForm;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * This class handles specific Actions requests for the Credit Memo document..
+ * Struts Action for Credit Memo document.
  */
 public class CreditMemoAction extends AccountsPayableActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreditMemoAction.class);

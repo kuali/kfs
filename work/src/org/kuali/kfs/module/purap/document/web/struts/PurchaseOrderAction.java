@@ -77,7 +77,7 @@ import org.kuali.module.vendor.service.VendorService;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * This class handles specific Actions requests for the Requisition.
+ * Struts Action for Purchase Order document
  */
 public class PurchaseOrderAction extends PurchasingActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderAction.class);

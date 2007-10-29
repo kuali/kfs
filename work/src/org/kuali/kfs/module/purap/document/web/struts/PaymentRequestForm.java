@@ -36,7 +36,7 @@ import org.kuali.module.purap.document.authorization.PaymentRequestDocumentActio
 import org.kuali.module.purap.service.PurapService;
 
 /**
- * Base Struts Action Form for Payment Request document.
+ * Struts Action Form for Payment Request document.
  */
 public class PaymentRequestForm extends AccountsPayableFormBase {
 

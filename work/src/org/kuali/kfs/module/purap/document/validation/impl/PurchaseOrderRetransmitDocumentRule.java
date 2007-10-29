@@ -75,19 +75,22 @@ public class PurchaseOrderRetransmitDocumentRule extends TransactionalDocumentRu
              * GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE,
              * PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_INCORRECT, PurchaseOrderStatuses.CLOSED); }
              */
-            // Check that the user is in purchasing workgroup.
-            String initiatorNetworkId = document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-            UniversalUserService uus = SpringContext.getBean(UniversalUserService.class);
-            UniversalUser user = null;
-            try {
-                user = uus.getUniversalUserByAuthenticationUserId(initiatorNetworkId);
-                String purchasingGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
-                if (!uus.isMember(user, purchasingGroup)) {
+            
+            if (!document.getPurchaseOrderAutomaticIndicator()) {
+                // Check that the user is in purchasing workgroup.
+                String initiatorNetworkId = document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+                UniversalUserService uus = SpringContext.getBean(UniversalUserService.class);
+                UniversalUser user = null;
+                try {
+                    user = uus.getUniversalUserByAuthenticationUserId(initiatorNetworkId);
+                    String purchasingGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
+                    if (!uus.isMember(user, purchasingGroup)) {
+                        valid = false;
+                    }
+                }
+                catch (UserNotFoundException ue) {
                     valid = false;
                 }
-            }
-            catch (UserNotFoundException ue) {
-                valid = false;
             }
         }
 

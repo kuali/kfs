@@ -23,7 +23,7 @@ import org.kuali.module.purap.bo.PurApAccountingLineBase;
 import org.kuali.module.purap.bo.PurApItem;
 
 /**
- * Base Struts Action Form for Purchasing documents.
+ * Struts Action Form for Purchasing documents.
  */
 public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
     

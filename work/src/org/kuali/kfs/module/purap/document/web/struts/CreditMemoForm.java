@@ -32,7 +32,7 @@ import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PurapService;
 
 /**
- * Base Struts Action Form for Credit Memo document.
+ * Struts Action Form for Credit Memo document.
  */
 public class CreditMemoForm extends AccountsPayableFormBase {
    

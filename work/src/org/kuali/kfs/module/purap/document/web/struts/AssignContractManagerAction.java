@@ -23,7 +23,7 @@ import org.kuali.module.purap.document.AssignContractManagerDocument;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * This class handles Actions for AssignContractManager.
+ * Struts Action for Contract Manager Assignment document.
  */
 public class AssignContractManagerAction extends KualiTransactionalDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerAction.class);

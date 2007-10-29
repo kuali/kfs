@@ -46,23 +46,20 @@ import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * This class handles specific Actions requests for the Requisition.
+ * Struts Action for Payment Request document.
  */
 public class PaymentRequestAction extends AccountsPayableActionBase {
     static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestAction.class);
 
     /**
-     * Do initialization for a new requisition
+     * Do initialization for a new payment request
      * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-
         super.createDocument(kualiDocumentFormBase);
-
         ((PaymentRequestDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
-
     }
 
     /**
@@ -71,16 +68,14 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
         PaymentRequestDocument document = (PaymentRequestDocument) preqForm.getDocument();
-
         return super.refresh(mapping, form, request, response);
     }
 
     /**
-     * Executes the continue action on a payment request.
-     * Populates and initializes the rest of the payment request besides what was shown on the init screen.
+     * Executes the continue action on a payment request.  Populates and initializes the rest of the payment 
+     * request besides what was shown on the init screen.
      * 
      * @param   mapping     An ActionMapping
      * @param   form        An ActionForm
@@ -98,7 +93,6 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         // preform duplicate check which will forward to a question prompt if one is found
         ActionForward forward = performDuplicatePaymentRequestCheck(mapping, form, request, response, paymentRequestDocument);
         if (forward != null) {
-            
             return forward;
         }
 
@@ -130,11 +124,9 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      */
     public ActionForward clearInitFields(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("clearInitValues() method");
-
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) preqForm.getDocument();
         paymentRequestDocument.clearInitFields();
-
         return super.refresh(mapping, form, request, response);
     }
 

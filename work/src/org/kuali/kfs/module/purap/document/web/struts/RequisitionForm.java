@@ -25,7 +25,7 @@ import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 /**
- * Base Struts Action Form for Requisition document.
+ * Struts Action Form for Requisition document.
  */
 public class RequisitionForm extends PurchasingFormBase {
 

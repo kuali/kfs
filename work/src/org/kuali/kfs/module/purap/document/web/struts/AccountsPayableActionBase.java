@@ -69,7 +69,7 @@ import org.kuali.rice.KNSServiceLocator;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * This class handles specific Actions requests for the AP.
+ * Struts Action for Accounts Payable documents.
  */
 public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableActionBase.class);

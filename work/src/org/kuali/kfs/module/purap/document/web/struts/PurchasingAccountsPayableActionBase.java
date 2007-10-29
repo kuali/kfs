@@ -46,7 +46,7 @@ import org.kuali.module.purap.web.struts.form.PurchasingAccountsPayableFormBase;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * Purchasing Accounts Payable Action Base
+ * Struts Action for Purchasing and Accounts Payable documents
  */
 public class PurchasingAccountsPayableActionBase extends KualiAccountingDocumentActionBase {
 
@@ -79,8 +79,6 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
      * @param document  A descendant of PurchasingAccountsPayableDocument
      */
      private <T extends PurchasingAccountsPayableDocument, V extends KualiAccountingDocumentFormBase> void updateBaseline(T document, V form) {
-        //update baseline accounts for purap
-
         //clear out the old lines first
         form.getBaselineSourceAccountingLines().clear();
         for (PurApItem item : document.getItems()) {
@@ -126,9 +124,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         int itemIndex = getSelectedLine(request);
         PurApItem item = null;
 
-        /*
-         * if custom processing of an accounting line is not done then insert a line generically.
-         */
+        //if custom processing of an accounting line is not done then insert a line generically.
         if (processCustomInsertAccountingLine(purapForm, request) == false) {
 
             item = (PurApItem) ((PurchasingAccountsPayableDocument) purapForm.getDocument()).getItem((itemIndex));
@@ -178,12 +174,12 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     }
 
     /**
-     * This method allows the custom processing of an accounting line during a call to insert source line. If a custom method for
+     * Allows the custom processing of an accounting line during a call to insert source line. If a custom method for
      * inserting an accounting line was performed, then a value of true must be returned.
      * 
      * @param purapForm
      * @param request
-     * @return
+     * @return boolean indicating if validation succeeded
      */
     public boolean processCustomInsertAccountingLine(PurchasingAccountsPayableFormBase purapForm, HttpServletRequest request) {
         return false;
@@ -251,7 +247,6 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         PurchasingAccountsPayableFormBase purchasingAccountsPayableForm = (PurchasingAccountsPayableFormBase) form;
         SourceAccountingLine line;
         if (itemIndex == -2) {
-            
             line = customAccountRetrieval(accountIndex, purchasingAccountsPayableForm);
         }
         else {
@@ -262,7 +257,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     }
 
     /**
-     * This method does custom processing on accounting lines.  See <code>getSelectedLineForAccounts</code>.
+     * Perform custom processing on accounting lines.  See <code>getSelectedLineForAccounts</code>.
      * 
      * @param accountIndex                      The index of the account into the request parameter
      * @param purchasingAccountsPayableForm     A form which inherits from PurchasingAccountsPayableFormBase

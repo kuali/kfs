@@ -30,7 +30,7 @@ import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.util.SummaryAccount;
 
 /**
- * Base Struts Action Form for Purchasing and Accounts Payable documents.
+ * Struts Action Form for Purchasing and Accounts Payable documents.
  */
 public class PurchasingAccountsPayableFormBase extends KualiAccountingDocumentFormBase {
 

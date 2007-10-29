@@ -34,7 +34,7 @@ import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.PurApItemUtils;
 
 /**
- * Base Struts Action Form for Accounts Payable documents.
+ * Struts Action Form for Accounts Payable documents.
  */
 public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
 

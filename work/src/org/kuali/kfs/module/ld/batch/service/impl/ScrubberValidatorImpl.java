@@ -295,33 +295,238 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         Account account = laborOriginEntry.getAccount();
 
-/*        if (!laborOriginEntry.getAccount().getSubFundGroup().isSubFundGroupWagesIndicator()) {
+        /*
+         * if (!laborOriginEntry.getAccount().getSubFundGroup().isSubFundGroupWagesIndicator()) {
+         */
 
-*/
-            if ((account.getAccountExpirationDate() == null) && !account.isAccountClosedIndicator()) {
-                // account is neither closed nor expired
-                laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
-                laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
-                return null;
-            }
-
-            // Has an expiration date or is closed
-            if ((org.apache.commons.lang.StringUtils.isNumeric(laborOriginEntry.getFinancialSystemOriginationCode()) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes)) && account.isAccountClosedIndicator()) {
-                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT) + " (" + laborOriginEntry.getAccount().getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber() + ")", Message.TYPE_FATAL);
-            }
-
-            if ((org.apache.commons.lang.StringUtils.isNumeric(laborOriginEntry.getFinancialSystemOriginationCode()) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialBalanceTypeCode(), continuationAccountBypassBalanceTypeCodes) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialDocumentTypeCode().trim(), continuationAccountBypassDocumentTypeCodes)) && !account.isAccountClosedIndicator()) {
-                laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
-                laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
-                return null;
-            }
-
-
-            adjustAccountIfContractsAndGrants(account);
-  /*      }
-  */      
-        
         // Labor's new features
+        Message subfundWageMessage = subfundWageAccountFringeExclusion(laborOriginEntry, laborWorkingEntry, account, today);
+
+        if (!(subfundWageMessage == null)) {
+            return subfundWageMessage;
+        }
+
+
+        if ((account.getAccountExpirationDate() == null) && !account.isAccountClosedIndicator()) {
+            // account is neither closed nor expired
+            laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
+            laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
+            return null;
+        }
+
+        // Has an expiration date or is closed
+        if ((org.apache.commons.lang.StringUtils.isNumeric(laborOriginEntry.getFinancialSystemOriginationCode()) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes)) && account.isAccountClosedIndicator()) {
+            return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT) + " (" + laborOriginEntry.getAccount().getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber() + ")", Message.TYPE_FATAL);
+        }
+
+        if ((org.apache.commons.lang.StringUtils.isNumeric(laborOriginEntry.getFinancialSystemOriginationCode()) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialBalanceTypeCode(), continuationAccountBypassBalanceTypeCodes) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialDocumentTypeCode().trim(), continuationAccountBypassDocumentTypeCodes)) && !account.isAccountClosedIndicator()) {
+            laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
+            laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
+            return null;
+        }
+
+
+        adjustAccountIfContractsAndGrants(account);
+        /*
+         * }
+         */
+
+
+        laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
+        laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
+        return null;
+    }
+
+    /**
+     * This method is for logic of continuationAccountLogic
+     * 
+     * @param laborOriginEntry
+     * @param laborWorkingEntry
+     * @param today
+     * @return
+     */
+    private Message continuationAccountLogic(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, Calendar today) {
+
+        List checkedAccountNumbers = new ArrayList();
+
+        Account account = null;
+
+        String chartCode = laborOriginEntry.getAccount().getContinuationFinChrtOfAcctCd();
+        String accountNumber = laborOriginEntry.getAccount().getContinuationAccountNumber();
+
+        for (int i = 0; i < 10; ++i) {
+            if (checkedAccountNumbers.contains(chartCode + accountNumber)) {
+                // Something is really wrong with the data because this account has already been evaluated.
+                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CIRCULAR_DEPENDENCY_IN_CONTINUATION_ACCOUNT_LOGIC), Message.TYPE_FATAL);
+            }
+
+            if ((chartCode == null) || (accountNumber == null)) {
+                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CONTINUATION_ACCOUNT_NOT_FOUND), Message.TYPE_FATAL);
+            }
+
+            // Lookup the account
+            account = accountService.getByPrimaryId(chartCode, accountNumber);
+            if (null == account) {
+                // account not found
+                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CONTINUATION_ACCOUNT_NOT_FOUND), Message.TYPE_FATAL);
+            }
+            else {
+                // the account exists
+                if (account.getAccountExpirationDate() == null) {
+                    // No expiration date
+                    laborWorkingEntry.setAccount(account);
+                    laborWorkingEntry.setAccountNumber(accountNumber);
+                    laborWorkingEntry.setChartOfAccountsCode(chartCode);
+
+                    laborWorkingEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_AUTO_FORWARD) + " " + laborOriginEntry.getChartOfAccountsCode() + laborOriginEntry.getAccountNumber() + laborOriginEntry.getTransactionLedgerEntryDescription());
+                    return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO) + " " + laborWorkingEntry.getChartOfAccountsCode() + laborWorkingEntry.getAccountNumber(), Message.TYPE_WARNING);
+                }
+                else {
+                    // the account does have an expiration date.
+                    // This is the only case in which we might go
+                    // on for another iteration of the loop.
+                    checkedAccountNumbers.add(chartCode + accountNumber);
+
+                    // Add 3 months to the expiration date if it's a contract and grant account.
+                    adjustAccountIfContractsAndGrants(account);
+
+                    // Check that the account has not expired.
+
+                    // If the account has expired go around for another iteration.
+                    if (isExpired(account, today)) {
+                        chartCode = account.getContinuationFinChrtOfAcctCd();
+                        accountNumber = account.getContinuationAccountNumber();
+                    }
+                    else {
+                        laborWorkingEntry.setAccount(account);
+                        laborWorkingEntry.setAccountNumber(accountNumber);
+                        laborWorkingEntry.setChartOfAccountsCode(chartCode);
+
+                        laborWorkingEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_AUTO_FORWARD) + laborOriginEntry.getChartOfAccountsCode() + laborOriginEntry.getAccountNumber() + laborOriginEntry.getTransactionLedgerEntryDescription());
+                        return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO) + laborWorkingEntry.getChartOfAccountsCode() + laborWorkingEntry.getAccountNumber(), Message.TYPE_WARNING);
+                    }
+                }
+            }
+        }
+
+        // We failed to find a valid continuation account.
+        boolean suspenseAccountLogicInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
+        if (suspenseAccountLogicInd) {
+            useSuspenseAccount(laborWorkingEntry);
+            return null;
+        }
+        else {
+            // Change error message later
+            // - not found a valid continuation account and suspense account logic indicator was off
+            return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CONTINUATION_ACCOUNT_LIMIT_REACHED), Message.TYPE_FATAL);
+        }
+
+
+    }
+
+    /**
+     * This method is for adjustment of Account if it is contracts and grants
+     * 
+     * @param account
+     */
+    private void adjustAccountIfContractsAndGrants(Account account) {
+        if (account.isForContractsAndGrants() && (!account.isAccountClosedIndicator())) {
+
+            String daysOffset = SpringContext.getBean(ParameterService.class).getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
+            int daysOffsetInt = 3 * 30; // default to 90 days (approximately 3 months)
+
+            if (daysOffset.trim().length() > 0) {
+
+                daysOffsetInt = new Integer(daysOffset).intValue();
+            }
+
+            Calendar tempCal = Calendar.getInstance();
+            tempCal.setTimeInMillis(account.getAccountExpirationDate().getTime());
+            tempCal.add(Calendar.DAY_OF_MONTH, daysOffsetInt);
+            account.setAccountExpirationDate(new Timestamp(tempCal.getTimeInMillis()));
+        }
+        return;
+    }
+
+    /**
+     * This method is checking whether or not the account is expired
+     * 
+     * @param account
+     * @param runCalendar
+     * @return
+     */
+    private boolean isExpired(Account account, Calendar runCalendar) {
+
+        Calendar expirationDate = Calendar.getInstance();
+
+        if (account.getAccountExpirationDate() == null) {
+            return false;
+        }
+        else {
+
+            expirationDate.setTimeInMillis(account.getAccountExpirationDate().getTime());
+
+            int expirationYear = expirationDate.get(Calendar.YEAR);
+            int runYear = runCalendar.get(Calendar.YEAR);
+            int expirationDoy = expirationDate.get(Calendar.DAY_OF_YEAR);
+            int runDoy = runCalendar.get(Calendar.DAY_OF_YEAR);
+
+            return (expirationYear < runYear) || (expirationYear == runYear && expirationDoy < runDoy);
+        }
+    }
+
+    /**
+     * This method changes account to suspenseAccount
+     * 
+     * @param workingEntry
+     */
+    private void useSuspenseAccount(LaborOriginEntry workingEntry) {
+
+        // Get suspense account
+        String suspenseAccountNumber = SpringContext.getBean(ParameterService.class).getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT);
+        String suspenseCOAcode = SpringContext.getBean(ParameterService.class).getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_CHART);
+        Account account = accountService.getByPrimaryId(suspenseCOAcode, suspenseAccountNumber);
+
+        workingEntry.setAccount(account);
+        workingEntry.setAccountNumber(suspenseAccountNumber);
+        workingEntry.setChartOfAccountsCode(suspenseCOAcode);
+
+
+    }
+
+    /**
+     * This method is for validation of Employee Id
+     * 
+     * @param laborOriginEntry
+     * @param laborWorkingEntry
+     * @param universityRunDate
+     * @return
+     */
+    private Message validateEmplId(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
+        LOG.debug("validateEmplId() started");
+        if (laborOriginEntry.getEmplid() == null || StringUtils.trimWhitespace(laborOriginEntry.getEmplid()).equals("")) {
+            return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_EMPLID_NOT_BE_NULL), Message.TYPE_FATAL);
+        }
+
+        return null;
+    }
+
+
+    /**
+     * Sets the referenceLookup attribute value.
+     * 
+     * @param referenceLookup The referenceLookup to set.
+     */
+    public void setReferenceLookup(OriginEntryLookupService originEntryLookupService) {
+        this.referenceLookup.set(originEntryLookupService);
+    }
+
+    public void validateForInquiry(GeneralLedgerPendingEntry entry) {
+
+
+    }
+
+    private Message subfundWageAccountFringeExclusion(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, Account account, Calendar today) {
         // Indicator for Labor Scrubber Sub-Fund Wage Exclusion
         boolean subfundWageExclusionInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUBFUND_WAGE_EXCLUSION_PARAMETER);
         // Indicator for Labor Scrubber's Account Fringe Exclusion
@@ -450,190 +655,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
         }
 
-        laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
-        laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
         return null;
-    }
-
-    /**
-     * This method is for logic of continuationAccountLogic
-     * 
-     * @param laborOriginEntry
-     * @param laborWorkingEntry
-     * @param today
-     * @return
-     */
-    private Message continuationAccountLogic(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, Calendar today) {
-
-        List checkedAccountNumbers = new ArrayList();
-
-        Account account = null;
-
-        String chartCode = laborOriginEntry.getAccount().getContinuationFinChrtOfAcctCd();
-        String accountNumber = laborOriginEntry.getAccount().getContinuationAccountNumber();
-
-        for (int i = 0; i < 10; ++i) {
-            if (checkedAccountNumbers.contains(chartCode + accountNumber)) {
-                // Something is really wrong with the data because this account has already been evaluated.
-                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CIRCULAR_DEPENDENCY_IN_CONTINUATION_ACCOUNT_LOGIC), Message.TYPE_FATAL);
-            }
-
-            if ((chartCode == null) || (accountNumber == null)) {
-                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CONTINUATION_ACCOUNT_NOT_FOUND), Message.TYPE_FATAL);
-            }
-
-            // Lookup the account
-            account = accountService.getByPrimaryId(chartCode, accountNumber);
-            if (null == account) {
-                // account not found
-                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CONTINUATION_ACCOUNT_NOT_FOUND), Message.TYPE_FATAL);
-            }
-            else {
-                // the account exists
-                if (account.getAccountExpirationDate() == null) {
-                    // No expiration date
-                    laborWorkingEntry.setAccount(account);
-                    laborWorkingEntry.setAccountNumber(accountNumber);
-                    laborWorkingEntry.setChartOfAccountsCode(chartCode);
-
-                    laborWorkingEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_AUTO_FORWARD) + " " + laborOriginEntry.getChartOfAccountsCode() + laborOriginEntry.getAccountNumber() + laborOriginEntry.getTransactionLedgerEntryDescription());
-                    return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO) + " " + laborWorkingEntry.getChartOfAccountsCode() + laborWorkingEntry.getAccountNumber(), Message.TYPE_WARNING);
-                }
-                else {
-                    // the account does have an expiration date.
-                    // This is the only case in which we might go
-                    // on for another iteration of the loop.
-                    checkedAccountNumbers.add(chartCode + accountNumber);
-
-                    // Add 3 months to the expiration date if it's a contract and grant account.
-                    adjustAccountIfContractsAndGrants(account);
-
-                    // Check that the account has not expired.
-
-                    // If the account has expired go around for another iteration.
-                    if (isExpired(account, today)) {
-                        chartCode = account.getContinuationFinChrtOfAcctCd();
-                        accountNumber = account.getContinuationAccountNumber();
-                    }
-                    else {
-                        laborWorkingEntry.setAccount(account);
-                        laborWorkingEntry.setAccountNumber(accountNumber);
-                        laborWorkingEntry.setChartOfAccountsCode(chartCode);
-
-                        laborWorkingEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_AUTO_FORWARD) + laborOriginEntry.getChartOfAccountsCode() + laborOriginEntry.getAccountNumber() + laborOriginEntry.getTransactionLedgerEntryDescription());
-                        return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO) + laborWorkingEntry.getChartOfAccountsCode() + laborWorkingEntry.getAccountNumber(), Message.TYPE_WARNING);
-                    }
-                }
-            }
-        }
-
-        // We failed to find a valid continuation account.
-        boolean suspenseAccountLogicInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
-        if (suspenseAccountLogicInd) {
-            useSuspenseAccount(laborWorkingEntry);
-            return null;
-        }
-        else {
-            // Change error message later
-            // - not found a valid continuation account and suspense account logic indicator was off
-            return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CONTINUATION_ACCOUNT_LIMIT_REACHED), Message.TYPE_FATAL);
-        }
-
-
-    }
-
-    /**
-     * This method is for adjustment of Account if it is contracts and grants
-     * 
-     * @param account
-     */
-    private void adjustAccountIfContractsAndGrants(Account account) {
-        if (account.isForContractsAndGrants() && (!account.isAccountClosedIndicator())) {
-
-            String daysOffset = SpringContext.getBean(ParameterService.class).getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
-            int daysOffsetInt = 3 * 30; // default to 90 days (approximately 3 months)
-
-            if (daysOffset.trim().length() > 0) {
-
-                daysOffsetInt = new Integer(daysOffset).intValue();
-            }
-
-            Calendar tempCal = Calendar.getInstance();
-            tempCal.setTimeInMillis(account.getAccountExpirationDate().getTime());
-            tempCal.add(Calendar.DAY_OF_MONTH, daysOffsetInt);
-            account.setAccountExpirationDate(new Timestamp(tempCal.getTimeInMillis()));
-        }
-        return;
-    }
-
-    /**
-     * This method is checking whether or not the account is expired
-     * 
-     * @param account
-     * @param runCalendar
-     * @return
-     */
-    private boolean isExpired(Account account, Calendar runCalendar) {
-
-        Calendar expirationDate = Calendar.getInstance();
-        expirationDate.setTimeInMillis(account.getAccountExpirationDate().getTime());
-
-        int expirationYear = expirationDate.get(Calendar.YEAR);
-        int runYear = runCalendar.get(Calendar.YEAR);
-        int expirationDoy = expirationDate.get(Calendar.DAY_OF_YEAR);
-        int runDoy = runCalendar.get(Calendar.DAY_OF_YEAR);
-
-        return (expirationYear < runYear) || (expirationYear == runYear && expirationDoy < runDoy);
-    }
-
-    /**
-     * This method changes account to suspenseAccount
-     * 
-     * @param workingEntry
-     */
-    private void useSuspenseAccount(LaborOriginEntry workingEntry) {
-
-        // Get suspense account
-        String suspenseAccountNumber = SpringContext.getBean(ParameterService.class).getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT);
-        String suspenseCOAcode = SpringContext.getBean(ParameterService.class).getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_CHART);
-        Account account = accountService.getByPrimaryId(suspenseCOAcode, suspenseAccountNumber);
-
-        workingEntry.setAccount(account);
-        workingEntry.setAccountNumber(suspenseAccountNumber);
-        workingEntry.setChartOfAccountsCode(suspenseCOAcode);
-
-
-    }
-
-    /**
-     * This method is for validation of Employee Id
-     * 
-     * @param laborOriginEntry
-     * @param laborWorkingEntry
-     * @param universityRunDate
-     * @return
-     */
-    private Message validateEmplId(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
-        LOG.debug("validateEmplId() started");
-        if (laborOriginEntry.getEmplid() == null || StringUtils.trimWhitespace(laborOriginEntry.getEmplid()).equals("")) {
-            return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_EMPLID_NOT_BE_NULL), Message.TYPE_FATAL);
-        }
-
-        return null;
-    }
-
-
-    /**
-     * Sets the referenceLookup attribute value.
-     * 
-     * @param referenceLookup The referenceLookup to set.
-     */
-    public void setReferenceLookup(OriginEntryLookupService originEntryLookupService) {
-        this.referenceLookup.set(originEntryLookupService);
-    }
-
-    public void validateForInquiry(GeneralLedgerPendingEntry entry) {
-
 
     }
 

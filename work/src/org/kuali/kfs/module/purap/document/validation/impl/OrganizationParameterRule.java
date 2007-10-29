@@ -30,7 +30,9 @@ import org.kuali.module.chart.service.OrganizationService;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.OrganizationParameter;
 
-
+/**
+ * Business rule(s) applicable to Organization Parameter maintenance document.
+ */
 public class OrganizationParameterRule extends MaintenanceDocumentRuleBase {
     
     private OrganizationParameter newOrganizationParameter;
@@ -47,6 +49,9 @@ public class OrganizationParameterRule extends MaintenanceDocumentRuleBase {
         super.setupConvenienceObjects();
     }
     
+    /**
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomApproveDocumentBusinessRules called");
         this.setupConvenienceObjects();
@@ -56,6 +61,9 @@ public class OrganizationParameterRule extends MaintenanceDocumentRuleBase {
         return success && super.processCustomApproveDocumentBusinessRules(document);
     }
 
+    /**
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomRouteDocumentBusinessRules called");
         this.setupConvenienceObjects();
@@ -65,6 +73,9 @@ public class OrganizationParameterRule extends MaintenanceDocumentRuleBase {
         return success && super.processCustomRouteDocumentBusinessRules(document);
     }
 
+    /**
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomSaveDocumentBusinessRules called");
         this.setupConvenienceObjects();        
@@ -73,7 +84,12 @@ public class OrganizationParameterRule extends MaintenanceDocumentRuleBase {
         success &= this.checkOrganizationCode();
         return success && super.processCustomSaveDocumentBusinessRules(document);
     }
-        
+
+    /**
+     * Validate chart of accounts code
+     * 
+     * @return Boolean indicating if validation succeeded
+     */
     protected boolean checkChartOfAccountsCode() {
         LOG.info("checkChartOfAccountsCode called");
         ErrorMap errorMap = GlobalVariables.getErrorMap();
@@ -85,7 +101,12 @@ public class OrganizationParameterRule extends MaintenanceDocumentRuleBase {
         }
         return success;
     }
-    
+
+    /**
+     * Validate organization code
+     * 
+     * @return Boolean indicating if validation succeeded
+     */
     protected boolean checkOrganizationCode() {
         LOG.info("checkOrganizationCode called");
         ErrorMap errorMap = GlobalVariables.getErrorMap();

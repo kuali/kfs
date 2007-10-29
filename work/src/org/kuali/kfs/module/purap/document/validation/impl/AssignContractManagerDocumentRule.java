@@ -34,6 +34,9 @@ import org.kuali.module.purap.bo.AssignContractManagerDetail;
 import org.kuali.module.purap.document.AssignContractManagerDocument;
 import org.kuali.module.vendor.bo.ContractManager;
 
+/**
+ * Business rule(s) applicable to Contract Manager Assignment document.
+ */
 public class AssignContractManagerDocumentRule extends TransactionalDocumentRuleBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerDocumentRule.class);
 
@@ -47,13 +50,9 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
         return isValid &= processValidation(acmDocument);
     }
 
-    @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        boolean isValid = true;
-        AssignContractManagerDocument acmDocument = (AssignContractManagerDocument) document;
-        return isValid &= processValidation(acmDocument);
-    }
-
+    /**
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.rule.event.ApproveDocumentEvent)
+     */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
         boolean isValid = true;
@@ -62,24 +61,22 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
         return isValid;
     }
 
-    private boolean processValidation(AssignContractManagerDocument document) {
-        boolean valid = true;
-
-        valid &= this.validateContractManagerCodes(document.getAssignContractManagerDetails());
-        
-        return valid;
-    }
-    
-    boolean processContractManagerValidation(AssignContractManagerDocument document) {
-        return false;
-    }
-    
-
     /**
-     * This method takes the list of AssignContractManagerDetails where the user has
+     * Perform validation for Contract Manager Assignment document such as validating contract manager codes.
+     * 
+     * @param document  Contract Manager Assignment document
+     * @return Boolean indicating if validation succeeded
+     */
+    private boolean processValidation(AssignContractManagerDocument document) {
+        return validateContractManagerCodes(document.getAssignContractManagerDetails());
+    }
+    
+    /**
+     * Review the list of AssignContractManagerDetails where the user has
      * entered ContractManagerCodes and validates that each code is valid.
      * 
-     * @param assignContractManagerDetails A Map containing the code to be validated.
+     * @param assignContractManagerDetails   A list containing the code to be validated.
+     * @return Boolean indicating if validation succeeded
      */
     public boolean validateContractManagerCodes(List assignContractManagerDetails){
         LOG.debug("validateContractManagerCodes(): entered method.");

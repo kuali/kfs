@@ -24,6 +24,9 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.PurchaseOrderContractLanguage;
 
+/**
+ * Business rule(s) applicable to Purchase Order Contract Language maintenance document.
+ */
 public class PurchaseOrderContractLanguageRule extends MaintenanceDocumentRuleBase {
     
     private PurchaseOrderContractLanguage newContractLanguage;
@@ -40,6 +43,9 @@ public class PurchaseOrderContractLanguageRule extends MaintenanceDocumentRuleBa
         super.setupConvenienceObjects();
     }
     
+    /**
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomApproveDocumentBusinessRules called");
         this.setupConvenienceObjects();
@@ -47,6 +53,9 @@ public class PurchaseOrderContractLanguageRule extends MaintenanceDocumentRuleBa
         return success && super.processCustomApproveDocumentBusinessRules(document);
     }
 
+    /**
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomRouteDocumentBusinessRules called");
         this.setupConvenienceObjects();
@@ -54,6 +63,9 @@ public class PurchaseOrderContractLanguageRule extends MaintenanceDocumentRuleBa
         return success && super.processCustomRouteDocumentBusinessRules(document);
     }
 
+    /**
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomSaveDocumentBusinessRules called");
         this.setupConvenienceObjects();
@@ -61,6 +73,11 @@ public class PurchaseOrderContractLanguageRule extends MaintenanceDocumentRuleBa
         return success && super.processCustomSaveDocumentBusinessRules(document);
     }
     
+    /**
+     * Check to see if data duplicates existing data
+     * 
+     * @return boolean indicating if validation succeeded
+     */
     protected boolean checkForDuplicate() {
         LOG.info("checkForDuplicate called");
         boolean success = true;

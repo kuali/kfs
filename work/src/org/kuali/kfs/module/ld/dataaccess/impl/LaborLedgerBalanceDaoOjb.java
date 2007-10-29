@@ -54,6 +54,7 @@ import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.LaborBalanceSummary;
 import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.module.labor.bo.LedgerBalanceForYearEndBalanceForward;
 import org.kuali.module.labor.dao.LaborLedgerBalanceDao;
 import org.kuali.module.labor.util.ConsolidationUtil;
 import org.kuali.module.labor.util.ObjectUtil;
@@ -430,8 +431,8 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
      * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#findBalancesForFiscalYear(java.lang.Integer, java.util.Map,
      *      java.util.List, java.util.List)
      */
-    public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes) {
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance());
+    public Iterator<LedgerBalanceForYearEndBalanceForward> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes) {
+        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new LedgerBalanceForYearEndBalanceForward());
         criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
 
         if (subFundGroupCodes != null && !subFundGroupCodes.isEmpty()) {
@@ -450,16 +451,50 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
             criteria.addAndCriteria(criteriaForSubFundGroup);
         }
 
-        QueryByCriteria query = QueryFactory.newQuery(LedgerBalance.class, criteria);
-
-        query.addOrderByAscending(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        query.addOrderByAscending(KFSPropertyConstants.ACCOUNT_NUMBER);
-        query.addOrderByAscending(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-        query.addOrderByAscending(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-        query.addOrderByAscending(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-        query.addOrderByAscending(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-        query.addOrderByAscending(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
-
+        QueryByCriteria query = QueryFactory.newQuery(LedgerBalanceForYearEndBalanceForward.class, criteria);
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
+    }
+
+    /**
+     * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#findAccountsInFundGroups(java.lang.Integer, java.util.Map, java.util.List, java.util.List)
+     */
+    public List<List<String>> findAccountsInFundGroups(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes) {
+        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new LedgerBalanceForYearEndBalanceForward());
+        criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+
+        if (subFundGroupCodes != null && !subFundGroupCodes.isEmpty()) {
+            Criteria criteriaForSubFundGroup = new Criteria();
+            String subFundGroupFieldName = KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.SUB_FUND_GROUP_CODE;
+            criteriaForSubFundGroup.addIn(subFundGroupFieldName, subFundGroupCodes);
+
+            if (fundGroupCodes != null && !fundGroupCodes.isEmpty()) {
+
+                Criteria criteriaForFundGroup = new Criteria();
+                String fundGroupFieldName = KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.SUB_FUND_GROUP + "." + KFSPropertyConstants.FUND_GROUP_CODE;
+                criteriaForFundGroup.addIn(fundGroupFieldName, fundGroupCodes);
+
+                criteriaForSubFundGroup.addOrCriteria(criteriaForFundGroup);
+            }
+            criteria.addAndCriteria(criteriaForSubFundGroup);
+        }
+
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalanceForYearEndBalanceForward.class, criteria);
+
+        query.setAttributes(LaborConstants.ACCOUNT_FIELDS);
+        query.setDistinct(true);
+        
+        Iterator<Object[]> accountIterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+        
+        List<List<String>> accounts = new ArrayList<List<String>>();
+        while(accountIterator!=null && accountIterator.hasNext()){
+            Object[] accountObject = accountIterator.next();
+            
+            List<String> account = new ArrayList<String>();
+            account.add(accountObject[0].toString());
+            account.add(accountObject[1].toString());
+            
+            accounts.add(account);
+        }
+        return accounts;
     }
 }

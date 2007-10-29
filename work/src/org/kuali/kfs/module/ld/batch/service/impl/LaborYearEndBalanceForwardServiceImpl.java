@@ -45,11 +45,13 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.Summary;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.LaborKeyConstants;
 import org.kuali.module.labor.LaborConstants.YearEnd;
 import org.kuali.module.labor.batch.LaborYearEndBalanceForwardStep;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.module.labor.bo.LedgerBalanceForYearEndBalanceForward;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.service.LaborReportService;
@@ -110,26 +112,9 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
 
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear.toString());
+
         int numberOfBalance = businessObjectService.countMatching(LedgerBalance.class, fieldValues);
-
-        Options options = optionsService.getOptions(fiscalYear);
-        List<String> processableBalanceTypeCodes = this.getProcessableBalanceTypeCode(options);
-        List<String> processableObjectTypeCodes = this.getProcessableObjectTypeCodes(options);
-
-        List<String> subFundGroupCodes = this.getSubFundGroupProcessed();
-        List<String> fundGroupCodes = this.getFundGroupProcessed();
-
-        fieldValues.clear();
-        int numberOfSelectedBalance = 0;
-        for (String balanceTypeCode : processableBalanceTypeCodes) {
-            fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypeCode);
-
-            for (String objectTypeCode : processableObjectTypeCodes) {
-                fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, objectTypeCode);
-                Iterator<LedgerBalance> balanceIterator = laborLedgerBalanceService.findBalancesForFiscalYear(fiscalYear, fieldValues, subFundGroupCodes, fundGroupCodes);
-                numberOfSelectedBalance += postSelectedBalancesAsOriginEntries(balanceIterator, newFiscalYear, validGroup, errorMap, runDate);
-            }
-        }
+        int numberOfSelectedBalance = this.processLedgerBalances(fiscalYear, newFiscalYear, validGroup, errorMap, runDate);
 
         Summary.updateReportSummary(reportSummary, LEDGER_BALANCE, KFSConstants.OperationType.READ, numberOfBalance, 0);
         Summary.updateReportSummary(reportSummary, LEDGER_BALANCE, KFSConstants.OperationType.SELECT, numberOfSelectedBalance, 0);
@@ -151,14 +136,57 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @param runDate the date the transaction is posted
      * @return the number of qualified balances
      */
-    private int postSelectedBalancesAsOriginEntries(Iterator<LedgerBalance> balanceIterator, Integer newFiscalYear, OriginEntryGroup validGroup, Map<Transaction, List<Message>> errorMap, Date runDate) {
+    private int processLedgerBalances(Integer fiscalYear, Integer newFiscalYear, OriginEntryGroup validGroup, Map<Transaction, List<Message>> errorMap, Date runDate) {
+        Options options = optionsService.getOptions(fiscalYear);
+
+        List<String> processableBalanceTypeCodes = this.getProcessableBalanceTypeCode(options);
+        List<String> processableObjectTypeCodes = this.getProcessableObjectTypeCodes(options);
+        List<String> subFundGroupCodes = this.getSubFundGroupProcessed();
+        List<String> fundGroupCodes = this.getFundGroupProcessed();
+
+        // process the selected balances by balance type and object type
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        int numberOfSelectedBalance = 0;
+        for (String balanceTypeCode : processableBalanceTypeCodes) {
+            fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypeCode);
+
+            for (String objectTypeCode : processableObjectTypeCodes) {
+                fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, objectTypeCode);
+                
+                fieldValues.remove(LaborConstants.ACCOUNT_FIELDS[0]);
+                fieldValues.remove(LaborConstants.ACCOUNT_FIELDS[1]);
+                List<List<String>> accounts = laborLedgerBalanceService.findAccountsInFundGroups(fiscalYear, fieldValues, subFundGroupCodes, fundGroupCodes);
+
+                for (List<String> account : accounts) {
+                    fieldValues.put(LaborConstants.ACCOUNT_FIELDS[0], account.get(0));
+                    fieldValues.put(LaborConstants.ACCOUNT_FIELDS[1], account.get(1));
+
+                    Iterator<LedgerBalanceForYearEndBalanceForward> balanceIterator = laborLedgerBalanceService.findBalancesForFiscalYear(fiscalYear, fieldValues, subFundGroupCodes, fundGroupCodes);
+                    numberOfSelectedBalance += postSelectedBalancesAsOriginEntries(balanceIterator, newFiscalYear, validGroup, errorMap, runDate);
+                }
+            }
+        }
+        return numberOfSelectedBalance;
+    }
+
+    /**
+     * post the qualified balances into origin entry table for the further labor ledger processing
+     * 
+     * @param balanceIterator the given ledger balances that will be carried forward
+     * @param newFiscalYear the new fiscal year
+     * @param validGroup the group that the posted transaction belongs to
+     * @param errorMap the map that records the error messages
+     * @param runDate the date the transaction is posted
+     * @return the number of qualified balances
+     */
+    private int postSelectedBalancesAsOriginEntries(Iterator<LedgerBalanceForYearEndBalanceForward> balanceIterator, Integer newFiscalYear, OriginEntryGroup validGroup, Map<Transaction, List<Message>> errorMap, Date runDate) {
         int numberOfSelectedBalance = 0;
         String description = this.getDescription();
         String originationCode = this.getOriginationCode();
         String documentTypeCode = this.getDocumentTypeCode();
 
         while (balanceIterator != null && balanceIterator.hasNext()) {
-            LedgerBalance balance = balanceIterator.next();
+            LedgerBalanceForYearEndBalanceForward balance = balanceIterator.next();
             List<Message> errors = null;
 
             boolean isValidBalance = validateBalance(balance, errors);
@@ -177,6 +205,8 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
                 ObjectUtil.buildObject(laborOriginEntry, balance);
                 errorMap.put(laborOriginEntry, errors);
             }
+            laborOriginEntry = null;
+            balance = null;
         }
         return numberOfSelectedBalance;
     }
@@ -188,18 +218,8 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @param errors the error list that is updated if the given balacne is not qualified for carry forward
      * @return true if the balance is qualified; otherwise, false
      */
-    private boolean validateBalance(LedgerBalance balance, List<Message> errors) {
-        String chartOfAccountsCode = balance.getChartOfAccountsCode();
-        String accountNumber = balance.getAccountNumber();
-        Account account = balance.getAccount();
-        if (account == null) {
-            StringBuilder invalidAccountValue = new StringBuilder();
-            invalidAccountValue.append(chartOfAccountsCode).append("-").append(accountNumber);
-
-            errors = new ArrayList<Message>();
-            errors.add(MessageBuilder.buildErrorMessage(LaborKeyConstants.ERROR_ACCOUNT_NOT_FOUND, invalidAccountValue.toString(), Message.TYPE_FATAL));
-            return false;
-        }
+    private boolean validateBalance(LedgerBalanceForYearEndBalanceForward balance, List<Message> errors) {
+        /** This is the placeholder for addtional business rule validation. The former rules were moved down to data access layer. **/
         return true;
     }
 
@@ -211,14 +231,14 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @param validGroup the group that the posted transaction belongs to
      * @param postingDate the date the transaction is posted
      */
-    private void postAsOriginEntry(LedgerBalance balance, LaborOriginEntry originEntry, Date postingDate) {
+    private void postAsOriginEntry(LedgerBalanceForYearEndBalanceForward balance, LaborOriginEntry originEntry, Date postingDate) {
         try {
             originEntry.setAccountNumber(balance.getAccountNumber());
             originEntry.setChartOfAccountsCode(balance.getChartOfAccountsCode());
             originEntry.setSubAccountNumber(balance.getSubAccountNumber());
             originEntry.setFinancialObjectCode(balance.getFinancialObjectCode());
             originEntry.setFinancialSubObjectCode(balance.getFinancialSubObjectCode());
-            originEntry.setFinancialBalanceTypeCode(balance.getBalanceTypeCode());
+            originEntry.setFinancialBalanceTypeCode(balance.getFinancialBalanceTypeCode());
             originEntry.setFinancialObjectTypeCode(balance.getFinancialObjectTypeCode());
 
             originEntry.setPositionNumber(balance.getPositionNumber());
@@ -234,11 +254,11 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             originEntry.setTransactionLedgerEntryAmount(transactionAmount.abs());
             originEntry.setTransactionDebitCreditCode(DebitCreditUtil.getDebitCreditCode(transactionAmount, false));
 
-            originEntry.setTransactionLedgerEntrySequenceNumber(1);
+            originEntry.setTransactionLedgerEntrySequenceNumber(null);
             originEntry.setTransactionTotalHours(BigDecimal.ZERO);
             originEntry.setTransactionDate(postingDate);
 
-            laborOriginEntryService.save(originEntry);
+            laborOriginEntryService.save(originEntry);           
         }
         catch (Exception e) {
             LOG.error(e);

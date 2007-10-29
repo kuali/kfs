@@ -133,7 +133,7 @@ public class LaborConstants {
         public static final String SUBFUND_WAGE_EXCLUSION_PARAMETER = "SUB_FUND_GROUPS_NOT_ACCEPTING_WAGES_IND";
         public static final String SUSPENSE_ACCOUNT_LOGIC_PARAMETER = "SUSPENSE_ACCOUNT_LOGIC_IND";
         public static final String SUSPENSE_ACCOUNT = "SUSPENSE_ACCOUNT";
-        public static final String SUSPENSE_CHART = "SUSPENSE_CHART"; 
+        public static final String SUSPENSE_CHART = "SUSPENSE_CHART";
         public static final String CLOSED_FISCAL_PERIOD_BYPASS_BALANCE_TYPES = "CLOSED_FISCAL_PERIOD_BYPASS_BALANCE_TYPES";
         public static final String CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES = "CONTINUATION_ACCOUNT_BYPASS_ORIGINATIONS";
         public static final String CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES = "CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPES";
@@ -169,7 +169,7 @@ public class LaborConstants {
     public static final String LONG_ROW_TABLE_INRUIRY_ACTION = "laborLongRowTableInquiry.do";
     public static final Map<String, String> periodCodeMapping = new HashMap<String, String>();
     private static String SPACE_TRANSACTION_DATE = null;
-    
+
     static {
         periodCodeMapping.put(KFSPropertyConstants.MONTH1_AMOUNT, KFSConstants.MONTH1);
         periodCodeMapping.put(KFSPropertyConstants.MONTH2_AMOUNT, KFSConstants.MONTH2);
@@ -223,4 +223,6 @@ public class LaborConstants {
         }
         return SPACE_TRANSACTION_DATE;
     }
+
+    public static final String[] ACCOUNT_FIELDS = { KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ACCOUNT_NUMBER };
 }

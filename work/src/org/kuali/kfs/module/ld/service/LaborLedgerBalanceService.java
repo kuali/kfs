@@ -24,6 +24,7 @@ import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.LaborBalanceSummary;
 import org.kuali.module.labor.bo.LaborTransaction;
 import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.module.labor.bo.LedgerBalanceForYearEndBalanceForward;
 
 public interface LaborLedgerBalanceService {
 
@@ -48,7 +49,7 @@ public interface LaborLedgerBalanceService {
      * @return an Iterator over all balances for a given year and search criteria that include the accounts of balances must belong
      *         to the given sub fund group or fund group
      */
-    public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes);
+    public Iterator<LedgerBalanceForYearEndBalanceForward> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes);
 
     /**
      * This method gets the size of balance entries according to input fields and values
@@ -135,4 +136,6 @@ public interface LaborLedgerBalanceService {
      * @param ledgerBalance the given ledger balance
      */
     public void save(LedgerBalance ledgerBalance);
+
+    public List<List<String>> findAccountsInFundGroups(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes);
 }

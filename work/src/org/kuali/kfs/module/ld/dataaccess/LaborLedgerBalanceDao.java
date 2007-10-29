@@ -23,6 +23,7 @@ import java.util.Map;
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.LaborBalanceSummary;
 import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.module.labor.bo.LedgerBalanceForYearEndBalanceForward;
 
 /**
  * This is the data access object for ledger balance.
@@ -118,5 +119,7 @@ public interface LaborLedgerBalanceDao {
      * @return an Iterator over all balances for a given year and search criteria that include the accounts of balances must belong
      *         to the given sub fund group or fund group
      */
-    public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes);
+    public Iterator<LedgerBalanceForYearEndBalanceForward> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes);
+
+    public List<List<String>> findAccountsInFundGroups(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes);
 }

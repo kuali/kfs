@@ -284,16 +284,16 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
             SubAccount subAccount = (SubAccount) iter.next();
             if (StringUtils.isNotBlank(getOrgCd())) {
                 // check based on org
-                if ( (subAccount.getFinancialReportChartCode().equals(getFinCoaCd())) &&
-                        (subAccount.getFinReportOrganizationCode().equals(getOrgCd())) &&
-                        (subAccount.getSubAccountNumber().equals(getSubAccountNbr())) ) { 
+                if ( (StringUtils.equals(subAccount.getFinancialReportChartCode(), getFinCoaCd())) &&
+                        (StringUtils.equals(subAccount.getFinReportOrganizationCode(), getOrgCd())) &&
+                        (StringUtils.equals(subAccount.getSubAccountNumber(), getSubAccountNbr())) ) { 
                     return true;
                 }
             } else {
                 // check based on account
-                if ( (subAccount.getChartOfAccountsCode().equals(getFinCoaCd())) &&
-                        (subAccount.getAccountNumber().equals(getAccountNbr())) &&
-                        (subAccount.getSubAccountNumber().equals(getSubAccountNbr())) ) { 
+                if ( (StringUtils.equals(subAccount.getChartOfAccountsCode(), getFinCoaCd())) &&
+                        (StringUtils.equals(subAccount.getAccountNumber(), getAccountNbr())) &&
+                        (StringUtils.equals(subAccount.getSubAccountNumber(), getSubAccountNbr())) ) { 
                     return true;
                 }
             }

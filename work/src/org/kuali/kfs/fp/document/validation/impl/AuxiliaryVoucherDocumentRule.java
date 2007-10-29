@@ -157,7 +157,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isObjectCodeAllowed(org.kuali.core.bo.AccountingLine)
      */
     @Override
-    public boolean isObjectCodeAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+    public boolean isObjectCodeAllowed(Class documentClass, AccountingLine accountingLine) {
         return true;
     }
 

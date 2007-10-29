@@ -39,17 +39,17 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
     // test methods
     public static void testAddAccountingLineRule_IsObjectTypeAllowed(Class<? extends AccountingDocument> documentClass, AccountingLine line, boolean expected) throws Exception {
         AddAccountingLineRule rule = getBusinessRule(documentClass, AddAccountingLineRule.class);
-        assertEquals(expected, rule.isObjectTypeAllowed(documentClass.newInstance(), line));
+        assertEquals(expected, rule.isObjectTypeAllowed(documentClass, line));
     }
 
     public static void testAddAccountingLineRule_IsObjectCodeAllowed(Class<? extends AccountingDocument> documentClass, AccountingLine line, boolean expected) throws Exception {
         AddAccountingLineRule rule = getBusinessRule(documentClass, AddAccountingLineRule.class);
-        assertEquals(expected, rule.isObjectCodeAllowed(documentClass.newInstance(), line));
+        assertEquals(expected, rule.isObjectCodeAllowed(documentClass, line));
     }
 
     public static void testAddAccountingLine_IsObjectSubTypeAllowed(Class<? extends AccountingDocument> documentClass, AccountingLine line, boolean expected) throws Exception {
         AddAccountingLineRule rule = getBusinessRule(documentClass, AddAccountingLineRule.class);
-        assertEquals(expected, rule.isObjectSubTypeAllowed(documentClass.newInstance(), line));
+        assertEquals(expected, rule.isObjectSubTypeAllowed(documentClass, line));
     }
 
     public static <T extends AccountingDocument> void testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules(T document, boolean expected) throws Exception {

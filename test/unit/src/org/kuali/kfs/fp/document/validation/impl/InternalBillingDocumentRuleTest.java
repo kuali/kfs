@@ -69,7 +69,7 @@ public class InternalBillingDocumentRuleTest extends KualiTestBase {
         AccountingLine line = EXPENSE_LINE.createSourceAccountingLine();
         line.refresh();
         assertGlobalErrorMapEmpty();
-        boolean actual = new InternalBillingDocumentRule().isSubFundGroupAllowed(InternalBillingDocument.class.newInstance(), line);
+        boolean actual = new InternalBillingDocumentRule().isSubFundGroupAllowed(InternalBillingDocument.class, line);
         assertGlobalErrorMapEmpty();
         assertEquals(true, actual);
     }
@@ -78,7 +78,7 @@ public class InternalBillingDocumentRuleTest extends KualiTestBase {
         AccountingLine line = PFIP_SUB_FUND_LINE.createSourceAccountingLine();
         line.refresh();
         assertGlobalErrorMapEmpty();
-        boolean actual = new InternalBillingDocumentRule().isSubFundGroupAllowed(InternalBillingDocument.class.newInstance(), line);
+        boolean actual = new InternalBillingDocumentRule().isSubFundGroupAllowed(InternalBillingDocument.class, line);
         assertGlobalErrorMapContains(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_INVALID_VALUE, new String[] { null, "PFIP",
                 null, "not allowed", "PFRI, PFIP", null });
         assertEquals(false, actual);

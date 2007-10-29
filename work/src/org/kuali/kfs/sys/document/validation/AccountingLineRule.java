@@ -39,7 +39,7 @@ public interface AccountingLineRule<F extends AccountingDocument> extends Busine
      * @param accountingLine
      * @return boolean True if the use of the object code is allowed.
      */
-    public boolean isObjectCodeAllowed(F document, AccountingLine accountingLine);
+    public boolean isObjectCodeAllowed(Class documentClass, AccountingLine accountingLine);
 
     /**
      * This checks the accounting line's object type code to ensure that it is allowed.
@@ -47,7 +47,7 @@ public interface AccountingLineRule<F extends AccountingDocument> extends Busine
      * @param accountingLine
      * @return boolean
      */
-    public boolean isObjectTypeAllowed(F document, AccountingLine accountingLine);
+    public boolean isObjectTypeAllowed(Class documentClass, AccountingLine accountingLine);
 
     /**
      * This method checks to see if the object sub-type code for the accouting line's object code is allowed.
@@ -55,7 +55,7 @@ public interface AccountingLineRule<F extends AccountingDocument> extends Busine
      * @param accountingLine
      * @return boolean True if the use of the object code's object sub type code is allowed; false otherwise.
      */
-    public boolean isObjectSubTypeAllowed(F document, AccountingLine accountingLine);
+    public boolean isObjectSubTypeAllowed(Class documentClass, AccountingLine accountingLine);
 
     /**
      * This method checks to see if the object level for the accouting line's object code is allowed.
@@ -63,7 +63,7 @@ public interface AccountingLineRule<F extends AccountingDocument> extends Busine
      * @param accountingLine
      * @return boolean True if the use of the object code's object sub type code is allowed; false otherwise.
      */
-    public boolean isObjectLevelAllowed(F document, AccountingLine accountingLine);
+    public boolean isObjectLevelAllowed(Class documentClass, AccountingLine accountingLine);
 
     /**
      * This method checks to see if the object consolidation for the accouting line's object code is allowed.
@@ -71,7 +71,7 @@ public interface AccountingLineRule<F extends AccountingDocument> extends Busine
      * @param accountingLine
      * @return boolean True if the use of the object code's object sub type code is allowed; false otherwise.
      */
-    public boolean isObjectConsolidationAllowed(F document, AccountingLine accountingLine);
+    public boolean isObjectConsolidationAllowed(Class documentClass, AccountingLine accountingLine);
 
     /**
      * This method checks to see if the sub fund group code for the accouting line's account is allowed.
@@ -79,7 +79,7 @@ public interface AccountingLineRule<F extends AccountingDocument> extends Busine
      * @param accountingLine
      * @return boolean
      */
-    public boolean isSubFundGroupAllowed(F document, AccountingLine accountingLine);
+    public boolean isSubFundGroupAllowed(Class documentClass, AccountingLine accountingLine);
 
     /**
      * This method checks to see if the fund group code for the accouting line's account
@@ -87,7 +87,7 @@ public interface AccountingLineRule<F extends AccountingDocument> extends Busine
      * @param accountingLine
      * @return boolean
      */
-    public boolean isFundGroupAllowed(F document, AccountingLine accountingLine);
+    public boolean isFundGroupAllowed(Class documentClass, AccountingLine accountingLine);
 
     /**
      * This method determines if the passed in accounting line is a debit or not.

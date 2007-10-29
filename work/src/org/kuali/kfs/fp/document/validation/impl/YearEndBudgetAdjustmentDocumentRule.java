@@ -21,6 +21,8 @@ import static org.kuali.module.financial.rules.TransferOfFundsDocumentRuleConsta
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.module.financial.document.BudgetAdjustmentDocument;
+import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.module.financial.document.YearEndDocumentUtil;
 
 /**
@@ -53,7 +55,14 @@ public class YearEndBudgetAdjustmentDocumentRule extends BudgetAdjustmentDocumen
         return success;
     }
 
-
+    /**
+     * Overriding to return parent class BudgetAdjustmentDocument instead
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#getAccountingLineDocumentClass(org.kuali.kfs.document.AccountingDocument)
+     */
+    @Override
+    protected Class getAccountingLineDocumentClass(AccountingDocument financialDocument) {
+        return BudgetAdjustmentDocument.class;
+    }
 
     /**
      * @see org.kuali.module.financial.rules.BudgetAdjustmentDocumentRule#getTransferDocumentType()

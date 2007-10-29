@@ -360,7 +360,7 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isObjectCodeAllowed(org.kuali.core.bo.AccountingLine)
      */
     @Override
-    public boolean isObjectCodeAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+    public boolean isObjectCodeAllowed(Class documentClass, AccountingLine accountingLine) {
         return true;
     }
 
@@ -422,7 +422,7 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @see org.kuali.core.rule.AddAccountingLineRule#isObjectTypeAllowed(org.kuali.core.bo.AccountingLine)
      */
     @Override
-    public boolean isObjectTypeAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+    public boolean isObjectTypeAllowed(Class documentClass, AccountingLine accountingLine) {
         String objectTypeCode = accountingLine.getObjectTypeCode();
         if (StringUtils.isNotBlank(objectTypeCode)) {
             return true;

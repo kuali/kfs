@@ -575,26 +575,28 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
             valid &= AccountingLineRuleUtil.validateAccountingLine(accountingLine, SpringContext.getBean(DataDictionaryService.class));
 
             if (valid) { // the following checks assume existence, so if the above method failed, we don't want to call these
+                Class documentClass = getAccountingLineDocumentClass(financialDocument);
+                
                 // Check the object code to see if it's restricted or not
-                valid &= isObjectCodeAllowed(financialDocument, accountingLine);
+                valid &= isObjectCodeAllowed(documentClass, accountingLine);
 
                 // Check the object code type allowances
-                valid &= isObjectTypeAllowed(financialDocument, accountingLine);
+                valid &= isObjectTypeAllowed(documentClass, accountingLine);
 
                 // Check the object sub-type code allowances
-                valid &= isObjectSubTypeAllowed(financialDocument, accountingLine);
+                valid &= isObjectSubTypeAllowed(documentClass, accountingLine);
 
                 // Check the object level allowances
-                valid &= isObjectLevelAllowed(financialDocument, accountingLine);
+                valid &= isObjectLevelAllowed(documentClass, accountingLine);
 
                 // Check the object consolidation allowances
-                valid &= isObjectConsolidationAllowed(financialDocument, accountingLine);
+                valid &= isObjectConsolidationAllowed(documentClass, accountingLine);
 
                 // Check the sub fund group allowances
-                valid &= isSubFundGroupAllowed(financialDocument, accountingLine);
+                valid &= isSubFundGroupAllowed(documentClass, accountingLine);
 
                 // Check the fund group allowances
-                valid &= isFundGroupAllowed(financialDocument, accountingLine);
+                valid &= isFundGroupAllowed(documentClass, accountingLine);
             }
         }
 
@@ -607,6 +609,20 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         return valid;
     }
 
+
+    /**
+     * 
+     * This method returns the document class associated with this accounting document and is used to find
+     * the appropriate parameter rule
+     * This can be overridden to return a different class depending on the situation, initially this is
+     * used for Year End documents so that they use the same rules as their parent docs
+     * @see org.kuali.module.financial.rules.YearEndGeneralErrorCorrectionDocumentRule#getAccountingLineDocumentClass(AccountingDocument)
+     * @param financialDocument
+     * @return documentClass associated with this accounting document
+     */
+    protected Class getAccountingLineDocumentClass(AccountingDocument financialDocument) {
+        return financialDocument.getClass();
+    }
 
     /**
      * Perform business rules common to all transactional documents when generating general ledger pending entries.
@@ -1211,8 +1227,8 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return boolean True if the use of the object code is allowed.
      */
-    public boolean isObjectCodeAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine) {
-        return isAccountingLineValueAllowed(accountingDocument.getClass(), accountingLine, RESTRICTED_OBJECT_CODES, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accountingLine.getFinancialObjectCode());
+    public boolean isObjectCodeAllowed(Class documentClass, AccountingLine accountingLine) {
+        return isAccountingLineValueAllowed(documentClass, accountingLine, RESTRICTED_OBJECT_CODES, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accountingLine.getFinancialObjectCode());
     }
 
     private boolean isAccountingLineValueAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine, String parameterName, String propertyName) {
@@ -1250,8 +1266,8 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return boolean
      */
-    public boolean isObjectTypeAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine) {
-        return isAccountingLineValueAllowed(accountingDocument.getClass(), accountingLine, RESTRICTED_OBJECT_TYPE_CODES, "objectCode.financialObjectTypeCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+    public boolean isObjectTypeAllowed(Class documentClass, AccountingLine accountingLine) {
+        return isAccountingLineValueAllowed(documentClass, accountingLine, RESTRICTED_OBJECT_TYPE_CODES, "objectCode.financialObjectTypeCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
     }
 
     /**
@@ -1261,52 +1277,52 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return boolean
      */
-    public boolean isFundGroupAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine) {
-        return isAccountingLineValueAllowed(accountingDocument.getClass(), accountingLine, RESTRICTED_FUND_GROUP_CODES, "account.subFundGroup.fundGroupCode", "accountNumber");
+    public boolean isFundGroupAllowed(Class documentClass, AccountingLine accountingLine) {
+        return isAccountingLineValueAllowed(documentClass, accountingLine, RESTRICTED_FUND_GROUP_CODES, "account.subFundGroup.fundGroupCode", "accountNumber");
     }
 
     /**
-     * This method checks to see if the sub fund group code for the accouting line's account is allowed. The common implementation
+     * This method checks to see if the sub fund group code for the accounting line's account is allowed. The common implementation
      * allows any sub fund group code.
      * 
      * @param accountingLine
      * @return boolean
      */
-    public boolean isSubFundGroupAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine) {
-        return isAccountingLineValueAllowed(accountingDocument.getClass(), accountingLine, RESTRICTED_SUB_FUND_GROUP_CODES, "account.subFundGroupCode", "accountNumber");
+    public boolean isSubFundGroupAllowed(Class documentClass, AccountingLine accountingLine) {
+        return isAccountingLineValueAllowed(documentClass, accountingLine, RESTRICTED_SUB_FUND_GROUP_CODES, "account.subFundGroupCode", "accountNumber");
     }
 
     /**
-     * This method checks to see if the object sub-type code for the accouting line's object code is allowed. The common
+     * This method checks to see if the object sub-type code for the accounting line's object code is allowed. The common
      * implementation allows any object sub-type code.
      * 
      * @param accountingLine
      * @return boolean True if the use of the object code's object sub type code is allowed; false otherwise.
      */
-    public boolean isObjectSubTypeAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine) {
-        return isAccountingLineValueAllowed(accountingDocument.getClass(), accountingLine, RESTRICTED_OBJECT_SUB_TYPE_CODES, "objectCode.financialObjectSubTypeCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+    public boolean isObjectSubTypeAllowed(Class documentClass, AccountingLine accountingLine) {
+        return isAccountingLineValueAllowed(documentClass, accountingLine, RESTRICTED_OBJECT_SUB_TYPE_CODES, "objectCode.financialObjectSubTypeCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
     }
 
     /**
-     * This method checks to see if the object level for the accouting line's object code is allowed. The common implementation
+     * This method checks to see if the object level for the accounting line's object code is allowed. The common implementation
      * allows any object level.
      * 
      * @param accountingLine
      * @return boolean True if the use of the object code's object sub type code is allowed; false otherwise.
      */
-    public boolean isObjectLevelAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine) {
-        return isAccountingLineValueAllowed(accountingDocument.getClass(), accountingLine, RESTRICTED_OBJECT_LEVELS, "objectCode.financialObjectLevelCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+    public boolean isObjectLevelAllowed(Class documentClass, AccountingLine accountingLine) {
+        return isAccountingLineValueAllowed(documentClass, accountingLine, RESTRICTED_OBJECT_LEVELS, "objectCode.financialObjectLevelCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
     }
 
     /**
-     * This method checks to see if the object consolidation for the accouting line's object code is allowed. The common
+     * This method checks to see if the object consolidation for the accounting line's object code is allowed. The common
      * implementation allows any object consolidation.
      * 
      * @param accountingLine
      * @return boolean True if the use of the object code's object sub type code is allowed; false otherwise.
      */
-    public boolean isObjectConsolidationAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine) {
-        return isAccountingLineValueAllowed(accountingDocument.getClass(), accountingLine, RESTRICTED_OBJECT_CONSOLIDATIONS, "objectCode.financialObjectLevel.financialConsolidationObjectCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+    public boolean isObjectConsolidationAllowed(Class documentClass, AccountingLine accountingLine) {
+        return isAccountingLineValueAllowed(documentClass, accountingLine, RESTRICTED_OBJECT_CONSOLIDATIONS, "objectCode.financialObjectLevel.financialConsolidationObjectCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
     }
 
     /**

@@ -43,7 +43,8 @@ public interface PurchaseOrderService {
     /**
      * Creates an automatic purchase order document using the given requisition document
      * 
-     * @param reqDocument  The requisition document that this method will use to create the APO.
+     * @param reqDocument  The requisition document that this method will use to create 
+     *                     the Automated Purchase Order (APO).
      */
     public void createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument);
 
@@ -130,7 +131,7 @@ public interface PurchaseOrderService {
     public void completePurchaseOrder(PurchaseOrderDocument po);
 
     /**
-     * Obtains the purchase order document whose current indicator is true, given a po id
+     * Obtains the purchase order document whose current indicator is true, given a purchase order id
      * which is the purapDocumentIdentifier.
      * 
      * @param id   The po id (purapDocumentIdentifier) that we'll use to retrieve the current purchase order document.
@@ -147,76 +148,89 @@ public interface PurchaseOrderService {
     public PurchaseOrderDocument getPurchaseOrderByDocumentNumber(String documentNumber);
 
     /**
-     *  Sets the current and pending indicators of the new PO and the old PO as well as its
-     *  status, then save the PO.
+     *  Sets the current and pending indicators of the new purchase order and the old purchase order 
+     *  as well as its status, then save the purchase order.
      *  
      * @param newPO   The new purchase order document that has been approved.
      */
     public void setCurrentAndPendingIndicatorsForApprovedPODocuments(PurchaseOrderDocument newPO);
 
     /**
-     *  Sets the pending indicators of the new PO and the old PO as well as their
-     *  statuses, then save the PO.
+     *  Sets the current and pending indicators of the new purchase order and the old purchase order 
+     *  as well as their statuses, then save the purchase order.
      *  
      * @param newPO   The new purchase order document that has been disapproved.
      */
     public void setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(PurchaseOrderDocument newPO);
 
     /**
-     *  Sets the pending indicators of the new PO and the old PO as well as their
-     *  statuses, then save the PO.
+     *  Sets the current and pending indicators of the new purchase order and the old purchase order 
+     *  as well as their statuses, then save the purchase order.
      *  
-     * @param newPO   The new purchase order document that has been cancelled.
+     * @param newPO   The new purchase order document that has been canceled.
      */
     public void setCurrentAndPendingIndicatorsForCancelledChangePODocuments(PurchaseOrderDocument newPO);
     
     /**
-     *  Sets the pending indicators of the new PO and the old PO as well as their
-     *  statuses, then save the PO.
+     *  Sets the current and pending indicators of the new purchase order and the old purchase order 
+     *  as well as their statuses, then save the purchase order.
      *  
-     * @param newPO   The new purchase order reopen document that has been cancelled.
+     * @param newPO   The new purchase order reopen document that has been canceled.
      */
     public void setCurrentAndPendingIndicatorsForCancelledReopenPODocuments(PurchaseOrderDocument newPO);
     
     /**
-     *  Sets the pending indicators of the new PO and the old PO as well as their
-     *  statuses, then save the PO.
+     *  Sets the current and pending indicators of the new purchase order and the old purchase order 
+     *  as well as their statuses, then save the purchase order.
      *  
      * @param newPO   The new purchase order reopen document that has been disapproved.
      */
     public void setCurrentAndPendingIndicatorsForDisapprovedReopenPODocuments(PurchaseOrderDocument newPO);
     
     /**
-     *  Sets the pending indicators of the new PO and the old PO as well as their
-     *  statuses, then save the PO.
+     *  Sets the current and pending indicators of the new purchase order and the old purchase order
+     *  as well as their statuses, then save the purchase order
      *  
-     * @param newPO   The new purchase order remove hold document that has been cancelled.
+     * @param newPO   The new purchase order remove hold document that has been canceled.
      */    
     public void setCurrentAndPendingIndicatorsForCancelledRemoveHoldPODocuments(PurchaseOrderDocument newPO);
     
     /**
-     *  Sets the pending indicators of the new PO and the old PO as well as their
-     *  statuses, then save the PO.
+     *  Sets the current and pending indicators of the new purchase order and the old purchase order 
+     *  as well as their statuses, then save the purchase order.
      *  
      * @param newPO   The new purchase order remove hold document that has been disapproved.
      */       
     public void setCurrentAndPendingIndicatorsForDisapprovedRemoveHoldPODocuments(PurchaseOrderDocument newPO);
     
     /**
-     * Obtains the oldest purchase order given the po object to be used to search, then calls the updateNotes
-     * method to set the notes on the oldest purchase order and finally return the oldest purchase order.
+     * Obtains the oldest purchase order given the purchase order object to be used to search, then calls the 
+     * updateNotes method to set the notes on the oldest purchase order and finally return the oldest purchase order.
      * 
-     * @param po
-     * @param documentBusinessObject
-     * @return
+     * @param po                      The current purchase order object from which we want to obtain the oldest purchase order.
+     * @param documentBusinessObject  The documentBusinessObject of the current purchase order object.
+     * @return                        The oldest purchase order whose purchase order id is the same as the current purchase order's id.
      */
     public PurchaseOrderDocument getOldestPurchaseOrder(PurchaseOrderDocument po, PurchaseOrderDocument documentBusinessObject);
 
+    /**
+     * Obtains all the notes that belong to this purchase order given the purchase order id.
+     * 
+     * @param id  The purchase order id (purapDocumentIdentifier).
+     * @return    The list of notes that belong to this purchase order.
+     */
     public ArrayList<Note> getPurchaseOrderNotes(Integer id);
-
-    //public void sendFYItoWorkgroup(PurchaseOrderDocument po, String annotation, Long workgroupId);
 
     public ArrayList<PurchaseOrderQuoteStatus> getPurchaseOrderQuoteStatusCodes();
 
+    /**
+     * Update the purchase order document with the appropriate status for pending first transmission if the transmission
+     * method code is PRINT, or set the purchase order status to OPEN, set the initial open date and save the purchase 
+     * order if the transmission method code is not PRINT and the hasActionRequestForDocumentTransmission is false.
+     * 
+     * @param po                                        The purchase order document whose status to be updated.
+     * @param hasActionRequestForDocumentTransmission   boolean true if this purchase order has action request for
+     *                                                  document transmission.
+     */
     public void setupDocumentForPendingFirstTransmission(PurchaseOrderDocument po, boolean hasActionRequestForDocumentTransmission);
 }

@@ -22,8 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.Options;
@@ -185,6 +187,9 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGLLookupa
         KualiDecimal encumbranceAmount = balance.getAccountLineEncumbranceBalanceAmount();
 
         // determine if the object type code is one of the given codes
+        if (ObjectUtils.isNull(balance.getFinancialObject()) || StringUtils.isBlank(balance.getFinancialObject().getFinancialObjectTypeCode())) {
+            balance.refreshReferenceObject("financialObject");  // refresh if we need to...
+        }
         ObjectCode financialObject = balance.getFinancialObject();
         String objectTypeCode = (financialObject == null) ? Constant.EMPTY_STRING : financialObject.getFinancialObjectTypeCode();
 

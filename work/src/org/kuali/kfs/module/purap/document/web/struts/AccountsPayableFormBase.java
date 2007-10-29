@@ -34,12 +34,11 @@ import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.PurApItemUtils;
 
 /**
- * Form class for Purchasing documents.
+ * Base Struts Action Form for Accounts Payable documents.
  */
 public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
 
     private PurApItem newPurchasingItemLine;
-    private Boolean notOtherDeliveryBuilding;
     private boolean calculated;
     private int countOfAboveTheLine = 0;
     private int countOfBelowTheLine = 0;
@@ -50,7 +49,6 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     public AccountsPayableFormBase() {
         super();
         calculated = false;
-        notOtherDeliveryBuilding = true;
     }
 
     public PurApItem getNewPurchasingItemLine() {
@@ -74,14 +72,6 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
      */
     public PurApItem setupNewPurchasingItemLine() {
         return null;
-    }
-
-    public Boolean getNotOtherDeliveryBuilding() {
-        return notOtherDeliveryBuilding;
-    }
-
-    public void setNotOtherDeliveryBuilding(Boolean notOtherDeliveryBuilding) {
-        this.notOtherDeliveryBuilding = notOtherDeliveryBuilding;
     }
 
     public boolean isCalculated() {
@@ -150,12 +140,12 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
      */
     @Override
     public void populate(HttpServletRequest request) {
-        
         super.populate(request);
-        
         AccountsPayableDocument apDoc = (AccountsPayableDocument)this.getDocument();
+
         //update po doc
         apDoc.setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(apDoc.getPurchaseOrderIdentifier()));
+
         // update counts after populate
         updateItemCounts();
     }

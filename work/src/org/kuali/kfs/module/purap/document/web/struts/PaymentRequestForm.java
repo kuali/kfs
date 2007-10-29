@@ -36,7 +36,7 @@ import org.kuali.module.purap.document.authorization.PaymentRequestDocumentActio
 import org.kuali.module.purap.service.PurapService;
 
 /**
- * ActionForm for the Payment Request Document. Stores document values to and from the JSP.
+ * Base Struts Action Form for Payment Request document.
  */
 public class PaymentRequestForm extends AccountsPayableFormBase {
 
@@ -200,7 +200,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
                     addExtraButton("methodToCall.removeCancelRequestFromPayment", appExternalImageURL + "buttonsmall_remreqcanc.gif", "Remove");
                 }                
 
-                //add the calcuate button
+                //add the calculate button
                 if(preqDocAuth.canCalculate()){
                     addExtraButton("methodToCall.calculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
                 }

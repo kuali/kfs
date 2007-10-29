@@ -32,7 +32,7 @@ import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PurapService;
 
 /**
- * ActionForm for the Credit Memo Document. Stores document values to and from the JSP.
+ * Base Struts Action Form for Credit Memo document.
  */
 public class CreditMemoForm extends AccountsPayableFormBase {
    
@@ -133,7 +133,7 @@ public class CreditMemoForm extends AccountsPayableFormBase {
                     addExtraButton("methodToCall.removeHoldFromCreditMemo", appExternalImageURL + "buttonsmall_removehold.gif", "Remove");
                 }
 
-                // add the calcuate button
+                // add the calculate button
                 if (PurapConstants.CreditMemoStatuses.IN_PROCESS.equals(cmDocument.getStatusCode())) {
                     addExtraButton("methodToCall.calculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
                 }

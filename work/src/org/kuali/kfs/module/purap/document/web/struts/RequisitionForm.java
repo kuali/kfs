@@ -25,7 +25,7 @@ import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 /**
- * Struts Action Form for the Requisition Document. 
+ * Base Struts Action Form for Requisition document.
  */
 public class RequisitionForm extends PurchasingFormBase {
 
@@ -37,20 +37,10 @@ public class RequisitionForm extends PurchasingFormBase {
         setDocument(new RequisitionDocument());
     }
 
-    /**
-     * Returns the internalBillingDocument.
-     * 
-     * @return the internalBillingDocument.
-     */
     public RequisitionDocument getRequisitionDocument() {
         return (RequisitionDocument) getDocument();
     }
 
-    /**
-     * Sets the internalBillingDocument to the specified one.
-     * 
-     * @param internalBillingDocument the internalBillingDocument to set.
-     */
     public void setRequisitionDocument(RequisitionDocument requisitionDocument) {
         setDocument(requisitionDocument);
     }

@@ -718,7 +718,7 @@ implements FiscalYearMakersDao {
         getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
         if (resultRow.hasNext())
         {
-            currentFiscalYear = (Integer) ((BigDecimal)
+            currentFiscalYear = (Integer) ((Number)
                         ((Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(resultRow))[0]).intValue();
         }
         //TODO:
@@ -754,7 +754,7 @@ implements FiscalYearMakersDao {
             getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
         while (resultRows.hasNext())
         {
-            return(hashCapacity(((BigDecimal)((Object[]) resultRows.next())[0]).intValue()));
+            return(hashCapacity(((Number)((Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(resultRows))[0]).intValue()));
         }
         return (new Integer(1));
     }

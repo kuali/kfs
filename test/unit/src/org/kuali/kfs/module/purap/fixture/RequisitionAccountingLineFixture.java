@@ -30,7 +30,23 @@ public enum RequisitionAccountingLineFixture {
     BASIC_REQ_ACCOUNT_1(
             PurApAccountingLineFixture.BASIC_ACCOUNT_1,   // PurApAccountingLineFixture
             AccountingLineFixture.LINE2                   // AccountingLineFixture
-            );
+    ),
+    APO_REQ_ACCOUNT_1(
+            PurApAccountingLineFixture.BASIC_ACCOUNT_1,   // PurApAccountingLineFixture
+            AccountingLineFixture.APO_LINE1               // AccountingLineFixture
+    ),
+    APO_REQ_ACCOUNT_2(
+            PurApAccountingLineFixture.ACCOUNT_50_PERCENT, // PurApAccountingLineFixture
+            AccountingLineFixture.APO_LINE2                // AccountingLineFixture
+    ),
+    APO_REQ_ACCOUNT_3(
+            PurApAccountingLineFixture.ACCOUNT_50_PERCENT, // PurApAccountingLineFixture
+            AccountingLineFixture.APO_LINE3                // AccountingLineFixture
+    ),
+    APO_REQ_ACCOUNT_4(
+            PurApAccountingLineFixture.BASIC_ACCOUNT_1,    // PurApAccountingLineFixture
+            AccountingLineFixture.APO_LINE4                // AccountingLineFixture
+    );
     
     
     private PurApAccountingLineFixture purApAccountingLineFixture;

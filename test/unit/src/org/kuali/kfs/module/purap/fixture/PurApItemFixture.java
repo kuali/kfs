@@ -56,6 +56,57 @@ public enum PurApItemFixture {
             new KualiDecimal(1),    // extendedPrice
             new KualiDecimal(1)     // itemQuantity
             ),
+    APO_QTY_ITEM_1 (
+            null,                       // itemIdentifier
+            new Integer(1),             // itemLineNumber
+            "",                         // capitalAssetTransactionTypeCode
+            "PCS",                      // itemUnitOfMeasureCode
+            "",                         // itemCatalogNumber
+            "description",              // itemDescription
+            "",                         // itemCapitalAssetNoteText
+            new BigDecimal(1.99),       // itemUnitPrice
+            "ITEM",                     // itemTypeCode
+            "",                         // itemAuxiliaryPartIdentifier
+            "",                         // externalOrganizationB2bProductReferenceNumber
+            "",                         // externalOrganizationB2bProductTypeName
+            false,                      // itemAssignedToTradeInIndicator
+            new KualiDecimal(995.00),   // extendedPrice
+            new KualiDecimal(500)       // itemQuantity
+            ),
+    APO_SERVICE_ITEM_1 (
+            null,                       // itemIdentifier
+            new Integer(2),             // itemLineNumber
+            "",                         // capitalAssetTransactionTypeCode
+            "",                         // itemUnitOfMeasureCode
+            "",                         // itemCatalogNumber
+            "description",              // itemDescription
+            "",                         // itemCapitalAssetNoteText
+            new BigDecimal(239.99),     // itemUnitPrice
+            "SRVC",                     // itemTypeCode
+            "",                         // itemAuxiliaryPartIdentifier
+            "",                         // externalOrganizationB2bProductReferenceNumber
+            "",                         // externalOrganizationB2bProductTypeName
+            false,                      // itemAssignedToTradeInIndicator
+            new KualiDecimal(239.99),   // extendedPrice
+            null                        // itemQuantity
+            ),
+    APO_FREIGHT_ITEM_1 (
+            null,                       // itemIdentifier
+            new Integer(3),             // itemLineNumber
+            "",                         // capitalAssetTransactionTypeCode
+            "",                         // itemUnitOfMeasureCode
+            "",                         // itemCatalogNumber
+            "freight",                  // itemDescription
+            "",                         // itemCapitalAssetNoteText
+            new BigDecimal(12.49),      // itemUnitPrice
+            "FRHT",                     // itemTypeCode
+            "",                         // itemAuxiliaryPartIdentifier
+            "",                         // externalOrganizationB2bProductReferenceNumber
+            "",                         // externalOrganizationB2bProductTypeName
+            false,                      // itemAssignedToTradeInIndicator
+            new KualiDecimal(12.49),    // extendedPrice
+            null                        // itemQuantity
+            ),
     BASIC_QTY_ITEM_NO_APO (
             null,  // itemIdentifier
             new Integer(2),         // itemLineNumber

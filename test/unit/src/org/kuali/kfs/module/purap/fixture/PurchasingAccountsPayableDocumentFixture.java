@@ -58,6 +58,21 @@ public enum PurchasingAccountsPayableDocumentFixture {
             "US", //vendorCountryCode
             null, //vendorCustomerNumber
             null), //accountsPayablePurchasingDocumentLinkIdentifier
+     REQ_ALTERNATE_APO(            
+            null, //purapDocumentIdentifier
+            RequisitionStatuses.IN_PROCESS, //statusCode
+            1016, //vendorHeaderGeneratedIdentifier
+            0, //vendorDetailAssignedIdentifier
+            "Physik Instrument L. P.", //vendorName
+            "16 AUBURN ST", //vendorLine1Address
+            null, //vendorLine2Address
+            "AUBURN", //vendorCityName
+            "MA", //vendorStateCode
+            "01501", //vendorPostalCode
+            "US", //vendorCountryCode
+            null, //vendorCustomerNumber
+            null), //accountsPayablePurchasingDocumentLinkIdentifier
+
 
     // PURCHASE ORDER FIXTURES
     //TODO f2f: fix the PO one because actually, the vendor must be selected from the database

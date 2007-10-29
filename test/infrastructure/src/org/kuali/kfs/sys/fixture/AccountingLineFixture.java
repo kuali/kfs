@@ -46,6 +46,11 @@ public enum AccountingLineFixture {
     LINE16( 2004, null, "UA", "1912201", "AC", null, "1175", null, "KUL", "F", "IC", null, "01", "2004", null, GL_DEBIT_CODE, "1.10"),
     LINE17( 2004, null, "UA", "1912201", "AC", null, "7600", null, "KUL", "F", "AM", null, "01", "2004", null, GL_DEBIT_CODE, "1.10"),
     LINE18( 2004, null, "BL", "1031400", null, null, "5000", null, null, null, null, null, null, null, null, null, "1.10"),
+    
+    APO_LINE1( 2004, null, "BL", "0212007", null, null, "4000", null, null, null, null, null, null, null, null, GL_DEBIT_CODE, "995.00"),
+    APO_LINE2( 2004, null, "BL", "0212007", null, null, "4000", null, null, null, null, null, null, null, null, GL_DEBIT_CODE, "120.00"),
+    APO_LINE3( 2004, null, "BL", "0212008", null, null, "4000", null, null, null, null, null, null, null, null, GL_DEBIT_CODE, "119.99"),
+    APO_LINE4( 2004, null, "BL", "0212009", null, null, "4000", null, null, null, null, null, null, null, null, GL_DEBIT_CODE, "12.49"),
 
     GEC_LINE1( 2004, null, "BL", "1031400", null, "ADV", "5000", "SSS", "KUL", null, "EX", null, "01", "123", null, null, "1.10"),
     ICA_LINE( 2004, null, "BL", "5431400", null, null, "5500", null, null, null, null, null, null, null, null, null, "1.10"),

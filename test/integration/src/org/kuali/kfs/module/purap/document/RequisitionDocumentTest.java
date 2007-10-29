@@ -48,9 +48,7 @@ import org.kuali.workflow.WorkflowTestUtils;
 import edu.iu.uis.eden.EdenConstants;
 
 /**
- * This class is used to test InternalBillingDocument.
- * 
- * 
+ * This class is used to create and test populated Requisition Documents of various kinds.
  */
 @ConfigureContext(session = KHUNTLEY)
 public class RequisitionDocumentTest extends KualiTestBase {
@@ -75,7 +73,6 @@ public class RequisitionDocumentTest extends KualiTestBase {
         int expectedItemTotal = items.size();
         PurchasingDocumentTestUtils.testAddItem((PurchasingDocument)DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), DOCUMENT_CLASS), items, expectedItemTotal);
     }
-
 
     public final void testGetNewDocument() throws Exception {
         testGetNewDocument_byDocumentClass(DOCUMENT_CLASS, SpringContext.getBean(DocumentService.class));
@@ -159,6 +156,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         assertNotNull(relatedPOs);
         assertTrue(relatedPOs.size() > 0);
     }
+    
 //
 //    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
 //    public final void testAPOInvalidLimit() throws Exception {
@@ -207,6 +205,12 @@ public class RequisitionDocumentTest extends KualiTestBase {
 //        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
 //        AccountingDocumentTestUtils.saveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
 //    }
+    
+    @ConfigureContext(session = RORENFRO, shouldCommitTransactions=true)
+    public final void testCreateAPOAlternateRequisition() throws Exception {
+        RequisitionDocument altAPORequisition = RequisitionDocumentFixture.REQ_ALTERNATE_APO.createRequisitionDocument();
+        AccountingDocumentTestUtils.testSaveDocument(altAPORequisition, SpringContext.getBean(DocumentService.class));
+    }
 
     // test util methods
     private List<RequisitionItem> generateItems() throws Exception {

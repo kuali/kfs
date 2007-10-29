@@ -39,6 +39,9 @@ import org.kuali.module.vendor.bo.VendorHeader;
 import org.kuali.module.vendor.bo.VendorSupplierDiversity;
 import org.kuali.module.vendor.util.VendorUtils;
 
+/**
+ * Authorizer class for Vendor maintenance document
+ */
 public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
     /**
@@ -93,7 +96,7 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
     }
 
     /**
-     * If the current user is a member of TAXNBR_ACCESSIBLE_GROUP then add taxEntry to the editMode Map and set it ture.
+     * If the current user is a member of TAXNBR_ACCESSIBLE_GROUP then user is allowed to edit tax number.
      *   
      * @see org.kuali.core.document.MaintenanceDocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.KualiUser)
@@ -112,7 +115,7 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
     }
 
     /**
-     * disables blanket approve for Vendor Maintenace document
+     * Disables blanket approve for Vendor maintenance document
      * 
      * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.UniversalUser)
@@ -121,7 +124,6 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         MaintenanceDocumentActionFlags docActionFlags = new MaintenanceDocumentActionFlags(super.getDocumentActionFlags(document, user));
         docActionFlags.setCanBlanketApprove(false);
-        
         return docActionFlags;
     }
 

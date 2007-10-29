@@ -6,7 +6,7 @@
 
 <h1><strong>System Error</strong></h1>
 <jsp:include page="TestEnvironmentWarning.jsp" flush="true"/>
-<p>An unexpected error has been encountered, please contact <a href="mailto:pdphelp@indiana.edu">pdphelp@indiana.edu</a> for assistance. </p>
+<p>An unexpected error has been encountered.</p>
 <!-- Deployed Successfully -->
 </body>
 </html>

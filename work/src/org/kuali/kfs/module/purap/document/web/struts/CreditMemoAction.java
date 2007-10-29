@@ -77,7 +77,6 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         // preform duplicate check which will forward to a question prompt if one is found
         ActionForward forward = performDuplicateCreditMemoCheck(mapping, form, request, response, creditMemoDocument);
         if (forward != null) {
-            
             return forward;
         }
 
@@ -107,7 +106,6 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         CreditMemoForm cmForm = (CreditMemoForm) form;
         CreditMemoDocument creditMemoDocument = (CreditMemoDocument) cmForm.getDocument();
         creditMemoDocument.clearInitFields();
-
         return super.refresh(mapping, form, request, response);
     }
 
@@ -130,7 +128,6 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         if (StringUtils.isNotBlank(duplicateMessage)) {
             Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
             if (question == null) {
-                
                 return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessage, KFSConstants.CONFIRMATION_QUESTION, "continueCreditMemo", "");
             }
 

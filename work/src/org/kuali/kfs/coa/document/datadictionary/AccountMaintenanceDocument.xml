@@ -66,9 +66,6 @@
             <reference attributeName="accountManagerUser" attributeToHighlightOnFail="accountManagerUser.personUserIdentifier" />
             <reference attributeName="accountRestrictedStatus" attributeToHighlightOnFail="accountRestrictedStatusCode" />
             <reference attributeName="subFundGroup" attributeToHighlightOnFail="subFundGroupCode" />
-            <!--  FIXME: remove after testing -->
-            <reference attributeName="extension.program" activeIndicatorAttributeName="programActiveIndicator" attributeToHighlightOnFail="extension.programCode" />
-
             <reference attributeName="budgetRecordingLevel" activeIndicatorAttributeName="active" attributeToHighlightOnFail="budgetRecordingLevelCode" />
             <reference attributeName="acctIndirectCostRcvyType" activeIndicatorAttributeName="active" attributeToHighlightOnFail="acctIndirectCostRcvyTypeCd" />
         </defaultExistenceChecks>
@@ -80,8 +77,6 @@
                     <maintainableField name="accountNumber" required="true" />
                     <maintainableField name="accountName" required="true" />
                     <maintainableField name="organizationCode" required="true" />
-                    <!-- FIXME: remove after testing -->
-                    <maintainableField name="extension.programCode" required="false" />
                     <maintainableField name="accountPhysicalCampusCode" required="true" />
                     <maintainableField name="accountCreateDate" />
                     <maintainableField name="accountEffectiveDate" required="true">
@@ -109,7 +104,6 @@
                     <maintainableField name="versionNumber" />
                     <maintainableField name="accountGuideline.versionNumber" />
                     <maintainableField name="accountDescription.versionNumber" />
-                    <maintainableField name="extension.versionNumber" />
                 </maintainableItems>
             </maintainableSection>
             <maintainableSection title="Account Responsibility">

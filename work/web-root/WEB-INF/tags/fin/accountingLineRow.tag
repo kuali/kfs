@@ -181,16 +181,11 @@
 		anchor="accounting${actionInfix}${actionGroup}LineAnchor${0 + accountingLineIndex}" />
 	<c:set var="details" value="" />
 	
-<%-- <logic:notEmpty name="KualiForm" property="${accountingLine}.account.programCode">
-       <c:set var="details" value="account.accountName,account.program.programCode,;-,account.program.programName" />
-    </logic:notEmpty>
---%>
-
 	<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
 		accountingLine="${accountingLine}"
 		baselineAccountingLine="${baselineAccountingLine}"
-		field="accountNumber" detailFunction="loadAccountNameAndExtensionInfo"
-		detailField="account.accountNameAndExtensionDescription"
+		field="accountNumber" detailFunction="loadAccountInfo"
+		detailField="account.accountName"
 		detailFields="${details}"
 		attributes="${accountingLineAttributes}" lookup="true" inquiry="true"
 		boClassSimpleName="Account"

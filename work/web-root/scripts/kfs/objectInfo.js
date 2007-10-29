@@ -100,42 +100,6 @@ function loadAccountInfo( accountCodeFieldName, accountNameFieldName ) {
 	}	
 }
 
-function loadAccountNameAndExtensionInfo( accountCodeFieldName, accountNameFieldName ) {
-    var elPrefix = findElPrefix( accountCodeFieldName );
-    var accountCode = DWRUtil.getValue( accountCodeFieldName );
-    var coaCode = DWRUtil.getValue( elPrefix + chartCodeSuffix );
-
-    if (valueChanged( accountCodeFieldName )) {
-        setRecipientValue( elPrefix + subAccountNumberSuffix, "" );
-        setRecipientValue( elPrefix + subAccountNameSuffix, "" );
-        setRecipientValue( elPrefix + subObjectCodeSuffix, "" );
-        setRecipientValue( elPrefix + subObjectCodeNameSuffix, "" );
-    }
-    
-    if (accountCode=='') {
-		clearRecipients(accountNameFieldName);
-	} else if (coaCode=='') {
-		setRecipientValue(accountNameFieldName, wrapError( 'chart code is empty' ), true );
-	} else {
-		var dwrReply = {
-			callback:function(data) {
-			if ( data != null && typeof data == 'object' ) {
- 				var temp = data.accountNameAndExtensionDescription;
-// Replace the line break indicator with html line breaks							
- 				var regexp = /\[br\]/g;
- 				var temp3 = temp.replace( regexp, "<br />") ;
- // Note third parameter below = true to prevent escaping special html characters.				
- 				setRecipientValue( accountNameFieldName, temp3, true);
-			} else {
-				setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );			
-			} },
-			errorHandler:function( errorMessage ) { 
-				setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );
-			}
-		};
-		AccountService.getByPrimaryIdWithCaching( coaCode, accountCode, dwrReply );
-	}	
-}
 function loadSubAccountInfo( subAccountCodeFieldName, subAccountNameFieldName ) {
     var elPrefix = findElPrefix( subAccountCodeFieldName );
     var coaCode = getElementValue( elPrefix + chartCodeSuffix );

@@ -1879,7 +1879,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     /**
      * 
      * This method returns a collection of AwardAccount objects.
-     * @return Collection of assicated AwardAccounts.
+     * @return Collection of associated AwardAccounts.
      */
     public List<AwardAccount> getAwards() {
         return awards;
@@ -1893,37 +1893,5 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public void setAwards(List<AwardAccount> awards) {
         this.awards = awards;
     }
-
-
-    /**
-     * @return Returns the accountNameAndExtensionDescription.
-     */
-    public String getAccountNameAndExtensionDescription() {
-        String resultString;
-        AccountExtension accountExtension;
-        Program program;
-        resultString = this.getAccountName();
-        if (this.getExtension() != null){
-            accountExtension = (AccountExtension) this.getExtension();
-            if (accountExtension.getProgram() != null){
-                program = accountExtension.getProgram();
-                resultString = accountName + 
-                "[br]Program=" + 
-                program.getProgramCode() + "-" + 
-                program.getProgramName();
-            }         
-        }      
-      return  resultString;
-    }
-
-    /**
-     * Sets the accountNameAndExtensionDescription attribute value.
-     * 
-     * @param accountNameAndExtensionDescription The accountNameAndExtensionDescription to set.
-     */
-    public void setAccountNameAndExtensionDescription(String dummy ) {
-        
-    }
-
 
 }

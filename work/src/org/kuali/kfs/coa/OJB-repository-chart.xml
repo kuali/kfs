@@ -168,12 +168,6 @@
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
 
-	<!-- FIXME: remove after testing -->
-    <reference-descriptor name="extension" class-ref="org.kuali.module.chart.bo.AccountExtension" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="accountNumber" />
-    </reference-descriptor>
-
     <collection-descriptor name="subAccounts" element-class-ref="org.kuali.module.chart.bo.SubAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="subAccountNumber" sort="ASC" />
         <inverse-foreignkey field-ref="chartOfAccountsCode" />
@@ -260,19 +254,6 @@
         <foreignkey field-ref="accountRestrictedStatusCode" />
     </reference-descriptor>
    
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.chart.bo.AccountExtension" table="TEST_ACCOUNT_EXT_T">
-    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="programCode" column="PGM_CD" jdbc-type="VARCHAR" />
-
-    <reference-descriptor name="program" class-ref="org.kuali.module.chart.bo.Program" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="programCode" />
-    </reference-descriptor>
-
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.AccountGuideline" table="CA_ACCT_GDLNPRPS_T">
@@ -1817,14 +1798,6 @@
     <reference-descriptor name="hrmsIuCampus" class-ref="org.kuali.core.bo.Campus" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="hrmsIuCampusCode" />
     </reference-descriptor>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.chart.bo.Program" table="CA_PGM_T">
-    <field-descriptor name="programCode" column="PGM_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="programName" column="PGM_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="programActiveIndicator" column="PGM_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.DelegateGlobal" table="FP_MAINTENANCE_DOCUMENT_T">

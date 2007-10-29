@@ -297,9 +297,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         Calendar today = Calendar.getInstance();
         today.setTime(universityRunDate.getUniversityDate());
 
-        adjustAccountIfContractsAndGrants(originEntryAccount);
+        long offsetAccountExpirationTime = adjustAccountIfContractsAndGrants(originEntryAccount);
 
-        if (isExpired(originEntryAccount, today) || originEntryAccount.isAccountClosedIndicator()) {
+        if (isExpired(offsetAccountExpirationTime, today) || originEntryAccount.isAccountClosedIndicator()) {
             Message error = continuationAccountLogic(originEntry, workingEntry, today);
             if (error != null) {
                 return error;
@@ -354,12 +354,12 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                     checkedAccountNumbers.add(chartCode + accountNumber);
 
                     // Add 3 months to the expiration date if it's a contract and grant account.
-                    adjustAccountIfContractsAndGrants(continuationAccount);
+                    long offsetAccountExpirationTime = adjustAccountIfContractsAndGrants(continuationAccount);
 
                     // Check that the account has not expired.
 
                     // If the account has expired go around for another iteration.
-                    if (isExpired(continuationAccount, today)) {
+                    if (isExpired(offsetAccountExpirationTime, today)) {
                         chartCode = continuationAccount.getContinuationFinChrtOfAcctCd();
                         accountNumber = continuationAccount.getContinuationAccountNumber();
                     }
@@ -378,7 +378,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CONTINUATION_ACCOUNT_LIMIT_REACHED), Message.TYPE_FATAL);
     }
 
-    private void adjustAccountIfContractsAndGrants(Account account) {
+    private long adjustAccountIfContractsAndGrants(Account account) {
+        long offsetAccountExpirationTime = account.getAccountExpirationDate().getTime();
+        
         if (account.isForContractsAndGrants() && (!account.isAccountClosedIndicator())) {
 
             String daysOffset = parameterService.getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
@@ -390,11 +392,12 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
 
             Calendar tempCal = Calendar.getInstance();
-            tempCal.setTimeInMillis(account.getAccountExpirationDate().getTime());
+            tempCal.setTimeInMillis(offsetAccountExpirationTime);
             tempCal.add(Calendar.DAY_OF_MONTH, daysOffsetInt);
-            account.setAccountExpirationDate(new Timestamp(tempCal.getTimeInMillis()));
+            offsetAccountExpirationTime = tempCal.getTimeInMillis();
         }
-        return;
+        
+        return offsetAccountExpirationTime;
     }
 
     private Message validateReversalDate(OriginEntry originEntry, OriginEntry workingEntry) {
@@ -911,10 +914,10 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         return null;
     }
 
-    private boolean isExpired(Account account, Calendar runCalendar) {
+    private boolean isExpired(long offsetAccountExpirationTime, Calendar runCalendar) {
 
         Calendar expirationDate = Calendar.getInstance();
-        expirationDate.setTimeInMillis(account.getAccountExpirationDate().getTime());
+        expirationDate.setTimeInMillis(offsetAccountExpirationTime);
 
         int expirationYear = expirationDate.get(Calendar.YEAR);
         int runYear = runCalendar.get(Calendar.YEAR);

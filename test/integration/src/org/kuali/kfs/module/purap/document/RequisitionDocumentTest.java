@@ -37,6 +37,7 @@ import org.kuali.module.purap.bo.PurchasingItem;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.fixtures.RequisitionDocumentFixture;
 import org.kuali.module.purap.fixtures.RequisitionItemAccountsFixture;
+import org.kuali.module.purap.rules.RequisitionDocumentRule;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.RequisitionService;
@@ -54,7 +55,19 @@ import edu.iu.uis.eden.EdenConstants;
 public class RequisitionDocumentTest extends KualiTestBase {
     public static final Class<RequisitionDocument> DOCUMENT_CLASS = RequisitionDocument.class;
     private static final String ACCOUNT_REVIEW = "Account Review";
+    
+    private RequisitionDocument requisitionDocument = null;
 
+    protected void setUp() throws Exception {
+        super.setUp();
+    }
+    
+    protected void tearDown() throws Exception {
+        requisitionDocument = null;
+        super.tearDown();      
+    }
+    
+    
     private List<RequisitionItemAccountsFixture> getItemParametersFromFixtures() {
         List<RequisitionItemAccountsFixture> list = new ArrayList<RequisitionItemAccountsFixture>();
         list.add(WITH_DESC_WITH_UOM_WITH_PRICE_WITH_ACCOUNT);
@@ -64,7 +77,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
     private int getExpectedPrePeCount() {
         return 0;
     }
-
+    
     public final void testAddItem() throws Exception {
         List<PurchasingItem> items = new ArrayList<PurchasingItem>();
         for (RequisitionItem item : generateItems()) {
@@ -89,27 +102,31 @@ public class RequisitionDocumentTest extends KualiTestBase {
 
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testConvertIntoErrorCorrection() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildSimpleDocument(), getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
+        requisitionDocument = buildSimpleDocument();
+        AccountingDocumentTestUtils.testConvertIntoErrorCorrection(requisitionDocument, getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
 
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testRouteDocument() throws Exception {
-        AccountingDocumentTestUtils.testRouteDocument(buildSimpleDocument(), SpringContext.getBean(DocumentService.class));
+        requisitionDocument = buildSimpleDocument();
+        AccountingDocumentTestUtils.testRouteDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
     }
 
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testSaveDocument() throws Exception {
-        AccountingDocumentTestUtils.testSaveDocument(buildSimpleDocument(), SpringContext.getBean(DocumentService.class));
+        requisitionDocument = buildSimpleDocument();
+        AccountingDocumentTestUtils.testSaveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
     }
 
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testConvertIntoCopy() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoCopy(buildSimpleDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
+        requisitionDocument = buildSimpleDocument();
+        AccountingDocumentTestUtils.testConvertIntoCopy(requisitionDocument, SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
     }
     
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testRouteDocumentToFinal() throws Exception {
-        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_NO_APO_VALID.createRequisitionDocument();
+        requisitionDocument = RequisitionDocumentFixture.REQ_NO_APO_VALID.createRequisitionDocument();
         final String docId = requisitionDocument.getDocumentNumber();
         AccountingDocumentTestUtils.routeDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
         WorkflowTestUtils.waitForNodeChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
@@ -131,7 +148,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
 
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testAPOValid() throws Exception {
-        RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
+        requisitionDocument = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
         final String docId = requisitionDocument.getDocumentNumber();
         AccountingDocumentTestUtils.routeDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
         WorkflowTestUtils.waitForNodeChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
@@ -144,7 +161,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         assertTrue("RORENFRO should have an approve request.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as RORENFRO", null); 
 
-        WorkflowTestUtils.waitForStatusChange(600, requisitionDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(600,requisitionDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
 
         changeCurrentUser(KHUNTLEY);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);

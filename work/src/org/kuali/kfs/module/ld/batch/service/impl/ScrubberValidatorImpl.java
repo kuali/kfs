@@ -323,11 +323,15 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
             if ((account.getAccountExpirationDate() == null) && !account.isAccountClosedIndicator()) {
                 // account is neither closed nor expired
+                
+                laborWorkingEntry.setChartOfAccountsCode(laborOriginEntry.getAccount().getChartOfAccountsCode());
                 laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
+                laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
                 return null;
             }
 
             if (SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE).equals(laborOriginEntry.getFinancialDocumentTypeCode())) {
+                laborWorkingEntry.setChartOfAccountsCode(laborOriginEntry.getAccount().getChartOfAccountsCode());
                 laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
                 laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
                 return null;
@@ -339,6 +343,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
 
             if ((org.apache.commons.lang.StringUtils.isNumeric(laborOriginEntry.getFinancialSystemOriginationCode()) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialBalanceTypeCode(), continuationAccountBypassBalanceTypeCodes) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialDocumentTypeCode().trim(), continuationAccountBypassDocumentTypeCodes)) && !account.isAccountClosedIndicator()) {
+                laborWorkingEntry.setChartOfAccountsCode(laborOriginEntry.getAccount().getChartOfAccountsCode());
                 laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
                 laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
                 return null;

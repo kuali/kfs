@@ -181,7 +181,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                 List pdList = pg.getPaymentDetails();
                 for (Iterator iterator = pdList.iterator(); iterator.hasNext();) {
                     PaymentDetail pd = (PaymentDetail)iterator.next();
-                    writeOpenTag(os, 4, "payment");
+                    writeOpenTag(os, 6, "payment");
 
                     // Write detail info
                     writeTag(os,6,"purchaseOrderNbr",pd.getPurchaseOrderNbr());
@@ -200,7 +200,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                     writeOpenTag(os, 6, "notes");
                     for (Iterator i = pd.getNotes().iterator(); i.hasNext();) {
                         PaymentNoteText note = (PaymentNoteText)i.next();
-                        writeTag(os,8,"note",note.getCustomerNoteText());
+                        writeTag(os,8,"note",escapeString(note.getCustomerNoteText()));
                     }
                     writeCloseTag(os, 6, "notes");
 
@@ -344,8 +344,10 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     private static String SPACES = "                                                       ";
 
     private void writeTag(BufferedWriter os,int indent,String tag,String data) throws IOException {
-        os.write(SPACES.substring(0,indent));
-        os.write("<" + tag + ">" + data + "</" + tag + ">\n");
+        if ( data != null ) {
+            os.write(SPACES.substring(0,indent));
+            os.write("<" + tag + ">" + escapeString(data) + "</" + tag + ">\n");
+        }
     }
 
     private void writeOpenTag(BufferedWriter os,int indent,String tag) throws IOException {
@@ -355,12 +357,12 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
     private void writeOpenTagAttribute(BufferedWriter os,int indent,String tag,String attr,String attrVal) throws IOException {
         os.write(SPACES.substring(0,indent));
-        os.write("<" + tag + " " + attr + "=\"" + attrVal + "\">\n");
+        os.write("<" + tag + " " + attr + "=\"" + escapeString(attrVal) + "\">\n");
     }
 
     private void writeOpenTagAttribute(BufferedWriter os,int indent,String tag,String attr1,String attr1Val,String attr2,String attr2Val) throws IOException {
         os.write(SPACES.substring(0,indent));
-        os.write("<" + tag + " " + attr1 + "=\"" + attr1Val + "\" " + attr2 + "=\"" + attr2Val + "\">\n");
+        os.write("<" + tag + " " + attr1 + "=\"" + escapeString(attr1Val) + "\" " + attr2 + "=\"" + escapeString(attr2Val) + "\">\n");
     }
 
     private void writeCloseTag(BufferedWriter os,int indent,String tag) throws IOException {
@@ -381,33 +383,17 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         writeTag(os,indent + 2,"orgCode",cp.getOrgCode());
         writeTag(os,indent + 2,"subUnitCode",cp.getSubUnitCode());
         writeOpenTag(os, indent + 2, "checkHeaderNoteLines");
-        if ( cp.getCheckHeaderNoteTextLine1() != null ) {
-            writeTag(os,indent + 4,"note",cp.getCheckHeaderNoteTextLine1());
-        }
-        if ( cp.getCheckHeaderNoteTextLine2() != null ) {
-            writeTag(os,indent + 4,"note",cp.getCheckHeaderNoteTextLine2());
-        }
-        if ( cp.getCheckHeaderNoteTextLine3() != null ) {
-            writeTag(os,indent + 4,"note",cp.getCheckHeaderNoteTextLine3());
-        }
-        if ( cp.getCheckHeaderNoteTextLine4() != null ) {
-            writeTag(os,indent + 4,"note",cp.getCheckHeaderNoteTextLine4());
-        }
+        writeTag(os,indent + 4,"note",cp.getCheckHeaderNoteTextLine1());
+        writeTag(os,indent + 4,"note",cp.getCheckHeaderNoteTextLine2());
+        writeTag(os,indent + 4,"note",cp.getCheckHeaderNoteTextLine3());
+        writeTag(os,indent + 4,"note",cp.getCheckHeaderNoteTextLine4());
         writeCloseTag(os, indent + 2, "checkHeaderNoteLines");
         writeOpenTag(os, indent + 2, "additionalCheckNoteLines");
-        if ( cp.getAdditionalCheckNoteTextLine1() != null ) {
-            writeTag(os,indent + 4,"note",cp.getAdditionalCheckNoteTextLine1());
-        }
-        if ( cp.getAdditionalCheckNoteTextLine2() != null ) {
-            writeTag(os,indent + 4,"note",cp.getAdditionalCheckNoteTextLine2());
-        }
-        if ( cp.getAdditionalCheckNoteTextLine3() != null ) {
-            writeTag(os,indent + 4,"note",cp.getAdditionalCheckNoteTextLine3());
-        }
-        if ( cp.getAdditionalCheckNoteTextLine4() != null ) {
-            writeTag(os,indent + 4,"note",cp.getAdditionalCheckNoteTextLine4());
-        }
-        writeCloseTag(os, indent + 2, "additionalCheckNoteLines");        
+        writeTag(os,indent + 4,"note",cp.getAdditionalCheckNoteTextLine1());
+        writeTag(os,indent + 4,"note",cp.getAdditionalCheckNoteTextLine2());
+        writeTag(os,indent + 4,"note",cp.getAdditionalCheckNoteTextLine3());
+        writeTag(os,indent + 4,"note",cp.getAdditionalCheckNoteTextLine4());
+        writeCloseTag(os, indent + 2, "additionalCheckNoteLines");
         writeCloseTag(os, indent, "customerProfile");
     }
 
@@ -431,12 +417,22 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         writeTag(os,indent + 2,"state",pg.getState());
         writeTag(os,indent + 2,"zipCd",pg.getZipCd());
         writeTag(os,indent + 2,"country",pg.getCountry());
+
         if ( includeAch ) {
             writeTag(os,indent + 2,"achBankRoutingNbr",pg.getAchBankRoutingNbr());
             writeTag(os,indent + 2,"achBankAccountNbr",pg.getAchAccountNumber().getAchBankAccountNbr());
             writeTag(os,indent + 2,"achAccountType",pg.getAchAccountType());
         }
         writeCloseTag(os,indent,"payee");
+    }
+
+    private String escapeString(String input) {
+        String output = input.replaceAll("\\&", "&amp;");
+        output = output.replaceAll("\"", "&quot;");
+        output = output.replaceAll("\\'", "&apos;");
+        output = output.replaceAll("\\<", "&lt;");
+        output = output.replaceAll("\\>", "&gt;");
+        return output;
     }
 
     public void setParameterService(ParameterService parameterService) {

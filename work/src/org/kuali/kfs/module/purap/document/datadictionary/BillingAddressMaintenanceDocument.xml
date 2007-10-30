@@ -36,6 +36,7 @@
         <documentTypeCode>PMBA</documentTypeCode>
 
         <label>Billing Address</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="BillingAddress" parameterName="BILLING_ADDRESS" />
 
         <lockingKeys>
             <field attributeName="billingCampusCode" />

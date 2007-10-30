@@ -36,6 +36,7 @@
         <documentTypeCode>PMSS</documentTypeCode>
 
         <label>Shipping Special Conditions</label>
+        <help parameterNamespace="KFS-VN" parameterDetailType="ShippingSpecialCondition" parameterName="SHIPPING_SPECIAL_CONDITION" />
 
         <lockingKeys>
             <field attributeName="vendorShippingSpecialConditionCode" />

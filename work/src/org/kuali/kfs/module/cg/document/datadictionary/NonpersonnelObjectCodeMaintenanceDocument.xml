@@ -38,6 +38,7 @@
         <label>Non-Personnel Object Code</label>
         <summary>Object Code maintenance document</summary>
         <description>Document used to create or update Object Code objects</description>
+        <help parameterNamespace="KFS-RA" parameterDetailType="NonpersonnelObjectCode" parameterName="NONPERSONNEL_OBJECT_CODE" />
 
         <lockingKeys>
             <field attributeName="budgetNonpersonnelCategoryCode" />

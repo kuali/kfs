@@ -36,6 +36,7 @@
         <documentTypeCode>PMST</documentTypeCode>
 
         <label>Shipping Title</label>
+        <help parameterNamespace="KFS-VN" parameterDetailType="ShippingTitle" parameterName="SHIPPING_TITLE" />
 
         <lockingKeys>
             <field attributeName="vendorShippingTitleCode" />

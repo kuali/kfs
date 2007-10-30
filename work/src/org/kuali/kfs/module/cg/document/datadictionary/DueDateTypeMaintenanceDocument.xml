@@ -39,6 +39,7 @@
 
         <summary>Due Date Type maintenance document</summary>
         <description>Document used to create or update Due Date Type objects</description>
+        <help parameterNamespace="KFS-RA" parameterDetailType="DueDateType" parameterName="DUE_DATE_TYPE" />
 
         <lockingKeys>
             <field attributeName="dueDateTypeCode" />

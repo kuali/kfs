@@ -44,7 +44,7 @@
 
         <summary>Organization maintenance document</summary>
         <description>Document used to create or update Organization objects</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="Organization" parameterName="ORGANIZATION" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="Org" parameterName="ORGANIZATION" />
 
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />

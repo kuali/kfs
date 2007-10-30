@@ -42,6 +42,7 @@
         <label>Organization Reversion</label>
         <summary>Organization Reversion Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Organization Reversions, remove exsiting Organization Reversions, or modify existing Organization Reversions.</description>
+        <help parameterNamespace="KFS-CA" parameterDetailType="OrganizationReversion" parameterName="ORGANIZATION_REVERSION" />
 
         <lockingKeys>
             <field attributeName="universityFiscalYear" />

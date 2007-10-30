@@ -39,6 +39,7 @@
 
         <summary>Catalog of Federal Domestic Assistance Reference Maintenance Document</summary>
         <description>Document used to create or update Catalog of Federal Domestic Assistance Reference objects</description>
+        <help parameterNamespace="KFS-CG" parameterDetailType="Cfda" parameterName="CATALOG_OF_FEDERAL_DOMESTIC_ASSISTANCE_REFERENCE" />
 
         <lockingKeys>
             <field attributeName="cfdaNumber" />

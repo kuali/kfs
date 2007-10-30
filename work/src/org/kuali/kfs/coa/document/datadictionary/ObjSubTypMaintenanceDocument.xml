@@ -38,7 +38,7 @@
         <label>Object Sub-Type</label>
         <summary>Object Sub-Type Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Object Sub-Types, or modify existing Object Sub-Types.</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="ObjectSubType" parameterName="OBJECT_SUB_TYPE" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="ObjSubTyp" parameterName="OBJECT_SUB_TYPE" />
 
         <lockingKeys>
             <field attributeName="code" />

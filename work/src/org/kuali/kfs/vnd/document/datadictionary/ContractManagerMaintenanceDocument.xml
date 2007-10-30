@@ -36,6 +36,7 @@
         <documentTypeCode>PMCO</documentTypeCode>
 
         <label>Contract Manager</label>
+        <help parameterNamespace="KFS-VN" parameterDetailType="ContractManager" parameterName="CONTRACT_MANAGER" />
 
         <lockingKeys>
             <field attributeName="contractManagerCode" />

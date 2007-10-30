@@ -39,7 +39,7 @@
 
         <summary>Origination Code maintenance document</summary>
         <description>Document used to create or update Origination Code objects</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="Origination" parameterName="ORIGINATION" />
+        <help parameterNamespace="KFS-SY" parameterDetailType="OriginationCode" parameterName="ORIGINATION" />
 
         <lockingKeys>
             <field attributeName="financialSystemOriginationCode" />

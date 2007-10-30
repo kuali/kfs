@@ -36,6 +36,7 @@
         <documentTypeCode>PMIT</documentTypeCode>
 
         <label>Item Type</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="ItemType" parameterName="ITEM_TYPE" />
 
         <lockingKeys>
             <field attributeName="itemTypeCode" />

@@ -36,6 +36,7 @@
         <documentTypeCode>PMTT</documentTypeCode>
 
         <label>Capital Asset Transaction Type</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="CapitalAssetTransactionType" parameterName="CAPITAL_ASSET_TRANSACTION_TYPE" />
 
         <lockingKeys>
             <field attributeName="capitalAssetTransactionTypeCode" />

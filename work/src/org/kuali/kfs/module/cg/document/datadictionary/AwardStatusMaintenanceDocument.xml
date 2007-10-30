@@ -39,6 +39,7 @@
 
         <summary>Award Maintenance Document</summary>
         <description>Document used to create or update Award Status objects</description>
+        <help parameterNamespace="KFS-CG" parameterDetailType="AwardStatus" parameterName="AWARD_STATUS" />
 
         <lockingKeys>
             <field attributeName="awardStatusCode" />

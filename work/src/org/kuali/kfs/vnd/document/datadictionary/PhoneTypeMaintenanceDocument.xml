@@ -36,6 +36,7 @@
         <documentTypeCode>PMPT</documentTypeCode>
 
         <label>Phone Type</label>
+        <help parameterNamespace="KFS-VN" parameterDetailType="PhoneType" parameterName="PHONE_TYPE" />
 
         <lockingKeys>
             <field attributeName="vendorPhoneTypeCode" />

@@ -39,6 +39,7 @@
 
         <summary>Question Type Maintenance Document</summary>
         <description>Document used to create or update Question Type objects</description>
+        <help parameterNamespace="KFS-RA" parameterDetailType="QuestionType" parameterName="QUESTION_TYPE" />
 
         <lockingKeys>
             <field attributeName="questionTypeCode" />

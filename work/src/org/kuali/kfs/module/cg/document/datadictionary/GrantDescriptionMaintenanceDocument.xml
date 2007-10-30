@@ -39,6 +39,7 @@
 
         <summary>Grant Description Maintenance Document</summary>
         <description>Document used to create or update Grant Description objects</description>
+        <help parameterNamespace="KFS-CG" parameterDetailType="GrantDescription" parameterName="GRANT_DESCRIPTION" />
 
         <lockingKeys>
             <field attributeName="grantDescriptionCode" />

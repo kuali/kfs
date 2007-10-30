@@ -36,6 +36,7 @@
         <documentTypeCode>PMCA</documentTypeCode>
 
         <label>Carrier</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="Carrier" parameterName="CARRIER" />
 
         <lockingKeys>
             <field attributeName="carrierCode" />

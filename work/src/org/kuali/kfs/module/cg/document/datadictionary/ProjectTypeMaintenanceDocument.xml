@@ -39,6 +39,7 @@
 
         <summary>Project Type maintenance document</summary>
         <description>Document used to create or update Project Type objects</description>
+        <help parameterNamespace="KFS-RA" parameterDetailType="ProjectType" parameterName="PROJECT_TYPE" />
 
         <lockingKeys>
             <field attributeName="projectTypeCode" />

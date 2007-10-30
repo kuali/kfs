@@ -36,6 +36,7 @@
         <documentTypeCode>PMSD</documentTypeCode>
 
         <label>Supplier Diversity</label>
+        <help parameterNamespace="KFS-VN" parameterDetailType="SupplierDiversity" parameterName="SUPPLIER_DIVERSITY" />
 
         <lockingKeys>
             <field attributeName="vendorSupplierDiversityCode" />

@@ -39,7 +39,7 @@
 
         <summary>AICPA Function Maintenance Document</summary>
         <description>Document used to create or update AICPA Function Maintenance Document objects</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="AICPAFunction" parameterName="AICPA_FUNCTION" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="AicpaFunction" parameterName="AICPA_FUNCTION" />
         
         <lockingKeys>
             <field attributeName="financialAicpaFunctionCode" />

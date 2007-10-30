@@ -39,6 +39,7 @@
 
         <summary>Person Role maintenance document</summary>
         <description>Document used to create or update Person Role objects</description>
+        <help parameterNamespace="KFS-RA" parameterDetailType="PersonRole" parameterName="PERSON_ROLE" />
 
         <lockingKeys>
             <field attributeName="personRoleCode" />

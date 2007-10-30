@@ -36,6 +36,7 @@
         <documentTypeCode>PMCS</documentTypeCode>
 
         <label>Purchase Order Cost Source</label>
+        <help parameterNamespace="KFS-VN" parameterDetailType="PurchaseOrderCostSource" parameterName="PURCHASE_ORDER_COST_SOURCE" />
 
         <lockingKeys>
             <field attributeName="purchaseOrderCostSourceCode" />

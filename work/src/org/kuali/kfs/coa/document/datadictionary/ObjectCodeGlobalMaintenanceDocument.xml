@@ -42,6 +42,7 @@
 
         <summary>Global Object Code Maintenance Document</summary>
         <description>Document used to create or update global account document.</description>
+        <help parameterNamespace="KFS-CA" parameterDetailType="ObjectCodeGlobal" parameterName="OBJECT_CODE_GLOBAL" />
 
         <lockingKeys>
             <field attributeName="documentNumber" />

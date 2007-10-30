@@ -36,6 +36,7 @@
         <documentTypeCode>PMSI</documentTypeCode>
 
         <label>Vendor Stipulation</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="VendorStipulation" parameterName="VENDOR_STIPULATION" />
 
         <lockingKeys>
             <field attributeName="vendorStipulationIdentifier" />

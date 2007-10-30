@@ -38,7 +38,7 @@
         <label>Indirect Cost Recovery Type</label>
         <summary>ICR Type Code Maintenance Document</summary>
         <description>Maintenance document which allows you to create new ICR Type Codes, or modify existing ICR Type Codes.</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="IndirectCostRecoveryType" parameterName="INDIRECT_COST_RECOVERY_TYPE" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="ICRTypeCode" parameterName="INDIRECT_COST_RECOVERY_TYPE" />
 
         <lockingKeys>
             <field attributeName="code" />

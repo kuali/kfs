@@ -39,7 +39,7 @@
 		
 		<summary>Benefits Type Maintenance Document</summary>
 		<description>Document used to create or update Benefit type codes.</description>
-        <help parameterNamespace="KFS-LD" parameterDetailType="LaborBenefitsType" parameterName="LABOR_BENEFITS_TYPE" />
+        <help parameterNamespace="KFS-LD" parameterDetailType="BenefitsType" parameterName="LABOR_BENEFITS_TYPE" />
 
         <lockingKeys>
 			<field attributeName="positionBenefitTypeCode" />

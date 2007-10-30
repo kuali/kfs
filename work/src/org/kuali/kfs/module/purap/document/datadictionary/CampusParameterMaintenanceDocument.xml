@@ -38,6 +38,7 @@
 		<documentTypeCode>PMCP</documentTypeCode>
 
 		<label>Campus Parameter</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="CampusParameter" parameterName="CAMPUS_PARAMETER" />
 
         <lockingKeys>
 			<field attributeName="campusCode" />

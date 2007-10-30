@@ -36,6 +36,7 @@
         <documentTypeCode>PMVC</documentTypeCode>
 
         <label>Purchase Order Vendor Choice</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="PurchaseOrderVendorChoice" parameterName="PURCHASE_ORDER_VENDOR_CHOICE" />
 
         <lockingKeys>
             <field attributeName="purchaseOrderVendorChoiceCode" />

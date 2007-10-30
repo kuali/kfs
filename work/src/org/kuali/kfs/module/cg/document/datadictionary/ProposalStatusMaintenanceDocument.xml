@@ -39,6 +39,7 @@
 
         <summary>Proposal Status Maintenance Document</summary>
         <description>Document used to create or update Proposal Status objects</description>
+        <help parameterNamespace="KFS-CG" parameterDetailType="ProposalStatus" parameterName="PROPOSAL_STATUS" />
 
         <lockingKeys>
             <field attributeName="proposalStatusCode" />

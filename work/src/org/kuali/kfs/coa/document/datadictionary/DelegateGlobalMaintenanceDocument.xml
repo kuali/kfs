@@ -45,6 +45,7 @@
 
         <summary>Global Account Delegate Maintenance Document</summary>
         <description>Document used to create or update global account delegate document.</description>
+        <help parameterNamespace="KFS-CA" parameterDetailType="DelegateGlobal" parameterName="DELEGATE_GLOBAL" />
 
         <lockingKeys>
             <field attributeName="documentNumber" />

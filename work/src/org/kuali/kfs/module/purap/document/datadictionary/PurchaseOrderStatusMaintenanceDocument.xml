@@ -36,6 +36,7 @@
         <documentTypeCode>PMPS</documentTypeCode>
 
         <label>Purchase Order Status</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="PurchaseOrderStatus" parameterName="PURCHASE_ORDER_STATUS" />
 
         <lockingKeys>
             <field attributeName="statusCode" />

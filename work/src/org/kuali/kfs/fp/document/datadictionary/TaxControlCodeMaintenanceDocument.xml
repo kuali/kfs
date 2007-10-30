@@ -39,7 +39,7 @@
 
         <summary>Tax Control Code Maintenance Document</summary>
         <description>Document used to create or update Tax Control objects</description>
-        <help parameterNamespace="KFS-FP" parameterDetailType="TaxControl" parameterName="TAX_CONTROL" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="TaxControlCode" parameterName="TAX_CONTROL" />
 
         <lockingKeys>
             <field attributeName="code" />

@@ -39,6 +39,7 @@
 
         <summary>Letter of Credit Fund Group Maintenance Document</summary>
         <description>Document used to create or update Letter of Credit Fund Group objects</description>
+        <help parameterNamespace="KFS-CG" parameterDetailType="LetterOfCreditFundGroup" parameterName="LETTER_OF_CREDIT_FUND_GROUP" />
 
         <lockingKeys>
             <field attributeName="letterOfCreditFundGroupCode" />

@@ -40,7 +40,7 @@
 
         <summary>Sub Object maintenance document</summary>
         <description>Document used to create or update Sub Objects</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="SubObjectCode" parameterName="SUB_OBJECT" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="SubObjCd" parameterName="SUB_OBJECT_CODE" />
 
         <lockingKeys>
             <field attributeName="universityFiscalYear" />

@@ -36,6 +36,7 @@
         <documentTypeCode>PMIR</documentTypeCode>
 
         <label>Vendor Inactive Reason</label>
+        <help parameterNamespace="KFS-VN" parameterDetailType="VendorInactiveReason" parameterName="VENDOR_INACTIVE_REASON" />
 
         <lockingKeys>
             <field attributeName="vendorInactiveReasonCode" />

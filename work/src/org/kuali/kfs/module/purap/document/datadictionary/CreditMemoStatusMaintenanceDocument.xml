@@ -36,6 +36,7 @@
         <documentTypeCode>PMCM</documentTypeCode>
 
         <label>Credit Memo Status</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="CreditMemoStatus" parameterName="CREDIT_MEMO_STATUS" />
 
         <lockingKeys>
             <field attributeName="statusCode" />

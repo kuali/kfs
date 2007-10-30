@@ -39,6 +39,7 @@
 
         <summary>Proposal Award Type Maintenance Document</summary>
         <description>Document used to create or update Proposal Award Type objects</description>
+        <help parameterNamespace="KFS-CG" parameterDetailType="ProposalAwardType" parameterName="PROPOSAL_AWARD_TYPE" />
 
         <lockingKeys>
             <field attributeName="proposalAwardTypeCode" />

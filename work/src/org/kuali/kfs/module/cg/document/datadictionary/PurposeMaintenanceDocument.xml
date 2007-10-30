@@ -39,6 +39,7 @@
 
         <summary>Purpose maintenance document</summary>
         <description>Document used to create or update Purpose objects</description>
+        <help parameterNamespace="KFS-RA" parameterDetailType="Purpose" parameterName="PURPOSE" />
 
         <lockingKeys>
             <field attributeName="purposeCode" />

@@ -37,7 +37,7 @@
         <label>Organization Type</label>
         <summary>Organization Type Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Organization Types, or modify existing Organization Types.</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="OrganizationType" parameterName="ORGANIZATION_TYPE" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="OrgType" parameterName="ORGANIZATION_TYPE" />
 
         <lockingKeys>
             <field attributeName="organizationTypeCode" />

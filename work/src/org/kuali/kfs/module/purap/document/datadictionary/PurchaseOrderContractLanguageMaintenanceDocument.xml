@@ -37,6 +37,7 @@
         <documentTypeCode>PMCL</documentTypeCode>
 
         <label>Purchase Order Contract Language</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="PurchaseOrderContractLanguage" parameterName="PURCHASE_ORDER_CONTRACT_LANGUAGE" />
 
         <lockingKeys>
             <field attributeName="purchaseOrderContractLanguageIdentifier" />

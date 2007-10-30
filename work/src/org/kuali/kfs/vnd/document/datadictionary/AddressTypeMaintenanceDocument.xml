@@ -36,6 +36,7 @@
         <documentTypeCode>PMAT</documentTypeCode>
 
         <label>Address Type</label>
+        <help parameterNamespace="KFS-VN" parameterDetailType="AddressType" parameterName="ADDRESS_TYPE" />
 
         <lockingKeys>
             <field attributeName="vendorAddressTypeCode" />

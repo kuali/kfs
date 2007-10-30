@@ -46,7 +46,7 @@
 
         <summary>Object Code maintenance document</summary>
         <description>Document used to create or update Object Code objects</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="Object" parameterName="OBJECT" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="ObjectCode" parameterName="OBJECT_CODE" />
 
         <lockingKeys>
             <field attributeName="universityFiscalYear" />

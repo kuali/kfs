@@ -41,6 +41,7 @@
 
         <summary>Global Sub Object Code Maintenance Document</summary>
         <description>Global Sub Object Code Maintenance Document</description>
+        <help parameterNamespace="KFS-CA" parameterDetailType="SubObjCdGlobal" parameterName="SUB_OBJECT_CODE_GLOBAL" />
 
         <lockingKeys>
             <field attributeName="documentNumber" />

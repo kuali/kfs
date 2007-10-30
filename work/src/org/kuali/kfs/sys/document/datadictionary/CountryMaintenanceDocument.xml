@@ -39,7 +39,7 @@
 
         <summary>Country maintenance document</summary>
         <description>Document used to create or update Country objects</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="Country" parameterName="COUNTRY" />
+        <help parameterNamespace="KFS-SY" parameterDetailType="Country" parameterName="COUNTRY" />
 
         <lockingKeys>
             <field attributeName="postalCountryCode" />

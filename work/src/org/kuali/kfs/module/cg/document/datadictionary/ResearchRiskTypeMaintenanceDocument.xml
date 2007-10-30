@@ -39,6 +39,7 @@
 
         <summary>Research Risk Type Maintenance Document</summary>
         <description>Document used to create or update Research Risk Type objects</description>
+        <help parameterNamespace="KFS-RA" parameterDetailType="ResearchRiskType" parameterName="RESEARCH_RISK_TYPE" />
         
         <lockingKeys>
             <field attributeName="researchRiskTypeCode" />

@@ -44,6 +44,7 @@
 
         <summary>Global Organization Reversion Maintenance Document</summary>
         <description>Global Organization Reversion Maintenance Document</description>
+        <help parameterNamespace="KFS-CA" parameterDetailType="OrganizationReversionGlobal" parameterName="ORGANIZATION_REVERSION_GLOBAL" />
 
         <lockingKeys>
             <field attributeName="documentNumber" />

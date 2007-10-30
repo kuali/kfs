@@ -36,6 +36,7 @@
         <documentTypeCode>PMRF</documentTypeCode>
 
         <label>Recurring Payment Frequency</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="RecurringPaymentFrequency" parameterName="RECURRING_PAYMENT_FREQUENCY" />
 
         <lockingKeys>
             <field attributeName="recurringPaymentFrequencyCode" />

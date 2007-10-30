@@ -36,6 +36,7 @@
         <documentTypeCode>PMRP</documentTypeCode>
 
         <label>Recurring Payment Type</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="RecurringPaymentType" parameterName="RECURRING_PAYMENT_TYPE" />
 
         <lockingKeys>
             <field attributeName="recurringPaymentTypeCode" />

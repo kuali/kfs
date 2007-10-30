@@ -45,6 +45,7 @@
 
         <summary>Global Account Maintenance Document</summary>
         <description>Document used to create or update global account document.</description>
+        <help parameterNamespace="KFS-CA" parameterDetailType="AccountGlobal" parameterName="ACCOUNT_GLOBAL" />
 
         <lockingKeys>
             <field attributeName="documentNumber" />

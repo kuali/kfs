@@ -37,6 +37,7 @@
         <documentTypeCode>PVEN</documentTypeCode>
 
         <label>Vendor</label>
+        <help parameterNamespace="KFS-VN" parameterDetailType="VendorDetail" parameterName="VENDOR" />
 
         <lockingKeys>
             <field attributeName="vendorHeaderGeneratedIdentifier" />

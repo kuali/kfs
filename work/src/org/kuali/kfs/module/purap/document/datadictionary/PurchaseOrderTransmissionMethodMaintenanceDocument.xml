@@ -36,6 +36,7 @@
         <documentTypeCode>PMTM</documentTypeCode>
 
         <label>Purchase Order Transmission Method</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="PurchaseOrderTransmissionMethod" parameterName="PURCHASE_ORDER_TRANSMISSION_METHOD" />
 
         <lockingKeys>
             <field attributeName="purchaseOrderTransmissionMethodCode" />

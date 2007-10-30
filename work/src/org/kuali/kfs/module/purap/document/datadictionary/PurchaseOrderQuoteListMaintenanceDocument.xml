@@ -36,6 +36,7 @@
         <documentTypeCode>PMQT</documentTypeCode>
 
         <label>Purchase Order Quote List</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="PurchaseOrderQuoteList" parameterName="PURCHASE_ORDER_QUOTE_LIST" />
 
         <lockingKeys>
             <field attributeName="purchaseOrderQuoteListIdentifier" />

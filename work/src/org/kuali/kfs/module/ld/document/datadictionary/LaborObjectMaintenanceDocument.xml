@@ -39,7 +39,7 @@
 		
 		<summary>Labor Object Code Maintenance Document</summary>
 		<description>Document used to create or update Labor objects</description>
-        <help parameterNamespace="KR" parameterName="OTHER_HELP_LABOR_OBJECT" />
+        <help parameterNamespace="KFS-LD" parameterDetailType="LaborObject" parameterName="LABOR_OBJECT_BENEFITS" />
 
         <lockingKeys>
 			<field attributeName="universityFiscalYear" />

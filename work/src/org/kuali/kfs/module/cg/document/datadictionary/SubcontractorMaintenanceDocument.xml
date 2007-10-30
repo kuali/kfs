@@ -41,6 +41,7 @@
 
         <summary>Subcontractor Maintenance Document</summary>
         <description>Document used to create or update Subcontractor objects</description>
+        <help parameterNamespace="KFS-CG" parameterDetailType="Subcontractor" parameterName="SUBCONTRACTOR" />
 
         <lockingKeys>
             <field attributeName="subcontractorNumber" />

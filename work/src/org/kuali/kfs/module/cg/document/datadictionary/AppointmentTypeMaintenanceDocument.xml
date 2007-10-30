@@ -41,6 +41,7 @@
 
         <summary>Appointment Type maintenance document</summary>
         <description>Document used to create or update AppointmentType objects</description>
+        <help parameterNamespace="KFS-RA" parameterDetailType="AppointmentType" parameterName="APPOINTMENT_TYPE" />
 
         <lockingKeys>
             <field attributeName="appointmentTypeCode" />

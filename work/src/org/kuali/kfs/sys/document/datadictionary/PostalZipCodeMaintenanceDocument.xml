@@ -39,7 +39,7 @@
 
         <summary>Postal Code maintenance document</summary>
         <description>Document used to create or update Postal Code objects</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="PostalCode" parameterName="POSTAL_CODE" />
+        <help parameterNamespace="KFS-SY" parameterDetailType="PostalZipCode" parameterName="POSTAL_CODE" />
 
         <lockingKeys>
             <field attributeName="postalZipCode" />

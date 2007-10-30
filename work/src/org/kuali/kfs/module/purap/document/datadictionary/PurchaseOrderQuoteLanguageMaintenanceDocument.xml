@@ -37,6 +37,7 @@
         <documentTypeCode>PMQL</documentTypeCode>
 
         <label>Purchase Order Quote Language</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="PurchaseOrderQuoteLanguage" parameterName="PURCHASE_ORDER_QUOTE_LANGUAGE" />
 
         <lockingKeys>
             <field attributeName="purchaseOrderQuoteLanguageIdentifier" />

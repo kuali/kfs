@@ -36,6 +36,7 @@
         <documentTypeCode>PMNP</documentTypeCode>
 
         <label>Negative Payment Request Approval Limit</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="NegativePaymentRequestApprovalLimit" parameterName="NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT" />
 
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />

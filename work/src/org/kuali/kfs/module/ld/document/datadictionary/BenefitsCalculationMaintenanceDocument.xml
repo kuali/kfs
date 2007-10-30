@@ -40,7 +40,7 @@
 		
 		<summary>Labor Calculation Maintenance Document</summary>
 		<description>Document used to create or update Labor calculations.</description>
-        <help parameterNamespace="KFS-LD" parameterDetailType="LaborBenefitCalculation" parameterName="LABOR_BENEFIT_CALCULATION" />
+        <help parameterNamespace="KFS-LD" parameterDetailType="BenefitsCalculation" parameterName="LABOR_BENEFITS_CALCULATION" />
 
         <lockingKeys>
 			<field attributeName="universityFiscalYear" />

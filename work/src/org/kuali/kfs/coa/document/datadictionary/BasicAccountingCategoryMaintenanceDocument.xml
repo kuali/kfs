@@ -39,6 +39,7 @@
 
         <summary>Basic Accounting Category maintenance document</summary>
         <description>Document used to create or update Basic Accounting Category objects</description>
+        <help parameterNamespace="KFS-CA" parameterDetailType="BasicAccountingCategory" parameterName="BASIC_ACCOUNTING_CATEGORY" />
 
         <lockingKeys>
             <field attributeName="code" />

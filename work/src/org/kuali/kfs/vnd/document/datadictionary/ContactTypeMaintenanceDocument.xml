@@ -36,6 +36,7 @@
         <documentTypeCode>PMCT</documentTypeCode>
 
         <label>Contact Type</label>
+        <help parameterNamespace="KFS-VN" parameterDetailType="ContactType" parameterName="CONTACT_TYPE" />
 
         <lockingKeys>
             <field attributeName="vendorContactTypeCode" />

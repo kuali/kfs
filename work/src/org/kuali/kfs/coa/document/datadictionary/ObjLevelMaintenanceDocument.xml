@@ -39,7 +39,7 @@
 
         <summary>Object Level maintenance document</summary>
         <description>Document used to create or update Object Level objects</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="ObjectLevel" parameterName="OBJECT_LEVEL" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="ObjLevel" parameterName="OBJECT_LEVEL" />
 
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />

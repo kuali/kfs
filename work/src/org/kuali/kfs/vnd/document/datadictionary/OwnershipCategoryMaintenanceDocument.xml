@@ -36,6 +36,7 @@
         <documentTypeCode>PMOC</documentTypeCode>
 
         <label>Ownership Category</label>
+        <help parameterNamespace="KFS-VN" parameterDetailType="OwnershipCategory" parameterName="OWNERSHIP_CATEGORY" />
 
         <lockingKeys>
             <field attributeName="vendorOwnershipCategoryCode" />

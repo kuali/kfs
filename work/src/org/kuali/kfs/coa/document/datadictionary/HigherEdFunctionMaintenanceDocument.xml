@@ -39,7 +39,7 @@
 
         <summary>Higher Education Function maintenance document</summary>
         <description>Document used to create or update Higher Education Function objects</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="HigherEducationFunction" parameterName="HIGHER_EDUCATION_FUNCTION" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="HigherEdFunction" parameterName="HIGHER_EDUCATION_FUNCTION" />
 
         <lockingKeys>
             <field attributeName="financialHigherEdFunctionCd" />

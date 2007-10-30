@@ -36,6 +36,7 @@
         <documentTypeCode>PMPA</documentTypeCode>
 
         <label>Payment Terms Type</label>
+        <help parameterNamespace="KFS-VN" parameterDetailType="PaymentTermType" parameterName="PAYMENT_TERM_TYPE" />
 
         <lockingKeys>
             <field attributeName="vendorPaymentTermsCode" />

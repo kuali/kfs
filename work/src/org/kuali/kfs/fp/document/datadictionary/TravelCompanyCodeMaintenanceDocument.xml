@@ -39,7 +39,7 @@
 
         <summary>Travel Company Code Maintenance Document</summary>
         <description>Document used to create or update Travel company code objects</description>
-        <help parameterNamespace="KFS-FP" parameterDetailType="TravelCompany" parameterName="TRAVEL_COMPANY" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="TravelCompanyCode" parameterName="TRAVEL_COMPANY" />
 
         <lockingKeys>
             <field attributeName="code" />

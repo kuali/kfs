@@ -44,6 +44,7 @@
 		<documentTypeCode>PMAA</documentTypeCode>
 
 		<label>Payment Request Auto Approve Exclusions</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="AutoApproveExclude" parameterName="AUTO_APPROVE_EXCLUDE" />
 
 		<lockingKeys>
 			<field attributeName="accountNumber" />

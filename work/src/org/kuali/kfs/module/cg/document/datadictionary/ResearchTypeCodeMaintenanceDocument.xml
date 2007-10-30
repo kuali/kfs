@@ -39,6 +39,7 @@
 
         <summary>Research Type Code maintenance document</summary>
         <description>Document used to create or update Research Type Code objects</description>
+        <help parameterNamespace="KFS-RA" parameterDetailType="ResearchTypeCode" parameterName="RESEARCH_TYPE_CODE" />
 
         <lockingKeys>
             <field attributeName="researchTypeCode" />

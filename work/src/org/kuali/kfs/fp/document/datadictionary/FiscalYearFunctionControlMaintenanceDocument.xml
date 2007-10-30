@@ -39,7 +39,7 @@
 
         <summary>Fiscal Year Function Control Maintenance Document</summary>
         <description>Document used to create or update Fiscal Year Function Control objects</description>
-        <help parameterNamespace="KFS-FP" parameterDetailType="FiscalYearFunctionControl" parameterName="FISCAL_YEAR_FUNCTION_CONTROL" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="FiscalYearFunctionControl" parameterName="FUNCTION_CONTROL_CODE" />
 
         <lockingKeys>
             <field attributeName="universityFiscalYear" />

@@ -41,6 +41,7 @@
 
         <summary>Account Delegate Model Maintenance Document</summary>
         <description>Account Delegate Model Maintenance Document</description>
+        <help parameterNamespace="KFS-CA" parameterDetailType="OrganizationRoutingModelName" parameterName="DELEGATE_MODEL" />
 
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />

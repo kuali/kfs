@@ -36,6 +36,7 @@
         <documentTypeCode>PMRS</documentTypeCode>
 
         <label>Requisition Status</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="RequisitionStatus" parameterName="REQUISITION_STATUS" />
 
         <lockingKeys>
             <field attributeName="statusCode" />

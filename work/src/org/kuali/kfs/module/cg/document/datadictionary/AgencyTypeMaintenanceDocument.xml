@@ -39,6 +39,7 @@
 
         <summary>Agency Type maintenance document</summary>
         <description>Document used to create or update Agency Type objects</description>
+        <help parameterNamespace="KFS-CG" parameterDetailType="AgencyType" parameterName="AGENCY_TYPE" />
 
         <lockingKeys>
             <field attributeName="code" />

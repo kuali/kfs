@@ -37,6 +37,7 @@
         <label>Budget Aggregation Code</label>
         <summary>Budget Aggregation Code Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Budget Aggregation Codes, or modify existing Budget Aggregation Codes.</description>
+        <help parameterNamespace="KFS-CA" parameterDetailType="BudgetAggregationCode" parameterName="BUDGET_AGGREGATION_CODE" />
 
         <lockingKeys>
             <field attributeName="code" />

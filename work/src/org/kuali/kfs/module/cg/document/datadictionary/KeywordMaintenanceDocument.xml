@@ -39,6 +39,7 @@
 
         <summary>Keyword maintenance document</summary>
         <description>Document used to create or update Keyword objects</description>
+        <help parameterNamespace="KFS-RA" parameterDetailType="Keyword" parameterName="KEYWORD" />
 
         <lockingKeys>
             <field attributeName="routingFormKeywordDescription" />

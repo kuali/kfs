@@ -41,6 +41,7 @@
 
         <summary>Indirect Cost Lookup maintenance document</summary>
         <description>Document used to create or update Indirect Cost Lookup objects</description>
+        <help parameterNamespace="KFS-RA" parameterDetailType="IndirectCostLookup" parameterName="INDIRECT_COST_LOOKUP" />
 
         <lockingKeys>
             <field attributeName="budgetOnCampusIndicator" />

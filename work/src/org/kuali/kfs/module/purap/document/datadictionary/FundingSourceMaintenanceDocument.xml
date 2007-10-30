@@ -36,6 +36,7 @@
         <documentTypeCode>PMFS</documentTypeCode>
 
         <label>Funding Source</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="FundingSource" parameterName="FUNDING_SOURCE" />
 
         <lockingKeys>
             <field attributeName="fundingSourceCode" />

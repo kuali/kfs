@@ -39,6 +39,7 @@
 
         <summary>Project Director Maintenance Document</summary>
         <description>Document used to create or update Project Director objects</description>
+        <help parameterNamespace="KFS-CG" parameterDetailType="ProjectDirector" parameterName="PROJECT_DIRECTOR" />
 
         <lockingKeys>
             <field attributeName="universalUser.personUserIdentifier" />

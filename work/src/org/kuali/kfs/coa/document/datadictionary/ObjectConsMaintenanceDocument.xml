@@ -42,7 +42,7 @@
         <label>Object Consolidation</label>
         <summary>Object Consolidation Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Object Consolidations, or modify existing Object Consolidations.</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="ObjectConsolidation" parameterName="OBJECT_CONSOLIDATION" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="ObjectCons" parameterName="OBJECT_CONSOLIDATION" />
 
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />

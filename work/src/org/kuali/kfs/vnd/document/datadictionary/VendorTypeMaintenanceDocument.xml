@@ -36,6 +36,7 @@
         <documentTypeCode>PMVT</documentTypeCode>
 
         <label>Vendor Type</label>
+        <help parameterNamespace="KFS-VN" parameterDetailType="VendorType" parameterName="VENDOR_TYPE" />
 
         <lockingKeys>
             <field attributeName="vendorTypeCode" />

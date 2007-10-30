@@ -36,6 +36,7 @@
         <documentTypeCode>PMSO</documentTypeCode>
 
         <label>Requisition Source</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="RequisitionSource" parameterName="REQUISITION_SOURCE" />
 
         <lockingKeys>
             <field attributeName="requisitionSourceCode" />

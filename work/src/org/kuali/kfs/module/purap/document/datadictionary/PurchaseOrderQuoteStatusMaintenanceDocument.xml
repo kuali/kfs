@@ -36,6 +36,7 @@
         <documentTypeCode>PMQS</documentTypeCode>
 
         <label>Purchase Order Quote Status</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="PurchaseOrderQuoteStatus" parameterName="PURCHASE_ORDER_QUOTE_STATUS" />
 
         <lockingKeys>
             <field attributeName="purchaseOrderQuoteStatusCode" />

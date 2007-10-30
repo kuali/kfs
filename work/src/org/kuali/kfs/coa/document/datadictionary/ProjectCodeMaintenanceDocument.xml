@@ -41,7 +41,7 @@
 
         <summary>Project Code maintenance document</summary>
         <description>Document used to create or update Project Code objects</description>
-        <help parameterNamespace="KFS-CA" parameterDetailType="Project" parameterName="PROJECT" />
+        <help parameterNamespace="KFS-CA" parameterDetailType="ProjectCode" parameterName="PROJECT" />
 
         <lockingKeys>
             <field attributeName="code" />

@@ -36,6 +36,7 @@
         <documentTypeCode>PMOT</documentTypeCode>
 
         <label>Ownership Type</label>
+        <help parameterNamespace="KFS-VN" parameterDetailType="OwnershipType" parameterName="OWNERSHIP_TYPE" />
 
         <lockingKeys>
             <field attributeName="vendorOwnershipCode" />

@@ -41,7 +41,7 @@
 
         <summary>Ach bank maintenance document</summary>
         <description>Document used to create or update Ach Bank objects</description>
-        <help parameterNamespace="X" parameterName="OTHER_HELP_BANK" />
+        <help parameterNamespace="KFS-PD" parameterDetailType="Bank" parameterName="BANK" />
 
         <lockingKeys>
             <field attributeName="bankRoutingNumber" />

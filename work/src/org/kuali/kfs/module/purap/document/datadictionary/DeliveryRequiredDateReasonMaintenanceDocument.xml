@@ -36,6 +36,7 @@
         <documentTypeCode>PMDR</documentTypeCode>
 
         <label>Delivery Required Date Reason</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="DeliveryRequiredDateReason" parameterName="DELIVERY_REQUIRED_DATE_REASON" />
 
         <lockingKeys>
             <field attributeName="deliveryRequiredDateReasonCode" />

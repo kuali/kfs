@@ -39,6 +39,7 @@
 
         <summary>Nonpersonnel Sub Category maintenance document</summary>
         <description>Document used to create or update Nonpersonnel Sub Category objects</description>
+        <help parameterNamespace="KFS-RA" parameterDetailType="NonpersonnelSubCategory" parameterName="NONPERSONNEL_SUB_CATEGORY" />
 
         <lockingKeys>
             <field attributeName="code" />

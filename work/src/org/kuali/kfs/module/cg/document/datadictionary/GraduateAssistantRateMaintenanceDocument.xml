@@ -39,6 +39,7 @@
 
         <summary>Graduate Assistant Rate maintenance document</summary>
         <description>Document used to create or update Graduate Assistant Rate objects</description>
+        <help parameterNamespace="KFS-RA" parameterDetailType="GraduateAssistantRate" parameterName="GRADUATE_ASSISTANT_RATE" />
 
         <lockingKeys>
             <field attributeName="campusCode" />

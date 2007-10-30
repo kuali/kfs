@@ -37,6 +37,7 @@
 		<documentTypeCode>PMOP</documentTypeCode>
 
 		<label>Organization Parameter</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="OrganizationParameter" parameterName="ORGANIZATION_PARAMETER" />
 
         <lockingKeys>
 			<field attributeName="chartOfAccountsCode" />

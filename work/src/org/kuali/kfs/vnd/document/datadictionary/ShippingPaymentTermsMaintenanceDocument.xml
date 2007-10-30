@@ -36,6 +36,7 @@
         <documentTypeCode>PMSP</documentTypeCode>
 
         <label>Shipping Payment Terms</label>
+        <help parameterNamespace="KFS-VN" parameterDetailType="ShippingPaymentTerms" parameterName="SHIPPING_PAYMENT_TERMS" />
 
         <lockingKeys>
             <field attributeName="vendorShippingPaymentTermsCode" />

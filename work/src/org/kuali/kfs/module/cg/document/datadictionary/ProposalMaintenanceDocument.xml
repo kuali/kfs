@@ -46,6 +46,7 @@
 
         <summary>Proposal maintenance document</summary>
         <description>Document used to create or update Proposal objects</description>
+        <help parameterNamespace="KFS-CG" parameterDetailType="Proposal" parameterName="PROPOSAL" />
 
         <lockingKeys>
             <field attributeName="proposalNumber" />

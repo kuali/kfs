@@ -36,6 +36,7 @@
         <documentTypeCode>PMPR</documentTypeCode>
 
         <label>Payment Request Status</label>
+        <help parameterNamespace="KFS-PA" parameterDetailType="PaymentRequestStatus" parameterName="PAYMENT_REQUEST_STATUS" />
 
         <lockingKeys>
             <field attributeName="statusCode" />

@@ -55,6 +55,8 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
        
     public PaymentRequestDocument getPaymentRequestById(Integer poDocId);
     
+    public PaymentRequestDocument getPaymentRequestByDocumentNumber(String documentNumber);
+
     public void requestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
     
     /**

@@ -405,7 +405,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         return msgs;
     }
 
-    private PaymentRequestDocument getPaymentRequestByDocumentNumber(String documentNumber) {
+    public PaymentRequestDocument getPaymentRequestByDocumentNumber(String documentNumber) {
+        LOG.debug("getPaymentRequestByDocumentNumber() started");
+
         if (ObjectUtils.isNotNull(documentNumber)) {
             try {
                 PaymentRequestDocument doc = (PaymentRequestDocument) documentService.getByDocumentHeaderId(documentNumber);

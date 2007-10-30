@@ -209,7 +209,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         // end proration
     }
 
-    private CreditMemoDocument getCreditMemoByDocumentNumber(String documentNumber) {
+    public CreditMemoDocument getCreditMemoByDocumentNumber(String documentNumber) {
+        LOG.debug("getCreditMemoByDocumentNumber() started");
+
         if (ObjectUtils.isNotNull(documentNumber)) {
             try {
                 CreditMemoDocument doc = (CreditMemoDocument) documentService.getByDocumentHeaderId(documentNumber);

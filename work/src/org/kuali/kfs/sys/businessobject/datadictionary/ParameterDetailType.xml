@@ -41,7 +41,7 @@
             <defaultSort attributeName="parameterDetailTypeName" sortAscending="true" />
             <lookupFields>
                 <lookupField attributeName="parameterNamespaceCode" required="false" />
-                <lookupField attributeName="parameterDetailTypeCode" required="false"
+                <lookupField attributeName="parameterDetailTypeName" required="false"
                     noLookup="true"
                 />
                 <lookupField attributeName="active" required="false">
@@ -49,7 +49,7 @@
                 </lookupField>
             </lookupFields>
             <resultFields>
-                <field attributeName="parameterDetailTypeCode" noInquiry="true" />
+                <field attributeName="parameterDetailTypeName" noInquiry="true" />
                 <field attributeName="parameterNamespace.codeAndDescription" noInquiry="true" />
                 <field attributeName="active" />
             </resultFields>

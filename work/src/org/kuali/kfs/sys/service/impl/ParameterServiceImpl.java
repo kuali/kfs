@@ -325,9 +325,32 @@ public class ParameterServiceImpl implements ParameterService {
         else if (BusinessObject.class.isAssignableFrom(documentOrStepClass) || Step.class.isAssignableFrom(documentOrStepClass)) {
             return documentOrStepClass.getSimpleName();
         }
-        throw new IllegalArgumentException("The getDetailedType method of ParameterUtils requires TransactionalDocument, BusinessObject, or Step class");
+        throw new IllegalArgumentException("The getDetailType method of ParameterServiceImpl requires TransactionalDocument, BusinessObject, or Step class");
     }
 
+    private String getDetailTypeName(Class documentOrStepClass) {
+        if (documentOrStepClass.isAnnotationPresent(COMPONENT.class)) {
+            BusinessObjectEntry boe = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(documentOrStepClass.getName() );
+            if ( boe != null ) {
+                return boe.getObjectLabel();
+            } else {
+                return ((COMPONENT) documentOrStepClass.getAnnotation(COMPONENT.class)).component();
+            }            
+        }
+        if (TransactionalDocument.class.isAssignableFrom(documentOrStepClass)) {
+            return dataDictionaryService.getDocumentLabelByClass(documentOrStepClass);
+        }
+        else if (BusinessObject.class.isAssignableFrom(documentOrStepClass) || Step.class.isAssignableFrom(documentOrStepClass)) {
+            BusinessObjectEntry boe = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(documentOrStepClass.getName() );
+            if ( boe != null ) {
+                return boe.getObjectLabel();
+            } else {
+                return documentOrStepClass.getSimpleName();
+            }            
+        }
+        throw new IllegalArgumentException("The getDetailTypeName method of ParameterServiceImpl requires TransactionalDocument, BusinessObject, or Step class");
+    }
+    
     private ParameterEvaluator getParameterEvaluator(Parameter parameter) {
         ParameterEvaluatorImpl parameterEvaluator = new ParameterEvaluatorImpl();
         parameterEvaluator.setParameter(parameter);
@@ -350,7 +373,8 @@ public class ParameterServiceImpl implements ParameterService {
 
     private ParameterDetailType getParameterDetailType(Class documentOrStepClass) {
         String detailTypeString = getDetailType(documentOrStepClass);
-        ParameterDetailType detailType = new ParameterDetailType(getNamespace(documentOrStepClass), detailTypeString, detailTypeString);
+        String detailTypeName = getDetailTypeName(documentOrStepClass);
+        ParameterDetailType detailType = new ParameterDetailType(getNamespace(documentOrStepClass), detailTypeString, (detailTypeName==null)?detailTypeString:detailTypeName);
         detailType.refreshNonUpdateableReferences();
         return detailType;
     }

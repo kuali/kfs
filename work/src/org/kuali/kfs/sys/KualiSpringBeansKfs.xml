@@ -281,6 +281,14 @@
 		</property>
 	</bean>
 
+    <bean id="parameterLookupable" class="org.kuali.core.lookup.KualiLookupableImpl">
+        <property name="lookupableHelperService">
+            <bean id="parameterLookupableHelperService" class="org.kuali.kfs.lookup.ParameterLookupableHelperServiceImpl" parent="lookupableHelperService">
+                <property name="parameterService" ref="parameterService" />
+            </bean>
+        </property>
+    </bean>
+
     <bean id="parameterDetailTypeLookupable" class="org.kuali.core.lookup.KualiLookupableImpl">
         <property name="lookupableHelperService">
             <bean id="parameterDetailTypeLookupableHelperService" class="org.kuali.kfs.lookup.ParameterDetailTypeLookupableHelperServiceImpl" parent="lookupableHelperService">

@@ -26,7 +26,7 @@
                 <inquirySection title="Parameter Information">
                     <inquiryFields>
                         <field attributeName="parameterNamespace.codeAndDescription" />
-                        <field attributeName="parameterDetailTypeCode" noInquiry="true" />
+                        <field attributeName="parameterDetailType.parameterDetailTypeName" noInquiry="true" />
                         <field attributeName="parameterName" noInquiry="true" />
                         <field attributeName="parameterValue" />
                         <field attributeName="parameterConstraintCode" />
@@ -45,7 +45,7 @@
             <defaultSort attributeName="parameterName" sortAscending="true" />
             <lookupFields>
                 <lookupField attributeName="parameterNamespaceCode" required="false" />
-                <lookupField attributeName="parameterDetailTypeCode" />
+                <lookupField attributeName="parameterDetailType.parameterDetailTypeName" noLookup="true" />
                 <lookupField attributeName="parameterName" noLookup="true" />
                 <lookupField attributeName="parameterValue" />
                 <lookupField attributeName="parameterTypeCode" />
@@ -53,7 +53,7 @@
             </lookupFields>
             <resultFields>
                 <field attributeName="parameterNamespaceCode" forceInquiry="true" />
-                <field attributeName="parameterDetailTypeCode" noInquiry="true" />
+                <field attributeName="parameterDetailType.parameterDetailTypeName" noInquiry="true" />
                 <field attributeName="parameterName" forceInquiry="true" maxLength="60" />
                 <field attributeName="parameterValue" maxLength="40" />
                 <field attributeName="parameterConstraintCode" />
@@ -156,6 +156,11 @@
 
             <attributeReference name="parameterType.name" sourceClassName="org.kuali.core.bo.ParameterType" sourceAttributeName="name">
                 <label>Parameter Type</label>
+                <required>false</required>
+            </attributeReference>
+
+            <attributeReference name="parameterDetailType.parameterDetailTypeName" sourceClassName="org.kuali.core.bo.ParameterDetailType" sourceAttributeName="parameterDetailTypeName">
+                <label>Component</label>
                 <required>false</required>
             </attributeReference>
             

@@ -65,8 +65,6 @@ Copyright 2005-2007  The Kuali Foundation.  All rights reserved.  Kuali is licen
 
 <p>This product includes software licensed under the Mozilla Public License (<span class="nobr"><a href="http://www.mozilla.org/MPL/" title="MPL" rel="nofollow">http://www.mozilla.org/MPL/</a></span>).</p>
 
-<p>This product includes software licensed under the IBM Public License (<span class="nobr"><a href="http://www.opensource.org/licenses/ibmpl.php" title="IBMPL" rel="nofollow">http://www.opensource.org/licenses/ibmpl.php</a></span>).</p>
-
 <p>This product includes the Kuali Rice module licensed under the Kuali Foundation ECL (<span class="nobr"><a href="https://test.kuali.org/confluence/display/KULDOC/Rice+Acknowledgments" title="Rice Acknowledgments" rel="nofollow">https://test.kuali.org/confluence/display/KULDOC/Rice+Acknowledgments</a></span>).</p>
 
 <p>This product includes the Kuali Enterprise Workflow module licensed under the Kuali Foundation ECL (<span class="nobr"><a href="https://test.kuali.org/confluence/display/KULDOC/KEW+Acknowledgments" title="KEW Acknowledgments" rel="nofollow">https://test.kuali.org/confluence/display/KULDOC/KEW+Acknowledgments</a></span>).</p>
@@ -76,6 +74,8 @@ Copyright 2005-2007  The Kuali Foundation.  All rights reserved.  Kuali is licen
 <p>Portions Copyright (c) 2000-2005 INRIA, France Telecom. All Rights Reserved.</p>
 
 <p>Portions Copyright (c) 2001-2006 Sun Microsystems, Inc. All Rights Reserved.</p>
+
+<p>Portions Copyright (c) 1995-2006 International Business Machines Corporation and others. All Rights Reserved.</p>
 
 <p>Portions Copyright (c) 2002, 2003 Mihai Bazon. All Rights Reserved.  Licensed under GNU Lesser General Public License (<span class="nobr"><a href="http://www.opensource.org/licenses/lgpl-license.php" title="LGPL" rel="nofollow">http://www.opensource.org/licenses/lgpl-license.php</a></span>).</p>
 

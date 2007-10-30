@@ -64,6 +64,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private int numOfAttempts = 10;
     private int numOfExtraMonthsForCGAccount = 3;
 
+    // Indicator for Labor Scrubber's Suspense Account Logic
+    private boolean suspenseAccountLogicInd;
+    // Indicator for Labor Scrubber Sub-Fund Wage Exclusion
+    private boolean subfundWageExclusionInd;
+
     /**
      * @see org.kuali.module.labor.service.LaborScrubberValidator#validateTransaction(owrg.kuali.module.labor.bo.LaborOriginEntry,
      *      org.kuali.module.labor.bo.LaborOriginEntry, org.kuali.module.gl.bo.UniversityDate)
@@ -275,66 +280,87 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message validateAccount(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateAccount() started");
 
+        // Indicator for Labor Scrubber's Suspense Account Logic
+        suspenseAccountLogicInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
+        // Indicator for Labor Scrubber Sub-Fund Wage Exclusion
+        subfundWageExclusionInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUBFUND_WAGE_EXCLUSION_PARAMETER);
+
         Calendar today = Calendar.getInstance();
         today.setTime(universityRunDate.getUniversityDate());
 
-        String[] continuationAccountBypassOriginationCodes = SpringContext.getBean(ParameterService.class).getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES).toArray(new String[] {});
-        String[] continuationAccountBypassBalanceTypeCodes = SpringContext.getBean(BalanceTypService.class).getContinuationAccountBypassBalanceTypeCodes(universityRunDate.getUniversityFiscalYear()).toArray(new String[] {});
-        String[] continuationAccountBypassDocumentTypeCodes = SpringContext.getBean(ParameterService.class).getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES).toArray(new String[] {});
-
-
         if (laborOriginEntry.getAccount() == null) {
-            return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ACCOUNT_NOT_FOUND) + "(" + laborOriginEntry.getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber() + ")", Message.TYPE_FATAL);
-        }
+            if (suspenseAccountLogicInd) {
+                useSuspenseAccount(laborWorkingEntry);
+                // error? any message?
+                return null;
 
-        if (SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE).equals(laborOriginEntry.getFinancialDocumentTypeCode())) {
-            laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
-            laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
-            return null;
+            }
+            // when Suspense Account Logic Indicator is off
+            else {
+                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ACCOUNT_NOT_FOUND) + "(" + laborOriginEntry.getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber() + ")", Message.TYPE_FATAL);
+            }
         }
 
         Account account = laborOriginEntry.getAccount();
 
-        /*
-         * if (!laborOriginEntry.getAccount().getSubFundGroup().isSubFundGroupWagesIndicator()) {
-         */
 
         // Labor's new features
-        Message subfundWageMessage = subfundWageAccountFringeExclusion(laborOriginEntry, laborWorkingEntry, account, today);
+        // checking Sub-Fund Wage Exclusion indicator
+        String[] nonWageSubfundBypassOriginationCodes = SpringContext.getBean(ParameterService.class).getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.NON_WAGE_SUB_FUND_BYPASS_ORIGINATIONS).toArray(new String[] {});
 
-        if (!(subfundWageMessage == null)) {
+
+        if (subfundWageExclusionInd && !ObjectHelper.isOneOf(laborOriginEntry.getFinancialSystemOriginationCode(), nonWageSubfundBypassOriginationCodes)) {
+            Message subfundWageMessage = subfundWageAccountFringeExclusion(laborOriginEntry, laborWorkingEntry, account, today);
+
             return subfundWageMessage;
         }
 
+        else {
 
-        if ((account.getAccountExpirationDate() == null) && !account.isAccountClosedIndicator()) {
-            // account is neither closed nor expired
-            laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
+            String[] continuationAccountBypassOriginationCodes = SpringContext.getBean(ParameterService.class).getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES).toArray(new String[] {});
+            String[] continuationAccountBypassBalanceTypeCodes = SpringContext.getBean(BalanceTypService.class).getContinuationAccountBypassBalanceTypeCodes(universityRunDate.getUniversityFiscalYear()).toArray(new String[] {});
+            String[] continuationAccountBypassDocumentTypeCodes = SpringContext.getBean(ParameterService.class).getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES).toArray(new String[] {});
+
+            if ((account.getAccountExpirationDate() == null) && !account.isAccountClosedIndicator()) {
+                // account is neither closed nor expired
+                laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
+                return null;
+            }
+
+            if (SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE).equals(laborOriginEntry.getFinancialDocumentTypeCode())) {
+                laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
+                laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
+                return null;
+            }
+
+            // Has an expiration date or is closed (origin_code)
+            if ((org.apache.commons.lang.StringUtils.isNumeric(laborOriginEntry.getFinancialSystemOriginationCode()) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes)) && account.isAccountClosedIndicator()) {
+                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT) + " (" + laborOriginEntry.getAccount().getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber() + ")", Message.TYPE_FATAL);
+            }
+
+            if ((org.apache.commons.lang.StringUtils.isNumeric(laborOriginEntry.getFinancialSystemOriginationCode()) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialBalanceTypeCode(), continuationAccountBypassBalanceTypeCodes) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialDocumentTypeCode().trim(), continuationAccountBypassDocumentTypeCodes)) && !account.isAccountClosedIndicator()) {
+                laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
+                laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
+                return null;
+            }
+
+
+            adjustAccountIfContractsAndGrants(account);
+
+            if (isExpired(account, today) || account.isAccountClosedIndicator()) {
+                Message error = continuationAccountLogic(laborOriginEntry, laborWorkingEntry, today);
+                if (error != null) {
+                    return error;
+                }
+            }
             laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
-            return null;
-        }
-
-        // Has an expiration date or is closed
-        if ((org.apache.commons.lang.StringUtils.isNumeric(laborOriginEntry.getFinancialSystemOriginationCode()) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes)) && account.isAccountClosedIndicator()) {
-            return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT) + " (" + laborOriginEntry.getAccount().getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber() + ")", Message.TYPE_FATAL);
-        }
-
-        if ((org.apache.commons.lang.StringUtils.isNumeric(laborOriginEntry.getFinancialSystemOriginationCode()) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialBalanceTypeCode(), continuationAccountBypassBalanceTypeCodes) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialDocumentTypeCode().trim(), continuationAccountBypassDocumentTypeCodes)) && !account.isAccountClosedIndicator()) {
+            laborWorkingEntry.setChartOfAccountsCode(laborOriginEntry.getAccount().getChartOfAccountsCode());
             laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
-            laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
             return null;
+
         }
 
 
-        adjustAccountIfContractsAndGrants(account);
-        /*
-         * }
-         */
-
-
-        laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
-        laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
-        return null;
     }
 
     /**
@@ -527,137 +553,116 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     }
 
     private Message subfundWageAccountFringeExclusion(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, Account account, Calendar today) {
-        // Indicator for Labor Scrubber Sub-Fund Wage Exclusion
-        boolean subfundWageExclusionInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUBFUND_WAGE_EXCLUSION_PARAMETER);
+
         // Indicator for Labor Scrubber's Account Fringe Exclusion
         boolean accountFringeExclusionInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.ACCOUNT_FRINGE_EXCLUSION_PARAMETER);
-        // Indicator for Labor Scrubber's Suspense Account Logic
-        boolean suspenseAccountLogicInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
         // Indicator for Labor Scrubber's Continuation Account Logic
         boolean continuationAccountLogicInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_LOGIC_PARAMETER);
 
-        // checking Sub-Fund Wage Exclusion indicator
-        if (subfundWageExclusionInd) {
-
-            // checking Sub-Fund accept wage
-            if (laborOriginEntry.getAccount().getSubFundGroup().isSubFundGroupWagesIndicator()) {
-
-                // checking Account Fringe Exclusion indicator
-                if (accountFringeExclusionInd) {
-
-                    // checking existence of alternative account
-                    account = accountService.getByPrimaryId(laborOriginEntry.getAccount().getReportsToChartOfAccountsCode(), laborOriginEntry.getAccount().getReportsToAccountNumber());
-                    if (account != null) {
-                        laborWorkingEntry.setAccount(account);
-                        laborWorkingEntry.setAccountNumber(account.getAccountNumber());
-                        laborWorkingEntry.setChartOfAccountsCode(account.getChartOfAccountsCode());
-
-                        // checking Continuation Account Logic Indicator
-                        if (continuationAccountLogicInd) {
-                            if (isExpired(account, today) || account.isAccountClosedIndicator()) {
-                                // Do continuation Account logic with laborWorkingEntry
-                                // because laborOriginEntry shouldn't be changed.
-                                Message error = continuationAccountLogic(laborWorkingEntry, laborWorkingEntry, today);
-                                if (error != null) {
-                                    return error;
-                                }
-                            }
-                            // when Continuation Account Logic indicator is off
-                        }
-                        else {
-                            if (suspenseAccountLogicInd) {
-                                useSuspenseAccount(laborWorkingEntry);
-                                return null;
-                                // when Suspense Account Logic Indicator is off
-                            }
-                            else {
-                                // Change error message later
-                                return new Message("SUB FUND WAGE EXCLUSION", Message.TYPE_FATAL);
-                            }
-                        }
+        String[] nonFringeAccountBypassOriginationCodes = SpringContext.getBean(ParameterService.class).getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.NON_FRINGE_ACCOUNT_BYPASS_ORIGINATIONS).toArray(new String[] {});
 
 
-                    }
-                    else {
-                        if (suspenseAccountLogicInd) {
-                            useSuspenseAccount(laborWorkingEntry);
-                            return null;
-                        }
-                        else {
-                            // Change error message later
-                            // - not existence of alternative account from Reports To Account
+        // checking Sub-Fund accept wage
+        if (account.getSubFundGroup().isSubFundGroupWagesIndicator()) {
 
-                            return new Message("Not existence of alternative account from Reports To Account ", Message.TYPE_FATAL);
-                        }
+            // checking Account Fringe Exclusion indicator
+            if (accountFringeExclusionInd && !ObjectHelper.isOneOf(laborOriginEntry.getFinancialSystemOriginationCode(), nonFringeAccountBypassOriginationCodes)) {
 
-                    }
+                // checking existence of alternative account
+                Account altAccount = accountService.getByPrimaryId(laborOriginEntry.getAccount().getReportsToChartOfAccountsCode(), laborOriginEntry.getAccount().getReportsToAccountNumber());
+                if (altAccount != null) {
+                    laborWorkingEntry.setAccount(altAccount);
+                    laborWorkingEntry.setAccountNumber(altAccount.getAccountNumber());
+                    laborWorkingEntry.setChartOfAccountsCode(altAccount.getChartOfAccountsCode());
 
-                    // when Account Fringe Exclusion Indicator is off
-                }
-                else {
+                    // checking Continuation Account Logic Indicator
                     if (continuationAccountLogicInd) {
                         if (isExpired(account, today) || account.isAccountClosedIndicator()) {
+                            // Do continuation Account logic with laborWorkingEntry
+                            // because laborOriginEntry shouldn't be changed.
                             Message error = continuationAccountLogic(laborOriginEntry, laborWorkingEntry, today);
                             if (error != null) {
                                 return error;
                             }
                         }
+                        else {
+                            laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
+                            laborWorkingEntry.setChartOfAccountsCode(laborOriginEntry.getAccount().getChartOfAccountsCode());
+                            laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
+                            return null;
+                        }
+                        // when Continuation Account Logic indicator is off
                     }
                     else {
                         if (suspenseAccountLogicInd) {
                             useSuspenseAccount(laborWorkingEntry);
                             return null;
+                            // when Suspense Account Logic Indicator is off
                         }
                         else {
                             // Change error message later
-                            return new Message("SUB FUND WAGE EXCLUSION", Message.TYPE_FATAL);
+                            return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CONTINUATION_ACCOUNT_LIMIT_REACHED), Message.TYPE_FATAL);
                         }
                     }
-                }
 
-                // When Sub-Fund not accept wage
 
-            }
-            else {
-                if (suspenseAccountLogicInd) {
-                    useSuspenseAccount(laborWorkingEntry);
-                    return null;
                 }
                 else {
-                    // Change error message later
-                    // - Sub-fund not accepting Wage
-                    return new Message("SUB FUND WAGE EXCLUSION", Message.TYPE_FATAL);
+                    if (suspenseAccountLogicInd) {
+                        useSuspenseAccount(laborWorkingEntry);
+                        return null;
+                    }
+                    else {
+                        // Change error message later
+                        // - not existence of alternative account from Reports To Account
+
+                        return new Message("Not existence of alternative account from Reports To Account ", Message.TYPE_FATAL);
+                    }
+
                 }
 
+                // when Account Fringe Exclusion Indicator is off
             }
-
-
-            // When Sub-Fund Wage Exclusion indicator is off
-        }
-        else {
-            if (continuationAccountLogicInd) {
-                if (isExpired(account, today) || account.isAccountClosedIndicator()) {
-                    Message error = continuationAccountLogic(laborOriginEntry, laborWorkingEntry, today);
-                    if (error != null) {
-                        return error;
+            else {
+                if (continuationAccountLogicInd) {
+                    if (isExpired(account, today) || account.isAccountClosedIndicator()) {
+                        Message error = continuationAccountLogic(laborOriginEntry, laborWorkingEntry, today);
+                        if (error != null) {
+                            return error;
+                        }
+                    } else {
+                        laborWorkingEntry.setAccount(laborOriginEntry.getAccount());
+                        laborWorkingEntry.setChartOfAccountsCode(laborOriginEntry.getAccount().getChartOfAccountsCode());
+                        laborWorkingEntry.setAccountNumber(laborOriginEntry.getAccountNumber());
+                        return null;
+                    }
+                }
+                else {
+                    if (suspenseAccountLogicInd) {
+                        useSuspenseAccount(laborWorkingEntry);
+                        return null;
+                    }
+                    else {
+                        // Change error message later
+                        return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CONTINUATION_ACCOUNT_LIMIT_REACHED), Message.TYPE_FATAL);
                     }
                 }
             }
+
+            // When Sub-Fund not accept wage
+
+        }
+        else {
+            if (suspenseAccountLogicInd) {
+                useSuspenseAccount(laborWorkingEntry);
+                return null;
+            }
             else {
-                if (suspenseAccountLogicInd) {
-                    useSuspenseAccount(laborWorkingEntry);
-                    return null;
-                }
-                else {
-                    // Change error message later
-                    return new Message("SUB FUND WAGE EXCLUSION", Message.TYPE_FATAL);
-                }
+                // Change error message later
+                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CONTINUATION_ACCOUNT_LIMIT_REACHED), Message.TYPE_FATAL);
             }
         }
 
         return null;
-
     }
-
-
 }

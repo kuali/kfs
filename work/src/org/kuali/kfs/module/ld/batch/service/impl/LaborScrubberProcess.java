@@ -392,17 +392,6 @@ public class LaborScrubberProcess {
                 ParameterEvaluator costShareEncDocTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode().trim());
                 ParameterEvaluator costShareFiscalPeriodCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GLConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
 
-                //Labor Scrubber doesn't need this
-                /*if (costShareObjectTypeCodes.evaluationSucceeds() && costShareEncBalanceTypeCodes.evaluationSucceeds() && scrubbedEntry.getAccount().isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && costShareEncFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
-
-                    
-                     TransactionError te1 = generateCostShareEncumbranceEntries(scrubbedEntry); if (te1 != null) { List errors =
-                     new ArrayList(); errors.add(te1.message); scrubberReportErrors.put(te1.transaction, errors);
-                     saveValidTransaction = false; saveErrorTransaction = true; }
-                 }
-
-                 */                
-                
                 if (costShareObjectTypeCodes.evaluationSucceeds() && scrubbedEntry.getOption().getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntry.getAccount().isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && costShareFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
                     if (scrubbedEntry.isDebit()) {
                         scrubCostShareAmount = scrubCostShareAmount.subtract(transactionAmount);
@@ -411,27 +400,6 @@ public class LaborScrubberProcess {
                         scrubCostShareAmount = scrubCostShareAmount.add(transactionAmount);
                     }
                 }
-
-                // Labor Scrubber doesn't need this
-                /*
-                 * if (kualiConfigurationService.succeedsRule( otherDocTypeCodes,scrubbedEntry.getFinancialDocumentTypeCode())) {
-                 * String m = processCapitalization(scrubbedEntry); if (m != null) { saveValidTransaction = false;
-                 * saveErrorTransaction = false; addTransactionError(m, "", Message.TYPE_FATAL); } m =
-                 * processLiabilities(scrubbedEntry); if (m != null) { saveValidTransaction = false; saveErrorTransaction = false;
-                 * addTransactionError(m, "", Message.TYPE_FATAL); } m = processPlantIndebtedness(scrubbedEntry); if (m != null) {
-                 * saveValidTransaction = false; saveErrorTransaction = false; addTransactionError(m, "", Message.TYPE_FATAL); } }
-                 */
-
-                // Labor Scrubber doesn't need this
-                /*
-                 * if (!scrubCostShareAmount.isZero()) { TransactionError te = generateCostShareEntries(scrubbedEntry); if (te !=
-                 * null) { saveValidTransaction = false; saveErrorTransaction = false; // Make a copy of it so OJB doesn't just
-                 * update the row in the original // group. It needs to make a new one in the error group LaborOriginEntry
-                 * errorEntry = new LaborOriginEntry(te.transaction);
-                 * errorEntry.setTransactionScrubberOffsetGenerationIndicator(false); createOutputEntry(errorEntry, errorGroup);
-                 * scrubberReport.incrementErrorRecordWritten(); List messages = new ArrayList(); messages.add(te.message);
-                 * scrubberReportErrors.put(errorEntry, messages); } scrubCostShareAmount = KualiDecimal.ZERO; }
-                 */
 
                 if (transactionErrors.size() > 0) {
                     scrubberReportErrors.put(scrubbedEntry, transactionErrors);

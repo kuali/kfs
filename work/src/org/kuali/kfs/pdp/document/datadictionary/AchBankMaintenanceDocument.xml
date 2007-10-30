@@ -36,12 +36,12 @@
         <documentTypeName>AchBankMaintenanceDocument</documentTypeName>
         <documentTypeCode>ABNK</documentTypeCode>
 
-        <label>ACH Bank Maintenance Document</label>
+        <label>ACH Bank</label>
         <shortLabel>AchBankMaintDoc</shortLabel>
 
         <summary>Ach bank maintenance document</summary>
         <description>Document used to create or update Ach Bank objects</description>
-        <help parameterNamespace="KFS-PD" parameterDetailType="Bank" parameterName="BANK" />
+        <help parameterNamespace="KFS-PD" parameterDetailType="AchBank" parameterName="BANK" />
 
         <lockingKeys>
             <field attributeName="bankRoutingNumber" />

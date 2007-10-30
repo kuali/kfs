@@ -154,7 +154,7 @@
             </attributeReference>
 
         </attributes>
-
+		<help parameterNamespace="KFS-PA" parameterDetailType="Requisition" parameterName="REQUISITION" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>
         

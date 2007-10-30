@@ -34,9 +34,9 @@
         <documentTypeName>CloseDocument</documentTypeName>
         <documentTypeCode>CLOS</documentTypeCode>
 
-        <label>Contracts And Grants Close</label>
+        <label>Post-Award Close</label>
 
-        <help parameterNamespace="Kuali.ContractsAndGrants.CloseDocument" parameterName="CG_HELP_CLOSE_DOCUMENT" />
+        <help parameterNamespace="KFS-CG" parameterDetailType="Close" parameterName="CLOSE" />
   
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>

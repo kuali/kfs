@@ -40,7 +40,7 @@
             <![CDATA[&nbsp;]]>
         </summary>
         <description><![CDATA[&nbsp;]]></description>
-                <help parameterNamespace="KFS-FP" parameterDetailType="IndirectCostAdjustment" parameterName="INDIRECT_COST_ADJUSTMENT" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="IndirectCostAdjustment" parameterName="INDIRECT_COST_ADJUSTMENT" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
     </transactionalDocument>

@@ -96,8 +96,7 @@
         and/or base budget figures for a given account as circumstances may change throughout the fiscal year. It may be used to 
         create a budget for a new account established after the beginning of a new fiscal year, and it may also be used to transfer funds between
         general fund accounts belonging to the same chart of accounts.</description>
-       <help parameterNamespace="KFS-FP" parameterDetailType="BudgetAdjustment" parameterName="BUDGET_ADJUSTMENT" />
- 
+ 		<help parameterNamespace="KFS-FP" parameterDetailType="BudgetAdjustment" parameterName="BUDGET_ADJUSTMENT" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
     </transactionalDocument>

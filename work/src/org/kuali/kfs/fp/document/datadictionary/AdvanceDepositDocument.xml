@@ -42,9 +42,8 @@
         <description>
             <![CDATA[An Advanced Deposit (AD) document is used to record advance deposits that go straight to the bank from a departmental unit, without being verified through the normal cash receipting process. This document allows for distribution of the monetary amount received, into the appropriate accounts in the financial system. Once submitted, an Advance Deposit document routes straight to FINAL and is applied to the General Ledger.]]>
         </description>
-        <help parameterNamespace="KFS-FP" parameterDetailType="AdvanceDeposit" parameterName="ADVANCE_DEPOSIT" />
         
-
+		<help parameterNamespace="KFS-FP" parameterDetailType="AdvanceDeposit" parameterName="ADVANCE_DEPOSIT" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>
     </transactionalDocument>

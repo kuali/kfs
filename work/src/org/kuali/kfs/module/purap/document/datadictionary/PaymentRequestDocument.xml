@@ -343,7 +343,8 @@
 
 			</attribute>
         </attributes>
-
+	
+		<help parameterNamespace="KFS-PA" parameterDetailType="PaymentRequest" parameterName="PAYMENT_REQUEST" />
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>
         

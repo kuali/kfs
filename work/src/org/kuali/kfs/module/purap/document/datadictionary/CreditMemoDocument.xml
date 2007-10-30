@@ -210,7 +210,7 @@
 			    </control>
 			</attribute>
         </attributes>
-
+		<help parameterNamespace="KFS-PA" parameterDetailType="CreditMemo" parameterName="CREDIT_MEMO" />
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>
         

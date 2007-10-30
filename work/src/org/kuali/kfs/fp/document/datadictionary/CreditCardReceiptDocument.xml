@@ -52,8 +52,7 @@
             <![CDATA[&nbsp;]]>
         </summary>
         <description>A Credit Card Receipt document is used to record credit card receipts and distribute the monetary amount received for them, into the appropriate accounts in the financial system. Once submitted, a Credit Card Receipt routes straight to FINAL and is applied to the General Ledger, since it is a form of an advance deposit.</description>
-        <help parameterNamespace="KFS-FP" parameterDetailType="CreditCardReceipt" parameterName="CREDIT_CARD_RECEIPT" />
-
+		<help parameterNamespace="KFS-FP" parameterDetailType="CreditCardReceipt" parameterName="CREDIT_CARD_RECEIPT" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>
     </transactionalDocument>

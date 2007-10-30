@@ -41,7 +41,7 @@
             <![CDATA[&nbsp;]]>
         </summary>
         <description>The Internal Billing (IB) document is used for the billing of goods or services provided by a university department to another university department, reflecting income to the provider and expense to the customer.</description>
-        <help parameterNamespace="KFS-FP" parameterName="FINANCIAL_HELP_INTERNAL_BILLING" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="InternalBilling" parameterName="INTERNAL_BILLING" />
 
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>

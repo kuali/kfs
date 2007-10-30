@@ -37,7 +37,7 @@
         <shortLabel>GLCPDoc</shortLabel>
         <summary>General Ledger Correction Process Document</summary>
         <description>General Ledger Correction Process Document</description>
-        <help parameterNamespace="KFS-FP" parameterDetailType="GeneralLedgerCorrectionProcess" parameterName="GENERAL_LEDGER_CORRECTION_PROCESS" />       
+        <help parameterNamespace="KFS-FP" parameterDetailType="Correction" parameterName="GENERAL_LEDGER_CORRECTION_PROCESS" />
         <allowsErrorCorrection>false</allowsErrorCorrection>
     </transactionalDocument>
 </dictionaryEntry>

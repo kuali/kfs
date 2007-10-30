@@ -17,7 +17,7 @@
 <kul:page showDocumentInfo="true"
 	htmlFormAction="cgClose"
     renderMultipart="true"
-	docTitle="Close Document"
+	docTitle="Post-Award Close"
     transactionalDocument="false">
 
     <kul:hiddenDocumentFields isTransactionalDocument="false" />

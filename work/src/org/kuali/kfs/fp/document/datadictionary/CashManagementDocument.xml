@@ -71,8 +71,7 @@
             <![CDATA[&nbsp;]]>
         </summary>
         <description>blah blah Document blah Cash Management blah blah</description>
-        <help parameterNamespace="KFS-FP" parameterDetailType="CashManagement" parameterName="CASH_MANAGEMENT" />
-
+		<help parameterNamespace="KFS-FP" parameterDetailType="CashManagement" parameterName="CASH_MANAGEMENT" />
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>
     </transactionalDocument>

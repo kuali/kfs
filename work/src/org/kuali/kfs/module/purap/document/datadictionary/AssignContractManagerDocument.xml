@@ -114,7 +114,7 @@ nalavi: these attributes are added for the purpose of labels display in assingCo
 			</attribute>
 
 		</attributes>
-
+		<help parameterNamespace="KFS-PA" parameterDetailType="AssignContractManager" parameterName="ASSIGN_CONTRACT_MANAGER" />
 		<allowsCopy>false</allowsCopy>
 		<allowsErrorCorrection>false</allowsErrorCorrection>
 

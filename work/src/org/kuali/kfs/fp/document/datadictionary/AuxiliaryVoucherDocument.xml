@@ -91,9 +91,7 @@
 
         <summary>Auxiliary Voucher document</summary>
         <description>blah blah Document blah Auxiliary Voucher blah blah</description>
-        <help parameterNamespace="KFS-FP" parameterDetailType="AuxiliaryVoucher" parameterName="AUXILIARY_VOUCHER" />
-  
-        
+  		<help parameterNamespace="KFS-FP" parameterDetailType="AuxiliaryVoucher" parameterName="AUXILIARY_VOUCHER" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
 	</transactionalDocument>

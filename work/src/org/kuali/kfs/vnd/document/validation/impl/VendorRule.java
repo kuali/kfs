@@ -1199,6 +1199,8 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
     /**
+     * Validates business rules for VendorDetail document collection add lines. Add lines are the initial lines on a collections, i.e. the ones next to the "Add" button
+     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.core.document.MaintenanceDocument, java.lang.String, org.kuali.core.bo.PersistableBusinessObject)
      */
     @Override

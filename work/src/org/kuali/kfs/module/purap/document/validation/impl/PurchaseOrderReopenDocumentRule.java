@@ -42,6 +42,9 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 
+/**
+ * Rules for Purchase Order Reopen document creation.
+ */
 public class PurchaseOrderReopenDocumentRule extends PurchasingDocumentRuleBase {
 
     /**
@@ -54,6 +57,9 @@ public class PurchaseOrderReopenDocumentRule extends PurchasingDocumentRuleBase 
         return isValid &= processValidation(porDocument);
     }
 
+    /**
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
+     */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = true;
@@ -61,6 +67,9 @@ public class PurchaseOrderReopenDocumentRule extends PurchasingDocumentRuleBase 
         return isValid &= processValidation(porDocument);
     }
 
+    /**
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.rule.event.ApproveDocumentEvent)
+     */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
         boolean isValid = true;
@@ -68,6 +77,13 @@ public class PurchaseOrderReopenDocumentRule extends PurchasingDocumentRuleBase 
         return isValid &= processValidation(porDocument);
     }
 
+    /**
+     * Central method to control the processing of rule checks.  Checks that the purchase order document
+     * is not null, that it is in the correct status, and that the user is in the purchasing workgroup.
+     * 
+     * @param document  A PurchaseOrderDocument. (A PurchasePaymentCloseDocument at this point.)
+     * @return  True if the document passes all the validations.
+     */
     private boolean processValidation(PurchaseOrderDocument document) {
         boolean valid = true;
 
@@ -104,6 +120,9 @@ public class PurchaseOrderReopenDocumentRule extends PurchasingDocumentRuleBase 
         return valid;
     }
 
+    /**
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     */
     @Override
     protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);

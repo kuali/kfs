@@ -44,6 +44,9 @@ import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 
+/**
+ * Rules for Purchase Order Close Document creation.
+ */
 public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
 
     /**
@@ -56,6 +59,9 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
         return isValid &= processValidation(poDocument);
     }
 
+    /**
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
+     */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = true;
@@ -63,6 +69,9 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
         return isValid &= processValidation(poDocument);
     }
 
+    /**
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.rule.event.ApproveDocumentEvent)
+     */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
         boolean isValid = true;
@@ -70,6 +79,13 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
         return isValid;
     }
 
+    /**
+     * Central method to control the processing of rule checks.  Checks that the purchase order document
+     * is not null, that it is in the correct status, and delegates further rule checking.
+     * 
+     * @param document  A PurchaseOrderDocument. (Not a PurchaseOrderCloseDocument at this point.)
+     * @return  True if the document passes all the validations.
+     */
     public boolean processValidation(PurchaseOrderDocument document) {
         boolean valid = true;
         // Check that the PO is not null
@@ -93,6 +109,14 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
         return valid;
     }
 
+    /**
+     * Processes validation rules having to do with any payment requests that the given purchase order may have.
+     * Specifically, validates that at least one payment request exists, and makes furthur checks about
+     * the status of such payment requests.
+     * 
+     * @param document      A PurchaseOrderDocument
+     * @return  True if the document passes all the validations.
+     */
     public boolean processPaymentRequestRules(PurchaseOrderDocument document) {
         boolean valid = true;
         // The PO must have at least one PREQ against it.
@@ -134,6 +158,9 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
         return valid;
     }
 
+    /**
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     */
     @Override
     protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);

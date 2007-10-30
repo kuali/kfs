@@ -36,8 +36,9 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.service.PurchaseOrderService;
 
 /**
- * This class is purposely not extending PurchaseOrderDocumentRule becuase it does not need to since it does not allow the PO to be
- * edited nor should it create GL entries.
+ * Rules for Purchase Order Payment Hold document creation.
+ * This class is purposely not extending <code>PurchaseOrderDocumentRule</code> becuase it does not need to since it 
+ * does not allow the purchase order to be edited nor should it create GL entries.
  */
 public class PurchaseOrderPaymentHoldDocumentRule extends TransactionalDocumentRuleBase {
 
@@ -51,6 +52,9 @@ public class PurchaseOrderPaymentHoldDocumentRule extends TransactionalDocumentR
         return isValid &= processValidation(porDocument);
     }
 
+    /**
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
+     */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = true;
@@ -58,6 +62,9 @@ public class PurchaseOrderPaymentHoldDocumentRule extends TransactionalDocumentR
         return isValid &= processValidation(porDocument);
     }
 
+    /**
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.rule.event.ApproveDocumentEvent)
+     */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
         boolean isValid = true;
@@ -65,6 +72,13 @@ public class PurchaseOrderPaymentHoldDocumentRule extends TransactionalDocumentR
         return isValid;
     }
 
+    /**
+     * Central method to control the processing of rule checks.  Checks that the purchase order document
+     * is not null, that it is in the correct status, and that the user is in the purchasing workgroup.
+     * 
+     * @param document  A PurchaseOrderDocument. (Not a PurchasePaymentHoldDocument at this point.)
+     * @return  True if the document passes all the validations.
+     */
     boolean processValidation(PurchaseOrderDocument document) {
         boolean valid = true;
 

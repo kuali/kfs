@@ -42,9 +42,14 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 
-
+/**
+ * Rules for Purchase Order Amendment documents creation.
+ */
 public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRule {
 
+    /**
+     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     */
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);
@@ -67,6 +72,12 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
         return valid;
     }
 
+    /**
+     * Validates that the given document contains at least one active item.
+     * 
+     * @param purapDocument     A PurchasingAccountsPayableDocument. (Should contain PurchaseOrderItems.)
+     * @return  True if the document contains at least one active item
+     */
     private boolean validateContainsAtLeastOneActiveItem(PurchasingAccountsPayableDocument purapDocument) {
         List<PurApItem> items = purapDocument.getItems();
         for (PurApItem item : items) {
@@ -80,6 +91,9 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
         return false;
     }
 
+    /**
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     */
     @Override
     protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);

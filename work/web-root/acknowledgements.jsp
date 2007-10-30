@@ -55,6 +55,8 @@ Copyright 2005-2007  The Kuali Foundation.  All rights reserved.  Kuali is licen
 
 <p>This product includes software developed by the Indiana University Extreme&#33; Lab (<span class="nobr"><a href="http://www.extreme.indiana.edu/" title="extreme.indiana" rel="nofollow">http://www.extreme.indiana.edu/</a></span>).</p>
 
+<p>This product includes software developed by the SAXPath Project (<span class="nobr"><a href="http://www.saxpath.org/" title="saxpath" rel="nofollow">http://www.saxpath.org/</a></span>).</p>
+
 <p>This product includes software developed by the Working-Dogs.com (<span class="nobr"><a href="http://www.Working-Dogs.com/" title="Working-Dogs" rel="nofollow">http://www.Working-Dogs.com/</a></span>).</p>
 
 <p>This product includes software copyrighted under the Lesser General Public License (<span class="nobr"><a href="http://www.opensource.org/licenses/lgpl-license.php" title="LGPL" rel="nofollow">http://www.opensource.org/licenses/lgpl-license.php</a></span>).</p>
@@ -62,6 +64,8 @@ Copyright 2005-2007  The Kuali Foundation.  All rights reserved.  Kuali is licen
 <p>This product includes software copyrighted under the Common Public License (<span class="nobr"><a href="http://www.opensource.org/licenses/cpl1.0.php" title="CPL" rel="nofollow">http://www.opensource.org/licenses/cpl1.0.php</a></span>).</p>
 
 <p>This product includes software licensed under the Mozilla Public License (<span class="nobr"><a href="http://www.mozilla.org/MPL/" title="MPL" rel="nofollow">http://www.mozilla.org/MPL/</a></span>).</p>
+
+<p>This product includes software licensed under the IBM Public License (<span class="nobr"><a href="http://www.opensource.org/licenses/ibmpl.php" title="IBMPL" rel="nofollow">http://www.opensource.org/licenses/ibmpl.php</a></span>).</p>
 
 <p>This product includes the Kuali Rice module licensed under the Kuali Foundation ECL (<span class="nobr"><a href="https://test.kuali.org/confluence/display/KULDOC/Rice+Acknowledgments" title="Rice Acknowledgments" rel="nofollow">https://test.kuali.org/confluence/display/KULDOC/Rice+Acknowledgments</a></span>).</p>
 
@@ -75,11 +79,17 @@ Copyright 2005-2007  The Kuali Foundation.  All rights reserved.  Kuali is licen
 
 <p>Portions Copyright (c) 2002, 2003 Mihai Bazon. All Rights Reserved.  Licensed under GNU Lesser General Public License (<span class="nobr"><a href="http://www.opensource.org/licenses/lgpl-license.php" title="LGPL" rel="nofollow">http://www.opensource.org/licenses/lgpl-license.php</a></span>).</p>
 
-<p>Portions Copyright (c) 2005 Envoi Solutions LLC. All Rights Reserved. (<span class="nobr"><a href="http://xfire.codehaus.org" title="xfire" rel="nofollow">http://xfire.codehaus.org</a></span>).</p>
+<p>Portions Copyright (c) 2005 Envoi Solutions LLC. All Rights Reserved. (<span class="nobr"><a href="http://xfire.codehaus.org" title="xfire" rel="nofollow">http://xfire.codehaus.org</a></span>)</p>
+
+<p>Portions Copyright (c) 2003-2006 The Werken Company. All Rights Reserved. (<span class="nobr"><a href="http://jaxen.codehaus.org/" title="jaxen" rel="nofollow">http://jaxen.codehaus.org/</a></span>)</p>
 
 <p>Portions Copyright (c) 1999, 2004 Bull S. A. All Rights Reserved.<p>
 
-<p>Portions Copyright (c) 2003-2005 Joe Walnes. All Rights Reserved. (<span class="nobr"><a href="http://xstream.codehaus.org/" title="xstream" rel="nofollow">http://xstream.codehaus.org/</a></span>).</p>
+<p>Portions Copyright (c) 2003-2005 Joe Walnes. All Rights Reserved. (<span class="nobr"><a href="http://xstream.codehaus.org/" title="xstream" rel="nofollow">http://xstream.codehaus.org/</a></span>)</p>
+
+<p>Portions Copyright (C) 2002-2005, Jonas Bon?r, Alexandre Vasseur. All rights reserved.<p>
+
+<p>Portions Copyright (c) 1998-2003 World Wide Web Consortium (Massachusetts Institute of Technology, European Research Consortium for Informatics and Mathematics, Keio University). All Rights Reserved. This work is distributed under the W3C® Software License in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>
                             </div>
 </td>
 </tr>

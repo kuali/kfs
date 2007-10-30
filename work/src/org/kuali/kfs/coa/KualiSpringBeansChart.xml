@@ -360,12 +360,6 @@
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.module.chart.bo.Program-Lookupable" parent="workflowLookupable" singleton="false">
-		<property name="businessObjectClassName">
-			<value>org.kuali.module.chart.bo.Program</value>
-		</property>
-	</bean>
-
 	<bean id="workflow-org.kuali.module.chart.bo.HigherEdFunction-Lookupable" parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.HigherEdFunction</value>

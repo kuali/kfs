@@ -22,19 +22,44 @@ import org.kuali.module.gl.bo.Reversal;
 import org.kuali.module.gl.bo.Transaction;
 
 /**
- * 
- * 
+ * An interface that declares the methods needed for reversal services to interact with the database
  */
 public interface ReversalDao {
+    /**
+     * Saves a reversal record
+     * 
+     * @param re a reversal to save
+     */
     public void save(Reversal re);
 
+    /**
+     * Returns
+     * 
+     * @param t
+     * @return
+     */
     public int getMaxSequenceNumber(Transaction t);
 
+    /**
+     * Looks up the reversal that matches the keys from the given transaction
+     * 
+     * @param t
+     * @return
+     */
     public Reversal getByTransaction(Transaction t);
 
+    /**
+     * Returns all reversals that should have reversed on or before the given date
+     * 
+     * @param before the date that reversals retrieved should reverse on or before
+     * @return an iterator of reversal records
+     */
     public Iterator getByDate(Date before);
 
-    public Iterator getSummaryByDate(Date before);
-
+    /**
+     * Deletes a reversal record
+     * 
+     * @param re a reversal to delete
+     */
     public void delete(Reversal re);
 }

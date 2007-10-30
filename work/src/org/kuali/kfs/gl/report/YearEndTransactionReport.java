@@ -397,12 +397,12 @@ public class YearEndTransactionReport {
             LedgerEntry ledgerEntry = (LedgerEntry) reportIter.next();
 
             // add the subtotal rows
-            if (!ledgerEntry.balanceType.equals(tempBalanceType)) {
+            if (!ledgerEntry.getBalanceType().equals(tempBalanceType)) {
                 if (subtotalMap.containsKey(tempBalanceType)) {
                     LedgerEntry subtotal = (LedgerEntry) subtotalMap.get(tempBalanceType);
                     this.addLedgerSectionRow(ledgerEntryTable, subtotal, totalFieldFont, true);
                 }
-                tempBalanceType = ledgerEntry.balanceType;
+                tempBalanceType = ledgerEntry.getBalanceType();
             }
             this.addLedgerSectionRow(ledgerEntryTable, ledgerEntry, textFont, false);
 
@@ -478,45 +478,45 @@ public class YearEndTransactionReport {
             ledgerEntryTable.addCell(cell);
         }
         else {
-            cell = new PdfPCell(new Phrase(ledgerEntry.balanceType, textFont));
+            cell = new PdfPCell(new Phrase(ledgerEntry.getBalanceType(), textFont));
             ledgerEntryTable.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(ledgerEntry.originCode, textFont));
+            cell = new PdfPCell(new Phrase(ledgerEntry.getOriginCode(), textFont));
             ledgerEntryTable.addCell(cell);
 
-            String fiscalYear = (ledgerEntry.fiscalYear != null) ? ledgerEntry.fiscalYear.toString() : "";
+            String fiscalYear = (ledgerEntry.getFiscalYear() != null) ? ledgerEntry.getFiscalYear().toString() : "";
             cell = new PdfPCell(new Phrase(fiscalYear, textFont));
             ledgerEntryTable.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(ledgerEntry.period, textFont));
+            cell = new PdfPCell(new Phrase(ledgerEntry.getPeriod(), textFont));
             ledgerEntryTable.addCell(cell);
         }
 
-        cell = new PdfPCell(new Phrase(this.formatNumber(new Integer(ledgerEntry.recordCount)), textFont));
+        cell = new PdfPCell(new Phrase(this.formatNumber(new Integer(ledgerEntry.getRecordCount())), textFont));
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         ledgerEntryTable.addCell(cell);
 
-        cell = new PdfPCell(new Phrase(this.formatNumber(ledgerEntry.debitAmount), textFont));
+        cell = new PdfPCell(new Phrase(this.formatNumber(ledgerEntry.getDebitAmount()), textFont));
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         ledgerEntryTable.addCell(cell);
 
-        cell = new PdfPCell(new Phrase(this.formatNumber(new Integer(ledgerEntry.debitCount)), textFont));
+        cell = new PdfPCell(new Phrase(this.formatNumber(new Integer(ledgerEntry.getDebitCount())), textFont));
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         ledgerEntryTable.addCell(cell);
 
-        cell = new PdfPCell(new Phrase(this.formatNumber(ledgerEntry.creditAmount), textFont));
+        cell = new PdfPCell(new Phrase(this.formatNumber(ledgerEntry.getCreditAmount()), textFont));
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         ledgerEntryTable.addCell(cell);
 
-        cell = new PdfPCell(new Phrase(this.formatNumber(new Integer(ledgerEntry.creditCount)), textFont));
+        cell = new PdfPCell(new Phrase(this.formatNumber(new Integer(ledgerEntry.getCreditCount())), textFont));
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         ledgerEntryTable.addCell(cell);
 
-        cell = new PdfPCell(new Phrase(this.formatNumber(ledgerEntry.noDCAmount), textFont));
+        cell = new PdfPCell(new Phrase(this.formatNumber(ledgerEntry.getNoDCAmount()), textFont));
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         ledgerEntryTable.addCell(cell);
 
-        cell = new PdfPCell(new Phrase(this.formatNumber(new Integer(ledgerEntry.noDCCount)), textFont));
+        cell = new PdfPCell(new Phrase(this.formatNumber(new Integer(ledgerEntry.getNoDCCount())), textFont));
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         ledgerEntryTable.addCell(cell);
     }

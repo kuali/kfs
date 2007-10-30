@@ -19,23 +19,22 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 
 /**
- * 
- * 
+ * A representation of LedgerEntries, which are summaries that show up on Ledger Reports created by the scrubber
+ * and poster.
  */
 public class LedgerEntry {
 
-    // FIXME: public data members?
-    public String balanceType;
-    public String originCode;
-    public Integer fiscalYear;
-    public String period;
-    public int recordCount;
-    public KualiDecimal debitAmount;
-    public int debitCount;
-    public KualiDecimal creditAmount;
-    public int creditCount;
-    public KualiDecimal noDCAmount;
-    public int noDCCount;
+    private String balanceType;
+    private String originCode;
+    private Integer fiscalYear;
+    private String period;
+    private int recordCount;
+    private KualiDecimal debitAmount;
+    private int debitCount;
+    private KualiDecimal creditAmount;
+    private int creditCount;
+    private KualiDecimal noDCAmount;
+    private int noDCCount;
 
     /**
      * Constructs a LedgerEntry.java.
@@ -81,7 +80,12 @@ public class LedgerEntry {
         this.recordCount = this.creditCount + this.debitCount + this.noDCCount;
     }
     
-    // create or update a ledger entry with the array of information from the given entry summary object
+    /**
+     * create or update a ledger entry with the array of information from the given entry summary object
+     * 
+     * @param entrySummary an entry summary to turn into a ledger entry
+     * @return a LedgerEntry created from the entrySummary array
+     */
     public static LedgerEntry buildLedgerEntry(Object[] entrySummary) {
         // extract the data from an array and use them to populate a ledger entry
         Object oFiscalYear = entrySummary[0];

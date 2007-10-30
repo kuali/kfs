@@ -21,7 +21,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * This class... 
+ * A collection of many LedgerEntry records, which appropriately groups the records 
  */
 public class LedgerEntryHolder {
     private Map ledgerEntries;
@@ -71,7 +71,11 @@ public class LedgerEntryHolder {
         }
     }
 
-    // update the subtotal using the given ledger entry
+    /**
+     * update the subtotal using the given ledger entry
+     * 
+     * @param newLedgerEntry a new ledger entry to add to the holder
+     */
     private void updateSubtotal(LedgerEntry newLedgerEntry) {
         String groupingKey = newLedgerEntry.getBalanceType();
 
@@ -90,7 +94,11 @@ public class LedgerEntryHolder {
         ledgerEntry.add(newLedgerEntry);
     }
 
-    // update the grand total with the given ledger entry
+    /**
+     * update the grand total with the given ledger entry
+     * 
+     * @param newLedgerEntry entry to help update the grand total
+     */
     private void updateGrandTotal(LedgerEntry newLedgerEntry) {
         this.grandTotal.add(newLedgerEntry);
     }

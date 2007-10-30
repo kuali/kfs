@@ -136,32 +136,11 @@ public class ReversalDaoOjb extends PlatformAwareDaoBaseOjb implements ReversalD
     }
 
     /**
+     * Deletes a reversal record
      * 
-     * @see org.kuali.module.gl.dao.ReversalDao#getSummaryByDate(java.util.Date)
+     * @param re reversal to delete
+     * @see org.kuali.module.gl.dao.ReversalDao#delete(org.kuali.module.gl.bo.Reversal)
      */
-    public Iterator getSummaryByDate(Date before) {
-        LOG.debug("getSummaryByDate() started");
-
-        Criteria crit = new Criteria();
-        crit.addLessOrEqualThan(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE, new java.sql.Date(before.getTime()));
-    
-        ReportQueryByCriteria query = QueryFactory.newReportQuery(Reversal.class, crit);
-
-        String attributeList[] = { KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE, "sum(" + KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")", "count(" + KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE + ")" };
-
-        String groupList[] = { KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE };
-
-        query.setAttributes(attributeList);
-        query.addGroupBy(groupList);
-
-        // add the sorting criteria
-        for (int i = 0; i < groupList.length; i++) {
-            query.addOrderByAscending(groupList[i]);
-        }
-
-        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
-    }
-
     public void delete(Reversal re) {
         LOG.debug("delete() started");
 

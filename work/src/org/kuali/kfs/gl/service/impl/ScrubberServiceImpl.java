@@ -89,7 +89,6 @@ public class ScrubberServiceImpl implements ScrubberService {
         sp.setReferenceLookup(SpringContext.getBean(OriginEntryLookupService.class));
         sp.scrubEntries();
         sp.setReferenceLookup(null);
-        LOG.fatal("before scrub commit" + System.currentTimeMillis());
     }
     
     public ScrubberStatus scrubCollectorBatch(CollectorBatch batch, CollectorReportData collectorReportData, OriginEntryService overrideOriginEntryService, OriginEntryGroupService overrideOriginEntryGroupService) {

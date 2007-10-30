@@ -821,6 +821,12 @@
 		<property name="reversalDao">
 			<ref bean="glReversalDao" />
 		</property>
+		<property name="accountingPeriodService">
+			<ref bean="accountingPeriodService" />
+		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
 	</bean>
 
 	<bean id="originEntryGroupService" class="org.kuali.module.gl.service.impl.OriginEntryGroupServiceImpl">

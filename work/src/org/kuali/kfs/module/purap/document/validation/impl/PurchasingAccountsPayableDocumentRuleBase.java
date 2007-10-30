@@ -49,9 +49,6 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = true;
         PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) document;
-        // TODO: Chris - look into this for KULPURAP-1191, this worked but caused unwanted errors about
-        // document.sourceAccountingLines
-        // isValid &= super.processCustomRouteDocumentBusinessRules(purapDocument);
 
         return isValid &= processValidation(purapDocument);
     }

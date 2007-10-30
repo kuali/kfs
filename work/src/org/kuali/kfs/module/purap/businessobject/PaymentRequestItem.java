@@ -133,6 +133,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
             PurchaseOrderItem poi = null;
             if (this.getItemType().isItemTypeAboveTheLineIndicator()) {
                 poi = (PurchaseOrderItem) po.getItem(this.getItemLineNumber().intValue() - 1);
+                //throw error if line numbers don't match
             }
             else {
                 poi = (PurchaseOrderItem) SpringContext.getBean(PurapService.class).getBelowTheLineByType(po, this.getItemType());

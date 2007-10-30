@@ -278,6 +278,10 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
                 String[] documentTypeArray = StringUtils.split(documentTypeClassName, ".");
                 String documentType = documentTypeArray[documentTypeArray.length - 1];
                 valid &= validateBelowTheLineValues(documentType, item);
+                
+                if (item.getExtendedPrice() != null && item.getExtendedPrice().isNonZero()) {
+                    valid &= processAccountValidation(purapDocument, item.getSourceAccountingLines(), item.getItemIdentifierString());
+                }
             }
         }
 
@@ -518,68 +522,6 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
 
         ParameterEvaluator parameterEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(CreditMemoDocument.class, PurapRuleConstants.VALID_OBJECT_LEVELS_BY_OBJECT_TYPE_PARM_NM, PurapRuleConstants.INVALID_OBJECT_LEVELS_BY_OBJECT_TYPE_PARM_NM, objectCode.getFinancialObjectTypeCode(), objectCode.getFinancialObjectLevelCode());
         return parameterEvaluator.evaluateAndAddError(SourceAccountingLine.class, "objectCode.financialObjectLevelCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-    }
-
-    /**
-     * This method performs any additional document level validation for the accounts.
-     * 
-     * @param purapDocument - credit memo document
-     * @param purAccounts - list of accounting lines
-     * @param errorPrefix - prefix for error keys
-     * @return boolean - true if lines are valid, false if errors were found
-     */
-    @Override
-    public boolean processAccountValidation(AccountingDocument document, List<PurApAccountingLine> purAccounts, String errorPrefix) {
-        boolean valid = true;
-
-        valid = valid & verifyHasAccounts(purAccounts, errorPrefix);
-        valid = valid & verifyAccountPercentTotal(purAccounts, errorPrefix);
-
-        return valid;
-    }
-
-
-    /**
-     * Verifies there is at least one accounting line for the item.
-     * 
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#verifyHasAccounts(java.util.List,
-     *      java.lang.String)
-     */
-    @Override
-    protected boolean verifyHasAccounts(List<PurApAccountingLine> purAccounts, String errorPrefix) {
-        boolean valid = true;
-
-        if (purAccounts.isEmpty()) {
-            GlobalVariables.getErrorMap().putError(errorPrefix + KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, PurapKeyConstants.ERROR_CREDIT_MEMO_ACCOUNTING_INCOMPLETE);
-            valid = false;
-        }
-
-        return valid;
-    }
-
-    /**
-     * This method verifies the total of accounting line percents equals 100.
-     * 
-     * @param purAccounts - list of accounting lines
-     * @param errorPrefix - prefix for error keys
-     * @return boolean - true if total equals 100, false if it does not equal
-     */
-    protected boolean verifyAccountPercentTotal(List<PurApAccountingLine> purAccounts, String errorPrefix) {
-        boolean valid = true;
-
-        // validate that the percents total 100 for each item
-        BigDecimal totalPercent = BigDecimal.ZERO;
-        BigDecimal desiredPercent = new BigDecimal("100");
-        for (PurApAccountingLine account : purAccounts) {
-            totalPercent = totalPercent.add(account.getAccountLinePercent());
-        }
-
-        if (desiredPercent.compareTo(totalPercent) != 0) {
-            GlobalVariables.getErrorMap().putError(errorPrefix, PurapKeyConstants.ERROR_CREDIT_MEMO_ACCOUNTING_TOTAL);
-            valid = false;
-        }
-
-        return valid;
     }
 
     /**

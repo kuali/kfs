@@ -15,27 +15,28 @@
  */
 package org.kuali.core.datadictionary;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
+
+import javax.sql.DataSource;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.KualiModule;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.KualiModuleService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.batch.JobDescriptor;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.suite.RelatesTo;
+import org.kuali.test.suite.RelatesTo.JiraIssue;
 
 @ConfigureContext
 public class DataDictionaryConfigurationTest extends KualiTestBase {
@@ -44,6 +45,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     private Map <String,Exception> dataDictionaryLoadFailures;
     private Map<String,String> dataDictionaryWarnings;
     
+    @RelatesTo(JiraIssue.KULRNE6047)
     public void testLoadDataDictionaryConfiguration() throws Exception {
         loadDataDictionary();
         StringBuffer failureMessage = new StringBuffer("Unable to load DataDictionaryEntrys for some file locations:");
@@ -60,22 +62,68 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         assertTrue(failureMessage.toString(), dataDictionaryLoadFailures.isEmpty());  
     }
     
+    @RelatesTo(JiraIssue.KULRNE6048)
     public void testAllDataDictionaryDocumentTypesExistInDocumentTypeTable() throws Exception {
         loadDataDictionary();
         List<String> documentTypeCodes = new ArrayList<String>();
         for (DocumentType type: (Collection<DocumentType>) SpringContext.getBean(BusinessObjectService.class).findAll(DocumentType.class)) {
             documentTypeCodes.add(type.getFinancialDocumentTypeCode());
         }
-        Map<String, DocumentEntry> documentEntries = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntries();
+        //Using HashSet since duplicate objects would otherwise be returned
+        HashSet<DocumentEntry> documentEntries = new HashSet(SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntries().values());
         List<String> ddEntriesWithMissingTypes = new ArrayList<String>();
-        for (DocumentEntry documentEntry: documentEntries.values()) {
+        for (DocumentEntry documentEntry: documentEntries) {
             String code = documentEntry.getDocumentTypeCode();
             if (!documentTypeCodes.contains(code) && !"RUSR".equals(code)) {
                 ddEntriesWithMissingTypes.add(code + " (" + documentEntry.getDocumentTypeName() + ")");
+            }else {
+                documentTypeCodes.remove(code);
             }
+        }
+        if (documentTypeCodes.size() > 0){
+            System.err.print("superfluousTypesDefinedInDatabase: " + documentTypeCodes);
         }
 
         assertEquals("dataDictionaryDocumentTypesNotDefinedInDatabase: " + ddEntriesWithMissingTypes, 0, ddEntriesWithMissingTypes.size());
+        
+    }
+    
+    @RelatesTo(JiraIssue.KULRNE6049)
+    public void testAllDataDicitionaryDocumentTypesExistInWorkflowDocumentTypeTable() throws Exception {
+        loadDataDictionary();
+        List<String> workflowDocumentTypeNames = new ArrayList<String>();
+        DataSource mySource = SpringContext.getBean(DataSource.class);
+        Connection dbCon = null;
+        try {
+
+            dbCon = mySource.getConnection();
+            Statement dbAsk = dbCon.createStatement();
+            ResultSet dbAnswer = dbAsk.executeQuery("select DOC_TYP_NM from EN_DOC_TYP_T where DOC_TYP_CUR_IND = 1");
+            while (dbAnswer.next()) {
+                String docName = dbAnswer.getString(1);
+                if (StringUtils.isNotBlank(docName)) {
+                    workflowDocumentTypeNames.add(docName);
+                }
+            }
+        }catch (Exception e) {
+            throw(e);
+        }
+        //      Using HashSet since duplicate objects would otherwise be returned
+        HashSet<DocumentEntry> documentEntries = new HashSet(SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntries().values());
+        List<String> ddEntriesWithMissingTypes = new ArrayList<String>();
+        for (DocumentEntry documentEntry: documentEntries) {
+            String name = documentEntry.getDocumentTypeName();
+            if (!workflowDocumentTypeNames.contains(name) && !"RiceUserMaintenanceDocument".equals(name)) {
+                ddEntriesWithMissingTypes.add(name);
+            }else {
+                workflowDocumentTypeNames.remove(name);
+            }
+        }
+
+       if (workflowDocumentTypeNames.size() > 0){
+           System.err.print("superfluousTypesDefinedInWorkflowDatabase: " + workflowDocumentTypeNames);
+       }
+       assertEquals("documentTypesNotDefinedInWorkflowDatabase: " + ddEntriesWithMissingTypes, 0, ddEntriesWithMissingTypes.size());
     }
 
     

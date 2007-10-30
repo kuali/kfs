@@ -52,7 +52,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestAction.class);
 
     /**
-     * Do initialization for a new payment request
+     * Do initialization for a new payment request.
      * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
@@ -70,6 +70,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
         PaymentRequestDocument document = (PaymentRequestDocument) preqForm.getDocument();
+        
         return super.refresh(mapping, form, request, response);
     }
 
@@ -93,6 +94,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         // preform duplicate check which will forward to a question prompt if one is found
         ActionForward forward = performDuplicatePaymentRequestCheck(mapping, form, request, response, paymentRequestDocument);
         if (forward != null) {
+            
             return forward;
         }
 
@@ -125,15 +127,16 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     public ActionForward clearInitFields(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("clearInitValues() method");
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
-        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) preqForm.getDocument();
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)preqForm.getDocument();
         paymentRequestDocument.clearInitFields();
+        
         return super.refresh(mapping, form, request, response);
     }
 
     /**
-     * Calls <code>PaymentRequestService</code> to perform the duplicate payment request check. If one is found, a question is setup and control is
-     * forwarded to the question action method. Coming back from the question prompt the button that was clicked is checked and if
-     * 'no' was selected they are forward back to the page still in init mode.
+     * Calls <code>PaymentRequestService</code> to perform the duplicate payment request check. If one is found, a question is 
+     * setup and control is forwarded to the question action method. Coming back from the question prompt the button that 
+     * was clicked is checked and if 'no' was selected they are forward back to the page still in init mode.
      * 
      * @param   mapping                     An ActionMapping
      * @param   form                        An ActionForm
@@ -141,7 +144,8 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      * @param   response                    The HttpServletResponse
      * @param   paymentRequestDocument      The PaymentRequestDocument
      * @throws  Exception
-     * @return      An ActionForward 
+     * @return      An ActionForward
+     * @see org.kuali.module.purap.service.PaymentRequestService
      */
     private ActionForward performDuplicatePaymentRequestCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, PaymentRequestDocument paymentRequestDocument) throws Exception {
         ActionForward forward = null;
@@ -149,6 +153,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         if (!duplicateMessages.isEmpty()) {
             Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
             if (question == null) {
+                
                 return this.performQuestionWithoutInput(mapping, form, request, response, PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessages.get(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
             }
 
@@ -163,8 +168,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     }
 
     /**
-     * This action puts a payment on hold, prompting for a reason before hand.
-     * This stops further approvals or routing.
+     * Puts a payment on hold, prompting for a reason beforehand.  This stops further approvals or routing.
      * 
      * @param   mapping     An ActionMapping
      * @param   form        An ActionForm
@@ -186,7 +190,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     }
 
     /**
-     * This action removes a hold on the PREQ.
+     * Removes a hold on the payment request.
      * 
      * @param   mapping     An ActionMapping
      * @param   form        An ActionForm
@@ -245,7 +249,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     }
 
     /**
-     * This action removes a request for cancel on a PREQ.
+     * Removes a request for cancel on a payment request.
      * 
      * @param   mapping     An ActionMapping
      * @param   form        An ActionForm
@@ -282,6 +286,9 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         SpringContext.getBean(PaymentRequestService.class).calculatePaymentRequest(preqDoc, true);
     }
     
+    /**
+     * @see org.kuali.module.purap.web.struts.action.AccountsPayableActionBase#getActionName()
+     */
     @Override
     public String getActionName(){
         return PurapConstants.PAYMENT_REQUEST_ACTION_NAME;

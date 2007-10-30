@@ -29,7 +29,7 @@ public class AssignContractManagerAction extends KualiTransactionalDocumentActio
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerAction.class);
 
     /**
-     * Do initialization for a new AssignContractManagerDocument
+     * Do initialization for a new <code>AssignContractManagerDocument</code>.
      * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */

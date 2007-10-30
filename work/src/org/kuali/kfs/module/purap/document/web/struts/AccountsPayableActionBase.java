@@ -98,7 +98,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     }
 
     /**
-     * This method checks the continuation account indicator and generates warnings if
+     * Checks the continuation account indicator and generates warnings if
      * continuation accounts were used to replace original accounts on the document.
      * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
@@ -138,7 +138,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     }
 
     /**
-     * This method is an overridable area to do calculate specific tasks
+     * An overridable area to do calculate-specific tasks.
      * 
      * @param apDoc     An AccountsPayableDocument
      */
@@ -147,7 +147,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     }
     
     /**
-     * This method checks if calculation is required.  Currently it is required when it has not already been calculated and full document entry
+     * Checks if calculation is required.  Currently it is required when it has not already been calculated and full document entry
      * status has not already passed.
      * 
      * @param apForm            A Form, which must inherit from <code>AccountsPayableFormBase</code>
@@ -157,15 +157,17 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         boolean requiresCalculate = true;
         PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument)apForm.getDocument();
         requiresCalculate = !apForm.isCalculated() && !SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(purapDocument);
+        
         return requiresCalculate;
     }
     
     /**
-     * This method returns the current action name
+     * Returns the current action name.
      * 
      * @return  A String. Set to null!
      */
     public String getActionName(){
+        
         return null;
     }
     
@@ -174,11 +176,13 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      */
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
         AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
         
         //if form is not yet calculated, return and prompt user to calculate
         if (requiresCaculate(apForm)) {
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
+            
             return mapping.findForward(KFSConstants.MAPPING_BASIC);            
         }
                 
@@ -212,6 +216,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
         if (!requiresCaculate(apForm)) {
+            
             return super.save(mapping, form, request, response);
         }
         GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_SAVE_REQUIRES_CALCULATE);
@@ -240,6 +245,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     protected ActionForward askQuestionWithInput(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String notePrefix, String operation, String messageKey, PurQuestionCallback callback) throws Exception {
         TreeMap<String,PurQuestionCallback> questionsAndCallbacks = new TreeMap<String,PurQuestionCallback>();
         questionsAndCallbacks.put(questionType, callback);
+        
         return askQuestionWithInput(mapping, form, request, response, questionType, notePrefix, operation, messageKey, questionsAndCallbacks, "", mapping.findForward(KFSConstants.MAPPING_BASIC));
     }
 
@@ -364,6 +370,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      * @return                      The message to be displayed given the key
      */
     private String getQuestionProperty(String messageKey, String messagePrefix, KualiConfigurationService kualiConfiguration, String question) {
+        
         return kualiConfiguration.getPropertyString((StringUtils.isEmpty(messagePrefix))?messageKey:messagePrefix+question);
 	}    
 
@@ -415,7 +422,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     }
 
     /**
-     * Returns a question callback for the Cancel PO action.
+     * Returns a question callback for the Cancel Purchase Order action.
      * 
      * @return  A PurQuestionCallback with a post-question activity appropriate to the Cancel PO action
      */

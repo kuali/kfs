@@ -149,8 +149,8 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     }
 
     /**
-     * This method is intended to be used by the refresh button that appears in the delivery tab to refresh 
-     * the delivery building.  Since this is a refresh method, it is calling the general refresh method when it's done.
+     * Intended to be used by the refresh button that appears in the delivery tab to refresh the delivery building.  
+     * Since this is a refresh method, it is calling the general refresh method when it's done.
      * 
      * @param mapping An ActionMapping
      * @param form An ActionForm
@@ -433,7 +433,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     }
     
     /**
-     * Sets the line for account distribution
+     * Sets the line for account distribution.
      * 
      * @param accountIndex                      The index of the account into the request parameter
      * @param purchasingAccountsPayableForm     A form which inherits from PurchasingAccountsPayableFormBase

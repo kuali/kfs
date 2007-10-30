@@ -269,7 +269,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     }
 
     /**
-     * This method will return an array of String containing 2 indexes, the first String is the item index and the second String is
+     * Will return an array of Strings containing 2 indexes, the first String is the item index and the second String is
      * the account index. These are obtained by parsing the method to call parameter from the request, between the word ".line" and
      * "." The indexes are separated by a semicolon (:)
      * 
@@ -283,6 +283,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
             accountString = StringUtils.substringBetween(parameterName, ".line", ".");
         }
         String[] result = StringUtils.split(accountString, ":");
+        
         return result;
     }
 
@@ -296,6 +297,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         for (org.kuali.core.bo.Note note : (java.util.List<org.kuali.core.bo.Note>)document.getDocumentBusinessObject().getBoNotes()) {
             note.refreshReferenceObject("attachment");
         }
+        
         return super.downloadBOAttachment(mapping, form, request, response);
     }
 

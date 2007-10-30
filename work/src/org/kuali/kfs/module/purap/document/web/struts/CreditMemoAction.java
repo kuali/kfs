@@ -49,7 +49,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreditMemoAction.class);
 
     /**
-     * Do initialization for a new credit memo
+     * Do initialization for a new credit memo.
      * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
@@ -60,8 +60,9 @@ public class CreditMemoAction extends AccountsPayableActionBase {
     }
 
     /**
-     * Handles continue request. This request comes from the initial screen which gives indicates whether the type is preq, po, or
-     * vendor. Based on that, the credit memo is initially populated and the remaining tabs shown.
+     * Handles continue request. This request comes from the initial screen which gives indicates whether the type is
+     * payment request, purchase order, or vendor. Based on that, the credit memo is initially populated and the remaining 
+     * tabs shown.
      * 
      * @param   mapping     An ActionMapping
      * @param   form        An ActionForm
@@ -77,6 +78,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         // preform duplicate check which will forward to a question prompt if one is found
         ActionForward forward = performDuplicateCreditMemoCheck(mapping, form, request, response, creditMemoDocument);
         if (forward != null) {
+            
             return forward;
         }
 
@@ -106,13 +108,14 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         CreditMemoForm cmForm = (CreditMemoForm) form;
         CreditMemoDocument creditMemoDocument = (CreditMemoDocument) cmForm.getDocument();
         creditMemoDocument.clearInitFields();
+
         return super.refresh(mapping, form, request, response);
     }
 
     /**
-     * Calls CreditMemoService to perform the duplicate credit memo check. If one is found, a question is setup and control is
-     * forwarded to the question action method. Coming back from the question prompt, the button that was clicked is checked, and if
-     * 'no' was selected, they are forward back to the page still in init mode.
+     * Calls <code>CreditMemoService</code> to perform the duplicate credit memo check. If one is found, a question is setup 
+     * and control is forwarded to the question action method. Coming back from the question prompt, the button that was clicked 
+     * is checked, and if 'no' was selected, they are forward back to the page still in init mode.
      * 
      * @param   mapping                 An ActionMapping
      * @param   form                    An ActionForm
@@ -121,6 +124,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
      * @param   creditMemoDocument      The CreditMemoDocument
      * @throws  Exception
      * @return      An ActionForward
+     * @see org.kuali.module.purap.service.CreditMemoService
      */
     private ActionForward performDuplicateCreditMemoCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, CreditMemoDocument creditMemoDocument) throws Exception {
         ActionForward forward = null;
@@ -128,6 +132,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         if (StringUtils.isNotBlank(duplicateMessage)) {
             Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
             if (question == null) {
+                
                 return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessage, KFSConstants.CONFIRMATION_QUESTION, "continueCreditMemo", "");
             }
 
@@ -141,7 +146,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
     }
 
     /**
-     * Calls methods to perform credit allowed calculation and total credit memo amount
+     * Calls methods to perform credit allowed calculation and total credit memo amount.
      * 
      * @param   apDoc   An AccountsPayableDocument
      */
@@ -163,7 +168,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
     }
 
     /**
-     * This action puts a credit memo on hold, prompting for a reason before hand. This stops further approvals or routing.
+     * Puts a credit memo on hold, prompting for a reason before hand. This stops further approvals or routing.
      * 
      * @param   mapping     An ActionMapping
      * @param   form        An ActionForm
@@ -185,7 +190,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
     }
 
     /**
-     * This action removes a hold on the credit memo.
+     * Removes a hold on the credit memo.
      * 
      * @param   mapping     An ActionMapping
      * @param   form        An ActionForm
@@ -219,6 +224,9 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         };
     }
 
+    /**
+     * @see org.kuali.module.purap.web.struts.action.AccountsPayableActionBase#getActionName()
+     */
     @Override
     public String getActionName(){
         return PurapConstants.CREDIT_MEMO_ACTION_NAME;

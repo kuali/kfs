@@ -170,7 +170,7 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
             returnCode = GLConstants.INSERT_CODE;
         }
 
-        if (t.getOrganizationReferenceId() == null) {
+        if (org.apache.commons.lang.StringUtils.isBlank(t.getOrganizationReferenceId())) {
             et.setOrganizationReferenceId(GLConstants.getDashOrganizationReferenceId());
         }
 

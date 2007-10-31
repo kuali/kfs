@@ -1102,7 +1102,7 @@ public class YearEndServiceImpl implements YearEndService {
 
                 try {
 
-                    isEligibleForCostShare = encumbranceClosingRuleHelper.isEncumbranceEligibleForCostShare(encumbrance, beginningBalanceEntryPair.getEntry().getFinancialObjectTypeCode());
+                    isEligibleForCostShare = encumbranceClosingRuleHelper.isEncumbranceEligibleForCostShare(beginningBalanceEntryPair.getEntry(), beginningBalanceEntryPair.getOffset(), encumbrance, beginningBalanceEntryPair.getEntry().getFinancialObjectTypeCode());
 
                 }
                 catch (FatalErrorException fee) {

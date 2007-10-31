@@ -32,7 +32,7 @@ public enum AccountsPayableDocumentFixture {
                             false, // holdIndicator
                             null,  // extractedDate
                             null,  // purchaseOrderIdentifier
-                            null,  // processingCampusCode
+                            "BL",  // processingCampusCode
                             null,  // noteLine1Text
                             null,  // noteLine2Text
                             null,  // noteLine3Text

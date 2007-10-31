@@ -93,7 +93,20 @@ public enum PurchasingAccountsPayableDocumentFixture {
             
     //PAYMENT REQUEST FIXTURES
     //CREDIT MEMO FIXTURES
-    CM_ONLY_REQUIRED_FIELDS(null, CreditMemoStatuses.IN_PROCESS, null, null, null, null, null, null, null, null, null, null, null),
+    CM_ONLY_REQUIRED_FIELDS(
+            null,                           //purapDocumentIdentifier
+            CreditMemoStatuses.IN_PROCESS,  //statusCode 
+            1000,                           //vendorHeaderGeneratedIdentifier
+            0,                              //vendorDetailAssignedIdentifier
+            "ABC Cleaning Services",        //vendorName
+            "123456 BROAD ST",              //vendorLine1Address
+            null,                           //vendorLine2Address
+            "TRUMANSBURG",                  //vendorCityName
+            "NY",                           //vendorStateCode
+            "14886",                        //vendorPostalCode
+            "US",                           //vendorCountryCode
+            null,                           //vendorCustomerNumber
+            null),                          //accountsPayablePurchasingDocumentLinkIdentifier
     ;
     
     public final Integer purapDocumentIdentifier;

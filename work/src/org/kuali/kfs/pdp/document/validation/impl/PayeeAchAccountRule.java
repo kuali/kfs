@@ -22,6 +22,7 @@ import java.util.Map;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -73,7 +74,8 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
         
         LOG.info("processCustomSaveDocumentBusinessRules called");
         // call the route rules to report all of the messages, but ignore the result
-        processCustomRouteDocumentBusinessRules(document);
+        if (processCustomRouteDocumentBusinessRules(document))
+            super.setNewBo((PersistableBusinessObject) newPayeeAchAccount);
 
         // Save always succeeds, even if there are business rule failures
         return true;

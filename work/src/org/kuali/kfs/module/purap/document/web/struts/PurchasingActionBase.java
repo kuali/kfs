@@ -145,6 +145,16 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             document.templateVendorDetail(document.getVendorDetail());
         }
         
+        //TODO RELEASE 2 (KULPURAP-2054 hjs) - change is pending approval but didn't want to lose the work after branching
+//        //Refreshing the fields after returning from a building lookup on the delivery tab (billing address needs to be updated)
+//        if (StringUtils.equals(refreshCaller, KFSConstants.KUALI_LOOKUPABLE_IMPL)) {
+//            BillingAddress billingAddress = new BillingAddress();
+//            billingAddress.setBillingCampusCode(document.getDeliveryCampusCode());
+//            Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(billingAddress);
+//            billingAddress = (BillingAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BillingAddress.class, keys);
+//            document.templateBillingAddress(billingAddress);
+//        }
+        
         return super.refresh(mapping, form, request, response);
     }
 

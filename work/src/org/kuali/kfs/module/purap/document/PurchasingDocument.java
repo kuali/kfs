@@ -23,6 +23,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
 import org.kuali.module.purap.bo.FundingSource;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
@@ -260,4 +261,11 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
      * @param vendorContract the specified Vendor Contract.
      */
     public void templateVendorContract(VendorContract vendorContract);
+    
+    /**
+     * Sets billing address fields based on the specified Billing Address.
+     * 
+     * @param billingAddress the specified Billing Address.
+     */
+    public void templateBillingAddress(BillingAddress billingAddress);
 }

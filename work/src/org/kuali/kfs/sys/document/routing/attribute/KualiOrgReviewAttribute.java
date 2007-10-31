@@ -575,20 +575,19 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                 if (KualiWorkflowUtils.isMaintenanceDocument(docType)) {
                     return null;
                 }
-                else if (KualiWorkflowUtils.isSourceLineOnly(docType.getName())) {
-                    xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
-                    break;
-                }
-                else if (KualiWorkflowUtils.isTargetLineOnly(docType.getName())) {
-                    xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docType.getName())).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
-                    break;
-                }
-                else if (docType.getName().equals("KualiFinancialDocument")) {
-                    xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).append(" | ").append(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docType.getName())).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
-                    break;
-                }
                 else {
-                    docType = docType.getParentDocType();
+                    if (KualiWorkflowUtils.isSourceLineOnly(docType.getName())) {
+                        xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                        break;
+                    }
+                    else if (KualiWorkflowUtils.isTargetLineOnly(docType.getName())) {
+                        xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docType.getName())).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                        break;
+                    }
+                    else {
+                        xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).append(" | ").append(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docType.getName())).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                        break;
+                    }
                 }
 
             } while (docType != null);
@@ -757,8 +756,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
             Org reportsToOrg = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(org.getReportsToChartOfAccountsCode(), org.getReportsToOrganizationCode());
             if (reportsToOrg == null) {
                 throw new RuntimeException("Org " + org.getChartOfAccountsCode() + "-" + org.getOrganizationCode() +
-                        " has a reportsToOrganization (" + org.getReportsToChartOfAccountsCode() + "-" + org.getReportsToOrganizationCode() + ") " +
-                        " that does not exist in the system.");
+                        " has a reportsToOrganization (" + org.getReportsToChartOfAccountsCode() + "-" + org.getReportsToOrganizationCode() + ") " + " that does not exist in the system.");
             }
             return 1 + getDistanceFromRoot(reportsToOrg);
         }

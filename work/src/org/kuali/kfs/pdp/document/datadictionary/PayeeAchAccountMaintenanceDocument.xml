@@ -23,6 +23,7 @@
         <businessObjectClass>org.kuali.module.pdp.bo.PayeeAchAccount</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
         <businessRulesClass>org.kuali.module.pdp.rules.PayeeAchAccountRule</businessRulesClass>
+        <preRulesCheckClass>org.kuali.module.pdp.rules.PayeeAchAccountPreRules</preRulesCheckClass>
         <documentAuthorizerClass>org.kuali.module.pdp.document.authorization.PayeeAchAccountDocumentAuthorizer</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">

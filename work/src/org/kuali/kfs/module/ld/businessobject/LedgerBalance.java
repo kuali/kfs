@@ -18,6 +18,7 @@ package org.kuali.module.labor.bo;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
@@ -464,5 +465,24 @@ public class LedgerBalance extends Balance {
         primaryKeyList.add(KFSPropertyConstants.EMPLID);
 
         return primaryKeyList;
+    }
+    
+    /**
+     * @see org.kuali.module.gl.bo.Balance#toStringMapper()
+     */
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap map = new LinkedHashMap();
+        map.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, getUniversityFiscalYear());
+        map.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
+        map.put(KFSPropertyConstants.ACCOUNT_NUMBER, getAccountNumber());
+        map.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, getSubAccountNumber());
+        map.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, getFinancialObjectCode());
+        map.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, getFinancialSubObjectCode());
+        map.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, getFinancialBalanceTypeCode());
+        map.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, getFinancialObjectTypeCode());
+        map.put(KFSPropertyConstants.POSITION_NUMBER, this.getPositionNumber());
+        map.put(KFSPropertyConstants.EMPLID, this.getEmplid());
+        return map;
     }
 }

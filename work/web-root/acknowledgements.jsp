@@ -87,7 +87,7 @@ Copyright 2005-2007  The Kuali Foundation.  All rights reserved.  Kuali is licen
 
 <p>Portions Copyright (c) 2003-2005 Joe Walnes. All Rights Reserved. (<span class="nobr"><a href="http://xstream.codehaus.org/" title="xstream" rel="nofollow">http://xstream.codehaus.org/</a></span>)</p>
 
-<p>Portions Copyright (C) 2002-2005, Jonas Bon?r, Alexandre Vasseur. All rights reserved.<p>
+<p>Portions Copyright (c) 2002-2005, Jonas Bon?r, Alexandre Vasseur. All rights reserved.<p>
 
 <p>Portions Copyright (c) 1998-2003 World Wide Web Consortium (Massachusetts Institute of Technology, European Research Consortium for Informatics and Mathematics, Keio University). All Rights Reserved. This work is distributed under the W3C® Software License in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>
                             </div>

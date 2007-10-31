@@ -100,12 +100,16 @@
                 <td class="infoline">
                   <html:hidden property="newRoutingFormProjectDirector.chartOfAccountsCode"/>
                   <html:hidden property="newRoutingFormProjectDirector.organizationCode"/>
+
+                <div id="newRoutingFormProjectDirector.user.primaryDepartmentCode.div" >
+             
                   <c:choose>
                     <c:when test="${KualiForm.newRoutingFormProjectDirector.chartOfAccountsCode ne null and KualiForm.newRoutingFormProjectDirector.organizationCode ne null}">
                       ${KualiForm.newRoutingFormProjectDirector.chartOfAccountsCode} / ${KualiForm.newRoutingFormProjectDirector.organizationCode}
                     </c:when>
                     <c:otherwise>&nbsp;</c:otherwise>
                   </c:choose>
+               </div>
                   <c:if test="${!viewOnly}">
                     <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormProjectDirector.chartOfAccountsCode,organizationCode:newRoutingFormProjectDirector.organizationCode" anchor="${currentTabIndex}" />
                   </c:if>
@@ -202,12 +206,15 @@
                   </td>
                   <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personRoleText" attributeEntry="${routingFormPersonnel.personRoleText}" readOnly="${viewOnly or (budgetLinked and isProjectDirector)}"/></td>
                   <td>
+                   <div id="document.routingFormPersonnel[${status.index}].user.primaryDepartmentCode.div" >
+                  
                     <c:choose>
                       <c:when test="${person.chartOfAccountsCode ne null and person.organizationCode ne null}">
                         ${person.chartOfAccountsCode} / ${person.organizationCode}
                       </c:when>
                       <c:otherwise>&nbsp;</c:otherwise>
                     </c:choose>
+                    </div>
                     <c:if test="${!viewOnly}">
                       <c:choose>
                         <c:when test="${budgetLinked and isProjectDirector }" />
@@ -297,12 +304,14 @@
                 <td class="infoline">
                   <html:hidden property="newRoutingFormOtherPerson.chartOfAccountsCode"/>
                   <html:hidden property="newRoutingFormOtherPerson.organizationCode"/>
+                 <div id="newRoutingFormOtherPerson.user.primaryDepartmentCode.div" >
                   <c:choose>
                     <c:when test="${KualiForm.newRoutingFormOtherPerson.chartOfAccountsCode ne null and KualiForm.newRoutingFormOtherPerson.organizationCode ne null}">
                       ${KualiForm.newRoutingFormOtherPerson.chartOfAccountsCode} / ${KualiForm.newRoutingFormOtherPerson.organizationCode}
                     </c:when>
                     <c:otherwise>&nbsp;</c:otherwise>
                   </c:choose>
+                 </div>
                   <c:if test="${!viewOnly}">
                     <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormOtherPerson.chartOfAccountsCode,organizationCode:newRoutingFormOtherPerson.organizationCode" anchor="${currentTabIndex}" />
                   </c:if>
@@ -399,12 +408,14 @@
                   </td>
                   <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personRoleText" attributeEntry="${routingFormPersonnel.personRoleText}" readOnly="${viewOnly or (budgetLinked and isProjectDirector)}"/></td>
                   <td>
+                   <div id="document.routingFormPersonnel[${status.index}].user.primaryDepartmentCode.div" >
                     <c:choose>
                       <c:when test="${person.chartOfAccountsCode ne null and person.organizationCode ne null}">
                         ${person.chartOfAccountsCode} / ${person.organizationCode}
                       </c:when>
                       <c:otherwise>&nbsp;</c:otherwise>
                     </c:choose>
+                   </div>
                     <c:if test="${!viewOnly}">
                       <c:choose>
                         <c:when test="${budgetLinked and isProjectDirector }" />

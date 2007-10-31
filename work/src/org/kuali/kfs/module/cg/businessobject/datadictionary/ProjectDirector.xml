@@ -122,6 +122,7 @@
                 <primitiveAttribute sourceName="personUniversalIdentifier" targetName="personUniversalIdentifier" />
 				<supportAttribute sourceName="universalUser.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
 				<supportAttribute sourceName="universalUser.personName" targetName="personName" />
+				<supportAttribute sourceName="universalUser.primaryDepartmentCode" targetName="primaryDepartmentCode" />
             </relationship>
         </relationships>
         

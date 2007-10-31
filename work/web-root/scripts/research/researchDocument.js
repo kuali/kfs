@@ -137,10 +137,14 @@ function loadPersonInfo( userIdFieldName, universalIdFieldName, userNameFieldNam
         var dwrReply = {
             callback:function(data) {
                 if ( data != null && typeof data == 'object' ) {
+                    //alert("dtpid "+data.primaryDepartmentCode)
                     setRecipientValue( universalIdFieldName, data.personUniversalIdentifier );
                     setRecipientValue( userNameFieldName, data.personName );
                     if (userIdFieldName=='document.budget.projectDirector.universalUser.personUserIdentifier') {
                          setRecipientValue( 'document.budget.budgetProjectDirectorUniversalIdentifier', data.personUniversalIdentifier );
+                    } else {
+                        setChartOrg( findElPrefix( userNameFieldName ), data.primaryDepartmentCode );
+                    
                     }
                 } else {
                     clearRecipients( universalIdFieldName );
@@ -154,6 +158,17 @@ function loadPersonInfo( userIdFieldName, universalIdFieldName, userNameFieldNam
         ProjectDirectorService.getByPersonUserIdentifier( userId, dwrReply );
     }
 }
+
+function setChartOrg(elPrefix, deptId) {
+
+  splitStr=deptId.split("-");
+  
+  setRecipientValue( findElPrefix( elPrefix ) + ".chartOfAccountsCode", splitStr[0] );
+  setRecipientValue( findElPrefix( elPrefix ) + ".organizationCode", splitStr[1] );
+  setRecipientValue( elPrefix+".primaryDepartmentCode", splitStr[0]+" / "+splitStr[1] );
+  
+}
+
 
 function budgetNameLookup( documentNumberField ) {
     var elPrefix = findElPrefix( documentNumberField );

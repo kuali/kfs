@@ -169,6 +169,26 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
         }
     }
 
+    
+    /**
+     * @return the primary DepartmentCodee
+     */
+    public String getPrimaryDepartmentCode() {
+        UniversalUser u = getUniversalUser();
+        return u == null ? "" : u.getPrimaryDepartmentCode();
+    }
+
+    /**
+     * @param personName the primary DepartmentCode.
+     */
+    public void setPrimaryDepartmentCode(String primaryDepartmentCode) {
+        if ( universalUser == null ) {
+            universalUser = new UniversalUser();
+        }
+        universalUser.setPrimaryDepartmentCode( primaryDepartmentCode );
+    }
+
+
     /**
      * @see org.kuali.core.bo.Inactivateable#isActive()
      */

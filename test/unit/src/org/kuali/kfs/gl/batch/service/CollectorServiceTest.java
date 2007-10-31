@@ -150,45 +150,4 @@ public class CollectorServiceTest extends KualiTestBase {
         assertFalse("returned batch was valid but there were multiple balance types", isValid);
         assertTrue("error message for mixed balance types does not exist", GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.Collector.MIXED_BALANCE_TYPES));
     }
-
-    /**
-     * Tests that the ID billing detail amounts are negative when appropriate. See https://test.kuali.org/jira/browse/KULRNE-4845
-     * for specs.
-     * 
-     * @throws Exception
-     */
-    //@RelatesTo(RelatesTo.JiraIssue.KULUT31)
-    public final void testNegativeCollectorDetailBillingAmounts() throws Exception {
-        String collectorDirectoryName = SpringContext.getBean(CollectorInputFileType.class).getDirectoryPath();
-        String fileName = collectorDirectoryName + File.separator + "gl_collector3.xml";
-
-        UnitTestSqlDao unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
-        unitTestSqlDao.sqlCommand("delete from GL_ID_BILL_T");
-
-        OriginEntryGroup group = SpringContext.getBean(OriginEntryGroupService.class).createGroup(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate(), OriginEntrySource.COLLECTOR, true, false, true);
-        collectorHelperService.loadCollectorFile(fileName, group, new CollectorReportData(), new ArrayList<CollectorScrubberStatus>());
-
-        Map<String, String> criteria = new HashMap<String, String>();
-        // empty criteria, so return everything
-        Collection<CollectorDetail> allCollectorDetails = SpringContext.getBean(BusinessObjectService.class).findMatching(CollectorDetail.class, criteria);
-
-        assertEquals("Incorrect number of CollectorDetail records found", 3, allCollectorDetails.size());
-
-
-        // this code assumes that all values in the details start off as positive, so that if it were negated, then
-        // the values would be negative.
-
-        for (CollectorDetail collectorDetail : allCollectorDetails) {
-            if (KFSConstants.GL_DEBIT_CODE.equals(collectorDetail.getObjectType().getFinObjectTypeDebitcreditCd())) {
-                assertTrue("Collector detail amount for obj code with debit object type must be negated (assuming initial value is positive)", collectorDetail.getCollectorDetailItemAmount().compareTo(KualiDecimal.ZERO) < 0);
-            }
-            else if (KFSConstants.GL_CREDIT_CODE.equals(collectorDetail.getObjectType().getFinObjectTypeDebitcreditCd())) {
-                assertTrue("Collector detail amount for obj code with credit object type must not be negated (assuming initial value is positive)", collectorDetail.getCollectorDetailItemAmount().compareTo(KualiDecimal.ZERO) > 0);
-            }
-            else {
-                // not sure if we need to take into account the blank debit/credit indicator for the object type
-                fail("Unrecognized ID Billing detail object code information " + collectorDetail);
-            }
-        }
-    }
 }

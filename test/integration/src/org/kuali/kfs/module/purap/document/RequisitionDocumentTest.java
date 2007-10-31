@@ -37,6 +37,8 @@ import org.kuali.module.purap.service.PurapService;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.fixtures.UserNameFixture;
+import org.kuali.test.suite.RelatesTo;
+import org.kuali.test.suite.RelatesTo.JiraIssue;
 import org.kuali.workflow.WorkflowTestUtils;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -139,6 +141,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
     }
 
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @RelatesTo(JiraIssue.KULPURAP2094)
     public final void testAPOValid() throws Exception {
         requisitionDocument = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
         final String docId = requisitionDocument.getDocumentNumber();

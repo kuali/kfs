@@ -78,7 +78,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * the validateBelowTheLineItemNoUnitcost, validateTotalCost and validateContainsAtLeastOneItem.
      * 
      * @param purDocument  the purchasing document to be validated
-     * @return             boolean false if there is any validation  fails.
+     * @return             boolean false if there is any validation that fails.
      * @see                org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processItemValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
      */
     @Override
@@ -100,7 +100,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             }
             else {
                 // If the item is below the line, no accounts can be entered on below the line items
-                // that have no unit cost (KULPURAP-1234)
+                // that have no unit cost
                 valid &= validateBelowTheLineItemNoUnitCost(item, identifierString);
             }
             GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
@@ -331,6 +331,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     public boolean processDeliveryValidation(PurchasingDocument purDocument) {
         boolean valid = true;
         // currently, there is no validation to force at the PUR level for this tab
+        
         return valid;
     }
 

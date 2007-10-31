@@ -331,8 +331,8 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      * Overrides the method in PurapAccountingDocumentRuleBase to call the customizeGeneralLedgerPendingEntry 
      * of the PurapGeneralLedgerService and set the financialDocumentTypeCode of the explicitEntry to "PO".
      * 
-     * @param accountingDocument   
-     * @param accountingLine       
+     * @param accountingDocument  
+     * @param accountingLine      
      * @param explicitEntry        
      * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument, 
      *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)

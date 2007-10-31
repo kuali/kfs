@@ -221,7 +221,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
      * Overrides the method in PurapAccountingDocumentRuleBase to return false if the account is closed.
      * 
      * @param financialDocument   the requisition document to be validated
-     * @param accountingLine      the accounting line tp be validated
+     * @param accountingLine      the accounting line to be validated
      * @return                    boolean false if the account is closed, otherwise it will return the result of the
      *                            processReviewAccountingLineBusinessRules in PurapAccountingDocumentRuleBase.
      * @see                       org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processReviewAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
@@ -241,7 +241,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
      * Overrides the method in PurapAccountingDocumentRuleBase to return false if the account is closed.
      * 
      * @param financialDocument      the requisition document to be validated
-     * @param updatedAccountingLine  the accounting line that was updatedd
+     * @param updatedAccountingLine  the accounting line that was updated
      * @return                       boolean false if the account is closed, otherwise it will return the result of the 
      *                               processUpdateAccountingLineBusinessRules in PurapAccountingDocumentRuleBase.
      * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processUpdateAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.AccountingLine)

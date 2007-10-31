@@ -331,7 +331,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             try {
                 PaymentRequestDocument doc = (PaymentRequestDocument)documentService.getByDocumentHeaderId(prd.getDocumentNumber());
                 doc.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
-                paymentRequestService.saveDocumentWithoutValidation(prd);
+                paymentRequestService.saveDocumentWithoutValidation(doc);
             } catch (WorkflowException e) {
                 throw new IllegalArgumentException("Unable to retrieve payment request: " + prd.getDocumentNumber());
             }

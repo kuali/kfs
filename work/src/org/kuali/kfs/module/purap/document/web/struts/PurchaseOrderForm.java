@@ -394,20 +394,16 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     public void populate(HttpServletRequest request) {
         PurchaseOrderDocument po = (PurchaseOrderDocument) this.getDocument();
 
-        // TODO - ctk can we remove this since we are refreshing at the bottom now
-        // if(ObjectUtils.isNull(po.getPurapDocumentIdentifier())) {
-        // po.setPurapDocumentIdentifier(getPurchaseOrderIdentifier());
-        // }
-
         // call this to make sure it's refreshed from the database if need be since the populate setter doesn't do that
         po.getDocumentBusinessObject();
+        
         super.populate(request);
-        // po.setDocumenBusinessObject(SpringContext.getBean(PurchaseOrderServiceImpl.class).getOldestPurchaseOrder(po,
-        // (PurchaseOrderDocument)po.getDocumentBusinessObject()));
+
         if (ObjectUtils.isNotNull(po.getPurapDocumentIdentifier())) {
             po.refreshDocumentBusinessObject();
         }
-        //FIXME: temporary workaround see KULPURAP-1397
+        
+        //TODO: RELEASE 3 (KULPURAP-1397 ctk) temporary workaround remove once linked RNE issue is resolved
         for (org.kuali.core.bo.Note note : (java.util.List<org.kuali.core.bo.Note>)po.getDocumentBusinessObject().getBoNotes()) {
             note.refreshReferenceObject("attachment");
         }

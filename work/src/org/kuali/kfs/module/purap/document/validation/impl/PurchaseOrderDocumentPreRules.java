@@ -30,8 +30,20 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 
+/**
+ *  Business Prerules applicable to purchase order document.
+ */
 public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
 
+    /**
+     * Overrides the method in PreRulesContinuationBase to also invoke the 
+     * confirmNotToExceedOverride if the PreRulesCheckEvent is blank and
+     * the question matches with the OverrideNotToExceed
+     * 
+     * @param document  The purchase order document upon which we're performing the prerules logic.
+     * @return          boolean true if it passes the pre rules conditions.
+     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.Document)
+     */
     @Override
     public boolean doRules(Document document) {
         
@@ -47,11 +59,13 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
     }
     
     /**
-     * This method checks whether the 'Not-to-exceed' amount has been exceeded by the PO TotalDollarAmount.  If so, it propts the user
-     * for confirmation.
+     * This method checks whether the 'Not-to-exceed' amount has been exceeded by the purchase order total dollar limit.  
+     * If so, it prompts the user for confirmation.
      *  
      * @param   purchaseOrderDocument   The current PurchaseOrderDocument
-     * @return  True if the 'Not-to-exceed' amount is to be overridden
+     * @return                          True if the 'Not-to-exceed' amount is to be overridden 
+     *                                  or if the total dollar amount is less than the
+     *                                  purchase order total dollar limit.
      */
     private boolean confirmNotToExceedOverride(PurchaseOrderDocument purchaseOrderDocument) {
         
@@ -69,6 +83,7 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
         
             if (!confirmOverride) {
                 event.setActionForwardName(KFSConstants.MAPPING_BASIC);
+        
                 return false;
             }
         }
@@ -80,7 +95,8 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
      * Validate that if the PurchaseOrderTotalLimit is not null then the TotalDollarAmount cannot be greater than the
      * PurchaseOrderTotalLimit.
      * 
-     * @return True if the TotalDollarAmount is less than the PurchaseOrderTotalLimit. False otherwise.
+     * @param purDocument  The purchase order document to be validated.
+     * @return             True if the TotalDollarAmount is less than the PurchaseOrderTotalLimit. False otherwise.
      */
     public boolean validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(PurchasingDocument purDocument) {
         boolean valid = true;
@@ -91,6 +107,7 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
                 GlobalVariables.getMessageList().add(PurapKeyConstants.PO_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT);
             }
         }
+
         return valid;
     }
 

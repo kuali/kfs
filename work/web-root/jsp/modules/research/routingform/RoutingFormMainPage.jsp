@@ -24,6 +24,10 @@
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS_LESS_DOCUMENT}" />
 
     <kra-rf:routingFormHiddenDocumentFields includeRoutingFormMainPage="true" />
+    
+	<div align="right">
+		<kul:help documentTypeName="${DataDictionary.KualiRoutingFormDocument.documentTypeName}" pageName="Main Page" altText="page help"/>
+	</div>    
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 

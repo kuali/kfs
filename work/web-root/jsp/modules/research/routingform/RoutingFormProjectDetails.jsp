@@ -28,6 +28,10 @@
   <html:hidden property="document.subcontractorNextSequenceNumber" />
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
+	
+	<div align="right">
+		<kul:help documentTypeName="${DataDictionary.KualiRoutingFormDocument.documentTypeName}" pageName="Project Details" altText="page help"/>
+	</div>
 
 	<kra-rf:routingFormProjectDetailsCostShare editingMode="${KualiForm.editingMode}" />
 

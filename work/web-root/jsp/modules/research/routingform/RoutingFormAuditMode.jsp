@@ -25,6 +25,10 @@
 	
 	<kra-rf:routingFormHiddenDocumentFields />
 	
+	<div align="right">
+		<kul:help documentTypeName="${DataDictionary.KualiRoutingFormDocument.documentTypeName}" pageName="Audit Mode" altText="page help"/>
+	</div>	
+	
 	<kra-rf:routingFormAuditMode />
 	
 </kul:documentPage>

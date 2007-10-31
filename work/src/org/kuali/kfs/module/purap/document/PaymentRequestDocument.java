@@ -601,8 +601,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                         return;
                     }
                 }
-                // TODO RELEASE 2 (KULPURAP-2048, delyea) - Throw Runtime, https://test.kuali.org/jira/browse/KULPURAP-2048
-                LOG.warn("No status found to set for document being disapproved in node '" + currentNodeName + "'");
+                logAndThrowRuntimeException("No status found to set for document being canceled in node '" + currentNode + "'");
             }
         }
         catch (WorkflowException e) {

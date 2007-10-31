@@ -426,8 +426,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             return cancelledStatusCode;
         }
         else {
-            // TODO RELEASE 2 (KULPURAP-2048, delyea) - Throw Runtime, https://test.kuali.org/jira/browse/KULPURAP-2048
-            LOG.warn("No status found to set for document being disapproved in node '" + currentNodeName + "'");
+            logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + currentNodeName + "'");
         }
         return cancelledStatusCode;
     }
@@ -615,5 +614,31 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             }
         }
         return false;
+    }
+
+    /**
+     * Records the specified error message into the Log file and throws a runtime exception.
+     * 
+     * @param errorMessage the error message to be logged.
+     */
+    protected void logAndThrowRuntimeException(String errorMessage) {
+        this.logAndThrowRuntimeException(errorMessage, null);
+    }
+
+    /**
+     * Records the specified error message into the Log file and throws the specified runtime exception.
+     * 
+     * @param errorMessage the specified error message.
+     * @param e the specified runtime exception.
+     */
+    protected void logAndThrowRuntimeException(String errorMessage, Exception e) {
+        if (ObjectUtils.isNotNull(e)) {
+            LOG.error(errorMessage, e);
+            throw new RuntimeException(errorMessage, e);
+        }
+        else {
+            LOG.error(errorMessage);
+            throw new RuntimeException(errorMessage);
+        }
     }
 }

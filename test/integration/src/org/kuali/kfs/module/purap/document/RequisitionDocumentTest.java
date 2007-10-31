@@ -16,16 +16,13 @@
 package org.kuali.module.purap.document;
 
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
-import static org.kuali.module.purap.fixtures.RequisitionItemAccountsFixture.WITH_DESC_WITH_UOM_WITH_PRICE_WITH_ACCOUNT;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import static org.kuali.test.fixtures.UserNameFixture.RJWEISS;
 import static org.kuali.test.fixtures.UserNameFixture.RORENFRO;
-import static org.kuali.test.fixtures.UserNameFixture.VPUTMAN;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.document.Document;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.TransactionalDocumentDictionaryService;
@@ -34,13 +31,9 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.document.AccountingDocumentTestUtils;
 import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.PurchasingItem;
-import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.fixtures.RequisitionDocumentFixture;
-import org.kuali.module.purap.fixtures.RequisitionItemAccountsFixture;
-import org.kuali.module.purap.rules.RequisitionDocumentRule;
+import org.kuali.module.purap.fixtures.RequisitionItemFixture;
 import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.service.PurchaseOrderService;
-import org.kuali.module.purap.service.RequisitionService;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.fixtures.UserNameFixture;
@@ -68,9 +61,9 @@ public class RequisitionDocumentTest extends KualiTestBase {
     }
     
     
-    private List<RequisitionItemAccountsFixture> getItemParametersFromFixtures() {
-        List<RequisitionItemAccountsFixture> list = new ArrayList<RequisitionItemAccountsFixture>();
-        list.add(WITH_DESC_WITH_UOM_WITH_PRICE_WITH_ACCOUNT);
+    private List<RequisitionItemFixture> getItemParametersFromFixtures() {
+        List<RequisitionItemFixture> list = new ArrayList<RequisitionItemFixture>();
+        list.add(RequisitionItemFixture.REQ_ITEM_NO_APO);
         return list;
     }
 
@@ -80,9 +73,8 @@ public class RequisitionDocumentTest extends KualiTestBase {
     
     public final void testAddItem() throws Exception {
         List<PurchasingItem> items = new ArrayList<PurchasingItem>();
-        for (RequisitionItem item : generateItems()) {
-            items.add(item);
-        }
+        items.add(RequisitionItemFixture.REQ_ITEM_NO_APO.createRequisitionItem());
+
         int expectedItemTotal = items.size();
         PurchasingDocumentTestUtils.testAddItem((PurchasingDocument)DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), DOCUMENT_CLASS), items, expectedItemTotal);
     }
@@ -227,17 +219,6 @@ public class RequisitionDocumentTest extends KualiTestBase {
     public final void testCreateAPOAlternateRequisition() throws Exception {
         RequisitionDocument altAPORequisition = RequisitionDocumentFixture.REQ_ALTERNATE_APO.createRequisitionDocument();
         AccountingDocumentTestUtils.testSaveDocument(altAPORequisition, SpringContext.getBean(DocumentService.class));
-    }
-
-    // test util methods
-    private List<RequisitionItem> generateItems() throws Exception {
-        List<RequisitionItem> items = new ArrayList<RequisitionItem>();
-        // set items to document
-        for (RequisitionItemAccountsFixture itemFixture : getItemParametersFromFixtures()) {
-            items.add(itemFixture.populateItem());
-        }
-
-        return items;
     }
 
     private RequisitionDocument buildSimpleDocument() throws Exception {

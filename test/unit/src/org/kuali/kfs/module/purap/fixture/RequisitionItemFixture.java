@@ -17,6 +17,7 @@ package org.kuali.module.purap.fixtures;
 
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.module.purap.bo.PurchasingItem;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -70,7 +71,7 @@ public enum RequisitionItemFixture {
     
     public void addTo(RequisitionDocument requisitionDocument) {
         RequisitionItem item=null;
-        item = (RequisitionItem)this.createRequisitionItem(purApItemFixture); 
+        item = (RequisitionItem)this.createRequisitionItem(); 
         requisitionDocument.addItem(item);
         // iterate over the accounts
         for (RequisitionAccountingLineFixture requisitionAccountMultiFixture : requisitionAccountingLineFixtures) {
@@ -78,13 +79,7 @@ public enum RequisitionItemFixture {
         }
     }
     
-     /**
-     * 
-     * TODO: ckirschenman (would it make more sense to attach the incoming fixture to the fixture definition above?)
-     * @param purApItemFixture
-     * @return
-     */
-    public PurApItem createRequisitionItem(PurApItemFixture purApItemFixture) {
+    public PurchasingItem createRequisitionItem() {
         RequisitionItem item = (RequisitionItem)purApItemFixture.createPurApItem(RequisitionItem.class);
         item.setItemRestrictedIndicator(itemRestrictedIndicator);
         return item;

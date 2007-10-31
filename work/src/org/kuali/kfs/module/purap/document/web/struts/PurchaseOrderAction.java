@@ -697,8 +697,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             sbFilename.append(System.currentTimeMillis());
             sbFilename.append(".pdf");
 
+            //FIXME RELEASE 3 (hjs) this is very bad;  should not be setting the APO indicator to true!!
             // for testing Generate PO PDF, set the APO to true
-            po.setPurchaseOrderAutomaticIndicator(true);
+            //po.setPurchaseOrderAutomaticIndicator(true);
             boolean success = SpringContext.getBean(PurchaseOrderService.class).printPurchaseOrderQuotePDF(po, poVendorQuote, baosPDF);
 
             if (!success) {
@@ -760,8 +761,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             sbFilename.append(System.currentTimeMillis());
             sbFilename.append(".pdf");
 
+            //FIXME RELEASE 3 (hjs) this is very bad;  should not be setting the APO indicator to true!!
             // for testing Generate PO PDF, set the APO to true
-            po.setPurchaseOrderAutomaticIndicator(true);
+//            po.setPurchaseOrderAutomaticIndicator(true);
             boolean success = SpringContext.getBean(PurchaseOrderService.class).printPurchaseOrderQuoteRequestsListPDF(po,  baosPDF);
 
             if (!success) {

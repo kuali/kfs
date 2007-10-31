@@ -803,7 +803,7 @@
 			<property name="originEntryGroupService">
 			<ref bean="originEntryGroupService" />
 		</property>
-		<property name="llcpDirectoryName" value="${staging.directory}/GLCP"/>
+		<property name="llcpDirectoryName" value="${staging.directory}/LLCP"/>
 	</bean>
 	
 	<bean id="laborInquiryOptionsService" class="org.kuali.module.labor.service.impl.LaborInquiryOptionsServiceImpl">

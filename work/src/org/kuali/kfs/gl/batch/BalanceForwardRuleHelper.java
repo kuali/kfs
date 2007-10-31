@@ -46,6 +46,8 @@ import org.kuali.module.gl.util.NonFatalErrorException;
 import org.kuali.module.gl.util.ObjectHelper;
 
 /**
+ * A class to hold significant state for a balance forward job; it also has the methods that actually
+ * accomplish the job
  */
 public class BalanceForwardRuleHelper {
 
@@ -165,6 +167,9 @@ public class BalanceForwardRuleHelper {
 
     private BalanceForwardProcessState state;
 
+    /**
+     * Constructs a BalanceForwardRuleHelper
+     */
     public BalanceForwardRuleHelper() {
         super();
         state = new BalanceForwardProcessState();
@@ -175,6 +180,12 @@ public class BalanceForwardRuleHelper {
 
     }
 
+    /**
+     * Constructs a BalanceForwardRuleHelper, using a fiscal year.  This also initializes
+     * object type arrays based on the options of the closing fiscal year
+     * 
+     * @param closingFiscalYear the fiscal year that is closing out
+     */
     public BalanceForwardRuleHelper(Integer closingFiscalYear) {
         this();
         setClosingFiscalYear(closingFiscalYear);
@@ -199,12 +210,13 @@ public class BalanceForwardRuleHelper {
     }
 
     /**
-     * Constructs a BalanceForwardRuleHelper.
+     * Constructs a BalanceForwardRuleHelper, but this one goes whole hog: initializes all of the
+     * relevant parameters and the balance types to process
      * 
-     * @param closingFiscalYear
-     * @param transactionDate
-     * @param closedPriorYearAccountGroup
-     * @param unclosedPriorYearAccountGroup
+     * @param closingFiscalYear the fiscal year to close
+     * @param transactionDate the date this job is being run
+     * @param closedPriorYearAccountGroup the group to put balance forwarding origin entries with closed accounts into
+     * @param unclosedPriorYearAccountGroup the group to put balance forwarding origin entries with open accounts into
      */
     public BalanceForwardRuleHelper(Integer closingFiscalYear, Date transactionDate, OriginEntryGroup closedPriorYearAccountGroup, OriginEntryGroup unclosedPriorYearAccountGroup) {
         this(closingFiscalYear);
@@ -221,10 +233,14 @@ public class BalanceForwardRuleHelper {
     }
     }
 
+
     /**
-     * This method...
+     * The balance to create a general balance forward origin entry for
      * 
-     * @param balance
+     * @param balance a balance to create an origin entry for
+     * @param closedPriorYearAccountGroup the group to put balance forwarding origin entries with closed accounts into
+     * @param unclosedPriorYearAccountGroup the group to put balance forwarding origin entries with open accounts into
+     * @throws FatalErrorException
      */
     public void processGeneralForwardBalance(Balance balance, OriginEntryGroup closedPriorYearAccountGroup, OriginEntryGroup unclosedPriorYearAccountGroup) throws FatalErrorException {
         if (ObjectUtils.isNull(balance.getPriorYearAccount())) {
@@ -257,7 +273,7 @@ public class BalanceForwardRuleHelper {
     /**
      * This method creates an origin entry for a cumulative balance forward and saves it in its proper origin entry group
      * 
-     * @param balance
+     * @param balance a balance which needs to have a cumulative origin entry generated for it
      * @param closedPriorYearAccountGroup the origin entry group where forwarding origin entries with closed prior year accounts go
      * @param unclosedPriorYearAcocuntGroup the origin entry group where forwarding origin entries with open prior year accounts go
      */
@@ -558,11 +574,10 @@ public class BalanceForwardRuleHelper {
     }
 
     /**
-     * This method...
+     * Creates an origin entry that will forward this "general" balance
      * 
-     * @param balance
-     * @param nonFatalCount
-     * @return
+     * @param balance the balance to create a general origin entry for
+     * @return the generated origin entry
      */
     public OriginEntryFull generateGeneralForwardOriginEntry(Balance balance) {
 
@@ -823,11 +838,12 @@ public class BalanceForwardRuleHelper {
     }
 
     /**
-     * This method...
+     * Retrieves the transaction encumbrance update code, based on the balance type code of the balance.
+     * These codes are cached, based off a cache generated in the big constructor
      * 
-     * @param balance
-     * @param nonFatalCount
-     * @return
+     * @param balance the balance to find the encumbrance update code for
+     * @return the transaction update code
+     * @throws NonFatalErrorException if an encumbrance update code cannot be found for this balance
      */
     private String getTransactionEncumbranceUpdateCode(Balance balance) throws NonFatalErrorException {
         String updateCode = null;
@@ -851,8 +867,8 @@ public class BalanceForwardRuleHelper {
     /**
      * This method attempts to determine the debit/credit code of a given balance based on the object type
      * 
-     * @param balance
-     * @return
+     * @param balance the balance to determin the debit/credit code for
+     * @return the debit or credit code
      */
     private String getFinancialObjectTypeDebitCreditCode(Balance balance) throws NonFatalErrorException {
         String balanceObjectTypeDebitCreditCode = null != balance.getObjectType() ? balance.getObjectType().getFinObjectTypeDebitcreditCd() : null;
@@ -912,190 +928,13 @@ public class BalanceForwardRuleHelper {
         return wsFinancialObjectTypeDebitCreditCode;
     }
 
-    public boolean selectGeneral(Balance balance) {
-        boolean selectGeneralSwFlag = false;
-        final String[] CONDITION_GENERAL_SW_FLAG = parameterService.getParameterValues(BalanceForwardStep.class, GLConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET).toArray(new String[] {});
-        if (ObjectHelper.isOneOf(balance.getBalanceTypeCode(), CONDITION_GENERAL_SW_FLAG) && ObjectHelper.isOneOf(balance.getObjectTypeCode(), generalSwObjectTypes)) {
-
-            selectGeneralSwFlag = true;
-
-        }
-
-        // WS-SELECT-GENERAL-YES and WS-SELECT-GENERAL-SW are synonyms.
-        // WS-SELECT-ACTIVE-YES and WS-SELECT-ACTIVE-SW are synonyms.
-        if (selectGeneralSwFlag) {
-
-            // 1009 005360 IF WS-SELECT-GENERAL-YES
-            // 1010 005370 IF (GLGLBL-ACLN-ANNL-BAL-AMT +
-            // 1011 005380 GLGLBL-CONTR-GR-BB-AC-AMT +
-            // 1012 005390 GLGLBL-FIN-BEG-BAL-LN-AMT) = ZERO
-
-            if (balance.getAccountLineAnnualBalanceAmount().add(balance.getContractsGrantsBeginningBalanceAmount()).add(balance.getBeginningBalanceLineAmount()).isZero()) {
-
-                // 1013 005400 MOVE 'N' TO WS-SELECT-GENERAL-SW
-
-                selectGeneralSwFlag = false;
-
-                // 1014 005410 ELSE
-                // 1015 005420 NEXT SENTENCE
-
-            }
-
-            // 1016 005430 ELSE
-            // 1017 005440 NEXT SENTENCE.
-
-        }
-        return selectGeneralSwFlag;
-    }
-
-    public boolean selectActive(Balance balance) throws FatalErrorException {
-        boolean selectActiveSwFlag = false;
-        // 1018 005450 IF (GLGLBL-FIN-BALANCE-TYP-CD = 'AC' OR 'CB')
-        // 1019 005460 AND
-        // 1020 005470 (GLGLBL-FIN-OBJ-TYP-CD = 'EE' OR 'ES' OR
-        // 1021 005480 'EX' OR 'IC' OR
-        // 1022 005490 'TE' OR 'TI' OR
-        // 1023 005500 'IN' OR 'CH')
-        // 1024 005510**** THE ABOVE LINE HAD 'CH' ADDED 7/18/95 ARE
-
-        PriorYearAccount priorYearAccount = priorYearAccountService.getByPrimaryKey(balance.getChartOfAccountsCode(), balance.getAccountNumber());
-
-
-        final String[] CONDITION_PRIOR_YEAR_ACCOUNT = parameterService.getParameterValues(BalanceForwardStep.class, GLConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_INCOME_EXPENSE).toArray(new String[] {});
-        if (ObjectHelper.isOneOf(balance.getBalanceTypeCode(), CONDITION_PRIOR_YEAR_ACCOUNT) && ObjectHelper.isOneOf(balance.getObjectTypeCode(), priorYearAccountObjectTypes)) {
-
-            // 1025 005520 MOVE GLGLBL-FIN-COA-CD
-            // 1026 005530 TO CAPYACTT-FIN-COA-CD
-            // 1027 005540 MOVE GLGLBL-ACCOUNT-NBR
-            // 1028 005550 TO CAPYACTT-ACCOUNT-NBR
-            // 1029 005560 EXEC SQL
-            // 1030 005570 SELECT SUB_FUND_GRP_CD,
-            // 1031 005580 ACCT_EXPIRATION_DT,
-            // 1032 005590 ACCT_CLOSED_IND
-            // 1033 005600 INTO :CAPYACTT-SUB-FUND-GRP-CD :CAPYACTT-SFGC-I,
-            // 1034 005610 :CAPYACTT-ACCT-EXPIRATION-DT :EXP-D-IND-VAR,
-            // 1035 005620 :CAPYACTT-ACCT-CLOSED-IND :CAPYACTT-ACI-I
-            // 1036 005630 FROM CA_PRIOR_YR_ACCT_T
-            // 1037 005640 WHERE FIN_COA_CD = RTRIM(:CAPYACTT-FIN-COA-CD)
-            // 1038 005650 AND ACCOUNT_NBR = RTRIM(:CAPYACTT-ACCOUNT-NBR)
-            // 1040 005670 IF CAPYACTT-SFGC-I < ZERO
-            // 1041 005680 MOVE SPACE TO CAPYACTT-SUB-FUND-GRP-CD
-            // 1042 005690 END-IF
-            // 1043 005700 IF CAPYACTT-ACI-I < ZERO
-            // 1044 005710 MOVE SPACE TO CAPYACTT-ACCT-CLOSED-IND
-            // 1045 005720 END-IF
-            // 1046 005730 EVALUATE SQLCODE
-            // 1047 005740 WHEN 0
-            // 1048 005750 MOVE CAPYACTT-ACCT-EXPIRATION-DT
-            // 1049 005760 TO WS-ACCT-EXPIRATION-DT
-            // 1050 005770 MOVE CAPYACTT-SUB-FUND-GRP-CD
-            // 1051 005780 TO WS-SUB-FUND-GRP-CD
-            // 1052 005790 WHEN OTHER
-
-            if (null == priorYearAccount) {
-
-                // 1053 005800 DISPLAY ' ERROR ACCESSING PRIOR YR ACCT TABLE FOR '
-                // 1054 005810 CAPYACTT-FIN-COA-CD
-                // 1055 005820 CAPYACTT-ACCOUNT-NBR
-                // 1056 005830 ' SQL CODE IS ' SQLCODE
-                // 1057 005840 MOVE 'Y' TO WS-FATAL-ERROR-FLAG
-
-                throw new FatalErrorException(new StringBuffer(" ERROR ACCESSING PRIOR YR ACCT TABLE FOR ").append("CHART ").append(balance.getChartOfAccountsCode()).append(" AND ACCOUNT ").append(balance.getAccountNumber()).toString());
-
-                // 1058 005850 GO TO 3000-SELECT-CRITERIA-EXIT
-
-            }
-
-            // 1059 005860 END-EVALUATE
-            // 1060 005870 MOVE WS-SUB-FUND-GRP-CD
-            // 1061 005880 TO CASFGR-SUB-FUND-GRP-CD
-            // 1062 005890 EXEC SQL
-            // 1063 005900 SELECT FUND_GRP_CD
-            // 1064 005910 INTO :CASFGR-FUND-GRP-CD :CASFGR-FGC-I
-            // 1065 005920 FROM CA_SUB_FUND_GRP_T
-            // 1066 005930 WHERE SUB_FUND_GRP_CD = RTRIM(:CASFGR-SUB-FUND-GRP-CD)
-            // 1067 005940 END-EXEC
-
-            // priorYearAccount is guaranteed to be non-null at this point.
-            SubFundGroup subFundGroup = subFundGroupService.getByPrimaryId(priorYearAccount.getSubFundGroupCode());
-
-            // 1068 005950 IF CASFGR-FGC-I < ZERO
-            // 1069 005960 MOVE SPACE TO CASFGR-FUND-GRP-CD
-            // 1070 005970 END-IF
-            // 1071 005980 EVALUATE SQLCODE
-            // 1072 005990 WHEN 0
-
-            if (null != subFundGroup) {
-
-                // 1073 006000 IF (CASFGR-FUND-GRP-CD = 'CG')
-                // 1074 006010 OR
-                // 1075 006020 (CASFGR-SUB-FUND-GRP-CD = 'SDCI '
-                // 1076 006030 OR 'PFCMR ')
-
-                // Contract and grants balances.
-                final String[] CONDITION_ACTIVE_SW_FLAG = parameterService.getParameterValues(BalanceForwardStep.class, GLConstants.BalanceForwardRule.SUB_FUND_GROUPS_FOR_INCEPTION_TO_DATE_REPORTING).toArray(new String[] {});
-                if (priorYearAccount.isForContractsAndGrants() || ObjectHelper.isOneOf(subFundGroup.getSubFundGroupCode().trim(), CONDITION_ACTIVE_SW_FLAG)) {
-
-                    // 1077 006040 MOVE 'Y' TO WS-SELECT-ACTIVE-SW
-
-                    selectActiveSwFlag = true;
-
-                    // 1078 006050 END-IF
-
-                }
-
-                // 1079 006060 WHEN OTHER
-
-            }
-            else {
-
-                // 1080 006070 DISPLAY ' ERROR ACCESSING SUB FUND GROUP TABLE FOR '
-                // 1081 006080 CASFGR-SUB-FUND-GRP-CD
-                // 1082 006090 MOVE 'Y' TO WS-FATAL-ERROR-FLAG
-
-                throw new FatalErrorException(new StringBuffer(" ERROR ACCESSING SUB FUND GROUP TABLE FOR SUB FUND GROUP ").append(priorYearAccount.getSubFundGroupCode()).toString());
-
-                // 1083 006100 GO TO 3000-SELECT-CRITERIA-EXIT
-
-            }
-
-            // 1084 006110 END-EVALUATE.
-
-        }
-
-        // 1123 006500 IF WS-SELECT-ACTIVE-YES
-
-        // WS-SELECT-GENERAL-YES and WS-SELECT-GENERAL-SW are synonyms.
-        // WS-SELECT-ACTIVE-YES and WS-SELECT-ACTIVE-SW are synonyms.
-        if (selectActiveSwFlag) {
-
-            // 1124 006510 IF (GLGLBL-ACLN-ANNL-BAL-AMT +
-            // 1125 006520 GLGLBL-CONTR-GR-BB-AC-AMT) = ZERO
-
-            if (balance.getAccountLineAnnualBalanceAmount().add(balance.getContractsGrantsBeginningBalanceAmount()).isZero()) {
-
-                // 1126 006530 MOVE 'N' TO WS-SELECT-ACTIVE-SW
-
-                selectActiveSwFlag = false;
-
-            }
-
-            // 1127 006540 ELSE
-            // 1128 006550 NEXT SENTENCE
-            // 1129 006560 ELSE
-            // 1130 006570 NEXT SENTENCE.
-
-        }
-        return selectActiveSwFlag;
-    }
-
     /**
-     * This method...
+     * Saves a generated origin entry to the database, within the proper group
      * 
-     * @param balance
-     * @param entry
-     * @param closedPriorYearAccountGroup
-     * @param unclosedPriorYearAccountGroup
+     * @param balance the original balance, which still has the account to check if it is closed or not
+     * @param entry the origin entry to save
+     * @param closedPriorYearAccountGroup the group to put balance forwarding origin entries with closed accounts into
+     * @param unclosedPriorYearAccountGroup the group to put balance forwarding origin entries with open accounts into
      */
     private void saveForwardingEntry(Balance balance, OriginEntryFull entry, OriginEntryGroup closedPriorYearAccountGroup, OriginEntryGroup unclosedPriorYearAccountGroup) {
         if (ObjectUtils.isNotNull(balance.getPriorYearAccount()) && !balance.getPriorYearAccount().isAccountClosedIndicator()) {

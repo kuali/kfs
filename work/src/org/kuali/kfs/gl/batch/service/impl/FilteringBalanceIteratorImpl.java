@@ -23,12 +23,22 @@ import org.kuali.module.gl.batch.closing.year.service.BalancePredicate;
 import org.kuali.module.gl.batch.closing.year.service.FilteringBalanceIterator;
 import org.kuali.module.gl.bo.Balance;
 
+/**
+ * An implementation of FilteringBalanceIterator that only selects balances that should be selected,
+ * according to the predicate that has been injected in
+ */
 public class FilteringBalanceIteratorImpl implements FilteringBalanceIterator {
     private FilterIterator filteredBalances;
     private Iterator<Balance> balancesSource;
     private BalancePredicate balancePredicate;
     private boolean initialized = false;
 
+    /**
+     * Are there any more balances left in this iterator?
+     * 
+     * @return true if there are more balances, false otherwise
+     * @see java.util.Iterator#hasNext()
+     */
     public boolean hasNext() {
         if (!initialized) {
             initialize();
@@ -36,6 +46,12 @@ public class FilteringBalanceIteratorImpl implements FilteringBalanceIterator {
         return filteredBalances.hasNext();
     }
 
+    /**
+     * Retrieves the next balance in the iterator
+     * 
+     * @return the next balance in the iterator
+     * @see java.util.Iterator#next()
+     */
     public Balance next() {
         if (!initialized) {
             initialize();
@@ -43,6 +59,11 @@ public class FilteringBalanceIteratorImpl implements FilteringBalanceIterator {
         return (Balance)filteredBalances.next();
     }
 
+    /**
+     * Removes the next balance in the iterator.
+     * 
+     * @see java.util.Iterator#remove()
+     */
     public void remove() {
         if (!initialized) {
             initialize();
@@ -51,12 +72,19 @@ public class FilteringBalanceIteratorImpl implements FilteringBalanceIterator {
     }
 
     /**
+     * A convenience method to get the enhanced for loops to work with this thing,
+     * this simply returns this iterator
+     * 
+     * @return an iterator of Balances...which is this Iterator
      * @see java.lang.Iterable#iterator()
      */
     public Iterator<Balance> iterator() {
         return this;
     }
     
+    /**
+     * Creates the FilterIterator that underlies this Iterator
+     */
     private void initialize() {
         if (!initialized) {
             filteredBalances = new FilterIterator(balancesSource, new Predicate() {

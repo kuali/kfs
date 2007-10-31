@@ -65,6 +65,9 @@ public class CollectorBatch implements Serializable {
     private Integer totalRecords;
     private KualiDecimal totalAmount;
 
+    /**
+     * Constructs a CollectorBatch
+     */
     public CollectorBatch() {
         originEntries = new ArrayList();
         collectorDetails = new ArrayList();
@@ -238,6 +241,11 @@ public class CollectorBatch implements Serializable {
         this.collectorDetails.add(collectorDetail);
     }
     
+    /**
+     * Attempts to retrieve a collector header already exists with the primary key values given for this object
+     * 
+     * @return the CollectorHeader found in the database
+     */
     public CollectorHeader retrieveDuplicateHeader() {
         // checkHeader is used to check whether a record with the same PK values exist already (i.e. only PK values are filled in).
         CollectorHeader checkHeader = createCollectorHeaderWithPKValuesOnly();

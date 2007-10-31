@@ -37,9 +37,7 @@ import org.kuali.module.gl.util.ObjectHelper;
 /**
  * A helper class which contains the more complicated logic involved in the year end encumbrance closing process. This logic is
  * likely going to need to be modular which is why it's in its own class.
- * 
  */
-
 public class EncumbranceClosingRuleHelper {
 
     static private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EncumbranceClosingRuleHelper.class);
@@ -79,7 +77,7 @@ public class EncumbranceClosingRuleHelper {
     /**
      * Determine whether or not an encumbrance should be carried forward from one fiscal year to the next.
      * 
-     * @param encumbrance
+     * @param encumbrance the encumbrance to qualify
      * @return true if the encumbrance should be rolled forward from the closing fiscal year to the opening fiscal year.
      */
     public boolean anEntryShouldBeCreatedForThisEncumbrance(Encumbrance encumbrance) {
@@ -130,33 +128,26 @@ public class EncumbranceClosingRuleHelper {
     /**
      * Determine whether or not the encumbrance has been fully relieved.
      * 
-     * @param encumbrance
+     * @param encumbrance the encumbrance to qualify
      * @return true if the amount closed on the encumbrance is NOT equal to the amount of the encumbrance itself, e.g. if the
      *         encumbrance has not yet been paid off.
      */
     private boolean isEncumbranceClosed(Encumbrance encumbrance) {
-
         if (encumbrance.getAccountLineEncumbranceAmount().doubleValue() == encumbrance.getAccountLineEncumbranceClosedAmount().doubleValue()) {
-
             return false;
-
         }
-
         return true;
-
     }
 
     /**
      * Do some validation and make sure that the encumbrance A21SubAccount is a cost share sub-account.
      * 
-     * @param entry
-     * @param offset
-     * @param encumbrance
-     * @param objectTypeCode
-     * @return true if the encumbrance is eligible for cost share.
-     * @throws FatalErrorException
+     * @param encumbrance the encumbrance to qualify
+     * @param objectTypeCode the given ObjectTypeCode
+     * @return true if the encumbrance is eligible for cost share, false if it is not eligible
+     * @throws FatalErrorException if a related PriorYearAccount, SubFundGroup, or A21SubAccount cannot be found
      */
-    public boolean isEncumbranceEligibleForCostShare(OriginEntryFull entry, OriginEntryFull offset, Encumbrance encumbrance, String objectTypeCode) throws FatalErrorException {
+    public boolean isEncumbranceEligibleForCostShare(Encumbrance encumbrance, String objectTypeCode) throws FatalErrorException {
         PriorYearAccount priorYearAccount = priorYearAccountService.getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber());
 
         // the sub fund group for the prior year account must exist.

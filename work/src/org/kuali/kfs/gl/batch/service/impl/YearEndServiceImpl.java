@@ -57,7 +57,7 @@ import org.kuali.module.gl.util.Summary;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class owns the logic to perform year end tasks.
+ * This class implements the logic to perform year end tasks.
  */
 @Transactional
 public class YearEndServiceImpl implements YearEndService {
@@ -81,11 +81,23 @@ public class YearEndServiceImpl implements YearEndService {
 
     public static final String TRANSACTION_DATE_FORMAT_STRING = "yyyy-MM-dd";
 
+    /**
+     * Constructs a YearEndServiceImpl, and that's about it.
+     */
     public YearEndServiceImpl() {
         super();
     }
 
     /**
+     * This class actually generates all the origin entries for nominal activity closing and
+     * saves them to the proper origin entry group.
+     * 
+     * Note: Much (but no longer all) of the original COBOL program this code is based off of
+     * is within the comments.
+     * 
+     * @param nominalClosingOriginEntryGroup the origin entry group to save the generated nominal closing entries to
+     * @param nominalClosingJobParameters a map of parameters for the job: 
+     * @param nominalClosingCounts various statistical counts 
      * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#closeNominalActivity()
      */
     public void closeNominalActivity(OriginEntryGroup nominalClosingOriginEntryGroup, Map nominalClosingJobParameters, Map<String, Integer> nominalClosingCounts) {
@@ -863,96 +875,8 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
-     * This method determines if the balance should be included.
+     * This method generates PDF report (there's only one) about the nominal activity closing job that was just completed.
      * 
-     * @param balance
-     * @return
-     */
-    public boolean selectBalanceForClosingOfNominalActivity(Balance balance) {
-
-        if (null == balance)
-            return false;
-
-        // 806 004890 3000-SELECT-CRITERIA.
-        // 807 004900* SEE IF RECORD PASSES THE SELECTION CRITERIA
-        // 808 004910 IF (GLGLBL-FIN-BALANCE-TYP-CD = 'AC')
-        // 809 004920 AND
-        // 810 004930 (GLGLBL-FIN-OBJ-TYP-CD = 'ES' OR 'EX'
-        // 811 004940 OR 'TE' OR 'TI'
-        // 812 004950 OR 'EE' OR 'CH' OR 'IC' OR 'IN')
-
-        String actualFinancial = balance.getOption().getActualFinancialBalanceTypeCd();
-        if (actualFinancial.equals(balance.getBalanceTypeCode()) && (objectTypeService.getNominalActivityClosingAllowedObjectTypes(balance.getUniversityFiscalYear()).contains(balance.getObjectTypeCode()))) {
-
-            // 813 004960 NEXT SENTENCE
-
-            // continue
-
-            // 814 004970 ELSE
-
-        }
-        else {
-
-            // 815 004980 MOVE 'N' TO WS-SELECT-SW
-            // 816 004990 GO TO 3000-SELECT-CRITERIA-EXIT.
-
-            return false;
-
-        }
-
-        // 817 005000 IF GLGLBL-ACLN-ANNL-BAL-AMT NUMERIC
-
-        if (null != balance.getAccountLineAnnualBalanceAmount()) {
-
-            // 818 005010 IF GLGLBL-ACLN-ANNL-BAL-AMT = ZERO
-
-            if (balance.getAccountLineAnnualBalanceAmount().isZero()) {
-
-                // 819 005020 MOVE 'N' TO WS-SELECT-SW
-                // 820 005030 GO TO 3000-SELECT-CRITERIA-EXIT
-
-                return false;
-
-                // 821 005040 ELSE
-
-            }
-            else {
-
-                // 822 005050 NEXT SENTENCE
-
-                // continue
-
-            }
-
-            // 823 005060 ELSE
-
-        }
-        else {
-
-            // 824 005070 MOVE +1 TO LINES-TO-PRINT
-            // 825 005080 PERFORM 8500-CHECK-NEW-PAGE
-            // 826 005090 THRU 8500-CHECK-NEW-PAGE-EXIT
-            // 827 005100 MOVE LIT-KEY TO RP-ERROR-LABEL OF RP-ERROR-LINE-1
-            // 828 005110 MOVE DCLGL-BALANCE-T (1:29)
-            // 829 005120 TO RP-ERROR-MSG OF RP-ERROR-LINE-1
-            // 830 005130 MOVE RP-ERROR-LINE-1 TO PRINT-DATA
-            // 831 005140 MOVE 'Y' TO WS-NON-FATAL-ERROR-FLAG
-            // 832 005150 ADD +1 TO NON-FATAL-COUNT
-            // 833 005160 WRITE PRINT-DATA
-            // 834 005170 PERFORM CK-PRINT-STATUS THRU CK-PRINT-STATUS-EXIT
-            // 835 005180 ADD +1 TO LINE-COUNT
-            // 836 005190 MOVE 'N' TO WS-SELECT-SW
-            // 837 005200 GO TO 3000-SELECT-CRITERIA-EXIT.
-
-            return false;
-
-        }
-
-        return true;
-
-    }
-
-    /**
      * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#generateCloseNominalActivityReports(org.kuali.module.gl.bo.OriginEntryGroup,
      *      java.util.Map, java.util.Map)
      */
@@ -982,12 +906,26 @@ public class YearEndServiceImpl implements YearEndService {
 
     }
 
+    /**
+     * Generates the transaction ledger entry description for a given balance 
+     * 
+     * @param descriptorIntro the introduction to the description
+     * @param balance the balance the transaction description will refer to
+     * @return the generated transaction ledger entry description
+     */
     private String createTransactionLedgerEntryDescription(String descriptorIntro, Balance balance) {
         StringBuilder description = new StringBuilder();
         description.append(descriptorIntro.trim()).append(' ');
         return description.append(getSizedField(5, balance.getSubAccountNumber())).append("-").append(getSizedField(4, balance.getObjectCode())).append("-").append(getSizedField(3, balance.getSubObjectCode())).append("-").append(getSizedField(2, balance.getObjectTypeCode())).toString();
     }
 
+    /**
+     * Pads out a string so that it will be a certain length
+     * 
+     * @param size the size to pad to
+     * @param value the String being padded
+     * @return the padded String
+     */
     private StringBuilder getSizedField(int size, String value) {
         StringBuilder fieldString = new StringBuilder();
         if (value != null) {
@@ -1004,6 +942,13 @@ public class YearEndServiceImpl implements YearEndService {
         return fieldString;
     }
 
+    /**
+     * A method that increments a count within a Map by 1
+     * 
+     * @param counts a Map of count statistics
+     * @param countName the name of the specific count ot update
+     * @return the newly incremented amount
+     */
     private int incrementCount(Map<String, Integer> counts, String countName) {
         Integer value = counts.get(countName);
         int incremented = value.intValue() + 1;
@@ -1016,6 +961,10 @@ public class YearEndServiceImpl implements YearEndService {
      * whole. This method delegates all of the specific logic in terms of what balances to forward, according to what criteria, how
      * origin entries are generated, etc. This relationship makes YearEndServiceImpl and BalanceForwardRuleHelper heavily dependent
      * upon one another in terms of expected behavior.
+     * 
+     * @param balanceForwardsUnclosedPriorYearAccountGroup the origin entry group to save balance forwarding origin entries with open accounts 
+     * @param balanceForwardsClosedPriorYearAccountGroup the origin entry group to save balance forwarding origin entries with closed accounts
+     * @param balanceForwardRuleHelper the BalanceForwardRuleHelper which holds the important state - the job parameters and statistics - for the job to run
      */
     public void forwardBalances(OriginEntryGroup balanceForwardsUnclosedPriorYearAccountGroup, OriginEntryGroup balanceForwardsClosedPriorYearAccountGroup, BalanceForwardRuleHelper balanceForwardRuleHelper) {
         LOG.debug("forwardBalances() started");
@@ -1058,6 +1007,11 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
+     * This generates a PDF that summarizes the activity of a forward balance job that's just been run
+     * 
+     * @param balanceForwardsUnclosedPriorYearAccountGroup the origin entry group where balance forwarding origin entries with open accounts are stored
+     * @param balanceForwardsClosedPriorYearAccountGroup the origin entry group where balance forwarding origin entries with closed accounts are stored
+     * @param balanceForwardRuleHelper the BalanceForwardRuleHelper that held the state of the balance forward job to report on
      * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#generateForwardBalanceReports(org.kuali.module.gl.bo.OriginEntryGroup,
      *      org.kuali.module.gl.bo.OriginEntryGroup,
      *      org.kuali.module.gl.batch.closing.year.service.impl.helper.BalanceForwardRuleHelper)
@@ -1095,6 +1049,10 @@ public class YearEndServiceImpl implements YearEndService {
 
     /**
      * Create origin entries to carry forward all open encumbrances from the closing fiscal year into the opening fiscal year.
+     * 
+     * @param originEntryGroup the origin entry group where generated origin entries should be saved
+     * @param jobParameters the parameters necessary to run this job: the fiscal year to close and the university date the job was run
+     * @param forwardEncumbrancesCounts the statistical counts generated by this job
      */
     public void forwardEncumbrances(OriginEntryGroup originEntryGroup, Map jobParameters, Map<String, Integer> counts) {
         LOG.debug("forwardEncumbrances() started");
@@ -1144,7 +1102,7 @@ public class YearEndServiceImpl implements YearEndService {
 
                 try {
 
-                    isEligibleForCostShare = encumbranceClosingRuleHelper.isEncumbranceEligibleForCostShare(beginningBalanceEntryPair.getEntry(), beginningBalanceEntryPair.getOffset(), encumbrance, beginningBalanceEntryPair.getEntry().getFinancialObjectTypeCode());
+                    isEligibleForCostShare = encumbranceClosingRuleHelper.isEncumbranceEligibleForCostShare(encumbrance, beginningBalanceEntryPair.getEntry().getFinancialObjectTypeCode());
 
                 }
                 catch (FatalErrorException fee) {
@@ -1157,7 +1115,7 @@ public class YearEndServiceImpl implements YearEndService {
 
                     // build and save an additional pair of origin entries to carry forward the encumbrance.
 
-                    OriginEntryOffsetPair costShareBeginningBalanceEntryPair = EncumbranceClosingOriginEntryFactory.createCostShareBeginningBalanceEntryOffsetPair(encumbrance, beginningBalanceEntryPair.getEntry().getTransactionDebitCreditCode(), (Date) jobParameters.get(GLConstants.ColumnNames.UNIV_DT));
+                    OriginEntryOffsetPair costShareBeginningBalanceEntryPair = EncumbranceClosingOriginEntryFactory.createCostShareBeginningBalanceEntryOffsetPair(encumbrance, (Date) jobParameters.get(GLConstants.ColumnNames.UNIV_DT));
 
                     if (!costShareBeginningBalanceEntryPair.isFatalErrorFlag()) {
 
@@ -1182,6 +1140,11 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
+     * This generates a PDF that summarizes the result of a forward encumbrance job that's just been run
+     * 
+     * @param originEntryGroup the origin entry group that encumbrance forwarding origin entries were saved in
+     * @param jobParameters the parameters needed to run the job in the first place
+     * @param forwardEncumbrancesCounts the statistical counts generated by the forward encumbrances job
      * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#generateForwardEncumbrancesReports(org.kuali.module.gl.bo.OriginEntryGroup,
      *      java.util.Map, java.util.Map)
      */
@@ -1211,6 +1174,8 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
+     * 
+     * @param balanceFiscalYear the fiscal year to find balances encumbrances for
      * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#logAllMissingPriorYearAccounts(java.lang.Integer)
      */
     public void logAllMissingPriorYearAccounts(Integer fiscalYear) {
@@ -1222,6 +1187,8 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
+     * 
+     * @param balanceFiscalYear the fiscal year to find balances encumbrances for
      * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#logAllMissingSubFundGroups(java.lang.Integer)
      */
     public void logAllMissingSubFundGroups(Integer fiscalYear) {
@@ -1233,14 +1200,32 @@ public class YearEndServiceImpl implements YearEndService {
 
     }
 
+    /**
+     * Sets the encumbranceDao attribute, allowing the injection of an implementation of the data access object that uses a specific O/R mechanism.
+     * 
+     * @param encumbranceDao the implementation of encumbranceDao to set
+     * @see org.kuali.module.gl.dao.EncumbranceDao
+     */
     public void setEncumbranceDao(EncumbranceDao encumbranceDao) {
         this.encumbranceDao = encumbranceDao;
     }
 
+    /**
+     * Sets the originEntryService attribute, allowing the injection of an implementation of that service
+     * 
+     * @param originEntryService the implementation of originEntryService to set
+     * @see org.kuali.module.gl.service.OriginEntryService
+     */
     public void setOriginEntryService(OriginEntryService originEntryService) {
         this.originEntryService = originEntryService;
     }
 
+    /**
+     * Sets the reportService attribute, allowing the injection of an implementation of that service
+     * 
+     * @param originEntryService the implementation of reportService to set
+     * @see org.kuali.module.gl.service.ReportService
+     */
     public void setReportService(ReportService reportService) {
         this.reportService = reportService;
     }

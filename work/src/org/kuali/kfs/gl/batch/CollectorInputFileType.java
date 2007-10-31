@@ -38,12 +38,21 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
     private CollectorHelperService collectorHelperService;
 
     /**
+     * Returns the identifier of the Collector's file type
+     * 
+     * @return the Collector's file type identifier
      * @see org.kuali.kfs.batch.BatchInputFileType#getFileTypeIdentifer()
      */
     public String getFileTypeIdentifer() {
         return KFSConstants.COLLECTOR_FILE_TYPE_INDENTIFIER;
     }
 
+    /**
+     * Returns the class associated with the authorization workgroup for the input type, in this case CollectorStep
+     * 
+     * @return the CollectorStep class
+     * @see org.kuali.kfs.batch.BatchInputType#getUploadWorkgroupParameterComponent()
+     */
     public Class getUploadWorkgroupParameterComponent() {
         return CollectorStep.class;
     }
@@ -100,6 +109,9 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
     }
 
     /**
+     * Checks that the file contents parsed from the file are valid Collector data
+     * 
+     * @return true if valid, false if not
      * @see org.kuali.kfs.batch.BatchInputFileType#validate(java.lang.Object)
      */
     public boolean validate(Object parsedFileContents) {
@@ -112,6 +124,9 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
     }
 
     /**
+     * Returns the Collector's title key
+     * 
+     * @return the title key for the Collector
      * @see org.kuali.kfs.batch.BatchInputFileType#getTitleKey()
      */
     public String getTitleKey() {

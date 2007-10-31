@@ -52,11 +52,11 @@ public class EncumbranceClosingOriginEntryFactory {
      * Create a pair of cost share entries, one explicit and one offset to carry forward an encumbrance after validating the
      * encumbrance.
      * 
-     * @param encumbrance
-     * @param debitCreditCode
+     * @param encumbrance the encumbrance to create origin entry and offset for
+     * @param transactionDate the date all origin entries should have as their transaction date
      * @return a cost share entry/offset pair to carry forward the given encumbrance.
      */
-    static final public OriginEntryOffsetPair createCostShareBeginningBalanceEntryOffsetPair(Encumbrance encumbrance, String debitCreditCode, Date transactionDate) {
+    static final public OriginEntryOffsetPair createCostShareBeginningBalanceEntryOffsetPair(Encumbrance encumbrance, Date transactionDate) {
 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         OffsetDefinitionService offsetDefinitionService = SpringContext.getBean(OffsetDefinitionService.class);
@@ -199,9 +199,9 @@ public class EncumbranceClosingOriginEntryFactory {
     /**
      * Create a pair of OriginEntries, one explicit and one offset to carry forward an encumbrance.
      * 
-     * @param encumbrance
-     * @param closingFiscalYear
-     * @param transactionDate
+     * @param encumbrance the encumbrance to create origin entries for
+     * @param closingFiscalYear the fiscal year that's closing
+     * @param transactionDate the transaction date these entries should have
      * @return a entry/offset pair for the given encumbrance
      */
     static final public OriginEntryOffsetPair createBeginningBalanceEntryOffsetPair(Encumbrance encumbrance, Integer closingFiscalYear, Date transactionDate) {

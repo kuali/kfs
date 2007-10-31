@@ -19,17 +19,23 @@ import java.util.Iterator;
 
 import org.kuali.module.gl.bo.Balance;
 
+/**
+ * An extension of the Iterator interface that allows for balances to be selected or not
+ * 
+ * @see org.kuali.module.gl.batch.closing.year.service.BalancePredicate
+ */
 public interface FilteringBalanceIterator extends Iterator, Iterable {
     
     /**
      * Set the balance predicate that should be used to filter this iterator
-     * @param balancePredicate
+     * @param balancePredicate the BalancePredicate with the logic to use for this filtering balance iterator
+     * @see org.kuali.module.gl.batch.closing.year.service.BalancePredicate
      */
     public void setBalancePredicate(BalancePredicate balancePredicate);
     
     /**
      * Sets the source iterator of balances
-     * @param balancesSource
+     * @param balancesSource an iterator chuck full of balances to either process or not
      */
     public void setBalancesSource(Iterator<Balance> balancesSource);
 }

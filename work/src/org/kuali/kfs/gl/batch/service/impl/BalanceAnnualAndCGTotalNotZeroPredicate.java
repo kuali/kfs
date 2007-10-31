@@ -18,8 +18,18 @@ package org.kuali.module.gl.batch.closing.year.service.impl;
 import org.kuali.module.gl.batch.closing.year.service.BalancePredicate;
 import org.kuali.module.gl.bo.Balance;
 
+/**
+ * An implementation of BalancePredicate to only select balances where the annual account line total and contracts and grants total summed are not equal to zero 
+ */
 public class BalanceAnnualAndCGTotalNotZeroPredicate implements BalancePredicate {
 
+    /**
+     * Selects balances that where the annual account line balance and contracts and grants beginning balance summed are not zero
+     * 
+     * @param balance the balance to qualify
+     * @returns true if the annual account line balance and contracts and grants balance summed are not zero, false otherwise
+     * @see org.kuali.module.gl.batch.closing.year.service.BalancePredicate#select(org.kuali.module.gl.bo.Balance)
+     */
     public boolean select(Balance balance) {
         return !balance.getAccountLineAnnualBalanceAmount().add(balance.getContractsGrantsBeginningBalanceAmount()).isZero();
     }

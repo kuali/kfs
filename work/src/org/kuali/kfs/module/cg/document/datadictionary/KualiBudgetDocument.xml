@@ -90,7 +90,7 @@
         	<headerNavigationTab>
         		<navigateTo>permissions</navigateTo>
         		<displayName>Permissions</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="BUDGET_PERMISSIONS"/>
+        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="BUDGET_PERMISSIONS_PAGE"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>output</navigateTo>

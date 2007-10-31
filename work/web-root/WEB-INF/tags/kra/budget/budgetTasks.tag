@@ -33,7 +33,7 @@
               
 <div class="h2-container"> <span class="subhead-left">
   <a name="Tasks"></a><h2>Tasks/Components</h2>
-  </span><span class="subhead-right"> <span class="subhead"><kul:help businessObjectClassName="${businessObjectClass}" altText="help"/></span> </span> </div>
+  </span></div>
 <table cellpadding="0" cellspacing="0" class="datatable" summary=""> 
   <!-- Column headers -->
   <tr>

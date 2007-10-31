@@ -21,7 +21,7 @@
 
 <div class="h2-container"> <span class="subhead-left">
   <a name="Fringes"></a><h2>Fringe Benefit Rates</h2>
-  </span><span class="subhead-right"><kul:help businessObjectClassName="${businessObjectClass}" altText="help"/></span> </div>
+  </span></div>
 <table cellpadding="0" cellspacing="0" class="datatable" summary=""> 
   <tr>
     <th rowspan="2"><div align="left"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.AppointmentType.attributes.appointmentTypeDescription}" skipHelpUrl="true" noColon="true" /> (<kul:htmlAttributeLabel attributeEntry="${DataDictionary.AppointmentType.attributes.appointmentTypeCode}" useShortLabel="true" skipHelpUrl="true" noColon="true" />) </div></th>

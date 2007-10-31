@@ -39,7 +39,6 @@
 					<h2>
 						Cost Share - 3rd Party Direct
 					</h2> </span>
-					<span class="subhead-right"> <span class="subhead"><kul:help businessObjectClassName="${DataDictionary.BudgetThirdPartyCostShare.businessObjectClass}" altText="help"/></span> </span>
 			</div>
 			<table cellpadding=0  cellspacing="0" summary="view/edit document overview information">
 				<tr>
@@ -59,7 +58,6 @@
 				<tr>
 					<td class="subhead" colspan="${KualiForm.document.periodListSize+6}">
 						<span class="subhead-left">Cost Share - 3rd Party Direct</span>
-						<span class="subhead-right"> <span class="subhead"><kul:help businessObjectClassName="${DataDictionary.BudgetThirdPartyCostShare.businessObjectClass}" altText="help"/></span> </span>
 					</td>
 				</tr>
 				<tr>

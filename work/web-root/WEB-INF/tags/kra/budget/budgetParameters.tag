@@ -45,7 +45,7 @@
 				<div class="left-errmsg-tab" style="padding-bottom: 10px;"><kul:errors keyMatch="document.budget.budgetFringeRateDescription" /></div>
 				<div class="h2-container"> <span class="subhead-left">
 				  <h2><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.budgetFringeRateDescription}" skipHelpUrl="true" noColon="true"/></h2>
-				  </span><span class="subhead-right"> <span class="subhead"><kul:help businessObjectClassName="${DataDictionary.GraduateAssistantRate.businessObjectClass}" altText="help"/></span> </span> </div>
+				  </span></div>
 				<table cellpadding="0" cellspacing="0" class="datatable" summary=""> 
 				  <tr align="left">
 				    <td height="22" ><div align="center"> <br>

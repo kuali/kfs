@@ -45,7 +45,6 @@
 				<tr>
 					<td class="subhead" colspan="${KualiForm.document.periodListSize+7}">
 						<span class="subhead-left">Institution Cost Share</span>
-						<span class="subhead-right"> <span class="subhead"><kul:help businessObjectClassName="${DataDictionary.BudgetInstitutionCostShare.businessObjectClass}" altText="help"/></span> </span>
 					</td>
 				</tr>
 				<tr>
@@ -65,7 +64,6 @@
 				<tr>
 					<td class="subhead" colspan="${KualiForm.document.periodListSize+7}">
 						<span class="subhead-left">Cost Share - Institution Direct</span>
-						<span class="subhead-right"> <span class="subhead"><kul:help businessObjectClassName="${DataDictionary.BudgetInstitutionCostShare.businessObjectClass}" altText="help"/></span> </span>
 					</td>
 				</tr>
 				<tr>

@@ -25,7 +25,7 @@
 
 <div class="h2-container"> <span class="subhead-left">
   <a name="GradAsst"></a><h2>Research &amp; Grad Assistant Fringe Benefit Rates</h2>
-  </span><span class="subhead-right"> <span class="subhead"><kul:help businessObjectClassName="${businessObjectClass}" altText="help"/></span> </span> </div>
+  </span> </div>
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary=""> 
   <c:forEach var="i" begin="1" end="${KualiForm.numberOfAcademicYearSubdivisions}">

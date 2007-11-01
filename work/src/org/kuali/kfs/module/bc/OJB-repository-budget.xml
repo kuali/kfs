@@ -299,7 +299,6 @@
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="organizationLevelCode" column="ORG_LEVEL_CD" jdbc-type="INTEGER"/>
 	<field-descriptor name="organizationChartOfAccountsCode" column="ORG_FIN_COA_CD" jdbc-type="VARCHAR"/>
@@ -540,7 +539,6 @@
 	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="iuPositionType" column="IU_POSITION_TYPE" jdbc-type="VARCHAR"/>
 	<field-descriptor name="positionDepartmentIdentifier" column="POS_DEPTID" jdbc-type="VARCHAR"/>
@@ -1741,7 +1739,6 @@
 	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="personName" column="PERSON_NM" jdbc-type="VARCHAR"/>
 </class-descriptor>

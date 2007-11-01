@@ -482,7 +482,6 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                 else {
                     try {
                         // TODO RELEASE 3 (KULPURAP-2051, delyea) - Super User Cancel Needed?,
-                        // https://test.kuali.org/jira/browse/KULPURAP-2051
                         // need to run a super user cancel since person canceling may not have an action requested on the document
                         GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
                         documentService.superUserCancelDocument(documentService.getByDocumentHeaderId(document.getDocumentNumber()), "Document Cancelled by user " + originalUserSession.getUniversalUser().getPersonName() + " (" + originalUserSession.getUniversalUser().getPersonUserIdentifier() + ")");

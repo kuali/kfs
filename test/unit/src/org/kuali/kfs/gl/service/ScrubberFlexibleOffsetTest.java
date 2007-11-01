@@ -46,7 +46,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         c.set(Calendar.MONTH, Calendar.JANUARY);
         c.set(Calendar.YEAR, 2006);
 
-        // since the cutoff time is set to 10am (https://test.kuali.org/confluence/display/KFSP1/Scrubber+cutoff+time+configuration)
+        // since the cutoff time is set to 10am (KFSP1/Scrubber+cutoff+time+configuration)
         // we want to ensure that the time is always after that time so the cutoff algorithm is not invoked
         c.set(Calendar.HOUR_OF_DAY, 23);
         c.set(Calendar.MINUTE, 59);

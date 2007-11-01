@@ -64,7 +64,7 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends KualiTestBase {
 
 
     /*
-     * This test fails related to https://test.kuali.org/jira/browse/KULEDOCS-1662
+     * This test fails related to KULEDOCS-1662
      */
     // @RelatesTo(KULRNE1612)
     @AnnotationTestSuite(OftenUsefulSuite.class)

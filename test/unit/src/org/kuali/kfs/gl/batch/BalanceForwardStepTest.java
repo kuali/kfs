@@ -40,7 +40,7 @@ import org.kuali.module.gl.util.GeneralLedgerTestHelper;
 import org.kuali.test.ConfigureContext;
 
 /**
- * IF THIS TEST FAILS, READ https://test.kuali.org/jira/browse/KULRNE-34 regarding reference numbers
+ * IF THIS TEST FAILS, READ KULRNE-34 regarding reference numbers
  */
 @ConfigureContext
 // @RelatesTo(RelatesTo.JiraIssue.KULRNE5916)
@@ -64,7 +64,7 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
 
     /**
      * Test the encumbrance forwarding process in one fell swoop. IF THIS TEST FAILS, READ
-     * https://test.kuali.org/jira/browse/KULRNE-34 regarding reference numbers and the year end dates
+     * KULRNE-34 regarding reference numbers and the year end dates
      * 
      * @throws Exception ## WARNING: DO NOT run this test or rename this method. WARNING ## ## WARNING: This one test takes just
      *         under 3 hours to run WARNING ## ## WARNING: over the vpn. WARNING ##
@@ -151,8 +151,8 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
 
         // At this point extraEntriesGenerated and shouldBe should both be empty.
         // If they're not then something went wrong.
-        assertTrue("Kuali generated entries that FIS did not generate (see https://test.kuali.org/jira/browse/KULRNE-34 for possible cause):", kualiGeneratedEntriesNotGeneratedByFis.isEmpty());
-        assertTrue("FIS generated entries that Kuali did not generate (see https://test.kuali.org/jira/browse/KULRNE-34 for possible cause):", fisGenerated.isEmpty());
+        assertTrue("Kuali generated entries that FIS did not generate (see KULRNE-34 for possible cause):", kualiGeneratedEntriesNotGeneratedByFis.isEmpty());
+        assertTrue("FIS generated entries that Kuali did not generate (see KULRNE-34 for possible cause):", fisGenerated.isEmpty());
 
     }
 

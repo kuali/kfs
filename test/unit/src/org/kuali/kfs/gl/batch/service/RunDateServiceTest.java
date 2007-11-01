@@ -46,7 +46,7 @@ public class RunDateServiceTest extends KualiTestBase {
     public void testCalculateCutoff() throws Exception {
         // cutoff time should be set to 10am in the master data source, see FS_PARM_T, script name GL.SCRUBBER, param name
         // SCRUBBER_CUTOFF_TIME
-        // https://test.kuali.org/confluence/display/KFSP1/Scrubber+cutoff+time+configuration
+        // KFSP1/Scrubber+cutoff+time+configuration
 
         Map<String, String> expectedCurrentToRunTimeMappings = new LinkedHashMap<String, String>();
 

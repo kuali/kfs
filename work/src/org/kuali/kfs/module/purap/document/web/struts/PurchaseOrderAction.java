@@ -1089,7 +1089,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /*
-     * TODO RELEASE 3 (KULPURAP-2052, delyea) - QUOTE, https://test.kuali.org/jira/browse/KULPURAP-2052
+     * TODO RELEASE 3 (KULPURAP-2052, delyea) - QUOTE
      */
     /**
      * Sets up the PO document for Quote processing.
@@ -1162,7 +1162,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /*
-     * TODO RELEASE 3 (KULPURAP-2052, delyea) - QUOTE, https://test.kuali.org/jira/browse/KULPURAP-2052
+     * TODO RELEASE 3 (KULPURAP-2052, delyea) - QUOTE
      */
     /**
      * Once an awarded Vendor number is present on the PO, verifies the fact, asks the user for confirmation to complete the quoting
@@ -1265,7 +1265,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /*
-     * TODO RELEASE 3 (KULPURAP-2052, delyea) - QUOTE, https://test.kuali.org/jira/browse/KULPURAP-2052
+     * TODO RELEASE 3 (KULPURAP-2052, delyea) - QUOTE
      */
     /**
      * Cancels the process of obtaining quotes. Checks whether any of the quote requests have been transmitted. If none have, tries

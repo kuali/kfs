@@ -346,7 +346,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 
     /**
-     * TODO RELEASE 3 (KULPURAP-2052, delyea) - QUOTE, https://test.kuali.org/jira/browse/KULPURAP-2052
+     * TODO RELEASE 3 (KULPURAP-2052, delyea) - QUOTE
      * 
      * @see org.kuali.module.purap.service.PurchaseOrderService#printPurchaseOrderQuoteRequestsListPDF(org.kuali.module.purap.document.PurchaseOrderDocument,
      *      java.io.ByteArrayOutputStream)
@@ -366,7 +366,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     * TODO RELEASE 3 (KULPURAP-2052, delyea) - QUOTE, https://test.kuali.org/jira/browse/KULPURAP-2052
+     * TODO RELEASE 3 (KULPURAP-2052, delyea) - QUOTE
      * 
      * @see org.kuali.module.purap.service.PurchaseOrderService#printPurchaseOrderQuotePDF(org.kuali.module.purap.document.PurchaseOrderDocument,
      *      org.kuali.module.purap.bo.PurchaseOrderVendorQuote, java.io.ByteArrayOutputStream)

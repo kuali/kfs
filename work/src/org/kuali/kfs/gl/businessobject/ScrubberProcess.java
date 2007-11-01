@@ -1731,7 +1731,7 @@ public class ScrubberProcess {
 
     /**
      * This method modifies the run date if it is before the cutoff time specified by the RunTimeService See
-     * https://test.kuali.org/jira/browse/KULRNE-70 This method is public to facilitate unit testing
+     * KULRNE-70 This method is public to facilitate unit testing
      * 
      * @param currentDate
      * @return

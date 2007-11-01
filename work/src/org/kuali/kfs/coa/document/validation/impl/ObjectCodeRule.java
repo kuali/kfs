@@ -41,7 +41,7 @@ import org.kuali.module.chart.service.ObjectLevelService;
 import org.kuali.module.financial.service.UniversityDateService;
 
 /**
- * This class implements the business rules from: http://fms.dfa.cornell.edu:8080/confluence/display/KULCOA/Object+Code
+ * This class implements the business rules from: KULCOA/Object+Code
  */
 public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 

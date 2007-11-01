@@ -45,7 +45,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         c.set(Calendar.MONTH, Calendar.JANUARY);
         c.set(Calendar.YEAR, 2006);
 
-        // since the cutoff time is set to 10am (https://test.kuali.org/confluence/display/KFSP1/Scrubber+cutoff+time+configuration)
+        // since the cutoff time is set to 10am (KFSP1/Scrubber+cutoff+time+configuration)
         // we want to ensure that the time is always after that time so the cutoff algorithm is not invoked
         c.set(Calendar.HOUR_OF_DAY, 23);
         c.set(Calendar.MINUTE, 59);
@@ -1170,8 +1170,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     /**
      * Tests to ensure that having invalid object codes will not cause the origin entry to enter the scrubber error group (i.e. it
      * will enter the scrubber valid group). See
-     * https://test.kuali.org/confluence/download/attachments/3933/General+Ledger+Functional+Specification-v1.doc and
-     * https://test.kuali.org/confluence/download/attachments/3933/FIS+GL+Scrubber+Process+Description.doc
+     * General+Ledger+Functional+Specification-v1.doc and
+     * FIS+GL+Scrubber+Process+Description.doc
      * 
      * @throws Exception
      */

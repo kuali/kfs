@@ -657,7 +657,7 @@ public class LaborScrubberProcess {
 
     /**
      * This method modifies the run date if it is before the cutoff time specified by calling the setCutoffTimeForPreviousDay
-     * method. See https://test.kuali.org/jira/browse/KULRNE-70 This method is public to facilitate unit testing
+     * method. See KULRNE-70 This method is public to facilitate unit testing
      * 
      * @param currentDate
      * @return
@@ -669,7 +669,7 @@ public class LaborScrubberProcess {
         if (isCurrentDateBeforeCutoff(currentCal)) {
             // time to set the date to the previous day's last minute/second
             currentCal.add(Calendar.DAY_OF_MONTH, -1);
-            // per old COBOL code (see https://test.kuali.org/jira/browse/KULRNE-70),
+            // per old COBOL code (see KULRNE-70),
             // the time is set to 23:59:59 (assuming 0 ms)
             currentCal.set(Calendar.HOUR_OF_DAY, 23);
             currentCal.set(Calendar.MINUTE, 59);

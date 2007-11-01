@@ -23,9 +23,6 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
-/**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
- */
 public class RoutingFormOrganizationCreditPercent extends PersistableBusinessObjectBase {
 
     private String documentNumber;

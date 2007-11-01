@@ -23,7 +23,7 @@ Variables with the double X, such as S1XX_Hospitalization, are used on Page 5.  
 -->
 
   <!--                           VERSION HISTORY
-    - 05/2006: pcberg@indiana.edu, refactoring for KRA.
+    - 05/2006: refactoring for KRA.
                - @PERIOD = @PERIOD_NUMBER
                - Added variables imagesUrl and imageArrow.
                - CREATE_TIMESTAMP = SEQUENCE_NUMBER

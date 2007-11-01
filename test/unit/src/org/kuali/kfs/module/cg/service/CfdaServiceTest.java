@@ -23,9 +23,6 @@ import org.kuali.module.cg.service.CfdaService;
 import org.kuali.module.cg.service.CfdaUpdateResults;
 import org.kuali.test.ConfigureContext;
 
-/**
- * User: Laran Evans <lc278@cornell.edu> Date: May 8, 2007 Time: 2:04:06 PM
- */
 @ConfigureContext
 public class CfdaServiceTest extends KualiTestBase {
 

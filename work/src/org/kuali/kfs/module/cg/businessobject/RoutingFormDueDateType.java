@@ -19,9 +19,6 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
-/**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
- */
 public class RoutingFormDueDateType extends PersistableBusinessObjectBase {
 
     private String documentNumber;

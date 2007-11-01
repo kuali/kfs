@@ -35,9 +35,6 @@ import org.kuali.module.cg.bo.Cfda;
 import org.kuali.module.cg.service.CfdaService;
 import org.kuali.module.cg.service.CfdaUpdateResults;
 
-/**
- * User: Laran Evans <lc278@cornell.edu> Date: May 8, 2007 Time: 12:55:43 PM
- */
 public class CfdaServiceImpl implements CfdaService {
 
     private BusinessObjectService businessObjectService;

@@ -20,7 +20,7 @@
   xmlns:xalan="http://xml.apache.org/xalan">
   
     <!--                           VERSION HISTORY
-    - 05/2006: pcberg@indiana.edu, refactoring for KRA.
+    - 05/2006: refactoring for KRA.
                - Added fo:block to fo:flow in order to correct error "org.apache.fop.apps.FOPException: fo:flow must contain block-level children".
                - Indiana University = My University
                - @TASK = @TASK_NUMBER

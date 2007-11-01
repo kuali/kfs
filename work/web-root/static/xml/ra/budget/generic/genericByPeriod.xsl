@@ -32,8 +32,8 @@
 	-->
 	
 	<!--                           VERSION HISTORY
-		- 11/2005: dterret@indiana.edu, Copied over from taskByPeriod, modified.
-    - 05/2006: pcberg@indiana.edu, refactoring for KRA.
+		- 11/2005: Copied over from taskByPeriod, modified.
+    - 05/2006: refactoring for KRA.
                - Replaced (last() - 1) with last(). Seems a library changed behavior.
                - IU COST = INSTITUTION COST
                - OUTPUT_DETAIL_LEVEL = PARAMETER1

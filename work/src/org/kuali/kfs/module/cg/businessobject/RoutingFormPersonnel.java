@@ -33,9 +33,6 @@ import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
-/**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
- */
 public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
 
     private String documentNumber;

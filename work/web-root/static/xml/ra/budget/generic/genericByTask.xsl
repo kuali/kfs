@@ -21,8 +21,8 @@
   exclude-result-prefixes="xalan">
 
   <!--                           VERSION HISTORY
-    - 10/2002: pcberg@indiana.edu, Initial Release
-    - 12/2002: pcberg@indiana.edu, Few bug fixes, Lots of small enhancements
+    - 10/2002: Initial Release
+    - 12/2002: Few bug fixes, Lots of small enhancements
                (see 02/2003 ERA bugs enhancement list).
     - 01/2003: Fixes in comments. Also experimented further with merging the
                three templates. According to that I updated the NOTES section.
@@ -43,24 +43,24 @@
                - Did not make the change for task summary / period summary
                  because same people in different tasks would not be rolled
                  up anymore.
-    - 04/2005: dterret@indiana.edu
+    - 04/2005:
               - TotalCosts was not incorporating Unrecovered Indirect Costs. This
                 is a temporary fix. We intend to eventually change the meaning
                 of TASK_PERIOD/@TOTAL_INSTITUTION_COST to include Unrecovered Indirect Costs
                 in the XML.
               - Unrecovered Indirect Costs were not being carried over into the
                 Totals column.  The appropriate Totals have been changed.
-    - 05/2005: dterret@indiana.edu
+    - 05/2005:
                - The temporary change was reversed.  The meaning of 
                  TASK_PERIOD/@TOTAL_INSTITUTION_COST in the XML now includes Unrecovered Indirect 
                  Costs.
-    - 08/2005: dterret@indiana.edu
+    - 08/2005:
                - The Tracking Number now appears in the footer, as requested by the 
                  functional group.
-    - 11/2005: dterret@indiana.edu
+    - 11/2005:
                - Modular adjustment and Adj. Direct Costs now appear in the Summary of 
                  Summaries.
-    - 05/2006: pcberg@indiana.edu, refactoring for KRA.
+    - 05/2006: refactoring for KRA.
                - Replaced (last() - 1) with last(). Seems a library changed behavior.
                - IU COST = INSTITUTION COST
                - OUTPUT_DETAIL_LEVEL = PARAMETER1

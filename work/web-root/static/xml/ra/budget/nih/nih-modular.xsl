@@ -18,11 +18,11 @@
     xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xalan="http://xml.apache.org/xalan" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
     <!--                           VERSION HISTORY
-      - 12/2004: jmin@indiana.edu, Initial Release
+      - 12/2004: Initial Release
                  comment: if the value needs to be shown as 0, just
                           delete the if test statement where the value
                           needs to be shown.
-      - 01/2005: pcberg@indiana.edu, revisions per functional requests
+      - 01/2005: revisions per functional requests
                  prior to initial release:
                  - Amounts without values should display as 0.  This
                    goes for all three amount types (and
@@ -50,11 +50,11 @@
                    (it was a mix of metric / industrial), and gave
                    Consortium F&A / Total Direct Costs a tiny
                    indentation to match DC less ... .
-      -05/2005: dterret@indiana.edu, revision per functional request
+      -05/2005: revision per functional request
                                      prior to a release:
                  - The order of printing of the Variable Adjustment section
                  and the Consortium section was switched.
-      - 05/2006: pcberg@indiana.edu, refactoring for KRA.
+      - 05/2006: refactoring for KRA.
                - @PERIOD = @PERIOD_NUMBER
     -->
 

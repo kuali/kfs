@@ -20,9 +20,6 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.vendor.bo.VendorDetail;
 
-/**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
- */
 public class PayeeAchAccount extends PersistableBusinessObjectBase {
 
     private Integer achAccountGeneratedIdentifier;

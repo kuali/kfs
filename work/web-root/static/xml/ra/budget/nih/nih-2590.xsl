@@ -27,7 +27,7 @@ Variables with the double X, such as S1XX_Hospitalization, are used on Page 5.  
 	  The default is actually 'low', 'medium', or 'high'.  When output is generated in the application 
 	  with the appropriate choices made on the form, the period number will be present in the 
 	  XML generated, in this attribute.
-    - 05/2006: pcberg@indiana.edu, refactoring for KRA.
+    - 05/2006: refactoring for KRA.
                - OUTPUT_DETAIL_LEVEL = PARAMETER1
                - @PERIOD = @PERIOD_NUMBER
                - Added variables imagesUrl and imageArrow.

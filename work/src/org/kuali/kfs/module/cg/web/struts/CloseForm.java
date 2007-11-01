@@ -23,9 +23,6 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.Close;
 import org.kuali.module.cg.service.CloseService;
 
-/**
- * User: Laran Evans <lc278@cornell.edu> Date: Apr 19, 2007 Time: 12:01:34 PM
- */
 public class CloseForm extends KualiTransactionalDocumentFormBase {
 
     public CloseForm() {

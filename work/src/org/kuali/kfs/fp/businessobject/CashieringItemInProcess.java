@@ -21,9 +21,6 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
-/**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
- */
 public class CashieringItemInProcess extends PersistableBusinessObjectBase {
 
     private String workgroupName;

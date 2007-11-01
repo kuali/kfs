@@ -20,9 +20,6 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.bo.State;
 
-/**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
- */
 public class AchBank extends PersistableBusinessObjectBase {
 
     private String bankRoutingNumber;

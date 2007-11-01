@@ -19,7 +19,7 @@
 	xmlns:fo="http://www.w3.org/1999/XSL/Format">
 
 	<!--                           VERSION HISTORY
-		- 05/2007: pcberg@indiana.edu, refactoring for KRA.
+		- 05/2007: refactoring for KRA.
 	-->
 
 	<xsl:variable name="imagesUrl" select="/PROPOSAL/ROUTING_FORM/@IMAGES_URL" />

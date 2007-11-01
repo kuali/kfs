@@ -23,11 +23,15 @@
 
  <table border="0" width="100%"  cellspacing="0" cellpadding="0" id="iframe_portlet_container_table">
 <c:set var="motd" value="<%= (new org.kuali.kfs.lookup.valuefinder.MessageOfTheDayFinder()).getValue() %>" scope="page"/>
-<c:if test="${!empty pageScope.motd}">
+<c:if test="${empty channelTitle && empty channelUrl && !empty pageScope.motd}">
   	<tr valign="top" bgcolor="#FFFFFF">
 				<td width="15" class="leftback-focus">&nbsp;</td>
 					<td colspan="3">
-  &nbsp;&nbsp;&nbsp;<strong>${pageScope.motd}</strong>
+    <channel:portalChannelTop channelTitle="Message Of The Day" />
+    <div class="body">
+        <strong><c:out value="${pageScope.motd}"  /></strong>
+        </div>
+    <channel:portalChannelBottom />
 					</td>
    	</tr>
 </c:if>
@@ -46,22 +50,22 @@
             </td>
           </c:when>
           <%-- then default to tab based actions if they are not focusing in --%>
-          <c:when test='${selectedTab == "portalMainMenuBody"}'>
-              <portal:portalMainMenuBody />
+          <c:when test='${selectedTab == "main"}'>
+              <portal:mainTab />
           </c:when>
-          <c:when test='${selectedTab == "portalAdministrationBody"}'>
-              <portal:portalAdministrationBody />
+          <c:when test='${selectedTab == "maintenance"}'>
+              <portal:maintenanceTab />
           </c:when>
-          <c:when test='${selectedTab == "portalAdditionalAdministrationBody"}'>
-              <portal:portalAdditionalAdministrationBody />
+          <c:when test='${selectedTab == "administration"}'>
+              <portal:administrationTab />
           </c:when>
-          <c:when test='${selectedTab == "portalFutureModulesBody"}'>
-          	  <portal:portalFutureModulesBody />
+          <c:when test='${selectedTab == "future"}'>
+          	  <portal:futureTab />
           </c:when>
           
           <%-- as backup go to the main menu index --%>
           <c:otherwise>
-              <portal:portalMainMenuBody />
+              <portal:mainTab />
           </c:otherwise>
         </c:choose>
     </tr>
@@ -69,5 +73,3 @@
 
  <div class="footerbevel">&nbsp;</div>
   <div id="footer-copyright"> <bean:message key="app.copyright" /></div>
-
-

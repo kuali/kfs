@@ -20,22 +20,22 @@
 <div id="tabs" class="tabposition">
 	<ul>
 		<%-- Main Menu --%>
-		<c:if test='${selectedTab == "portalMainMenuBody"}'>
+		<c:if test='${selectedTab == "main"}'>
 			<li class="red">
-				<a class="red" href="portal.do?selectedTab=portalMainMenuBody"
+				<a class="red" href="portal.do?selectedTab=main"
 					title="Main Menu">Main Menu</a>
 			</li>
 		</c:if>
-		<c:if test='${selectedTab != "portalMainMenuBody"}'>
+		<c:if test='${selectedTab != "main"}'>
 			<c:if test="${empty selectedTab}">
 				<li class="red">
-					<a class="red" href="portal.do?selectedTab=portalMainMenuBody"
+					<a class="red" href="portal.do?selectedTab=main"
 						title="Main Menu">Main Menu</a>
 				</li>
 			</c:if>
 			<c:if test="${!empty selectedTab}">
 				<li class="green">
-					<a class="green" href="portal.do?selectedTab=portalMainMenuBody"
+					<a class="green" href="portal.do?selectedTab=main"
 						title="Main Menu">Main Menu</a>
 				</li>
 			</c:if>
@@ -43,48 +43,50 @@
 
 
 		<%-- Administration  --%>
-		<c:if test='${selectedTab == "portalAdministrationBody"}'>
+		<c:if test='${selectedTab == "maintenance"}'>
 			<li class="red">
-				<a class="red" href="portal.do?selectedTab=portalAdministrationBody"
-					title="Administration">Administration</a>
+				<a class="red" href="portal.do?selectedTab=maintenance"
+					title="Maintenance">Maintenance</a>
 			</li>
 		</c:if>
-		<c:if test='${selectedTab != "portalAdministrationBody"}'>
+		<c:if test='${selectedTab != "maintenance"}'>
 			<li class="green">
 				<a class="green"
-					href="portal.do?selectedTab=portalAdministrationBody"
-					title="Administration">Administration</a>
+					href="portal.do?selectedTab=maintenance"
+					title="Maintenance">Maintenance</a>
 			</li>
 		</c:if>
 
 		<%-- Additional Administration  --%>
-		<c:if test='${selectedTab == "portalAdditionalAdministrationBody"}'>
+		<c:if test='${selectedTab == "administration"}'>
 			<li class="red">
-				<a class="red" href="portal.do?selectedTab=portalAdditionalAdministrationBody"
-					title="Additional Administration">Additional Administration</a>
+				<a class="red" href="portal.do?selectedTab=administration"
+					title="Administration">Administration</a>
 			</li>
 		</c:if>
-		<c:if test='${selectedTab != "portalAdditionalAdministrationBody"}'>
+		<c:if test='${selectedTab != "administration"}'>
 			<li class="green">
 				<a class="green"
-					href="portal.do?selectedTab=portalAdditionalAdministrationBody"
-					title="Additional Administration">Additional Administration</a>
+					href="portal.do?selectedTab=administration"
+					title="Administration">Administration</a>
 			</li>
 		</c:if>
 
+		<c:if test='${ConfigProperties.environment == "dev" || ConfigProperties.environment == "ptd"}'>
 		<%-- Future Modules --%>		
-		<c:if test='${selectedTab == "portalFutureModulesBody"}'>
+		<c:if test='${selectedTab == "future"}'>
 			<li class="red">
-				<a class="red" href="portal.do?selectedTab=portalFutureModulesBody"
+				<a class="red" href="portal.do?selectedTab=future"
 					title="Future">Future</a>
 			</li>
 		</c:if>
-		<c:if test='${selectedTab != "portalFutureModulesBody"}'>
+		<c:if test='${selectedTab != "future"}'>
 			<li class="green">
 				<a class="green"
-					href="portal.do?selectedTab=portalFutureModulesBody"
+					href="portal.do?selectedTab=future"
 					title="Future">Future</a>
 			</li>
+		</c:if>
 		</c:if>
 	</ul>
 </div>
